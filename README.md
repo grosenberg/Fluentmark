@@ -12,7 +12,8 @@ The full-featured Markdown editing environment for Eclipse.
       [PegDown](https://github.com/sirthias/pegdown) &
       [TxtMark](https://github.com/rjeschke/txtmark)
 + [Graphviz](http://www.graphviz.org/) DOT diagram generator support built-in
-	- renders as SVG images embedded in the generated HTML 
+	- renders as SVG images embedded in exported Web documents 
+	- renders as PDF images embedded in exported PDF documents
 + Real-time browser-based preview of the generated document
     - customizable stylesheet: multiple choices built-in or specify an external stylesheet
     - full code highlighting using [highlight.js](https://highlightjs.org/)
@@ -54,7 +55,7 @@ To use **Pandoc**, install [Pandoc](https://pandoc.org). Then,
 in the FluentMark Converter preferences for Pandoc, browse to and select the `pandoc` 
 executable.
 
-To use the **PDF** generator, both *Pandoc* and a *LaTeX* processor must be installed. 
+To use the **PDF** exporter, both *Pandoc* and a *LaTeX* processor must be installed. 
 Pandoc recommends [*MikTeX*](https://miktex.org/).    
 
 
