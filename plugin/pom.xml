@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>net.certiv.fluentmark</groupId>
+		<artifactId>parent</artifactId>
+		<version>0.8.0-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>net.certiv.fluentmark</artifactId>
+	<packaging>eclipse-plugin</packaging>
+
+	<name>FluentMark Editor</name>
+	<description>Markdown Editor</description>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>org.markdownj</groupId>
+			<artifactId>markdownj-core</artifactId>
+			<version>0.4</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.atlassian.commonmark</groupId>
+			<artifactId>commonmark</artifactId>
+			<version>0.7.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.pegdown</groupId>
+			<artifactId>pegdown</artifactId>
+			<version>1.6.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.parboiled</groupId>
+			<artifactId>parboiled-core</artifactId>
+			<version>1.1.7</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.parboiled</groupId>
+			<artifactId>parboiled-java</artifactId>
+			<version>1.1.7</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.ow2.asm</groupId>
+			<artifactId>asm-all</artifactId>
+			<version>4.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.github.rjeschke</groupId>
+			<artifactId>txtmark</artifactId>
+			<version>0.13</version>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>2.8</version>
+				<executions>
+					<execution>
+						<id>copy</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>copy</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+
+								<artifactItem>
+									<groupId>org.markdownj</groupId>
+									<artifactId>markdownj-core</artifactId>
+									<version>0.4</version>
+									<type>jar</type>
+									<overWrite>true</overWrite>
+								</artifactItem>
+
+								<artifactItem>
+									<groupId>org.pegdown</groupId>
+									<artifactId>pegdown</artifactId>
+									<version>1.6.0</version>
+									<type>jar</type>
+									<overWrite>true</overWrite>
+								</artifactItem>
+
+								<artifactItem>
+									<groupId>org.parboiled</groupId>
+									<artifactId>parboiled-core</artifactId>
+									<version>1.1.7</version>
+									<type>jar</type>
+									<overWrite>true</overWrite>
+								</artifactItem>
+
+								<artifactItem>
+									<groupId>org.parboiled</groupId>
+									<artifactId>parboiled-java</artifactId>
+									<version>1.1.7</version>
+									<type>jar</type>
+									<overWrite>true</overWrite>
+								</artifactItem>
+
+								<artifactItem>
+									<groupId>org.ow2.asm</groupId>
+									<artifactId>asm-all</artifactId>
+									<version>4.0</version>
+									<type>jar</type>
+									<overWrite>true</overWrite>
+								</artifactItem>
+
+								<artifactItem>
+									<groupId>com.atlassian.commonmark</groupId>
+									<artifactId>commonmark</artifactId>
+									<version>0.7.1</version>
+									<type>jar</type>
+									<overWrite>true</overWrite>
+								</artifactItem>
+
+								<artifactItem>
+									<groupId>com.github.rjeschke</groupId>
+									<artifactId>txtmark</artifactId>
+									<version>0.13</version>
+									<type>jar</type>
+									<overWrite>true</overWrite>
+								</artifactItem>
+
+							</artifactItems>
+							<outputDirectory>lib</outputDirectory>
+							<stripVersion>true</stripVersion>
+							<overWriteRelease>true</overWriteRelease>
+							<overWriteSnapshots>true</overWriteSnapshots>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+		</plugins>
+	</build>
+
+</project>

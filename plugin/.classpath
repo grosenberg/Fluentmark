@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry exported="true" kind="lib" path="lib/markdownj-core.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/commonmark.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/txtmark.jar" sourcepath="C:/Users/Gbr/.m2/repository/com/github/rjeschke/txtmark/0.13/txtmark-0.13-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/pegdown.jar" sourcepath="C:/Users/Gbr/.m2/repository/org/pegdown"/>
+	<classpathentry exported="true" kind="lib" path="lib/parboiled-java.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/parboiled-core.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/asm-all.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/eclipse.spellchecker"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/net.certiv.certivtools"/>
+	<classpathentry kind="output" path="target/classes"/>
+</classpath>

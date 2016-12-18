@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>net.certiv.fluentmark</groupId>
+	<artifactId>parent</artifactId>
+	<version>0.8.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<name>FluentMark parent</name>
+	<description>FluentMark parent</description>
+
+	<organization>
+		<name>Certiv Analytics</name>
+		<url>http://www.certiv.net/</url>
+	</organization>
+
+	<prerequisites>
+		<maven>3.3.3</maven>
+	</prerequisites>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<tycho.version>0.24.0</tycho.version>
+		<tycho-extras.version>0.24.0</tycho-extras.version>
+		<java.version>1.8</java.version>
+	</properties>
+
+	<modules>
+		<module>plugin</module>
+		<module>feature</module>
+		<module>site</module>
+	</modules>
+
+	<repositories>
+		<repository>
+			<id>neon</id>
+			<layout>p2</layout>
+			<url>http://download.eclipse.org/releases/neon</url>
+		</repository>
+		<repository>
+			<id>tools</id>
+			<layout>p2</layout>
+			<url>file:/D:/DevFiles/Eclipse/Tools/net.certiv/net.certiv.site/target/repository/</url>
+		</repository>
+		<repository>
+			<id>eclipse.spellchecker</id>
+			<layout>p2</layout>
+			<url>file:/D:/DevFiles/Eclipse/Eclipse/Spellchecker/eclipse.spellchecker.site/target/repository/</url>
+		</repository>
+	</repositories>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-maven-plugin</artifactId>
+				<version>${tycho.version}</version>
+				<extensions>true</extensions>
+				<configuration>
+					<encoding>UTF-8</encoding>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>target-platform-configuration</artifactId>
+				<version>${tycho.version}</version>
+				<configuration>
+					<environments>
+						<environment>
+							<os>linux</os>
+							<ws>gtk</ws>
+							<arch>x86</arch>
+						</environment>
+						<environment>
+							<os>linux</os>
+							<ws>gtk</ws>
+							<arch>x86_64</arch>
+						</environment>
+						<environment>
+							<os>win32</os>
+							<ws>win32</ws>
+							<arch>x86</arch>
+						</environment>
+						<environment>
+							<os>win32</os>
+							<ws>win32</ws>
+							<arch>x86_64</arch>
+						</environment>
+						<environment>
+							<os>macosx</os>
+							<ws>cocoa</ws>
+							<arch>x86_64</arch>
+						</environment>
+					</environments>
+				</configuration>
+			</plugin>
+
+		</plugins>
+
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.eclipse.tycho</groupId>
+					<artifactId>tycho-packaging-plugin</artifactId>
+					<version>${tycho.version}</version>
+					<configuration>
+						<format>yyyyMMdd-HHmm</format>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+
+	</build>
+
+</project>

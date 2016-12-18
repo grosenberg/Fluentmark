@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="net.certiv.fluentmark.feature"
+      label="FluentMark Editor"
+      version="0.8.0.qualifier"
+      provider-name="Certiv Analytics">
+
+   <description>
+      Full featured Markdown Editor.
+   </description>
+
+   <copyright>
+      Contains code from Winterwell Associates Ltd, 2008-2012 and ThinkTank Mathematics Ltd, 2007, released under an EPL v1.0 license.
+
+Contains code from the MarkdownJ project, released under a BSD
+license. See http://sourceforge.net/projects/markdownj/ for more
+information.
+
+The Markdown syntax is copyright (c) 2004, John Gruber. It is
+used under a BSD-style license. See http://daringfireball.net/projects/markdown/license
+for more information.
+   </copyright>
+
+   <license url="http://www.eclipse.org/legal/epl-v10.html">
+      Eclipse Public License
+   </license>
+
+   <url>
+      <update label="Certiv Analytics" url="http://www.certiv.net/updates/"/>
+   </url>
+
+   <includes
+         id="net.certiv.feature"
+         version="0.0.0"
+         name="Certiv Tools"/>
+
+   <includes
+         id="eclipse.spellchecker.feature"
+         version="0.0.0"/>
+
+   <requires>
+      <import plugin="org.eclipse.core.commands"/>
+      <import plugin="org.eclipse.core.expressions"/>
+      <import plugin="org.eclipse.core.resources"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.jface"/>
+      <import plugin="org.eclipse.jface.text"/>
+      <import plugin="org.eclipse.swt"/>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.ui.editors"/>
+      <import plugin="org.eclipse.ui.forms"/>
+      <import plugin="org.eclipse.ui.views"/>
+      <import plugin="org.eclipse.ui.workbench"/>
+      <import plugin="org.eclipse.ui.workbench.texteditor"/>
+      <import plugin="eclipse.spellchecker" version="3.3.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.core.variables"/>
+      <import plugin="org.eclipse.ui.ide"/>
+      <import plugin="org.eclipse.debug.ui"/>
+      <import plugin="net.certiv.certivtools" version="1.0.6" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.ui.navigator"/>
+      <import plugin="com.ibm.icu"/>
+   </requires>
+
+   <plugin
+         id="net.certiv.fluentmark"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>
