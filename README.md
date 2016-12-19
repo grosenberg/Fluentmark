@@ -58,18 +58,14 @@ executable.
 To use the **PDF** exporter, both *Pandoc* and a *LaTeX* processor must be installed. 
 Pandoc recommends [*MikTeX*](https://miktex.org/).
 
-
-<!---
-
 ### Use
 
 |Key|Function|
 |---|--------|
 |Ctrl-/|Toggles commenting of selected text (markdown comment)|
 |Ctrl-Shift-/|Toggles commenting of selected text (html comment)|
-|Ctrl-Shift-f|Format|
+|Ctrl-Shift-F|Format full page or selected text|
 
---->
 
 ### Requirements
 
