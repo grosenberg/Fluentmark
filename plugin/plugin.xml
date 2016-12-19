@@ -1,48 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE xml>
 <plugin>
-
-   <extension
-         point="org.eclipse.core.contenttype.contentTypes">
-      <content-type
-            file-extensions="md,mdown,markdown,mdwn"
-            id="net.certiv.fluentmark.contentType.markdown"
-            name="Markdown"
-            priority="normal">
-      </content-type>
-   </extension>
    <extension
          point="org.eclipse.core.expressions.definitions">
       <definition
             id="net.certiv.fluentmark.editorVisible">
-			<with variable="activeEditorId">
+			<with variable="activePartId">
     			<equals
-          			value="net.certiv.fluentmark.editor.MkEditor">
+          			value="net.certiv.fluentmark.editor.FluentMkEditor">
     			</equals>
 			</with>
       </definition>
    </extension>
    <extension
+         point="org.eclipse.core.contenttype.contentTypes">
+      <content-type
+            base-type="org.eclipse.core.runtime.text"
+            file-extensions="md,mdown,mkd,text"
+            id="net.certiv.fluentmark.contentType"
+            name="FluentMark Editor"
+            priority="normal">
+      </content-type>
+   </extension>
+
+
+   <extension
          point="org.eclipse.core.filebuffers.documentSetup">
       <participant
             class="net.certiv.fluentmark.editor.FluentMkDocumentSetupParticipant"
-            contentTypeId="net.certiv.fluentmark.contentType.markdown">
+            extensions="md,mdown,mkd,text">
       </participant>
-   </extension>
-   <extension
-         point="org.eclipse.core.runtime.preferences">
-      <initializer
-            class="net.certiv.fluentmark.preferences.PrefsInit">
-      </initializer>
-   </extension>
-   <extension
-         point="org.eclipse.ui.contexts">
-      <context
-            description="FluentMark Editor Context"
-            id="net.certiv.fluentmark.ui.textEditorScope"
-            name="FluentMark Editor Context"
-            parentId="org.eclipse.ui.textEditorScope">
-      </context>
    </extension>
 
    <extension
@@ -52,17 +39,15 @@
             contributorClass="net.certiv.fluentmark.editor.FluentMkActionBarContributor"
             default="true"
             icon="icons/obj16/fluentmark.png"
-            id="net.certiv.fluentmark.editor.MkEditor"
+            id="net.certiv.fluentmark.editor.FluentMkEditor"
             name="FluentMark Editor"
             symbolicFontName="org.eclipse.jface.textfont">
          <contentTypeBinding
-               contentTypeId="net.certiv.fluentmark.contentType.markdown">
+               contentTypeId="net.certiv.fluentmark.contentType">
          </contentTypeBinding>
       </editor>
-      
-      
    </extension>
-   
+
     <extension
        point="org.eclipse.ui.editors.templates">
     	<contextType
@@ -79,6 +64,17 @@
            id="net.certiv.fluentmark.templates">
      </contextTypeRegistry>
 	</extension>
+
+   <extension
+         point="org.eclipse.ui.workbench.texteditor.spellingEngine">
+      <engine
+            class="net.certiv.fluentmark.spelling.MkSpellingEngine"
+            default="true"
+            id="net.certiv.fluentmark.spelling.MkSpellingEngine"
+            label="FluentMark spelling engine">
+      </engine>
+   </extension>
+
    <extension
          point="org.eclipse.ui.views">
       <view
@@ -91,6 +87,7 @@
             restorable="true">
       </view>
    </extension>
+
    <extension
          point="org.eclipse.ui.preferencePages">
       <page
@@ -136,6 +133,13 @@
             name="Folding">
       </page>
    </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="net.certiv.fluentmark.preferences.PrefsInit">
+      </initializer>
+   </extension>
+
    <extension
          point="org.eclipse.ui.menus">
       
@@ -200,52 +204,68 @@
    
    <extension
          point="org.eclipse.ui.commands">
+      <category
+            description="FluentMark Editor"
+            id="net.certiv.fluentmark.commands"
+            name="FluentMark">
+      </category>
       <command
+            categoryId="net.certiv.fluentmark.commands"
             defaultHandler="net.certiv.fluentmark.handlers.OpenMdViewHandler"
             id="net.certiv.fluentmark.openMkView"
             name="Open FluentMark View">
       </command>
       <command
+            categoryId="net.certiv.fluentmark.commands"
             defaultHandler="net.certiv.fluentmark.handlers.OpenStylesheetsHandler"
             description="Open stylesheets preference"
             id="net.certiv.fluentmark.openStylesheets"
             name="OpenStylesheets">
       </command>
       <command
-            defaultHandler="net.certiv.fluentmark.handlers.FormatHandler"
-            description="Format"
-            id="net.certiv.fluentmark.format"
-            name="Format">
-      </command>
-      <command
+            categoryId="net.certiv.fluentmark.commands"
             defaultHandler="net.certiv.fluentmark.handlers.ExportHtmlHandler"
             description="Export as Html"
             id="net.certiv.fluentmark.exportHtml"
             name="ExportHTML">
       </command>
       <command
+            categoryId="net.certiv.fluentmark.commands"
             defaultHandler="net.certiv.fluentmark.handlers.ExportPdfHandler"
             description="Export as PDF"
             id="net.certiv.fluentmark.exportPdf"
             name="ExportPDF">
       </command>
       <command
+            categoryId="net.certiv.fluentmark.commands"
             defaultHandler="net.certiv.fluentmark.handlers.RefreshViewHandler"
             description="Refresh view"
             id="net.certiv.fluentmark.refreshView"
             name="Refresh view">
       </command>
       <command
-            description="Visible Comment"
-            id="net.certiv.fluentmark.visibleComment"
-            name="Comment (visible)">
+            categoryId="net.certiv.fluentmark.commands"
+            defaultHandler="net.certiv.fluentmark.handlers.FormatHandler"
+            description="Format"
+            id="net.certiv.fluentmark.format"
+            name="Format">
       </command>
       <command
-            description="Hidden Comment"
+            categoryId="net.certiv.fluentmark.commands"
+            defaultHandler="net.certiv.fluentmark.handlers.ToggleHiddenCommentHandler"
+            description="Toggle Hidden Comment"
             id="net.certiv.fluentmark.hiddenComment"
-            name="Comment (hidden)">
+            name="Hidden Comment ">
+      </command>
+      <command
+            categoryId="net.certiv.fluentmark.commands"
+            defaultHandler="net.certiv.fluentmark.handlers.ToggleVisibleCommentHandler"
+            description="Toggle Visible Comment"
+            id="net.certiv.fluentmark.visibleComment"
+            name="Visible Comment">
       </command>
    </extension>
+
    <extension
          point="org.eclipse.ui.handlers">
       <handler
@@ -265,20 +285,6 @@
       <handler
             class="net.certiv.fluentmark.handlers.OpenStylesheetsHandler"
             commandId="net.certiv.fluentmark.openStylesheets">
-         <activeWhen>
-            <reference
-                  definitionId="net.certiv.fluentmark.editorVisible">
-            </reference>
-         </activeWhen>
-         <enabledWhen>
-            <reference
-                  definitionId="net.certiv.fluentmark.editorVisible">
-            </reference>
-         </enabledWhen>
-      </handler>
-      <handler
-            class="net.certiv.fluentmark.handlers.FormatHandler"
-            commandId="net.certiv.fluentmark.format">
          <activeWhen>
             <reference
                   definitionId="net.certiv.fluentmark.editorVisible">
@@ -319,7 +325,21 @@
          </enabledWhen>
       </handler>
       <handler
-            class="net.certiv.fluentmark.handlers.AddHiddenCommentHandler"
+            class="net.certiv.fluentmark.handlers.FormatHandler"
+            commandId="net.certiv.fluentmark.format">
+         <activeWhen>
+            <reference
+                  definitionId="net.certiv.fluentmark.editorVisible">
+            </reference>
+         </activeWhen>
+         <enabledWhen>
+            <reference
+                  definitionId="net.certiv.fluentmark.editorVisible">
+            </reference>
+         </enabledWhen>
+      </handler>
+      <handler
+            class="net.certiv.fluentmark.handlers.ToggleHiddenCommentHandler"
             commandId="net.certiv.fluentmark.hiddenComment">
          <activeWhen>
             <reference
@@ -333,7 +353,7 @@
          </enabledWhen>
       </handler>
       <handler
-            class="net.certiv.fluentmark.handlers.AddVisibleCommentHandler"
+            class="net.certiv.fluentmark.handlers.ToggleVisibleCommentHandler"
             commandId="net.certiv.fluentmark.visibleComment">
          <activeWhen>
             <reference
@@ -347,35 +367,32 @@
          </enabledWhen>
       </handler>
    </extension>
+   
+
    <extension
          point="org.eclipse.ui.bindings">
+
+      <!--  win32:  M1=CTRL,    M2=SHIFT, M3=ALT, M4=-
+            carbon: M1=COMMAND, M2=SHIFT, M3=ALT, M4=CTRL -->
+         
       <key
             commandId="net.certiv.fluentmark.format"
-            contextId="net.certiv.fluentmark.ui.textEditorScope"
+            contextId="org.eclipse.ui.contexts.window"
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
-            sequence="Ctrl+Shift+F">
+            sequence="M1+M2+F">
       </key>
       <key
             commandId="net.certiv.fluentmark.hiddenComment"
-            contextId="net.certiv.fluentmark.ui.textEditorScope"
+            contextId="org.eclipse.ui.contexts.window"
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
-            sequence="Ctrl+/">
+            sequence="M1+/">
       </key>
       <key
             commandId="net.certiv.fluentmark.visibleComment"
-            contextId="net.certiv.fluentmark.ui.textEditorScope"
+            contextId="org.eclipse.ui.contexts.window"
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
-            sequence="Ctrl+Shift+/">
+            sequence="M1+M2+/">
       </key>
-   </extension>
-   <extension
-         point="org.eclipse.ui.workbench.texteditor.spellingEngine">
-      <engine
-            class="net.certiv.fluentmark.spelling.MkSpellingEngine"
-            default="true"
-            id="net.certiv.fluentmark.spelling.MkSpellingEngine"
-            label="FluentMark spelling engine">
-      </engine>
    </extension>
    
 </plugin>

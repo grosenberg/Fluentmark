@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
    <feature url="features/net.certiv.fluentmark.feature_0.8.0.qualifier.jar" id="net.certiv.fluentmark.feature" version="0.8.0.qualifier">
-      <category name="fluentmark"/>
+      <category name="certiv.tools"/>
    </feature>
-   <category-def name="fluentmark" label="FluentMark"/>
+   <category-def name="certiv.tools" label="Certiv Tools"/>
 </site>

@@ -50,8 +50,8 @@ public class FormatHandler extends AbstractHandler {
 
 			ISourceViewer viewer = editor.getViewer();
 			int caretOffset = viewer.getTextWidget().getCaretOffset();
-			PageRoot page = editor.getPageModel();
-			PagePart part = page.partAtOffset(caretOffset);
+			PageRoot model = editor.getPageModel();
+			PagePart part = model.partAtOffset(caretOffset);
 			if (part.getKind().equals(Kind.TEXT)) {
 				ISourceRange range = part.getSourceRange();
 				String paragraph = editor.getDocument().get(range.getOffset(), range.getLength());
@@ -61,7 +61,7 @@ public class FormatHandler extends AbstractHandler {
 				}
 			}
 		} catch (Exception ex) {
-			Log.error("Bad location error occurred during formatting");
+			Log.error("Bad location error occurred during formatting", ex );
 		}
 
 		return null;

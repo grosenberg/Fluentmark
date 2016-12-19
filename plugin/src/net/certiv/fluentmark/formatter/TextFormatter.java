@@ -268,6 +268,8 @@ public class TextFormatter {
 						// unless, of course, there are two of 'em... and of course, end of
 						// lines are simply evil on Windows machines.
 
+						// TODO: throws index out of bounds exception!
+
 						if ((c == '\n' && nextChar == '\n') ||    // Unix-style line-ends
 								(c == '\r' && nextChar == '\n' &&    // Windows-style line-ends
 										text[i + 2] == '\r' && text[i + 3] == '\n')) {

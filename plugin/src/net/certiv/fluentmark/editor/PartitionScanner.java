@@ -29,7 +29,7 @@ public class PartitionScanner extends RuleBasedPartitionScanner implements IScan
 		List<IRule> rules = new ArrayList<IRule>();
 
 		rules.add(new FrontMatterRule("---", "---", matter, '\\'));
-		rules.add(new MultiLineRule("<!---", "--->", comment, '\\'));
+		rules.add(new MultiLineRule("<!--", "-->", comment, '\\'));
 		rules.add(new HtmlCodeRule(htmlblock));
 		rules.add(new MultiLineRule("~~~", "~~~", codeblock, '\\'));
 		rules.add(new MultiLineRule("```", "```", codeblock, '\\'));

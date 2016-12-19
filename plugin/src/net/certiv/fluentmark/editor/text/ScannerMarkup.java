@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.eclipse.jface.text.rules.IRule;
 import org.eclipse.jface.text.rules.IToken;
-import org.eclipse.jface.text.rules.MultiLineRule;
 import org.eclipse.jface.text.rules.WhitespaceRule;
 
 import net.certiv.fluentmark.preferences.Prefs;
@@ -23,7 +22,6 @@ public class ScannerMarkup extends AbstractBufferedRuleBasedScanner {
 	protected String[] getTokenProperties() {
 		if (tokenProperties == null) {
 			tokenProperties = new String[] { //
-					Prefs.EDITOR_COMMENT_VISIBLE_COLOR, //
 					Prefs.EDITOR_HEADER_COLOR, //
 					Prefs.EDITOR_LIST_COLOR, //
 					Prefs.EDITOR_LINK_COLOR, //
@@ -39,7 +37,6 @@ public class ScannerMarkup extends AbstractBufferedRuleBasedScanner {
 
 	@Override
 	protected List<IRule> createRules() {
-		IToken visible = getToken(Prefs.EDITOR_COMMENT_VISIBLE_COLOR);
 		IToken header = getToken(Prefs.EDITOR_HEADER_COLOR);
 		IToken link = getToken(Prefs.EDITOR_LINK_COLOR);
 		IToken list = getToken(Prefs.EDITOR_LIST_COLOR);
@@ -50,7 +47,6 @@ public class ScannerMarkup extends AbstractBufferedRuleBasedScanner {
 		IToken code = getToken(Prefs.EDITOR_CODE_COLOR);
 
 		List<IRule> rules = new ArrayList<IRule>();
-		rules.add(new MultiLineRule("<!--", "-->", visible, '\\'));
 		rules.add(new HeaderUnderlineRule(header));
 		rules.add(new FirstColumnRule("#", header));
 		rules.add(new FirstColumnRule("---", rule));
