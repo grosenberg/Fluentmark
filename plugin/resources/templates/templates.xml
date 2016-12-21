@@ -66,4 +66,13 @@
 		autoinsert="false">%template.dot_block
 	</template>
 
+	<template
+		name="table"
+		description="%describe.table"
+		id="net.certiv.fluentmark.templates.table"
+		context="net.certiv.fluentmark.templateContext"
+		enabled="true"
+		autoinsert="false">%template.table
+	</template>
+
 </templates>

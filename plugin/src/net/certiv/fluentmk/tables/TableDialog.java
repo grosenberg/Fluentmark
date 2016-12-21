@@ -3,8 +3,10 @@ package net.certiv.fluentmk.tables;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
+import org.eclipse.jface.action.ToolBarManager;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.layout.GridDataFactory;
+import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ColumnViewer;
@@ -26,16 +28,71 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.swt.widgets.ToolBar;
 
+import net.certiv.fluentmark.FluentMkImages;
+import net.certiv.fluentmark.FluentMkUI;
 import net.certiv.fluentmark.model.PagePart;
 import net.certiv.fluentmk.tables.TableModel.Row;
 
-public class TableViewDialog extends MessageDialog {
+public class TableDialog extends MessageDialog {
 
-	public class AddColAction extends Action {
+	public class AlignLeftAction extends Action {
 
-		public AddColAction() {
-			super("Add Column");
+		public AlignLeftAction() {
+			super("Left Align");
+			setImageDescriptor(FluentMkUI.getDescriptor(FluentMkImages.DESC_OBJ_LEFT));
+		}
+
+		@Override
+		public void run() {
+			ViewerCell cell = cellMgr.getFocusCell();
+			int target = cell != null ? cell.getColumnIndex() : 0;
+			target = target < 0 ? tableModel.numCols : target;
+			tableModel.aligns[target] = SWT.LEFT;
+			recreateCols();
+		}
+	}
+
+	public class AlignCenterAction extends Action {
+
+		public AlignCenterAction() {
+			super("Center Align");
+			setImageDescriptor(FluentMkUI.getDescriptor(FluentMkImages.DESC_OBJ_CENTER));
+		}
+
+		@Override
+		public void run() {
+			ViewerCell cell = cellMgr.getFocusCell();
+			int target = cell != null ? cell.getColumnIndex() : 0;
+			target = target < 0 ? tableModel.numCols : target;
+			tableModel.aligns[target] = SWT.CENTER;
+			recreateCols();
+		}
+	}
+
+	public class AlignRightAction extends Action {
+
+		public AlignRightAction() {
+			super("Right Align");
+			setImageDescriptor(FluentMkUI.getDescriptor(FluentMkImages.DESC_OBJ_RIGHT));
+		}
+
+		@Override
+		public void run() {
+			ViewerCell cell = cellMgr.getFocusCell();
+			int target = cell != null ? cell.getColumnIndex() : 0;
+			target = target < 0 ? tableModel.numCols : target;
+			tableModel.aligns[target] = SWT.RIGHT;
+			recreateCols();
+		}
+	}
+
+	public class InsColBeforeAction extends Action {
+
+		public InsColBeforeAction() {
+			super("Insert Column Before");
+			setImageDescriptor(FluentMkUI.getDescriptor(FluentMkImages.DESC_OBJ_COL_INS_BEF));
 		}
 
 		@Override
@@ -44,19 +101,32 @@ public class TableViewDialog extends MessageDialog {
 			int target = cell != null ? cell.getColumnIndex() : 0;
 			target = target < 0 ? tableModel.numCols : target;
 			tableModel.insertCol(target);
-			int cnt = table.getColumnCount();
-			for (int idx = 0; idx < cnt; idx++) {
-				table.getColumn(0).dispose();
-			}
-			createColumns();
-			viewer.refresh();
+			recreateCols();
+		}
+	}
+
+	public class InsColAfterAction extends Action {
+
+		public InsColAfterAction() {
+			super("Insert Column After");
+			setImageDescriptor(FluentMkUI.getDescriptor(FluentMkImages.DESC_OBJ_COL_INS_AFT));
+		}
+
+		@Override
+		public void run() {
+			ViewerCell cell = cellMgr.getFocusCell();
+			int target = cell != null ? cell.getColumnIndex() : 0;
+			target = target < 0 ? tableModel.numCols : target;
+			tableModel.insertCol(target + 1);
+			recreateCols();
 		}
 	}
 
 	public class RmvColAction extends Action {
 
 		public RmvColAction() {
-			super("Remove Column");
+			super("Delete Column");
+			setImageDescriptor(FluentMkUI.getDescriptor(FluentMkImages.DESC_OBJ_COL_DEL));
 		}
 
 		@Override
@@ -65,19 +135,15 @@ public class TableViewDialog extends MessageDialog {
 			int target = cell != null ? cell.getColumnIndex() : 0;
 			if (target < 0 || target >= tableModel.numCols) return;
 			tableModel.removeCol(target);
-			int cnt = table.getColumnCount();
-			for (int idx = 0; idx < cnt; idx++) {
-				table.getColumn(0).dispose();
-			}
-			createColumns();
-			viewer.refresh();
+			recreateCols();
 		}
 	}
 
-	public class AddRowAction extends Action {
+	public class InsRowAboveAction extends Action {
 
-		public AddRowAction() {
-			super("Add Row");
+		public InsRowAboveAction() {
+			super("Insert Row Above");
+			setImageDescriptor(FluentMkUI.getDescriptor(FluentMkImages.DESC_OBJ_ROW_INS_ABV));
 		}
 
 		@Override
@@ -92,10 +158,30 @@ public class TableViewDialog extends MessageDialog {
 		}
 	}
 
+	public class InsRowBelowAction extends Action {
+
+		public InsRowBelowAction() {
+			super("Insert Row Below");
+			setImageDescriptor(FluentMkUI.getDescriptor(FluentMkImages.DESC_OBJ_ROW_INS_BLW));
+		}
+
+		@Override
+		public void run() {
+			TableItem[] items = table.getSelection();
+			if (items == null || items.length == 0) return;
+			int target = table.indexOf(items[0]);
+			if (target < 1) return;
+
+			tableModel.addRow(target + 2);
+			viewer.refresh();
+		}
+	}
+
 	public class RmvRowAction extends Action {
 
 		public RmvRowAction() {
-			super("Remove Row");
+			super("Delete Row");
+			setImageDescriptor(FluentMkUI.getDescriptor(FluentMkImages.DESC_OBJ_ROW_DEL));
 		}
 
 		@Override
@@ -143,6 +229,10 @@ public class TableViewDialog extends MessageDialog {
 		}
 	}
 
+	private static final int features = ColumnViewerEditor.TABBING_HORIZONTAL
+			| ColumnViewerEditor.TABBING_MOVE_TO_ROW_NEIGHBOR | ColumnViewerEditor.TABBING_VERTICAL
+			| ColumnViewerEditor.KEYBOARD_ACTIVATION;
+
 	private PagePart part;
 	private int style;
 
@@ -152,19 +242,19 @@ public class TableViewDialog extends MessageDialog {
 	private TableViewerFocusCellManager cellMgr;
 
 	/**
-	 * Creates a new TableViewDialog with default SWT styles.
+	 * Creates a new TableDialog with default SWT styles.
 	 */
-	public TableViewDialog(PagePart part) {
+	public TableDialog(PagePart part) {
 		this(part, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER | SWT.FULL_SELECTION);
 	}
 
 	/**
-	 * Creates a new TableViewDialog with the given style.
+	 * Creates a new TableDialog with the given style.
 	 * 
 	 * @param editor
 	 * @param part
 	 */
-	public TableViewDialog(PagePart part, int style) {
+	public TableDialog(PagePart part, int style) {
 		super(Display.getCurrent().getActiveShell(), "Table Editor", null, null, MessageDialog.NONE,
 				new String[] { "Apply", "Cancel" }, 1);
 		this.part = part;
@@ -178,7 +268,25 @@ public class TableViewDialog extends MessageDialog {
 
 	@Override
 	protected Control createCustomArea(final Composite parent) {
-		viewer = new TableViewer(parent, style);
+		Composite body = new Composite(parent, SWT.NONE);
+		GridDataFactory.fillDefaults().grab(true, true).span(2, 1).applyTo(body);
+		GridLayoutFactory.fillDefaults().numColumns(2).applyTo(body);
+
+		ToolBar bar = new ToolBar(body, SWT.HORIZONTAL);
+		ToolBarManager barMgr = new ToolBarManager(bar);
+		barMgr.add(new AlignLeftAction());
+		barMgr.add(new AlignCenterAction());
+		barMgr.add(new AlignRightAction());
+		barMgr.add(new InsColBeforeAction());
+		barMgr.add(new InsColAfterAction());
+		barMgr.add(new RmvColAction());
+		barMgr.add(new InsRowAboveAction());
+		barMgr.add(new InsRowBelowAction());
+		barMgr.add(new RmvRowAction());
+		barMgr.update(true);
+		bar.pack();
+
+		viewer = new TableViewer(body, style);
 		GridDataFactory.fillDefaults().grab(true, true).span(2, 1).applyTo(viewer.getControl());
 
 		table = viewer.getTable();
@@ -198,22 +306,22 @@ public class TableViewDialog extends MessageDialog {
 			}
 		};
 
-		int features = ColumnViewerEditor.TABBING_HORIZONTAL | ColumnViewerEditor.TABBING_MOVE_TO_ROW_NEIGHBOR
-				| ColumnViewerEditor.TABBING_VERTICAL | ColumnViewerEditor.KEYBOARD_ACTIVATION;
-
 		TableViewerEditor.create(viewer, cellMgr, activator, features);
 
 		MenuManager mgr = new MenuManager();
-		mgr.add(new AddColAction());
+		mgr.add(new InsColBeforeAction());
+		mgr.add(new InsColAfterAction());
 		mgr.add(new RmvColAction());
 		mgr.add(new Separator());
-		mgr.add(new AddRowAction());
+		mgr.add(new InsRowAboveAction());
+		mgr.add(new InsRowBelowAction());
 		mgr.add(new RmvRowAction());
 		viewer.getControl().setMenu(mgr.createContextMenu(viewer.getControl()));
 
 		tableModel = new TableModel();
 		setInput(part);
-		return viewer.getControl();
+
+		return body;
 	}
 
 	private void setInput(PagePart part) {
@@ -258,14 +366,12 @@ public class TableViewDialog extends MessageDialog {
 		column.setWidth(width);
 	}
 
-	public TableViewer getTableViewer() {
-		return viewer;
-	}
-
-	/**
-	 * Returns the SWT Table.
-	 */
-	public Table getTable() {
-		return table;
+	private void recreateCols() {
+		int cnt = table.getColumnCount();
+		for (int idx = 0; idx < cnt; idx++) {
+			table.getColumn(0).dispose();
+		}
+		createColumns();
+		viewer.refresh();
 	}
 }

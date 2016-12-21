@@ -80,7 +80,7 @@ public class LineWrapEditStrategy implements IAutoEditStrategy {
 			int lmw = 0;
 
 			PagePart part = PageRoot.MODEL.partAtOffset(offset);
-			if (part.getKind() == Kind.LIST) {
+			if (part != null && part.getKind() == Kind.LIST) {
 				lmw = AutoEdit.listMarkerWidth(doc, end);
 			}
 

@@ -127,10 +127,10 @@ public class FluentMkUI extends AbstractUIPlugin {
 	 * @since 3.4
 	 */
 	public static String getAdditionalInfoAffordanceString() {
-		if (!EditorsUI.getPreferenceStore().getBoolean(Prefs.EDITOR_SHOW_TEXT_HOVER_AFFORDANCE)) {
-			return null;
+		if (EditorsUI.getPreferenceStore().getBoolean(Prefs.EDITOR_SHOW_TEXT_HOVER_AFFORDANCE)) {
+			return "Press 'Tab' from proposal table or click for focus"; //$NON-NLS-1$
 		}
-		return "Press 'Tab' from proposal table or click for focus"; //$NON-NLS-1$
+		return null;
 	}
 
 	/**

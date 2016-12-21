@@ -127,6 +127,7 @@ public class FluentMkEditor extends TextEditor implements IShowInTarget, IShowIn
 	private EventListenerList docListenerList;
 	private IPropertyChangeListener prefChangeListener;
 	// private SemanticHighlightingManager semanticManager;
+
 	private boolean pageDirty = true;
 
 	private ListenerList<IReconcilingListener> reconcilingListeners;
@@ -476,6 +477,14 @@ public class FluentMkEditor extends TextEditor implements IShowInTarget, IShowIn
 		return getPageModel();
 	}
 
+	private void updatePageModel() {
+		String text = getText();
+		if (text == null) text = "";
+		IResource resource = ResourceUtil.getResource(getEditorInput());
+		pageModel.updateModel(resource, text);
+		pageDirty = false;
+	}
+
 	/** Make the store visible outside of the editor */
 	public IPreferenceStore getPrefsStore() {
 		return getPreferenceStore();
@@ -739,7 +748,7 @@ public class FluentMkEditor extends TextEditor implements IShowInTarget, IShowIn
 	 * @return the most narrow element which includes the given offset
 	 */
 	private PagePart getPagePartAt(int offset, boolean reconcile) {
-		return pageModel.partAtOffset(offset);
+		return getPageModel().partAtOffset(offset);
 	}
 
 	int offset = 0; // crap!!!
@@ -779,14 +788,6 @@ public class FluentMkEditor extends TextEditor implements IShowInTarget, IShowIn
 		return null;
 	}
 
-	private void updatePageModel() {
-		String text = getText();
-		if (text == null) text = "";
-		IResource resource = ResourceUtil.getResource(getEditorInput());
-		pageModel.updateModel(resource, text);
-		pageDirty = false;
-	}
-
 	public boolean isActiveOn(IResource resource) {
 		IFile current = getResource();
 		if (current != null && current.equals(resource)) return true;
@@ -816,7 +817,7 @@ public class FluentMkEditor extends TextEditor implements IShowInTarget, IShowIn
 		}
 
 		List<IMarker> markers = new ArrayList<IMarker>(Arrays.asList(taskMarkers));
-		pageModel.markTaggedLines(markFile, tags, markers);
+		getPageModel().markTaggedLines(markFile, tags, markers);
 
 	}
 

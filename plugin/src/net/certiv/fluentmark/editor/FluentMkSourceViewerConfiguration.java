@@ -80,6 +80,8 @@ public class FluentMkSourceViewerConfiguration extends TextSourceViewerConfigura
 	private ScannerComment commentScanner;
 	private String partitioning;
 
+	private boolean debugModel;
+
 	// private OutlineItem outline;
 	// private IInformationPresenter informationPresenter;
 
@@ -178,7 +180,11 @@ public class FluentMkSourceViewerConfiguration extends TextSourceViewerConfigura
 	@Override
 	public ITextHover getTextHover(ISourceViewer sourceViewer, String contentType) {
 		if (textHover == null) {
-			textHover = new FluentMkTextHover(editor, sourceViewer, contentType);
+			if (debugModel) {
+				textHover = new FluentMkTextHover(editor, sourceViewer, contentType);
+			} else {
+				textHover = super.getTextHover(sourceViewer, contentType);
+			}
 		}
 		return textHover;
 	}

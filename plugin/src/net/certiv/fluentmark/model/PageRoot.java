@@ -147,6 +147,7 @@ public class PageRoot extends Parent implements IResourceChangeListener, IDocume
 	}
 
 	public int lineAtOffset(int offset) {
+		if (lineMap == null) return 0;
 		Integer idx = lineMap.get(offset);
 		if (idx == null) return 0;
 		return idx;
@@ -207,6 +208,8 @@ public class PageRoot extends Parent implements IResourceChangeListener, IDocume
 		int len;
 		IParent current;
 
+		if (getContent().trim().isEmpty()) return;
+
 		for (int idx = 0; idx < lines.length(); idx++) {
 			Kind kind = lines.identifyKind(idx);
 			switch (kind) {
@@ -234,7 +237,7 @@ public class PageRoot extends Parent implements IResourceChangeListener, IDocume
 					// switch to CODE_BLOCK effective & add to parent if prior is same
 					lines.setKind(idx, kind);				// original
 					lines.setKind(idx, Kind.CODE_BLOCK);	// effective
-					if (lines.getKind(idx - 1) == Kind.CODE_BLOCK) {
+					if (idx > 0 && lines.getKind(idx - 1) == Kind.CODE_BLOCK) {
 						addToParent(idx);
 					} else {
 						addPageElement(current, Kind.CODE_BLOCK, offset, len, idx, end);
@@ -285,7 +288,7 @@ public class PageRoot extends Parent implements IResourceChangeListener, IDocume
 
 					// add to parent if prior is same kind
 					PagePart part;
-					if (lines.getKind(idx - 1) == kind) {
+					if (idx > 0 && lines.getKind(idx - 1) == kind) {
 						part = addToParent(idx);
 					} else {
 						part = addPageElement(current, kind, offset, len, idx, end);
@@ -311,26 +314,28 @@ public class PageRoot extends Parent implements IResourceChangeListener, IDocume
 					current = headers.getCurrentParent();
 					lines.setKind(idx, kind);
 
-					// check prior & conditionally change kind and add to parent
-					switch (lines.getKind(idx - 1)) {
-						case TEXT:
-							addToParent(idx);
-							break;
-						case LIST:
-							lines.setKind(idx, Kind.LIST);
-							addToParent(idx);
-							break;
-						case TABLE:
-							lines.setKind(idx, Kind.TABLE);
-							addToParent(idx);
-							break;
-						case DEFINITION:
-							lines.setKind(idx, Kind.DEFINITION);
-							addToParent(idx);
-							break;
-						default:
-							addPageElement(current, kind, offset, len, idx, end);
-							break;
+					if (idx > 0) {
+						// check prior & conditionally change kind and add to parent
+						switch (lines.getKind(idx - 1)) {
+							case TEXT:
+								addToParent(idx);
+								break;
+							case LIST:
+								lines.setKind(idx, Kind.LIST);
+								addToParent(idx);
+								break;
+							case TABLE:
+								lines.setKind(idx, Kind.TABLE);
+								addToParent(idx);
+								break;
+							case DEFINITION:
+								lines.setKind(idx, Kind.DEFINITION);
+								addToParent(idx);
+								break;
+							default:
+								addPageElement(current, kind, offset, len, idx, end);
+								break;
+						}
 					}
 					break;
 
@@ -341,7 +346,7 @@ public class PageRoot extends Parent implements IResourceChangeListener, IDocume
 					current = headers.getCurrentParent();
 					lines.setKind(idx, kind);
 
-					if (lines.getKind(idx - 1) == Kind.TEXT) {
+					if (idx > 0 && lines.getKind(idx - 1) == Kind.TEXT) {
 						getPagePart(idx - 1).setKind(kind);
 						lines.setKind(idx - 1, kind);
 						addToParent(idx);
@@ -356,7 +361,7 @@ public class PageRoot extends Parent implements IResourceChangeListener, IDocume
 					len = lines.getTextLength(idx);
 					current = headers.getCurrentParent();
 					lines.setKind(idx, kind);
-					if (lines.getKind(idx - 1) == Kind.TEXT) {
+					if (idx > 0 && lines.getKind(idx - 1) == Kind.TEXT) {
 						current = headers.getCurrentParent();
 						PagePart lastPart = (PagePart) current.getLastChild();
 						lastPart.addLine(lines.getLine(idx));

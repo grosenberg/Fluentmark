@@ -19,7 +19,7 @@ import net.certiv.fluentmark.model.ISourceRange;
 import net.certiv.fluentmark.model.Kind;
 import net.certiv.fluentmark.model.PagePart;
 import net.certiv.fluentmark.model.PageRoot;
-import net.certiv.fluentmk.tables.TableViewDialog;
+import net.certiv.fluentmk.tables.TableDialog;
 
 public class DoubleClickStrategy extends DefaultTextDoubleClickStrategy {
 
@@ -47,7 +47,7 @@ public class DoubleClickStrategy extends DefaultTextDoubleClickStrategy {
 
 			@Override
 			public IStatus runInUIThread(IProgressMonitor monitor) {
-				TableViewDialog dialog = new TableViewDialog(part);
+				TableDialog dialog = new TableDialog(part);
 				int ret = dialog.open();
 				if (ret == 0) {
 					String newTable = dialog.build();

@@ -27,6 +27,8 @@ import org.eclipse.jface.text.templates.persistence.TemplateStore;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.texteditor.ITextEditor;
 
+import net.certiv.fluentmark.util.Strings;
+
 public class FluentMkTemplateCompletionProcessor extends TemplateCompletionProcessor {
 
 	private static final Pattern VARIABLE_PATTERN = Pattern.compile("\\$\\{([^\\}]+)\\}"); //$NON-NLS-1$
@@ -62,6 +64,7 @@ public class FluentMkTemplateCompletionProcessor extends TemplateCompletionProce
 		return null;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	protected Template[] getTemplates(String contextTypeId) {
 		if (contextType.getId().equals(contextTypeId)) {
@@ -85,6 +88,12 @@ public class FluentMkTemplateCompletionProcessor extends TemplateCompletionProce
 				}
 			}
 			if (computedTemplates != null) {
+				for (Template template : computedTemplates) {
+					String pattern = template.getPattern();
+					pattern = pattern.replace("\r\n", "\n");
+					pattern = pattern.replace("\n", Strings.EOL);
+					template.setPattern(pattern);					
+				}
 				return computedTemplates;
 			}
 		}

@@ -63,6 +63,16 @@ public class FluentMkImages {
 	public static String DESC_OBJ_TEXT;
 	public static String DESC_OBJ_UNDEFINED;
 
+	public static String DESC_OBJ_LEFT;
+	public static String DESC_OBJ_CENTER;
+	public static String DESC_OBJ_RIGHT;
+	public static String DESC_OBJ_COL_DEL;
+	public static String DESC_OBJ_COL_INS_BEF;
+	public static String DESC_OBJ_COL_INS_AFT;
+	public static String DESC_OBJ_ROW_DEL;
+	public static String DESC_OBJ_ROW_INS_ABV;
+	public static String DESC_OBJ_ROW_INS_BLW;
+
 	// public static String IMG_OBJS_FOLDER = prefix + "fldr_obj.gif";
 	// public static String IMG_OBJS_TEMPLATE = prefix + "template_obj.gif";
 	// public static String IMG_OBJS_VARIABLE = prefix + "variable_obj.gif";
@@ -105,9 +115,19 @@ public class FluentMkImages {
 		DESC_OBJ_LIST = prefix + "list.png"; //$NON-NLS-1$
 		DESC_OBJ_QUOTE = prefix + "quote.png"; //$NON-NLS-1$
 		DESC_OBJ_REFERENCE = prefix + "url_link.gif"; //$NON-NLS-1$
-		DESC_OBJ_TABLE= prefix + "table.png"; //$NON-NLS-1$
+		DESC_OBJ_TABLE = prefix + "table.png"; //$NON-NLS-1$
 		DESC_OBJ_TEXT = prefix + "text.png"; //$NON-NLS-1$
 		DESC_OBJ_UNDEFINED = IMG_OBJS_UNKNOWN;
+
+		DESC_OBJ_LEFT = prefix + "align_left.png"; //$NON-NLS-1$
+		DESC_OBJ_CENTER = prefix + "align_center.png"; //$NON-NLS-1$
+		DESC_OBJ_RIGHT = prefix + "align_right.png"; //$NON-NLS-1$
+		DESC_OBJ_COL_DEL = prefix + "col_delete.gif"; //$NON-NLS-1$
+		DESC_OBJ_COL_INS_BEF = prefix + "col_insert_before.gif"; //$NON-NLS-1$
+		DESC_OBJ_COL_INS_AFT = prefix + "col_insert_after.gif"; //$NON-NLS-1$
+		DESC_OBJ_ROW_DEL = prefix + "row_delete.gif"; //$NON-NLS-1$
+		DESC_OBJ_ROW_INS_ABV = prefix + "row_insert_above.gif"; //$NON-NLS-1$
+		DESC_OBJ_ROW_INS_BLW = prefix + "row_insert_below.gif"; //$NON-NLS-1$
 
 		create(OBJ, IMG_MENU_COLLAPSE_ALL);
 		create(OBJ, IMG_MENU_EXPAND_ALL);
@@ -138,6 +158,15 @@ public class FluentMkImages {
 
 		create(TOOL, IMG_MENU_EXPORT_HTML);
 
+		create(OBJ, DESC_OBJ_LEFT);
+		create(OBJ, DESC_OBJ_CENTER);
+		create(OBJ, DESC_OBJ_RIGHT);
+		create(OBJ, DESC_OBJ_COL_DEL);
+		create(OBJ, DESC_OBJ_COL_INS_BEF);
+		create(OBJ, DESC_OBJ_COL_INS_AFT);
+		create(OBJ, DESC_OBJ_ROW_DEL);
+		create(OBJ, DESC_OBJ_ROW_INS_ABV);
+		create(OBJ, DESC_OBJ_ROW_INS_BLW);
 	}
 
 	/** Retrieve the existing managed image for the given key */
