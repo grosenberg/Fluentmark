@@ -61,11 +61,15 @@ Pandoc recommends [*MikTeX*](https://miktex.org/).
 
 ### Use
 
-|Key         |Function                                              |
-|:-----------|:-----------------------------------------------------|
-|Ctrl-/      |Toggles commenting of selected text (markdown comment)|
-|Ctrl-Shift-/|Toggles commenting of selected text (html comment)    |
-|Ctrl-Shift-F|Format full page or selected text                     |
+`Double-click` on a table to open the table editor. `Double-click` a cell to edit text. 
+`Tab` and the arrow keys navigate between cells. `Return` to end cell editing.
+
+|Key         |Function                                          |
+|:-----------|:-------------------------------------------------|
+|Ctrl-Space  |Opens the template assist popup                   |
+|Ctrl-/      |Toggles Markdown-style commenting of selected text|
+|Ctrl-Shift-/|Toggles HTML-style commenting of selected text    |
+|Ctrl-Shift-F|Format full page or selected text                 |
 
 
 ### Requirements
