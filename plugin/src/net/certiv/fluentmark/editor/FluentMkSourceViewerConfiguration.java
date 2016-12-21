@@ -8,6 +8,7 @@ import org.eclipse.jface.text.IAutoEditStrategy;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IInformationControl;
 import org.eclipse.jface.text.IInformationControlCreator;
+import org.eclipse.jface.text.ITextDoubleClickStrategy;
 import org.eclipse.jface.text.ITextHover;
 import org.eclipse.jface.text.contentassist.ContentAssistant;
 import org.eclipse.jface.text.contentassist.IContentAssistProcessor;
@@ -35,6 +36,7 @@ import net.certiv.fluentmark.assist.FluentMkTemplateCompletionProcessor;
 import net.certiv.fluentmark.assist.MultiContentAssistProcessor;
 import net.certiv.fluentmark.editor.color.IColorManager;
 import net.certiv.fluentmark.editor.strategies.LineWrapEditStrategy;
+import net.certiv.fluentmark.editor.strategies.DoubleClickStrategy;
 import net.certiv.fluentmark.editor.strategies.PairEditStrategy;
 import net.certiv.fluentmark.editor.strategies.SmartAutoEditStrategy;
 import net.certiv.fluentmark.editor.text.AbstractBufferedRuleBasedScanner;
@@ -166,6 +168,11 @@ public class FluentMkSourceViewerConfiguration extends TextSourceViewerConfigura
 	public IAutoEditStrategy[] getAutoEditStrategies(ISourceViewer sourceViewer, String contentType) {
 		return new IAutoEditStrategy[] { new SmartAutoEditStrategy(partitioning), new LineWrapEditStrategy(),
 				new PairEditStrategy() };
+	}
+
+	@Override
+	public ITextDoubleClickStrategy getDoubleClickStrategy(ISourceViewer sourceViewer, String contentType) {
+		return new DoubleClickStrategy(editor);
 	}
 
 	@Override

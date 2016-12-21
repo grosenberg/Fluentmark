@@ -367,6 +367,15 @@
          </enabledWhen>
       </handler>
    </extension>
+   <extension
+         point="org.eclipse.ui.contexts">
+      <context
+            description="FluentMark Editor"
+            id="net.certiv.fluentmark.ui.editorScope"
+            name="FluentMark"
+            parentId="org.eclipse.ui.textEditorScope">
+      </context>
+   </extension>
    
 
    <extension
@@ -377,19 +386,19 @@
          
       <key
             commandId="net.certiv.fluentmark.format"
-            contextId="org.eclipse.ui.contexts.window"
+            contextId="net.certiv.fluentmark.ui.editorScope"
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
             sequence="M1+M2+F">
       </key>
       <key
             commandId="net.certiv.fluentmark.hiddenComment"
-            contextId="org.eclipse.ui.contexts.window"
+            contextId="net.certiv.fluentmark.ui.editorScope"
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
             sequence="M1+/">
       </key>
       <key
             commandId="net.certiv.fluentmark.visibleComment"
-            contextId="org.eclipse.ui.contexts.window"
+            contextId="net.certiv.fluentmark.ui.editorScope"
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
             sequence="M1+M2+/">
       </key>

@@ -75,6 +75,9 @@ public class OutlineLabelProvider extends LabelProvider implements IStyledLabelP
 				case REFERENCE:
 					imageKey = FluentMkImages.DESC_OBJ_REFERENCE;
 					break;
+				case TABLE:
+					imageKey = FluentMkImages.DESC_OBJ_TABLE;
+					break;
 				case TEXT:
 					imageKey = FluentMkImages.DESC_OBJ_TEXT;
 					break;

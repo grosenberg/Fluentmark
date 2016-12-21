@@ -29,6 +29,11 @@ public class PagePart extends Parent {
 		appendContent(line.text + Strings.EOL);
 	}
 
+	
+	public PageRoot getPageModel() {
+		return root;
+	}
+
 	public int getBeginLine() {
 		return getSourceRange().getBeginLine();
 	}
@@ -106,6 +111,7 @@ public class PagePart extends Parent {
 
 			case HEADER:
 			case LIST:
+			case TABLE:
 			case TEXT:
 				String text = Strings.trimLeadingPunctuation(getFirstLine()).trim();
 				return Strings.ellipsize(text, 40);

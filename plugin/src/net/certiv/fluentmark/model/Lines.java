@@ -118,6 +118,8 @@ public class Lines {
 		if (line.startsWith("___")) return Kind.HRULE;
 		if (line.startsWith("***")) return Kind.HRULE;
 		if (line.startsWith("---")) return Kind.HRULE;
+		
+		if (line.matches("(\\|\\s?\\:?---+\\:?\\s?)+\\|.*")) return Kind.TABLE;
 
 		if (line.matches("\\s*\\*\\s+.*")) return Kind.LIST;
 		if (line.matches("\\s*\\-\\s+.*")) return Kind.LIST;

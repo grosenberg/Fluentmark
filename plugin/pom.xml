@@ -20,6 +20,12 @@
 	<dependencies>
 
 		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.5</version>
+		</dependency>
+
+		<dependency>
 			<groupId>org.markdownj</groupId>
 			<artifactId>markdownj-core</artifactId>
 			<version>0.4</version>
@@ -78,6 +84,14 @@
 						</goals>
 						<configuration>
 							<artifactItems>
+
+								<artifactItem>
+									<groupId>org.apache.commons</groupId>
+									<artifactId>commons-lang3</artifactId>
+									<version>3.5</version>
+									<type>jar</type>
+									<overWrite>true</overWrite>
+								</artifactItem>
 
 								<artifactItem>
 									<groupId>org.markdownj</groupId>

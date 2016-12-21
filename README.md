@@ -20,6 +20,7 @@ The full-featured Markdown editing environment for Eclipse.
 + Spell check with quick-assist correction processor
     - can be enabled independent of the platform spell checker
 + Smart editing behaviors
+    - table editor and formatter
     - intelligent paragraph, list & blank line handling
 
 ### Screenshot
@@ -60,11 +61,11 @@ Pandoc recommends [*MikTeX*](https://miktex.org/).
 
 ### Use
 
-|Key|Function|
-|---|--------|
-|Ctrl-/|Toggles commenting of selected text (markdown comment)|
-|Ctrl-Shift-/|Toggles commenting of selected text (html comment)|
-|Ctrl-Shift-F|Format full page or selected text|
+|Key         |Function                                              |
+|:-----------|:-----------------------------------------------------|
+|Ctrl-/      |Toggles commenting of selected text (markdown comment)|
+|Ctrl-Shift-/|Toggles commenting of selected text (html comment)    |
+|Ctrl-Shift-F|Format full page or selected text                     |
 
 
 ### Requirements

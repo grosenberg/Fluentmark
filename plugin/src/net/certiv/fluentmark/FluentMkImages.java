@@ -59,6 +59,7 @@ public class FluentMkImages {
 	public static String DESC_OBJ_LIST;
 	public static String DESC_OBJ_QUOTE;
 	public static String DESC_OBJ_REFERENCE;
+	public static String DESC_OBJ_TABLE;
 	public static String DESC_OBJ_TEXT;
 	public static String DESC_OBJ_UNDEFINED;
 
@@ -104,6 +105,7 @@ public class FluentMkImages {
 		DESC_OBJ_LIST = prefix + "list.png"; //$NON-NLS-1$
 		DESC_OBJ_QUOTE = prefix + "quote.png"; //$NON-NLS-1$
 		DESC_OBJ_REFERENCE = prefix + "url_link.gif"; //$NON-NLS-1$
+		DESC_OBJ_TABLE= prefix + "table.png"; //$NON-NLS-1$
 		DESC_OBJ_TEXT = prefix + "text.png"; //$NON-NLS-1$
 		DESC_OBJ_UNDEFINED = IMG_OBJS_UNKNOWN;
 
@@ -130,6 +132,7 @@ public class FluentMkImages {
 		create(OBJ, DESC_OBJ_LIST);
 		create(OBJ, DESC_OBJ_QUOTE);
 		create(OBJ, DESC_OBJ_REFERENCE);
+		create(OBJ, DESC_OBJ_TABLE);
 		create(OBJ, DESC_OBJ_TEXT);
 		create(OBJ, DESC_OBJ_UNDEFINED);
 

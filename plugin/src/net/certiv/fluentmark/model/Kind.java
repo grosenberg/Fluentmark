@@ -9,15 +9,17 @@ public enum Kind {
 	CODE_BLOCK_INDENTED("Code block"),
 	HTML_BLOCK("Html block"),
 
-	HEADER("Header"),
+	BLANK("Blank line"),
 	TEXT("Text"),
+
 	LIST("List"),
+	TABLE("Table"),
+
+	HEADER("Header"),
 	HRULE("Horizontal Rule"),
 	QUOTE("Quote"),
 	DEFINITION("Definition"),
 	REFERENCE("Link reference"),
-
-	BLANK("Blank line"),
 
 	UNDEFINED("Undefined");
 

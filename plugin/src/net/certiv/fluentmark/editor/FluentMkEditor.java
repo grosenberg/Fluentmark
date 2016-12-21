@@ -137,6 +137,16 @@ public class FluentMkEditor extends TextEditor implements IShowInTarget, IShowIn
 	}
 
 	@Override
+	protected void initializeKeyBindingScopes() {
+		setKeyBindingScopes(new String[] { "org.eclipse.ui.textEditorScope", "net.certiv.fluentmark.ui.editorScope" });
+	}
+
+	@Override
+	protected boolean isTabsToSpacesConversionEnabled() {
+		return true;
+	}
+
+	@Override
 	protected void initializeEditor() {
 		super.initializeEditor();
 		createListeners();

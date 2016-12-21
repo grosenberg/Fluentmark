@@ -320,6 +320,10 @@ public class PageRoot extends Parent implements IResourceChangeListener, IDocume
 							lines.setKind(idx, Kind.LIST);
 							addToParent(idx);
 							break;
+						case TABLE:
+							lines.setKind(idx, Kind.TABLE);
+							addToParent(idx);
+							break;
 						case DEFINITION:
 							lines.setKind(idx, Kind.DEFINITION);
 							addToParent(idx);
@@ -327,6 +331,22 @@ public class PageRoot extends Parent implements IResourceChangeListener, IDocume
 						default:
 							addPageElement(current, kind, offset, len, idx, end);
 							break;
+					}
+					break;
+
+				case TABLE:
+					end = idx;
+					offset = lines.getOffset(idx);
+					len = lines.getTextLength(idx);
+					current = headers.getCurrentParent();
+					lines.setKind(idx, kind);
+
+					if (lines.getKind(idx - 1) == Kind.TEXT) {
+						getPagePart(idx - 1).setKind(kind);
+						lines.setKind(idx - 1, kind);
+						addToParent(idx);
+					} else {
+						addPageElement(current, kind, offset, len, idx, end);
 					}
 					break;
 
