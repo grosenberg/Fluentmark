@@ -22,6 +22,7 @@ The full-featured Markdown editing environment for Eclipse.
 + Smart editing behaviors
     - table editor and formatter
     - intelligent paragraph, list & blank line handling
+    - outline view drag and drop
 
 ### Screenshot
 
@@ -79,5 +80,5 @@ JDK 1.8
 
 ### Development Status
 
-- Version 0.8 - alpha
+- Version 0.9 - beta
 - In active development 
