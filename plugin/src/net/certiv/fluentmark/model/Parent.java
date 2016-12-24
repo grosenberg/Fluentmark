@@ -1,3 +1,10 @@
+/*******************************************************************************
+ * Copyright (c) 2016 Certiv Analytics and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ ******************************************************************************/
 package net.certiv.fluentmark.model;
 
 import java.util.ArrayList;
@@ -53,7 +60,7 @@ public abstract class Parent extends Element implements IParent {
 
 	/** Gets the children of this element. */
 	@Override
-	public IParent[] getChildren() throws CoreException {
+	public IParent[] getChildren() {
 		synchronized (children) {
 			return children.toArray(new IParent[children.size()]);
 		}
@@ -72,7 +79,7 @@ public abstract class Parent extends Element implements IParent {
 	}
 
 	@Override
-	public List<IParent> getChildList() throws CoreException {
+	public List<IParent> getChildList() {
 		return new ArrayList<>(Arrays.asList(getChildren()));
 	}
 
@@ -80,6 +87,18 @@ public abstract class Parent extends Element implements IParent {
 	public boolean hasChildren() {
 		synchronized (children) {
 			return !children.isEmpty();
+		}
+	}
+
+	@Override
+	public boolean isAncestor(IParent child) {
+		IParent parent = child.getParent();
+		if (parent == null) {
+			return false;
+		} else if (parent.equals(this)) {
+			return true;
+		} else {
+			return isAncestor(parent);
 		}
 	}
 

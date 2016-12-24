@@ -1,3 +1,17 @@
+/*******************************************************************************
+ * Copyright (c) 2016 Certiv Analytics and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ ******************************************************************************/
+/**
+ * Copyright (c) 2016 Certiv Analytics and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ */
 package net.certiv.fluentmark;
 
 import java.util.ArrayList;
@@ -6,6 +20,8 @@ import java.util.List;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -131,6 +147,18 @@ public class FluentMkUI extends AbstractUIPlugin {
 			return "Press 'Tab' from proposal table or click for focus"; //$NON-NLS-1$
 		}
 		return null;
+	}
+
+	public IStatus createStatus(int statusCode, Throwable exception) {
+		return createStatus(null, statusCode, exception);
+	}
+
+	public IStatus createStatus(String message, int statusCode, Throwable exception) {
+		if (message == null && exception != null) {
+			message = exception.getClass().getName() + ": " + exception.getMessage(); //$NON-NLS-1$
+		}
+		Status status = new Status(statusCode, PLUGIN_ID, statusCode, message, exception);
+		return status;
 	}
 
 	/**

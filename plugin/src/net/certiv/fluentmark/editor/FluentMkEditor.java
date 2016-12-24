@@ -1,3 +1,10 @@
+/*******************************************************************************
+ * Copyright (c) 2016 Certiv Analytics and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ ******************************************************************************/
 package net.certiv.fluentmark.editor;
 
 import java.io.File;
@@ -38,6 +45,7 @@ import org.eclipse.jface.text.IInformationControlCreator;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.ITextSelection;
 import org.eclipse.jface.text.ITextViewerExtension5;
+import org.eclipse.jface.text.ITextViewerExtension6;
 import org.eclipse.jface.text.ITypedRegion;
 import org.eclipse.jface.text.Position;
 import org.eclipse.jface.text.TextUtilities;
@@ -89,6 +97,9 @@ import net.certiv.fluentmark.editor.text.SmartBackspaceManager;
 import net.certiv.fluentmark.model.ISourceRange;
 import net.certiv.fluentmark.model.PagePart;
 import net.certiv.fluentmark.model.PageRoot;
+import net.certiv.fluentmark.outline.MkOutlinePage;
+import net.certiv.fluentmark.outline.operations.AbstractDocumentCommand;
+import net.certiv.fluentmark.outline.operations.CommandManager;
 import net.certiv.fluentmark.preferences.Prefs;
 import net.certiv.fluentmark.preferences.pages.PrefPageEditor;
 import net.certiv.fluentmark.util.FileUtils;
@@ -97,7 +108,8 @@ import net.certiv.fluentmark.util.Strings;
 /**
  * Text editor with markdown support.
  */
-public class FluentMkEditor extends TextEditor implements IShowInTarget, IShowInSource, IReconcilingListener {
+public class FluentMkEditor extends TextEditor
+		implements CommandManager, IShowInTarget, IShowInSource, IReconcilingListener {
 
 	public static final String ID = "net.certiv.fluentmark.editor.FluentMkEditor";
 
@@ -116,7 +128,7 @@ public class FluentMkEditor extends TextEditor implements IShowInTarget, IShowIn
 	}
 
 	private FluentMkSourceViewer viewer;
-	private FluentMkOutlinePage outlinePage;
+	private MkOutlinePage outlinePage;
 	private FluentMkTextTools tools;
 	private IColorManager colorManager;
 	private FluentMkConverter converter;
@@ -132,6 +144,8 @@ public class FluentMkEditor extends TextEditor implements IShowInTarget, IShowIn
 
 	private ListenerList<IReconcilingListener> reconcilingListeners;
 	private EditorSelectionChangedListener editorSelectionChangedListener;
+
+	private boolean disableSelResponse;
 
 	public FluentMkEditor() {
 		super();
@@ -359,8 +373,8 @@ public class FluentMkEditor extends TextEditor implements IShowInTarget, IShowIn
 		}
 	}
 
-	private FluentMkOutlinePage createOutlinePage() {
-		final FluentMkOutlinePage page = new FluentMkOutlinePage(this, getPreferenceStore());
+	private MkOutlinePage createOutlinePage() {
+		final MkOutlinePage page = new MkOutlinePage(this, getPreferenceStore());
 		setOutlinePageInput(page, getEditorInput());
 		return page;
 	}
@@ -379,7 +393,7 @@ public class FluentMkEditor extends TextEditor implements IShowInTarget, IShowIn
 		}
 	}
 
-	private void setOutlinePageInput(FluentMkOutlinePage page, IEditorInput input) {
+	private void setOutlinePageInput(MkOutlinePage page, IEditorInput input) {
 		if (page == null) return;
 		PageRoot model = PageRoot.MODEL;
 		if (model != null) {
@@ -470,6 +484,10 @@ public class FluentMkEditor extends TextEditor implements IShowInTarget, IShowIn
 	public PageRoot getPageModel() {
 		if (pageDirty) updatePageModel();
 		return pageModel;
+	}
+
+	public boolean isPageModelDirty() {
+		return pageDirty;
 	}
 
 	public PageRoot getPageModel(boolean forceUpdate) {
@@ -624,11 +642,18 @@ public class FluentMkEditor extends TextEditor implements IShowInTarget, IShowIn
 	 * React to change selection event in the editor and outline!
 	 */
 	public void selectionChanged() {
+		if (disableSelResponse) return;
+
 		if (getSelectionProvider() == null) return;
 		ISourceReference element = computeHighlightRange();
 		if (element != null) {
-			if (isOutlinePageValid()) outlinePage.select(element);
-			setSelection(element.getSourceRange(), false);
+			disableSelResponse = true;
+			try {
+				if (isOutlinePageValid()) outlinePage.select(element);
+				setSelection(element.getSourceRange(), false);
+			} finally {
+				disableSelResponse = false;
+			}
 		}
 		updateStatusLine();
 	}
@@ -930,5 +955,16 @@ public class FluentMkEditor extends TextEditor implements IShowInTarget, IShowIn
 		for (IDocumentChangedListener listener : listeners) {
 			listener.documentChanged(event);
 		}
+	}
+
+	@Override
+	public void perform(AbstractDocumentCommand command) throws CoreException {
+		disableSelResponse = true;
+		try {
+			command.execute(((ITextViewerExtension6) getViewer()).getUndoManager(), getViewer().getDocument());
+		} finally {
+			disableSelResponse = false;
+		}
+		selectionChanged();
 	}
 }

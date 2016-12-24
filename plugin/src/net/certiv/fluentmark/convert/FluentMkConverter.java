@@ -1,3 +1,10 @@
+/*******************************************************************************
+ * Copyright (c) 2016 Certiv Analytics and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ ******************************************************************************/
 package net.certiv.fluentmark.convert;
 
 import java.util.ArrayList;
@@ -25,7 +32,7 @@ import net.certiv.fluentmark.util.Cmd;
 public class FluentMkConverter {
 
 	private static final Pattern b = Pattern.compile("(```+\\s*dot\\s+)(.*?)(```+)", Pattern.DOTALL);
-	private static final Pattern t = Pattern.compile("(~~~+\\s*dot\\s+)(.*?)(~~~)+", Pattern.DOTALL);
+	private static final Pattern t = Pattern.compile("(~~~+\\s*dot\\s+)(.*?)(~~~+)", Pattern.DOTALL);
 	private static final BlockEmitter emitter = new DotCodeBlockEmitter();
 	private IPreferenceStore store;
 
@@ -133,18 +140,18 @@ public class FluentMkConverter {
 
 	private String preprocess(Pattern p, String text) {
 		Matcher m = p.matcher(text);
-		if (!m.find()) return text;
-
-		StringBuilder sb = new StringBuilder();
 		int mark = 0;
-		for (int idx = 1; idx <= m.groupCount(); idx++) {
-			sb.append(text.substring(mark, m.start(idx)));
-			idx++;
-			String dotText = text.substring(m.start(idx), m.end(idx));
-			idx++;
-			mark = m.end(idx);
-
-			sb.append(DotGen.runDot(dotText));
+		StringBuilder sb = new StringBuilder();
+		while (m.find()) {
+			int cnt = m.groupCount();
+			for (int idx = 1; idx <= cnt; idx++) {
+				sb.append(text.substring(mark, m.start(idx)));
+				idx++;
+				String dotText = text.substring(m.start(idx), m.end(idx));
+				sb.append(DotGen.runDot(dotText));
+				idx++;
+				mark = m.end(idx);
+			}
 		}
 		if (mark < text.length()) sb.append(text.substring(mark));
 		return sb.toString();

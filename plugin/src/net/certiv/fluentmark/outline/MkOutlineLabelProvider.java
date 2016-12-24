@@ -1,4 +1,11 @@
-package net.certiv.fluentmark.providers;
+/*******************************************************************************
+ * Copyright (c) 2016 Certiv Analytics and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ ******************************************************************************/
+package net.certiv.fluentmark.outline;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,7 +20,7 @@ import net.certiv.fluentmark.FluentMkUI;
 import net.certiv.fluentmark.FluentMkImages;
 import net.certiv.fluentmark.model.PagePart;
 
-public class OutlineLabelProvider extends LabelProvider implements IStyledLabelProvider {
+public class MkOutlineLabelProvider extends LabelProvider implements IStyledLabelProvider {
 
 	private class Pair {
 
@@ -23,7 +30,7 @@ public class OutlineLabelProvider extends LabelProvider implements IStyledLabelP
 
 	private Map<String, Pair> iMap = new HashMap<>();
 
-	public OutlineLabelProvider() {
+	public MkOutlineLabelProvider() {
 		super();
 	}
 

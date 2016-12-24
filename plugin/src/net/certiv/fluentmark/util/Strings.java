@@ -1,10 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2016 Certiv Analytics and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ ******************************************************************************/
 package net.certiv.fluentmark.util;
 
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.regex.Pattern;
-
-import net.certiv.fluentmark.util.legacy.Printer;
 
 public final class Strings {
 
@@ -12,18 +15,12 @@ public final class Strings {
 	public static final String UTF_8 = "UTF-8";
 	public static final String EOL = System.getProperty("line.separator");
 	public static final String EOL2 = EOL + EOL;
+
 	public static final Pattern BLANK_LINE = Pattern.compile("^\\s+$", 8);
 
 	public static String ellipsize(String input, int maxLength) {
-		if (input == null) return null;
-		if (input.length() <= maxLength) return input;
-		if (maxLength < 3) return "";
-		if (maxLength == 3) return "...";
-		int i = input.lastIndexOf(' ', maxLength - 3);
-		if (i < 1 || i < maxLength - 10) {
-			i = maxLength - 3;
-		}
-		return String.valueOf(substring(input, 0, i)) + "...";
+		if (input == null || input.length() < maxLength) return input;
+		return input.substring(0, maxLength) + "...";
 	}
 
 	public static String capitalize(String meta) {
@@ -78,8 +75,6 @@ public final class Strings {
 		return text.split("\\s+").length;
 	}
 
-	// ===========================================================================
-
 	public static int countLeading(String text, char lead) {
 		int count = 0;
 		for (char s : text.toCharArray()) {
@@ -87,85 +82,6 @@ public final class Strings {
 			count++;
 		}
 		return count;
-	}
-
-	public static String join(Collection<?> list, String separator) {
-		return Printer.toString(list, separator);
-	}
-
-	public static StringBuilder join(String start, Collection<?> list, String separator, String end) {
-		StringBuilder sb = new StringBuilder(start);
-		if (!list.isEmpty()) {
-			for (Iterator<?> iterator = list.iterator(); iterator.hasNext();) {
-				Object t = (Object) iterator.next();
-				if (t != null) {
-					sb.append(Printer.toString(t));
-					sb.append(separator);
-				}
-			}
-
-			if (sb.length() != 0) {
-				pop(sb, separator.length());
-			}
-		}
-		sb.append(end);
-		return sb;
-	}
-
-	public static String join(String array[], String separator) {
-		if (array.length == 0) {
-			return "";
-		}
-		StringBuilder sb = new StringBuilder();
-		String as[];
-		int j = (as = array).length;
-		for (int i = 0; i < j; i++) {
-			String string = as[i];
-			if (string != null) {
-				sb.append(string);
-				sb.append(separator);
-			}
-		}
-
-		if (sb.length() != 0) {
-			pop(sb, separator.length());
-		}
-		return sb.toString();
-	}
-
-	public static void join(StringBuilder sb, Collection<?> list, String separator) {
-		Printer.append(sb, list, separator);
-	}
-
-	public static void pop(StringBuilder sb, int chars) {
-		sb.delete(sb.length() - chars, sb.length());
-	}
-
-	public static String substring(String string, int start, int end) {
-		if (string == null) {
-			return null;
-		}
-		int len = string.length();
-		if (start < 0) {
-			start = len + start;
-			if (start < 0) {
-				start = 0;
-			}
-		}
-		if (end <= 0) {
-			end = len + end;
-			if (end < start) {
-				return "";
-			}
-		}
-		if (end > len) {
-			end = len;
-		}
-		if (start == 0 && end == len) {
-			return string;
-		} else {
-			return string.substring(start, end);
-		}
 	}
 
 	public static String toInitials(String name) {
@@ -184,53 +100,6 @@ public final class Strings {
 			}
 		}
 
-		return sb.toString();
-	}
-
-	public static String toNSigFigs(double x, int n) {
-		if (n <= 0) {
-			throw new AssertionError();
-		}
-		String sign = x >= 0.0D ? "" : "-";
-		double v = Math.abs(x);
-		double lv = Math.floor(Math.log10(v));
-		double keeper = Math.pow(10D, n - 1);
-		double tens = Math.pow(10D, lv);
-		int keepMe = (int) Math.round((v * keeper) / tens);
-		if (lv < 0.0D) {
-			String s = toNSigFigs2_small(n, sign, lv, keepMe);
-			if (s != null) {
-				return s;
-			}
-		}
-		double vt = ((double) keepMe * tens) / keeper;
-		String num = Printer.toStringNumber(Double.valueOf(vt));
-		return (new StringBuilder(String.valueOf(sign))).append(num).toString();
-	}
-
-	private static String toNSigFigs2_small(int n, String sign, double lv, int keepMe) {
-		if (lv < -8D) {
-			return null;
-		}
-		StringBuilder sb = new StringBuilder(sign);
-		int zs = (int) (-lv);
-		String sKeepMe = Integer.toString(keepMe);
-		if (sKeepMe.length() > n) {
-			if (sKeepMe.charAt(sKeepMe.length() - 1) != '0') {
-				throw new AssertionError();
-			}
-			zs--;
-			sKeepMe = sKeepMe.substring(0, sKeepMe.length() - 1);
-			if (zs == 0) {
-				return null;
-			}
-		}
-		sb.append("0.");
-		for (int i = 1; i < zs; i++) {
-			sb.append('0');
-		}
-
-		sb.append(sKeepMe);
 		return sb.toString();
 	}
 

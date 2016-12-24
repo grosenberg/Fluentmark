@@ -1,3 +1,10 @@
+/*******************************************************************************
+ * Copyright (c) 2016 Certiv Analytics and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ ******************************************************************************/
 package net.certiv.fluentmark.model;
 
 import java.math.BigDecimal;
@@ -18,8 +25,9 @@ import org.eclipse.core.runtime.SafeRunner;
 import org.eclipse.jface.text.DocumentEvent;
 
 import net.certiv.fluentmark.Log;
-import net.certiv.fluentmark.editor.IDocumentChangedListener;
+import net.certiv.fluentmark.convert.DotGen;
 import net.certiv.fluentmark.editor.FluentMkEditor;
+import net.certiv.fluentmark.editor.IDocumentChangedListener;
 import net.certiv.fluentmark.model.Lines.Line;
 import net.certiv.fluentmark.util.FloorKeyMap;
 import net.certiv.fluentmark.util.Strings;
@@ -141,11 +149,13 @@ public class PageRoot extends Parent implements IResourceChangeListener, IDocume
 		return partAtOffset(offset).getSourceRange();
 	}
 
+	/** Return the part of the given doc offset */
 	public PagePart partAtOffset(int offset) {
 		int idx = lineAtOffset(offset);
 		return lines.getPagePart(idx);
 	}
 
+	/** Return the index of the line at the given doc offset */
 	public int lineAtOffset(int offset) {
 		if (lineMap == null) return 0;
 		Integer idx = lineMap.get(offset);
@@ -153,26 +163,32 @@ public class PageRoot extends Parent implements IResourceChangeListener, IDocume
 		return idx;
 	}
 
+	/** Return the offset of the given line index */
 	public int getOffset(int idx) {
 		return lines.getOffset(idx);
 	}
 
+	/** Return the text of the given line index */
 	public String getText(int idx) {
 		return lines.getText(idx);
 	}
 
+	/** Return the length of the text of the given line index */
 	public int getTextLength(int idx) {
 		return lines.getTextLength(idx);
 	}
 
+	/** Return the kind of the line at the given line index */
 	public Kind getKind(int idx) {
 		return lines.getKind(idx);
 	}
 
+	/** Return the page part of the line at the given line index */
 	public PagePart getPagePart(int idx) {
 		return lines.getPagePart(idx);
 	}
 
+	/** Returns the page parts of the given kind */
 	public List<PagePart> getPageParts(Kind kind) {
 		List<PagePart> kindParts = new ArrayList<>();
 		for (PagePart part : parts) {
@@ -181,6 +197,20 @@ public class PageRoot extends Parent implements IResourceChangeListener, IDocume
 			}
 		}
 		return kindParts;
+	}
+
+	/** Returns the part that follows the given part, or null */
+	public PagePart getNext(PagePart part) {
+		int idx = parts.indexOf(part);
+		if (idx == -1) return null;
+		if (idx < parts.size() - 2) return parts.get(idx + 1);
+		return null;
+	}
+
+	public boolean isDotCodeBlock(int offset) {
+		PagePart part = partAtOffset(offset);
+		if (part.getMeta().startsWith(DotGen.DOT)) return true;
+		return false;
 	}
 
 	public void dispose() {
@@ -295,6 +325,9 @@ public class PageRoot extends Parent implements IResourceChangeListener, IDocume
 					}
 
 					switch (kind) {
+						case BLANK:
+							setPriorPartSeparator(part);
+							break;
 						case LIST:
 							part.addListMarkedLine(idx);
 						case QUOTE:
@@ -412,6 +445,14 @@ public class PageRoot extends Parent implements IResourceChangeListener, IDocume
 		PagePart parent = (PagePart) header.getLastChild();
 		parent.addLine(lines.getLine(idx));
 		return parent;
+	}
+
+	// set the length of the blank line separator
+	private void setPriorPartSeparator(PagePart blank) {
+		if (parts.size() > 1) {
+			PagePart prior = parts.get(parts.size() - 2);
+			prior.setSeparator(blank);
+		}
 	}
 
 	public void markTaggedLines(IFile markFile, List<String> tags, List<IMarker> markers) {

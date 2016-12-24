@@ -1,4 +1,11 @@
-package net.certiv.fluentmark.editor;
+/*******************************************************************************
+ * Copyright (c) 2016 Certiv Analytics and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ ******************************************************************************/
+package net.certiv.fluentmark.outline;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -7,8 +14,8 @@ import java.util.List;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.GroupMarker;
-import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
@@ -16,6 +23,7 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.jface.viewers.IBaseLabelProvider;
@@ -34,6 +42,7 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.jface.window.ToolTip;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.dnd.Clipboard;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -43,7 +52,9 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
+import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.actions.ActionContext;
+import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.actions.ActionGroup;
 import org.eclipse.ui.navigator.ICommonMenuConstants;
 import org.eclipse.ui.part.IPageSite;
@@ -52,14 +63,15 @@ import org.eclipse.ui.part.IShowInTarget;
 import org.eclipse.ui.part.ShowInContext;
 import org.eclipse.ui.views.contentoutline.ContentOutlinePage;
 
-import net.certiv.fluentmark.Log;
 import net.certiv.fluentmark.FluentMkUI;
+import net.certiv.fluentmark.Log;
 import net.certiv.fluentmark.actions.CollapseAllAction;
 import net.certiv.fluentmark.actions.CompositeActionGroup;
-import net.certiv.fluentmark.actions.CopyToClipboardAction;
 import net.certiv.fluentmark.actions.ExpandAllAction;
 import net.certiv.fluentmark.actions.OpenViewActionGroup;
 import net.certiv.fluentmark.actions.ToggleLinkingAction;
+import net.certiv.fluentmark.editor.FluentMkEditor;
+import net.certiv.fluentmark.editor.ISourceReference;
 import net.certiv.fluentmark.model.ElementChangedEvent;
 import net.certiv.fluentmark.model.IElement;
 import net.certiv.fluentmark.model.IElementChangedListener;
@@ -68,14 +80,14 @@ import net.certiv.fluentmark.model.ISourceRange;
 import net.certiv.fluentmark.model.Kind;
 import net.certiv.fluentmark.model.PagePart;
 import net.certiv.fluentmark.model.PageRoot;
+import net.certiv.fluentmark.outline.dnd.DndConfigurationStrategy;
 import net.certiv.fluentmark.preferences.Prefs;
-import net.certiv.fluentmark.providers.OutlineLabelProvider;
 
 /**
  * The content outline page of the Fluent editor. Publishes its context menu under
  * <code>FluentMkUI.getDefault().getPluginId() + ".outline"</code>.
  */
-public class FluentMkOutlinePage extends ContentOutlinePage implements IShowInSource, IShowInTarget {
+public class MkOutlinePage extends ContentOutlinePage implements IShowInSource, IShowInTarget {
 
 	/**
 	 * Content provider for the children of a PageRoot
@@ -110,11 +122,9 @@ public class FluentMkOutlinePage extends ContentOutlinePage implements IShowInSo
 		public Object[] getChildren(Object parent) {
 			if (parent instanceof IParent) {
 				IParent p = (IParent) parent;
-				try {
-					return filter(p.getChildren());
-				} catch (CoreException e) {}
+				return filter(p.getChildren());
 			}
-			return FluentMkOutlinePage.NO_CHILDREN;
+			return MkOutlinePage.NO_CHILDREN;
 		}
 
 		@Override
@@ -135,10 +145,8 @@ public class FluentMkOutlinePage extends ContentOutlinePage implements IShowInSo
 		public boolean hasChildren(Object parent) {
 			if (parent instanceof IParent) {
 				IParent c = (IParent) parent;
-				try {
-					IElement[] children = filter(c.getChildren());
-					return children != null && children.length > 0;
-				} catch (CoreException e) {}
+				IElement[] children = filter(c.getChildren());
+				return children != null && children.length > 0;
 			}
 			return false;
 		}
@@ -177,7 +185,7 @@ public class FluentMkOutlinePage extends ContentOutlinePage implements IShowInSo
 					@Override
 					public void run() {
 						if (viewer != null) {
-							FluentMkOutlinePage.this.setInput((PageRoot) e.getDelta());
+							MkOutlinePage.this.setInput((PageRoot) e.getDelta());
 						}
 					}
 				});
@@ -265,6 +273,14 @@ public class FluentMkOutlinePage extends ContentOutlinePage implements IShowInSo
 		}
 	}
 
+	private static final String ACTION_EXPAND = "expand";
+	private static final String ACTION_COLLAPSE = "collapse";
+	private static final String ACTION_TOGGLE = "toggle";
+	private static final String ACTION_COPY = "copy";
+	private static final String ACTION_CUT = "cut";
+	private static final String ACTION_PASTE = "paste";
+	private static final String ACTION_DELETE = "delete";
+
 	static Object[] NO_CHILDREN = new Object[0];
 
 	private PageRoot input;
@@ -275,17 +291,13 @@ public class FluentMkOutlinePage extends ContentOutlinePage implements IShowInSo
 	protected IPreferenceStore store;
 
 	private IPropertyChangeListener fPropertyChangeListener;
+	private Clipboard clipboard;
 
-	private Hashtable<String, IAction> fActions = new Hashtable<>();
-	private CompositeActionGroup fActionGroups;
-	private IAction expandAllAction;
-	private IAction collapseAllAction;
-	private IAction toggleLinkingAction;
-	private IAction copyToClipboardAction;
+	private CompositeActionGroup actionGroups;
+	private Hashtable<String, Action> actions = new Hashtable<>();
+	private DndConfigurationStrategy dndStrategy;
 
-	// private DslViewerDropSupport dropSupport;
-
-	public FluentMkOutlinePage(FluentMkEditor editor, IPreferenceStore store) {
+	public MkOutlinePage(FluentMkEditor editor, IPreferenceStore store) {
 		super();
 		Assert.isNotNull(editor);
 		this.editor = editor;
@@ -302,13 +314,16 @@ public class FluentMkOutlinePage extends ContentOutlinePage implements IShowInSo
 		this.store.addPropertyChangeListener(fPropertyChangeListener);
 	}
 
+	public FluentMkEditor getEditor() {
+		return editor;
+	}
+
 	@Override
 	public void createControl(Composite parent) {
 		Tree tree = new Tree(parent, SWT.MULTI);
 		viewer = new OutlineViewer(tree);
 		viewer.setContentProvider(new ChildrenProvider());
-		viewer.setLabelProvider(new OutlineLabelProvider());
-		viewer.setUseHashlookup(true);
+		viewer.setLabelProvider(new MkOutlineLabelProvider());
 		viewer.setInput(input);
 
 		viewer.addOpenListener(new IOpenListener() {
@@ -327,9 +342,12 @@ public class FluentMkOutlinePage extends ContentOutlinePage implements IShowInSo
 			}
 		});
 
-		createToolTip();
+		viewer.expandAll();
+
+		// createToolTip();
 		createActionControls(tree);
-		// initDragAndDrop();
+		initDragAndDrop();
+		initCopyPaste();
 	}
 
 	private void createActionControls(Tree tree) {
@@ -350,15 +368,21 @@ public class FluentMkOutlinePage extends ContentOutlinePage implements IShowInSo
 		site.registerContextMenu(outlineId, menuMgr, viewer); // $NON-NLS-1$
 		site.setSelectionProvider(viewer);
 
-		fActionGroups = new CompositeActionGroup(new ActionGroup[] { new OpenViewActionGroup(this) });
-		toggleLinkingAction = new ToggleLinkingAction(editor);
-		collapseAllAction = new CollapseAllAction(viewer);
-		expandAllAction = new ExpandAllAction(viewer);
-		copyToClipboardAction = new CopyToClipboardAction(viewer);
+		actionGroups = new CompositeActionGroup(new ActionGroup[] { new OpenViewActionGroup(this) });
+
+		setAction(ACTION_EXPAND, new ExpandAllAction(viewer));
+		setAction(ACTION_COLLAPSE, new CollapseAllAction(viewer));
+		setAction(ACTION_TOGGLE, new ToggleLinkingAction(editor));
+
+		setAction(ACTION_COPY, new OutlineCopyAction(this));
+		setAction(ACTION_CUT, new OutlineCutAction(this));
+		setAction(ACTION_PASTE, new OutlinePasteAction(this));
+		setAction(ACTION_DELETE, new OutlineDeleteAction(this));
 
 		createToolBar();
 	}
 
+	@SuppressWarnings("unused")
 	private void createToolTip() {
 		new ToolTip(viewer.getControl(), ToolTip.RECREATE, false) {
 
@@ -405,9 +429,9 @@ public class FluentMkOutlinePage extends ContentOutlinePage implements IShowInSo
 		mgr.add(new Separator(ICommonMenuConstants.GROUP_ADDITIONS));
 		mgr.add(new Separator(ICommonMenuConstants.GROUP_VIEWER_SETUP));
 
-		mgr.appendToGroup(ICommonMenuConstants.GROUP_SHOW, toggleLinkingAction);
-		mgr.appendToGroup(ICommonMenuConstants.GROUP_VIEWER_SETUP, expandAllAction);
-		mgr.appendToGroup(ICommonMenuConstants.GROUP_VIEWER_SETUP, collapseAllAction);
+		mgr.appendToGroup(ICommonMenuConstants.GROUP_SHOW, actions.get(ACTION_TOGGLE));
+		mgr.appendToGroup(ICommonMenuConstants.GROUP_VIEWER_SETUP, actions.get(ACTION_EXPAND));
+		mgr.appendToGroup(ICommonMenuConstants.GROUP_VIEWER_SETUP, actions.get(ACTION_COLLAPSE));
 
 		mgr.update(false);
 	}
@@ -419,11 +443,14 @@ public class FluentMkOutlinePage extends ContentOutlinePage implements IShowInSo
 			mgr.add(new Separator(ICommonMenuConstants.GROUP_ADDITIONS));
 			mgr.add(new Separator(ICommonMenuConstants.GROUP_PROPERTIES));
 
-			mgr.appendToGroup(ICommonMenuConstants.GROUP_EDIT, copyToClipboardAction);
+			mgr.appendToGroup(ICommonMenuConstants.GROUP_EDIT, actions.get(ACTION_COPY));
+			mgr.appendToGroup(ICommonMenuConstants.GROUP_EDIT, actions.get(ACTION_CUT));
+			mgr.appendToGroup(ICommonMenuConstants.GROUP_EDIT, actions.get(ACTION_PASTE));
+			mgr.appendToGroup(ICommonMenuConstants.GROUP_EDIT, actions.get(ACTION_DELETE));
 		}
 
-		fActionGroups.setContext(new ActionContext(getSite().getSelectionProvider().getSelection()));
-		fActionGroups.fillContextMenu(mgr);
+		actionGroups.setContext(new ActionContext(getSite().getSelectionProvider().getSelection()));
+		actionGroups.fillContextMenu(mgr);
 	}
 
 	public void setInput(PageRoot inputElement) {
@@ -436,6 +463,11 @@ public class FluentMkOutlinePage extends ContentOutlinePage implements IShowInSo
 
 			viewer.setExpandedElements(expandedElements);
 			viewer.setExpandedTreePaths(expandedTreePaths);
+
+			actions.get(ACTION_COPY).setEnabled(true);
+			actions.get(ACTION_CUT).setEnabled(true);
+			actions.get(ACTION_PASTE).setEnabled(true);
+			actions.get(ACTION_DELETE).setEnabled(true);
 		}
 	}
 
@@ -454,12 +486,13 @@ public class FluentMkOutlinePage extends ContentOutlinePage implements IShowInSo
 			menu = null;
 		}
 
-		if (fActionGroups != null) {
-			fActionGroups.dispose();
+		if (actionGroups != null) {
+			actionGroups.dispose();
 		}
 
+		this.clipboard.dispose();
+		this.clipboard = null;
 		viewer = null;
-
 		super.dispose();
 	}
 
@@ -470,13 +503,22 @@ public class FluentMkOutlinePage extends ContentOutlinePage implements IShowInSo
 		}
 	}
 
-	public void setAction(String actionID, IAction action) {
-		Assert.isNotNull(actionID);
+	public void setAction(String id, Action action) {
+		Assert.isNotNull(id);
 		if (action == null) {
-			fActions.remove(actionID);
+			actions.remove(id);
 		} else {
-			fActions.put(actionID, action);
+			actions.put(id, action);
 		}
+	}
+
+	/**
+	 * Gets the clipboard. Used by copy paste actions.
+	 * 
+	 * @return the clipboard associated with this outline
+	 */
+	public Clipboard getClipboard() {
+		return this.clipboard;
 	}
 
 	@Override
@@ -490,7 +532,7 @@ public class FluentMkOutlinePage extends ContentOutlinePage implements IShowInSo
 	/**
 	 * Returns the <code>OutlineViewer</code> of this view.
 	 */
-	protected final OutlineViewer getOutlineViewer() {
+	protected OutlineViewer getTreeViewer() {
 		return viewer;
 	}
 
@@ -548,10 +590,72 @@ public class FluentMkOutlinePage extends ContentOutlinePage implements IShowInSo
 		}
 	}
 
-	// private void initDragAndDrop() {
-	// dropSupport = new DslViewerDropSupport(dslUI, viewer);
-	// dropSupport.start();
-	//
-	// new DslViewerDragSupport(viewer).start();
-	// }
+	/**
+	 * Gets the text of the currently selected item. Use by copy paste and drag'n'drop operations.
+	 * 
+	 * @return text of the currently selected item or null if no item is selected.
+	 */
+	public String getSelectedText() {
+		IStructuredSelection selection = (IStructuredSelection) getTreeViewer().getSelection();
+		if (selection == null) return null;
+
+		PagePart part = (PagePart) selection.getFirstElement();
+		ISourceRange range = part.getSourceRange();
+
+		try {
+			return editor.getDocument().get(range.getOffset(), range.getLength());
+		} catch (BadLocationException e) {}
+		return null;
+	}
+
+	/**
+	 * Pastes given text after the selected item. Used by the paste action.
+	 * 
+	 * @param text the text to be pasted
+	 * @return true if pasting was succesful, otherwise false
+	 */
+	public boolean paste(String text) {
+		IStructuredSelection selection = (IStructuredSelection) getTreeViewer().getSelection();
+		if (selection == null) return false;
+
+		PagePart part = (PagePart) selection.getFirstElement();
+		ISourceRange range = part.getSourceRange();
+
+		try {
+			editor.getDocument().replace(range.getOffset() + range.getLength(), 0, text);
+		} catch (BadLocationException e) {
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Removes the text of the currently selected item From the document. Used by copy paste and
+	 * drag'n'drop operations.
+	 */
+	public void removeSelectedText() {
+		IStructuredSelection selection = (IStructuredSelection) getTreeViewer().getSelection();
+		if (selection == null) return;
+
+		PagePart part = (PagePart) selection.getFirstElement();
+		ISourceRange range = part.getSourceRange();
+
+		try {
+			editor.getDocument().replace(range.getOffset(), range.getLength(), "");
+		} catch (BadLocationException e) {}
+	}
+
+	private void initDragAndDrop() {
+		dndStrategy = new DndConfigurationStrategy();
+		dndStrategy.configure(editor, getControl(), getTreeViewer());
+	}
+
+	private void initCopyPaste() {
+		this.clipboard = new Clipboard(getSite().getShell().getDisplay());
+		IActionBars bars = getSite().getActionBars();
+		bars.setGlobalActionHandler(ActionFactory.CUT.getId(), actions.get(ACTION_CUT));
+		bars.setGlobalActionHandler(ActionFactory.COPY.getId(), actions.get(ACTION_COPY));
+		bars.setGlobalActionHandler(ActionFactory.PASTE.getId(), actions.get(ACTION_PASTE));
+		bars.setGlobalActionHandler(ActionFactory.DELETE.getId(), actions.get(ACTION_DELETE));
+	}
 }

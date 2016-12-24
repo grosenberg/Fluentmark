@@ -1,3 +1,10 @@
+/*******************************************************************************
+ * Copyright (c) 2016 Certiv Analytics and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ ******************************************************************************/
 package net.certiv.fluentmark.editor;
 
 import org.eclipse.jface.dialogs.IDialogSettings;
@@ -43,6 +50,7 @@ import net.certiv.fluentmark.editor.text.AbstractBufferedRuleBasedScanner;
 import net.certiv.fluentmark.editor.text.MkReconcilingStrategy;
 import net.certiv.fluentmark.editor.text.ScannerCode;
 import net.certiv.fluentmark.editor.text.ScannerComment;
+import net.certiv.fluentmark.editor.text.ScannerDot;
 import net.certiv.fluentmark.editor.text.ScannerFrontMatter;
 import net.certiv.fluentmark.editor.text.ScannerHtml;
 import net.certiv.fluentmark.editor.text.ScannerMarkup;
@@ -76,6 +84,7 @@ public class FluentMkSourceViewerConfiguration extends TextSourceViewerConfigura
 	private ScannerMarkup markup;
 	private ScannerFrontMatter frontMatter;
 	private ScannerCode codeScanner;
+	private ScannerDot dotScanner;
 	private ScannerHtml htmlScanner;
 	private ScannerComment commentScanner;
 	private String partitioning;
@@ -100,6 +109,7 @@ public class FluentMkSourceViewerConfiguration extends TextSourceViewerConfigura
 	private void initializeScanners() {
 		codeScanner = new ScannerCode();
 		commentScanner = new ScannerComment();
+		dotScanner = new ScannerDot();
 		htmlScanner = new ScannerHtml();
 		frontMatter = new ScannerFrontMatter();
 		markup = new ScannerMarkup();
@@ -113,6 +123,7 @@ public class FluentMkSourceViewerConfiguration extends TextSourceViewerConfigura
 		buildRepairer(reconciler, frontMatter, Partitions.FRONT_MATTER);
 		buildRepairer(reconciler, commentScanner, Partitions.COMMENT);
 		buildRepairer(reconciler, codeScanner, Partitions.CODEBLOCK);
+		buildRepairer(reconciler, dotScanner, Partitions.DOTBLOCK);
 		buildRepairer(reconciler, htmlScanner, Partitions.HTMLBLOCK);
 		buildRepairer(reconciler, markup, IDocument.DEFAULT_CONTENT_TYPE);
 
@@ -132,6 +143,7 @@ public class FluentMkSourceViewerConfiguration extends TextSourceViewerConfigura
 	public void handlePropertyChangeEvent(PropertyChangeEvent event) {
 		if (markup.affectsBehavior(event)) markup.adaptToPreferenceChange(event);
 		if (codeScanner.affectsBehavior(event)) codeScanner.adaptToPreferenceChange(event);
+		if (dotScanner.affectsBehavior(event)) dotScanner.adaptToPreferenceChange(event);
 		if (htmlScanner.affectsBehavior(event)) htmlScanner.adaptToPreferenceChange(event);
 		if (commentScanner.affectsBehavior(event)) commentScanner.adaptToPreferenceChange(event);
 		if (frontMatter.affectsBehavior(event)) frontMatter.adaptToPreferenceChange(event);
@@ -148,6 +160,7 @@ public class FluentMkSourceViewerConfiguration extends TextSourceViewerConfigura
 	public boolean affectsTextPresentation(PropertyChangeEvent event) {
 		return markup.affectsBehavior(event) //
 				|| codeScanner.affectsBehavior(event) //
+				|| dotScanner.affectsBehavior(event) //
 				|| htmlScanner.affectsBehavior(event) //
 				|| commentScanner.affectsBehavior(event) //
 				|| frontMatter.affectsBehavior(event);

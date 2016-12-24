@@ -1,3 +1,10 @@
+/*******************************************************************************
+ * Copyright (c) 2016 Certiv Analytics and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ ******************************************************************************/
 package net.certiv.fluentmark.convert;
 
 import java.util.List;
@@ -21,7 +28,7 @@ public class DotGen {
 	private DotGen() {}
 
 	public static String runDot(List<String> lines) {
-		return runDot(Strings.join(lines, Strings.EOL));
+		return runDot(String.join(Strings.EOL, lines));
 	}
 
 	public static String runDot(String data) {

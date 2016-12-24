@@ -1,8 +1,16 @@
+/*******************************************************************************
+ * Copyright (c) 2016 Certiv Analytics and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ ******************************************************************************/
 package net.certiv.fluentmark.editor.text;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.rules.IRule;
 import org.eclipse.jface.text.rules.IToken;
 import org.eclipse.jface.text.rules.MultiLineRule;
@@ -11,7 +19,7 @@ import org.eclipse.jface.text.rules.WhitespaceRule;
 
 import net.certiv.fluentmark.preferences.Prefs;
 
-public class ScannerCode extends AbstractBufferedRuleBasedScanner {
+public class ScannerCode extends AbstractBufferedRuleBasedScanner implements IScannerExt {
 
 	private String[] tokenProperties;
 
@@ -39,5 +47,20 @@ public class ScannerCode extends AbstractBufferedRuleBasedScanner {
 		rules.add(new SingleLineRule("`", "`", code, '\\', true));
 		rules.add(new WhitespaceRule(new WhitespaceDetector()));
 		return rules;
+	}
+
+	@Override
+	public IDocument getDocument() {
+		return fDocument;
+	}
+
+	@Override
+	public int getOffset() {
+		return fOffset;
+	}
+
+	@Override
+	public int getRangeEnd() {
+		return fRangeEnd;
 	}
 }

@@ -1,3 +1,10 @@
+/*******************************************************************************
+ * Copyright (c) 2016 Certiv Analytics and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ ******************************************************************************/
 package net.certiv.fluentmark.preferences.pages;
 
 import java.io.BufferedReader;
@@ -213,8 +220,9 @@ class AppearanceConfigurationBlock extends AbstractConfigurationBlock {
 				String entry = (String) parentElement;
 				if (fCommentsCategory.equals(entry)) return fListModel.subList(0, 3).toArray();
 				if (fHtmlCategory.equals(entry)) return fListModel.subList(3, 6).toArray();
-				if (fCodeCategory.equals(entry)) return fListModel.subList(6, 9).toArray();
-				if (fMarkupCategory.equals(entry)) return fListModel.subList(9, fListModel.size()).toArray();
+				if (fCodeCategory.equals(entry)) return fListModel.subList(6, 8).toArray();
+				if (fDotCategory.equals(entry)) return fListModel.subList(8, 13).toArray();
+				if (fMarkupCategory.equals(entry)) return fListModel.subList(13, fListModel.size()).toArray();
 			}
 			return new Object[0];
 		}
@@ -258,7 +266,13 @@ class AppearanceConfigurationBlock extends AbstractConfigurationBlock {
 			{ "Code", Prefs.EDITOR_CODE_COLOR }, // 6
 			{ "Code Blocks", Prefs.EDITOR_CODEBLOCK_COLOR }, //
 
-			{ "Headers", Prefs.EDITOR_HEADER_COLOR }, // 9
+			{ "Keywords", Prefs.EDITOR_DOT_KEYWORD_COLOR }, // 8
+			{ "Attributes", Prefs.EDITOR_DOT_ATTRIBS_COLOR }, //
+			{ "Symbols", Prefs.EDITOR_DOT_SYMBOL_COLOR }, //
+			{ "Comments", Prefs.EDITOR_DOT_COMMENT_COLOR }, //
+			{ "Strings", Prefs.EDITOR_DOT_STRING_COLOR }, //
+
+			{ "Headers", Prefs.EDITOR_HEADER_COLOR }, // 13
 			{ "Lists", Prefs.EDITOR_LIST_COLOR }, //
 			{ "Links", Prefs.EDITOR_LINK_COLOR }, //
 			{ "Horz Rules", Prefs.EDITOR_HRULE_COLOR }, //
@@ -273,6 +287,7 @@ class AppearanceConfigurationBlock extends AbstractConfigurationBlock {
 	private final String fCodeCategory = "Code & Code Blocks";
 	private final String fCommentsCategory = "Comments";
 	private final String fHtmlCategory = "Html";
+	private final String fDotCategory = "Dot";
 
 	private ColorSelector fSyntaxForegroundColorEditor;
 	private Label fColorEditorLabel;

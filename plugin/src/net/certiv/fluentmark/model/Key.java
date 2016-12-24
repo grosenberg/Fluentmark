@@ -1,3 +1,10 @@
+/*******************************************************************************
+ * Copyright (c) 2016 Certiv Analytics and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ ******************************************************************************/
 package net.certiv.fluentmark.model;
 
 public interface Key {
@@ -25,22 +32,4 @@ public interface Key {
 
 	/** List markers (with the trailing space) */
 	String[] LIST_MARKERS = { "* ", "+ ", "- ", "#. " };
-
-	/** Dot specific attributes */
-	String[] DOT_ATTRS = { "_background", "arrowhead", "arrowsize", "arrowtail", "bgcolor", "colorList", "center",
-			"charset", "clusterrank", "color", "colorList", "colorscheme", "comment", "compound", "concentrate",
-			"constraint", "decorate", "dir", "diredgeconstraints", "distortion", "dpi", "edgeURL", "edgehref",
-			"edgetarget", "edgetooltip", "esep", "fillcolor", "fixedsize", "fontcolor", "fontname", "fontpath",
-			"fontsize", "forcelabels", "gradientangle", "group", "headclip", "headlabel", "headport", "height", "href",
-			"id", "image", "imagepath", "imagescale", "label", "labelURL", "labelangle", "labeldistance", "labelfloat",
-			"labelfontcolor", "labelfontname", "labelfontsize", "labelhref", "labeljust", "labelloc", "labeltarget",
-			"labeltooltip", "landscape", "layer", "layerlistsep", "layers", "layerselect", "layersep", "layout",
-			"lhead", "ltail", "margin", "maxiter", "mclimit", "minlen", "nodesep", "nojustify", "normalize", "nslimit",
-			"nslimit1", "ordering", "orientation", "outputorder", "overlap", "pack", "packmode", "pad", "point", "page",
-			"point", "pagedir", "pencolor", "penwidth", "peripheries", "pos", "quadtree", "quantum", "rank", "rankdir",
-			"ranksep", "ratio", "rects", "regular", "remincross", "resolution", "root", "rotate", "samehead",
-			"sametail", "samplepoints", "scale", "searchsize", "sep", "shape", "shapefile", "showboxes", "sides",
-			"size", "skew", "sortv", "splines", "string", "style", "stylesheet", "tail_lp", "tailclip", "taillabel",
-			"tailport", "tailtarget", "tailtooltip", "target", "tooltip", "vertices", "viewport", "weight", "width",
-			"xlabel", "z" };
 }

@@ -1,3 +1,10 @@
+/*******************************************************************************
+ * Copyright (c) 2016 Certiv Analytics and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ ******************************************************************************/
 package net.certiv.fluentmark.preferences;
 
 import java.io.IOException;
@@ -110,6 +117,13 @@ public class PrefsInit extends AbstractPreferenceInitializer implements Prefs {
 
 		PreferenceConverter.setDefault(store, EDITOR_CODE_COLOR, DEF_CODE);
 		PreferenceConverter.setDefault(store, EDITOR_CODEBLOCK_COLOR, DEF_CODE);
+
+		PreferenceConverter.setDefault(store, EDITOR_DOT_KEYWORD_COLOR, DEF_KEYWORD);
+		PreferenceConverter.setDefault(store, EDITOR_DOT_ATTRIBS_COLOR, DEF_KEYWORD);
+		PreferenceConverter.setDefault(store, EDITOR_DOT_SYMBOL_COLOR, DEF_SYMBOL);
+		PreferenceConverter.setDefault(store, EDITOR_DOT_COMMENT_COLOR, DEF_COMMENT);
+		PreferenceConverter.setDefault(store, EDITOR_DOT_STRING_COLOR, DEF_STRING);
+		PreferenceConverter.setDefault(store, EDITOR_DOT_BG_COLOR, DEF_DEFAULT);
 
 		PreferenceConverter.setDefault(store, EDITOR_CODE_BG_COLOR, DEF_CODE_BG);
 		PreferenceConverter.setDefault(store, EDITOR_CODEBLOCK_BG_COLOR, DEF_CODE_BG);

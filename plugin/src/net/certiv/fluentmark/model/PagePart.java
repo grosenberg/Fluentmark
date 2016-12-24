@@ -1,3 +1,10 @@
+/*******************************************************************************
+ * Copyright (c) 2016 Certiv Analytics and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ ******************************************************************************/
 package net.certiv.fluentmark.model;
 
 import net.certiv.fluentmark.convert.DotGen;
@@ -12,6 +19,7 @@ public class PagePart extends Parent {
 
 	// key=line idx, value=n/a
 	private FloorKeyMap listMarkedLines;
+	private PagePart separator;
 
 	public PagePart(PageRoot root, IParent parent, Kind kind, int offset, int length) {
 		this(root, parent, kind, offset, length, -1, -1);
@@ -29,7 +37,21 @@ public class PagePart extends Parent {
 		appendContent(line.text + Strings.EOL);
 	}
 
-	
+	public PagePart getSeparator() {
+		return separator;
+	}
+
+	public void setSeparator(PagePart separator) {
+		this.separator = separator;
+	}
+
+	/** Returns the full length of this part including blank separator */
+	public int getLengthWithSep() {
+		int len = getSourceRange().getLength();
+		len += separator.getSourceRange().getLength();
+		return len;
+	}
+
 	public PageRoot getPageModel() {
 		return root;
 	}
@@ -103,6 +125,18 @@ public class PagePart extends Parent {
 		return sb.toString();
 	}
 
+	@Override
+	public void clear() {
+		super.clear();
+		listMarkedLines.clear();
+	}
+
+	@Override
+	public void dispose() {
+		super.dispose();
+		listMarkedLines.clear();
+	}
+
 	// controls text display in outline view
 	public String toString() {
 		switch (getKind()) {
@@ -169,17 +203,5 @@ public class PagePart extends Parent {
 			sb.append(" " + text.trim());
 		}
 		return sb.toString();
-	}
-
-	@Override
-	public void clear() {
-		super.clear();
-		listMarkedLines.clear();
-	}
-
-	@Override
-	public void dispose() {
-		super.dispose();
-		listMarkedLines.clear();
 	}
 }

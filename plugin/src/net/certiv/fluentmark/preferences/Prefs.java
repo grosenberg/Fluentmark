@@ -1,3 +1,10 @@
+/*******************************************************************************
+ * Copyright (c) 2016 Certiv Analytics and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ ******************************************************************************/
 package net.certiv.fluentmark.preferences;
 
 import org.eclipse.ui.texteditor.spelling.SpellingService;
@@ -87,6 +94,13 @@ public interface Prefs extends PrefsSpelling {
 
 	public static final String EDITOR_CODE_BG_COLOR = MD_ID + ".codeBackgroundColor";
 	public static final String EDITOR_CODEBLOCK_BG_COLOR = MD_ID + ".codeblockBackgroundColor";
+
+	public static final String EDITOR_DOT_KEYWORD_COLOR = MD_ID + ".dotKeywordColor";
+	public static final String EDITOR_DOT_ATTRIBS_COLOR = MD_ID + ".dotAttribsColor";
+	public static final String EDITOR_DOT_SYMBOL_COLOR = MD_ID + ".dotSymbolColor";
+	public static final String EDITOR_DOT_COMMENT_COLOR = MD_ID + ".dotCommentColor";
+	public static final String EDITOR_DOT_STRING_COLOR = MD_ID + ".dotStringColor";
+	public static final String EDITOR_DOT_BG_COLOR = MD_ID + ".dotBackgroundColor";
 
 	public static final String EDITOR_GITHUB_SYNTAX = MD_ID + ".github_Syntax";
 	public static final String EDITOR_MULTIMARKDOWN_METADATA = MD_ID + ".multiMarkdown_Metadata";

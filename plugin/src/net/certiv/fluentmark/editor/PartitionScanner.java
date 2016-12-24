@@ -1,3 +1,10 @@
+/*******************************************************************************
+ * Copyright (c) 2016 Certiv Analytics and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ ******************************************************************************/
 package net.certiv.fluentmark.editor;
 
 import java.util.ArrayList;
@@ -11,6 +18,7 @@ import org.eclipse.jface.text.rules.MultiLineRule;
 import org.eclipse.jface.text.rules.RuleBasedPartitionScanner;
 import org.eclipse.jface.text.rules.Token;
 
+import net.certiv.fluentmark.editor.text.DotCodeRule;
 import net.certiv.fluentmark.editor.text.FrontMatterRule;
 import net.certiv.fluentmark.editor.text.HtmlCodeRule;
 import net.certiv.fluentmark.editor.text.IScannerExt;
@@ -25,12 +33,14 @@ public class PartitionScanner extends RuleBasedPartitionScanner implements IScan
 		IToken comment = new Token(Partitions.COMMENT);
 		IToken codeblock = new Token(Partitions.CODEBLOCK);
 		IToken htmlblock = new Token(Partitions.HTMLBLOCK);
+		IToken dotblock = new Token(Partitions.DOTBLOCK);
 
 		List<IRule> rules = new ArrayList<IRule>();
 
 		rules.add(new FrontMatterRule("---", "---", matter, '\\'));
 		rules.add(new MultiLineRule("<!--", "-->", comment, '\\'));
 		rules.add(new HtmlCodeRule(htmlblock));
+		rules.add(new DotCodeRule(dotblock));
 		rules.add(new MultiLineRule("~~~", "~~~", codeblock, '\\'));
 		rules.add(new MultiLineRule("```", "```", codeblock, '\\'));
 		rules.add(new IndentedCodeRule(codeblock));
@@ -52,10 +62,5 @@ public class PartitionScanner extends RuleBasedPartitionScanner implements IScan
 	@Override
 	public int getRangeEnd() {
 		return fRangeEnd;
-	}
-
-	@Override
-	public String getContentType() {
-		return fContentType;
 	}
 }

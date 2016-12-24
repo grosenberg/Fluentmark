@@ -403,5 +403,16 @@
             sequence="M1+M2+/">
       </key>
    </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <wizard
+            category="net.certiv.certivtools.wizards"
+            class="net.certiv.fluentmark.wizards.FluentMkNewWizard"
+            descriptionImage="icons/FluentMark_doc.png"
+            icon="icons/obj16/fluentmark.png"
+            id="net.certiv.fluentmark.wizards.FluentMkNewWizard"
+            name="FluentMark file">
+      </wizard>
+   </extension>
    
 </plugin>
