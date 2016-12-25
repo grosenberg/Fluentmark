@@ -32,7 +32,7 @@ The full-featured Markdown editing environment for Eclipse.
 <figure>
 <a href="http://www.certiv.net/updates/net.certiv.fluentmark.site/ScreenShot-0.9.png">
 	<img src="http://www.certiv.net/updates/net.certiv.fluentmark.site/ScreenShot-0.9.png"
-		alt="FluentMark v0.9 screenshot" width="800"></a>
+		alt="FluentMark v0.9 screenshot" width="800"></a><br/>
 	<figcaption>FluentMark v0.9</figcaption>
 </figure>
 
