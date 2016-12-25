@@ -5,33 +5,35 @@ The full-featured Markdown editing environment for Eclipse.
 ### Features 
 
 + Multiple Markdown converters
-    - supports [BlackFriday](https://github.com/russross/blackfriday), 
-      [CommonMark](https://github.com/jgm/CommonMark), 
+    - direct support for [Pandoc](https://pandoc.org) and 
+      [BlackFriday](https://github.com/russross/blackfriday) markdown converters
+    - builtin support for [CommonMark](https://github.com/jgm/CommonMark), 
       [MarkdownJ](https://github.com/myabc/markdownj), 
-      [Pandoc](https://pandoc.org),
       [PegDown](https://github.com/sirthias/pegdown) &
       [TxtMark](https://github.com/rjeschke/txtmark)
 + [Graphviz](http://www.graphviz.org/) DOT diagram generator support built-in
 	- renders as SVG images embedded in exported Web documents 
 	- renders as PDF images embedded in exported PDF documents
 + Real-time browser-based preview of the generated document
-    - customizable stylesheet: multiple choices built-in or specify an external stylesheet
+    - DOT graphs are rendered and displayed in context in real-time 
+    - presentation is controlled by a preference selected stylesheet
+        + preferences include multiple builtin stylesheets
+        + allows external stylesheets to be selected from the filesystem
     - full code highlighting using [highlight.js](https://highlightjs.org/)
 + Spell check with quick-assist correction processor
     - can be enabled independent of the platform spell checker
 + Smart editing behaviors
     - table editor and formatter
     - intelligent paragraph, list & blank line handling
-    - outline view drag and drop
+    - full outline drag and drop support
 
 ### Screenshot
 
 <figure>
-<a href="http://www.certiv.net/updates/net.certiv.fluentmark.site/ScreenShot-0.8.png">
-	<img src="http://www.certiv.net/updates/net.certiv.fluentmark.site/ScreenShot-0.8.png"
-		alt="FluentMark v0.8 screenshot" 
-		align="left" width="800"></a>
-	<figcaption>FluentMark v0.8</figcaption>
+<a href="http://www.certiv.net/updates/net.certiv.fluentmark.site/ScreenShot-0.9.png">
+	<img src="http://www.certiv.net/updates/net.certiv.fluentmark.site/ScreenShot-0.9.png"
+		alt="FluentMark v0.9 screenshot" width="800"></a>
+	<figcaption>FluentMark v0.9</figcaption>
 </figure>
 
 ---
@@ -62,9 +64,6 @@ Pandoc recommends [*MikTeX*](https://miktex.org/).
 
 ### Use
 
-`Double-click` on a table to open the table editor. `Double-click` a cell to edit text. 
-`Tab` and the arrow keys navigate between cells. `Return` to end cell editing.
-
 |Key         |Function                                          |
 |:-----------|:-------------------------------------------------|
 |Ctrl-Space  |Opens the template assist popup                   |
@@ -73,6 +72,9 @@ Pandoc recommends [*MikTeX*](https://miktex.org/).
 |Ctrl-Shift-F|Format full page or selected text                 |
 
 
+`Double-click` on a table to open the table editor. `Double-click` a cell to edit text. 
+`Tab` and the arrow keys navigate between cells. `Return` to end cell editing.
+
 ### Requirements
 
 Eclipse Neon+  
@@ -80,5 +82,5 @@ JDK 1.8
 
 ### Development Status
 
-- Version 0.9 - beta
+- Version 0.9
 - In active development 
