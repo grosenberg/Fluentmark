@@ -38,7 +38,7 @@
             class="net.certiv.fluentmark.editor.FluentMkEditor"
             contributorClass="net.certiv.fluentmark.editor.FluentMkActionBarContributor"
             default="true"
-            icon="icons/obj16/fluentmark.png"
+            icon="icons/obj16/fluentmark_doc.png"
             id="net.certiv.fluentmark.editor.FluentMkEditor"
             name="FluentMark Editor"
             symbolicFontName="org.eclipse.jface.textfont">
@@ -81,7 +81,7 @@
             allowMultiple="false"
             category="net.certiv.certivtools"
             class="net.certiv.fluentmark.views.FluentMkPreview"
-            icon="icons/obj16/fluentmark.png"
+            icon="icons/obj16/fluentmark_doc.png"
             id="net.certiv.fluentmark.views.FluentMkPreview"
             name="FluentMark View"
             restorable="true">
@@ -150,7 +150,7 @@
                id="net.certiv.fluentmark.MarkdownEditor">
             <command
                   commandId="net.certiv.fluentmark.openMkView"
-                  icon="icons/obj16/fluentmark.png"
+                  icon="icons/obj16/fluentmark_doc.png"
                   style="push"
                   tooltip="Open FluentMark Viewer">
                <visibleWhen>
@@ -375,8 +375,7 @@
             name="FluentMark"
             parentId="org.eclipse.ui.textEditorScope">
       </context>
-   </extension>
-   
+   </extension>   
 
    <extension
          point="org.eclipse.ui.bindings">
@@ -408,8 +407,7 @@
       <wizard
             category="net.certiv.certivtools.wizards"
             class="net.certiv.fluentmark.wizards.FluentMkNewWizard"
-            descriptionImage="icons/FluentMark_doc.png"
-            icon="icons/obj16/fluentmark.png"
+            icon="icons/obj16/fluentmark_doc.png"
             id="net.certiv.fluentmark.wizards.FluentMkNewWizard"
             name="FluentMark file">
       </wizard>
