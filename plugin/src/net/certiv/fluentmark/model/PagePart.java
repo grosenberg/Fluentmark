@@ -7,6 +7,8 @@
  ******************************************************************************/
 package net.certiv.fluentmark.model;
 
+import java.util.Set;
+
 import net.certiv.fluentmark.convert.DotGen;
 import net.certiv.fluentmark.model.Lines.Line;
 import net.certiv.fluentmark.util.FloorKeyMap;
@@ -16,6 +18,7 @@ public class PagePart extends Parent {
 
 	private PageRoot root;
 	private Object data;
+	private int partIdx;
 
 	// key=line idx, value=n/a
 	private FloorKeyMap listMarkedLines;
@@ -28,6 +31,7 @@ public class PagePart extends Parent {
 	public PagePart(PageRoot root, IParent parent, Kind kind, int offset, int length, int begLine, int endLine) {
 		super(parent, kind, new SourceRange(offset, length, begLine, endLine));
 		this.root = root;
+		this.partIdx = root.getPageParts().size();
 		listMarkedLines = new FloorKeyMap();
 	}
 
@@ -35,6 +39,10 @@ public class PagePart extends Parent {
 		line.part = this;
 		getSourceRange().addLine(line);
 		appendContent(line.text + Strings.EOL);
+	}
+
+	public int getPartIdx() {
+		return partIdx;
 	}
 
 	public PagePart getSeparator() {
@@ -162,6 +170,10 @@ public class PagePart extends Parent {
 		listMarkedLines.add(idx);
 	}
 
+	public Set<Integer> getListMarkedLines() {
+		return listMarkedLines.keySet();
+	}
+
 	/**
 	 * Returns the line index of the nearest lower marked list line given a line index in a list
 	 * containing lines originally TEXT.
@@ -203,5 +215,17 @@ public class PagePart extends Parent {
 			sb.append(" " + text.trim());
 		}
 		return sb.toString();
+	}
+
+	public ISourceRange getSublistRange(int idx) {
+		int beg = getPriorListMarkedLine(idx);
+		int end = getNextListMarkedLine(idx);
+		if (end == -1) end = getSourceRange().getEndLine() + 1;
+
+		int offset = getPageModel().getOffset(beg);
+		int endoffset = getPageModel().getOffset(end);
+		int len = endoffset - offset;
+
+		return new SourceRange(offset, len, beg, end - 1);
 	}
 }

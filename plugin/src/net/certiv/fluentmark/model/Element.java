@@ -77,8 +77,25 @@ public class Element extends PlatformObject implements IElement {
 		return resource;
 	}
 
+	/**
+	 * Returns the content of this element with lines separated by EOLs. The content is terminated
+	 * by an EOL.
+	 */
 	@Override
 	public String getContent() {
+		return getContent(false);
+	}
+
+	/**
+	 * Returns the content of this element with lines separated by EOLs. The content is not
+	 * terminated by an EOL if <code>noTerm</code> is true. Otherwise, the content is terminated by
+	 * an EOL.
+	 */
+	@Override
+	public String getContent(boolean noTerm) {
+		if (noTerm && content.length() > 0) {
+			return content.substring(0, content.length() - 2);
+		}
 		return content;
 	}
 

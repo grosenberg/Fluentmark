@@ -47,6 +47,15 @@ public final class Strings {
 		return text.substring(offset);
 	}
 
+	public static String trimLeft(String text) {
+		for (int idx = 0; idx < text.length(); idx++) {
+			if (!Character.isSpaceChar(text.charAt(idx))) {
+				return text.substring(idx);
+			}
+		}
+		return "";
+	}
+
 	public static String trimRight(String text) {
 		for (int idx = text.length(); idx > 0; idx--) {
 			if (!Character.isWhitespace(text.charAt(idx - 1))) {
@@ -138,5 +147,13 @@ public final class Strings {
 		} else {
 			return string.substring(1, string.length() - 1);
 		}
+	}
+
+	public static String dup(String value, int cnt) {
+		StringBuilder sb = new StringBuilder();
+		for (int idx = 0; idx < cnt; idx++) {
+			sb.append(value);
+		}
+		return sb.toString();
 	}
 }

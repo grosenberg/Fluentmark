@@ -174,7 +174,7 @@ public class TableModel {
 
 			int min = aligns[col] == SWT.CENTER ? 5 : 4;
 			sb.append("---");
-			sb.append(dup("-", colWidths[col] - min));
+			sb.append(Strings.dup("-", colWidths[col] - min));
 
 			if (aligns[col] == SWT.RIGHT || aligns[col] == SWT.CENTER) sb.append(":");
 			sb.append("|");
@@ -200,9 +200,9 @@ public class TableModel {
 				padLeft = padRight;
 				padRight = 0;
 			}
-			sb.append(dup(" ", padLeft));
+			sb.append(Strings.dup(" ", padLeft));
 			sb.append(row.data[col]);
-			sb.append(dup(" ", padRight));
+			sb.append(Strings.dup(" ", padRight));
 			sb.append("|");
 		}
 		String existing = part.getPageModel().getText(row.num);
@@ -236,13 +236,5 @@ public class TableModel {
 		if (col.matches("\\:---+\\:")) return SWT.CENTER;
 		if (col.matches("---+\\:")) return SWT.RIGHT;
 		return SWT.LEFT;
-	}
-
-	private String dup(String value, int cnt) {
-		StringBuilder sb = new StringBuilder();
-		for (int idx = 0; idx < cnt; idx++) {
-			sb.append(value);
-		}
-		return sb.toString();
 	}
 }

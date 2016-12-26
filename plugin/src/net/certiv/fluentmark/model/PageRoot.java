@@ -183,9 +183,9 @@ public class PageRoot extends Parent implements IResourceChangeListener, IDocume
 		return lines.getKind(idx);
 	}
 
-	/** Return the page part of the line at the given line index */
-	public PagePart getPagePart(int idx) {
-		return lines.getPagePart(idx);
+	/** Returns the page parts in the order created */
+	public List<PagePart> getPageParts() {
+		return new ArrayList<>(parts);
 	}
 
 	/** Returns the page parts of the given kind */
@@ -197,6 +197,11 @@ public class PageRoot extends Parent implements IResourceChangeListener, IDocume
 			}
 		}
 		return kindParts;
+	}
+
+	/** Return the page part of the line at the given line index */
+	public PagePart getPagePart(int idx) {
+		return lines.getPagePart(idx);
 	}
 
 	/** Returns the part that follows the given part, or null */

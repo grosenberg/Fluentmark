@@ -24,4 +24,6 @@ public interface ISourceReference {
 	 * @return the source range
 	 */
 	ISourceRange getSourceRange();
+
+	String getContent(boolean noTerm);
 }
