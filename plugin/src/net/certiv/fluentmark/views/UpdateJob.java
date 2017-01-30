@@ -74,7 +74,9 @@ public class UpdateJob extends Job {
 			begTime = System.nanoTime();
 			browser = view.getBrowser();
 			IEditorPart editor = getActiveEditor();
-			if (editor == null || !(editor instanceof FluentMkEditor)) return Status.CANCEL_STATUS;
+			if (editor == null || !(editor instanceof FluentMkEditor)) {
+				return Status.CANCEL_STATUS;
+			}
 
 			String html = ((FluentMkEditor) editor).getHtml(true);
 			if (html == null) return Status.CANCEL_STATUS;
@@ -84,12 +86,15 @@ public class UpdateJob extends Job {
 				@Override
 				public void run() {
 					try {
-						Object result = browser.evaluate(GETSCROLLTOP);
-						scrollTop = result != null ? ((Number) result).intValue() : 0;
-						browser.addProgressListener(htmlLoad);
-						browser.setRedraw(false);
-						browser.setText(html);
+						if (!browser.isDisposed()) {
+							Object result = browser.evaluate(GETSCROLLTOP);
+							scrollTop = result != null ? ((Number) result).intValue() : 0;
+							browser.addProgressListener(htmlLoad);
+							browser.setRedraw(false);
+							browser.setText(html);
+						}
 					} catch (SWTException e) {
+						browser.setRedraw(true);
 						Log.error("UpdateJob async failed: " + e.getMessage());
 					}
 				}
@@ -102,7 +107,7 @@ public class UpdateJob extends Job {
 		return view.getSite().getWorkbenchWindow().getActivePage();
 	}
 
-	protected FluentMkEditor getActiveEditor() {
-		return (FluentMkEditor) getActivePage().getActiveEditor();
+	protected IEditorPart getActiveEditor() {
+		return getActivePage().getActiveEditor();
 	}
 }

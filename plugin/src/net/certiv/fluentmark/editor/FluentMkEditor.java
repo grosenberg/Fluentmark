@@ -517,10 +517,10 @@ public class FluentMkEditor extends TextEditor
 	/**
 	 * Gets the html content generated from the current document, or null.
 	 * 
-	 * @param extended if true, a full header is added suitable for HTML presentation. Otherwise, a
+	 * @param embedded if true, a full header is added suitable for HTML presentation. Otherwise, a
 	 *            minimal header is added.
 	 */
-	public String getHtml(boolean extended) {
+	public String getHtml(boolean embedded) {
 		IDocument doc = getDocument();
 		int beg = 0;
 		int len = doc.getLength();
@@ -542,7 +542,7 @@ public class FluentMkEditor extends TextEditor
 			String text = getDocument().get(beg, len);
 			String html = converter.convert(text);
 			IPathEditorInput input = (IPathEditorInput) getEditorInput();
-			return addHeader(html, getStyles(input.getPath()), extended);
+			return addHeader(html, getStyles(input.getPath()), embedded);
 		} catch (BadLocationException e) {
 			Log.error("Bad front matter exclusion: " + beg + ":" + len + "; " + region.getLength());
 			return "";
@@ -556,6 +556,12 @@ public class FluentMkEditor extends TextEditor
 			sb.append("<link rel=\"stylesheet\" " + "href=\"" + HIGHLIGHT_CSS + "\">" + Strings.EOL);
 			sb.append("<script src=\"" + HIGHLIGHT_JS + "\">" + "</script>" + Strings.EOL);
 			sb.append("<script>hljs.initHighlightingOnLoad();</script>" + Strings.EOL);
+
+			if (converter.useMathJax()) {
+				sb.append("<script type=\"text/javascript\" async");
+				sb.append("    src=\"https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML\">");
+				sb.append("</script>");
+			}
 
 			if (style != null) {
 				try {

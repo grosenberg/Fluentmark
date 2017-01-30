@@ -41,6 +41,15 @@ public class FluentMkConverter {
 		store = FluentMkUI.getDefault().getPreferenceStore();
 	}
 
+	public boolean useMathJax() {
+		switch (store.getString(Prefs.EDITOR_MD_CONVERTER)) {
+			case Prefs.KEY_PANDOC:
+				return store.getBoolean(Prefs.EDITOR_PANDOC_MATHJAX);
+			default:
+				return false;
+		}
+	}
+
 	public String convert(String text) {
 		switch (store.getString(Prefs.EDITOR_MD_CONVERTER)) {
 			case Prefs.KEY_BLACKFRIDAY:

@@ -17,6 +17,7 @@ import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
@@ -89,6 +90,8 @@ public class FluentMkPreview extends ViewPart implements Prefs {
 	@Override
 	public void createPartControl(Composite parent) {
 		browser = new Browser(parent, SWT.MULTI);
+		browser.setRedraw(true);
+
 		updater = new UpdateJob(view);
 		limiter = new LimitJob(view, updater);
 
@@ -120,8 +123,12 @@ public class FluentMkPreview extends ViewPart implements Prefs {
 
 	// called only by refresh handler
 	public void trigger() {
-		Log.info("trigger");
-		limiter.trigger();
+		boolean active = browser != null;
+		Log.info(String.format("trigger browser reload [active=%s]", active));
+		if (active) {
+			browser.setRedraw(true);
+			limiter.trigger();
+		}
 	}
 
 	public Browser getBrowser() {
@@ -137,77 +144,19 @@ public class FluentMkPreview extends ViewPart implements Prefs {
 		return getSite().getWorkbenchWindow().getActivePage();
 	}
 
-	protected FluentMkEditor getActiveEditor() {
-		return (FluentMkEditor) getActivePage().getActiveEditor();
+	protected IEditorPart getActiveEditor() {
+		return getActivePage().getActiveEditor();
 	}
 
 	protected ISourceViewer getSourceViewer() {
-		FluentMkEditor editor = getActiveEditor();
-		return editor != null ? editor.getViewer() : null;
+		IEditorPart editor = getActiveEditor();
+		if (editor != null && editor instanceof FluentMkEditor) {
+			return ((FluentMkEditor) editor).getViewer();
+		}
+		return null;
 	}
 
 	protected IPreferenceStore getPreferenceStore() {
 		return FluentMkUI.getDefault().getPreferenceStore();
 	}
-
-	// void update() {
-	// if (browser == null || updateBusy) return;
-	//
-	// try {
-	// IEditorPart editor = getActiveEditor();
-	// if (editor == null || !(editor instanceof FluentMkEditor)) {
-	// browser.setText("");
-	// return;
-	// }
-	//
-	// String html = ((FluentMkEditor) editor).getHtml();
-	// if (html == null) {
-	// browser.setText("");
-	// return;
-	// }
-	//
-	// Object result = browser.evaluate(GETSCROLLTOP);
-	// scrollTop = result != null ? ((Number) result).intValue() : 0;
-	//
-	// Log.error("Starting update...");
-	// browser.setRedraw(false);
-	// browser.addProgressListener(htmlLoad);
-	// browser.setText(html);
-	//
-	// // The Browser widget flickers when made visible while it is not completely
-	// // loaded. The fix is to delay the call to setVisible until either loading is
-	// // completed (see ProgressListener in constructor), or a timeout has been reached.
-	// final Display display = Display.getCurrent();
-	// display.timerExec(100, new Runnable() {
-	//
-	// public void run() {
-	// updateBusy = false;
-	// }
-	// });
-	//
-	// while (updateBusy) {
-	// // Drive the event loop while waiting for the browser to load
-	// if (!display.readAndDispatch()) {
-	// display.sleep();
-	// }
-	// }
-	// browser.setRedraw(true);
-	//
-	// } catch (Exception e) {
-	// browser.setRedraw(true);
-	// updateBusy = false;
-	//
-	// StringWriter errors = new StringWriter();
-	// e.printStackTrace(new PrintWriter(errors));
-	// Log.error(e.getLocalizedMessage() + Strings.EOL + errors.toString());
-	//
-	// List<Status> lines = new ArrayList<>();
-	// for (StackTraceElement line : e.getStackTrace()) {
-	// lines.add(new Status(IStatus.ERROR, FluentMkUI.PLUGIN_ID, line.toString()));
-	// }
-	// MultiStatus status = new MultiStatus(FluentMkUI.PLUGIN_ID, IStatus.ERROR,
-	// lines.toArray(new Status[lines.size()]), e.getLocalizedMessage(), e);
-	// ErrorDialog.openError(null, "Viewer error", e.getMessage(), status);
-	// }
-	// }
 }

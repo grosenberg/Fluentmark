@@ -24,6 +24,7 @@ The full-featured Markdown editing environment for Eclipse.
     - can be enabled independent of the platform spell checker
 + Smart editing behaviors
     - table editor and formatter
+    - text and list formatter
     - intelligent paragraph, list & blank line handling
     - full outline drag and drop support
 

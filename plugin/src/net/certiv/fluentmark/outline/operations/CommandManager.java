@@ -9,9 +9,6 @@ package net.certiv.fluentmark.outline.operations;
 
 import org.eclipse.core.runtime.CoreException;
 
-/**
- * @author David Green
- */
 public interface CommandManager {
 
 	/**

@@ -15,9 +15,6 @@ import org.eclipse.jface.text.IUndoManager;
 
 import net.certiv.fluentmark.FluentMkUI;
 
-/**
- * @author David Green
- */
 public abstract class AbstractDocumentCommand {
 
 	protected String problemText;

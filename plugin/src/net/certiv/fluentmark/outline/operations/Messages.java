@@ -9,18 +9,14 @@ package net.certiv.fluentmark.outline.operations;
 
 import org.eclipse.osgi.util.NLS;
 
-/**
- * @author David Green
- */
 class Messages extends NLS {
-	private static final String BUNDLE_NAME = "org.eclipse.mylyn.internal.wikitext.ui.editor.operations.messages"; //$NON-NLS-1$
+
+	private static final String BUNDLE_NAME = "net.certiv.fluentmark.outline.operations.messages"; //$NON-NLS-1$
 
 	public static String MoveSectionsCommand_invalidTargetLocation_self;
 	static {
-		// initialize resource bundle
 		NLS.initializeMessages(BUNDLE_NAME, Messages.class);
 	}
 
-	private Messages() {
-	}
+	private Messages() {}
 }
