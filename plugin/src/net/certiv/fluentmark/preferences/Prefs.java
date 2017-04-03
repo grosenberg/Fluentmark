@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2016 Certiv Analytics and others.
+ * Copyright (c) 2016 - 2017 Certiv Analytics and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -97,6 +97,7 @@ public interface Prefs extends PrefsSpelling {
 
 	public static final String EDITOR_MATH_KEYWORD_COLOR = MD_ID + ".mathKeywordColor";
 	public static final String EDITOR_MATH_SYMBOL_COLOR = MD_ID + ".mathSymbolColor";
+	public static final String EDITOR_MATH_COMMENT_COLOR = MD_ID + ".mathCommentColor";
 	public static final String EDITOR_MATH_BG_COLOR = MD_ID + ".mathBackgroundColor";
 
 	public static final String EDITOR_DOT_KEYWORD_COLOR = MD_ID + ".dotKeywordColor";

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2016 Certiv Analytics and others.
+ * Copyright (c) 2016 - 2017 Certiv Analytics and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -205,7 +205,8 @@ class AppearanceConfigurationBlock extends AbstractConfigurationBlock {
 
 		@Override
 		public Object[] getElements(Object inputElement) {
-			return new String[] { fMarkupCategory, fCodeCategory, fCommentsCategory, fHtmlCategory };
+			return new String[] { fMarkupCategory, fCodeCategory, fCommentsCategory, fMathCategory, fHtmlCategory,
+					fDotCategory };
 		}
 
 		@Override
@@ -222,7 +223,8 @@ class AppearanceConfigurationBlock extends AbstractConfigurationBlock {
 				if (fHtmlCategory.equals(entry)) return fListModel.subList(3, 6).toArray();
 				if (fCodeCategory.equals(entry)) return fListModel.subList(6, 8).toArray();
 				if (fDotCategory.equals(entry)) return fListModel.subList(8, 13).toArray();
-				if (fMarkupCategory.equals(entry)) return fListModel.subList(13, fListModel.size()).toArray();
+				if (fMarkupCategory.equals(entry)) return fListModel.subList(13, 21).toArray();
+				if (fMathCategory.equals(entry)) return fListModel.subList(21, fListModel.size()).toArray();
 			}
 			return new Object[0];
 		}
@@ -232,7 +234,11 @@ class AppearanceConfigurationBlock extends AbstractConfigurationBlock {
 			if (element instanceof String) return null;
 			int index = fListModel.indexOf(element);
 
-			if (index >= 5) return fMarkupCategory;
+			if (index >= 21) return fMathCategory;
+			if (index >= 13) return fMarkupCategory;
+			if (index >= 8) return fDotCategory;
+			if (index >= 6) return fCodeCategory;
+			if (index >= 3) return fCommentsCategory;
 			if (index < 3) return fCommentsCategory;
 			return fCodeCategory;
 		}
@@ -281,12 +287,17 @@ class AppearanceConfigurationBlock extends AbstractConfigurationBlock {
 			{ "Strikeout", Prefs.EDITOR_STRIKEOUT_COLOR }, //
 			{ "Task Tags", Prefs.EDITOR_TASK_TAG_COLOR }, //
 
+			{ "Keywords", Prefs.EDITOR_MATH_KEYWORD_COLOR }, // 21
+			{ "Symbols", Prefs.EDITOR_MATH_SYMBOL_COLOR }, //
+			{ "Comments", Prefs.EDITOR_MATH_COMMENT_COLOR }, //
+
 	};
 
 	private final String fMarkupCategory = "Markup";
 	private final String fCodeCategory = "Code & Code Blocks";
 	private final String fCommentsCategory = "Comments";
 	private final String fHtmlCategory = "Html";
+	private final String fMathCategory = "Math";
 	private final String fDotCategory = "Dot";
 
 	private ColorSelector fSyntaxForegroundColorEditor;

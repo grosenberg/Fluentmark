@@ -7,21 +7,18 @@
  ******************************************************************************/
 package net.certiv.fluentmark.editor.text;
 
-import org.eclipse.jface.text.IDocument;
-import org.eclipse.jface.text.IRegion;
-import org.eclipse.jface.text.reconciler.DirtyRegion;
-import org.eclipse.jface.text.reconciler.IReconcilingStrategy;
+import org.eclipse.jface.text.rules.IWordDetector;
 
-public class NullReconcilingStrategy implements IReconcilingStrategy {
-
-	public NullReconcilingStrategy() {}
+public class MathSymbolDetector implements IWordDetector {
 
 	@Override
-	public void setDocument(IDocument document) {}
+	public boolean isWordStart(char c) {
+		return c == '<' || c == '=' || c == '>';
+
+	}
 
 	@Override
-	public void reconcile(DirtyRegion dirtyRegion, IRegion subRegion) {}
-
-	@Override
-	public void reconcile(IRegion partition) {}
+	public boolean isWordPart(char c) {
+		return c == '<' || c == '=' || c == '/' || c == '>';
+	}
 }
