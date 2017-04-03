@@ -254,6 +254,12 @@ public class PageRoot extends Parent implements IResourceChangeListener, IDocume
 					addPageHeader(lines.getLine(idx));
 					break;
 
+				case SETEXT:
+					lines.setKind(idx, kind);			// original
+					lines.setKind(idx, Kind.HEADER);	// effective
+					addToParent(idx);
+					break;
+
 				case CODE_BLOCK:
 					end = lines.nextMatching(idx, kind);
 					offset = lines.getOffset(idx);
@@ -448,7 +454,11 @@ public class PageRoot extends Parent implements IResourceChangeListener, IDocume
 	private PagePart addToParent(int idx) {
 		IParent header = headers.getCurrentParent();
 		PagePart parent = (PagePart) header.getLastChild();
-		parent.addLine(lines.getLine(idx));
+		Line line = lines.getLine(idx);
+		if (parent == null || line == null) {
+			System.out.println("help");
+		}
+		parent.addLine(line);
 		return parent;
 	}
 

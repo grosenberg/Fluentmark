@@ -34,6 +34,7 @@ public class PartitionScanner extends RuleBasedPartitionScanner implements IScan
 		IToken codeblock = new Token(Partitions.CODEBLOCK);
 		IToken htmlblock = new Token(Partitions.HTMLBLOCK);
 		IToken dotblock = new Token(Partitions.DOTBLOCK);
+		IToken mathblock = new Token(Partitions.MATHBLOCK);
 
 		List<IRule> rules = new ArrayList<IRule>();
 
@@ -41,6 +42,8 @@ public class PartitionScanner extends RuleBasedPartitionScanner implements IScan
 		rules.add(new MultiLineRule("<!--", "-->", comment, '\\'));
 		rules.add(new HtmlCodeRule(htmlblock));
 		rules.add(new DotCodeRule(dotblock));
+		rules.add(new MultiLineRule("$$$", "$$$", mathblock, '\\'));
+		rules.add(new MultiLineRule("$$", "$$", mathblock, '\\'));
 		rules.add(new MultiLineRule("~~~", "~~~", codeblock, '\\'));
 		rules.add(new MultiLineRule("```", "```", codeblock, '\\'));
 		rules.add(new IndentedCodeRule(codeblock));

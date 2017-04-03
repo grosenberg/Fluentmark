@@ -23,6 +23,7 @@ public enum Kind {
 	TABLE("Table"),
 
 	HEADER("Header"),
+	SETEXT("Setext"),
 	HRULE("Horizontal Rule"),
 	QUOTE("Quote"),
 	DEFINITION("Definition"),

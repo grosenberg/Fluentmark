@@ -559,7 +559,7 @@ public class FluentMkEditor extends TextEditor
 
 			if (converter.useMathJax()) {
 				sb.append("<script type=\"text/javascript\" async");
-				sb.append("    src=\"https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML\">");
+				sb.append("    src=\"https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML\">");
 				sb.append("</script>");
 			}
 

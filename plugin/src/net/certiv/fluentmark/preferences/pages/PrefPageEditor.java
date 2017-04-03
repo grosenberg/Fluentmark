@@ -45,7 +45,8 @@ public class PrefPageEditor extends BaseFieldEditorPreferencePage implements Pre
 			// Lines
 			addField(new BooleanFieldEditor(EDITOR_SMART_BACKSPACE, "Smart backspace", baseComp));
 			addField(new BooleanFieldEditor(EDITOR_WORD_WRAP, "Soft word wrapping", baseComp));
-			addField(new BooleanFieldEditor(EDITOR_PDF_OPEN, "Open PDF after creation", baseComp));
+			addField(new BooleanFieldEditor(EDITOR_HTML_OPEN, "Open HTML file after creation", baseComp));
+			addField(new BooleanFieldEditor(EDITOR_PDF_OPEN, "Open PDF file after creation", baseComp));
 			addField(new IntegerFieldEditor(EDITOR_TAB_WIDTH, "Tab size: ", baseComp, 6));
 
 			addField(new BooleanFieldEditor(EDITOR_FORMATTING_ENABLED, "Formatting enabled", baseComp));

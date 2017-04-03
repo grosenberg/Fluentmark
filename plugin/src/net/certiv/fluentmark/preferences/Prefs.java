@@ -87,13 +87,17 @@ public interface Prefs extends PrefsSpelling {
 	public static final String EDITOR_CODE_COLOR = MD_ID + ".codeColor";
 	public static final String EDITOR_CODEBLOCK_COLOR = MD_ID + ".codeblockColor";
 
+	public static final String EDITOR_CODE_BG_COLOR = MD_ID + ".codeBackgroundColor";
+	public static final String EDITOR_CODEBLOCK_BG_COLOR = MD_ID + ".codeblockBackgroundColor";
+
 	public static final String EDITOR_HTML_KEYWORD_COLOR = MD_ID + ".htmlKeywordColor";
 	public static final String EDITOR_HTML_SYMBOL_COLOR = MD_ID + ".htmlSymbolColor";
 	public static final String EDITOR_HTML_STRING_COLOR = MD_ID + ".htmlStringColor";
 	public static final String EDITOR_HTML_BG_COLOR = MD_ID + ".htmlBackgroundColor";
 
-	public static final String EDITOR_CODE_BG_COLOR = MD_ID + ".codeBackgroundColor";
-	public static final String EDITOR_CODEBLOCK_BG_COLOR = MD_ID + ".codeblockBackgroundColor";
+	public static final String EDITOR_MATH_KEYWORD_COLOR = MD_ID + ".mathKeywordColor";
+	public static final String EDITOR_MATH_SYMBOL_COLOR = MD_ID + ".mathSymbolColor";
+	public static final String EDITOR_MATH_BG_COLOR = MD_ID + ".mathBackgroundColor";
 
 	public static final String EDITOR_DOT_KEYWORD_COLOR = MD_ID + ".dotKeywordColor";
 	public static final String EDITOR_DOT_ATTRIBS_COLOR = MD_ID + ".dotAttribsColor";
@@ -111,6 +115,7 @@ public interface Prefs extends PrefsSpelling {
 	public static final String EDITOR_FORMATTING_ENABLED = MD_ID + ".formattingEnabled";
 	public static final String EDITOR_FORMATTING_COLUMN = MD_ID + ".formattingCol";
 
+	public static final String EDITOR_HTML_OPEN = MD_ID + ".htmlOpen";
 	public static final String EDITOR_PDF_OPEN = MD_ID + ".pdfOpen";
 
 	public static final String EDITOR_SMART_BACKSPACE = MD_ID + ".smartBackspace";

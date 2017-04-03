@@ -46,7 +46,7 @@ public abstract class Parent extends Element implements IParent {
 				return children.get(children.size() - 1);
 			}
 		}
-		return null;
+		return this;
 	}
 
 	/** Removes a child to the current element. */

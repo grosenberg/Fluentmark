@@ -18,9 +18,11 @@ public class Partitions {
 	public static final String CODEBLOCK = "__codeblock";
 	public static final String HTMLBLOCK = "__htmlblock";
 	public static final String DOTBLOCK = "__dotblock";
+	public static final String MATHBLOCK = "__mathblock";
 
 	/** Partition type groups by similar treatment */
-	public static final String[] LEGAL_TYPES = new String[] { COMMENT, CODEBLOCK, HTMLBLOCK, DOTBLOCK, FRONT_MATTER };
+	public static final String[] LEGAL_TYPES = new String[] {	COMMENT, CODEBLOCK, HTMLBLOCK, DOTBLOCK, MATHBLOCK,
+																FRONT_MATTER };
 
 	private Partitions() {}
 

@@ -28,18 +28,41 @@ public class Lines {
 		Kind nKind = kind; 			// natural/original
 		PagePart part;
 
-		public Line() {}
+		private boolean blankPrior;
+		private boolean blankNext;
 
-		public Line(Line ref, String line) {
+		public Line() {
+			blankPrior = true;
+			blankNext = true;
+		}
+
+		public Line(Line prior, String line) {
+			this();
 			this.text = line;
-			this.offset = ref.offset + ref.length;
+			this.offset = prior.offset + prior.length;
 			this.length = line.length() + Strings.EOL.length();
-			this.idx = ref.idx + 1;
+			this.idx = prior.idx + 1;
+
+			blankPrior = prior.isBlank();
+			prior.blankNext = isBlank();
 		}
 
 		public String toString() {
 			return String.format("%4d %-6.6s/%-6.6s [%5d:%3d] %s", //
 					idx, kind.toString(), nKind.toString(), offset, length, text);
+		}
+
+		/** Just ws. */
+		public boolean isBlank() {
+			return text.trim().isEmpty();
+		}
+
+		public boolean isBlankPrior() {
+			return blankPrior;
+		}
+
+		public boolean isBlankNext() {
+			return blankNext;
 		}
 	}
 
@@ -113,35 +136,47 @@ public class Lines {
 	}
 
 	public Kind identifyKind(int idx) {
-		String line = lineList.get(idx).text;
+		Line curr = lineList.get(idx);
+		Line next = lineList.size() > idx + 1 ? lineList.get(idx + 1) : null;
 
-		if (line.trim().isEmpty()) return Kind.BLANK;
+		String cTxt = curr.text;
+		String nTxt = next != null ? next.text : "";
 
-		if (line.startsWith("#")) return Kind.HEADER;
+		boolean prb = curr.isBlankPrior();
+		boolean crb = curr.isBlank();
+		boolean nxb = next != null ? next.isBlank() : true;
+		boolean nnb = next != null ? next.isBlankNext() : true;
 
-		if (line.startsWith("<!---")) return Kind.COMMENT;
-		if (line.startsWith("--->")) return Kind.COMMENT;
+		if (crb) return Kind.BLANK;
 
-		if (line.startsWith("___")) return Kind.HRULE;
-		if (line.startsWith("***")) return Kind.HRULE;
-		if (line.startsWith("---")) return Kind.HRULE;
-		
-		if (line.matches("(\\|\\s?\\:?---+\\:?\\s?)+\\|.*")) return Kind.TABLE;
+		if (cTxt.startsWith("#")) return Kind.HEADER;
+		if (!crb && nnb && (nTxt.startsWith("---") || nTxt.startsWith("==="))) return Kind.HEADER;
 
-		if (line.matches("\\s*\\*\\s+.*")) return Kind.LIST;
-		if (line.matches("\\s*\\-\\s+.*")) return Kind.LIST;
-		if (line.matches("\\s*\\+\\s+.*")) return Kind.LIST;
-		if (line.matches("\\s*\\d+\\.\\s+.*")) return Kind.LIST;
+		if (!prb && nxb && (cTxt.startsWith("---") || cTxt.startsWith("==="))) return Kind.SETEXT;
 
-		if (line.matches("(\\>+\\s+)+.*")) return Kind.QUOTE;
-		if (line.matches("\\:\\s+.*")) return Kind.DEFINITION;
-		if (line.matches("\\[\\^?\\d+\\]\\:\\s+.*")) return Kind.REFERENCE;
+		if (cTxt.startsWith("<!---")) return Kind.COMMENT;
+		if (cTxt.startsWith("--->")) return Kind.COMMENT;
 
-		if (line.matches("\\</?\\w+(\\s+.*?)?/?\\>.*")) return Kind.HTML_BLOCK;
+		if (prb && nxb && cTxt.startsWith("___")) return Kind.HRULE;
+		if (prb && nxb && cTxt.startsWith("***")) return Kind.HRULE;
+		if (prb && nxb && cTxt.startsWith("---")) return Kind.HRULE;
 
-		if (line.startsWith("```")) return Kind.CODE_BLOCK;
-		if (line.startsWith("~~~")) return Kind.CODE_BLOCK;
-		if (line.matches("    .*")) return Kind.CODE_BLOCK_INDENTED;
+		if (cTxt.matches("(\\|\\s?\\:?---+\\:?\\s?)+\\|.*")) return Kind.TABLE;
+
+		if (cTxt.matches("\\s*\\*\\s+.*")) return Kind.LIST;
+		if (cTxt.matches("\\s*\\-\\s+.*")) return Kind.LIST;
+		if (cTxt.matches("\\s*\\+\\s+.*")) return Kind.LIST;
+		if (cTxt.matches("\\s*\\d+\\.\\s+.*")) return Kind.LIST;
+
+		if (cTxt.matches("(\\>+\\s+)+.*")) return Kind.QUOTE;
+		if (cTxt.matches("\\:\\s+.*")) return Kind.DEFINITION;
+		if (cTxt.matches("\\[\\^?\\d+\\]\\:\\s+.*")) return Kind.REFERENCE;
+
+		if (cTxt.matches("\\</?\\w+(\\s+.*?)?/?\\>.*")) return Kind.HTML_BLOCK;
+
+		if (cTxt.startsWith("```")) return Kind.CODE_BLOCK;
+		if (cTxt.startsWith("~~~")) return Kind.CODE_BLOCK;
+		if (cTxt.matches("    .*")) return Kind.CODE_BLOCK_INDENTED;
 
 		return Kind.TEXT;
 	}

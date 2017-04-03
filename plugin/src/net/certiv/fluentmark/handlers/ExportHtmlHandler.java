@@ -7,6 +7,7 @@
  ******************************************************************************/
 package net.certiv.fluentmark.handlers;
 
+import java.awt.Desktop;
 import java.io.File;
 
 import org.eclipse.core.commands.AbstractHandler;
@@ -14,6 +15,8 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
@@ -21,7 +24,9 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.handlers.HandlerUtil;
 
+import net.certiv.fluentmark.FluentMkUI;
 import net.certiv.fluentmark.editor.FluentMkEditor;
+import net.certiv.fluentmark.preferences.Prefs;
 import net.certiv.fluentmark.util.FileUtils;
 
 public class ExportHtmlHandler extends AbstractHandler {
@@ -53,7 +58,19 @@ public class ExportHtmlHandler extends AbstractHandler {
 				String html = editor.getHtml(true);
 				FileUtils.write(new File(pathname), html);
 			}
+		
+			if (FluentMkUI.getDefault().getPreferenceStore().getBoolean(Prefs.EDITOR_HTML_OPEN)) {
+				if (Desktop.isDesktopSupported()) {
+					try {
+						Desktop.getDesktop().open(new File(pathname));
+					} catch (Exception e) {
+						String msg = "Cannot open " + pathname + " (" + e.getMessage() + ")";
+						return new Status(IStatus.ERROR, FluentMkUI.PLUGIN_ID, msg);
+					}
+				}
+			}
 		}
+
 		return null;
 	}
 }
