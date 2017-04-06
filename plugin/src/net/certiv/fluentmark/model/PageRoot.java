@@ -260,6 +260,25 @@ public class PageRoot extends Parent implements IResourceChangeListener, IDocume
 					addToParent(idx);
 					break;
 
+				case MATH_BLOCK:
+					end = lines.nextMatching(idx, kind);
+					offset = lines.getOffset(idx);
+					len = lines.getOffset(end) + lines.getTextLength(end) - offset;
+					current = headers.getCurrentParent();
+					addPageElement(current, kind, offset, len, idx, end);
+					idx = end;
+					break;
+
+				case MATH_BLOCK_INLINE:
+					end = idx;
+					offset = lines.getOffset(idx);
+					len = lines.getTextLength(idx);
+					current = headers.getCurrentParent();
+					lines.setKind(idx, kind);				// original
+					addPageElement(current, Kind.MATH_BLOCK, offset, len, idx, end);
+					idx = end;
+					break;
+
 				case CODE_BLOCK:
 					end = lines.nextMatching(idx, kind);
 					offset = lines.getOffset(idx);

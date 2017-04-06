@@ -5,7 +5,7 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  ******************************************************************************/
-package net.certiv.fluentmk.tables;
+package net.certiv.fluentmark.tables;
 
 import java.util.ArrayList;
 

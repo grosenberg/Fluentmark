@@ -35,23 +35,21 @@ public class PrefPageFolding extends BaseFieldEditorPreferencePage implements Pr
 	@Override
 	public void createFieldEditors() {
 
-		{
-			baseComp = SwtUtil.makeGroupComposite(getFieldEditorParent(), "");
+		baseComp = SwtUtil.makeGroupComposite(getFieldEditorParent(), 1, 1, "");
 
-			SwtUtil.addLabel(baseComp, "Enable folding of:", 2);
-			addField(new BooleanFieldEditor(FOLDING_FRONTMATTER_ENABLED, "Front matter block", baseComp));
-			addField(new BooleanFieldEditor(FOLDING_HIDDEN_COMMENTS_ENABLED, "Hidden comments", baseComp));
-			addField(new BooleanFieldEditor(FOLDING_CODEBLOCKS_ENABLED, "Code blocks", baseComp));
-			SwtUtil.addSpacer(baseComp, 2);
+		SwtUtil.addLabel(baseComp, "Enable folding of:", 2);
+		addField(new BooleanFieldEditor(FOLDING_FRONTMATTER_ENABLED, "Front matter block", baseComp));
+		addField(new BooleanFieldEditor(FOLDING_HIDDEN_COMMENTS_ENABLED, "Hidden comments", baseComp));
+		addField(new BooleanFieldEditor(FOLDING_CODEBLOCKS_ENABLED, "Code blocks", baseComp));
+		SwtUtil.addSpacer(baseComp, 2);
 
-			SwtUtil.addLabel(baseComp, "Initially fold:", 2);
-			addField(new BooleanFieldEditor(FOLDING_INITIAL_FRONT_MATTER, "Front matter block", baseComp));
-			addField(new BooleanFieldEditor(FOLDING_INITIAL_HIDDEN_COMMENTS, "Hidden comments", baseComp));
-			addField(new BooleanFieldEditor(FOLDING_INITIAL_CODEBLOCKS, "Code blocks", baseComp));
-			SwtUtil.addSpacer(baseComp, 2);
+		SwtUtil.addLabel(baseComp, "Initially fold:", 2);
+		addField(new BooleanFieldEditor(FOLDING_INITIAL_FRONT_MATTER, "Front matter block", baseComp));
+		addField(new BooleanFieldEditor(FOLDING_INITIAL_HIDDEN_COMMENTS, "Hidden comments", baseComp));
+		addField(new BooleanFieldEditor(FOLDING_INITIAL_CODEBLOCKS, "Code blocks", baseComp));
+		SwtUtil.addSpacer(baseComp, 2);
 
-			addField(new IntegerFieldEditor(FOLDING_LINES_LIMIT, "Minimum number of lines to fold: ", baseComp, 6));
-		}
+		addField(new IntegerFieldEditor(FOLDING_LINES_LIMIT, "Minimum number of lines to fold: ", baseComp, 6));
 	}
 
 	@Override

@@ -39,31 +39,29 @@ public class PrefPageEditor extends BaseFieldEditorPreferencePage implements Pre
 	@Override
 	public void createFieldEditors() {
 
-		{
-			baseComp = SwtUtil.makeGroupComposite(getFieldEditorParent(), "Editor");
+		baseComp = SwtUtil.makeGroupComposite(getFieldEditorParent(), 1, 1, "Editor");
 
-			// Lines
-			addField(new BooleanFieldEditor(EDITOR_SMART_BACKSPACE, "Smart backspace", baseComp));
-			addField(new BooleanFieldEditor(EDITOR_WORD_WRAP, "Soft word wrapping", baseComp));
-			addField(new BooleanFieldEditor(EDITOR_HTML_OPEN, "Open HTML file after creation", baseComp));
-			addField(new BooleanFieldEditor(EDITOR_PDF_OPEN, "Open PDF file after creation", baseComp));
-			addField(new IntegerFieldEditor(EDITOR_TAB_WIDTH, "Tab size: ", baseComp, 6));
+		// Lines
+		addField(new BooleanFieldEditor(EDITOR_SMART_BACKSPACE, "Smart backspace", baseComp));
+		addField(new BooleanFieldEditor(EDITOR_WORD_WRAP, "Soft word wrapping", baseComp));
+		addField(new BooleanFieldEditor(EDITOR_HTML_OPEN, "Open HTML file after creation", baseComp));
+		addField(new BooleanFieldEditor(EDITOR_PDF_OPEN, "Open PDF file after creation", baseComp));
+		addField(new IntegerFieldEditor(EDITOR_TAB_WIDTH, "Tab size: ", baseComp, 6));
 
-			addField(new BooleanFieldEditor(EDITOR_FORMATTING_ENABLED, "Formatting enabled", baseComp));
-			addField(new IntegerFieldEditor(EDITOR_FORMATTING_COLUMN, "Formatted line width: ", baseComp, 6));
-		}
-		{
-			taskComp = SwtUtil.makeGroupComposite(getFieldEditorParent(), "Tasks");
+		addField(new BooleanFieldEditor(EDITOR_FORMATTING_ENABLED, "Formatting enabled", baseComp));
+		addField(new IntegerFieldEditor(EDITOR_FORMATTING_COLUMN, "Formatted line width: ", baseComp, 6));
 
-			addField(new BooleanFieldEditor(EDITOR_TASK_TAGS, "Use task tags ", taskComp));
-			addField(new StringFieldEditor(EDITOR_TASK_TAGS_DEFINED, "Task tags defined:", taskComp));
-		}
-		{
-			viewComp = SwtUtil.makeGroupComposite(getFieldEditorParent(), "Preview");
+		// ------
 
-			addField(new IntegerFieldEditor(VIEW_UPDATE_DELAY, "Update rate limiter period (ms): ", viewComp, 6));
-			((GridData) viewComp.getLayoutData()).grabExcessHorizontalSpace = false;
-		}
+		taskComp = SwtUtil.makeGroupComposite(getFieldEditorParent(), 1, 1, "Tasks");
+
+		// Tasks
+		addField(new BooleanFieldEditor(EDITOR_TASK_TAGS, "Use task tags ", taskComp));
+		addField(new StringFieldEditor(EDITOR_TASK_TAGS_DEFINED, "Task tags defined:", taskComp));
+		viewComp = SwtUtil.makeGroupComposite(getFieldEditorParent(), 1, 1, "Preview");
+
+		addField(new IntegerFieldEditor(VIEW_UPDATE_DELAY, "Update rate limiter period (ms): ", viewComp, 6));
+		((GridData) viewComp.getLayoutData()).grabExcessHorizontalSpace = false;
 	}
 
 	@Override

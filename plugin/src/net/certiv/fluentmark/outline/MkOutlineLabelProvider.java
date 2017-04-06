@@ -76,6 +76,9 @@ public class MkOutlineLabelProvider extends LabelProvider implements IStyledLabe
 				case LIST:
 					imageKey = FluentMkImages.DESC_OBJ_LIST;
 					break;
+				case MATH_BLOCK:
+					imageKey = FluentMkImages.DESC_OBJ_SUM;
+					break;
 				case QUOTE:
 					imageKey = FluentMkImages.DESC_OBJ_QUOTE;
 					break;

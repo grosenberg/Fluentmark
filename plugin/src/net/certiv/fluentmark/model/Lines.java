@@ -154,6 +154,9 @@ public class Lines {
 
 		if (!prb && nxb && (cTxt.startsWith("---") || cTxt.startsWith("==="))) return Kind.SETEXT;
 
+		if (cTxt.startsWith("$$")) return Kind.MATH_BLOCK;
+		if (prb && nxb && cTxt.matches("\\$\\S.*?\\S\\$.*")) return Kind.MATH_BLOCK_INLINE;
+
 		if (cTxt.startsWith("<!---")) return Kind.COMMENT;
 		if (cTxt.startsWith("--->")) return Kind.COMMENT;
 

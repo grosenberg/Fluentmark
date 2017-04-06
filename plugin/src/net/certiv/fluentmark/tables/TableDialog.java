@@ -5,7 +5,7 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  ******************************************************************************/
-package net.certiv.fluentmk.tables;
+package net.certiv.fluentmark.tables;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.MenuManager;
@@ -40,7 +40,7 @@ import org.eclipse.swt.widgets.ToolBar;
 import net.certiv.fluentmark.FluentMkImages;
 import net.certiv.fluentmark.FluentMkUI;
 import net.certiv.fluentmark.model.PagePart;
-import net.certiv.fluentmk.tables.TableModel.Row;
+import net.certiv.fluentmark.tables.TableModel.Row;
 
 public class TableDialog extends MessageDialog {
 

@@ -16,9 +16,9 @@ import net.certiv.fluentmark.model.ISourceRange;
 import net.certiv.fluentmark.model.PagePart;
 import net.certiv.fluentmark.model.PageRoot;
 import net.certiv.fluentmark.preferences.Prefs;
+import net.certiv.fluentmark.tables.TableModel;
 import net.certiv.fluentmark.util.Indent;
 import net.certiv.fluentmark.util.Strings;
-import net.certiv.fluentmk.tables.TableModel;
 
 public class MkFormatter {
 

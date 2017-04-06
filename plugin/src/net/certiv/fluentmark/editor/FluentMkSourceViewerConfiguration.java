@@ -54,6 +54,7 @@ import net.certiv.fluentmark.editor.text.ScannerDot;
 import net.certiv.fluentmark.editor.text.ScannerFrontMatter;
 import net.certiv.fluentmark.editor.text.ScannerHtml;
 import net.certiv.fluentmark.editor.text.ScannerMarkup;
+import net.certiv.fluentmark.editor.text.ScannerMath;
 import net.certiv.fluentmark.preferences.Prefs;
 
 public class FluentMkSourceViewerConfiguration extends TextSourceViewerConfiguration {
@@ -85,7 +86,7 @@ public class FluentMkSourceViewerConfiguration extends TextSourceViewerConfigura
 	private ScannerFrontMatter frontMatter;
 	private ScannerCode codeScanner;
 	private ScannerDot dotScanner;
-	// private ScannerMath mathScanner;
+	private ScannerMath mathScanner;
 	private ScannerHtml htmlScanner;
 	private ScannerComment commentScanner;
 	private String partitioning;
@@ -111,7 +112,7 @@ public class FluentMkSourceViewerConfiguration extends TextSourceViewerConfigura
 		codeScanner = new ScannerCode();
 		commentScanner = new ScannerComment();
 		dotScanner = new ScannerDot();
-		// mathScanner = new ScannerMath();
+		mathScanner = new ScannerMath();
 		htmlScanner = new ScannerHtml();
 		frontMatter = new ScannerFrontMatter();
 		markup = new ScannerMarkup();
@@ -126,7 +127,7 @@ public class FluentMkSourceViewerConfiguration extends TextSourceViewerConfigura
 		buildRepairer(reconciler, commentScanner, Partitions.COMMENT);
 		buildRepairer(reconciler, codeScanner, Partitions.CODEBLOCK);
 		buildRepairer(reconciler, dotScanner, Partitions.DOTBLOCK);
-		// buildRepairer(reconciler, mathScanner, Partitions.MATHBLOCK);
+		buildRepairer(reconciler, mathScanner, Partitions.MATHBLOCK);
 		buildRepairer(reconciler, htmlScanner, Partitions.HTMLBLOCK);
 		buildRepairer(reconciler, markup, IDocument.DEFAULT_CONTENT_TYPE);
 
@@ -147,7 +148,7 @@ public class FluentMkSourceViewerConfiguration extends TextSourceViewerConfigura
 		if (markup.affectsBehavior(event)) markup.adaptToPreferenceChange(event);
 		if (codeScanner.affectsBehavior(event)) codeScanner.adaptToPreferenceChange(event);
 		if (dotScanner.affectsBehavior(event)) dotScanner.adaptToPreferenceChange(event);
-		// if (mathScanner.affectsBehavior(event)) mathScanner.adaptToPreferenceChange(event);
+		if (mathScanner.affectsBehavior(event)) mathScanner.adaptToPreferenceChange(event);
 		if (htmlScanner.affectsBehavior(event)) htmlScanner.adaptToPreferenceChange(event);
 		if (commentScanner.affectsBehavior(event)) commentScanner.adaptToPreferenceChange(event);
 		if (frontMatter.affectsBehavior(event)) frontMatter.adaptToPreferenceChange(event);
@@ -164,7 +165,7 @@ public class FluentMkSourceViewerConfiguration extends TextSourceViewerConfigura
 		return markup.affectsBehavior(event) //
 				|| codeScanner.affectsBehavior(event) //
 				|| dotScanner.affectsBehavior(event) //
-				// || mathScanner.affectsBehavior(event) //
+				|| mathScanner.affectsBehavior(event) //
 				|| htmlScanner.affectsBehavior(event) //
 				|| commentScanner.affectsBehavior(event) //
 				|| frontMatter.affectsBehavior(event);
@@ -185,8 +186,8 @@ public class FluentMkSourceViewerConfiguration extends TextSourceViewerConfigura
 
 	@Override
 	public IAutoEditStrategy[] getAutoEditStrategies(ISourceViewer sourceViewer, String contentType) {
-		return new IAutoEditStrategy[] {	new SmartAutoEditStrategy(partitioning), new LineWrapEditStrategy(),
-											new PairEditStrategy() };
+		return new IAutoEditStrategy[] { new SmartAutoEditStrategy(partitioning), new LineWrapEditStrategy(),
+				new PairEditStrategy() };
 	}
 
 	@Override

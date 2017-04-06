@@ -16,6 +16,7 @@ import org.eclipse.jface.layout.PixelConverter;
 import org.eclipse.jface.preference.ColorSelector;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
@@ -36,9 +37,16 @@ public class SwtUtil {
 
 	private SwtUtil() {}
 
-	public static Composite makeComposite(Composite parent, int cols) {
+	public static Composite makeCompositeStack(Composite parent, int span, int cols) {
+		Composite stack = new Composite(parent, SWT.NONE);
+		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.FILL).span(span, 1).grab(true, false).applyTo(stack);
+		stack.setLayout(new StackLayout());
+		return stack;
+	}
+
+	public static Composite makeComposite(Composite parent, int span, int cols) {
 		Composite base = new Composite(parent, SWT.NONE);
-		GridDataFactory.fillDefaults().indent(0, 4).grab(true, false).applyTo(base);
+		GridDataFactory.fillDefaults().indent(0, 4).span(span, 1).grab(true, false).applyTo(base);
 		GridLayoutFactory.fillDefaults().numColumns(cols).applyTo(base);
 		return base;
 	}
@@ -51,16 +59,27 @@ public class SwtUtil {
 		return frame;
 	}
 
-	public static Composite makeGroupComposite(Composite parent, String text) {
+	public static Composite makeGroupComposite(Composite parent, int span, int cols, String title) {
 		Group frame = new Group(parent, SWT.NONE);
-		GridDataFactory.fillDefaults().indent(0, 4).grab(true, false).applyTo(frame);
+		GridDataFactory.fillDefaults().indent(0, 4).span(span, 1).grab(true, false).applyTo(frame);
 		GridLayoutFactory.fillDefaults().margins(6, 6).applyTo(frame);
-		frame.setText(text);
+		frame.setText(title);
 
 		Composite comp = new Composite(frame, SWT.NONE);
 		GridDataFactory.fillDefaults().indent(0, 4).grab(true, false).applyTo(comp);
-		GridLayoutFactory.fillDefaults().numColumns(2).applyTo(comp);
+		GridLayoutFactory.fillDefaults().numColumns(cols).applyTo(comp);
 		return comp;
+	}
+
+	public static void setGroupTitle(Composite comp, String title) {
+		Group frame = null;
+		Composite parent = comp.getParent();
+		if (comp instanceof Group) {
+			frame = (Group) comp;
+		} else if (parent instanceof Group) {
+			frame = (Group) parent;
+		}
+		if (frame != null) frame.setText(title);
 	}
 
 	public static Button makeButtonControl(Composite options, int type, String label, int span) {

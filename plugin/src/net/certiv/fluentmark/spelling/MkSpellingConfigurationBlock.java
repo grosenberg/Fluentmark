@@ -167,8 +167,7 @@ public class MkSpellingConfigurationBlock extends AbstractConfigurationBlock imp
 	}
 
 	private Control createContent(final Composite parent) {
-
-		Composite base = SwtUtil.makeComposite(parent, 1);
+		Composite base = SwtUtil.makeComposite(parent, 1, 1);
 		addCheckBox(base, "Enable FluentMark spell checker", SPELLING_ENABLED, 2);
 
 		options = SwtUtil.makeGroup(base, "Options", 1);

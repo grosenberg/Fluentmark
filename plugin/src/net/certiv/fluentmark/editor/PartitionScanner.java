@@ -23,6 +23,7 @@ import net.certiv.fluentmark.editor.text.FrontMatterRule;
 import net.certiv.fluentmark.editor.text.HtmlCodeRule;
 import net.certiv.fluentmark.editor.text.IScannerExt;
 import net.certiv.fluentmark.editor.text.IndentedCodeRule;
+import net.certiv.fluentmark.editor.text.MatchRule;
 
 public class PartitionScanner extends RuleBasedPartitionScanner implements IScannerExt {
 
@@ -39,11 +40,11 @@ public class PartitionScanner extends RuleBasedPartitionScanner implements IScan
 		List<IRule> rules = new ArrayList<IRule>();
 
 		rules.add(new FrontMatterRule("---", "---", matter, '\\'));
+		rules.add(new MatchRule("\\$\\S", "\\S\\$", mathblock, '\\', false));
+		rules.add(new MultiLineRule("$$", "$$", mathblock, '\\'));
 		rules.add(new MultiLineRule("<!--", "-->", comment, '\\'));
 		rules.add(new HtmlCodeRule(htmlblock));
 		rules.add(new DotCodeRule(dotblock));
-		rules.add(new MultiLineRule("$$$", "$$$", mathblock, '\\'));
-		rules.add(new MultiLineRule("$$", "$$", mathblock, '\\'));
 		rules.add(new MultiLineRule("~~~", "~~~", codeblock, '\\'));
 		rules.add(new MultiLineRule("```", "```", codeblock, '\\'));
 		rules.add(new IndentedCodeRule(codeblock));

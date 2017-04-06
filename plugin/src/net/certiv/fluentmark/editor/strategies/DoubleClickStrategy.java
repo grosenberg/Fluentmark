@@ -26,7 +26,7 @@ import net.certiv.fluentmark.model.ISourceRange;
 import net.certiv.fluentmark.model.Kind;
 import net.certiv.fluentmark.model.PagePart;
 import net.certiv.fluentmark.model.PageRoot;
-import net.certiv.fluentmk.tables.TableDialog;
+import net.certiv.fluentmark.tables.TableDialog;
 
 public class DoubleClickStrategy extends DefaultTextDoubleClickStrategy {
 

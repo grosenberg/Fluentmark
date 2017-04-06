@@ -15,6 +15,8 @@ public enum Kind {
 	CODE_BLOCK("Code block"),
 	CODE_BLOCK_INDENTED("Code block"),
 	HTML_BLOCK("Html block"),
+	MATH_BLOCK("Math block"),
+	MATH_BLOCK_INLINE("Inline math block"),
 
 	BLANK("Blank line"),
 	TEXT("Text"),
@@ -29,7 +31,9 @@ public enum Kind {
 	DEFINITION("Definition"),
 	REFERENCE("Link reference"),
 
-	UNDEFINED("Undefined");
+	UNDEFINED("Undefined")
+
+	;
 
 	private String displayName;
 
