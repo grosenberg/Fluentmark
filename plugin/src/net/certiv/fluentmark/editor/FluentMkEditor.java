@@ -559,7 +559,8 @@ public class FluentMkEditor extends TextEditor
 
 			if (converter.useMathJax()) {
 				sb.append("<script type=\"text/javascript\" async");
-				sb.append("    src=\"https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML\">");
+				sb.append(
+						"    src=\"https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML\">");
 				sb.append("</script>");
 			}
 
@@ -634,7 +635,7 @@ public class FluentMkEditor extends TextEditor
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 		IContainer dir = root.getContainerForLocation(base);
 
-		while (dir.getType() != IResource.ROOT) {
+		while (dir != null && dir.getType() != IResource.ROOT) {
 			IResource member = dir.findMember(name);
 			if (member != null) {
 				return root.getLocation().append(member.getFullPath()).toFile().toURI().toString();
