@@ -40,27 +40,14 @@ public class UpdateJob extends Job {
 
 		@Override
 		public void completed(ProgressEvent event) {
-			Display.getDefault().asyncExec(new Runnable() {
-
-				@Override
-				public void run() {
-					browser.removeProgressListener(htmlLoad);
-					browser.execute(String.format("window.scrollTo(0,%d);", scrollTop)); //$NON-NLS-1$
-					browser.setRedraw(true);
-					long elapsed = System.nanoTime() - begTime;
-					String value = BigDecimal.valueOf(elapsed, 6).setScale(2, BigDecimal.ROUND_HALF_UP).toString();
-					if (value.indexOf('.') > 3) {
-						Log.info("Html conversion time (ms): " + value);
-					}
-				}
-			});
+			updateComplete();
 		}
 	};
 
 	private FluentMkPreview view;
 	private Browser browser;
+	private boolean jaxed;
 	private int scrollTop;
-
 	private long begTime;
 
 	public UpdateJob(FluentMkPreview view) {
@@ -73,23 +60,27 @@ public class UpdateJob extends Job {
 		if (view != null) {
 			begTime = System.nanoTime();
 			browser = view.getBrowser();
-			IEditorPart editor = getActiveEditor();
-			if (editor == null || !(editor instanceof FluentMkEditor)) {
+			IEditorPart part = getActiveEditor();
+			if (part == null || !(part instanceof FluentMkEditor)) {
 				return Status.CANCEL_STATUS;
 			}
 
-			String html = ((FluentMkEditor) editor).getHtml(true);
+			FluentMkEditor editor = (FluentMkEditor) part;
+			String html = editor.getHtml(true);
 			if (html == null) return Status.CANCEL_STATUS;
+			jaxed = editor.useMathJax();
 
 			Display.getDefault().asyncExec(new Runnable() {
 
 				@Override
 				public void run() {
 					try {
-						if (!browser.isDisposed()) {
+						if (browser != null && !browser.isDisposed()) {
 							Object result = browser.evaluate(GETSCROLLTOP);
 							scrollTop = result != null ? ((Number) result).intValue() : 0;
-							browser.addProgressListener(htmlLoad);
+							if (!jaxed) {
+								browser.addProgressListener(htmlLoad);
+							}
 							browser.setRedraw(false);
 							browser.setText(html);
 						}
@@ -101,6 +92,29 @@ public class UpdateJob extends Job {
 			});
 		}
 		return Status.OK_STATUS;
+	}
+
+	/**
+	 * Invoked in response to either (1) the html load completed progress event; or (2) the MathJax signal
+	 * indicating that typsetting has completed.
+	 */
+	protected void updateComplete() {
+		Display.getDefault().asyncExec(new Runnable() {
+
+			@Override
+			public void run() {
+				if (!jaxed) {
+					browser.removeProgressListener(htmlLoad);
+				}
+				browser.execute(String.format("window.scrollTo(0,%d);", scrollTop)); //$NON-NLS-1$
+				browser.setRedraw(true);
+				long elapsed = System.nanoTime() - begTime;
+				String value = BigDecimal.valueOf(elapsed, 6).setScale(2, BigDecimal.ROUND_HALF_UP).toString();
+				if (value.indexOf('.') > 3) {
+					Log.info("Html conversion time (ms): " + value);
+				}
+			}
+		});
 	}
 
 	protected IWorkbenchPage getActivePage() {

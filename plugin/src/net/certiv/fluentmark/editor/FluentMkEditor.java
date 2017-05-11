@@ -104,6 +104,7 @@ import net.certiv.fluentmark.preferences.Prefs;
 import net.certiv.fluentmark.preferences.pages.PrefPageEditor;
 import net.certiv.fluentmark.util.FileUtils;
 import net.certiv.fluentmark.util.Strings;
+import net.certiv.fluentmark.views.MathJax;
 
 /**
  * Text editor with markdown support.
@@ -549,7 +550,15 @@ public class FluentMkEditor extends TextEditor
 		}
 	}
 
+	public boolean useMathJax() {
+		return converter.useMathJax();
+	}
+
 	private String addHeader(String html, String style, boolean extended) {
+		return addHeader(html, style, null, extended);
+	}
+
+	private String addHeader(String html, String style, String mjConfig, boolean extended) {
 		StringBuilder sb = new StringBuilder("<html><head>" + Strings.EOL);
 
 		if (extended) {
@@ -558,10 +567,9 @@ public class FluentMkEditor extends TextEditor
 			sb.append("<script>hljs.initHighlightingOnLoad();</script>" + Strings.EOL);
 
 			if (converter.useMathJax()) {
-				sb.append("<script type=\"text/javascript\" async");
-				sb.append(
-						"    src=\"https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML\">");
-				sb.append("</script>");
+				// sb.append(MathJax.experimentalConfig);
+				sb.append(MathJax.minConfig);
+				sb.append(MathJax.defaultCDN);
 			}
 
 			if (style != null) {
@@ -580,6 +588,7 @@ public class FluentMkEditor extends TextEditor
 		sb.append(html + Strings.EOL);
 		sb.append("</body></html>");
 		return sb.toString();
+
 	}
 
 	private String getStyles(IPath path) {

@@ -47,6 +47,7 @@ public class LimitJob extends Job {
 		this.store = FluentMkUI.getDefault().getPreferenceStore();
 	}
 
+	/** Main entry point for requesting view updates. Conditionally schedules an UpdateJob. **/
 	public void trigger() {
 		if (view != null) {
 			if (!run) {

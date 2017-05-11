@@ -79,6 +79,7 @@ public class FluentMkPreview extends ViewPart implements Prefs {
 	private Browser browser;
 	private LimitJob limiter;
 	private UpdateJob updater;
+	private MathJaxListener jax;
 
 	public FluentMkPreview() {
 		view = this;
@@ -94,6 +95,7 @@ public class FluentMkPreview extends ViewPart implements Prefs {
 
 		updater = new UpdateJob(view);
 		limiter = new LimitJob(view, updater);
+		jax = new MathJaxListener(browser, updater);
 
 		getPreferenceStore().addPropertyChangeListener(styleListener);
 		getActivePage().addPartListener(partListener);
@@ -108,6 +110,10 @@ public class FluentMkPreview extends ViewPart implements Prefs {
 			srcViewer.removeTextListener(textListener);
 		}
 
+		if (jax != null) {
+			jax.dispose();
+			jax = null;
+		}
 		if (updater != null) {
 			updater.cancel();
 			updater = null;
@@ -129,6 +135,10 @@ public class FluentMkPreview extends ViewPart implements Prefs {
 			browser.setRedraw(true);
 			limiter.trigger();
 		}
+	}
+
+	public void jaxDone() {
+		Log.info("Math typesetting complete.");
 	}
 
 	public Browser getBrowser() {
