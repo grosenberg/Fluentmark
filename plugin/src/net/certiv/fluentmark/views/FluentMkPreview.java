@@ -33,6 +33,14 @@ public class FluentMkPreview extends ViewPart implements Prefs {
 
 	public static final String ID = "net.certiv.fluentmark.views.FluentMkPreview";
 
+	private ITextListener textListener = new ITextListener() {
+
+		@Override
+		public void textChanged(TextEvent event) {
+			typer.trigger();
+		}
+	};
+
 	private IPartListener partListener = new PartListener() {
 
 		@Override
@@ -40,8 +48,8 @@ public class FluentMkPreview extends ViewPart implements Prefs {
 			if (part instanceof FluentMkEditor) {
 				((FluentMkEditor) part).getViewer().addTextListener(textListener);
 				limiter.trigger();
-			} else if (part instanceof FluentMkPreview) {
-				limiter.trigger();
+				// } else if (part instanceof FluentMkPreview) {
+				// limiter.trigger();
 			}
 		}
 
@@ -67,19 +75,12 @@ public class FluentMkPreview extends ViewPart implements Prefs {
 		}
 	};
 
-	private ITextListener textListener = new ITextListener() {
-
-		@Override
-		public void textChanged(TextEvent event) {
-			limiter.trigger();
-		}
-	};
-
 	private static FluentMkPreview view;
 	private Browser browser;
 	private LimitJob limiter;
 	private UpdateJob updater;
 	private MathJaxListener jax;
+	private TypingRunJob typer;
 
 	public FluentMkPreview() {
 		view = this;
@@ -95,6 +96,7 @@ public class FluentMkPreview extends ViewPart implements Prefs {
 
 		updater = new UpdateJob(view);
 		limiter = new LimitJob(view, updater);
+		typer = new TypingRunJob(limiter);
 		jax = new MathJaxListener(browser, updater);
 
 		getPreferenceStore().addPropertyChangeListener(styleListener);
@@ -122,6 +124,11 @@ public class FluentMkPreview extends ViewPart implements Prefs {
 			limiter.cancel();
 			limiter.dispose();
 			limiter = null;
+		}
+		if (typer != null) {
+			typer.cancel();
+			typer.dispose();
+			typer = null;
 		}
 		browser = null;
 		super.dispose();

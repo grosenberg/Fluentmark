@@ -35,7 +35,7 @@ public class LimitJob extends Job {
 	private UpdateJob updater;
 	private IPreferenceStore store;
 
-	private boolean run;
+	private boolean running;
 	private int delay;
 	private long start;
 	private long mark;
@@ -50,10 +50,10 @@ public class LimitJob extends Job {
 	/** Main entry point for requesting view updates. Conditionally schedules an UpdateJob. **/
 	public void trigger() {
 		if (view != null) {
-			if (!run) {
-				run = true;
-				updater.schedule();
-				schedule();
+			if (!running) {
+				running = true;
+				updater.schedule(SHORT);
+				schedule(SHORT);
 			} else {
 				mark(System.currentTimeMillis());
 			}
@@ -62,7 +62,7 @@ public class LimitJob extends Job {
 
 	@Override
 	protected IStatus run(IProgressMonitor monitor) {
-		while (!monitor.isCanceled() && run) {
+		while (!monitor.isCanceled() && running) {
 			delay = store.getInt(Prefs.VIEW_UPDATE_DELAY);
 			start = System.currentTimeMillis();
 			mark(start);
@@ -74,7 +74,7 @@ public class LimitJob extends Job {
 			if (mark > start) {	// triggered during window
 				updater.schedule();
 			} else {			// no trigger, so close window
-				run = false;
+				running = false;
 			}
 		}
 		return Status.OK_STATUS;
