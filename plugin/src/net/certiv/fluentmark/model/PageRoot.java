@@ -30,7 +30,6 @@ import net.certiv.fluentmark.editor.FluentMkEditor;
 import net.certiv.fluentmark.editor.IDocumentChangedListener;
 import net.certiv.fluentmark.model.Lines.Line;
 import net.certiv.fluentmark.util.FloorKeyMap;
-import net.certiv.fluentmark.util.Strings;
 
 public class PageRoot extends Parent implements IResourceChangeListener, IDocumentChangedListener {
 
@@ -52,7 +51,7 @@ public class PageRoot extends Parent implements IResourceChangeListener, IDocume
 	private FloorKeyMap lineMap;
 
 	public PageRoot(FluentMkEditor editor) {
-		super();
+		super(editor.getLineDelimiter());
 		MODEL = this;
 		this.editor = editor;
 		init();
@@ -236,7 +235,7 @@ public class PageRoot extends Parent implements IResourceChangeListener, IDocume
 
 	private void parse() {
 		parts = new ArrayList<>();
-		lines = new Lines(getContent());
+		lines = new Lines(getContent(), getLineDelim());
 		lineMap = lines.getOffsetMap();
 		int end;
 		int offset;
@@ -463,7 +462,7 @@ public class PageRoot extends Parent implements IResourceChangeListener, IDocume
 		for (int idx = begLine; idx <= endLine; idx++) {
 			lines.setKind(idx, kind);
 			lines.setPagePart(idx, part);
-			sb.append(lines.getText(idx) + Strings.EOL);
+			sb.append(lines.getText(idx) + getLineDelim());
 		}
 		part.set(parent.getResource(), sb.toString());
 		return part;

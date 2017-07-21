@@ -168,7 +168,7 @@ public class PdfGen {
 
 		int begOffset = model.getOffset(dotBegLine);
 		int endOffset = model.getOffset(dotEndLine);
-		endOffset += model.getTextLength(dotEndLine) + Strings.EOL.length();
+		endOffset += model.getTextLength(dotEndLine) + model.getLineDelim().length();
 		return new SourceRange(begOffset, endOffset - begOffset, dotBegLine, dotEndLine);
 	}
 
@@ -189,7 +189,8 @@ public class PdfGen {
 		String dir = tmpfile.getParent().replace("\\", "/") + "/";
 		String name = tmpfile.getName();
 
-		String latex = String.format(FIGURE, dir, name); // TODO: support caption and label?
+		String figure = FIGURE.replaceAll("\\R", PageRoot.MODEL.getLineDelim());
+		String latex = String.format(figure, dir, name); // TODO: support caption and label?
 		return new ReplaceEdit(range.getOffset(), range.getLength(), latex);
 	}
 }

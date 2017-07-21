@@ -19,7 +19,6 @@ import org.eclipse.text.edits.TextEdit;
 
 import net.certiv.fluentmark.model.ISourceRange;
 import net.certiv.fluentmark.model.PagePart;
-import net.certiv.fluentmark.util.Strings;
 
 /**
  * A command that moves parts within a document.
@@ -72,8 +71,8 @@ public class MovePartsCommand extends AbstractDocumentCommand {
 		int docLen = document.getLength();
 		String prefix = "";
 		if (insertOffset > docLen) {
-			insertOffset -= Strings.EOL.length();
-			prefix = Strings.EOL;
+			insertOffset -= target.getLineDelim().length();
+			prefix = target.getLineDelim();
 		}
 
 		TextEdit edit = new MultiTextEdit();
@@ -84,8 +83,8 @@ public class MovePartsCommand extends AbstractDocumentCommand {
 			int len = part.getLengthWithSep();
 
 			if (offset + len > docLen) {
-				len -= Strings.EOL.length();
-				suffix = Strings.EOL;
+				len -= target.getLineDelim().length();
+				suffix = target.getLineDelim();
 			}
 
 			String text = prefix + document.get(offset, len) + suffix;

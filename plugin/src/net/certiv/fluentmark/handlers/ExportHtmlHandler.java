@@ -25,6 +25,7 @@ import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.handlers.HandlerUtil;
 
 import net.certiv.fluentmark.FluentMkUI;
+import net.certiv.fluentmark.convert.HtmlUse;
 import net.certiv.fluentmark.editor.FluentMkEditor;
 import net.certiv.fluentmark.preferences.Prefs;
 import net.certiv.fluentmark.util.FileUtils;
@@ -55,7 +56,7 @@ public class ExportHtmlHandler extends AbstractHandler {
 
 			String pathname = dialog.open();
 			if (pathname != null) {
-				String html = editor.getHtml(true);
+				String html = editor.getHtml(HtmlUse.EXPORT);
 				FileUtils.write(new File(pathname), html);
 			}
 		

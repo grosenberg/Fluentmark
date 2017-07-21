@@ -51,4 +51,6 @@ public interface IParent extends IElement {
 	 * Returns whether the receiver is an ancestor of the given child.
 	 */
 	boolean isAncestor(IParent child);
+
+	String getLineDelim();
 }

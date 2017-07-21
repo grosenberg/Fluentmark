@@ -17,13 +17,14 @@ import org.eclipse.jface.text.TextUtilities;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.text.edits.DeleteEdit;
+import org.eclipse.ui.texteditor.ITextEditor;
 
 import net.certiv.fluentmark.FluentMkUI;
+import net.certiv.fluentmark.editor.FluentMkEditor;
 import net.certiv.fluentmark.model.Kind;
 import net.certiv.fluentmark.model.PagePart;
 import net.certiv.fluentmark.model.PageRoot;
 import net.certiv.fluentmark.preferences.Prefs;
-import net.certiv.fluentmark.util.Strings;
 
 /**
  * Modifies the document content to avoid lines above a preferred length
@@ -31,8 +32,10 @@ import net.certiv.fluentmark.util.Strings;
 public class LineWrapEditStrategy implements IAutoEditStrategy {
 
 	private int limit; 	// Maximum line length
+	private FluentMkEditor editor;
 
-	public LineWrapEditStrategy() {
+	public LineWrapEditStrategy(ITextEditor editor) {
+		this.editor = (FluentMkEditor) editor;;
 		IPreferenceStore store = FluentMkUI.getDefault().getPreferenceStore();
 		store.addPropertyChangeListener(new IPropertyChangeListener() {
 
@@ -44,7 +47,7 @@ public class LineWrapEditStrategy implements IAutoEditStrategy {
 			}
 		});
 
-		this.limit = store.getInt(Prefs.EDITOR_FORMATTING_COLUMN);
+		limit = store.getInt(Prefs.EDITOR_FORMATTING_COLUMN);
 	}
 
 	@Override
@@ -92,7 +95,7 @@ public class LineWrapEditStrategy implements IAutoEditStrategy {
 			}
 
 			StringBuffer buf = new StringBuffer(cmd.text);
-			if (forceNL) buf.append(Strings.EOL); 		// force new line
+			if (forceNL) buf.append(editor.getLineDelimiter(doc)); 		// force new line
 			if (end > beg) {
 				buf.append(doc.get(beg, end - beg)); 	// add the indent
 			}
@@ -104,12 +107,11 @@ public class LineWrapEditStrategy implements IAutoEditStrategy {
 	}
 
 	private boolean evaluateInsertPoint(IDocument doc, DocumentCommand cmd) {
-		if (!(cmd.text.equals(" ") || cmd.text.equals("\t"))) return false;	// only check on
-																				// whitespace
+		if (!(cmd.text.equals(" ") || cmd.text.equals("\t"))) return false;	// only check HWS
 
 		try {
 			int beg = AutoEdit.getLineOffset(doc, cmd.offset);
-			boolean force = cmd.offset > beg + limit + Strings.EOL.length();
+			boolean force = cmd.offset > beg + limit + editor.getLineDelimiter(doc).length();
 			// if (force) cmd.text = ""; // consume the WS
 			return force;
 		} catch (BadLocationException e) {

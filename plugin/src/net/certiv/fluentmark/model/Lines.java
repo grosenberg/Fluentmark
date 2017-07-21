@@ -14,11 +14,10 @@ import net.certiv.fluentmark.FluentMkUI;
 import net.certiv.fluentmark.preferences.Prefs;
 import net.certiv.fluentmark.util.FloorKeyMap;
 import net.certiv.fluentmark.util.Indent;
-import net.certiv.fluentmark.util.Strings;
 
 public class Lines {
 
-	public static class Line {
+	protected static class Line {
 
 		String text = "";
 		int offset = 0;
@@ -36,11 +35,11 @@ public class Lines {
 			blankNext = true;
 		}
 
-		public Line(Line prior, String line) {
+		public Line(int delimLen, Line prior, String line) {
 			this();
 			this.text = line;
 			this.offset = prior.offset + prior.length;
-			this.length = line.length() + Strings.EOL.length();
+			this.length = line.length() + delimLen;
 			this.idx = prior.idx + 1;
 
 			blankPrior = prior.isBlank();
@@ -68,18 +67,21 @@ public class Lines {
 
 	private Map<Integer, Line> lineList = new LinkedHashMap<>();
 	private FloorKeyMap lineMap;
+	private String lineDelim;
 
-	public Lines(String content) {
+	public Lines(String content, String lineDelim) {
+		this.lineDelim = lineDelim;
 		load(content);
 	}
 
 	private void load(String content) {
-		String[] lines = content.split(Strings.EOL, -1); // do not skip blank lines
+		String[] lines = content.split(lineDelim, -1); // do not skip blank lines
+		int delimLen = lineDelim != null ? lineDelim.length() : 0;
 		if (lineMap != null) lineMap.clear();
 		lineMap = new FloorKeyMap(lines.length);
 		Line prior = new Line();
 		for (int idx = 0; idx < lines.length; idx++) {
-			Line line = new Line(prior, lines[idx]);
+			Line line = new Line(delimLen, prior, lines[idx]);
 			lineList.put(idx, line);
 			lineMap.put(line.offset, idx);
 			prior = line;
@@ -205,16 +207,16 @@ public class Lines {
 		clear();
 	}
 
+	public static int computeLevel(String text) {
+		int width = FluentMkUI.getDefault().getPreferenceStore().getInt(Prefs.EDITOR_TAB_WIDTH);
+		return Indent.measureIndentInSpaces(text, width);
+	}
+
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		for (Line line : lineList.values()) {
 			sb.append(line.toString());
 		}
 		return sb.toString();
-	}
-
-	public static int computeLevel(String text) {
-		int width = FluentMkUI.getDefault().getPreferenceStore().getInt(Prefs.EDITOR_TAB_WIDTH);
-		return Indent.measureIndentInSpaces(text, width);
 	}
 }

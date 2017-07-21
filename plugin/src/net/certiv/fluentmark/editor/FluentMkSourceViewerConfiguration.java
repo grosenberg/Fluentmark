@@ -186,7 +186,7 @@ public class FluentMkSourceViewerConfiguration extends TextSourceViewerConfigura
 
 	@Override
 	public IAutoEditStrategy[] getAutoEditStrategies(ISourceViewer sourceViewer, String contentType) {
-		return new IAutoEditStrategy[] { new SmartAutoEditStrategy(partitioning), new LineWrapEditStrategy(),
+		return new IAutoEditStrategy[] { new SmartAutoEditStrategy(partitioning), new LineWrapEditStrategy(editor),
 				new PairEditStrategy() };
 	}
 

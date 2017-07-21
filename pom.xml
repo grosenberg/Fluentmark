@@ -7,7 +7,7 @@
 
 	<groupId>net.certiv.fluentmark</groupId>
 	<artifactId>parent</artifactId>
-	<version>0.11.0-SNAPSHOT</version>
+	<version>0.12.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>FluentMark parent</name>
@@ -38,9 +38,9 @@
 
 	<repositories>
 		<repository>
-			<id>neon</id>
+			<id>oxygen</id>
 			<layout>p2</layout>
-			<url>http://download.eclipse.org/releases/neon</url>
+			<url>http://download.eclipse.org/releases/oxygen</url>
 		</repository>
 		<repository>
 			<id>tools</id>
@@ -50,7 +50,7 @@
 		<repository>
 			<id>eclipse.spellchecker</id>
 			<layout>p2</layout>
-			<url>file:/D:/DevFiles/Eclipse/Eclipse/Spellchecker/eclipse.spellchecker.site/target/repository/</url>
+			<url>file:/D:/DevFiles/Eclipse/Tools/Spellchecker/eclipse.spellchecker.site/target/repository/</url>
 		</repository>
 	</repositories>
 

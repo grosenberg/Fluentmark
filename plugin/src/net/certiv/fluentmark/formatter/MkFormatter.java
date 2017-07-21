@@ -44,7 +44,7 @@ public class MkFormatter {
 
 			TextEdit edit = new MultiTextEdit();
 			for (PagePart part : parts) {
-				formatPagePart(editor, part, edit);
+				formatPagePart(part, edit);
 			}
 
 			edit.apply(editor.getDocument());
@@ -67,7 +67,7 @@ public class MkFormatter {
 		return selected;
 	}
 
-	private static void formatPagePart(FluentMkEditor editor, PagePart part, TextEdit edit) {
+	private static void formatPagePart(PagePart part, TextEdit edit) {
 		switch (part.getKind()) {
 			case BLANK:
 				formatBlank(part, edit);
@@ -89,7 +89,7 @@ public class MkFormatter {
 	private static void formatBlank(PagePart part, TextEdit edit) {
 		ISourceRange range = part.getSourceRange();
 		int eols = range.getEndLine() - range.getBeginLine() + 1;
-		String rep = Strings.dup(Strings.EOL, eols);
+		String rep = Strings.dup(part.getLineDelim(), eols);
 		if (range.getOffset() + range.getLength() <= docLength) {
 			edit.addChild(new ReplaceEdit(range.getOffset(), range.getLength(), rep));
 		}
@@ -105,11 +105,11 @@ public class MkFormatter {
 	private static void formatText(PagePart part, TextEdit edit, int cols) {
 		ISourceRange range = part.getSourceRange();
 		int offset = range.getOffset();
-		int len = range.getLength() - Strings.EOL.length();
+		int len = range.getLength() - part.getLineDelim().length();
 		if (len <= 0) return;
 
 		String content = part.getContent(true);
-		content = TextFormatter.wrap(content, cols);
+		content = TextFormatter.wrap(content, cols, part.getLineDelim());
 
 		edit.addChild(new ReplaceEdit(offset, len, content));
 	}
@@ -123,13 +123,14 @@ public class MkFormatter {
 	private static void formatListItem(PagePart part, int mark, TextEdit edit, int cols, int tabWidth) {
 		ISourceRange range = part.getSublistRange(mark);
 		int offset = range.getOffset();
-		int len = range.getLength() - Strings.EOL.length();
+		int len = range.getLength() - part.getLineDelim().length();
 		if (len <= 0) return;
 
 		String listItem = part.getSublistContent(mark);
 		int indent = Indent.measureIndentInTabs(listItem, tabWidth);
 		int markWidth = listMarkWidth(listItem);
-		listItem = TextFormatter.wrap(listItem, cols, tabWidth * indent, (tabWidth * indent) + markWidth);
+		listItem = TextFormatter.wrap(listItem, cols, part.getLineDelim(), tabWidth * indent,
+				(tabWidth * indent) + markWidth);
 
 		edit.addChild(new ReplaceEdit(offset, len, listItem));
 	}

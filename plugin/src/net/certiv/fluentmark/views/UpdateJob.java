@@ -23,6 +23,7 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPage;
 
 import net.certiv.fluentmark.Log;
+import net.certiv.fluentmark.convert.HtmlUse;
 import net.certiv.fluentmark.editor.FluentMkEditor;
 
 public class UpdateJob extends Job {
@@ -66,7 +67,7 @@ public class UpdateJob extends Job {
 			}
 
 			FluentMkEditor editor = (FluentMkEditor) part;
-			String html = editor.getHtml(true);
+			String html = editor.getHtml(HtmlUse.VIEW);
 			if (html == null) return Status.CANCEL_STATUS;
 			jaxed = editor.useMathJax();
 

@@ -31,6 +31,8 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.preferences.IScopeContext;
+import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
@@ -90,6 +92,7 @@ import org.osgi.framework.Bundle;
 import net.certiv.fluentmark.FluentMkUI;
 import net.certiv.fluentmark.Log;
 import net.certiv.fluentmark.convert.FluentMkConverter;
+import net.certiv.fluentmark.convert.HtmlUse;
 import net.certiv.fluentmark.editor.color.IColorManager;
 import net.certiv.fluentmark.editor.folding.FoldingStructureProvider;
 import net.certiv.fluentmark.editor.folding.IFoldingStructureProvider;
@@ -482,6 +485,21 @@ public class FluentMkEditor extends TextEditor
 		return docProvider == null ? null : docProvider.getDocument(input);
 	}
 
+	public String getLineDelimiter() {
+		return getLineDelimiter(getDocument());
+	}
+
+	public String getLineDelimiter(IDocument doc) {
+		try {
+			if (doc != null) return doc.getLineDelimiter(0);
+		} catch (BadLocationException e) {}
+
+		// workspace preference
+		IScopeContext[] scopeContext = new IScopeContext[] { InstanceScope.INSTANCE };
+		return Platform.getPreferencesService().getString(Platform.PI_RUNTIME, Platform.PREF_LINE_SEPARATOR,
+				Strings.EOL, scopeContext);
+	}
+
 	public PageRoot getPageModel() {
 		if (pageDirty) updatePageModel();
 		return pageModel;
@@ -518,10 +536,10 @@ public class FluentMkEditor extends TextEditor
 	/**
 	 * Gets the html content generated from the current document, or null.
 	 * 
-	 * @param embedded if true, a full header is added suitable for HTML presentation. Otherwise, a
-	 *            minimal header is added.
+	 * @param hdr defines the intended use of the HTML: for export, for the embedded view, or
+	 *            minimal.
 	 */
-	public String getHtml(boolean embedded) {
+	public String getHtml(HtmlUse hdr) {
 		IDocument doc = getDocument();
 		int beg = 0;
 		int len = doc.getLength();
@@ -543,7 +561,7 @@ public class FluentMkEditor extends TextEditor
 			String text = getDocument().get(beg, len);
 			String html = converter.convert(text);
 			IPathEditorInput input = (IPathEditorInput) getEditorInput();
-			return addHeader(html, getStyles(input.getPath()), embedded);
+			return addHeader(html, input.getPath(), hdr);
 		} catch (BadLocationException e) {
 			Log.error("Bad front matter exclusion: " + beg + ":" + len + "; " + region.getLength());
 			return "";
@@ -554,14 +572,14 @@ public class FluentMkEditor extends TextEditor
 		return converter.useMathJax();
 	}
 
-	private String addHeader(String html, String style, boolean extended) {
-		return addHeader(html, style, null, extended);
+	private String addHeader(String html, IPath path, HtmlUse hdr) {
+		return addHeader(html, path, null, hdr);
 	}
 
-	private String addHeader(String html, String style, String mjConfig, boolean extended) {
+	private String addHeader(String html, IPath path, String mjConfig, HtmlUse hdr) {
 		StringBuilder sb = new StringBuilder("<html><head>" + Strings.EOL);
 
-		if (extended) {
+		if (hdr != HtmlUse.MIN) {
 			sb.append("<link rel=\"stylesheet\" " + "href=\"" + HIGHLIGHT_CSS + "\">" + Strings.EOL);
 			sb.append("<script src=\"" + HIGHLIGHT_JS + "\">" + "</script>" + Strings.EOL);
 			sb.append("<script>hljs.initHighlightingOnLoad();</script>" + Strings.EOL);
@@ -572,15 +590,21 @@ public class FluentMkEditor extends TextEditor
 				sb.append(MathJax.defaultCDN);
 			}
 
-			if (style != null) {
+			if (path != null) {
 				try {
-					String stylesheet = FileUtils.read(new File(style));
+					String stylesPathname = getStyles(path);
+					String stylesheet = FileUtils.read(new File(stylesPathname));
 					sb.append("<style media=\"screen\" type=\"text/css\">" + Strings.EOL);
 					sb.append(stylesheet + Strings.EOL);
 					sb.append("</style>" + Strings.EOL);
 				} catch (RuntimeException e) {
 					Log.error("Failed reading stylesheet", e);
 				}
+			}
+
+			if (hdr == HtmlUse.VIEW) {
+				String docPath = path.removeLastSegments(1).toString();
+				sb.append("<base href=\"" + docPath + "/\">" + Strings.EOL);
 			}
 		}
 

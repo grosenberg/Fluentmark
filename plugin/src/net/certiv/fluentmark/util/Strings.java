@@ -14,7 +14,7 @@ public final class Strings {
 	public static final String ISO_LATIN = "ISO-8859-1";
 	public static final String UTF_8 = "UTF-8";
 	public static final String EOL = System.getProperty("line.separator");
-	public static final String EOL2 = EOL + EOL;
+	// public static final String EOL2 = EOL + EOL;
 
 	public static final Pattern BLANK_LINE = Pattern.compile("^\\s+$", 8);
 

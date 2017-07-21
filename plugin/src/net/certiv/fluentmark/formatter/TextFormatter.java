@@ -21,15 +21,15 @@ public class TextFormatter {
 	private TextFormatter() {}
 
 	/** Format the given content by wrapping at the given col with no indent */
-	public static String wrap(String content, int col) {
-		return wrap(content, col, 0, 0);
+	public static String wrap(String content, int col, String delim) {
+		return wrap(content, col, delim, 0, 0);
 	}
 
 	/**
 	 * Format the given content by wrapping at the given col. First line will be indented by
 	 * indentFirst spaces and the remaining lines will be indented with indentRest spaces
 	 */
-	public static String wrap(String content, int col, int indentFirst, int indentRest) {
+	public static String wrap(String content, int col, String delim, int indentFirst, int indentRest) {
 		WordBreakIterator breaker = new WordBreakIterator();
 
 		content = Strings.trimLeft(content);
@@ -64,7 +64,7 @@ public class TextFormatter {
 			lines.add(remainder);
 		}
 
-		return String.join(Strings.EOL, lines);
+		return String.join(delim, lines);
 	}
 
 	private static String completeSpecial(String content, WordBreakIterator breaker, int mark, int dot,

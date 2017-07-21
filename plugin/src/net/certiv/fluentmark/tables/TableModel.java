@@ -184,7 +184,7 @@ public class TableModel {
 		if (mark < existing.length() - 1) {
 			sb.append(existing.substring(mark + 1));
 		}
-		sb.append(Strings.EOL);
+		sb.append(part.getLineDelim());
 	}
 
 	private void addDataRow(StringBuilder sb, Row row) {
@@ -210,7 +210,7 @@ public class TableModel {
 		if (mark < existing.length() - 1) {
 			sb.append(existing.substring(mark + 1));
 		}
-		sb.append(Strings.EOL);
+		sb.append(part.getLineDelim());
 	}
 
 	private String[] parseRow(String text) {

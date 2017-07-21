@@ -18,14 +18,17 @@ public abstract class Parent extends Element implements IParent {
 	private IParent parent;
 	private final List<IParent> children = new ArrayList<>();
 	private boolean changed;
+	private String lineDelim;
 
 	public Parent(IParent parent, Kind kind, ISourceRange range) {
 		super(kind, range);
 		this.parent = parent;
+		this.lineDelim = parent.getLineDelim();
 	}
 
-	public Parent() {
+	public Parent(String lineDelim) {
 		super();
+		this.lineDelim = lineDelim;
 	}
 
 	@Override
@@ -108,6 +111,11 @@ public abstract class Parent extends Element implements IParent {
 
 	protected boolean hasChanged() {
 		return changed;
+	}
+
+	/** Return the line delimiter for the model content */
+	public String getLineDelim() {
+		return lineDelim;
 	}
 
 	@Override

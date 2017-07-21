@@ -12,6 +12,7 @@ import java.util.Map;
 
 public class LRUCache<K, V> extends LinkedHashMap<K, V> {
 
+	private static final long serialVersionUID = -2383549163615798514L;
 	private int cacheSize;
 
 	public LRUCache(int cacheSize) {

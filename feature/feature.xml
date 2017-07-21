@@ -2,7 +2,7 @@
 <feature
       id="net.certiv.fluentmark.feature"
       label="FluentMark Editor"
-      version="0.11.0.qualifier"
+      version="0.12.0.qualifier"
       provider-name="Certiv Analytics">
 
    <description>
@@ -58,7 +58,7 @@ for more information.
       <import plugin="org.eclipse.debug.ui"/>
       <import plugin="net.certiv.certivtools" version="1.0.6" match="greaterOrEqual"/>
       <import plugin="org.eclipse.ui.navigator"/>
-      <import plugin="com.ibm.icu"/>
+      <import plugin="org.eclipse.jdt.ui" version="3.12.2" match="greaterOrEqual"/>
    </requires>
 
    <plugin

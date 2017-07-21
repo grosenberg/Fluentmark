@@ -38,7 +38,7 @@ public class PagePart extends Parent {
 	public void addLine(Line line) {
 		line.part = this;
 		getSourceRange().addLine(line);
-		appendContent(line.text + Strings.EOL);
+		appendContent(line.text + getLineDelim());
 	}
 
 	public int getPartIdx() {
@@ -114,7 +114,7 @@ public class PagePart extends Parent {
 	}
 
 	private String getFirstLine() {
-		return getContent().split(Strings.EOL, 2)[0];
+		return getContent().split(getLineDelim(), 2)[0];
 	}
 
 	public String details(int offset) {
@@ -126,10 +126,10 @@ public class PagePart extends Parent {
 		int col = offset - off + 1;
 
 		StringBuilder sb = new StringBuilder();
-		sb.append(getKind() + Strings.EOL);
-		sb.append("Offset=" + offset + "; line=" + line + "; column=" + col + Strings.EOL);
-		sb.append(getSourceRange() + Strings.EOL);
-		sb.append(toString() + Strings.EOL);
+		sb.append(getKind() + getLineDelim());
+		sb.append("Offset=" + offset + "; line=" + line + "; column=" + col + getLineDelim());
+		sb.append(getSourceRange() + getLineDelim());
+		sb.append(toString() + getLineDelim());
 		return sb.toString();
 	}
 
