@@ -97,6 +97,7 @@ public class FluentMkConverter {
 		boolean dotMode = store.getBoolean(Prefs.EDITOR_DOTMODE_ENABLED);
 
 		Builder builder = Configuration.builder();
+		builder.enableParseTable();
 		if (safeMode) builder.enableSafeMode();
 		if (extended || dotMode) builder.forceExtentedProfile();
 		if (dotMode) builder.setCodeBlockEmitter(emitter);
