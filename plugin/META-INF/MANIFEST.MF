@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: FluentMark Editor
 Bundle-SymbolicName: net.certiv.fluentmark;singleton:=true
-Bundle-Version: 0.12.0.qualifier
+Bundle-Version: 0.12.1.qualifier
 Bundle-Activator: net.certiv.fluentmark.FluentMkUI
 Bundle-Vendor: Certiv Analytics
 Require-Bundle: org.eclipse.core.commands,
@@ -18,12 +18,12 @@ Require-Bundle: org.eclipse.core.commands,
  org.eclipse.ui.views,
  org.eclipse.ui.workbench,
  org.eclipse.ui.workbench.texteditor,
- eclipse.spellchecker;bundle-version="3.3.0",
  org.eclipse.core.variables,
  org.eclipse.ui.ide,
  org.eclipse.debug.ui,
- net.certiv.certivtools;bundle-version="1.0.6",
- org.eclipse.jdt.ui;bundle-version="3.12.2"
+ org.eclipse.jdt.ui,
+ net.certiv.tools;bundle-version="1.0.7",
+ eclipse.spellchecker;bundle-version="3.3.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .,

@@ -322,16 +322,20 @@ public class PageRoot extends Parent implements IResourceChangeListener, IDocume
 					idx = end;
 					break;
 
+				case FRONT_MATTER:
+					end = lines.nextMatching(idx, "---");
+					offset = lines.getOffset(idx);
+					len = lines.getOffset(end) + lines.getTextLength(end) - offset;
+					current = headers.getCurrentParent();
+					addPageElement(current, kind, offset, len, idx, end);
+					idx = end;
+					break;
+
 				case HRULE:
 					end = idx;
 					offset = lines.getOffset(idx);
 					len = lines.getTextLength(idx);
 					current = headers.getCurrentParent();
-					if (offset == 0 && lines.getText(idx).startsWith("---")) {
-						end = lines.nextMatching(idx, kind, "---");
-						len = lines.getOffset(end) + lines.getTextLength(end) - offset;
-						kind = Kind.FRONT_MATTER;
-					}
 					addPageElement(current, kind, offset, len, idx, end);
 					break;
 
