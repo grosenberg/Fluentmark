@@ -292,14 +292,36 @@ public class PageRoot extends Parent implements IResourceChangeListener, IDocume
 					offset = lines.getOffset(idx);
 					len = lines.getTextLength(idx);
 					current = headers.getCurrentParent();
+					lines.setKind(idx, kind);
 
-					// switch to CODE_BLOCK effective & add to parent if prior is same
-					lines.setKind(idx, kind);				// original
-					lines.setKind(idx, Kind.CODE_BLOCK);	// effective
-					if (idx > 0 && lines.getKind(idx - 1) == Kind.CODE_BLOCK) {
-						addToParent(idx);
-					} else {
-						addPageElement(current, Kind.CODE_BLOCK, offset, len, idx, end);
+					if (idx > 0) {
+						// check prior & conditionally change kind and add to parent
+						switch (lines.getKind(idx - 1)) {
+							case CODE_BLOCK:
+								lines.setKind(idx, Kind.CODE_BLOCK);
+								addToParent(idx);
+								break;
+							case TEXT:
+								lines.setKind(idx, Kind.TEXT);
+								addToParent(idx);
+								break;
+							case LIST:
+								lines.setKind(idx, Kind.LIST);
+								addToParent(idx);
+								break;
+							case TABLE:
+								lines.setKind(idx, Kind.TABLE);
+								addToParent(idx);
+								break;
+							case DEFINITION:
+								lines.setKind(idx, Kind.DEFINITION);
+								addToParent(idx);
+								break;
+							default:
+								lines.setKind(idx, Kind.CODE_BLOCK);
+								addPageElement(current, Kind.CODE_BLOCK, offset, len, idx, end);
+								break;
+						}
 					}
 					break;
 

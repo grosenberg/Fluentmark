@@ -264,6 +264,20 @@
             id="net.certiv.fluentmark.visibleComment"
             name="Visible Comment">
       </command>
+      <command
+            categoryId="net.certiv.fluentmark.commands"
+            defaultHandler="net.certiv.fluentmark.handlers.BoldHandler"
+            description="Bold"
+            id="net.certiv.fluentmark.bold"
+            name="Bold">
+      </command>
+      <command
+            categoryId="net.certiv.fluentmark.commands"
+            defaultHandler="net.certiv.fluentmark.handlers.ItalicHandler"
+            description="Italic"
+            id="net.certiv.fluentmark.italic"
+            name="Italic">
+      </command>
    </extension>
 
    <extension
@@ -366,7 +380,36 @@
             </reference>
          </enabledWhen>
       </handler>
+      <handler
+            class="net.certiv.fluentmark.handlers.BoldHandler"
+            commandId="net.certiv.fluentmark.bold">
+         <activeWhen>
+            <reference
+                  definitionId="net.certiv.fluentmark.editorVisible">
+            </reference>
+         </activeWhen>
+         <enabledWhen>
+            <reference
+                  definitionId="net.certiv.fluentmark.editorVisible">
+            </reference>
+         </enabledWhen>
+      </handler>
+      <handler
+            class="net.certiv.fluentmark.handlers.ItalicHandler"
+            commandId="net.certiv.fluentmark.italic">
+         <activeWhen>
+            <reference
+                  definitionId="net.certiv.fluentmark.editorVisible">
+            </reference>
+         </activeWhen>
+         <enabledWhen>
+            <reference
+                  definitionId="net.certiv.fluentmark.editorVisible">
+            </reference>
+         </enabledWhen>
+      </handler>
    </extension>
+   
    <extension
          point="org.eclipse.ui.contexts">
       <context
@@ -400,6 +443,18 @@
             contextId="net.certiv.fluentmark.ui.editorScope"
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
             sequence="M1+M2+/">
+      </key>
+      <key
+            commandId="net.certiv.fluentmark.bold"
+            contextId="net.certiv.fluentmark.ui.editorScope"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="M1+B">
+      </key>
+      <key
+            commandId="net.certiv.fluentmark.italic"
+            contextId="net.certiv.fluentmark.ui.editorScope"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="M1+I">
       </key>
    </extension>
    <extension

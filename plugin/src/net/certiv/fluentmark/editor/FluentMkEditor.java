@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.swing.event.EventListenerList;
 
@@ -250,8 +251,8 @@ public class FluentMkEditor extends TextEditor
 	}
 
 	/**
-	 * Returns the editor's source viewer. May return null before the editor's part has been created
-	 * and after disposal.
+	 * Returns the editor's source viewer. May return null before the editor's part has been created and
+	 * after disposal.
 	 */
 	public ISourceViewer getViewer() {
 		return getSourceViewer();
@@ -350,8 +351,8 @@ public class FluentMkEditor extends TextEditor
 	}
 
 	/**
-	 * Initializes the preference store for this editor. The constucted store represents the
-	 * combined values of the FluentMkUI, EditorsUI, and PlatformUI stores.
+	 * Initializes the preference store for this editor. The constucted store represents the combined
+	 * values of the FluentMkUI, EditorsUI, and PlatformUI stores.
 	 */
 	private void initEditorPreferenceStore() {
 		IPreferenceStore store = FluentMkUI.getDefault().getCombinedPreferenceStore();
@@ -408,8 +409,8 @@ public class FluentMkEditor extends TextEditor
 	}
 
 	/**
-	 * Handles a property change event describing a change of the editor's preference delta and
-	 * updates the preference related editor properties.
+	 * Handles a property change event describing a change of the editor's preference delta and updates
+	 * the preference related editor properties.
 	 *
 	 * @param event the property change event
 	 */
@@ -536,8 +537,7 @@ public class FluentMkEditor extends TextEditor
 	/**
 	 * Gets the html content generated from the current document, or null.
 	 * 
-	 * @param hdr defines the intended use of the HTML: for export, for the embedded view, or
-	 *            minimal.
+	 * @param hdr defines the intended use of the HTML: for export, for the embedded view, or minimal.
 	 */
 	public String getHtml(HtmlUse hdr) {
 		IDocument doc = getDocument();
@@ -769,8 +769,8 @@ public class FluentMkEditor extends TextEditor
 	}
 
 	/**
-	 * Computes and returns the source reference that includes the caret and serves as provider for
-	 * the outline pageModel selection and the editor range indication.
+	 * Computes and returns the source reference that includes the caret and serves as provider for the
+	 * outline pageModel selection and the editor range indication.
 	 *
 	 * @return the computed source reference
 	 */
@@ -805,8 +805,8 @@ public class FluentMkEditor extends TextEditor
 	/**
 	 * Returns the most narrow element including the given offset. If <code>reconcile</code> is
 	 * <code>true</code> the editor's input element is reconciled in advance. If it is
-	 * <code>false</code> this method only returns a result if the editor's input element does not
-	 * need to be reconciled.
+	 * <code>false</code> this method only returns a result if the editor's input element does not need
+	 * to be reconciled.
 	 *
 	 * @param offset the offset included by the retrieved element
 	 * @param reconcile <code>true</code> if should be reconciled
@@ -816,17 +816,27 @@ public class FluentMkEditor extends TextEditor
 		return getPageModel().partAtOffset(offset);
 	}
 
-	int offset = 0; // crap!!!
+	final AtomicInteger atom = new AtomicInteger();
 
 	public int getCursorOffset() {
 		Display.getDefault().syncExec(new Runnable() {
 
 			@Override
 			public void run() {
-				offset = getSourceViewer().getTextWidget().getCaretOffset();
+				atom.set(getSourceViewer().getTextWidget().getCaretOffset());
 			}
 		});
-		return offset;
+		return atom.get();
+	}
+
+	public void setCursorOffset(final int offset) {
+		Display.getDefault().syncExec(new Runnable() {
+
+			@Override
+			public void run() {
+				getSourceViewer().getTextWidget().setCaretOffset(offset);
+			}
+		});
 	}
 
 	/**
@@ -926,8 +936,7 @@ public class FluentMkEditor extends TextEditor
 	}
 
 	/**
-	 * Removes the given listener. Has no effect if an identical listener was not already
-	 * registered.
+	 * Removes the given listener. Has no effect if an identical listener was not already registered.
 	 *
 	 * @param listener the reconcile listener to be removed
 	 */

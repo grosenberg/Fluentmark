@@ -47,7 +47,6 @@ public class ToggleHiddenCommentHandler extends AbstractHandler {
 		IEditorPart edPart = HandlerUtil.getActiveEditor(event);
 		if (edPart instanceof FluentMkEditor) {
 			FluentMkEditor editor = (FluentMkEditor) edPart;
-			// PageRoot model = editor.getPageModel(true);
 			IDocument doc = editor.getDocument();
 			if (doc != null) {
 				ISelection sel = HandlerUtil.getCurrentSelection(event);

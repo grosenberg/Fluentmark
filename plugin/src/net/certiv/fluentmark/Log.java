@@ -11,11 +11,6 @@ import org.eclipse.core.runtime.ILog;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 
-/**
- * Nodeclipse Log Util
- * 
- * @author Lamb Gao, Paul Verest
- */
 public class Log {
 
 	public static IStatus createStatus(int severity, int code, String message, Throwable exception) {
