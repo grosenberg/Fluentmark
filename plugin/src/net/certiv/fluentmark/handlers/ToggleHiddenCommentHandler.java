@@ -20,6 +20,8 @@ import org.eclipse.text.edits.DeleteEdit;
 import org.eclipse.text.edits.InsertEdit;
 import org.eclipse.text.edits.MalformedTreeException;
 import org.eclipse.text.edits.MultiTextEdit;
+import org.eclipse.text.undo.DocumentUndoManagerRegistry;
+import org.eclipse.text.undo.IDocumentUndoManager;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.handlers.HandlerUtil;
 
@@ -91,13 +93,15 @@ public class ToggleHiddenCommentHandler extends AbstractHandler {
 	}
 
 	private void addComment(IDocument doc, int beg, int len) {
-		// if (len == 0) return; // nothing to comment
+		IDocumentUndoManager undoMgr = DocumentUndoManagerRegistry.getDocumentUndoManager(doc);
+		undoMgr.beginCompoundChange();
 
 		MultiTextEdit edit = new MultiTextEdit();
 		edit.addChild(new InsertEdit(beg, getCommentBeg()));
 		edit.addChild(new InsertEdit(beg + len, getCommentEnd()));
 		try {
 			edit.apply(doc);
+			undoMgr.endCompoundChange();
 		} catch (MalformedTreeException | BadLocationException e) {
 			Log.error("Failure creating comment " + e.getMessage());
 		}
@@ -105,6 +109,9 @@ public class ToggleHiddenCommentHandler extends AbstractHandler {
 
 	private void removeComment(IDocument doc, int offset) {
 		try {
+			IDocumentUndoManager undoMgr = DocumentUndoManagerRegistry.getDocumentUndoManager(doc);
+			undoMgr.beginCompoundChange();
+
 			ITypedRegion par = TextUtilities.getPartition(doc, Partitions.MK_PARTITIONING, offset, false);
 			int beg = par.getOffset();
 			int len = par.getLength();
@@ -117,6 +124,7 @@ public class ToggleHiddenCommentHandler extends AbstractHandler {
 			edit.addChild(new DeleteEdit(beg, bLen));
 			edit.addChild(new DeleteEdit(beg + len - eLen, eLen));
 			edit.apply(doc);
+			undoMgr.endCompoundChange();
 		} catch (MalformedTreeException | BadLocationException e) {
 			Log.error("Failure removing comment " + e.getMessage());
 		}

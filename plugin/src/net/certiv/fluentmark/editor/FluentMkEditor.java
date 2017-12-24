@@ -29,6 +29,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
@@ -74,6 +75,8 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.text.undo.DocumentUndoManagerRegistry;
+import org.eclipse.text.undo.IDocumentUndoManager;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IPartService;
 import org.eclipse.ui.IPathEditorInput;
@@ -121,9 +124,7 @@ public class FluentMkEditor extends TextEditor
 	private static final String HIGHLIGHT_CSS = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/styles/default.min.css";
 	private static final String HIGHLIGHT_JS = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/highlight.min.js";
 
-	/**
-	 * Updates the DslOutline pageModel selection and this editor's range indicator.
-	 */
+	// Updates the DslOutline pageModel selection and this editor's range indicator.
 	private class EditorSelectionChangedListener extends AbstractSelectionChangedListener {
 
 		@Override
@@ -149,7 +150,6 @@ public class FluentMkEditor extends TextEditor
 
 	private ListenerList<IReconcilingListener> reconcilingListeners;
 	private EditorSelectionChangedListener editorSelectionChangedListener;
-
 	private boolean disableSelResponse;
 
 	public FluentMkEditor() {
@@ -248,6 +248,16 @@ public class FluentMkEditor extends TextEditor
 				participant.setup(document);
 			}
 		}
+	}
+
+	@Override
+	public void doSave(IProgressMonitor progressMonitor) {
+		IDocument doc = getDocumentProvider().getDocument(getEditorInput());
+		if (doc != null) {
+			IDocumentUndoManager undoMgr = DocumentUndoManagerRegistry.getDocumentUndoManager(doc);
+			if (undoMgr != null) undoMgr.commit();
+		}
+		super.doSave(progressMonitor);
 	}
 
 	/**

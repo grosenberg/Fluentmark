@@ -9,6 +9,8 @@ import org.eclipse.jface.text.ITextSelection;
 import org.eclipse.text.edits.MultiTextEdit;
 import org.eclipse.text.edits.ReplaceEdit;
 import org.eclipse.text.edits.TextEdit;
+import org.eclipse.text.undo.DocumentUndoManagerRegistry;
+import org.eclipse.text.undo.IDocumentUndoManager;
 
 import net.certiv.fluentmark.Log;
 import net.certiv.fluentmark.editor.FluentMkEditor;
@@ -42,13 +44,14 @@ public class MkFormatter {
 				parts = selectedParts(model, sel);
 			}
 
+			IDocumentUndoManager undoMgr = DocumentUndoManagerRegistry.getDocumentUndoManager(doc);
+			undoMgr.beginCompoundChange();
 			TextEdit edit = new MultiTextEdit();
 			for (PagePart part : parts) {
 				formatPagePart(part, edit);
 			}
-
 			edit.apply(editor.getDocument());
-
+			undoMgr.endCompoundChange();
 		} catch (Exception ex) {
 			Log.error("Bad location error occurred during formatting", ex);
 		}

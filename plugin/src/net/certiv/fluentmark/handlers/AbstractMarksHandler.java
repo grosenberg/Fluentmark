@@ -13,6 +13,8 @@ import org.eclipse.text.edits.DeleteEdit;
 import org.eclipse.text.edits.InsertEdit;
 import org.eclipse.text.edits.MalformedTreeException;
 import org.eclipse.text.edits.MultiTextEdit;
+import org.eclipse.text.undo.DocumentUndoManagerRegistry;
+import org.eclipse.text.undo.IDocumentUndoManager;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.handlers.HandlerUtil;
 
@@ -89,6 +91,8 @@ public abstract class AbstractMarksHandler extends AbstractHandler {
 		}
 
 		// add surrounding marks
+		IDocumentUndoManager undoMgr = DocumentUndoManagerRegistry.getDocumentUndoManager(doc);
+		undoMgr.beginCompoundChange();
 		MultiTextEdit edit = new MultiTextEdit();
 		edit.addChild(new InsertEdit(beg, mark));
 		edit.addChild(new InsertEdit(beg + len, mark));
@@ -109,6 +113,7 @@ public abstract class AbstractMarksHandler extends AbstractHandler {
 
 		try {
 			edit.apply(doc);
+			undoMgr.endCompoundChange();
 			editor.setCursorOffset(cpos + markSpec[0].length());
 		} catch (MalformedTreeException | BadLocationException e) {
 			Log.error("Failure applying mark" + e.getMessage());
@@ -135,10 +140,14 @@ public abstract class AbstractMarksHandler extends AbstractHandler {
 
 	private void remove(int beg, int len, int markLen) {
 		try {
+			IDocumentUndoManager undoMgr = DocumentUndoManagerRegistry.getDocumentUndoManager(doc);
+			undoMgr.beginCompoundChange();
+
 			MultiTextEdit edit = new MultiTextEdit();
 			edit.addChild(new DeleteEdit(beg - markLen, markLen));
 			edit.addChild(new DeleteEdit(beg + len, markLen));
 			edit.apply(doc);
+			undoMgr.endCompoundChange();
 		} catch (MalformedTreeException | BadLocationException e) {
 			Log.error("Failure removing mark" + e.getMessage());
 		}
