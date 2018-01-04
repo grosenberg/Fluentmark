@@ -1,6 +1,6 @@
 package net.certiv.fluentmark.convert;
 
-public enum HtmlUse {
+public enum HtmlKind {
 	MIN,
 	EXPORT,
 	VIEW;

@@ -1,5 +1,10 @@
+.classpath
 /attic/
 /lib/
-/utils/
 
-.classpath
+/reactor/package-lock.json
+/reactor/build/
+/reactor/node/
+/reactor/node_modules/
+/react-magic-master/
+/react-magic/

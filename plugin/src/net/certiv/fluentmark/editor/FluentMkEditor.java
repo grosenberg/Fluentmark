@@ -7,11 +7,6 @@
  ******************************************************************************/
 package net.certiv.fluentmark.editor;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -20,22 +15,15 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.swing.event.EventListenerList;
 
-import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IWorkspaceRoot;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.ListenerList;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.preferences.IScopeContext;
 import org.eclipse.core.runtime.preferences.InstanceScope;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -50,9 +38,7 @@ import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.ITextSelection;
 import org.eclipse.jface.text.ITextViewerExtension5;
 import org.eclipse.jface.text.ITextViewerExtension6;
-import org.eclipse.jface.text.ITypedRegion;
 import org.eclipse.jface.text.Position;
-import org.eclipse.jface.text.TextUtilities;
 import org.eclipse.jface.text.reconciler.IReconciler;
 import org.eclipse.jface.text.source.Annotation;
 import org.eclipse.jface.text.source.IAnnotationModel;
@@ -79,7 +65,6 @@ import org.eclipse.text.undo.DocumentUndoManagerRegistry;
 import org.eclipse.text.undo.IDocumentUndoManager;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IPartService;
-import org.eclipse.ui.IPathEditorInput;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.editors.text.EditorsUI;
@@ -91,12 +76,10 @@ import org.eclipse.ui.part.ShowInContext;
 import org.eclipse.ui.texteditor.IDocumentProvider;
 import org.eclipse.ui.texteditor.ITextEditorActionConstants;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
-import org.osgi.framework.Bundle;
 
 import net.certiv.fluentmark.FluentMkUI;
-import net.certiv.fluentmark.Log;
 import net.certiv.fluentmark.convert.FluentMkConverter;
-import net.certiv.fluentmark.convert.HtmlUse;
+import net.certiv.fluentmark.convert.HtmlGen;
 import net.certiv.fluentmark.editor.color.IColorManager;
 import net.certiv.fluentmark.editor.folding.FoldingStructureProvider;
 import net.certiv.fluentmark.editor.folding.IFoldingStructureProvider;
@@ -109,9 +92,7 @@ import net.certiv.fluentmark.outline.operations.AbstractDocumentCommand;
 import net.certiv.fluentmark.outline.operations.CommandManager;
 import net.certiv.fluentmark.preferences.Prefs;
 import net.certiv.fluentmark.preferences.pages.PrefPageEditor;
-import net.certiv.fluentmark.util.FileUtils;
 import net.certiv.fluentmark.util.Strings;
-import net.certiv.fluentmark.views.MathJax;
 
 /**
  * Text editor with markdown support.
@@ -120,9 +101,6 @@ public class FluentMkEditor extends TextEditor
 		implements CommandManager, IShowInTarget, IShowInSource, IReconcilingListener {
 
 	public static final String ID = "net.certiv.fluentmark.editor.FluentMkEditor";
-
-	private static final String HIGHLIGHT_CSS = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/styles/default.min.css";
-	private static final String HIGHLIGHT_JS = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/highlight.min.js";
 
 	// Updates the DslOutline pageModel selection and this editor's range indicator.
 	private class EditorSelectionChangedListener extends AbstractSelectionChangedListener {
@@ -151,6 +129,7 @@ public class FluentMkEditor extends TextEditor
 	private ListenerList<IReconcilingListener> reconcilingListeners;
 	private EditorSelectionChangedListener editorSelectionChangedListener;
 	private boolean disableSelResponse;
+	private HtmlGen htmlGen;
 
 	public FluentMkEditor() {
 		super();
@@ -178,6 +157,7 @@ public class FluentMkEditor extends TextEditor
 		setDocumentProvider(getDocumentProvider());
 		pageModel = new PageRoot(this);
 		converter = new FluentMkConverter();
+		htmlGen = new HtmlGen(this, converter);
 	}
 
 	private void createListeners() {
@@ -544,149 +524,180 @@ public class FluentMkEditor extends TextEditor
 		return doc == null ? null : doc.get();
 	}
 
-	/**
-	 * Gets the html content generated from the current document, or null.
-	 * 
-	 * @param hdr defines the intended use of the HTML: for export, for the embedded view, or minimal.
-	 */
-	public String getHtml(HtmlUse hdr) {
-		IDocument doc = getDocument();
-		int beg = 0;
-		int len = doc.getLength();
-
-		// check for and skip front matter
-		ITypedRegion region;
-		try {
-			region = TextUtilities.getPartition(getDocument(), Partitions.MK_PARTITIONING, beg, true);
-		} catch (BadLocationException e) {
-			Log.error("Failed to get partition at offset: " + beg);
-			return "";
-		}
-		if (region.getType().equals(Partitions.FRONT_MATTER)) {
-			beg += region.getLength();
-			len -= region.getLength();
-		}
-
-		try {
-			String text = getDocument().get(beg, len);
-			String html = converter.convert(text);
-			IPathEditorInput input = (IPathEditorInput) getEditorInput();
-			return addHeader(html, input.getPath(), hdr);
-		} catch (BadLocationException e) {
-			Log.error("Bad front matter exclusion: " + beg + ":" + len + "; " + region.getLength());
-			return "";
-		}
+	/** Returns the Html generator. */
+	public HtmlGen getHtmlGen() {
+		return htmlGen;
 	}
 
 	public boolean useMathJax() {
 		return converter.useMathJax();
 	}
 
-	private String addHeader(String html, IPath path, HtmlUse hdr) {
-		return addHeader(html, path, null, hdr);
-	}
-
-	private String addHeader(String html, IPath path, String mjConfig, HtmlUse hdr) {
-		StringBuilder sb = new StringBuilder("<html><head>" + Strings.EOL);
-
-		if (hdr != HtmlUse.MIN) {
-			sb.append("<link rel=\"stylesheet\" " + "href=\"" + HIGHLIGHT_CSS + "\">" + Strings.EOL);
-			sb.append("<script src=\"" + HIGHLIGHT_JS + "\">" + "</script>" + Strings.EOL);
-			sb.append("<script>hljs.initHighlightingOnLoad();</script>" + Strings.EOL);
-
-			if (converter.useMathJax()) {
-				// sb.append(MathJax.experimentalConfig);
-				sb.append(MathJax.minConfig);
-				sb.append(MathJax.defaultCDN);
-			}
-
-			if (path != null) {
-				try {
-					String stylesPathname = getStyles(path);
-					String stylesheet = FileUtils.read(new File(stylesPathname));
-					sb.append("<style media=\"screen\" type=\"text/css\">" + Strings.EOL);
-					sb.append(stylesheet + Strings.EOL);
-					sb.append("</style>" + Strings.EOL);
-				} catch (RuntimeException e) {
-					Log.error("Failed reading stylesheet", e);
-				}
-			}
-
-			if (hdr == HtmlUse.VIEW) {
-				String docPath = path.removeLastSegments(1).toString();
-				sb.append("<base href=\"" + docPath + "/\">" + Strings.EOL);
-			}
-		}
-
-		sb.append("</head><body>" + Strings.EOL);
-		sb.append(html + Strings.EOL);
-		sb.append("</body></html>");
-		return sb.toString();
-
-	}
-
-	private String getStyles(IPath path) {
-		// 1) look for a file having the same name as the input file, beginning in the
-		// current directory, parent directories, and the current project directory.
-		IPath styles = path.removeFileExtension().addFileExtension(Prefs.CSS);
-		String pathname = find(styles);
-		if (pathname != null) return pathname;
-
-		// 2) look for a file with the name 'markfluent.css' in the same set of directories
-		styles = path.removeLastSegments(1).append(Prefs.CSS_DEFAULT);
-		pathname = find(styles);
-		if (pathname != null) return pathname;
-
-		// 3) read the file identified by the pref key 'EDITOR_CSS_CUSTOM' from the filesystem
-		IPreferenceStore store = FluentMkUI.getDefault().getPreferenceStore();
-		String customCss = store.getString(Prefs.EDITOR_CSS_CUSTOM);
-		if (!customCss.isEmpty()) {
-			File file = new File(customCss);
-			if (file.isFile() && file.getName().endsWith("." + Prefs.CSS)) {
-				return customCss;
-			}
-		}
-
-		// 4) read the file identified by the pref key 'EDITOR_CSS_DEFAULT' from the bundle
-		String defaultCss = store.getString(Prefs.EDITOR_CSS_DEFAULT);
-		if (!defaultCss.isEmpty()) {
-			try {
-				URI uri = new URI(defaultCss);
-				File file = new File(uri);
-				if (file.isFile()) return file.getPath();
-			} catch (URISyntaxException e) {
-				MessageDialog.openInformation(null, "Default CSS from bundle", defaultCss);
-			}
-		}
-
-		// 5) read 'markdown.css' from the bundle
-		Bundle bundle = Platform.getBundle(FluentMkUI.PLUGIN_ID);
-		URL url = FileLocator.find(bundle, new Path(Prefs.CSS_RESOURCE_DIR + Prefs.CSS_DEFAULT), null);
-		try {
-			url = FileLocator.toFileURL(url);
-			return url.toURI().toString();
-		} catch (IOException | URISyntaxException e) {
-			Log.error(e);
-			return null;
-		}
-	}
-
-	private String find(IPath styles) {
-		String name = styles.lastSegment();
-		IPath base = styles.removeLastSegments(1);
-
-		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-		IContainer dir = root.getContainerForLocation(base);
-
-		while (dir != null && dir.getType() != IResource.ROOT) {
-			IResource member = dir.findMember(name);
-			if (member != null) {
-				return root.getLocation().append(member.getFullPath()).toFile().toURI().toString();
-			}
-			dir = dir.getParent();
-		}
-		return null;
-	}
+	// /**
+	// * Gets the current document html content with a header constrained by the HtmlKind.
+	// *
+	// * @param hdr defines the intended use of the HTML: for export, for the embedded view, or minimal.
+	// */
+	// public String getHtml(HtmlKind hdr) {
+	// IPathEditorInput input = (IPathEditorInput) getEditorInput();
+	// return addHeader(hdr, getBody(), input.getPath());
+	// }
+	//
+	// /**
+	// * Gets the current document html content with a header containing only the title. Intended only
+	// for
+	// * React updates of the body content.
+	// */
+	// public String getUpdateHtml() {
+	// IPathEditorInput input = (IPathEditorInput) getEditorInput();
+	// if (input == null) return "";
+	// String title = input.getPath().toString();
+	//
+	// StringBuilder sb = new StringBuilder("<html><head>" + Strings.EOL);
+	// sb.append("<title>" + title + "</title>" + Strings.EOL);
+	// sb.append("</head><body>" + Strings.EOL);
+	// sb.append(getBody().trim() + Strings.EOL);
+	// sb.append("</body></html>");
+	// return sb.toString();
+	// }
+	//
+	// private String getBody() {
+	// IDocument doc = getDocument();
+	// int beg = 0;
+	// int len = doc.getLength();
+	//
+	// // check for and skip front matter
+	// ITypedRegion region;
+	// try {
+	// region = TextUtilities.getPartition(getDocument(), Partitions.MK_PARTITIONING, beg, true);
+	// } catch (BadLocationException e) {
+	// Log.error("Failed to get partition at offset: " + beg);
+	// return "";
+	// }
+	// if (region.getType().equals(Partitions.FRONT_MATTER)) {
+	// beg += region.getLength();
+	// len -= region.getLength();
+	// }
+	//
+	// try {
+	// String text = getDocument().get(beg, len);
+	// return converter.convert(text);
+	// } catch (BadLocationException e) {
+	// Log.error("Bad front matter exclusion: " + beg + ":" + len + "; " + region.getLength());
+	// return "";
+	// }
+	// }
+	//
+	// private String addHeader(HtmlKind hdr, String html, IPath path) {
+	// StringBuilder sb = new StringBuilder("<html><head>" + Strings.EOL);
+	//
+	// if (hdr != HtmlKind.MIN) {
+	// String highlight = FileUtils.fromBundle("resources/highlight.html");
+	// sb.append(highlight + Strings.EOL);
+	//
+	// if (useMathJax()) {
+	// String jax = FileUtils.fromBundle("resources/mathjax.html");
+	// sb.append(jax + Strings.EOL);
+	// }
+	//
+	// if (hdr == HtmlKind.VIEW) {
+	// String react = FileUtils.fromBundle("resources/react.html");
+	// sb.append(react + Strings.EOL);
+	// if (path != null) {
+	// String docPath = path.removeLastSegments(1).toString();
+	// sb.append("<base href=\"" + docPath + "/\">" + Strings.EOL);
+	// }
+	// }
+	//
+	// if (path != null) {
+	// try {
+	// String stylesPathname = getStyles(path);
+	// String stylesheet = FileUtils.read(new File(stylesPathname));
+	// sb.append("<style media=\"screen\" type=\"text/css\">" + Strings.EOL);
+	// sb.append(stylesheet + Strings.EOL);
+	// sb.append("</style>" + Strings.EOL);
+	// } catch (RuntimeException e) {
+	// Log.error("Failed reading stylesheet", e);
+	// }
+	// }
+	// }
+	//
+	// sb.append("</head><body>" + Strings.EOL);
+	// sb.append(html + Strings.EOL);
+	//
+	// if (hdr == HtmlKind.VIEW) {
+	// String reactor = FileUtils.fromBundle("resources/js/reactor.js");
+	// sb.append("<script type=\"text/javascript\">" + Strings.EOL);
+	// sb.append(reactor + Strings.EOL);
+	// sb.append("</script>" + Strings.EOL);
+	// }
+	//
+	// sb.append("</body></html>");
+	// return sb.toString();
+	// }
+	//
+	// private String getStyles(IPath path) {
+	// // 1) look for a file having the same name as the input file, beginning in the
+	// // current directory, parent directories, and the current project directory.
+	// IPath styles = path.removeFileExtension().addFileExtension(Prefs.CSS);
+	// String pathname = find(styles);
+	// if (pathname != null) return pathname;
+	//
+	// // 2) look for a file with the name 'markfluent.css' in the same set of directories
+	// styles = path.removeLastSegments(1).append(Prefs.CSS_DEFAULT);
+	// pathname = find(styles);
+	// if (pathname != null) return pathname;
+	//
+	// // 3) read the file identified by the pref key 'EDITOR_CSS_CUSTOM' from the filesystem
+	// IPreferenceStore store = FluentMkUI.getDefault().getPreferenceStore();
+	// String customCss = store.getString(Prefs.EDITOR_CSS_CUSTOM);
+	// if (!customCss.isEmpty()) {
+	// File file = new File(customCss);
+	// if (file.isFile() && file.getName().endsWith("." + Prefs.CSS)) {
+	// return customCss;
+	// }
+	// }
+	//
+	// // 4) read the file identified by the pref key 'EDITOR_CSS_DEFAULT' from the bundle
+	// String defaultCss = store.getString(Prefs.EDITOR_CSS_DEFAULT);
+	// if (!defaultCss.isEmpty()) {
+	// try {
+	// URI uri = new URI(defaultCss);
+	// File file = new File(uri);
+	// if (file.isFile()) return file.getPath();
+	// } catch (URISyntaxException e) {
+	// MessageDialog.openInformation(null, "Default CSS from bundle", defaultCss);
+	// }
+	// }
+	//
+	// // 5) read 'markdown.css' from the bundle
+	// Bundle bundle = Platform.getBundle(FluentMkUI.PLUGIN_ID);
+	// URL url = FileLocator.find(bundle, new Path(Prefs.CSS_RESOURCE_DIR + Prefs.CSS_DEFAULT), null);
+	// try {
+	// url = FileLocator.toFileURL(url);
+	// return url.toURI().toString();
+	// } catch (IOException | URISyntaxException e) {
+	// Log.error(e);
+	// return null;
+	// }
+	// }
+	//
+	// private String find(IPath styles) {
+	// String name = styles.lastSegment();
+	// IPath base = styles.removeLastSegments(1);
+	//
+	// IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+	// IContainer dir = root.getContainerForLocation(base);
+	//
+	// while (dir != null && dir.getType() != IResource.ROOT) {
+	// IResource member = dir.findMember(name);
+	// if (member != null) {
+	// return root.getLocation().append(member.getFullPath()).toFile().toURI().toString();
+	// }
+	// dir = dir.getParent();
+	// }
+	// return null;
+	// }
 
 	/**
 	 * React to change selection event in the editor and outline!

@@ -1,0 +1,16 @@
+<!-- minimum configuration and register with the signal hub to perform 'typeset()' callback on startup 'End' signal -->
+<script type=text/x-mathjax-config>
+	MathJax.Hub.Config({
+		messageStyle: "none",
+		positionToHash: true,
+		TeX: {
+			equationNumbers: {
+				autoNumber: "all"
+			}
+		},
+	});
+	MathJax.Hub.Register.StartupHook("End", typeset);
+</script>
+<script type="text/javascript" async
+	src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>

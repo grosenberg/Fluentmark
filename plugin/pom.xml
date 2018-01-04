@@ -8,7 +8,7 @@
 	<parent>
 		<groupId>net.certiv.fluentmark</groupId>
 		<artifactId>fluentmark_parent</artifactId>
-		<version>0.15.0-SNAPSHOT</version>
+		<version>0.20.0-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>net.certiv.fluentmark</artifactId>
@@ -18,8 +18,6 @@
 	<description>Markdown Editor</description>
 
 	<properties>
-
-
 	</properties>
 
 	<dependencies>
@@ -76,6 +74,70 @@
 
 	<build>
 		<plugins>
+
+			<!-- <plugin>
+				<groupId>com.github.eirslett</groupId>
+				<artifactId>frontend-maven-plugin</artifactId>
+				<version>1.6</version>
+
+				<executions>
+
+				<execution>
+				<id>install node and npm</id>
+				<goals>
+				<goal>install-node-and-npm</goal>
+				</goals>
+				<configuration>
+				<nodeVersion>v8.9.3</nodeVersion>
+				<npmVersion>5.5.1</npmVersion>
+				</configuration>
+				</execution>
+
+				<execution>
+				<id>npm install</id>
+				<goals>
+				<goal>npm</goal>
+				</goals>
+				<configuration>
+				<arguments>install</arguments>
+				</configuration>
+				</execution>
+
+				<execution>
+				<id>npm run build</id>
+				<goals>
+				<goal>npm</goal>
+				</goals>
+				<configuration>
+				<arguments>run build</arguments>
+				</configuration>
+				</execution>
+
+				<execution>
+				<id>gulp build</id>
+				<phase>generate-resources</phase>
+				<goals>
+				<goal>gulp</goal>
+				</goals>
+				<configuration>
+				<environmentVariables>
+				<NODE_ENV>production</NODE_ENV>
+				</environmentVariables>
+				</configuration>
+				</execution>
+
+				<execution>
+				<id>javascript tests</id>
+				<goals>
+				<goal>karma</goal>
+				</goals>
+				<configuration>
+				<karmaConfPath>src/test/javascript/karma.conf.ci.js</karmaConfPath>
+				</configuration>
+				</execution>
+
+				</executions>
+				</plugin> -->
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

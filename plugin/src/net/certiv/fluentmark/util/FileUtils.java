@@ -21,18 +21,26 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
+import java.net.URL;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.URIUtil;
+import org.osgi.framework.Bundle;
+
+import net.certiv.fluentmark.FluentMkUI;
+import net.certiv.fluentmark.Log;
 
 public final class FileUtils {
 
 	public FileUtils() {}
 
 	/**
-	 * Creates a file resource handle for the file with the given workspace path. This method does
-	 * not create the file resource; this is the responsibility of <code>createFile</code>.
+	 * Creates a file resource handle for the file with the given workspace path. This method does not
+	 * create the file resource; this is the responsibility of <code>createFile</code>.
 	 *
 	 * @param path the path of the file resource to create a handle for
 	 * @return the new file resource handle
@@ -59,6 +67,25 @@ public final class FileUtils {
 			return new BufferedReader(reader);
 		} catch (UnsupportedEncodingException e) {
 			throw new RuntimeException(e);
+		}
+	}
+
+	/**
+	 * Loads the content of a file from within a bundle. Returns null if not found.
+	 * 
+	 * @param pathname of the file within the bundle.
+	 * @return null if not found.
+	 */
+	public static String fromBundle(String pathname) {
+		Bundle bundle = Platform.getBundle(FluentMkUI.PLUGIN_ID);
+		URL url = bundle.getEntry(pathname);
+		if (url == null) return null;
+		try {
+			url = FileLocator.toFileURL(url);
+			return read(URIUtil.toFile(URIUtil.toURI(url)));
+		} catch (Exception e) {
+			Log.error(e);
+			return "";
 		}
 	}
 
