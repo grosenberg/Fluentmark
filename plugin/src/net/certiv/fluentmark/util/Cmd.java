@@ -52,7 +52,7 @@ public class Cmd {
 			return sb.toString();
 
 		} catch (IOException e) {
-			Log.error("Cmd execution error", e);
+			Log.error("Cmd execution error: " + e.getMessage());
 			return "";
 		}
 	}

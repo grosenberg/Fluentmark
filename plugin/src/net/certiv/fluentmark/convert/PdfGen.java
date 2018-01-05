@@ -32,17 +32,18 @@ import net.certiv.fluentmark.model.SourceRange;
 import net.certiv.fluentmark.preferences.Prefs;
 import net.certiv.fluentmark.util.Cmd;
 import net.certiv.fluentmark.util.Strings;
-import net.certiv.fluentmark.util.TmpUtils;
+import net.certiv.fluentmark.util.Temps;
 
 public class PdfGen {
 
 	private static final String[] DOT2PDF = new String[] { "", "-Tpdf", "-o", "" };
-	private static final String[] PDF = new String[] { "", "-s", "--variable", "graphics", "--number-sections",
-			"--parse-raw", "-f", "markdown", "-t", "latex", "-o", "" };
+	private static final String[] PDF = new String[] { "", "--standalone", "--variable", "graphics",
+			"--number-sections", "-f", "markdown", "-t", "latex", "-o", "" };
 
+	// TODO: support caption and label?
 	private static final String FIGURE = "\\begin{figure}[htp]" + Strings.EOL //
 			+ "\\begin{center}" + Strings.EOL //
-			+ "\\graphicspath{ {%s} }" + Strings.EOL //
+			+ "\\graphicspath{{%s}}" + Strings.EOL //
 			+ "\\includegraphics[width=0.8\\textwidth]{%s}" + Strings.EOL //
 			// + "\\caption{%s}" + Strings.EOL //
 			// + "\\label{%s}" + Strings.EOL //
@@ -51,19 +52,6 @@ public class PdfGen {
 
 	private PdfGen() {}
 
-	public static String convert(String data, File file) {
-		String cmd = FluentMkUI.getDefault().getPreferenceStore().getString(Prefs.EDITOR_PANDOC_PROGRAM);
-		if (data.trim().isEmpty() || cmd.trim().isEmpty()) return "";
-
-		// generate by executing pandoc to generate pdf from markdown
-		String[] args = PDF;
-		args[0] = cmd;
-		args[PDF.length - 1] = file.getPath();
-
-		String result = Cmd.process(args, data);
-		return result;
-	}
-
 	public static void save(String pathname, List<PagePart> parts, IDocument doc) {
 
 		Job job = new Job("PDF generation job") {
@@ -71,67 +59,64 @@ public class PdfGen {
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
 
-				File dir;
-				try {
-					dir = TmpUtils.createTempFolder("mk_" + Math.abs(TmpUtils.RANDOM.nextLong()));
-				} catch (IOException e) {
-					String msg = "Failed creating tmp folder " + " (" + e.getMessage() + ")";
-					return new Status(IStatus.ERROR, FluentMkUI.PLUGIN_ID, msg);
-				}
-
-				MultiTextEdit edit = new MultiTextEdit();
-				for (PagePart part : parts) {
-					if (part.getMeta().equals(DotGen.DOT)) {
-						ISourceRange clipRange = part.getSourceRange();
-						ISourceRange dotRange = calcDotRange(clipRange);
-						if (dotRange == null) continue;
-
-						// extract the dot block
-						String dot;
-						try {
-							dot = doc.get(dotRange.getOffset(), dotRange.getLength());
-						} catch (BadLocationException e) {
-							Log.error("Failed extracting DOT block for conversion at " + dotRange + " ("
-									+ e.getMessage() + ")");
-							continue;
-						}
-
-						File tmpfile;
-						try {
-							tmpfile = TmpUtils.createTempFile("fluentMk_", ".pdf", dir);
-						} catch (IOException e) {
-							Log.error("Failed creating tmp file " + " (" + e.getMessage() + ")");
-							continue;
-						}
-
-						// convert to pdf
-						boolean ok = dot2pdf(tmpfile, dot);
-
-						// splice in latex blocks to include the pdfs
-						if (ok) edit.addChild(splice(doc, clipRange, tmpfile));
+				File dir = null;
+				if (!parts.isEmpty()) {
+					try {
+						dir = Temps.createFolder("mk_" + Temps.nextRandom());
+					} catch (IOException e) {
+						String msg = "Failed creating tmp folder " + " (" + e.getMessage() + ")";
+						return new Status(IStatus.ERROR, FluentMkUI.PLUGIN_ID, msg);
 					}
-				}
 
-				try {
-					edit.apply(doc);
-				} catch (MalformedTreeException | BadLocationException e) {
-					String msg = "Failed applying DOT block edits " + " (" + e.getMessage() + ")";
-					return new Status(IStatus.ERROR, FluentMkUI.PLUGIN_ID, msg);
+					MultiTextEdit edit = new MultiTextEdit();
+					for (PagePart part : parts) {
+						if (part.getMeta().equals(DotGen.DOT)) {
+							ISourceRange clipRange = part.getSourceRange();
+							ISourceRange dotRange = calcDotRange(clipRange);
+							if (dotRange == null) continue;
+
+							// extract the dot block
+							String dot;
+							try {
+								dot = doc.get(dotRange.getOffset(), dotRange.getLength());
+							} catch (BadLocationException e) {
+								Log.error("Failed extracting DOT block for conversion at " + dotRange + " ("
+										+ e.getMessage() + ")");
+								continue;
+							}
+
+							File tmpfile;
+							try {
+								tmpfile = Temps.createFile("fluentMk_", ".pdf", dir);
+							} catch (IOException e) {
+								Log.error("Failed creating tmp file " + " (" + e.getMessage() + ")");
+								continue;
+							}
+
+							// convert to pdf
+							boolean ok = dot2pdf(tmpfile, dot);
+
+							// splice in latex blocks to include the pdfs
+							if (ok) edit.addChild(splice(doc, clipRange, tmpfile));
+						}
+					}
+
+					try {
+						edit.apply(doc);
+					} catch (MalformedTreeException | BadLocationException e) {
+						String msg = "Failed applying DOT block edits " + " (" + e.getMessage() + ")";
+						cleanup(dir);
+						return new Status(IStatus.ERROR, FluentMkUI.PLUGIN_ID, msg);
+					}
 				}
 
 				// send to pandoc to convert & save
 				File outFile = new File(pathname);
 				String out = doc.get();
-				String result = convert(out, outFile);
-				if (!result.isEmpty()) {
-					return new Status(IStatus.ERROR, FluentMkUI.PLUGIN_ID, result);
-				}
-
-				// clean up temporary files
-				try {
-					TmpUtils.deleteFolder(dir);
-				} catch (IOException e) {
-					Log.error(e.getMessage());
+				String err = convert(out, outFile);
+				cleanup(dir);
+				if (!err.isEmpty()) {
+					return new Status(IStatus.ERROR, FluentMkUI.PLUGIN_ID, "Pdf generation failed: " + err);
 				}
 
 				if (FluentMkUI.getDefault().getPreferenceStore().getBoolean(Prefs.EDITOR_PDF_OPEN)) {
@@ -151,6 +136,25 @@ public class PdfGen {
 		};
 		job.setPriority(Job.LONG);
 		job.schedule();
+	}
+
+	public static String convert(String data, File file) {
+		String cmd = FluentMkUI.getDefault().getPreferenceStore().getString(Prefs.EDITOR_PANDOC_PROGRAM);
+		if (data.trim().isEmpty() || cmd.trim().isEmpty()) return "";
+
+		// generate by executing pandoc to generate pdf from markdown
+		String[] args = PDF;
+		args[0] = cmd;
+		args[PDF.length - 1] = file.getPath();
+
+		return Cmd.process(args, data);
+	}
+
+	// clean up temporary files
+	protected static void cleanup(File dir) {
+		try {
+			Temps.deleteFolder(dir);
+		} catch (IOException e) {}
 	}
 
 	protected static ISourceRange calcDotRange(ISourceRange clipRange) {
@@ -190,7 +194,7 @@ public class PdfGen {
 		String name = tmpfile.getName();
 
 		String figure = FIGURE.replaceAll("\\R", PageRoot.MODEL.getLineDelim());
-		String latex = String.format(figure, dir, name); // TODO: support caption and label?
+		String latex = String.format(figure, dir, name);
 		return new ReplaceEdit(range.getOffset(), range.getLength(), latex);
 	}
 }

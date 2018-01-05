@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2016 - 2017 Certiv Analytics and others.
+ * Copyright (c) 2016 - 2018 Certiv Analytics and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,44 +11,36 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Random;
 
-public class TmpUtils {
+public class Temps {
 
-	public static final Random RANDOM = new Random(System.currentTimeMillis());
+	private static final Random RANDOM = new Random(System.currentTimeMillis());
+	private static final String path = System.getProperty("java.io.tmpdir");
 	private static File sysTmp;
 
 	public synchronized static File getSysTmp() {
 		if (sysTmp == null) {
-			String path = System.getProperty("java.io.tmpdir");
 			sysTmp = new File(path);
 			if (!sysTmp.exists()) sysTmp.mkdirs();
 		}
 		return sysTmp;
 	}
 
-	public static File createTempFolder(String tmpName) throws IOException {
+	public static long nextRandom() {
+		return Math.abs(RANDOM.nextLong());
+	}
+
+	public static File createFolder(String tmpName) throws IOException {
 		String tmp = getSysTmp().getPath() + "/" + tmpName;
 		File tmpDir = new File(tmp);
 		tmpDir.mkdirs();
 		return tmpDir;
 	}
 
-	public static File createTempFile(String prefix, String suffix, File dir) throws IOException {
+	public static File createFile(String prefix, String suffix, File dir) throws IOException {
 		try {
 			return File.createTempFile(prefix, suffix, dir);
 		} catch (IOException ex) {
 			throw new IOException(ex);
-		}
-	}
-
-	public static void deleteFolder(File dir) throws IOException {
-		if (!dir.exists()) return;
-
-		clearFolder(dir);
-		if (dir.list().length == 0) {
-			if (!dir.delete()) {
-				String message = "Delete failed for " + dir;
-				throw new IOException(message);
-			}
 		}
 	}
 
@@ -61,6 +53,18 @@ public class TmpUtils {
 		for (File file : files) {
 			if (file.isDirectory()) clearFolder(file);
 			file.delete();
+		}
+	}
+
+	public static void deleteFolder(File dir) throws IOException {
+		if (dir == null || !dir.exists()) return;
+
+		clearFolder(dir);
+		if (dir.list().length == 0) {
+			if (!dir.delete()) {
+				String message = "Delete failed for " + dir;
+				throw new IOException(message);
+			}
 		}
 	}
 }
