@@ -106,13 +106,10 @@ public class HtmlGen {
 			}
 
 			if (hdr == HtmlKind.VIEW) {
-				// String react = FileUtils.fromBundle("resources/react.html");
-				// sb.append(react + Strings.EOL);
-				//
-				// String reactor = FileUtils.fromBundle("resources/js/reactor.js");
-				// sb.append("<script type=\"text/javascript\">" + Strings.EOL);
-				// sb.append(reactor + Strings.EOL);
-				// sb.append("</script>" + Strings.EOL);
+				sb.append(FileUtils.fromBundle("resources/react.html") + Strings.EOL);
+				sb.append("<script type=\"text/javascript\">" + Strings.EOL);
+				sb.append(FileUtils.fromBundle("resources/js/reactor.min.js") + Strings.EOL);
+				sb.append("</script>" + Strings.EOL);
 
 				if (path != null) {
 					String docPath = path.removeLastSegments(1).toString();
@@ -135,14 +132,6 @@ public class HtmlGen {
 
 		sb.append("</head><body>" + Strings.EOL);
 		sb.append(html + Strings.EOL);
-
-		if (hdr == HtmlKind.VIEW) {
-			sb.append(FileUtils.fromBundle("resources/react.html") + Strings.EOL);
-			sb.append("<script type=\"text/javascript\">" + Strings.EOL);
-			sb.append(FileUtils.fromBundle("resources/js/reactor.min.js") + Strings.EOL);
-			sb.append("</script>" + Strings.EOL);
-		}
-
 		sb.append("</body></html>");
 		return sb.toString();
 	}
