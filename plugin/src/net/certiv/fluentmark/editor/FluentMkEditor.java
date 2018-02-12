@@ -1,7 +1,6 @@
 /*******************************************************************************
- * Copyright (c) 2016 - 2017 Certiv Analytics and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
+ * Copyright (c) 2016 - 2017 Certiv Analytics and others. All rights reserved. This program and the
+ * accompanying materials are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  ******************************************************************************/
@@ -80,6 +79,7 @@ import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import net.certiv.fluentmark.FluentMkUI;
 import net.certiv.fluentmark.convert.FluentMkConverter;
 import net.certiv.fluentmark.convert.HtmlGen;
+import net.certiv.fluentmark.convert.Kind;
 import net.certiv.fluentmark.editor.color.IColorManager;
 import net.certiv.fluentmark.editor.folding.FoldingStructureProvider;
 import net.certiv.fluentmark.editor.folding.IFoldingStructureProvider;
@@ -265,7 +265,7 @@ public class FluentMkEditor extends TextEditor
 
 		projectionSupport = new ProjectionSupport(viewer, getAnnotationAccess(), getSharedColors());
 		projectionSupport.addSummarizableAnnotationType("org.eclipse.ui.workbench.texteditor.error"); // $NON-NLS-1$
-		projectionSupport.addSummarizableAnnotationType("org.eclipse.ui.workbench.texteditor.warning");	// $NON-NLS-1$
+		projectionSupport.addSummarizableAnnotationType("org.eclipse.ui.workbench.texteditor.warning"); // $NON-NLS-1$
 		projectionSupport.addSummarizableAnnotationType("org.eclipse.search.results"); // $NON-NLS-1$
 		projectionSupport.setHoverControlCreator(new IInformationControlCreator() {
 
@@ -295,6 +295,7 @@ public class FluentMkEditor extends TextEditor
 		return getPreferenceStore().getBoolean(Prefs.EDITOR_WORD_WRAP);
 	}
 
+	@Override
 	public void dispose() {
 		removePreferenceStoreListener();
 		uninstallSemanticHighlighting();
@@ -442,6 +443,7 @@ public class FluentMkEditor extends TextEditor
 				|| store.getBoolean(Prefs.FOLDING_CODEBLOCKS_ENABLED);
 	}
 
+	@Override
 	@SuppressWarnings({ "unchecked" })
 	public <T> T getAdapter(Class<T> target) {
 		if (IContentOutlinePage.class.equals(target)) {
@@ -524,180 +526,14 @@ public class FluentMkEditor extends TextEditor
 		return doc == null ? null : doc.get();
 	}
 
-	/** Returns the Html generator. */
-	public HtmlGen getHtmlGen() {
-		return htmlGen;
+	/** Returns the Html content. */
+	public String getHtml(Kind kind) {
+		return htmlGen.getHtml(kind);
 	}
 
 	public boolean useMathJax() {
 		return converter.useMathJax();
 	}
-
-	// /**
-	// * Gets the current document html content with a header constrained by the HtmlKind.
-	// *
-	// * @param hdr defines the intended use of the HTML: for export, for the embedded view, or minimal.
-	// */
-	// public String getHtml(HtmlKind hdr) {
-	// IPathEditorInput input = (IPathEditorInput) getEditorInput();
-	// return addHeader(hdr, getBody(), input.getPath());
-	// }
-	//
-	// /**
-	// * Gets the current document html content with a header containing only the title. Intended only
-	// for
-	// * React updates of the body content.
-	// */
-	// public String getUpdateHtml() {
-	// IPathEditorInput input = (IPathEditorInput) getEditorInput();
-	// if (input == null) return "";
-	// String title = input.getPath().toString();
-	//
-	// StringBuilder sb = new StringBuilder("<html><head>" + Strings.EOL);
-	// sb.append("<title>" + title + "</title>" + Strings.EOL);
-	// sb.append("</head><body>" + Strings.EOL);
-	// sb.append(getBody().trim() + Strings.EOL);
-	// sb.append("</body></html>");
-	// return sb.toString();
-	// }
-	//
-	// private String getBody() {
-	// IDocument doc = getDocument();
-	// int beg = 0;
-	// int len = doc.getLength();
-	//
-	// // check for and skip front matter
-	// ITypedRegion region;
-	// try {
-	// region = TextUtilities.getPartition(getDocument(), Partitions.MK_PARTITIONING, beg, true);
-	// } catch (BadLocationException e) {
-	// Log.error("Failed to get partition at offset: " + beg);
-	// return "";
-	// }
-	// if (region.getType().equals(Partitions.FRONT_MATTER)) {
-	// beg += region.getLength();
-	// len -= region.getLength();
-	// }
-	//
-	// try {
-	// String text = getDocument().get(beg, len);
-	// return converter.convert(text);
-	// } catch (BadLocationException e) {
-	// Log.error("Bad front matter exclusion: " + beg + ":" + len + "; " + region.getLength());
-	// return "";
-	// }
-	// }
-	//
-	// private String addHeader(HtmlKind hdr, String html, IPath path) {
-	// StringBuilder sb = new StringBuilder("<html><head>" + Strings.EOL);
-	//
-	// if (hdr != HtmlKind.MIN) {
-	// String highlight = FileUtils.fromBundle("resources/highlight.html");
-	// sb.append(highlight + Strings.EOL);
-	//
-	// if (useMathJax()) {
-	// String jax = FileUtils.fromBundle("resources/mathjax.html");
-	// sb.append(jax + Strings.EOL);
-	// }
-	//
-	// if (hdr == HtmlKind.VIEW) {
-	// String react = FileUtils.fromBundle("resources/react.html");
-	// sb.append(react + Strings.EOL);
-	// if (path != null) {
-	// String docPath = path.removeLastSegments(1).toString();
-	// sb.append("<base href=\"" + docPath + "/\">" + Strings.EOL);
-	// }
-	// }
-	//
-	// if (path != null) {
-	// try {
-	// String stylesPathname = getStyles(path);
-	// String stylesheet = FileUtils.read(new File(stylesPathname));
-	// sb.append("<style media=\"screen\" type=\"text/css\">" + Strings.EOL);
-	// sb.append(stylesheet + Strings.EOL);
-	// sb.append("</style>" + Strings.EOL);
-	// } catch (RuntimeException e) {
-	// Log.error("Failed reading stylesheet", e);
-	// }
-	// }
-	// }
-	//
-	// sb.append("</head><body>" + Strings.EOL);
-	// sb.append(html + Strings.EOL);
-	//
-	// if (hdr == HtmlKind.VIEW) {
-	// String reactor = FileUtils.fromBundle("resources/js/reactor.js");
-	// sb.append("<script type=\"text/javascript\">" + Strings.EOL);
-	// sb.append(reactor + Strings.EOL);
-	// sb.append("</script>" + Strings.EOL);
-	// }
-	//
-	// sb.append("</body></html>");
-	// return sb.toString();
-	// }
-	//
-	// private String getStyles(IPath path) {
-	// // 1) look for a file having the same name as the input file, beginning in the
-	// // current directory, parent directories, and the current project directory.
-	// IPath styles = path.removeFileExtension().addFileExtension(Prefs.CSS);
-	// String pathname = find(styles);
-	// if (pathname != null) return pathname;
-	//
-	// // 2) look for a file with the name 'markfluent.css' in the same set of directories
-	// styles = path.removeLastSegments(1).append(Prefs.CSS_DEFAULT);
-	// pathname = find(styles);
-	// if (pathname != null) return pathname;
-	//
-	// // 3) read the file identified by the pref key 'EDITOR_CSS_CUSTOM' from the filesystem
-	// IPreferenceStore store = FluentMkUI.getDefault().getPreferenceStore();
-	// String customCss = store.getString(Prefs.EDITOR_CSS_CUSTOM);
-	// if (!customCss.isEmpty()) {
-	// File file = new File(customCss);
-	// if (file.isFile() && file.getName().endsWith("." + Prefs.CSS)) {
-	// return customCss;
-	// }
-	// }
-	//
-	// // 4) read the file identified by the pref key 'EDITOR_CSS_DEFAULT' from the bundle
-	// String defaultCss = store.getString(Prefs.EDITOR_CSS_DEFAULT);
-	// if (!defaultCss.isEmpty()) {
-	// try {
-	// URI uri = new URI(defaultCss);
-	// File file = new File(uri);
-	// if (file.isFile()) return file.getPath();
-	// } catch (URISyntaxException e) {
-	// MessageDialog.openInformation(null, "Default CSS from bundle", defaultCss);
-	// }
-	// }
-	//
-	// // 5) read 'markdown.css' from the bundle
-	// Bundle bundle = Platform.getBundle(FluentMkUI.PLUGIN_ID);
-	// URL url = FileLocator.find(bundle, new Path(Prefs.CSS_RESOURCE_DIR + Prefs.CSS_DEFAULT), null);
-	// try {
-	// url = FileLocator.toFileURL(url);
-	// return url.toURI().toString();
-	// } catch (IOException | URISyntaxException e) {
-	// Log.error(e);
-	// return null;
-	// }
-	// }
-	//
-	// private String find(IPath styles) {
-	// String name = styles.lastSegment();
-	// IPath base = styles.removeLastSegments(1);
-	//
-	// IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-	// IContainer dir = root.getContainerForLocation(base);
-	//
-	// while (dir != null && dir.getType() != IResource.ROOT) {
-	// IResource member = dir.findMember(name);
-	// if (member != null) {
-	// return root.getLocation().append(member.getFullPath()).toFile().toURI().toString();
-	// }
-	// dir = dir.getParent();
-	// }
-	// return null;
-	// }
 
 	/**
 	 * React to change selection event in the editor and outline!
@@ -812,7 +648,7 @@ public class FluentMkEditor extends TextEditor
 		}
 
 		PagePart part = getPagePartAt(caret, false);
-		return (ISourceReference) part;
+		return part;
 	}
 
 	private PagePart getMatchingPagePart() {
@@ -940,6 +776,7 @@ public class FluentMkEditor extends TextEditor
 
 	public void installOccurrencesFinder(boolean b) {}
 
+	@Override
 	public void reconciled() {
 		Object[] listeners = reconcilingListeners.getListeners();
 		for (Object listener : listeners) {

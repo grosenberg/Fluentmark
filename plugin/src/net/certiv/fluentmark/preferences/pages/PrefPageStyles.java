@@ -1,7 +1,6 @@
 /*******************************************************************************
- * Copyright (c) 2016 - 2017 Certiv Analytics and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
+ * Copyright (c) 2016 - 2017 Certiv Analytics and others. All rights reserved. This program and the
+ * accompanying materials are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  ******************************************************************************/
@@ -39,6 +38,7 @@ public class PrefPageStyles extends FieldEditorPreferencePage implements IWorkbe
 		setDescription("");
 	}
 
+	@Override
 	public void init(IWorkbench workbench) {
 		setPreferenceStore(FluentMkUI.getDefault().getPreferenceStore());
 	}
@@ -53,19 +53,19 @@ public class PrefPageStyles extends FieldEditorPreferencePage implements IWorkbe
 		GridDataFactory.fillDefaults().indent(0, 6).grab(true, false).span(2, 1).applyTo(frame);
 		GridLayoutFactory.fillDefaults().numColumns(3).margins(6, 6).applyTo(frame);
 
-		Composite internal = new Composite(frame, SWT.NONE);
-		GridDataFactory.fillDefaults().indent(0, 4).grab(true, false).applyTo(internal);
-		GridLayoutFactory.fillDefaults().numColumns(3).applyTo(internal);
+		Composite pane = new Composite(frame, SWT.NONE);
+		GridDataFactory.fillDefaults().indent(0, 4).grab(true, false).applyTo(pane);
+		GridLayoutFactory.fillDefaults().numColumns(3).applyTo(pane);
 
 		// Github Syntax support
-		addField(new BooleanFieldEditor(EDITOR_GITHUB_SYNTAX, "Support Github Syntax", internal));
+		addField(new BooleanFieldEditor(EDITOR_GITHUB_SYNTAX, "Support Github Syntax", pane));
 
 		// Multi-Markdown support
-		addField(new BooleanFieldEditor(EDITOR_MULTIMARKDOWN_METADATA, "Support Multi-Markdown Metadata", internal));
+		addField(new BooleanFieldEditor(EDITOR_MULTIMARKDOWN_METADATA, "Support Multi-Markdown Metadata", pane));
 
 		// Browser CSS
-		addField(new ComboFieldEditor(EDITOR_CSS_DEFAULT, "Default Stylesheet", builtins(), internal));
-		addField(new FileFieldEditor(EDITOR_CSS_CUSTOM, "Custom Stylesheet", internal));
+		addField(new ComboFieldEditor(EDITOR_CSS_BUILTIN, "Built-in Stylesheet", builtins(), pane));
+		addField(new FileFieldEditor(EDITOR_CSS_EXTERNAL, "External Stylesheet", pane));
 	}
 
 	// build list of builtin stylesheets
@@ -86,7 +86,7 @@ public class PrefPageStyles extends FieldEditorPreferencePage implements IWorkbe
 		List<String> cssNames = new ArrayList<>();
 		if (dir.isDirectory()) {
 			for (String name : dir.list()) {
-				if (name.endsWith("." + CSS)) {
+				if (name.endsWith("." + CSS) && !name.endsWith(".min." + CSS)) {
 					cssNames.add(name);
 				}
 			}

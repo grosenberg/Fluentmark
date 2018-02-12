@@ -20,7 +20,7 @@ public abstract class Parent extends Element implements IParent {
 	private boolean changed;
 	private String lineDelim;
 
-	public Parent(IParent parent, Kind kind, ISourceRange range) {
+	public Parent(IParent parent, Type kind, ISourceRange range) {
 		super(kind, range);
 		this.parent = parent;
 		this.lineDelim = parent.getLineDelim();
@@ -71,7 +71,7 @@ public abstract class Parent extends Element implements IParent {
 
 	/** Gets the children of a certain type */
 	@Override
-	public List<IParent> getChildrenOfKind(Kind kind) throws CoreException {
+	public List<IParent> getChildrenOfKind(Type kind) throws CoreException {
 		ArrayList<IParent> list = new ArrayList<>();
 		for (IParent child : getChildren()) {
 			if (child.getKind() == kind) {

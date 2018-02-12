@@ -82,8 +82,8 @@ public class FluentMkPreview extends ViewPart implements PartListener, ITextList
 	@Override
 	public void propertyChange(PropertyChangeEvent event) {
 		switch (event.getProperty()) {
-			case EDITOR_CSS_CUSTOM:
-			case EDITOR_CSS_DEFAULT:
+			case EDITOR_CSS_EXTERNAL:
+			case EDITOR_CSS_BUILTIN:
 				viewjob.update();
 		}
 	}

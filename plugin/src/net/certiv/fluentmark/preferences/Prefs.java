@@ -110,8 +110,8 @@ public interface Prefs extends PrefsSpelling {
 	public static final String EDITOR_GITHUB_SYNTAX = MD_ID + ".github_Syntax";
 	public static final String EDITOR_MULTIMARKDOWN_METADATA = MD_ID + ".multiMarkdown_Metadata";
 
-	public static final String EDITOR_CSS_DEFAULT = MD_ID + ".markdown_Css";
-	public static final String EDITOR_CSS_CUSTOM = "";
+	public static final String EDITOR_CSS_BUILTIN = MD_ID + ".markdown_Css";
+	public static final String EDITOR_CSS_EXTERNAL = "";
 
 	public static final String EDITOR_FORMATTING_ENABLED = MD_ID + ".formattingEnabled";
 	public static final String EDITOR_FORMATTING_COLUMN = MD_ID + ".formattingCol";

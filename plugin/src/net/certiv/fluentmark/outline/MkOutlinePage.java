@@ -77,7 +77,7 @@ import net.certiv.fluentmark.model.IElement;
 import net.certiv.fluentmark.model.IElementChangedListener;
 import net.certiv.fluentmark.model.IParent;
 import net.certiv.fluentmark.model.ISourceRange;
-import net.certiv.fluentmark.model.Kind;
+import net.certiv.fluentmark.model.Type;
 import net.certiv.fluentmark.model.PagePart;
 import net.certiv.fluentmark.model.PageRoot;
 import net.certiv.fluentmark.outline.dnd.DndConfigurationStrategy;
@@ -111,7 +111,7 @@ public class MkOutlinePage extends ContentOutlinePage implements IShowInSource, 
 
 			List<IElement> filtered = new ArrayList<>();
 			for (IElement child : children) {
-				if (child.getKind() != Kind.BLANK) {
+				if (child.getKind() != Type.BLANK) {
 					filtered.add(child);
 				}
 			}

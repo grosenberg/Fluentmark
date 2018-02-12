@@ -45,7 +45,7 @@ public interface IParent extends IElement {
 	/**
 	 * returns the children of a certain kind
 	 */
-	List<IParent> getChildrenOfKind(Kind kind) throws CoreException;
+	List<IParent> getChildrenOfKind(Type kind) throws CoreException;
 
 	/**
 	 * Returns whether the receiver is an ancestor of the given child.

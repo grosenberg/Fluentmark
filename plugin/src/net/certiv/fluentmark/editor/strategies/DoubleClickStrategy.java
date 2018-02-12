@@ -23,7 +23,7 @@ import org.eclipse.ui.texteditor.ITextEditor;
 import net.certiv.fluentmark.Log;
 import net.certiv.fluentmark.editor.FluentMkEditor;
 import net.certiv.fluentmark.model.ISourceRange;
-import net.certiv.fluentmark.model.Kind;
+import net.certiv.fluentmark.model.Type;
 import net.certiv.fluentmark.model.PagePart;
 import net.certiv.fluentmark.model.PageRoot;
 import net.certiv.fluentmark.tables.TableDialog;
@@ -45,7 +45,7 @@ public class DoubleClickStrategy extends DefaultTextDoubleClickStrategy {
 		PageRoot model = editor.getPageModel();
 		PagePart part = model.partAtOffset(offset);
 
-		if (part.getKind() != Kind.TABLE) {
+		if (part.getKind() != Type.TABLE) {
 			super.doubleClicked(viewer);
 			return;
 		}

@@ -24,11 +24,11 @@ public class PagePart extends Parent {
 	private FloorKeyMap listMarkedLines;
 	private PagePart separator;
 
-	public PagePart(PageRoot root, IParent parent, Kind kind, int offset, int length) {
+	public PagePart(PageRoot root, IParent parent, Type kind, int offset, int length) {
 		this(root, parent, kind, offset, length, -1, -1);
 	}
 
-	public PagePart(PageRoot root, IParent parent, Kind kind, int offset, int length, int begLine, int endLine) {
+	public PagePart(PageRoot root, IParent parent, Type kind, int offset, int length, int begLine, int endLine) {
 		super(parent, kind, new SourceRange(offset, length, begLine, endLine));
 		this.root = root;
 		this.partIdx = root.getPageParts().size();
@@ -89,7 +89,7 @@ public class PagePart extends Parent {
 	}
 
 	public String getTooltip() {
-		if (getKind() == Kind.CODE_BLOCK) return getMetaName();
+		if (getKind() == Type.CODE_BLOCK) return getMetaName();
 		return getDisplayName();
 	}
 

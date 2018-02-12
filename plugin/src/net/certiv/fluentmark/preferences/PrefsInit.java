@@ -81,8 +81,8 @@ public class PrefsInit extends AbstractPreferenceInitializer implements Prefs {
 		store.setDefault(EDITOR_EXTERNAL_COMMAND, "");
 		store.setDefault(EDITOR_SECTION_NUMBERS, true);
 
-		store.setDefault(EDITOR_CSS_DEFAULT, cssDefault());
-		store.setDefault(EDITOR_CSS_CUSTOM, "");
+		store.setDefault(EDITOR_CSS_BUILTIN, cssDefault());
+		store.setDefault(EDITOR_CSS_EXTERNAL, "");
 		store.setDefault(EDITOR_GITHUB_SYNTAX, true);
 		store.setDefault(EDITOR_MULTIMARKDOWN_METADATA, true);
 

@@ -2,6 +2,7 @@ package net.certiv.fluentmark.views;
 
 import java.math.BigDecimal;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -13,21 +14,23 @@ import org.eclipse.swt.browser.ProgressAdapter;
 import org.eclipse.swt.browser.ProgressEvent;
 import org.eclipse.swt.browser.ProgressListener;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.IPathEditorInput;
 
 import net.certiv.fluentmark.FluentMkUI;
 import net.certiv.fluentmark.Log;
-import net.certiv.fluentmark.convert.HtmlKind;
+import net.certiv.fluentmark.convert.Kind;
 import net.certiv.fluentmark.editor.FluentMkEditor;
 import net.certiv.fluentmark.preferences.Prefs;
 
 public class ViewJob extends Job {
 
-	private static final String RENDER = "Reactor.update('%s');";
+	private static final String Render = "Fluent.set('%s');";
 
 	enum State {
+		NONE,
 		LOAD,
 		READY,
-		NONE;
+		TYPESET;
 	}
 
 	private ProgressListener watcher = new ProgressAdapter() {
@@ -46,6 +49,8 @@ public class ViewJob extends Job {
 	private State state = State.NONE;
 	private long timer;
 
+	private boolean mathjax;
+
 	public ViewJob(FluentMkPreview view) {
 		super("Preview");
 		this.view = view;
@@ -55,15 +60,26 @@ public class ViewJob extends Job {
 		load();
 	}
 
-	public void load() {
+	public boolean load() {
 		FluentMkEditor editor = view.getEditor();
-		if (editor != null) {
-			state = State.LOAD;
-			func = new DoneFunction(browser, "typeset");	// MathJax callback
-			browser.addProgressListener(watcher);
-			timer = System.nanoTime();
-			browser.setText(editor.getHtmlGen().getPage(HtmlKind.VIEW));
+		if (editor == null) return false;
+
+		IPathEditorInput input = (IPathEditorInput) editor.getEditorInput();
+		if (input == null) return false;
+
+		state = State.LOAD;
+		if (editor.useMathJax()) {
+			mathjax = true;
+			func = new DoneFunction(browser, "typeset");
+		} else {
+			mathjax = false;
+			func = null;
 		}
+		browser.addProgressListener(watcher);
+		timer = System.nanoTime();
+		String content = editor.getHtml(Kind.VIEW);
+		browser.setText(content);
+		return true;
 	}
 
 	public void update() {
@@ -87,23 +103,28 @@ public class ViewJob extends Job {
 		}
 		timer = System.nanoTime();
 
-		String html = editor.getHtmlGen().getUpdate();
+		String html = editor.getHtml(Kind.UPDATE);
 		if (html.isEmpty()) return Status.CANCEL_STATUS;
-		String script = String.format(RENDER, html).replace("\r\n", "\\r\\n");
 
-		// run on UI thread
+		String script = String.format(Render, StringEscapeUtils.escapeEcmaScript(html));
+		if (mathjax) state = State.READY;
+		executeScript(script);
+
+		return Status.OK_STATUS;
+	}
+
+	// run on UI thread
+	protected void executeScript(String script) {
 		Display.getDefault().asyncExec(new Runnable() {
 
 			@Override
 			public void run() {
 				if (browser != null && !browser.isDisposed()) {
 					boolean ok = browser.execute(script);
-					if (!ok) Log.error("Reactor.update(...) failed.");
+					if (!ok) Log.error("Script execute failed.");
 				}
 			}
 		});
-
-		return Status.OK_STATUS;
 	}
 
 	protected void done() {
@@ -112,8 +133,10 @@ public class ViewJob extends Job {
 				result("ViewJob ready");
 				state = State.READY;
 				break;
+			case TYPESET:
 			default:
 				result("Update complete.");
+				state = State.READY;
 				break;
 		}
 	}
@@ -141,6 +164,7 @@ public class ViewJob extends Job {
 		timer = 0;
 	}
 
+	// called on completion of MathJax typesetting
 	class DoneFunction extends BrowserFunction {
 
 		DoneFunction(Browser browser, String name) {
@@ -149,8 +173,9 @@ public class ViewJob extends Job {
 
 		@Override
 		public Object function(Object[] args) {
+			System.out.println("typeset(" + args + ")");
 			if (args.length > 0 && "End".equals(args[0])) {
-				// System.out.println("typeset() called [args=" + args + "]");
+				state = State.READY;
 				done();
 			}
 			return null;

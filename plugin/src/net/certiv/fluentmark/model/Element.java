@@ -15,20 +15,20 @@ public class Element extends PlatformObject implements IElement {
 	public static final IElement[] NO_ELEMENTS = new Element[0];
 
 	private IResource resource;
-	private Kind kind;
+	private Type kind;
 	private int level;
 	private String content;
 	private ISourceRange range;
 
 	// Part constructor
-	public Element(Kind kind, ISourceRange range) {
+	public Element(Type kind, ISourceRange range) {
 		this.kind = kind;
 		this.range = range;
 	}
 
 	// PageRoot constructor
 	public Element() {
-		this.kind = Kind.PAGE;
+		this.kind = Type.PAGE;
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -55,11 +55,11 @@ public class Element extends PlatformObject implements IElement {
 	}
 
 	@Override
-	public Kind getKind() {
+	public Type getKind() {
 		return kind;
 	}
 
-	public void setKind(Kind kind) {
+	public void setKind(Type kind) {
 		this.kind = kind;
 	}
 
@@ -107,7 +107,7 @@ public class Element extends PlatformObject implements IElement {
 	@Override
 	public void dispose() {
 		resource = null;
-		kind = Kind.UNDEFINED;
+		kind = Type.UNDEFINED;
 		content = "";
 		range = null;
 	}

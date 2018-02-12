@@ -21,7 +21,7 @@ import org.eclipse.ui.texteditor.ITextEditor;
 
 import net.certiv.fluentmark.FluentMkUI;
 import net.certiv.fluentmark.editor.FluentMkEditor;
-import net.certiv.fluentmark.model.Kind;
+import net.certiv.fluentmark.model.Type;
 import net.certiv.fluentmark.model.PagePart;
 import net.certiv.fluentmark.model.PageRoot;
 import net.certiv.fluentmark.preferences.Prefs;
@@ -90,7 +90,7 @@ public class LineWrapEditStrategy implements IAutoEditStrategy {
 			int lmw = 0;
 
 			PagePart part = PageRoot.MODEL.partAtOffset(offset);
-			if (part != null && part.getKind() == Kind.LIST) {
+			if (part != null && part.getKind() == Type.LIST) {
 				lmw = AutoEdit.listMarkerWidth(doc, end);
 			}
 

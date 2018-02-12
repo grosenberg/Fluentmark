@@ -24,7 +24,7 @@ import org.eclipse.ui.handlers.HandlerUtil;
 
 import net.certiv.fluentmark.convert.PdfGen;
 import net.certiv.fluentmark.editor.FluentMkEditor;
-import net.certiv.fluentmark.model.Kind;
+import net.certiv.fluentmark.model.Type;
 import net.certiv.fluentmark.model.PagePart;
 import net.certiv.fluentmark.model.PageRoot;
 
@@ -55,7 +55,7 @@ public class ExportPdfHandler extends AbstractHandler {
 			String pathname = dialog.open();
 			if (pathname != null) {
 				PageRoot model = editor.getPageModel(true);
-				List<PagePart> parts = model.getPageParts(Kind.CODE_BLOCK);
+				List<PagePart> parts = model.getPageParts(Type.CODE_BLOCK);
 				String md = editor.getDocument().get();
 				PdfGen.save(pathname, parts, new Document(md));
 			}

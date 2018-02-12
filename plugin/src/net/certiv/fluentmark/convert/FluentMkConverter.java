@@ -114,8 +114,10 @@ public class FluentMkConverter {
 		if (store.getBoolean(Prefs.EDITOR_PANDOC_ADDTOC)) args.add("--toc");
 		if (store.getBoolean(Prefs.EDITOR_PANDOC_MATHJAX)) args.add("--mathjax");
 
-		// TODO: fix
-		// if (store.getBoolean(Prefs.EDITOR_PANDOC_SMART)) args.add("-f markdown+smart");
+		if (store.getBoolean(Prefs.EDITOR_PANDOC_SMART)) {
+			args.add("-f");
+			args.add("markdown+smart");
+		}
 
 		if (store.getBoolean(Prefs.EDITOR_DOTMODE_ENABLED)) {
 			text = preprocess(text);

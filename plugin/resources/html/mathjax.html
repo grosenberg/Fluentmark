@@ -1,8 +1,16 @@
-<!-- minimum configuration and register with the signal hub to perform 'typeset()' callback on startup 'End' signal -->
+<style type="text/css">code { white-space: pre; }</style>
+<script type="text/javascript" async
+	src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 <script type=text/x-mathjax-config>
 	MathJax.Hub.Config({
 		messageStyle: "none",
+		showMathMenu: true,
+		processEscapes: true,	
 		positionToHash: true,
+  		tex2jax: {
+    		inlineMath:  [['\(','\)']],
+			displayMath: [['\[','\]']]
+  		},
 		TeX: {
 			equationNumbers: {
 				autoNumber: "all"
@@ -10,7 +18,4 @@
 		},
 	});
 	MathJax.Hub.Register.StartupHook("End", typeset);
-</script>
-<script type="text/javascript" async
-	src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
 </script>

@@ -23,8 +23,8 @@ public class Lines {
 		int offset = 0;
 		int length = 0;
 		int idx = -1;
-		Kind kind = Kind.UNDEFINED;	// effective
-		Kind nKind = kind; 			// natural/original
+		Type kind = Type.UNDEFINED;	// effective
+		Type nKind = kind; 			// natural/original
 		PagePart part;
 
 		private boolean blankPrior;
@@ -113,18 +113,18 @@ public class Lines {
 		return lineList.get(idx).length;
 	}
 
-	public Kind getKind(int idx) {
+	public Type getKind(int idx) {
 		return lineList.get(idx).kind;
 	}
 
-	public Kind getOriginalKind(int idx) {
+	public Type getOriginalKind(int idx) {
 		return lineList.get(idx).nKind;
 	}
 
-	public void setKind(int idx, Kind kind) {
+	public void setKind(int idx, Type kind) {
 		Line line = lineList.get(idx);
 		line.kind = kind;
-		if (line.nKind == Kind.UNDEFINED) {
+		if (line.nKind == Type.UNDEFINED) {
 			line.nKind = kind; // preserve the original kind
 		}
 	}
@@ -137,7 +137,7 @@ public class Lines {
 		lineList.get(idx).part = part;
 	}
 
-	public Kind identifyKind(int idx) {
+	public Type identifyKind(int idx) {
 		Line curr = lineList.get(idx);
 		Line next = lineList.size() > idx + 1 ? lineList.get(idx + 1) : null;
 
@@ -149,53 +149,53 @@ public class Lines {
 		boolean nxtblank = next != null ? next.isBlank() : true;
 		boolean nxtnxtblank = next != null ? next.isBlankNext() : true;
 
-		if (curblank) return Kind.BLANK;
+		if (curblank) return Type.BLANK;
 
-		if (idx == 0 && curTxt.startsWith("---")) return Kind.FRONT_MATTER;
+		if (idx == 0 && curTxt.startsWith("---")) return Type.FRONT_MATTER;
 
-		if (curTxt.startsWith("#")) return Kind.HEADER;
-		if (!curblank && nxtnxtblank && (nxtTxt.startsWith("---") || nxtTxt.startsWith("==="))) return Kind.HEADER;
-		if (!priorblank && nxtblank && (curTxt.startsWith("---") || curTxt.startsWith("==="))) return Kind.SETEXT;
+		if (curTxt.startsWith("#")) return Type.HEADER;
+		if (!curblank && nxtnxtblank && (nxtTxt.startsWith("---") || nxtTxt.startsWith("==="))) return Type.HEADER;
+		if (!priorblank && nxtblank && (curTxt.startsWith("---") || curTxt.startsWith("==="))) return Type.SETEXT;
 
-		if (curTxt.startsWith("$$")) return Kind.MATH_BLOCK;
-		if (priorblank && nxtblank && curTxt.matches("\\$\\S.*?\\S\\$.*")) return Kind.MATH_BLOCK_INLINE;
+		if (curTxt.startsWith("$$")) return Type.MATH_BLOCK;
+		if (priorblank && nxtblank && curTxt.matches("\\$\\S.*?\\S\\$.*")) return Type.MATH_BLOCK_INLINE;
 
-		if (curTxt.startsWith("<!---")) return Kind.COMMENT;
-		if (curTxt.startsWith("--->")) return Kind.COMMENT;
+		if (curTxt.startsWith("<!---")) return Type.COMMENT;
+		if (curTxt.startsWith("--->")) return Type.COMMENT;
 
-		if (priorblank && nxtblank && curTxt.startsWith("___")) return Kind.HRULE;
-		if (priorblank && nxtblank && curTxt.startsWith("***")) return Kind.HRULE;
-		if (priorblank && nxtblank && curTxt.startsWith("---")) return Kind.HRULE;
+		if (priorblank && nxtblank && curTxt.startsWith("___")) return Type.HRULE;
+		if (priorblank && nxtblank && curTxt.startsWith("***")) return Type.HRULE;
+		if (priorblank && nxtblank && curTxt.startsWith("---")) return Type.HRULE;
 
-		if (curTxt.matches("(\\|\\s?\\:?---+\\:?\\s?)+\\|.*")) return Kind.TABLE;
+		if (curTxt.matches("(\\|\\s?\\:?---+\\:?\\s?)+\\|.*")) return Type.TABLE;
 
-		if (curTxt.matches("\\s*\\*\\s+.*")) return Kind.LIST;
-		if (curTxt.matches("\\s*\\-\\s+.*")) return Kind.LIST;
-		if (curTxt.matches("\\s*\\+\\s+.*")) return Kind.LIST;
-		if (curTxt.matches("\\s*\\d+\\.\\s+.*")) return Kind.LIST;
+		if (curTxt.matches("\\s*\\*\\s+.*")) return Type.LIST;
+		if (curTxt.matches("\\s*\\-\\s+.*")) return Type.LIST;
+		if (curTxt.matches("\\s*\\+\\s+.*")) return Type.LIST;
+		if (curTxt.matches("\\s*\\d+\\.\\s+.*")) return Type.LIST;
 
-		if (curTxt.matches("(\\>+\\s+)+.*")) return Kind.QUOTE;
-		if (curTxt.matches("\\:\\s+.*")) return Kind.DEFINITION;
-		if (curTxt.matches("\\[\\^?\\d+\\]\\:\\s+.*")) return Kind.REFERENCE;
+		if (curTxt.matches("(\\>+\\s+)+.*")) return Type.QUOTE;
+		if (curTxt.matches("\\:\\s+.*")) return Type.DEFINITION;
+		if (curTxt.matches("\\[\\^?\\d+\\]\\:\\s+.*")) return Type.REFERENCE;
 
-		if (curTxt.matches("\\</?\\w+(\\s+.*?)?/?\\>.*")) return Kind.HTML_BLOCK;
+		if (curTxt.matches("\\</?\\w+(\\s+.*?)?/?\\>.*")) return Type.HTML_BLOCK;
 
-		if (curTxt.startsWith("```")) return Kind.CODE_BLOCK;
-		if (curTxt.startsWith("~~~")) return Kind.CODE_BLOCK;
-		if (curTxt.matches("    .*")) return Kind.CODE_BLOCK_INDENTED;
+		if (curTxt.startsWith("```")) return Type.CODE_BLOCK;
+		if (curTxt.startsWith("~~~")) return Type.CODE_BLOCK;
+		if (curTxt.matches("    .*")) return Type.CODE_BLOCK_INDENTED;
 
-		return Kind.TEXT;
+		return Type.TEXT;
 	}
 
 	public int nextMatching(int mark, String exact) {
 		return nextMatching(mark, null, exact);
 	}
 
-	public int nextMatching(int mark, Kind kind) {
+	public int nextMatching(int mark, Type kind) {
 		return nextMatching(mark, kind, null);
 	}
 
-	public int nextMatching(int mark, Kind kind, String exact) {
+	public int nextMatching(int mark, Type kind, String exact) {
 		for (int idx = mark + 1; idx < length(); idx++) {
 			boolean ok = kind != null ? kind == identifyKind(idx) : true;
 			ok = ok && (exact != null) ? lineList.get(idx).text.startsWith(exact) : ok;

@@ -7,7 +7,7 @@
  ******************************************************************************/
 package net.certiv.fluentmark.model;
 
-public enum Kind {
+public enum Type {
 	PAGE("Page"),
 
 	FRONT_MATTER("Front matter"),
@@ -37,7 +37,7 @@ public enum Kind {
 
 	private String displayName;
 
-	private Kind(String name) {
+	private Type(String name) {
 		displayName = name;
 	}
 

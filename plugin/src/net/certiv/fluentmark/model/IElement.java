@@ -15,7 +15,7 @@ public interface IElement extends ISourceReference {
 
 	IResource getResource();
 
-	Kind getKind();
+	Type getKind();
 
 	int getLevel();
 

@@ -1,7 +1,6 @@
 package net.certiv.fluentmark.convert;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -31,10 +30,22 @@ import net.certiv.fluentmark.preferences.Prefs;
 import net.certiv.fluentmark.util.FileUtils;
 import net.certiv.fluentmark.util.Strings;
 
+/**
+ * Generate Html files for:
+ * <ul>
+ * <li>Preview
+ * <ul>
+ * <li>Base html to be loaded to the browser
+ * <li>Body to be updated to the base
+ * </ul>
+ * <li>Export
+ * <ul>
+ * <li>Full, self contanied Html document
+ * <li>Minimal Html document
+ * </ul>
+ * </ul>
+ */
 public class HtmlGen {
-
-	private static final String Update = "<html><head>" + Strings.EOL + "<title>%s</title>" + Strings.EOL
-			+ "</head><body>" + Strings.EOL + "%s" + Strings.EOL + "</body></html>";
 
 	private FluentMkEditor editor;
 	private FluentMkConverter converter;
@@ -45,25 +56,55 @@ public class HtmlGen {
 	}
 
 	/**
-	 * Gets the current document html content with a header as determined by HtmlKind.
+	 * Gets the current document content with a header as determined by kind.
 	 * 
-	 * @param hdr defines the intended use of the HTML: for export, for the embedded view, or minimal.
+	 * @param kind defines the intended use of the HTML: for export, for the embedded view, or minimal.
 	 */
-	public String getPage(HtmlKind hdr) {
-		IPathEditorInput input = (IPathEditorInput) editor.getEditorInput();
-		return addHeader(hdr, convert(), input.getPath());
-	}
-
-	/**
-	 * Gets the current document html content with a header containing only the title. Intended only for
-	 * React updates of the body content.
-	 */
-	public String getUpdate() {
+	public String getHtml(Kind kind) {
 		IPathEditorInput input = (IPathEditorInput) editor.getEditorInput();
 		if (input == null) return "";
 
-		String title = input.getPath().toString();
-		return String.format(Update, title, convert().trim());
+		return build(kind, convert(), input.getPath());
+	}
+
+	private String build(Kind kind, String content, IPath path) {
+		StringBuilder sb = new StringBuilder();
+		switch (kind) {
+			case EXPORT:
+				sb.append("<html><head>" + Strings.EOL);
+				sb.append(FileUtils.fromBundle("resources/html/highlight.html") + Strings.EOL);
+				if (editor.useMathJax()) {
+					sb.append(FileUtils.fromBundle("resources/html/mathjax.html") + Strings.EOL);
+				}
+				sb.append("<style media=\"screen\" type=\"text/css\">" + Strings.EOL);
+				sb.append(getStyles(path) + Strings.EOL);
+				sb.append("</style>" + Strings.EOL);
+				sb.append("</head><body>" + Strings.EOL);
+				sb.append(content + Strings.EOL);
+				sb.append("</body></html>");
+				break;
+
+			case MIN:
+				sb.append("<html><head>" + Strings.EOL);
+				sb.append("</head><body>" + Strings.EOL);
+				sb.append(content + Strings.EOL);
+				sb.append("</body></html>");
+				break;
+
+			case VIEW:
+				String preview = FileUtils.fromBundle("resources/html/preview.html");
+				preview = preview.replaceFirst("%path%", path.removeLastSegments(1).toString());
+				sb.append(preview.replaceFirst("%styles%", getStyles(path)));
+				break;
+
+			case UPDATE:
+				// sb.append("<body>" + Strings.EOL);
+				sb.append(content + Strings.EOL);
+				// sb.append("</body>");
+				break;
+		}
+
+		return sb.toString();
 	}
 
 	private String convert() {
@@ -93,50 +134,17 @@ public class HtmlGen {
 		}
 	}
 
-	private String addHeader(HtmlKind hdr, String html, IPath path) {
-		StringBuilder sb = new StringBuilder("<html><head>" + Strings.EOL);
-
-		if (hdr != HtmlKind.MIN) {
-			String highlight = FileUtils.fromBundle("resources/highlight.html");
-			sb.append(highlight + Strings.EOL);
-
-			if (editor.useMathJax()) {
-				String jax = FileUtils.fromBundle("resources/mathjax.html");
-				sb.append(jax + Strings.EOL);
-			}
-
-			if (hdr == HtmlKind.VIEW) {
-				sb.append(FileUtils.fromBundle("resources/react.html") + Strings.EOL);
-				sb.append("<script type=\"text/javascript\">" + Strings.EOL);
-				sb.append(FileUtils.fromBundle("resources/js/reactor.min.js") + Strings.EOL);
-				sb.append("</script>" + Strings.EOL);
-
-				if (path != null) {
-					String docPath = path.removeLastSegments(1).toString();
-					sb.append("<base href=\"" + docPath + "/\">" + Strings.EOL);
-				}
-			}
-
-			if (path != null) {
-				try {
-					String stylesPathname = getStyles(path);
-					String stylesheet = FileUtils.read(new File(stylesPathname));
-					sb.append("<style media=\"screen\" type=\"text/css\">" + Strings.EOL);
-					sb.append(stylesheet + Strings.EOL);
-					sb.append("</style>" + Strings.EOL);
-				} catch (RuntimeException e) {
-					Log.error("Failed reading stylesheet", e);
-				}
-			}
+	private String getStyles(IPath path) {
+		try {
+			String pathname = findStyles(path);
+			return FileUtils.read(new File(pathname));
+		} catch (Exception e) {
+			Log.error("Failed reading stylesheet", e);
 		}
-
-		sb.append("</head><body>" + Strings.EOL);
-		sb.append(html + Strings.EOL);
-		sb.append("</body></html>");
-		return sb.toString();
+		return "";
 	}
 
-	private String getStyles(IPath path) {
+	private String findStyles(IPath path) throws Exception {
 		// 1) look for a file having the same name as the input file, beginning in the
 		// current directory, parent directories, and the current project directory.
 		IPath styles = path.removeFileExtension().addFileExtension(Prefs.CSS);
@@ -148,9 +156,9 @@ public class HtmlGen {
 		pathname = find(styles);
 		if (pathname != null) return pathname;
 
-		// 3) read the file identified by the pref key 'EDITOR_CSS_CUSTOM' from the filesystem
+		// 3) read the file identified by the pref key 'EDITOR_CSS_EXTERNAL' from the filesystem
 		IPreferenceStore store = FluentMkUI.getDefault().getPreferenceStore();
-		String customCss = store.getString(Prefs.EDITOR_CSS_CUSTOM);
+		String customCss = store.getString(Prefs.EDITOR_CSS_EXTERNAL);
 		if (!customCss.isEmpty()) {
 			File file = new File(customCss);
 			if (file.isFile() && file.getName().endsWith("." + Prefs.CSS)) {
@@ -158,11 +166,11 @@ public class HtmlGen {
 			}
 		}
 
-		// 4) read the file identified by the pref key 'EDITOR_CSS_DEFAULT' from the bundle
-		String defaultCss = store.getString(Prefs.EDITOR_CSS_DEFAULT);
+		// 4) read the file identified by the pref key 'EDITOR_CSS_BUILTIN' from the bundle
+		String defaultCss = store.getString(Prefs.EDITOR_CSS_BUILTIN);
 		if (!defaultCss.isEmpty()) {
 			try {
-				URI uri = new URI(defaultCss);
+				URI uri = new URI(defaultCss.replace(".css", ".min.css"));
 				File file = new File(uri);
 				if (file.isFile()) return file.getPath();
 			} catch (URISyntaxException e) {
@@ -173,13 +181,8 @@ public class HtmlGen {
 		// 5) read 'markdown.css' from the bundle
 		Bundle bundle = Platform.getBundle(FluentMkUI.PLUGIN_ID);
 		URL url = FileLocator.find(bundle, new Path(Prefs.CSS_RESOURCE_DIR + Prefs.CSS_DEFAULT), null);
-		try {
-			url = FileLocator.toFileURL(url);
-			return url.toURI().toString();
-		} catch (IOException | URISyntaxException e) {
-			Log.error(e);
-			return null;
-		}
+		url = FileLocator.toFileURL(url);
+		return url.toURI().toString();
 	}
 
 	private String find(IPath styles) {
