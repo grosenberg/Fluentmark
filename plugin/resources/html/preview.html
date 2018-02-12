@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv='x-ua-compatible' content='IE=edge'/>
+		<meta name="viewport" content="width=device-width,initial-scale=1.0">
+		<title>Fluentmark Preview</title>
+		
+		<base href="%path%"/>
+		<style media="screen" type="text/css">
+			%styles%
+		</style>
+
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+		<style type="text/css">code { white-space: pre; }</style>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+		<script type="x-mathjax-config">
+			MathJax.Hub.Config({
+				messageStyle: "none",
+				showMathMenu: true,
+				processEscapes: true,	
+				positionToHash: true,
+		  		tex2jax: {
+    				inlineMath:  [['\(','\)']],
+					displayMath: [['\[','\]']],
+  				},
+				TeX: {
+					equationNumbers: {autoNumber: "all"}
+				},
+			});
+			MathJax.Hub.Register.StartupHook("End", typeset);
+		</script>
+		
+		<script type="text/javascript" src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.min.js"></script>
+	</head>
+
+	<body>
+		<div id="app" v-html="contents"></div>
+
+ 		<script type="text/javascript">
+			window.Fluent = new Vue({
+				el: '#app',
+				data: { 
+					contents: 'Ready...', 
+				},
+				mounted: function() {
+					this.refresh(); 
+				},
+				updated: function() {
+					this.refresh(); 
+				},
+				methods: {
+					refresh: function() {
+						this.$nextTick(function() {
+							hljs.initHighlighting();
+							MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+						});
+					},
+					check: function() {
+						alert('Fluent check: ' + this.$data.contents); 
+					},
+					clear: function() { 
+						this.$data.contents = 'Cleared...'; 
+					},
+					set: function(source) {
+						this.$data.contents = source;
+					},
+				},
+			});
+		</script>
+	</body>
+</html>
