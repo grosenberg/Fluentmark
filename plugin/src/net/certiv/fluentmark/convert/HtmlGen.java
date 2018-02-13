@@ -98,9 +98,7 @@ public class HtmlGen {
 				break;
 
 			case UPDATE:
-				// sb.append("<body>" + Strings.EOL);
 				sb.append(content + Strings.EOL);
-				// sb.append("</body>");
 				break;
 		}
 
