@@ -1,7 +1,6 @@
 /*******************************************************************************
- * Copyright (c) 2016 - 2017 Certiv Analytics and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
+ * Copyright (c) 2016 - 2017 Certiv Analytics and others. All rights reserved. This program and the
+ * accompanying materials are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  ******************************************************************************/
@@ -31,8 +30,8 @@ import net.certiv.fluentmark.util.Cmd;
 
 public class FluentMkConverter {
 
-	private static final Pattern b = Pattern.compile("(```+\\s*dot\\s+)(.*?)(```+)", Pattern.DOTALL);
-	private static final Pattern t = Pattern.compile("(~~~+\\s*dot\\s+)(.*?)(~~~+)", Pattern.DOTALL);
+	private static final Pattern TICS = Pattern.compile("(```+\\s*dot\\s+)(.*?)(```+)", Pattern.DOTALL);
+	private static final Pattern TLDS = Pattern.compile("(~~~+\\s*dot\\s+)(.*?)(~~~+)", Pattern.DOTALL);
 	private static final BlockEmitter emitter = new DotCodeBlockEmitter();
 	private IPreferenceStore store;
 
@@ -50,40 +49,40 @@ public class FluentMkConverter {
 		}
 	}
 
-	public String convert(String text) {
+	public String convert(String base, String text) {
 		switch (store.getString(Prefs.EDITOR_MD_CONVERTER)) {
 			case Prefs.KEY_BLACKFRIDAY:
-				return useBlackFriday(text);
+				return useBlackFriday(base, text);
 			case Prefs.KEY_MARDOWNJ:
-				return useMarkDownJ(text);
+				return useMarkDownJ(base, text);
 			case Prefs.KEY_PEGDOWN:
-				return usePegDown(text);
+				return usePegDown(base, text);
 			case Prefs.KEY_COMMONMARK:
-				return useCommonMark(text);
+				return useCommonMark(base, text);
 			case Prefs.KEY_TXTMARK:
-				return useTxtMark(text);
+				return useTxtMark(base, text);
 			case Prefs.KEY_PANDOC:
-				return usePandoc(text);
+				return usePandoc(base, text);
 			case Prefs.EDITOR_EXTERNAL_COMMAND:
-				return useExternalCli(text);
+				return useExternalCli(base, text);
 		}
 		return "";
 	}
 
 	// Use MarkdownJ
-	private String useMarkDownJ(String text) {
+	private String useMarkDownJ(String base, String text) {
 		MarkdownProcessor markdown = new MarkdownProcessor();
 		return markdown.markdown(text);
 	}
 
 	// Use PegDown
-	private String usePegDown(String text) {
+	private String usePegDown(String base, String text) {
 		PegDownProcessor pegdown = new PegDownProcessor();
 		return pegdown.markdownToHtml(text);
 	}
 
 	// Use CommonMark
-	private String useCommonMark(String text) {
+	private String useCommonMark(String base, String text) {
 		Parser parser = Parser.builder().build();
 		Node document = parser.parse(text);
 		HtmlRenderer renderer = HtmlRenderer.builder().build();
@@ -91,7 +90,7 @@ public class FluentMkConverter {
 	}
 
 	// Use TxtMark
-	private String useTxtMark(String text) {
+	private String useTxtMark(String base, String text) {
 		boolean safeMode = store.getBoolean(Prefs.EDITOR_TXTMARK_SAFEMODE);
 		boolean extended = store.getBoolean(Prefs.EDITOR_TXTMARK_EXTENDED);
 		boolean dotMode = store.getBoolean(Prefs.EDITOR_DOTMODE_ENABLED);
@@ -105,7 +104,7 @@ public class FluentMkConverter {
 	}
 
 	// Use Pandoc
-	private String usePandoc(String text) {
+	private String usePandoc(String base, String text) {
 		String cmd = store.getString(Prefs.EDITOR_PANDOC_PROGRAM);
 		if (cmd.trim().isEmpty()) return "";
 
@@ -122,11 +121,11 @@ public class FluentMkConverter {
 		if (store.getBoolean(Prefs.EDITOR_DOTMODE_ENABLED)) {
 			text = preprocess(text);
 		}
-		return Cmd.process(args.toArray(new String[args.size()]), text);
+		return Cmd.process(args.toArray(new String[args.size()]), base, text);
 	}
 
 	// Use BlackFriday
-	private String useBlackFriday(String text) {
+	private String useBlackFriday(String base, String text) {
 		String cmd = store.getString(Prefs.EDITOR_BLACKFRIDAY_PROGRAM);
 		if (cmd.trim().isEmpty()) return "";
 
@@ -143,12 +142,12 @@ public class FluentMkConverter {
 		if (store.getBoolean(Prefs.EDITOR_DOTMODE_ENABLED)) {
 			text = preprocess(text);
 		}
-		return Cmd.process(args.toArray(new String[args.size()]), text);
+		return Cmd.process(args.toArray(new String[args.size()]), base, text);
 	}
 
 	private String preprocess(String text) {
-		text = preprocess(b, text);
-		return preprocess(t, text);
+		text = preprocess(TICS, text);
+		return preprocess(TLDS, text);
 	}
 
 	private String preprocess(Pattern p, String text) {
@@ -171,7 +170,7 @@ public class FluentMkConverter {
 	}
 
 	// Use external command
-	private String useExternalCli(String text) {
+	private String useExternalCli(String base, String text) {
 		String cmd = store.getString(PrefPageEditor.EDITOR_EXTERNAL_COMMAND);
 		if (cmd.trim().isEmpty()) {
 			return "Specify an external markdown converter command in preferences.";
@@ -179,7 +178,7 @@ public class FluentMkConverter {
 
 		String[] args = Cmd.parse(cmd);
 		if (args.length > 0) {
-			return Cmd.process(args, text);
+			return Cmd.process(args, base, text);
 		}
 		return "";
 	}

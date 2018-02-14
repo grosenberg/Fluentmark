@@ -15,23 +15,22 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
 
 		<style type="text/css">code { white-space: pre; }</style>
-		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 		<script type="x-mathjax-config">
 			MathJax.Hub.Config({
 				messageStyle: "none",
-				showMathMenu: true,
-				processEscapes: true,	
 				positionToHash: true,
-		  		tex2jax: {
-    				inlineMath:  [['\(','\)']],
-					displayMath: [['\[','\]']],
-  				},
+    			tex2jax: {
+      				inlineMath: [ ['$','$'], ['\\(','\\)'] ],
+      				displayMath: [ ['$$','$$'], ['\\[','\\]'] ],
+      				processEscapes: true
+    			},
 				TeX: {
-					equationNumbers: {autoNumber: "all"}
+					equationNumbers: {autoNumber: "AMS"}
 				},
 			});
 			MathJax.Hub.Register.StartupHook("End", typeset);
 		</script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 		
 		<script type="text/javascript" src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.min.js"></script>
@@ -60,13 +59,13 @@
 						});
 					},
 					check: function() {
-						alert('Fluent check: ' + this.$data.contents); 
+						alert('Fluent check: ' + this.contents); 
 					},
 					clear: function() { 
-						this.$data.contents = 'Cleared...'; 
+						this.contents = 'Cleared...'; 
 					},
 					set: function(source) {
-						this.$data.contents = source;
+						this.contents = source;
 					},
 				},
 			});

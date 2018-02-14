@@ -1,7 +1,6 @@
 /*******************************************************************************
- * Copyright (c) 2016 - 2017 Certiv Analytics and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
+ * Copyright (c) 2016 - 2017 Certiv Analytics and others. All rights reserved. This program and the
+ * accompanying materials are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  ******************************************************************************/
@@ -52,7 +51,15 @@ public class PdfGen {
 
 	private PdfGen() {}
 
-	public static void save(String pathname, List<PagePart> parts, IDocument doc) {
+	/**
+	 * Generate and Save PDF
+	 * 
+	 * @param base working directory
+	 * @param doc source text
+	 * @param parts code blocks
+	 * @param pathname output pathname
+	 */
+	public static void save(String base, IDocument doc, List<PagePart> parts, String pathname) {
 
 		Job job = new Job("PDF generation job") {
 
@@ -111,9 +118,9 @@ public class PdfGen {
 				}
 
 				// send to pandoc to convert & save
-				File outFile = new File(pathname);
-				String out = doc.get();
-				String err = convert(out, outFile);
+				File out = new File(pathname);
+				String data = doc.get();
+				String err = convert(base, data, out);
 				cleanup(dir);
 				if (!err.isEmpty()) {
 					return new Status(IStatus.ERROR, FluentMkUI.PLUGIN_ID, "Pdf generation failed: " + err);
@@ -122,7 +129,7 @@ public class PdfGen {
 				if (FluentMkUI.getDefault().getPreferenceStore().getBoolean(Prefs.EDITOR_PDF_OPEN)) {
 					if (Desktop.isDesktopSupported()) {
 						try {
-							Desktop.getDesktop().open(outFile);
+							Desktop.getDesktop().open(out);
 						} catch (Exception e) {
 							// no application registered for PDFs
 							String msg = "Cannot open " + pathname + " (" + e.getMessage() + ")";
@@ -138,16 +145,16 @@ public class PdfGen {
 		job.schedule();
 	}
 
-	public static String convert(String data, File file) {
+	public static String convert(String base, String data, File out) {
 		String cmd = FluentMkUI.getDefault().getPreferenceStore().getString(Prefs.EDITOR_PANDOC_PROGRAM);
 		if (data.trim().isEmpty() || cmd.trim().isEmpty()) return "";
 
 		// generate by executing pandoc to generate pdf from markdown
 		String[] args = PDF;
 		args[0] = cmd;
-		args[PDF.length - 1] = file.getPath();
+		args[PDF.length - 1] = out.getPath();
 
-		return Cmd.process(args, data);
+		return Cmd.process(args, base, data);
 	}
 
 	// clean up temporary files
@@ -176,16 +183,16 @@ public class PdfGen {
 		return new SourceRange(begOffset, endOffset - begOffset, dotBegLine, dotEndLine);
 	}
 
-	protected static boolean dot2pdf(File tmpfile, String content) {
+	protected static boolean dot2pdf(File tmpfile, String data) {
 		String cmd = FluentMkUI.getDefault().getPreferenceStore().getString(Prefs.EDITOR_DOT_PROGRAM);
-		if (cmd.trim().isEmpty() || content.trim().isEmpty()) return false;
+		if (cmd.trim().isEmpty() || data.trim().isEmpty()) return false;
 
 		// generate a new value by executing dot
 		String[] args = DOT2PDF;
 		args[0] = cmd;
 		args[DOT2PDF.length - 1] = tmpfile.getPath();
 
-		Cmd.process(args, content);
+		Cmd.process(args, null, data);
 		return true;
 	}
 

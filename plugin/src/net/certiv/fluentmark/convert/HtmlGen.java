@@ -64,10 +64,12 @@ public class HtmlGen {
 		IPathEditorInput input = (IPathEditorInput) editor.getEditorInput();
 		if (input == null) return "";
 
-		return build(kind, convert(), input.getPath());
+		IPath pathname = input.getPath();
+		String base = pathname.removeLastSegments(1).addTrailingSeparator().toString();
+		return build(kind, convert(base), base, pathname);
 	}
 
-	private String build(Kind kind, String content, IPath path) {
+	private String build(Kind kind, String content, String base, IPath pathname) {
 		StringBuilder sb = new StringBuilder();
 		switch (kind) {
 			case EXPORT:
@@ -77,7 +79,7 @@ public class HtmlGen {
 					sb.append(FileUtils.fromBundle("resources/html/mathjax.html") + Strings.EOL);
 				}
 				sb.append("<style media=\"screen\" type=\"text/css\">" + Strings.EOL);
-				sb.append(getStyles(path) + Strings.EOL);
+				sb.append(getStyles(pathname) + Strings.EOL);
 				sb.append("</style>" + Strings.EOL);
 				sb.append("</head><body>" + Strings.EOL);
 				sb.append(content + Strings.EOL);
@@ -93,8 +95,8 @@ public class HtmlGen {
 
 			case VIEW:
 				String preview = FileUtils.fromBundle("resources/html/preview.html");
-				preview = preview.replaceFirst("%path%", path.removeLastSegments(1).toString());
-				sb.append(preview.replaceFirst("%styles%", getStyles(path)));
+				preview = preview.replaceFirst("%path%", base);
+				sb.append(preview.replaceFirst("%styles%", getStyles(pathname)));
 				break;
 
 			case UPDATE:
@@ -105,7 +107,7 @@ public class HtmlGen {
 		return sb.toString();
 	}
 
-	private String convert() {
+	private String convert(String base) {
 		IDocument doc = editor.getDocument();
 		int beg = 0;
 		int len = doc.getLength();
@@ -124,8 +126,8 @@ public class HtmlGen {
 		}
 
 		try {
-			String text = editor.getDocument().get(beg, len);
-			return converter.convert(text);
+			String text = doc.get(beg, len);
+			return converter.convert(base, text);
 		} catch (BadLocationException e) {
 			Log.error("Bad front matter exclusion: " + beg + ":" + len + "; " + region.getLength());
 			return "";

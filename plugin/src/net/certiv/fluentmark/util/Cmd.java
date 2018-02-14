@@ -1,7 +1,6 @@
 /*******************************************************************************
- * Copyright (c) 2016 - 2017 Certiv Analytics and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
+ * Copyright (c) 2016 - 2017 Certiv Analytics and others. All rights reserved. This program and the
+ * accompanying materials are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  ******************************************************************************/
@@ -9,6 +8,7 @@ package net.certiv.fluentmark.util;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -22,15 +22,17 @@ public class Cmd {
 	/**
 	 * Execute a command in a subprocess
 	 * 
-	 * @param cmd command line argument array defining the command and options. The command must
-	 *            execute as a standard filter: stdIn to stdOut.
+	 * @param cmd command line argument array defining the command and options. The command must execute
+	 *            as a standard filter: stdIn to stdOut.
 	 * @param data input data
+	 * @param text
 	 * @return output data
 	 */
-	public static synchronized String process(String[] cmd, String data) {
+	public static synchronized String process(String[] cmd, String base, String data) {
 		final StringBuilder sb = new StringBuilder();
 		final ProcessBuilder pb = new ProcessBuilder(cmd);
 		try {
+			if (base != null) pb.directory(new File(base));
 			pb.redirectErrorStream(true);
 			Process process = pb.start();
 
