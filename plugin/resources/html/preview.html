@@ -55,7 +55,10 @@
 				methods: {
 					refresh: function() {
 						this.$nextTick(function() {
-							hljs.initHighlighting();
+							var blocks = this.$el.querySelectorAll('pre code');
+							for (var idx = 0; idx < blocks.length; idx++) {
+								hljs.highlightBlock(blocks[idx]);
+							}
 							MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
 						});
 					},
