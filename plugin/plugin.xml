@@ -84,7 +84,7 @@
             icon="icons/obj16/fluentmark_doc.png"
             id="net.certiv.fluentmark.views.FluentMkPreview"
             name="FluentMark View"
-            restorable="true">
+            restorable="false">
       </view>
    </extension>
 
@@ -189,15 +189,23 @@
          <command
                commandId="net.certiv.fluentmark.refreshView"
                icon="icons/obj16/refresh.gif"
+               label="Refresh"
                style="push"
                tooltip="Refresh/redisplay view contents">
          </command>
          <command
                commandId="net.certiv.fluentmark.openStylesheets"
                icon="icons/obj16/css.png"
-               label="Open Stylesheets"
+               label="Stylesheets"
                style="push"
                tooltip="Open stylesheet preferences">
+         </command>
+         <command
+               commandId="net.certiv.fluentmark.firebug"
+               icon="icons/obj16/firebug.png"
+               label="Firebug"
+               style="push"
+               tooltip="Open Firebug console">
          </command>
       </menuContribution>
    </extension>
@@ -277,6 +285,12 @@
             description="Italic"
             id="net.certiv.fluentmark.italic"
             name="Italic">
+      </command>
+      <command
+            categoryId="net.certiv.fluentmark.commands"
+            description="Firebug"
+            id="net.certiv.fluentmark.firebug"
+            name="Firebug">
       </command>
    </extension>
 
@@ -394,6 +408,7 @@
             </reference>
          </enabledWhen>
       </handler>
+      
       <handler
             class="net.certiv.fluentmark.handlers.ItalicHandler"
             commandId="net.certiv.fluentmark.italic">
@@ -408,6 +423,12 @@
             </reference>
          </enabledWhen>
       </handler>
+      
+      <handler
+            class="net.certiv.fluentmark.handlers.FirebugHandler"
+            commandId="net.certiv.fluentmark.firebug">
+      </handler>
+      
    </extension>
    
    <extension

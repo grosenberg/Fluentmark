@@ -5,17 +5,15 @@
 	MathJax.Hub.Config({
 		messageStyle: "none",
 		showMathMenu: true,
-		processEscapes: true,	
-		positionToHash: true,
   		tex2jax: {
     		inlineMath:  [['\(','\)']],
 			displayMath: [['\[','\]']]
+			processEscapes: true,	
   		},
 		TeX: {
 			equationNumbers: {
-				autoNumber: "all"
+				autoNumber: "AMS"
 			}
 		},
 	});
-	MathJax.Hub.Register.StartupHook("End", typeset);
 </script>

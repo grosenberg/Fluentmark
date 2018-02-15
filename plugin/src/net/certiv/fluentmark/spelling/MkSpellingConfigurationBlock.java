@@ -38,17 +38,17 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.ide.dialogs.EncodingFieldEditor;
 
-import eclipse.spellchecker.SpellCheckEngine;
-import eclipse.spellchecker.etc.IStatusChangeListener;
-import eclipse.spellchecker.etc.StatusInfo;
-import eclipse.spellchecker.etc.StatusUtil;
-import eclipse.spellchecker.preferences.PreferencesMessages;
 import net.certiv.fluentmark.preferences.AbstractConfigurationBlock;
 import net.certiv.fluentmark.preferences.OverlayPreferenceStore;
 import net.certiv.fluentmark.preferences.OverlayPreferenceStore.OverlayKey;
 import net.certiv.fluentmark.preferences.Prefs;
 import net.certiv.fluentmark.preferences.ScrolledPageContent;
 import net.certiv.fluentmark.preferences.SwtUtil;
+import net.certiv.spellchecker.SpellCheckEngine;
+import net.certiv.spellchecker.etc.IStatusChangeListener;
+import net.certiv.spellchecker.etc.StatusInfo;
+import net.certiv.spellchecker.etc.StatusUtil;
+import net.certiv.spellchecker.preferences.PreferencesMessages;
 
 public class MkSpellingConfigurationBlock extends AbstractConfigurationBlock implements Prefs {
 
@@ -377,6 +377,7 @@ public class MkSpellingConfigurationBlock extends AbstractConfigurationBlock imp
 		// Redirect status messages from the field editor to the status change listener
 		DialogPage fakePage = new DialogPage() {
 
+			@Override
 			public void createControl(Composite c) {}
 
 			@Override

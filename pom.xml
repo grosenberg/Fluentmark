@@ -45,12 +45,12 @@
 		<repository>
 			<id>tools</id>
 			<layout>p2</layout>
-			<url>file:/D:/DevFiles/Eclipse/Tools/net.certiv/net.certiv.tools.site/target/repository/</url>
+			<url>file:/D:/DevFiles/Eclipse/Certiv/net.certiv/net.certiv.tools.site/target/repository/</url>
 		</repository>
 		<repository>
-			<id>eclipse.spellchecker</id>
+			<id>net.certiv.spellchecker</id>
 			<layout>p2</layout>
-			<url>file:/D:/DevFiles/Eclipse/Tools/Spellchecker/eclipse.spellchecker.site/target/repository/</url>
+			<url>file:/D:/DevFiles/Eclipse/Fluentmark/net.certiv.spellchecker/site/target/repository/</url>
 		</repository>
 	</repositories>
 

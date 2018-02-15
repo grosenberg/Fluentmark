@@ -21,12 +21,14 @@ import net.certiv.fluentmark.Log;
 import net.certiv.fluentmark.convert.Kind;
 import net.certiv.fluentmark.editor.FluentMkEditor;
 import net.certiv.fluentmark.preferences.Prefs;
+import net.certiv.fluentmark.util.FileUtils;
+import net.certiv.fluentmark.util.Strings;
 
 public class ViewJob extends Job {
 
 	private static final String Render = "Fluent.set('%s');";
 
-	enum State {
+	private enum State {
 		NONE,
 		LOAD,
 		READY,
@@ -61,6 +63,10 @@ public class ViewJob extends Job {
 	}
 
 	public boolean load() {
+		return load(false);
+	}
+
+	public boolean load(boolean firebug) {
 		FluentMkEditor editor = view.getEditor();
 		if (editor == null) return false;
 
@@ -77,7 +83,11 @@ public class ViewJob extends Job {
 		}
 		browser.addProgressListener(watcher);
 		timer = System.nanoTime();
+		String script = FileUtils.fromBundle("resources/html/firebug.html") + Strings.EOL;
 		String content = editor.getHtml(Kind.VIEW);
+		if (firebug) {
+			content = content.replaceFirst("</head>", script + "</head>");
+		}
 		browser.setText(content);
 		return true;
 	}
@@ -95,6 +105,7 @@ public class ViewJob extends Job {
 		}
 	}
 
+	/** The job to run when scheduled */
 	@Override
 	protected IStatus run(IProgressMonitor monitor) {
 		FluentMkEditor editor = view.getEditor();
@@ -108,13 +119,8 @@ public class ViewJob extends Job {
 
 		String script = String.format(Render, StringEscapeUtils.escapeEcmaScript(html));
 		if (mathjax) state = State.READY;
-		executeScript(script);
 
-		return Status.OK_STATUS;
-	}
-
-	// run on UI thread
-	protected void executeScript(String script) {
+		// execute script on UI thread
 		Display.getDefault().asyncExec(new Runnable() {
 
 			@Override
@@ -125,6 +131,8 @@ public class ViewJob extends Job {
 				}
 			}
 		});
+
+		return Status.OK_STATUS;
 	}
 
 	protected void done() {
@@ -132,10 +140,9 @@ public class ViewJob extends Job {
 			case LOAD:
 				result("ViewJob ready");
 				state = State.READY;
+				update();
 				break;
-			case TYPESET:
 			default:
-				result("Update complete.");
 				state = State.READY;
 				break;
 		}
@@ -173,7 +180,7 @@ public class ViewJob extends Job {
 
 		@Override
 		public Object function(Object[] args) {
-			System.out.println("typeset(" + args + ")");
+			Log.info(String.format("typeset(%s", args));
 			if (args.length > 0 && "End".equals(args[0])) {
 				state = State.READY;
 				done();

@@ -110,6 +110,7 @@ public class FluentMkConverter {
 
 		List<String> args = new ArrayList<>();
 		args.add(cmd);
+		args.add("--no-highlight"); // use highlightjs instead
 		if (store.getBoolean(Prefs.EDITOR_PANDOC_ADDTOC)) args.add("--toc");
 		if (store.getBoolean(Prefs.EDITOR_PANDOC_MATHJAX)) args.add("--mathjax");
 

@@ -19,6 +19,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.handlers.HandlerUtil;
 
@@ -36,28 +37,31 @@ public class ExportPdfHandler extends AbstractHandler {
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		FluentMkEditor editor = (FluentMkEditor) HandlerUtil.getActiveEditor(event);
-		Shell shell = HandlerUtil.getActiveShell(event);
+		IEditorPart active = HandlerUtil.getActiveEditor(event);
+		if (active instanceof FluentMkEditor) {
+			FluentMkEditor editor = (FluentMkEditor) active;
+			Shell shell = HandlerUtil.getActiveShell(event);
 
-		IEditorInput input = editor.getEditorInput();
-		if (input instanceof IFileEditorInput) {
-			IFile file = ((IFileEditorInput) input).getFile();
-			IPath path = file.getLocation().removeFileExtension().addFileExtension("pdf");
-			String base = path.removeLastSegments(1).addTrailingSeparator().toString();
-			String name = path.lastSegment();
+			IEditorInput input = editor.getEditorInput();
+			if (input instanceof IFileEditorInput) {
+				IFile file = ((IFileEditorInput) input).getFile();
+				IPath path = file.getLocation().removeFileExtension().addFileExtension("pdf");
+				String base = path.removeLastSegments(1).addTrailingSeparator().toString();
+				String name = path.lastSegment();
 
-			FileDialog dialog = new FileDialog(shell, SWT.SAVE);
-			dialog.setFilterNames(new String[] { "PDF Files", "All Files (*.*)" });
-			dialog.setFilterExtensions(new String[] { "*.pdf", "*.*" });
-			dialog.setFilterPath(base);
-			dialog.setFileName(name);
+				FileDialog dialog = new FileDialog(shell, SWT.SAVE);
+				dialog.setFilterNames(new String[] { "PDF Files", "All Files (*.*)" });
+				dialog.setFilterExtensions(new String[] { "*.pdf", "*.*" });
+				dialog.setFilterPath(base);
+				dialog.setFileName(name);
 
-			String pathname = dialog.open();
-			if (pathname != null) {
-				PageRoot model = editor.getPageModel(true);
-				List<PagePart> parts = model.getPageParts(Type.CODE_BLOCK);
-				String md = editor.getDocument().get();
-				PdfGen.save(base, new Document(md), parts, pathname);
+				String pathname = dialog.open();
+				if (pathname != null) {
+					PageRoot model = editor.getPageModel(true);
+					List<PagePart> parts = model.getPageParts(Type.CODE_BLOCK);
+					String md = editor.getDocument().get();
+					PdfGen.save(base, new Document(md), parts, pathname);
+				}
 			}
 		}
 		return null;

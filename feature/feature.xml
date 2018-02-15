@@ -30,7 +30,7 @@ for more information.
    </url>
 
    <includes
-         id="eclipse.spellchecker.feature"
+         id="net.certiv.spellchecker.feature"
          version="0.0.0"/>
 
    <includes
@@ -51,13 +51,13 @@ for more information.
       <import plugin="org.eclipse.ui.views"/>
       <import plugin="org.eclipse.ui.workbench"/>
       <import plugin="org.eclipse.ui.workbench.texteditor"/>
-      <import plugin="eclipse.spellchecker"/>
       <import plugin="org.eclipse.core.variables"/>
       <import plugin="org.eclipse.ui.ide"/>
       <import plugin="org.eclipse.debug.ui"/>
       <import plugin="org.eclipse.ui.navigator"/>
       <import plugin="org.eclipse.jdt.ui"/>
       <import plugin="net.certiv.tools"/>
+      <import plugin="net.certiv.spellchecker.plugin"/>
    </requires>
 
    <plugin

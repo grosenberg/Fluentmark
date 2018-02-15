@@ -23,7 +23,7 @@ Require-Bundle: org.eclipse.core.commands,
  org.eclipse.debug.ui,
  org.eclipse.jdt.ui,
  net.certiv.tools;bundle-version="1.0.7",
- eclipse.spellchecker;bundle-version="3.3.0"
+ net.certiv.spellchecker.plugin;bundle-version="3.3.1"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .,

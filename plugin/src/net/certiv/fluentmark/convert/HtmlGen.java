@@ -74,6 +74,7 @@ public class HtmlGen {
 		switch (kind) {
 			case EXPORT:
 				sb.append("<html><head>" + Strings.EOL);
+				sb.append(FileUtils.fromBundle("resources/html/meta.html") + Strings.EOL);
 				sb.append(FileUtils.fromBundle("resources/html/highlight.html") + Strings.EOL);
 				if (editor.useMathJax()) {
 					sb.append(FileUtils.fromBundle("resources/html/mathjax.html") + Strings.EOL);

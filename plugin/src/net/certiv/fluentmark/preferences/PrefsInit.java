@@ -24,9 +24,9 @@ import org.eclipse.ui.texteditor.AbstractDecoratedTextEditorPreferenceConstants;
 import org.eclipse.ui.texteditor.spelling.SpellingService;
 import org.osgi.framework.Bundle;
 
-import eclipse.spellchecker.SpellCheckEngine;
 import net.certiv.fluentmark.FluentMkUI;
 import net.certiv.fluentmark.spelling.MkSpellingEngine;
+import net.certiv.spellchecker.SpellCheckEngine;
 
 /**
  * Initialize default preference values
@@ -45,6 +45,7 @@ public class PrefsInit extends AbstractPreferenceInitializer implements Prefs {
 	private static final RGB DEF_CODE = new RGB(0, 0, 0);
 	private static final RGB DEF_CODE_BG = new RGB(244, 244, 244);
 
+	@Override
 	public void initializeDefaultPreferences() {
 		IPreferenceStore store = FluentMkUI.getDefault().getPreferenceStore();
 

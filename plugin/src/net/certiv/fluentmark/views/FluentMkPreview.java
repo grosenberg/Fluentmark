@@ -23,7 +23,6 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.part.ViewPart;
 
 import net.certiv.fluentmark.FluentMkUI;
-import net.certiv.fluentmark.Log;
 import net.certiv.fluentmark.editor.FluentMkEditor;
 import net.certiv.fluentmark.preferences.Prefs;
 import net.certiv.fluentmark.util.PartListener;
@@ -84,18 +83,23 @@ public class FluentMkPreview extends ViewPart implements PartListener, ITextList
 		switch (event.getProperty()) {
 			case EDITOR_CSS_EXTERNAL:
 			case EDITOR_CSS_BUILTIN:
-				viewjob.update();
+				viewjob.load();
 		}
 	}
 
 	// -------------------------------------------------------------------------
 
-	// called only by refresh handler/view icon
+	// called only by refresh view icon
 	public void trigger() {
-		boolean active = browser != null;
-		Log.info(String.format("trigger browser reload [active=%s]", active));
-		if (active) viewjob.update();
+		viewjob.update();
 	}
+
+	// called only by firebug view icon
+	public void debug() {
+		viewjob.load(true);
+	}
+
+	// -------------------------------------------------------------------------
 
 	public Browser getBrowser() {
 		return browser;

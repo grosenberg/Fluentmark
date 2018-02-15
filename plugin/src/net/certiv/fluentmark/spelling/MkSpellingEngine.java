@@ -14,10 +14,10 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.ui.texteditor.spelling.ISpellingProblemCollector;
 
-import eclipse.spellchecker.TextSpellingEngine;
-import eclipse.spellchecker.engine.ISpellChecker;
 import net.certiv.fluentmark.FluentMkUI;
 import net.certiv.fluentmark.Log;
+import net.certiv.spellchecker.TextSpellingEngine;
+import net.certiv.spellchecker.engine.ISpellChecker;
 
 public class MkSpellingEngine extends TextSpellingEngine {
 
