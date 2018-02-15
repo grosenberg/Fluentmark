@@ -11,7 +11,7 @@ A full-featured Markdown editing environment for Eclipse.
     - includes several built-in converters: [CommonMark](https://github.com/jgm/CommonMark), 
       [MarkdownJ](https://github.com/myabc/markdownj), [PegDown](https://github.com/sirthias/pegdown) 
       and [TxtMark](https://github.com/rjeschke/txtmark)
-+ Real-time preview window
++ Real-time preview 
     - smooth, fully reactively rendered HTML display
     - stylesheet controlled presentation
         + multiple built-in stylesheets
@@ -24,17 +24,17 @@ A full-featured Markdown editing environment for Eclipse.
     - exported Web and PDF documents include the rendered diagrams as embedded images
 + Spell check with quick-assist correction processor
 + Smart editing behaviors
-+ Table editor and formatter
++ Table editor 
 + Text, list and table formatter
 + Intelligent paragraph, list & blank line handling
-+ Outline drag and drop of markdown elements
++ Outline view; supports markdown element DnD 
 
 ## Screenshot
 
 <figure>
 <a href="http://www.certiv.net/updates/net.certiv.fluentmark.site/ScreenShot-0.9.png">
 	<img src="http://www.certiv.net/updates/net.certiv.fluentmark.site/ScreenShot-0.9.png"
-		alt="FluentMark v0.9 screenshot" width="640"></a><br/><br/>
+		alt="FluentMark screenshot" width="640"></a><br/><br/>
 	<figcaption>FluentMark v0.22</figcaption>
 </figure>
 
@@ -48,14 +48,15 @@ Requires Eclipse Oxygen+ JDK 1.8+.
 
 FluentMark _Preferences_ can then be found at `Window` => `Certiv Tools` => `FluentMark`  
 
-To use **Pandoc**, install [Pandoc](https://pandoc.org). Then, in the Converter preferences 
-for Pandoc, browse to and select the `pandoc` executable.
+To use **Pandoc**, install [Pandoc](https://pandoc.org). Then, on the Converter preference 
+page, select Pandoc as the converter and select the `pandoc` executable from the local 
+filesystem.
 
 To use the **PDF** exporter, both *Pandoc* and a _LaTeX_ processor must be installed. 
 Pandoc recommends [*MikTeX*](https://miktex.org/).
 
-To use **DOT**, install [Graphviz](http://www.graphviz.org/download.php). Then, in 
-the Converter preferences, browse to and select the `dot` executable. 
+To create **DOT** generated graphics, install [Graphviz](http://www.graphviz.org/download.php). 
+Then, on the Converter preference page, browse and select the `dot` executable. 
 
 To use **BlackFriday**, install our customized [blackfriday-tool](https://github.com/grosenberg/blackfriday-tool) 
 from its GitHub repository. A Windows 64-bit compiled executable is available for 
@@ -80,12 +81,11 @@ the `blackfriday-tool` executable.
 
 ### Math
 
-Inline Math is defined using single `$` open/close delimiters with no space after 
-the opening delimiter and before the closing delimiter. Can be embedded in other 
-markdown features.
+In-line Math uses single `$` open/close delimiters with no space after the opening 
+delimiter and before the closing delimiter. Can be embedded in other markdown features.
 
 Math Blocks are delimited using `$$` marks provided on the left margin.  The open 
-delimiter must follow and the close must lead blank lines.
+delimiter must follow a blank line and the close delimiter must lead a blank line.
 
 ### Table Editor
 

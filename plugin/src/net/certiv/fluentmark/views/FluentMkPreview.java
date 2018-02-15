@@ -74,7 +74,7 @@ public class FluentMkPreview extends ViewPart implements PartListener, ITextList
 	// on content change in the editor's text viewer
 	@Override
 	public void textChanged(TextEvent event) {
-		viewjob.update();
+		if (viewjob != null) viewjob.update();
 	}
 
 	// on property store change
@@ -83,7 +83,7 @@ public class FluentMkPreview extends ViewPart implements PartListener, ITextList
 		switch (event.getProperty()) {
 			case EDITOR_CSS_EXTERNAL:
 			case EDITOR_CSS_BUILTIN:
-				viewjob.load();
+				if (viewjob != null) viewjob.load();
 		}
 	}
 

@@ -217,6 +217,7 @@ public class PageRoot extends Parent implements IResourceChangeListener, IDocume
 		return false;
 	}
 
+	@Override
 	public void dispose() {
 		ResourcesPlugin.getWorkspace().removeResourceChangeListener(this);
 		editor.removeDocChangeListener(this);
