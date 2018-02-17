@@ -48,17 +48,17 @@ Requires Eclipse Oxygen+ JDK 1.8+.
 
 FluentMark _Preferences_ can then be found at `Window` => `Certiv Tools` => `FluentMark`  
 
-To use **Pandoc**, install [Pandoc](https://pandoc.org). Then, on the Converter preference 
+To use **Pandoc**: install [Pandoc](https://pandoc.org). Then, on the Converter preference 
 page, select Pandoc as the converter and select the `pandoc` executable from the local 
 filesystem.
 
-To use the **PDF** exporter, both *Pandoc* and a _LaTeX_ processor must be installed. 
+To use the **PDF** exporter: both *Pandoc* and a _LaTeX_ processor must be installed. 
 Pandoc recommends [*MikTeX*](https://miktex.org/).
 
-To create **DOT** generated graphics, install [Graphviz](http://www.graphviz.org/download.php). 
+To create **DOT** generated graphics: install [Graphviz](http://www.graphviz.org/download.php). 
 Then, on the Converter preference page, browse and select the `dot` executable. 
 
-To use **BlackFriday**, install our customized [blackfriday-tool](https://github.com/grosenberg/blackfriday-tool) 
+To use **BlackFriday**: install the customized [blackfriday-tool](https://github.com/grosenberg/blackfriday-tool) 
 from its GitHub repository. A Windows 64-bit compiled executable is available for 
 download: [blackfriday-tool.zip](http://www.certiv.net/updates/net.certiv.fluentmark.site/blackfriday-tool.zip). 
 Then, in the FluentMark Converter preferences for BlackFriday, browse to and select 
@@ -73,11 +73,11 @@ the `blackfriday-tool` executable.
 |Key         |Function                                          |
 |:-----------|:-------------------------------------------------|
 |Ctrl-Space  |Opens the template assist popup                   |
-|Ctrl-B      |Toggles **bold** of selected text                 |
-|Ctrl-I      |Toggles _italics_ of selected text                |
+|Ctrl-b      |Toggles **bold** of selected text                 |
+|Ctrl-i      |Toggles _italics_ of selected text                |
 |Ctrl-/      |Toggles Markdown-style commenting of selected text|
 |Ctrl-Shift-/|Toggles HTML-style commenting of selected text    |
-|Ctrl-Shift-F|Format full page or selected text                 |
+|Ctrl-Shift-f|Format full page or selected text                 |
 
 ### Math
 

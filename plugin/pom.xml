@@ -8,7 +8,7 @@
 	<parent>
 		<groupId>net.certiv.fluentmark</groupId>
 		<artifactId>fluentmark_parent</artifactId>
-		<version>0.21.0-SNAPSHOT</version>
+		<version>0.22.0-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>net.certiv.fluentmark</artifactId>
