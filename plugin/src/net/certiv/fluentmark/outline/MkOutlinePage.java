@@ -64,7 +64,6 @@ import org.eclipse.ui.part.ShowInContext;
 import org.eclipse.ui.views.contentoutline.ContentOutlinePage;
 
 import net.certiv.fluentmark.FluentMkUI;
-import net.certiv.fluentmark.Log;
 import net.certiv.fluentmark.actions.CollapseAllAction;
 import net.certiv.fluentmark.actions.CompositeActionGroup;
 import net.certiv.fluentmark.actions.ExpandAllAction;
@@ -77,9 +76,9 @@ import net.certiv.fluentmark.model.IElement;
 import net.certiv.fluentmark.model.IElementChangedListener;
 import net.certiv.fluentmark.model.IParent;
 import net.certiv.fluentmark.model.ISourceRange;
-import net.certiv.fluentmark.model.Type;
 import net.certiv.fluentmark.model.PagePart;
 import net.certiv.fluentmark.model.PageRoot;
+import net.certiv.fluentmark.model.Type;
 import net.certiv.fluentmark.outline.dnd.DndConfigurationStrategy;
 import net.certiv.fluentmark.preferences.Prefs;
 
@@ -263,8 +262,7 @@ public class MkOutlinePage extends ContentOutlinePage implements IShowInSource, 
 		}
 
 		/**
-		 * Investigates the given element change event and if affected incrementally updates the
-		 * outline.
+		 * Investigates the given element change event and if affected incrementally updates the outline.
 		 *
 		 * @param delta the Dsl element delta used to reconcile the Dsl outline
 		 */
@@ -307,7 +305,7 @@ public class MkOutlinePage extends ContentOutlinePage implements IShowInSource, 
 
 			@Override
 			public void propertyChange(PropertyChangeEvent event) {
-				Log.error("preference store changed: " + event.getProperty());
+				// Log.error("preference store changed: " + event.getProperty());
 				doPropertyChange(event);
 			}
 		};
@@ -532,6 +530,7 @@ public class MkOutlinePage extends ContentOutlinePage implements IShowInSource, 
 	/**
 	 * Returns the <code>OutlineViewer</code> of this view.
 	 */
+	@Override
 	protected OutlineViewer getTreeViewer() {
 		return viewer;
 	}

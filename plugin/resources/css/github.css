@@ -1,4 +1,4 @@
-/* based on https://gist.github.com/andyferra/2554919*/
+/*https://gist.github.com/andyferra/2554919*/
 /*! normalize.css v3.0.0 | MIT License | git.io/normalize */
 /**
  * 1. Set default font family to sans-serif.
@@ -346,7 +346,7 @@ code, tt {
   border-radius: 3px; }
 
 body {
-  font-family: "DejaVu Math TeX Gyre", "Cambria Math", Helvetica, arial, sans-serif;
+  font-family: Helvetica, arial, sans-serif;
   font-size: 14px;
   line-height: 1.6;
   padding-top: 10px;

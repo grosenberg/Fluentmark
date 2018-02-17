@@ -64,6 +64,7 @@ import org.eclipse.text.undo.DocumentUndoManagerRegistry;
 import org.eclipse.text.undo.IDocumentUndoManager;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IPartService;
+import org.eclipse.ui.IPathEditorInput;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.editors.text.EditorsUI;
@@ -470,6 +471,13 @@ public class FluentMkEditor extends TextEditor
 			return (T) projectionProvider;
 		}
 		return super.getAdapter(target);
+	}
+
+	@Override
+	public IEditorInput getEditorInput() {
+		IEditorInput input = super.getEditorInput();
+		if (input instanceof IPathEditorInput) return input;
+		return getAdapter(IPathEditorInput.class);
 	}
 
 	public IDocument getDocument() {
