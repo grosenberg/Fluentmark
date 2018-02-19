@@ -41,17 +41,20 @@ html {
   * {
     background: transparent !important;
     color: #000 !important;
-    box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+            box-shadow: none !important;
     text-shadow: none !important; }
     *:before {
       background: transparent !important;
       color: #000 !important;
-      box-shadow: none !important;
+      -webkit-box-shadow: none !important;
+              box-shadow: none !important;
       text-shadow: none !important; }
     *:after {
       background: transparent !important;
       color: #000 !important;
-      box-shadow: none !important;
+      -webkit-box-shadow: none !important;
+              box-shadow: none !important;
       text-shadow: none !important; }
 
   a {

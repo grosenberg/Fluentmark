@@ -1,6 +1,7 @@
 package net.certiv.fluentmark.convert;
 
 import java.io.File;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -13,6 +14,7 @@ import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.URIUtil;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.text.BadLocationException;
@@ -80,7 +82,7 @@ public class HtmlGen {
 					sb.append(FileUtils.fromBundle("resources/html/mathjax.html") + Strings.EOL);
 				}
 				sb.append("<style media=\"screen\" type=\"text/css\">" + Strings.EOL);
-				sb.append(getStyles(pathname) + Strings.EOL);
+				sb.append(getStyle(pathname) + Strings.EOL);
 				sb.append("</style>" + Strings.EOL);
 				sb.append("</head><body>" + Strings.EOL);
 				sb.append(content + Strings.EOL);
@@ -97,7 +99,7 @@ public class HtmlGen {
 			case VIEW:
 				String preview = FileUtils.fromBundle("resources/html/preview.html");
 				preview = preview.replaceFirst("%path%", base);
-				sb.append(preview.replaceFirst("%styles%", getStyles(pathname)));
+				sb.append(preview.replaceFirst("%styles%", getStyle(pathname)));
 				break;
 
 			case UPDATE:
@@ -135,27 +137,28 @@ public class HtmlGen {
 		}
 	}
 
-	private String getStyles(IPath path) {
+	// path is the searchable base for the style to use; returns the content
+	private String getStyle(IPath path) {
 		try {
-			String pathname = findStyles(path);
-			return FileUtils.read(new File(pathname));
+			URL url = findStyle(path);
+			return FileUtils.read(url);
 		} catch (Exception e) {
 			Log.error("Failed reading stylesheet", e);
 		}
 		return "";
 	}
 
-	private String findStyles(IPath path) throws Exception {
+	private URL findStyle(IPath path) throws Exception {
 		// 1) look for a file having the same name as the input file, beginning in the
 		// current directory, parent directories, and the current project directory.
-		IPath styles = path.removeFileExtension().addFileExtension(Prefs.CSS);
-		String pathname = find(styles);
-		if (pathname != null) return pathname;
+		IPath style = path.removeFileExtension().addFileExtension(Prefs.CSS);
+		URL pathUrl = find(style);
+		if (pathUrl != null) return pathUrl;
 
-		// 2) look for a file with the name 'markfluent.css' in the same set of directories
-		styles = path.removeLastSegments(1).append(Prefs.CSS_DEFAULT);
-		pathname = find(styles);
-		if (pathname != null) return pathname;
+		// 2) look for a file with the name 'markdown.css' in the same set of directories
+		style = path.removeLastSegments(1).append(Prefs.CSS_DEFAULT);
+		pathUrl = find(style);
+		if (pathUrl != null) return pathUrl;
 
 		// 3) read the file identified by the pref key 'EDITOR_CSS_EXTERNAL' from the filesystem
 		IPreferenceStore store = FluentMkUI.getDefault().getPreferenceStore();
@@ -163,19 +166,20 @@ public class HtmlGen {
 		if (!customCss.isEmpty()) {
 			File file = new File(customCss);
 			if (file.isFile() && file.getName().endsWith("." + Prefs.CSS)) {
-				return customCss;
+				return toURL(file);
 			}
 		}
 
 		// 4) read the file identified by the pref key 'EDITOR_CSS_BUILTIN' from the bundle
-		String defaultCss = store.getString(Prefs.EDITOR_CSS_BUILTIN);
-		if (!defaultCss.isEmpty()) {
+		String builtinCss = store.getString(Prefs.EDITOR_CSS_BUILTIN);
+		if (!builtinCss.isEmpty()) {
 			try {
-				URI uri = new URI(defaultCss.replace(".css", ".min.css"));
-				File file = new File(uri);
-				if (file.isFile()) return file.getPath();
+				URI uri = new URI(builtinCss.replace(".css", ".min.css"));
+				URL url = FileLocator.toFileURL(uri.toURL());
+				File file = URIUtil.toFile(URIUtil.toURI(url));
+				if (file.isFile()) return url;
 			} catch (URISyntaxException e) {
-				MessageDialog.openInformation(null, "Default CSS from bundle", defaultCss);
+				MessageDialog.openInformation(null, "Default CSS from bundle", builtinCss);
 			}
 		}
 
@@ -183,23 +187,30 @@ public class HtmlGen {
 		Bundle bundle = Platform.getBundle(FluentMkUI.PLUGIN_ID);
 		URL url = FileLocator.find(bundle, new Path(Prefs.CSS_RESOURCE_DIR + Prefs.CSS_DEFAULT), null);
 		url = FileLocator.toFileURL(url);
-		return url.toURI().toString();
+		return url;
 	}
 
-	private String find(IPath styles) {
-		String name = styles.lastSegment();
-		IPath base = styles.removeLastSegments(1);
-
+	private URL find(IPath style) {
+		String name = style.lastSegment();
+		IPath base = style.removeLastSegments(1);
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 		IContainer dir = root.getContainerForLocation(base);
 
 		while (dir != null && dir.getType() != IResource.ROOT) {
 			IResource member = dir.findMember(name);
 			if (member != null) {
-				return root.getLocation().append(member.getFullPath()).toFile().toURI().toString();
+				File file = root.getLocation().append(member.getFullPath()).toFile();
+				return toURL(file);
 			}
 			dir = dir.getParent();
 		}
+		return null;
+	}
+
+	private URL toURL(File file) {
+		try {
+			return file.toURI().toURL();
+		} catch (MalformedURLException e) {}
 		return null;
 	}
 }

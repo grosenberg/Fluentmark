@@ -1,0 +1,359 @@
+<html><head>
+		<meta charset="utf-8">
+		<meta http-equiv='x-ua-compatible' content='IE=edge'/>
+		<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<style type="text/css">code { white-space: pre; }</style>
+<script type="text/javascript" async
+	src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script type=text/x-mathjax-config>
+	MathJax.Hub.Config({
+		messageStyle: "none",
+		showMathMenu: true,
+  		tex2jax: {
+    		inlineMath:  [['\(','\)']],
+			displayMath: [['\[','\]']]
+			processEscapes: true,	
+  		},
+		TeX: {
+			equationNumbers: {
+				autoNumber: "AMS"
+			}
+		},
+	});
+</script>
+
+<style media="screen" type="text/css">
+/* https://github.com/simonlc/Markdown-CSS/blob/master/markdown.css */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: normal;
+  color: #111;
+  line-height: 1em; }
+
+pre, code, kbd, samp {
+  color: black;
+  font-family: monospace, monospace;
+  _font-family: 'courier new', monospace;
+  font-size: 0.98em; }
+
+sub, sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline; }
+
+html {
+  font-size: 100%;
+  overflow-y: scroll; }
+
+body {
+  color: #444;
+  font-family: Georgia, Palatino, Palatino Linotype, Times, Times New Roman, serif;
+  font-size: 12px;
+  line-height: 1.5em;
+  padding: 1em;
+  margin: auto;
+  max-width: 42em;
+  background: #fefefe; }
+
+a {
+  color: #0645ad;
+  text-decoration: none; }
+  a:visited {
+    color: #0b0080; }
+  a:hover {
+    color: #06e;
+    outline: 0; }
+  a:active {
+    color: #faa700;
+    outline: 0; }
+  a:focus {
+    outline: thin dotted; }
+
+::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: black; }
+
+::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: black; }
+
+a::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad; }
+
+a::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad; }
+
+p {
+  margin: 1em 0; }
+
+img {
+  max-width: 100%;
+  border: 0;
+  vertical-align: middle; }
+
+h1 {
+  font-size: 2.5em; }
+
+h2 {
+  font-size: 2em; }
+
+h3 {
+  font-size: 1.5em; }
+
+h4 {
+  font-weight: bold;
+  font-size: 1.2em; }
+
+h5 {
+  font-weight: bold;
+  font-size: 1em; }
+
+h6 {
+  font-weight: bold;
+  font-size: 0.9em; }
+
+blockquote {
+  color: #666666;
+  margin: 0;
+  padding-left: 3em;
+  border-left: 0.5em #eee solid; }
+
+hr {
+  display: block;
+  height: 2px;
+  border: 0;
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #eee;
+  margin: 1em 0;
+  padding: 0; }
+
+pre {
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word; }
+
+b {
+  font-weight: bold; }
+
+strong {
+  font-weight: bold; }
+
+dfn {
+  font-style: italic; }
+
+ins {
+  background: #ff9;
+  color: black;
+  text-decoration: none; }
+
+mark {
+  background: #ff0;
+  color: black;
+  font-style: italic;
+  font-weight: bold; }
+
+sub {
+  bottom: -0.25em; }
+
+sup {
+  top: -0.5em; }
+
+ul {
+  margin: 1em 0;
+  padding: 0 0 0 2em; }
+
+ol {
+  margin: 1em 0;
+  padding: 0 0 0 2em; }
+
+dd {
+  margin: 0 0 0 2em; }
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0; }
+
+td {
+  vertical-align: top; }
+
+@media only screen and (min-width: 480px) {
+  body {
+    font-size: 14px; } }
+@media only screen and (min-width: 768px) {
+  body {
+    font-size: 16px; } }
+@media print {
+  * {
+    background: transparent !important;
+    color: black !important;
+    filter: none !important; }
+
+  body {
+    font-size: 12pt;
+    max-width: 100%; }
+
+  a {
+    text-decoration: underline; }
+    a:visited {
+      text-decoration: underline; }
+
+  hr {
+    height: 1px;
+    border: 0;
+    border-bottom: 1px solid black; }
+
+  pre {
+    border: 1px solid #999;
+    padding-right: 1em;
+    page-break-inside: avoid; }
+
+  blockquote {
+    border: 1px solid #999;
+    padding-right: 1em;
+    page-break-inside: avoid; }
+
+  tr {
+    page-break-inside: avoid; }
+
+  img {
+    page-break-inside: avoid;
+    max-width: 100% !important; }
+
+  @page {
+    :left {
+      margin: 15mm 20mm 15mm 10mm; }
+
+    :right {
+      margin: 15mm 10mm 15mm 20mm; } }
+  p {
+    orphans: 3;
+    widows: 3; }
+
+  h2 {
+    orphans: 3;
+    widows: 3;
+    page-break-after: avoid; }
+
+  h3 {
+    orphans: 3;
+    widows: 3;
+    page-break-after: avoid; }
+
+  a[href]:after {
+    content: "(" attr(href) ")"; }
+
+  abbr[title]:after {
+    content: "(" attr(title) ")"; }
+
+  .ir a:after {
+    content: ""; }
+
+  a[href^="javascript:"]:after {
+    content: ""; }
+
+  a[href^="#"]:after {
+    content: ""; } }
+li p:last-child {
+  margin: 0; }
+
+</style>
+</head><body>
+<h1 id="fluentmark">FluentMark</h1>
+<p>A full-featured Markdown editing environment for Eclipse.</p>
+<h2 id="features">Features</h2>
+<ul>
+<li>Choice of Markdown converter
+<ul>
+<li>full support for the <a href="https://pandoc.org">Pandoc</a> converter (preferred)</li>
+<li>also supports the popular <a href="https://github.com/russross/blackfriday">BlackFriday</a> converter</li>
+<li>includes several built-in converters: <a href="https://github.com/jgm/CommonMark">CommonMark</a>, <a href="https://github.com/myabc/markdownj">MarkdownJ</a>, <a href="https://github.com/sirthias/pegdown">PegDown</a> and <a href="https://github.com/rjeschke/txtmark">TxtMark</a></li>
+</ul></li>
+<li>Real-time preview
+<ul>
+<li>smooth, fully reactively rendered HTML display</li>
+<li>stylesheet controlled presentation
+<ul>
+<li>multiple built-in stylesheets</li>
+<li>user defined stylesheets can be selected from the filesystem</li>
+</ul></li>
+</ul></li>
+<li>LaTex/Math presentation using <a href="https://www.mathjax.org/">MathJax</a></li>
+<li>Code highlighting using <a href="https://highlightjs.org/">highlightjs</a></li>
+<li>Graphs presentation using the <a href="http://www.graphviz.org/">Graphviz</a> DOT diagram generator
+<ul>
+<li>diagram previews are rendered in real-time</li>
+<li>exported Web and PDF documents include the rendered diagrams as embedded images</li>
+</ul></li>
+<li>Spell check with quick-assist correction processor</li>
+<li>Smart editing behaviors</li>
+<li>Table editor</li>
+<li>Text, list and table formatter</li>
+<li>Intelligent paragraph, list &amp; blank line handling</li>
+<li>Outline view; supports markdown element DnD</li>
+</ul>
+<h2 id="screenshot">Screenshot</h2>
+<figure>
+<a href="http://www.certiv.net/updates/net.certiv.fluentmark.site/ScreenShot-0.9.png"> <img src="http://www.certiv.net/updates/net.certiv.fluentmark.site/ScreenShot-0.9.png"
+        alt="FluentMark screenshot" width="640"></a><br/><br/>
+<figcaption>
+FluentMark v0.22
+</figcaption>
+</figure>
+<hr />
+<h2 id="install">Install</h2>
+<p>Requires Eclipse Oxygen+ JDK 1.8+.</p>
+<p><strong>FluentMark</strong> can be installed from the Certiv Tools update site at <a href="http://www.certiv.net/updates/">www.certiv.net/updates</a>.</p>
+<p>FluentMark <em>Preferences</em> can then be found at <code>Window</code> =&gt; <code>Certiv Tools</code> =&gt; <code>FluentMark</code></p>
+<p>To use <strong>Pandoc</strong>: install <a href="https://pandoc.org">Pandoc</a>. Then, on the Converter preference page, select Pandoc as the converter and select the <code>pandoc</code> executable from the local filesystem.</p>
+<p>To use the <strong>PDF</strong> exporter: both <em>Pandoc</em> and a <em>LaTeX</em> processor must be installed. Pandoc recommends <a href="https://miktex.org/"><em>MikTeX</em></a>.</p>
+<p>To create <strong>DOT</strong> generated graphics: install <a href="http://www.graphviz.org/download.php">Graphviz</a>. Then, on the Converter preference page, browse and select the <code>dot</code> executable.</p>
+<p>To use <strong>BlackFriday</strong>: install the customized <a href="https://github.com/grosenberg/blackfriday-tool">blackfriday-tool</a> from its GitHub repository. A Windows 64-bit compiled executable is available for download: <a href="http://www.certiv.net/updates/net.certiv.fluentmark.site/blackfriday-tool.zip">blackfriday-tool.zip</a>. Then, in the FluentMark Converter preferences for BlackFriday, browse to and select the <code>blackfriday-tool</code> executable.</p>
+<hr />
+<h2 id="use">Use</h2>
+<h3 id="keys">Keys</h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Key</th>
+<th style="text-align: left;">Function</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Ctrl-Space</td>
+<td style="text-align: left;">Opens the template assist popup</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ctrl-b</td>
+<td style="text-align: left;">Toggles <strong>bold</strong> of selected text</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Ctrl-i</td>
+<td style="text-align: left;">Toggles <em>italics</em> of selected text</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ctrl-/</td>
+<td style="text-align: left;">Toggles Markdown-style commenting of selected text</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Ctrl-Shift-/</td>
+<td style="text-align: left;">Toggles HTML-style commenting of selected text</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ctrl-Shift-f</td>
+<td style="text-align: left;">Format full page or selected text</td>
+</tr>
+</tbody>
+</table>
+<h3 id="math">Math</h3>
+<p>In-line Math uses single <code>$</code> open/close delimiters with no space after the opening delimiter and before the closing delimiter. Can be embedded in other markdown features.</p>
+<p>Math Blocks are delimited using <code>$$</code> marks provided on the left margin. The open delimiter must follow a blank line and the close delimiter must lead a blank line.</p>
+<h3 id="table-editor">Table Editor</h3>
+<p><code>Double-click</code> on a table to open the table editor. While in the editor, <code>double-click</code> a cell to edit text. <code>Tab</code> and the arrow keys navigate between cells. <code>Return</code> to end cell editing.</p>
+
+</body></html>

@@ -163,7 +163,8 @@ td {
   * {
     background: transparent !important;
     color: black !important;
-    filter: none !important; }
+    -webkit-filter: none !important;
+            filter: none !important; }
 
   body {
     font-size: 12pt;

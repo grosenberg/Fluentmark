@@ -149,6 +149,9 @@ h6 {
   font-family: Baskerville, Goudy Old Style, Palatino, Book Antiqua, serif;
   font-size: 14pt; }
 
+::-moz-selection {
+  background: #745626; }
+
 ::selection {
   background: #745626; }
 

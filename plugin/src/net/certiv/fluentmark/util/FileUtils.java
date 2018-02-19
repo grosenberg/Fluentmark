@@ -101,6 +101,14 @@ public final class FileUtils {
 		return read(getReader(in));
 	}
 
+	public static String read(URL url) {
+		try {
+			return read(url.openStream());
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 	public static String read(Reader r) {
 		try (BufferedReader reader = (r instanceof BufferedReader) ? (BufferedReader) r : new BufferedReader(r);) {
 			int bufSize = 8192;

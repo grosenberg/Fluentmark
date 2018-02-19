@@ -45,7 +45,7 @@ public class ExportHtmlHandler extends AbstractHandler {
 		if (input instanceof IFileEditorInput) {
 			IFile file = ((IFileEditorInput) input).getFile();
 			IPath path = file.getLocation().removeFileExtension().addFileExtension("html");
-			String base = path.removeLastSegments(1).toOSString();
+			String base = path.removeLastSegments(1).addTrailingSeparator().toString();
 			String name = path.lastSegment();
 
 			FileDialog dialog = new FileDialog(shell, SWT.SAVE);
