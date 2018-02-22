@@ -60,17 +60,15 @@ public class ExportPdfHandler extends AbstractHandler {
 					Document doc = new Document(editor.getDocument().get());
 					PageRoot model = editor.getPageModel(true);
 					PdfGen.save(base, doc, model, template, destination);
-					saveConfig();
+
+					LinkedHashMap<String, String> map = FileUtils.getTemplateMap();
+					if (template == null || template.isEmpty()) template = "default";
+					map.put(source.getFullPath().toString(), template); // by WS relative source pathname
+					map.put(source.getName(), template); // by source filename
+					FileUtils.putTemplateMap(map);
 				}
 			}
 		}
 		return null;
-	}
-
-	public void saveConfig() {
-		LinkedHashMap<String, String> map = FileUtils.getTemplateMap();
-		if (template == null || template.isEmpty()) template = "default";
-		map.put(source.getFullPath().toString(), template); // by WS relative source pathname
-		map.put(source.getName(), template); // by source filename
 	}
 }

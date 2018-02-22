@@ -28,8 +28,8 @@ import net.certiv.fluentmark.util.SwtUtil;
 
 public class PdfDialog extends MessageDialog {
 
-	private static final String Title = "PDF Save Options";
-	private static final String Msg = "PDF Save Options";
+	private static final String Title = "PDF Generate";
+	private static final String Msg = "Options";
 
 	private IPreferenceStore store;
 	private ExportPdfHandler handler;
@@ -129,7 +129,10 @@ public class PdfDialog extends MessageDialog {
 			dialog.setFileName(name);
 
 			String pathname = dialog.open();
-			if (pathname != null) txtTmpl.setText(pathname);
+			if (pathname != null) {
+				IPath path = new Path(pathname); // normalize
+				txtTmpl.setText(path.toString());
+			}
 		}
 	};
 
@@ -148,7 +151,10 @@ public class PdfDialog extends MessageDialog {
 			dialog.setFileName(name);
 
 			String pathname = dialog.open();
-			if (pathname != null) txtSave.setText(pathname);
+			if (pathname != null) {
+				path = new Path(pathname); // normalize
+				txtSave.setText(path.toString());
+			}
 		}
 	};
 }

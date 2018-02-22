@@ -68,7 +68,7 @@ public class PdfGen {
 	 */
 	public static void save(String base, IDocument doc, PageRoot model, String template, String pathname) {
 
-		Job job = new Job("PDF_OPS generation job") {
+		Job job = new Job("Pdf generating") {
 
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
