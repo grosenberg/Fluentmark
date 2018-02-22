@@ -78,7 +78,7 @@ import org.eclipse.ui.texteditor.ITextEditorActionConstants;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 
 import net.certiv.fluentmark.FluentMkUI;
-import net.certiv.fluentmark.convert.FluentMkConverter;
+import net.certiv.fluentmark.convert.Converter;
 import net.certiv.fluentmark.convert.HtmlGen;
 import net.certiv.fluentmark.convert.Kind;
 import net.certiv.fluentmark.editor.color.IColorManager;
@@ -116,7 +116,7 @@ public class FluentMkEditor extends TextEditor
 	private MkOutlinePage outlinePage;
 	private FluentMkTextTools tools;
 	private IColorManager colorManager;
-	private FluentMkConverter converter;
+	private Converter converter;
 	private PageRoot pageModel;
 	private IFoldingStructureProvider projectionProvider;
 	private ProjectionSupport projectionSupport;
@@ -157,7 +157,7 @@ public class FluentMkEditor extends TextEditor
 		setSourceViewerConfiguration(config);
 		setDocumentProvider(getDocumentProvider());
 		pageModel = new PageRoot(this);
-		converter = new FluentMkConverter();
+		converter = new Converter();
 		htmlGen = new HtmlGen(this, converter);
 	}
 

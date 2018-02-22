@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.preference.FieldEditor;
 import org.eclipse.swt.widgets.Composite;
@@ -11,6 +12,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 
 import net.certiv.fluentmark.preferences.pages.PrefPageConvert;
+import net.certiv.fluentmark.util.SwtUtil;
 
 public abstract class AbstractOptionsBlock {
 
@@ -32,7 +34,7 @@ public abstract class AbstractOptionsBlock {
 	}
 
 	public boolean isVisible() {
-		
+
 		return visible;
 	}
 
@@ -46,7 +48,7 @@ public abstract class AbstractOptionsBlock {
 
 	public abstract boolean validateSettings();
 
-	protected boolean checkPathname(String pathname, String target) {
+	protected boolean checkPathExe(String pathname, String target) {
 		if (pathname.trim().isEmpty()) {
 			page.setMessage("Missing pathname of " + target + " executable", IMessageProvider.ERROR);
 			return false;
@@ -72,6 +74,20 @@ public abstract class AbstractOptionsBlock {
 			return false;
 		}
 		return file.isFile();
+	}
+
+	protected boolean checkPathDir(String pathname, boolean emptyAllowed) {
+		Path path = new Path(pathname);
+		if (path.isEmpty()) {
+			if (emptyAllowed) return true;
+			page.setMessage("Missing directory path", IMessageProvider.ERROR);
+			return false;
+		}
+		if (!path.toFile().isDirectory()) {
+			page.setMessage("Invalid directory path", IMessageProvider.ERROR);
+			return false;
+		}
+		return true;
 	}
 
 	protected void addField(FieldEditor ed) {

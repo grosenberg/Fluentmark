@@ -66,8 +66,8 @@ import net.certiv.fluentmark.preferences.PreferencesAdapter;
 import net.certiv.fluentmark.preferences.Prefs;
 import net.certiv.fluentmark.preferences.PreviewSourceUpdater;
 import net.certiv.fluentmark.preferences.ScrolledPageContent;
-import net.certiv.fluentmark.preferences.SwtUtil;
 import net.certiv.fluentmark.util.Strings;
+import net.certiv.fluentmark.util.SwtUtil;
 
 /**
  * Configures Editor appearance preferences.

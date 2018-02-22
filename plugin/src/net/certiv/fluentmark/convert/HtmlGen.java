@@ -50,9 +50,9 @@ import net.certiv.fluentmark.util.Strings;
 public class HtmlGen {
 
 	private FluentMkEditor editor;
-	private FluentMkConverter converter;
+	private Converter converter;
 
-	public HtmlGen(FluentMkEditor editor, FluentMkConverter converter) {
+	public HtmlGen(FluentMkEditor editor, Converter converter) {
 		this.editor = editor;
 		this.converter = converter;
 	}

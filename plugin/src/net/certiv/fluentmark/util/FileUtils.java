@@ -7,6 +7,10 @@
  ******************************************************************************/
 package net.certiv.fluentmark.util;
 
+import java.beans.XMLDecoder;
+import java.beans.XMLEncoder;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.Closeable;
@@ -22,6 +26,7 @@ import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.util.LinkedHashMap;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -200,5 +205,34 @@ public final class FileUtils {
 
 		throw new RuntimeException(
 				new IOException((new StringBuilder("Could not delete file ")).append(file).toString()));
+	}
+
+	@SuppressWarnings("unchecked")
+	public static LinkedHashMap<String, String> getTemplateMap() {
+		LinkedHashMap<String, String> map = null;
+		File file = getTemplateStateFile();
+		if (file != null && file.isFile()) {
+			try (XMLDecoder coder = new XMLDecoder(new BufferedInputStream(new FileInputStream(file)));) {
+				map = (LinkedHashMap<String, String>) coder.readObject();
+			} catch (FileNotFoundException e) {}
+		}
+		if (map == null) {
+			map = new LinkedHashMap<>();
+		}
+		return map;
+	}
+
+	public static boolean putTemplateMap(LinkedHashMap<String, String> map) {
+		File file = getTemplateStateFile();
+		try (XMLEncoder coder = new XMLEncoder(new BufferedOutputStream(new FileOutputStream(file)));) {
+			coder.writeObject(map);
+			return true;
+		} catch (FileNotFoundException e) {
+			return false;
+		}
+	}
+
+	private static File getTemplateStateFile() {
+		return FluentMkUI.getDefault().getStateLocation().append("TemplateMap.xml").toFile();
 	}
 }

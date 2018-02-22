@@ -15,7 +15,7 @@ import org.eclipse.ui.IWorkbench;
 import net.certiv.fluentmark.FluentMkUI;
 import net.certiv.fluentmark.preferences.BaseFieldEditorPreferencePage;
 import net.certiv.fluentmark.preferences.Prefs;
-import net.certiv.fluentmark.preferences.SwtUtil;
+import net.certiv.fluentmark.util.SwtUtil;
 
 public class PrefPageFolding extends BaseFieldEditorPreferencePage implements Prefs {
 
@@ -37,13 +37,13 @@ public class PrefPageFolding extends BaseFieldEditorPreferencePage implements Pr
 
 		baseComp = SwtUtil.makeGroupComposite(getFieldEditorParent(), 1, 1, "");
 
-		SwtUtil.addLabel(baseComp, "Enable folding of:", 2);
+		SwtUtil.makeLabel(baseComp, "Enable folding of:", 2);
 		addField(new BooleanFieldEditor(FOLDING_FRONTMATTER_ENABLED, "Front matter block", baseComp));
 		addField(new BooleanFieldEditor(FOLDING_HIDDEN_COMMENTS_ENABLED, "Hidden comments", baseComp));
 		addField(new BooleanFieldEditor(FOLDING_CODEBLOCKS_ENABLED, "Code blocks", baseComp));
 		SwtUtil.addSpacer(baseComp, 2);
 
-		SwtUtil.addLabel(baseComp, "Initially fold:", 2);
+		SwtUtil.makeLabel(baseComp, "Initially fold:", 2);
 		addField(new BooleanFieldEditor(FOLDING_INITIAL_FRONT_MATTER, "Front matter block", baseComp));
 		addField(new BooleanFieldEditor(FOLDING_INITIAL_HIDDEN_COMMENTS, "Hidden comments", baseComp));
 		addField(new BooleanFieldEditor(FOLDING_INITIAL_CODEBLOCKS, "Code blocks", baseComp));

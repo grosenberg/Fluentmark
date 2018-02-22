@@ -52,25 +52,36 @@ public class FluentMkUI extends AbstractUIPlugin {
 	private static FluentMkUI plugin;
 
 	private IPreferenceStore combinedStore;
-
 	private FluentMkImages fluentMkImages;
-
 	private FormToolkit dialogsFormToolkit;
-
 	private ColorManager colorManager;
-
 	private FluentMkTextTools fluentMkTextTools;
 
 	public FluentMkUI() {
 		super();
 	}
 
+	@Override
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
-		fluentMkImages = new FluentMkImages(context.getBundle(), this);
 		plugin = this;
+		fluentMkImages = new FluentMkImages(context.getBundle(), this);
+
+		// ISaveParticipant saveParticipant = new MyWorkspaceSaveParticipant();
+		// ISavedState lastState = ResourcesPlugin.getWorkspace().addSaveParticipant(PLUGIN_ID,
+		// saveParticipant);
+		// if (lastState == null) return;
+		//
+		// IPath location = lastState.lookup(new Path("save"));
+		// if (location == null) return;
+		//
+		// // the plugin instance should read any important state from the file.
+		// File f = getStateLocation().append(location).toFile();
+		// readStateFrom(f);
+
 	}
 
+	@Override
 	public void stop(BundleContext context) throws Exception {
 		plugin = null;
 		super.stop(context);
@@ -91,8 +102,8 @@ public class FluentMkUI extends AbstractUIPlugin {
 	}
 
 	/**
-	 * Returns a chained preference store representing the combined values of the FluentMkUI,
-	 * EditorsUI, and PlatformUI stores.
+	 * Returns a chained preference store representing the combined values of the FluentMkUI, EditorsUI,
+	 * and PlatformUI stores.
 	 */
 	public IPreferenceStore getCombinedPreferenceStore() {
 		if (combinedStore == null) {

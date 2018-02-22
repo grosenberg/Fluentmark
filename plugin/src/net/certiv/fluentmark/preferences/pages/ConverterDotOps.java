@@ -7,8 +7,8 @@ import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.swt.widgets.Composite;
 
 import net.certiv.fluentmark.preferences.AbstractOptionsBlock;
-import net.certiv.fluentmark.preferences.SwtUtil;
 import net.certiv.fluentmark.preferences.editors.ProgramFieldEditor;
+import net.certiv.fluentmark.util.SwtUtil;
 
 public class ConverterDotOps extends AbstractOptionsBlock {
 
@@ -27,7 +27,7 @@ public class ConverterDotOps extends AbstractOptionsBlock {
 	protected void createControls(Composite comp) {
 		Composite bools = SwtUtil.makeComposite(comp, 3, 1);
 		dotMode = new BooleanFieldEditor(EDITOR_DOTMODE_ENABLED, "Enable Dot diagram generator", bools);
-		dotExe = new ProgramFieldEditor(EDITOR_DOT_PROGRAM, "Location:", bools, DOT_MSG);
+		dotExe = new ProgramFieldEditor(EDITOR_DOT_PROGRAM, "Program:", bools, DOT_MSG);
 
 		addField(dotMode);
 
@@ -37,6 +37,6 @@ public class ConverterDotOps extends AbstractOptionsBlock {
 
 	@Override
 	public boolean validateSettings() {
-		return isVisible() && dotMode.getBooleanValue() ? checkPathname(dotExe.getStringValue(), DOT) : true;
+		return isVisible() && dotMode.getBooleanValue() ? checkPathExe(dotExe.getStringValue(), DOT) : true;
 	}
 }

@@ -28,14 +28,14 @@ import net.certiv.fluentmark.preferences.Prefs;
 import net.certiv.fluentmark.preferences.pages.PrefPageEditor;
 import net.certiv.fluentmark.util.Cmd;
 
-public class FluentMkConverter {
+public class Converter {
 
 	private static final Pattern TICS = Pattern.compile("(```+\\s*dot\\s+)(.*?)(```+)", Pattern.DOTALL);
 	private static final Pattern TLDS = Pattern.compile("(~~~+\\s*dot\\s+)(.*?)(~~~+)", Pattern.DOTALL);
 	private static final BlockEmitter emitter = new DotCodeBlockEmitter();
 	private IPreferenceStore store;
 
-	public FluentMkConverter() {
+	public Converter() {
 		super();
 		store = FluentMkUI.getDefault().getPreferenceStore();
 	}

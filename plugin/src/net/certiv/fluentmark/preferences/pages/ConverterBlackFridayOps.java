@@ -1,16 +1,13 @@
 package net.certiv.fluentmark.preferences.pages;
 
-import static net.certiv.fluentmark.preferences.Prefs.EDITOR_BLACKFRIDAY_ADDTOC;
-import static net.certiv.fluentmark.preferences.Prefs.EDITOR_BLACKFRIDAY_PROGRAM;
-import static net.certiv.fluentmark.preferences.Prefs.EDITOR_BLACKFRIDAY_SMART;
-import static net.certiv.fluentmark.preferences.Prefs.KEY_BLACKFRIDAY;
+import static net.certiv.fluentmark.preferences.Prefs.*;
 
 import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.swt.widgets.Composite;
 
 import net.certiv.fluentmark.preferences.AbstractOptionsBlock;
-import net.certiv.fluentmark.preferences.SwtUtil;
 import net.certiv.fluentmark.preferences.editors.ProgramFieldEditor;
+import net.certiv.fluentmark.util.SwtUtil;
 
 public class ConverterBlackFridayOps extends AbstractOptionsBlock {
 
@@ -30,12 +27,12 @@ public class ConverterBlackFridayOps extends AbstractOptionsBlock {
 		addField(new BooleanFieldEditor(EDITOR_BLACKFRIDAY_ADDTOC, "Add table of contents", bools));
 
 		SwtUtil.addSpacer(comp, 3);
-		bfExe = new ProgramFieldEditor(EDITOR_BLACKFRIDAY_PROGRAM, "Location:", comp, BF_MSG);
+		bfExe = new ProgramFieldEditor(EDITOR_BLACKFRIDAY_PROGRAM, "Program:", comp, BF_MSG);
 		addField(bfExe);
 	}
 
 	@Override
 	public boolean validateSettings() {
-		return getPage().isSelected(KEY_BLACKFRIDAY) ? checkPathname(bfExe.getStringValue(), BLACKFRIDAY) : true;
+		return getPage().isSelected(KEY_BLACKFRIDAY) ? checkPathExe(bfExe.getStringValue(), BLACKFRIDAY) : true;
 	}
 }

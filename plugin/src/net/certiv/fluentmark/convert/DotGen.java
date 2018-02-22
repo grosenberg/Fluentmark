@@ -45,7 +45,7 @@ public class DotGen {
 
 		StringBuilder out = new StringBuilder();
 		out.append("<div class=\"dot\">");
-		out.append(Cmd.process(args, null, data).replace("\r\n", "").replaceFirst("\\<\\!DOC.+?\\>", ""));
+		out.append(Cmd.process(args, null, data).replaceAll("\\R", "").replaceFirst("\\<\\!DOC.+?\\>", ""));
 		out.append("</div>" + Strings.EOL);
 		value = out.toString();
 

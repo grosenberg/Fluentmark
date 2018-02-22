@@ -78,6 +78,8 @@ public class PrefsInit extends AbstractPreferenceInitializer implements Prefs {
 		store.setDefault(EDITOR_PANDOC_MATHJAX, false);
 		store.setDefault(EDITOR_PANDOC_SMART, true);
 		store.setDefault(EDITOR_PANDOC_PROGRAM, "");
+		store.setDefault(EDITOR_PANDOC_TEMPLATES, "");
+		store.setDefault(EDITOR_PANDOC_TEMPLATE, "");
 
 		store.setDefault(EDITOR_EXTERNAL_COMMAND, "");
 		store.setDefault(EDITOR_SECTION_NUMBERS, true);

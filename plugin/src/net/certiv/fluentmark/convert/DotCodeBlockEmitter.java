@@ -30,7 +30,7 @@ public class DotCodeBlockEmitter implements BlockEmitter {
 			default:
 				out.append("<pre><code class=\"" + meta + "\">");
 				for (final String line : lines) {
-					out.append(Convert.encode(line) + Strings.EOL);
+					out.append(Symbol.encode(line) + Strings.EOL);
 				}
 				out.append("</code></pre>" + Strings.EOL);
 				break;

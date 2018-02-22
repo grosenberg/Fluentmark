@@ -7,16 +7,13 @@
  ******************************************************************************/
 package net.certiv.fluentmark.handlers;
 
-import java.util.List;
+import java.util.LinkedHashMap;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.text.Document;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
@@ -25,14 +22,26 @@ import org.eclipse.ui.handlers.HandlerUtil;
 
 import net.certiv.fluentmark.convert.PdfGen;
 import net.certiv.fluentmark.editor.FluentMkEditor;
-import net.certiv.fluentmark.model.PagePart;
+import net.certiv.fluentmark.handlers.dialog.PdfDialog;
 import net.certiv.fluentmark.model.PageRoot;
-import net.certiv.fluentmark.model.Type;
+import net.certiv.fluentmark.util.FileUtils;
 
 public class ExportPdfHandler extends AbstractHandler {
 
+	private IFile source;
+	private String template;
+	private String destination;
+
 	public ExportPdfHandler() {
 		super();
+	}
+
+	public void setTemplate(String pathname) {
+		this.template = pathname;
+	}
+
+	public void setDestination(String pathname) {
+		this.destination = pathname;
 	}
 
 	@Override
@@ -44,26 +53,24 @@ public class ExportPdfHandler extends AbstractHandler {
 
 			IEditorInput input = editor.getEditorInput();
 			if (input instanceof IFileEditorInput) {
-				IFile file = ((IFileEditorInput) input).getFile();
-				IPath path = file.getLocation().removeFileExtension().addFileExtension("pdf");
-				String base = path.removeLastSegments(1).addTrailingSeparator().toString();
-				String name = path.lastSegment();
-
-				FileDialog dialog = new FileDialog(shell, SWT.SAVE);
-				dialog.setFilterNames(new String[] { "PDF Files", "All Files (*.*)" });
-				dialog.setFilterExtensions(new String[] { "*.pdf", "*.*" });
-				dialog.setFilterPath(base);
-				dialog.setFileName(name);
-
-				String pathname = dialog.open();
-				if (pathname != null) {
+				source = ((IFileEditorInput) input).getFile();
+				PdfDialog pdf = new PdfDialog(shell, this, source);
+				if (pdf.open() == 0) { // 0: generate; 1: cancel; -1: close
+					String base = source.getLocation().removeLastSegments(1).addTrailingSeparator().toString();
+					Document doc = new Document(editor.getDocument().get());
 					PageRoot model = editor.getPageModel(true);
-					List<PagePart> parts = model.getPageParts(Type.CODE_BLOCK);
-					String md = editor.getDocument().get();
-					PdfGen.save(base, new Document(md), parts, pathname);
+					PdfGen.save(base, doc, model, template, destination);
+					saveConfig();
 				}
 			}
 		}
 		return null;
+	}
+
+	public void saveConfig() {
+		LinkedHashMap<String, String> map = FileUtils.getTemplateMap();
+		if (template == null || template.isEmpty()) template = "default";
+		map.put(source.getFullPath().toString(), template); // by WS relative source pathname
+		map.put(source.getName(), template); // by source filename
 	}
 }

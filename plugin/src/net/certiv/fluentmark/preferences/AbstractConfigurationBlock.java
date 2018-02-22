@@ -43,6 +43,7 @@ import org.eclipse.ui.forms.widgets.ExpandableComposite;
 
 import net.certiv.fluentmark.editor.StatusInfo;
 import net.certiv.fluentmark.editor.StatusUtil;
+import net.certiv.fluentmark.util.SwtUtil;
 
 public abstract class AbstractConfigurationBlock implements IPreferenceConfigurationBlock {
 

@@ -28,7 +28,6 @@ import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
-import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.graphics.Rectangle;
@@ -66,18 +65,17 @@ public class FluentMkSourceViewerInfoControl
 
 	/**
 	 * Creates a default information control with the given shell as parent. The given information
-	 * presenter is used to process the information to be displayed. The given styles are applied to
-	 * the created styled text widget.
+	 * presenter is used to process the information to be displayed. The given styles are applied to the
+	 * created styled text widget.
 	 *
 	 * @param dslUI
 	 * @param parent the parent shell
 	 * @param isResizeable
 	 * @param orientation
-	 * @param statusFieldText the text to be used in the optional status field or <code>null</code>
-	 *            if the status field should be hidden
+	 * @param statusFieldText the text to be used in the optional status field or <code>null</code> if
+	 *            the status field should be hidden
 	 */
-	public FluentMkSourceViewerInfoControl(Shell parent, boolean isResizable, int orientation,
-			String statusFieldText) {
+	public FluentMkSourceViewerInfoControl(Shell parent, boolean isResizable, int orientation, String statusFieldText) {
 
 		Assert.isLegal(orientation == SWT.RIGHT_TO_LEFT || orientation == SWT.LEFT_TO_RIGHT || orientation == SWT.NONE);
 		this.orientation = orientation;
@@ -389,15 +387,5 @@ public class FluentMkSourceViewerInfoControl
 
 	public boolean isVisible() {
 		return shell != null && !shell.isDisposed() && shell.isVisible();
-	}
-
-	public Point computeSizeConstraints(int widthInChars, int heightInChars) {
-		GC gc = new GC(text);
-		gc.setFont(textFont);
-		int width = gc.getFontMetrics().getAverageCharWidth();
-		int height = gc.getFontMetrics().getHeight();
-		gc.dispose();
-
-		return new Point(widthInChars * width, heightInChars * height);
 	}
 }

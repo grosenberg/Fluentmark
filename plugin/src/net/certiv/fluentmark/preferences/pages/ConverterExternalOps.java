@@ -24,6 +24,6 @@ public class ConverterExternalOps extends AbstractOptionsBlock {
 
 	@Override
 	public boolean validateSettings() {
-		return getPage().isSelected(KEY_EXTERNAL) ? checkPathname(exCmd.getStringValue(), null) : true;
+		return getPage().isSelected(KEY_EXTERNAL) ? checkPathExe(exCmd.getStringValue(), null) : true;
 	}
 }

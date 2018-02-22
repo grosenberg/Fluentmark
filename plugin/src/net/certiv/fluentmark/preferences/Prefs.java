@@ -61,6 +61,8 @@ public interface Prefs extends PrefsSpelling {
 	public static final String EDITOR_TXTMARK_EXTENDED = MD_ID + ".txtMark_ExtendedMode";
 
 	public static final String EDITOR_PANDOC_PROGRAM = MD_ID + ".pandocProgram";
+	public static final String EDITOR_PANDOC_TEMPLATES = MD_ID + ".pandocTemplates";
+	public static final String EDITOR_PANDOC_TEMPLATE = MD_ID + ".pandocTemplate";
 	public static final String EDITOR_PANDOC_ADDTOC = MD_ID + ".pandocAddToc";
 	public static final String EDITOR_PANDOC_SMART = MD_ID + ".pandocSmart";
 	public static final String EDITOR_PANDOC_MATHJAX = MD_ID + ".pandocMathjax";
@@ -165,14 +167,14 @@ public interface Prefs extends PrefsSpelling {
 	public final static String CODEASSIST_SHOW_VISIBLE_PROPOSALS = MD_ID + ".content_assist_show_visible_proposals"; //$NON-NLS-1$
 
 	/**
-	 * A named preference that controls if the code assist inserts a proposal automatically if only
-	 * one proposal is available.
+	 * A named preference that controls if the code assist inserts a proposal automatically if only one
+	 * proposal is available.
 	 */
 	public final static String CODEASSIST_AUTOINSERT = MD_ID + ".content_assist_autoinsert"; //$NON-NLS-1$
 
 	/**
-	 * A named preference that controls if the code assist only inserts completions. If set to false
-	 * the proposals can also _replace_ code.
+	 * A named preference that controls if the code assist only inserts completions. If set to false the
+	 * proposals can also _replace_ code.
 	 */
 	public final static String CODEASSIST_INSERT_COMPLETION = MD_ID + ".content_assist_insert_completion"; //$NON-NLS-1$
 
@@ -183,8 +185,8 @@ public interface Prefs extends PrefsSpelling {
 	public final static String CODEASSIST_CASE_SENSITIVITY = MD_ID + ".content_assist_case_sensitivity"; //$NON-NLS-1$
 
 	/**
-	 * A named preference that controls if argument names are filled in when a method is selected
-	 * from as list of code assist proposal.
+	 * A named preference that controls if argument names are filled in when a method is selected from
+	 * as list of code assist proposal.
 	 */
 	public final static String CODEASSIST_FILL_ARGUMENT_NAMES = MD_ID + ".content_assist_fill_method_arguments"; //$NON-NLS-1$
 
@@ -217,15 +219,15 @@ public interface Prefs extends PrefsSpelling {
 	public final static String CODEASSIST_PARAMETERS_FOREGROUND = MD_ID + ".content_assist_parameters_foreground"; //$NON-NLS-1$
 
 	/**
-	 * A named preference that holds the background color used in the code assist selection dialog
-	 * to mark replaced code.
+	 * A named preference that holds the background color used in the code assist selection dialog to
+	 * mark replaced code.
 	 */
 	public final static String CODEASSIST_REPLACEMENT_BACKGROUND = MD_ID
 			+ ".content_assist_completion_replacement_background"; //$NON-NLS-1$
 
 	/**
-	 * A named preference that holds the foreground color used in the code assist selection dialog
-	 * to mark replaced code.
+	 * A named preference that holds the foreground color used in the code assist selection dialog to
+	 * mark replaced code.
 	 */
 	public final static String CODEASSIST_REPLACEMENT_FOREGROUND = MD_ID
 			+ ".content_assist_completion_replacement_foreground"; //$NON-NLS-1$

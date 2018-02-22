@@ -7,7 +7,7 @@ import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.swt.widgets.Composite;
 
 import net.certiv.fluentmark.preferences.AbstractOptionsBlock;
-import net.certiv.fluentmark.preferences.SwtUtil;
+import net.certiv.fluentmark.util.SwtUtil;
 
 public class ConverterTxtmarkOps extends AbstractOptionsBlock {
 

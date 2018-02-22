@@ -17,7 +17,7 @@ import org.eclipse.ui.IWorkbench;
 import net.certiv.fluentmark.FluentMkUI;
 import net.certiv.fluentmark.preferences.BaseFieldEditorPreferencePage;
 import net.certiv.fluentmark.preferences.Prefs;
-import net.certiv.fluentmark.preferences.SwtUtil;
+import net.certiv.fluentmark.util.SwtUtil;
 
 public class PrefPageEditor extends BaseFieldEditorPreferencePage implements Prefs {
 
