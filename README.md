@@ -11,7 +11,7 @@ A full-featured Markdown editing environment for Eclipse.
     - includes several built-in converters: [CommonMark](https://github.com/jgm/CommonMark), 
       [MarkdownJ](https://github.com/myabc/markdownj), [PegDown](https://github.com/sirthias/pegdown) 
       and [TxtMark](https://github.com/rjeschke/txtmark)
-+ Real-time preview 
++ Real-time preview
     - smooth, fully reactively rendered HTML display
     - stylesheet controlled presentation
         + multiple built-in stylesheets
@@ -24,19 +24,16 @@ A full-featured Markdown editing environment for Eclipse.
     - exported Web and PDF documents include the rendered diagrams as embedded images
 + Spell check with quick-assist correction processor
 + Smart editing behaviors
-+ Table editor 
++ Table editor
 + Text, list and table formatter
 + Intelligent paragraph, list & blank line handling
-+ Outline view; supports markdown element DnD 
++ Outline view; supports markdown element DnD
 
 ## Screenshot
 
-<figure>
-<a href="http://www.certiv.net/updates/net.certiv.fluentmark.site/ScreenShot-0.9.png">
-	<img src="http://www.certiv.net/updates/net.certiv.fluentmark.site/ScreenShot-0.9.png"
-		alt="FluentMark screenshot" width="640"></a><br/><br/>
-	<figcaption>FluentMark v0.22</figcaption>
-</figure>
+[![Fluentmark][1]][1]
+
+[1]: http://www.certiv.net/updates/net.certiv.fluentmark.site/ScreenShot.png "FluentMark"
 
 ---
 
@@ -49,8 +46,8 @@ Requires Eclipse Oxygen+ JDK 1.8+.
 FluentMark _Preferences_ can then be found at `Window` => `Certiv Tools` => `FluentMark`  
 
 To use **Pandoc**: install [Pandoc](https://pandoc.org). Then, on the Converter preference 
-page, select Pandoc as the converter and select the `pandoc` executable from the local 
-filesystem.
+page, select Pandoc as the converter and select the `pandoc` executable from the 
+local filesystem.
 
 To use the **PDF** exporter: both *Pandoc* and a _LaTeX_ processor must be installed. 
 Pandoc recommends [*MikTeX*](https://miktex.org/).
@@ -84,12 +81,12 @@ the `blackfriday-tool` executable.
 In-line Math uses single `$` open/close delimiters with no space after the opening 
 delimiter and before the closing delimiter. Can be embedded in other markdown features.
 
-Math Blocks are delimited using `$$` marks provided on the left margin.  The open 
-delimiter must follow a blank line and the close delimiter must lead a blank line.
+Math blocks are delimited using `$$` marks at the left margin.  The open delimiter 
+must follow a blank line and the close delimiter must lead a blank line.
 
 ### Table Editor
 
 `Double-click` on a table to open the table editor. While in the editor, `double-click` 
-a cell to edit text. `Tab` and the arrow keys navigate between cells. `Return` to 
+a cell to edit text. `Tab` and arrow keys will navigate between cells. `Return` to 
 end cell editing.
 
