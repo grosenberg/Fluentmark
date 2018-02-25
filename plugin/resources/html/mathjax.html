@@ -3,11 +3,12 @@
 		<script type=text/x-mathjax-config>
 			MathJax.Hub.Config({
 				messageStyle: "none",
+				positionToHash: true,
 				showMathMenu: true,
   				tex2jax: {
-					processEscapes: true,	
-    				inlineMath:  [['\(','\)']],
-					displayMath: [['\[','\]']]
+					processEscapes: true,
+      				inlineMath: [ ['$','$'], ['\\(','\\)'] ],
+      				displayMath: [ ['$$','$$'], ['\\[','\\]'] ],
   				},
 				TeX: {
 					equationNumbers: {

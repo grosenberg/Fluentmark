@@ -7,7 +7,7 @@
             id="net.certiv.fluentmark.editorVisible">
 			<with variable="activePartId">
     			<equals
-          			value="net.certiv.fluentmark.editor.FluentMkEditor">
+          			value="net.certiv.fluentmark.editor.FluentEditor">
     			</equals>
 			</with>
       </definition>
@@ -39,7 +39,7 @@
             contributorClass="net.certiv.fluentmark.editor.FluentActionBarContributor"
             default="true"
             icon="icons/obj16/fluentmark_doc.png"
-            id="net.certiv.fluentmark.editor.FluentMkEditor"
+            id="net.certiv.fluentmark.editor.FluentEditor"
             name="FluentMark Editor"
             symbolicFontName="org.eclipse.jface.textfont">
          <contentTypeBinding
@@ -70,7 +70,7 @@
       <engine
             class="net.certiv.fluentmark.spell.SpellingEngine"
             default="true"
-            id="net.certiv.fluentmark.spelling.MkSpellingEngine"
+            id="net.certiv.fluentmark.spell.SpellingEngine"
             label="FluentMark spelling engine">
       </engine>
    </extension>
@@ -82,7 +82,7 @@
             category="net.certiv.certivtools"
             class="net.certiv.fluentmark.views.FluentPreview"
             icon="icons/obj16/fluentmark_doc.png"
-            id="net.certiv.fluentmark.views.FluentMkPreview"
+            id="net.certiv.fluentmark.views.FluentPreview"
             name="FluentMark View"
             restorable="false">
       </view>
@@ -149,7 +149,7 @@
          <toolbar
                id="net.certiv.fluentmark.MarkdownEditor">
             <command
-                  commandId="net.certiv.fluentmark.openMkView"
+                  commandId="net.certiv.fluentmark.openView"
                   icon="icons/obj16/fluentmark_doc.png"
                   style="push"
                   tooltip="Open FluentMark Viewer">
@@ -185,7 +185,7 @@
       </menuContribution>
       <menuContribution
             allPopups="false"
-            locationURI="toolbar:net.certiv.fluentmark.views.FluentMkPreview">
+            locationURI="toolbar:net.certiv.fluentmark.views.FluentPreview">
          <command
                commandId="net.certiv.fluentmark.refreshView"
                icon="icons/obj16/refresh.gif"
@@ -220,7 +220,7 @@
       <command
             categoryId="net.certiv.fluentmark.commands"
             defaultHandler="net.certiv.fluentmark.handlers.OpenMdViewHandler"
-            id="net.certiv.fluentmark.openMkView"
+            id="net.certiv.fluentmark.openView"
             name="Open FluentMark View">
       </command>
       <command
@@ -298,7 +298,7 @@
          point="org.eclipse.ui.handlers">
       <handler
             class="net.certiv.fluentmark.handlers.OpenMdViewHandler"
-            commandId="net.certiv.fluentmark.openMkView">
+            commandId="net.certiv.fluentmark.openView">
          <activeWhen>
             <reference
                   definitionId="net.certiv.fluentmark.editorVisible">
@@ -484,7 +484,7 @@
             category="net.certiv.certivtools.wizards"
             class="net.certiv.fluentmark.wizards.FluentNewWizard"
             icon="icons/obj16/fluentmark_doc.png"
-            id="net.certiv.fluentmark.wizards.FluentMkNewWizard"
+            id="net.certiv.fluentmark.wizards.FluentNewWizard"
             name="FluentMark file">
       </wizard>
    </extension>
