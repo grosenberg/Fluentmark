@@ -53,10 +53,10 @@ import org.eclipse.swt.widgets.Scrollable;
 import org.eclipse.ui.dialogs.PreferencesUtil;
 import org.eclipse.ui.texteditor.ChainedPreferenceStore;
 
-import net.certiv.fluentmark.FluentMkUI;
+import net.certiv.fluentmark.FluentUI;
 import net.certiv.fluentmark.Log;
-import net.certiv.fluentmark.editor.FluentMkSimpleSourceViewerConfiguration;
-import net.certiv.fluentmark.editor.FluentMkSourceViewer;
+import net.certiv.fluentmark.editor.FluentSimpleSourceViewerConfiguration;
+import net.certiv.fluentmark.editor.FluentSourceViewer;
 import net.certiv.fluentmark.editor.Partitions;
 import net.certiv.fluentmark.editor.color.IColorManager;
 import net.certiv.fluentmark.preferences.AbstractConfigurationBlock;
@@ -313,14 +313,14 @@ class AppearanceConfigurationBlock extends AbstractConfigurationBlock {
 	/** Highlighting color tree viewer */
 	private TreeViewer fTreeViewer;
 	/** The previewer. */
-	private FluentMkSourceViewer fPreviewViewer;
+	private FluentSourceViewer fPreviewViewer;
 
 	private IColorManager fColorManager;
 
 	public AppearanceConfigurationBlock(OverlayPreferenceStore store) {
 		super(store);
 
-		fColorManager = FluentMkUI.getDefault().getColorMgr();
+		fColorManager = FluentUI.getDefault().getColorMgr();
 
 		for (int i = 0, n = fSyntaxColorListModel.length; i < n; i++)
 			fListModel.add(new HighlightingColorListItem(fSyntaxColorListModel[i][0], fSyntaxColorListModel[i][1],
@@ -715,12 +715,12 @@ class AppearanceConfigurationBlock extends AbstractConfigurationBlock {
 
 	private Control createPreviewer(Composite parent) {
 
-		IPreferenceStore generalTextStore = FluentMkUI.getDefault().getPreferenceStore();
+		IPreferenceStore generalTextStore = FluentUI.getDefault().getPreferenceStore();
 		IPreferenceStore store = new ChainedPreferenceStore(new IPreferenceStore[] { getPreferenceStore(),
 				new PreferencesAdapter(createTemporaryCorePreferenceStore()), generalTextStore });
-		fPreviewViewer = new FluentMkSourceViewer(parent, null, null, false, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER,
+		fPreviewViewer = new FluentSourceViewer(parent, null, null, false, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER,
 				store);
-		FluentMkSimpleSourceViewerConfiguration configuration = new FluentMkSimpleSourceViewerConfiguration(
+		FluentSimpleSourceViewerConfiguration configuration = new FluentSimpleSourceViewerConfiguration(
 				fColorManager, store, null, Partitions.MK_PARTITIONING, false);
 		fPreviewViewer.configure(configuration);
 		Font font = JFaceResources.getFont(Prefs.EDITOR_TEXT_FONT);
@@ -736,7 +736,7 @@ class AppearanceConfigurationBlock extends AbstractConfigurationBlock {
 
 		String content = loadPreviewContentFromFile("ColorsPreview.md"); //$NON-NLS-1$
 		IDocument document = new Document(content);
-		FluentMkUI.getDefault().getTextTools().setupDocumentPartitioner(document, Partitions.MK_PARTITIONING);
+		FluentUI.getDefault().getTextTools().setupDocumentPartitioner(document, Partitions.MK_PARTITIONING);
 		fPreviewViewer.setDocument(document);
 
 		return fPreviewViewer.getControl();

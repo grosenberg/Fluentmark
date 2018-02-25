@@ -2,8 +2,8 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: FluentMark Editor
 Bundle-SymbolicName: net.certiv.fluentmark;singleton:=true
-Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: net.certiv.fluentmark.FluentMkUI
+Bundle-Version: 1.1.0.qualifier
+Bundle-Activator: net.certiv.fluentmark.FluentUI
 Bundle-Vendor: Certiv Analytics
 Require-Bundle: org.eclipse.core.commands,
  org.eclipse.core.expressions,

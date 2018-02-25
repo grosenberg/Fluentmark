@@ -39,14 +39,14 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
-import net.certiv.fluentmark.FluentMkUI;
+import net.certiv.fluentmark.FluentUI;
 import net.certiv.fluentmark.preferences.Prefs;
 
 /**
  * Source viewer based implementation of <code>IInformationControl</code>. Displays information in a
  * source viewer.
  */
-public class FluentMkSourceViewerInfoControl
+public class FluentSourceViewerInfoControl
 		implements IInformationControl, IInformationControlExtension, DisposeListener {
 
 	private Shell shell;
@@ -75,7 +75,7 @@ public class FluentMkSourceViewerInfoControl
 	 * @param statusFieldText the text to be used in the optional status field or <code>null</code> if
 	 *            the status field should be hidden
 	 */
-	public FluentMkSourceViewerInfoControl(Shell parent, boolean isResizable, int orientation, String statusFieldText) {
+	public FluentSourceViewerInfoControl(Shell parent, boolean isResizable, int orientation, String statusFieldText) {
 
 		Assert.isLegal(orientation == SWT.RIGHT_TO_LEFT || orientation == SWT.LEFT_TO_RIGHT || orientation == SWT.NONE);
 		this.orientation = orientation;
@@ -166,11 +166,11 @@ public class FluentMkSourceViewerInfoControl
 	}
 
 	protected void createViewer(int style, Composite composite) {
-		FluentMkUI mkUI = FluentMkUI.getDefault();
-		FluentMkTextTools textTools = mkUI.getTextTools();
+		FluentUI mkUI = FluentUI.getDefault();
+		FluentTextTools textTools = mkUI.getTextTools();
 		IPreferenceStore store = mkUI.getPreferenceStore();
 		SourceViewerConfiguration viewerConfig = textTools.createSimpleSourceViewerConfiguration(store);
-		viewer = new FluentMkSourceViewer(composite, null, null, false, style, store);
+		viewer = new FluentSourceViewer(composite, null, null, false, style, store);
 		viewer.configure(viewerConfig);
 	}
 
@@ -211,7 +211,7 @@ public class FluentMkSourceViewerInfoControl
 		}
 
 		IDocument doc = new Document(content);
-		FluentMkTextTools textTools = FluentMkUI.getDefault().getTextTools();
+		FluentTextTools textTools = FluentUI.getDefault().getTextTools();
 		if (textTools != null) {
 			textTools.setupDocument(doc);
 		}
@@ -371,7 +371,7 @@ public class FluentMkSourceViewerInfoControl
 
 			@Override
 			public IInformationControl createInformationControl(Shell parent) {
-				return new FluentMkSourceViewerInfoControl(parent, true, orientation, null);
+				return new FluentSourceViewerInfoControl(parent, true, orientation, null);
 			}
 		};
 	}

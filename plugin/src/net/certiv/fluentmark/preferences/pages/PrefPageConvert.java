@@ -14,7 +14,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IWorkbench;
 
-import net.certiv.fluentmark.FluentMkUI;
+import net.certiv.fluentmark.FluentUI;
 import net.certiv.fluentmark.preferences.BaseFieldEditorPreferencePage;
 import net.certiv.fluentmark.preferences.Prefs;
 import net.certiv.fluentmark.preferences.editors.ComboSelectFieldEditor;
@@ -53,7 +53,7 @@ public class PrefPageConvert extends BaseFieldEditorPreferencePage implements Pr
 
 	@Override
 	public void init(IWorkbench workbench) {
-		setPreferenceStore(FluentMkUI.getDefault().getPreferenceStore());
+		setPreferenceStore(FluentUI.getDefault().getPreferenceStore());
 	}
 
 	/** Create fields controlling converter selection */

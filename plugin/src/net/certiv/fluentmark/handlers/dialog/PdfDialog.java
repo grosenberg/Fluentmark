@@ -20,7 +20,7 @@ import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-import net.certiv.fluentmark.FluentMkUI;
+import net.certiv.fluentmark.FluentUI;
 import net.certiv.fluentmark.handlers.ExportPdfHandler;
 import net.certiv.fluentmark.preferences.Prefs;
 import net.certiv.fluentmark.util.FileUtils;
@@ -30,19 +30,18 @@ public class PdfDialog extends MessageDialog {
 
 	private static final String Title = "PDF Generate";
 	private static final String Msg = "Options";
+	private static final String Default = "<default>";
 
 	private IPreferenceStore store;
 	private ExportPdfHandler handler;
 	private IFile source;
 
 	private Text txtTmpl;
-	private Button btnTmpl;
 	private Text txtSave;
-	private Button btnSave;
 
 	public PdfDialog(Shell parent, ExportPdfHandler handler, IFile source) {
 		super(parent, Title, null, Msg, MessageDialog.NONE, 1, "Generate", "Cancel");
-		this.store = FluentMkUI.getDefault().getCombinedPreferenceStore();
+		this.store = FluentUI.getDefault().getCombinedPreferenceStore();
 		this.handler = handler;
 		this.source = source;
 	}
@@ -60,13 +59,15 @@ public class PdfDialog extends MessageDialog {
 
 			@Override
 			public void modifyText(ModifyEvent e) {
-				handler.setTemplate(txtTmpl.getText());
+				String pathname = txtTmpl.getText();
+				pathname = pathname.equals(Default) ? "" : pathname;
+				handler.setTemplate(pathname);
 			}
 		});
 		txtTmpl.setText(findLast());
 
-		btnTmpl = SwtUtil.makeButton(comp, "Browse", 1);
-		btnTmpl.addSelectionListener(tmplListener);
+		Button bTmpl = SwtUtil.makeButton(comp, "Browse", 1);
+		bTmpl.addSelectionListener(tmplListener);
 
 		// Save destination select ----------------------
 
@@ -83,8 +84,8 @@ public class PdfDialog extends MessageDialog {
 		IPath path = source.getLocation().removeFileExtension().addFileExtension("pdf");
 		txtSave.setText(path.toString());
 
-		btnSave = SwtUtil.makeButton(comp, "Browse", 1);
-		btnSave.addSelectionListener(saveListener);
+		Button bSave = SwtUtil.makeButton(comp, "Browse", 1);
+		bSave.addSelectionListener(saveListener);
 
 		// Options --------------------------------------
 
@@ -93,13 +94,18 @@ public class PdfDialog extends MessageDialog {
 		return comp;
 	}
 
+	// get last template used for the source document
+	// returns the pathname or the default ident
 	private String findLast() {
 		// key=document[pathname|name]; value=template pathname
 		LinkedHashMap<String, String> map = FileUtils.getTemplateMap();
 		String pathname = map.get(source.getFullPath().toString()); // by WS relative source file pathname
-		if (pathname == null) pathname = map.get(source.getName()); // by source filename
-		if (pathname == null || pathname.equals("default")) return "";
-		return pathname;
+		if (invalid(pathname)) pathname = map.get(source.getName()); // by source filename
+		return invalid(pathname) ? Default : pathname;
+	}
+
+	private boolean invalid(String pathname) {
+		return pathname == null || pathname.isEmpty();
 	}
 
 	private SelectionListener tmplListener = new SelectionAdapter() {
@@ -108,7 +114,7 @@ public class PdfDialog extends MessageDialog {
 		public void widgetSelected(SelectionEvent e) {
 			String base = store.getString(Prefs.EDITOR_PANDOC_TEMPLATES).trim();
 			base = base.endsWith("/") ? base : base + "/"; // default template base directory
-			String name = ""; // default template name
+			String name = ""; // internal default template name
 
 			IPath tmplPath = new Path(findLast());
 			switch (tmplPath.segmentCount()) {
@@ -116,6 +122,7 @@ public class PdfDialog extends MessageDialog {
 					break;
 				case 1:
 					name = tmplPath.lastSegment();
+					name = name.equals(Default) ? "" : name;
 					break;
 				default:
 					base = tmplPath.removeLastSegments(1).addTrailingSeparator().toString();
@@ -130,6 +137,7 @@ public class PdfDialog extends MessageDialog {
 
 			String pathname = dialog.open();
 			if (pathname != null) {
+				if (invalid(pathname)) pathname = Default;
 				IPath path = new Path(pathname); // normalize
 				txtTmpl.setText(path.toString());
 			}

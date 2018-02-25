@@ -14,7 +14,7 @@ import org.eclipse.jface.text.rules.IToken;
 import org.eclipse.jface.text.rules.Token;
 
 import net.certiv.fluentmark.Log;
-import net.certiv.fluentmark.FluentMkUI;
+import net.certiv.fluentmark.FluentUI;
 import net.certiv.fluentmark.editor.PartitionScanner;
 import net.certiv.fluentmark.preferences.Prefs;
 import net.certiv.fluentmark.util.Indent;
@@ -52,7 +52,7 @@ public class IndentedCodeRule implements IPredicateRule {
 				if (p == '\n') col = 0;
 			}
 			if (col == 0) {
-				tabWidth = FluentMkUI.getDefault().getPreferenceStore().getInt(Prefs.EDITOR_TAB_WIDTH);
+				tabWidth = FluentUI.getDefault().getPreferenceStore().getInt(Prefs.EDITOR_TAB_WIDTH);
 				if (tabWidth < 2) tabWidth = 4;
 				line = 0;
 				while (evaluateLine(scanner)) {

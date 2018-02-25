@@ -10,8 +10,8 @@ package net.certiv.fluentmark.actions;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.viewers.TreeViewer;
 
-import net.certiv.fluentmark.FluentMkUI;
-import net.certiv.fluentmark.outline.MkOutlinePage.OutlineViewer;
+import net.certiv.fluentmark.FluentUI;
+import net.certiv.fluentmark.outline.FluentOutlinePage.OutlineViewer;
 import net.certiv.fluentmark.FluentMkImages;
 
 public class ExpandAllAction extends Action {
@@ -23,7 +23,7 @@ public class ExpandAllAction extends Action {
 		this.viewer = viewer;
 
 		setToolTipText(ActionMessages.ExpandAllAction_1);
-		FluentMkUI.getDefault().getImageProvider().setImageDescriptors(this, FluentMkImages.OBJ,
+		FluentUI.getDefault().getImageProvider().setImageDescriptors(this, FluentMkImages.OBJ,
 				FluentMkImages.IMG_MENU_EXPAND_ALL);
 	}
 

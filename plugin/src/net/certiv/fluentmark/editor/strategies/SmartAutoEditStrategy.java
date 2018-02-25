@@ -31,9 +31,9 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.texteditor.ITextEditorExtension2;
 import org.eclipse.ui.texteditor.ITextEditorExtension3;
 
-import net.certiv.fluentmark.FluentMkUI;
+import net.certiv.fluentmark.FluentUI;
 import net.certiv.fluentmark.Log;
-import net.certiv.fluentmark.editor.FluentMkEditor;
+import net.certiv.fluentmark.editor.FluentEditor;
 import net.certiv.fluentmark.editor.Partitions;
 import net.certiv.fluentmark.editor.text.SmartBackspaceManager;
 import net.certiv.fluentmark.editor.text.SmartBackspaceManager.UndoSpec;
@@ -89,15 +89,15 @@ public class SmartAutoEditStrategy implements IAutoEditStrategy {
 			return;
 		}
 
-		IPreferenceStore store = FluentMkUI.getDefault().getPreferenceStore();
+		IPreferenceStore store = FluentUI.getDefault().getPreferenceStore();
 		if (fCharacter == SEMICHAR && !store.getBoolean(Prefs.EDITOR_SMART_SEMICOLON)) return;
 		if (fCharacter == BRACECHAR && !store.getBoolean(Prefs.EDITOR_SMART_OPENING_BRACE)) return;
 
 		IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 		if (page == null) return;
 		IEditorPart part = page.getActiveEditor();
-		if (!(part instanceof FluentMkEditor)) return;
-		FluentMkEditor editor = (FluentMkEditor) part;
+		if (!(part instanceof FluentEditor)) return;
+		FluentEditor editor = (FluentEditor) part;
 		if (editor.getInsertMode() != ITextEditorExtension3.SMART_INSERT || !editor.isEditable()) return;
 		ITextEditorExtension2 extension = editor.getAdapter(ITextEditorExtension2.class);
 		if (extension != null && !extension.validateEditorInputState()) return;

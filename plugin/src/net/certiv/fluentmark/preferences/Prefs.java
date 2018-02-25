@@ -9,7 +9,7 @@ package net.certiv.fluentmark.preferences;
 
 import org.eclipse.ui.texteditor.spelling.SpellingService;
 
-import net.certiv.fluentmark.FluentMkUI;
+import net.certiv.fluentmark.FluentUI;
 
 public interface Prefs extends PrefsSpelling {
 
@@ -235,5 +235,5 @@ public interface Prefs extends PrefsSpelling {
 	/**
 	 * Code assist option ID: Activate Visibility Sensitive Completion.
 	 */
-	public static final String CODEASSIST_VISIBILITY_CHECK = FluentMkUI.PLUGIN_ID + ".codeComplete.visibilityCheck"; //$NON-NLS-1$
+	public static final String CODEASSIST_VISIBILITY_CHECK = FluentUI.PLUGIN_ID + ".codeComplete.visibilityCheck"; //$NON-NLS-1$
 }

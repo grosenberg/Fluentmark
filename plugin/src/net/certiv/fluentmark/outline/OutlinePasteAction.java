@@ -11,20 +11,20 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.swt.dnd.TextTransfer;
 import org.eclipse.ui.ISharedImages;
 
-import net.certiv.fluentmark.FluentMkUI;
+import net.certiv.fluentmark.FluentUI;
 
 public class OutlinePasteAction extends Action {
 
-	private MkOutlinePage outline;
+	private FluentOutlinePage outline;
 
-	public OutlinePasteAction(MkOutlinePage outline) {
+	public OutlinePasteAction(FluentOutlinePage outline) {
 		super("Paste");
 		this.outline = outline;
 
 		setToolTipText("Paste");
-		setImageDescriptor(FluentMkUI.getDefault().getWorkbench().getSharedImages()
+		setImageDescriptor(FluentUI.getDefault().getWorkbench().getSharedImages()
 				.getImageDescriptor(ISharedImages.IMG_TOOL_PASTE));
-		setDisabledImageDescriptor(FluentMkUI.getDefault().getWorkbench().getSharedImages()
+		setDisabledImageDescriptor(FluentUI.getDefault().getWorkbench().getSharedImages()
 				.getImageDescriptor(ISharedImages.IMG_TOOL_PASTE_DISABLED));
 	}
 

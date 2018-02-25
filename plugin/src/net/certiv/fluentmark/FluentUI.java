@@ -17,7 +17,6 @@ package net.certiv.fluentmark;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
@@ -35,7 +34,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 import org.osgi.service.prefs.BackingStoreException;
 
-import net.certiv.fluentmark.editor.FluentMkTextTools;
+import net.certiv.fluentmark.editor.FluentTextTools;
 import net.certiv.fluentmark.editor.color.ColorManager;
 import net.certiv.fluentmark.editor.color.IColorManager;
 import net.certiv.fluentmark.preferences.Prefs;
@@ -43,21 +42,21 @@ import net.certiv.fluentmark.preferences.Prefs;
 /**
  * The activator class controls the plug-in life cycle
  */
-public class FluentMkUI extends AbstractUIPlugin {
+public class FluentUI extends AbstractUIPlugin {
 
 	// The plug-in ID
 	public static final String PLUGIN_ID = "net.certiv.fluentmark"; //$NON-NLS-1$
 
 	// The shared instance
-	private static FluentMkUI plugin;
+	private static FluentUI plugin;
 
 	private IPreferenceStore combinedStore;
 	private FluentMkImages fluentMkImages;
 	private FormToolkit dialogsFormToolkit;
 	private ColorManager colorManager;
-	private FluentMkTextTools fluentMkTextTools;
+	private FluentTextTools fluentTextTools;
 
-	public FluentMkUI() {
+	public FluentUI() {
 		super();
 	}
 
@@ -90,7 +89,7 @@ public class FluentMkUI extends AbstractUIPlugin {
 	/**
 	 * Returns the shared instance
 	 */
-	public static FluentMkUI getDefault() {
+	public static FluentUI getDefault() {
 		return plugin;
 	}
 
@@ -102,13 +101,13 @@ public class FluentMkUI extends AbstractUIPlugin {
 	}
 
 	/**
-	 * Returns a chained preference store representing the combined values of the FluentMkUI, EditorsUI,
+	 * Returns a chained preference store representing the combined values of the FluentUI, EditorsUI,
 	 * and PlatformUI stores.
 	 */
 	public IPreferenceStore getCombinedPreferenceStore() {
 		if (combinedStore == null) {
 			List<IPreferenceStore> stores = new ArrayList<>();
-			stores.add(getPreferenceStore()); // FluentMkUI store
+			stores.add(getPreferenceStore()); // FluentUI store
 			stores.add(EditorsUI.getPreferenceStore());
 			stores.add(PlatformUI.getPreferenceStore());
 			combinedStore = new WritableChainedPreferenceStore(stores.toArray(new IPreferenceStore[stores.size()]));
@@ -126,11 +125,11 @@ public class FluentMkUI extends AbstractUIPlugin {
 		return dialogsFormToolkit;
 	}
 
-	public FluentMkTextTools getTextTools() {
-		if (fluentMkTextTools == null) {
-			fluentMkTextTools = new FluentMkTextTools(true);
+	public FluentTextTools getTextTools() {
+		if (fluentTextTools == null) {
+			fluentTextTools = new FluentTextTools(true);
 		}
-		return fluentMkTextTools;
+		return fluentTextTools;
 	}
 
 	/** Returns the image provider */

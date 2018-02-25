@@ -11,7 +11,7 @@ import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.graphics.Font;
 
-import net.certiv.fluentmark.editor.FluentMkSourceViewerConfiguration;
+import net.certiv.fluentmark.editor.FluentSourceViewerConfiguration;
 
 import org.eclipse.core.runtime.Assert;
 
@@ -36,7 +36,7 @@ public class PreviewSourceUpdater {
 	 * @param configuration the configuration
 	 * @param preferenceStore the preference store
 	 */
-	public PreviewSourceUpdater(final SourceViewer viewer, final FluentMkSourceViewerConfiguration configuration,
+	public PreviewSourceUpdater(final SourceViewer viewer, final FluentSourceViewerConfiguration configuration,
 			final IPreferenceStore preferenceStore) {
 		Assert.isNotNull(viewer);
 		Assert.isNotNull(configuration);

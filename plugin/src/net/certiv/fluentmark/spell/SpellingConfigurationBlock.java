@@ -5,7 +5,7 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  ******************************************************************************/
-package net.certiv.fluentmark.spelling;
+package net.certiv.fluentmark.spell;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -50,7 +50,7 @@ import net.certiv.spellchecker.etc.StatusInfo;
 import net.certiv.spellchecker.etc.StatusUtil;
 import net.certiv.spellchecker.preferences.PreferencesMessages;
 
-public class MkSpellingConfigurationBlock extends AbstractConfigurationBlock implements Prefs {
+public class SpellingConfigurationBlock extends AbstractConfigurationBlock implements Prefs {
 
 	/** The value for no platform dictionary. */
 	private static final String VALUE_NO_LOCALE = ""; //$NON-NLS-1$
@@ -102,7 +102,7 @@ public class MkSpellingConfigurationBlock extends AbstractConfigurationBlock imp
 		}
 	}
 
-	public MkSpellingConfigurationBlock(OverlayPreferenceStore store, IStatusChangeListener context) {
+	public SpellingConfigurationBlock(OverlayPreferenceStore store, IStatusChangeListener context) {
 		super(store);
 		fContext = context;
 		store.addKeys(createOverlayStoreKeys());

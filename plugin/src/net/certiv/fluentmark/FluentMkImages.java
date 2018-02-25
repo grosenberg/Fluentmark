@@ -24,7 +24,7 @@ public class FluentMkImages {
 
 	public static final IPath ICONS_PATH = new Path("$nl$/icons"); //$NON-NLS-1$
 
-	private static FluentMkUI plugin;
+	private static FluentUI plugin;
 	private static Bundle bundle;
 	private static String prefix;
 	private static int prefixLen;
@@ -88,7 +88,7 @@ public class FluentMkImages {
 
 	// ****************************************************************************************
 
-	public FluentMkImages(Bundle bundle, FluentMkUI plugin) {
+	public FluentMkImages(Bundle bundle, FluentUI plugin) {
 		FluentMkImages.bundle = bundle;
 		FluentMkImages.plugin = plugin;
 		init();

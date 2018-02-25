@@ -15,7 +15,7 @@ import org.eclipse.ui.editors.text.templates.ContributionContextTypeRegistry;
 import org.eclipse.ui.editors.text.templates.ContributionTemplateStore;
 
 import net.certiv.fluentmark.Log;
-import net.certiv.fluentmark.FluentMkUI;
+import net.certiv.fluentmark.FluentUI;
 
 public class CustomTemplateAccess {
 
@@ -36,7 +36,7 @@ public class CustomTemplateAccess {
 
 	public ContextTypeRegistry getContextTypeRegistry() {
 		if (registry == null) {
-			if (FluentMkUI.getDefault() != null) {
+			if (FluentUI.getDefault() != null) {
 				ContributionContextTypeRegistry contributionRegistry = new ContributionContextTypeRegistry();
 				contributionRegistry.addContextType(SourceTemplateContextType.ID);
 				registry = contributionRegistry;
@@ -54,9 +54,9 @@ public class CustomTemplateAccess {
 	 */
 	public TemplateStore getTemplateStore() {
 		if (templateStore == null) {
-			if (FluentMkUI.getDefault() != null) {
+			if (FluentUI.getDefault() != null) {
 				templateStore = new ContributionTemplateStore(getContextTypeRegistry(),
-						FluentMkUI.getDefault().getPreferenceStore(), CUSTOM_TEMPLATES_KEY);
+						FluentUI.getDefault().getPreferenceStore(), CUSTOM_TEMPLATES_KEY);
 				try {
 					templateStore.load();
 				} catch (IOException e) {

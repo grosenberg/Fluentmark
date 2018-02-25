@@ -10,7 +10,7 @@ package net.certiv.fluentmark.model;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import net.certiv.fluentmark.FluentMkUI;
+import net.certiv.fluentmark.FluentUI;
 import net.certiv.fluentmark.preferences.Prefs;
 import net.certiv.fluentmark.util.FloorKeyMap;
 import net.certiv.fluentmark.util.Indent;
@@ -213,7 +213,7 @@ public class Lines {
 	}
 
 	public static int computeLevel(String text) {
-		int width = FluentMkUI.getDefault().getPreferenceStore().getInt(Prefs.EDITOR_TAB_WIDTH);
+		int width = FluentUI.getDefault().getPreferenceStore().getInt(Prefs.EDITOR_TAB_WIDTH);
 		return Indent.measureIndentInSpaces(text, width);
 	}
 

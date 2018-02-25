@@ -13,7 +13,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.SharedScrolledComposite;
 
-import net.certiv.fluentmark.FluentMkUI;
+import net.certiv.fluentmark.FluentUI;
 
 public class ScrolledPageContent extends SharedScrolledComposite {
 
@@ -28,7 +28,7 @@ public class ScrolledPageContent extends SharedScrolledComposite {
 
 		setFont(parent.getFont());
 
-		fToolkit = FluentMkUI.getDefault().getDialogsFormToolkit();
+		fToolkit = FluentUI.getDefault().getDialogsFormToolkit();
 
 		setExpandHorizontal(true);
 		setExpandVertical(true);

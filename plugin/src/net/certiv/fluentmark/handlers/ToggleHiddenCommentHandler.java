@@ -26,7 +26,7 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.handlers.HandlerUtil;
 
 import net.certiv.fluentmark.Log;
-import net.certiv.fluentmark.editor.FluentMkEditor;
+import net.certiv.fluentmark.editor.FluentEditor;
 import net.certiv.fluentmark.editor.Partitions;
 
 // if selection is in a comment, uncomment
@@ -47,8 +47,8 @@ public class ToggleHiddenCommentHandler extends AbstractHandler {
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		IEditorPart edPart = HandlerUtil.getActiveEditor(event);
-		if (edPart instanceof FluentMkEditor) {
-			FluentMkEditor editor = (FluentMkEditor) edPart;
+		if (edPart instanceof FluentEditor) {
+			FluentEditor editor = (FluentEditor) edPart;
 			IDocument doc = editor.getDocument();
 			if (doc != null) {
 				ISelection sel = HandlerUtil.getCurrentSelection(event);

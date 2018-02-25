@@ -36,7 +36,7 @@ import org.eclipse.ui.texteditor.ITextEditor;
 
 import net.certiv.fluentmark.util.Strings;
 
-public class FluentMkTemplateCompletionProcessor extends TemplateCompletionProcessor {
+public class FluentTemplateCompletionProcessor extends TemplateCompletionProcessor {
 
 	private static final Pattern VARIABLE_PATTERN = Pattern.compile("\\$\\{([^\\}]+)\\}"); //$NON-NLS-1$
 	private static final Template[] NO_TEMPLATES = new Template[0];
@@ -53,7 +53,7 @@ public class FluentMkTemplateCompletionProcessor extends TemplateCompletionProce
 		}
 	};
 
-	public FluentMkTemplateCompletionProcessor(ITextEditor editor, String partition) {
+	public FluentTemplateCompletionProcessor(ITextEditor editor, String partition) {
 		ContextTypeRegistry contextTypeRegistry = CustomTemplateAccess.getInstance().getContextTypeRegistry();
 		contextType = (SourceTemplateContextType) contextTypeRegistry.getContextType(SourceTemplateContextType.ID);
 		if (contextType == null) {

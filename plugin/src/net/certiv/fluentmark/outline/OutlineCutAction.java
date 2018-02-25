@@ -12,20 +12,20 @@ import org.eclipse.swt.dnd.TextTransfer;
 import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.ui.ISharedImages;
 
-import net.certiv.fluentmark.FluentMkUI;
+import net.certiv.fluentmark.FluentUI;
 
 public class OutlineCutAction extends Action {
 
-	private MkOutlinePage outline;
+	private FluentOutlinePage outline;
 
-	public OutlineCutAction(MkOutlinePage outline) {
+	public OutlineCutAction(FluentOutlinePage outline) {
 		super("Cut");
 		this.outline = outline;
 
 		setToolTipText("Cut");
-		setImageDescriptor(FluentMkUI.getDefault().getWorkbench().getSharedImages()
+		setImageDescriptor(FluentUI.getDefault().getWorkbench().getSharedImages()
 				.getImageDescriptor(ISharedImages.IMG_TOOL_CUT));
-		setDisabledImageDescriptor(FluentMkUI.getDefault().getWorkbench().getSharedImages()
+		setDisabledImageDescriptor(FluentUI.getDefault().getWorkbench().getSharedImages()
 				.getImageDescriptor(ISharedImages.IMG_TOOL_CUT_DISABLED));
 
 	}

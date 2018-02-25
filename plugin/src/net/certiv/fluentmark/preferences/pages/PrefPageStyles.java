@@ -28,7 +28,7 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.osgi.framework.Bundle;
 
-import net.certiv.fluentmark.FluentMkUI;
+import net.certiv.fluentmark.FluentUI;
 import net.certiv.fluentmark.preferences.Prefs;
 
 public class PrefPageStyles extends FieldEditorPreferencePage implements IWorkbenchPreferencePage, Prefs {
@@ -40,7 +40,7 @@ public class PrefPageStyles extends FieldEditorPreferencePage implements IWorkbe
 
 	@Override
 	public void init(IWorkbench workbench) {
-		setPreferenceStore(FluentMkUI.getDefault().getPreferenceStore());
+		setPreferenceStore(FluentUI.getDefault().getPreferenceStore());
 	}
 
 	/** Creates the field editors. */
@@ -71,7 +71,7 @@ public class PrefPageStyles extends FieldEditorPreferencePage implements IWorkbe
 	// build list of builtin stylesheets
 	// key=name, value=bundle cache URL as string
 	private String[][] builtins() {
-		Bundle bundle = Platform.getBundle(FluentMkUI.PLUGIN_ID);
+		Bundle bundle = Platform.getBundle(FluentUI.PLUGIN_ID);
 		URL url = bundle.getEntry(CSS_RESOURCE_DIR);
 		File dir = null;
 		try {

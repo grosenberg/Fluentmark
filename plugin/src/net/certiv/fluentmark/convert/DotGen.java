@@ -9,7 +9,7 @@ package net.certiv.fluentmark.convert;
 import java.util.List;
 import java.util.Map;
 
-import net.certiv.fluentmark.FluentMkUI;
+import net.certiv.fluentmark.FluentUI;
 import net.certiv.fluentmark.Log;
 import net.certiv.fluentmark.preferences.Prefs;
 import net.certiv.fluentmark.util.Cmd;
@@ -31,7 +31,7 @@ public class DotGen {
 	}
 
 	public static String runDot(String data) {
-		String cmd = FluentMkUI.getDefault().getPreferenceStore().getString(Prefs.EDITOR_DOT_PROGRAM);
+		String cmd = FluentUI.getDefault().getPreferenceStore().getString(Prefs.EDITOR_DOT_PROGRAM);
 		if (data.trim().isEmpty() || cmd.trim().isEmpty()) return "";
 
 		// return cached value, if present

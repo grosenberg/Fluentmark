@@ -16,10 +16,10 @@ import org.eclipse.swt.browser.ProgressListener;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IPathEditorInput;
 
-import net.certiv.fluentmark.FluentMkUI;
+import net.certiv.fluentmark.FluentUI;
 import net.certiv.fluentmark.Log;
 import net.certiv.fluentmark.convert.Kind;
-import net.certiv.fluentmark.editor.FluentMkEditor;
+import net.certiv.fluentmark.editor.FluentEditor;
 import net.certiv.fluentmark.preferences.Prefs;
 import net.certiv.fluentmark.util.FileUtils;
 import net.certiv.fluentmark.util.Strings;
@@ -43,7 +43,7 @@ public class ViewJob extends Job {
 		}
 	};
 
-	private FluentMkPreview view;
+	private FluentPreview view;
 	private Browser browser;
 	private IPreferenceStore store;
 	private DoneFunction func;
@@ -53,11 +53,11 @@ public class ViewJob extends Job {
 
 	private boolean mathjax;
 
-	public ViewJob(FluentMkPreview view) {
+	public ViewJob(FluentPreview view) {
 		super("Preview");
 		this.view = view;
 		this.browser = view.getBrowser();
-		this.store = FluentMkUI.getDefault().getPreferenceStore();
+		this.store = FluentUI.getDefault().getPreferenceStore();
 
 		load();
 	}
@@ -67,7 +67,7 @@ public class ViewJob extends Job {
 	}
 
 	public boolean load(boolean firebug) {
-		FluentMkEditor editor = view.getEditor();
+		FluentEditor editor = view.getEditor();
 		if (editor == null) return false;
 
 		IPathEditorInput input = (IPathEditorInput) editor.getEditorInput();
@@ -108,7 +108,7 @@ public class ViewJob extends Job {
 	/** The job to run when scheduled */
 	@Override
 	protected IStatus run(IProgressMonitor monitor) {
-		FluentMkEditor editor = view.getEditor();
+		FluentEditor editor = view.getEditor();
 		if (editor == null || view == null || browser == null || browser.isDisposed()) {
 			return Status.CANCEL_STATUS;
 		}

@@ -24,9 +24,9 @@ import org.eclipse.jface.text.TextUtilities;
 import org.eclipse.ui.IPathEditorInput;
 import org.osgi.framework.Bundle;
 
-import net.certiv.fluentmark.FluentMkUI;
+import net.certiv.fluentmark.FluentUI;
 import net.certiv.fluentmark.Log;
-import net.certiv.fluentmark.editor.FluentMkEditor;
+import net.certiv.fluentmark.editor.FluentEditor;
 import net.certiv.fluentmark.editor.Partitions;
 import net.certiv.fluentmark.preferences.Prefs;
 import net.certiv.fluentmark.util.FileUtils;
@@ -49,10 +49,10 @@ import net.certiv.fluentmark.util.Strings;
  */
 public class HtmlGen {
 
-	private FluentMkEditor editor;
+	private FluentEditor editor;
 	private Converter converter;
 
-	public HtmlGen(FluentMkEditor editor, Converter converter) {
+	public HtmlGen(FluentEditor editor, Converter converter) {
 		this.editor = editor;
 		this.converter = converter;
 	}
@@ -161,7 +161,7 @@ public class HtmlGen {
 		if (pathUrl != null) return pathUrl;
 
 		// 3) read the file identified by the pref key 'EDITOR_CSS_EXTERNAL' from the filesystem
-		IPreferenceStore store = FluentMkUI.getDefault().getPreferenceStore();
+		IPreferenceStore store = FluentUI.getDefault().getPreferenceStore();
 		String customCss = store.getString(Prefs.EDITOR_CSS_EXTERNAL);
 		if (!customCss.isEmpty()) {
 			File file = new File(customCss);
@@ -184,7 +184,7 @@ public class HtmlGen {
 		}
 
 		// 5) read 'markdown.css' from the bundle
-		Bundle bundle = Platform.getBundle(FluentMkUI.PLUGIN_ID);
+		Bundle bundle = Platform.getBundle(FluentUI.PLUGIN_ID);
 		URL url = FileLocator.find(bundle, new Path(Prefs.CSS_RESOURCE_DIR + Prefs.CSS_DEFAULT), null);
 		url = FileLocator.toFileURL(url);
 		return url;

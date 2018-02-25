@@ -73,7 +73,7 @@ public abstract class AbstractConfigurationBlockPreferencePage extends Preferenc
 		if (!fConfigurationBlock.canPerformOk()) return false;
 		fConfigurationBlock.performOk();
 		fOverlayStore.propagate(); // using writable chained store
-		// FluentMkUI.flushInstanceScope();
+		// FluentUI.flushInstanceScope();
 
 		return true;
 	}

@@ -24,8 +24,8 @@ import org.eclipse.ui.texteditor.AbstractDecoratedTextEditorPreferenceConstants;
 import org.eclipse.ui.texteditor.spelling.SpellingService;
 import org.osgi.framework.Bundle;
 
-import net.certiv.fluentmark.FluentMkUI;
-import net.certiv.fluentmark.spelling.MkSpellingEngine;
+import net.certiv.fluentmark.FluentUI;
+import net.certiv.fluentmark.spell.SpellingEngine;
 import net.certiv.spellchecker.SpellCheckEngine;
 
 /**
@@ -47,7 +47,7 @@ public class PrefsInit extends AbstractPreferenceInitializer implements Prefs {
 
 	@Override
 	public void initializeDefaultPreferences() {
-		IPreferenceStore store = FluentMkUI.getDefault().getPreferenceStore();
+		IPreferenceStore store = FluentUI.getDefault().getPreferenceStore();
 
 		store.setDefault(EDITOR_TAB_WIDTH, 4);
 		store.setDefault(EDITOR_TAB_CHAR, false); // always use spaces
@@ -143,7 +143,7 @@ public class PrefsInit extends AbstractPreferenceInitializer implements Prefs {
 
 		// hides the corresponding EditorUI preference values
 		store.setDefault(SpellingService.PREFERENCE_SPELLING_ENABLED, true);
-		store.setDefault(SpellingService.PREFERENCE_SPELLING_ENGINE, MkSpellingEngine.ID);
+		store.setDefault(SpellingService.PREFERENCE_SPELLING_ENGINE, SpellingEngine.ID);
 
 		store.setDefault(SPELLING_LOCALE, "en_US"); //$NON-NLS-1$
 		String isInitializedKey = "spelling_locale_initialized"; //$NON-NLS-1$
@@ -215,7 +215,7 @@ public class PrefsInit extends AbstractPreferenceInitializer implements Prefs {
 
 	// create bundle cache URL for the default stylesheet
 	private String cssDefault() {
-		Bundle bundle = Platform.getBundle(FluentMkUI.PLUGIN_ID);
+		Bundle bundle = Platform.getBundle(FluentUI.PLUGIN_ID);
 		URL url = FileLocator.find(bundle, new Path(CSS_RESOURCE_DIR + CSS_DEFAULT), null);
 		try {
 			url = FileLocator.toFileURL(url);

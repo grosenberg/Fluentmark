@@ -28,7 +28,7 @@ import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Display;
 
 import net.certiv.fluentmark.Log;
-import net.certiv.fluentmark.FluentMkUI;
+import net.certiv.fluentmark.FluentUI;
 import net.certiv.fluentmark.editor.color.IColorManager;
 import net.certiv.fluentmark.preferences.Prefs;
 
@@ -103,8 +103,8 @@ public abstract class AbstractBufferedRuleBasedScanner extends BufferedRuleBased
 	/** Creates an abstract script scanner. */
 	public AbstractBufferedRuleBasedScanner() {
 		super();
-		store = FluentMkUI.getDefault().getPreferenceStore();
-		colorMgr = FluentMkUI.getDefault().getColorMgr();
+		store = FluentUI.getDefault().getPreferenceStore();
+		colorMgr = FluentUI.getDefault().getColorMgr();
 	}
 
 	public void setRange(final IDocument document, int offset, int length) {

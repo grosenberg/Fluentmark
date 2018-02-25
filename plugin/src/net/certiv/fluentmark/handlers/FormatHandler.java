@@ -15,8 +15,8 @@ import org.eclipse.jface.text.ITextSelection;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.handlers.HandlerUtil;
 
-import net.certiv.fluentmark.editor.FluentMkEditor;
-import net.certiv.fluentmark.formatter.MkFormatter;
+import net.certiv.fluentmark.editor.FluentEditor;
+import net.certiv.fluentmark.format.Formatter;
 import net.certiv.fluentmark.preferences.Prefs;
 
 public class FormatHandler extends AbstractHandler {
@@ -27,13 +27,13 @@ public class FormatHandler extends AbstractHandler {
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		IEditorPart activeEd = HandlerUtil.getActiveEditor(event);
-		if (activeEd instanceof FluentMkEditor) {
-			FluentMkEditor editor = (FluentMkEditor) activeEd;
+		IEditorPart active = HandlerUtil.getActiveEditor(event);
+		if (active instanceof FluentEditor) {
+			FluentEditor editor = (FluentEditor) active;
 			IPreferenceStore store = editor.getPrefsStore();
 			if (store.getBoolean(Prefs.EDITOR_FORMATTING_ENABLED)) {
 				ITextSelection sel = (ITextSelection) editor.getSelectionProvider().getSelection();
-				MkFormatter.format(editor, sel);
+				Formatter.format(editor, sel);
 			}
 		}
 		return null;

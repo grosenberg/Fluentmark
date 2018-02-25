@@ -16,7 +16,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Display;
 
-import net.certiv.fluentmark.FluentMkUI;
+import net.certiv.fluentmark.FluentUI;
 import net.certiv.fluentmark.preferences.Prefs;
 
 public class ColorManager implements IColorManager, IColorManagerExtension {
@@ -34,7 +34,7 @@ public class ColorManager implements IColorManager, IColorManagerExtension {
 
 	public ColorManager(boolean autoDispose) {
 		this.autoDispose = autoDispose;
-		this.store = FluentMkUI.getDefault().getPreferenceStore();
+		this.store = FluentUI.getDefault().getPreferenceStore();
 		this.defColor = getColor(Prefs.EDITOR_DEFAULT_COLOR);
 	}
 

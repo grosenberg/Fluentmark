@@ -14,7 +14,7 @@ import org.eclipse.core.runtime.Status;
 public class Log {
 
 	public static IStatus createStatus(int severity, int code, String message, Throwable exception) {
-		return new Status(severity, FluentMkUI.PLUGIN_ID, code, message, exception);
+		return new Status(severity, FluentUI.PLUGIN_ID, code, message, exception);
 	}
 
 	public static void info(String message) {
@@ -42,7 +42,7 @@ public class Log {
 	}
 
 	public static void log(IStatus status) {
-		ILog log = FluentMkUI.getDefault().getLog();
+		ILog log = FluentUI.getDefault().getLog();
 		log.log(status);
 	}
 }

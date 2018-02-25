@@ -19,12 +19,12 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.handlers.HandlerUtil;
 
 import net.certiv.fluentmark.Log;
-import net.certiv.fluentmark.editor.FluentMkEditor;
+import net.certiv.fluentmark.editor.FluentEditor;
 import net.certiv.fluentmark.editor.Partitions;
 
 public abstract class AbstractMarksHandler extends AbstractHandler {
 
-	private FluentMkEditor editor;
+	private FluentEditor editor;
 	private IDocument doc;
 	private int cpos;
 	private String[] markSpec;
@@ -37,8 +37,8 @@ public abstract class AbstractMarksHandler extends AbstractHandler {
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		markSpec = getMark();
 		IEditorPart edPart = HandlerUtil.getActiveEditor(event);
-		if (edPart instanceof FluentMkEditor) {
-			editor = (FluentMkEditor) edPart;
+		if (edPart instanceof FluentEditor) {
+			editor = (FluentEditor) edPart;
 			doc = editor.getDocument();
 			if (doc != null) {
 				ISelection sel = HandlerUtil.getCurrentSelection(event);

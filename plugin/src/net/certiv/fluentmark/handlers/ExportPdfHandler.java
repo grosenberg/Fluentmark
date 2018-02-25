@@ -21,7 +21,7 @@ import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.handlers.HandlerUtil;
 
 import net.certiv.fluentmark.convert.PdfGen;
-import net.certiv.fluentmark.editor.FluentMkEditor;
+import net.certiv.fluentmark.editor.FluentEditor;
 import net.certiv.fluentmark.handlers.dialog.PdfDialog;
 import net.certiv.fluentmark.model.PageRoot;
 import net.certiv.fluentmark.util.FileUtils;
@@ -47,8 +47,8 @@ public class ExportPdfHandler extends AbstractHandler {
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		IEditorPart active = HandlerUtil.getActiveEditor(event);
-		if (active instanceof FluentMkEditor) {
-			FluentMkEditor editor = (FluentMkEditor) active;
+		if (active instanceof FluentEditor) {
+			FluentEditor editor = (FluentEditor) active;
 			Shell shell = HandlerUtil.getActiveShell(event);
 
 			IEditorInput input = editor.getEditorInput();
@@ -62,7 +62,6 @@ public class ExportPdfHandler extends AbstractHandler {
 					PdfGen.save(base, doc, model, template, destination);
 
 					LinkedHashMap<String, String> map = FileUtils.getTemplateMap();
-					if (template == null || template.isEmpty()) template = "default";
 					map.put(source.getFullPath().toString(), template); // by WS relative source pathname
 					map.put(source.getName(), template); // by source filename
 					FileUtils.putTemplateMap(map);

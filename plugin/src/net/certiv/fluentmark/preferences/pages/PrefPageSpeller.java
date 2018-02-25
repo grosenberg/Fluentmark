@@ -10,12 +10,12 @@ package net.certiv.fluentmark.preferences.pages;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.ui.editors.text.ITextEditorHelpContextIds;
 
-import net.certiv.fluentmark.FluentMkUI;
+import net.certiv.fluentmark.FluentUI;
 import net.certiv.fluentmark.editor.StatusUtil;
 import net.certiv.fluentmark.preferences.AbstractConfigurationBlockPreferencePage;
 import net.certiv.fluentmark.preferences.IPreferenceConfigurationBlock;
 import net.certiv.fluentmark.preferences.OverlayPreferenceStore;
-import net.certiv.fluentmark.spelling.MkSpellingConfigurationBlock;
+import net.certiv.fluentmark.spell.SpellingConfigurationBlock;
 import net.certiv.spellchecker.etc.IStatusChangeListener;
 
 /**
@@ -40,7 +40,7 @@ public class PrefPageSpeller extends AbstractConfigurationBlockPreferencePage {
 
 	@Override
 	protected IPreferenceConfigurationBlock createConfigurationBlock(OverlayPreferenceStore overlayPreferenceStore) {
-		return new MkSpellingConfigurationBlock(overlayPreferenceStore, new StatusMonitor());
+		return new SpellingConfigurationBlock(overlayPreferenceStore, new StatusMonitor());
 	}
 
 	/**
@@ -60,7 +60,7 @@ public class PrefPageSpeller extends AbstractConfigurationBlockPreferencePage {
 
 	@Override
 	protected void setPreferenceStore() {
-		setPreferenceStore(FluentMkUI.getDefault().getPreferenceStore());
+		setPreferenceStore(FluentUI.getDefault().getPreferenceStore());
 	}
 
 	@Override

@@ -5,7 +5,7 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  ******************************************************************************/
-package net.certiv.fluentmark.spelling;
+package net.certiv.fluentmark.spell;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.text.BadLocationException;
@@ -14,17 +14,17 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.ui.texteditor.spelling.ISpellingProblemCollector;
 
-import net.certiv.fluentmark.FluentMkUI;
+import net.certiv.fluentmark.FluentUI;
 import net.certiv.fluentmark.Log;
 import net.certiv.spellchecker.TextSpellingEngine;
 import net.certiv.spellchecker.engine.ISpellChecker;
 
-public class MkSpellingEngine extends TextSpellingEngine {
+public class SpellingEngine extends TextSpellingEngine {
 
-	public static final String ID = "net.certiv.fluentmark.spelling.MkSpellingEngine";
+	public static final String ID = "net.certiv.fluentmark.spell.SpellingEngine";
 
-	public MkSpellingEngine() {
-		super(FluentMkUI.getDefault().getPreferenceStore());
+	public SpellingEngine() {
+		super(FluentUI.getDefault().getPreferenceStore());
 	}
 
 	/**

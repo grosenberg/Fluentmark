@@ -27,7 +27,7 @@
    <extension
          point="org.eclipse.core.filebuffers.documentSetup">
       <participant
-            class="net.certiv.fluentmark.editor.FluentMkDocumentSetupParticipant"
+            class="net.certiv.fluentmark.editor.FluentDocumentSetupParticipant"
             extensions="md,mdown,mkd,text">
       </participant>
    </extension>
@@ -35,8 +35,8 @@
    <extension
          point="org.eclipse.ui.editors">
       <editor
-            class="net.certiv.fluentmark.editor.FluentMkEditor"
-            contributorClass="net.certiv.fluentmark.editor.FluentMkActionBarContributor"
+            class="net.certiv.fluentmark.editor.FluentEditor"
+            contributorClass="net.certiv.fluentmark.editor.FluentActionBarContributor"
             default="true"
             icon="icons/obj16/fluentmark_doc.png"
             id="net.certiv.fluentmark.editor.FluentMkEditor"
@@ -68,7 +68,7 @@
    <extension
          point="org.eclipse.ui.workbench.texteditor.spellingEngine">
       <engine
-            class="net.certiv.fluentmark.spelling.MkSpellingEngine"
+            class="net.certiv.fluentmark.spell.SpellingEngine"
             default="true"
             id="net.certiv.fluentmark.spelling.MkSpellingEngine"
             label="FluentMark spelling engine">
@@ -80,7 +80,7 @@
       <view
             allowMultiple="false"
             category="net.certiv.certivtools"
-            class="net.certiv.fluentmark.views.FluentMkPreview"
+            class="net.certiv.fluentmark.views.FluentPreview"
             icon="icons/obj16/fluentmark_doc.png"
             id="net.certiv.fluentmark.views.FluentMkPreview"
             name="FluentMark View"
@@ -482,7 +482,7 @@
          point="org.eclipse.ui.newWizards">
       <wizard
             category="net.certiv.certivtools.wizards"
-            class="net.certiv.fluentmark.wizards.FluentMkNewWizard"
+            class="net.certiv.fluentmark.wizards.FluentNewWizard"
             icon="icons/obj16/fluentmark_doc.png"
             id="net.certiv.fluentmark.wizards.FluentMkNewWizard"
             name="FluentMark file">

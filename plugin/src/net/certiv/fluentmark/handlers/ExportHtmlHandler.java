@@ -24,9 +24,9 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.handlers.HandlerUtil;
 
-import net.certiv.fluentmark.FluentMkUI;
+import net.certiv.fluentmark.FluentUI;
 import net.certiv.fluentmark.convert.Kind;
-import net.certiv.fluentmark.editor.FluentMkEditor;
+import net.certiv.fluentmark.editor.FluentEditor;
 import net.certiv.fluentmark.preferences.Prefs;
 import net.certiv.fluentmark.util.FileUtils;
 
@@ -38,7 +38,7 @@ public class ExportHtmlHandler extends AbstractHandler {
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		FluentMkEditor editor = (FluentMkEditor) HandlerUtil.getActiveEditor(event);
+		FluentEditor editor = (FluentEditor) HandlerUtil.getActiveEditor(event);
 		Shell shell = HandlerUtil.getActiveShell(event);
 
 		IEditorInput input = editor.getEditorInput();
@@ -60,13 +60,13 @@ public class ExportHtmlHandler extends AbstractHandler {
 				FileUtils.write(new File(pathname), html);
 			}
 
-			if (FluentMkUI.getDefault().getPreferenceStore().getBoolean(Prefs.EDITOR_HTML_OPEN)) {
+			if (FluentUI.getDefault().getPreferenceStore().getBoolean(Prefs.EDITOR_HTML_OPEN)) {
 				if (Desktop.isDesktopSupported()) {
 					try {
 						Desktop.getDesktop().open(new File(pathname));
 					} catch (Exception e) {
 						String msg = "Cannot open " + pathname + " (" + e.getMessage() + ")";
-						return new Status(IStatus.ERROR, FluentMkUI.PLUGIN_ID, msg);
+						return new Status(IStatus.ERROR, FluentUI.PLUGIN_ID, msg);
 					}
 				}
 			}

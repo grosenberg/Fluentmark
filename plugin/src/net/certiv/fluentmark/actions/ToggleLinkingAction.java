@@ -9,9 +9,9 @@ package net.certiv.fluentmark.actions;
 
 import org.eclipse.jface.action.Action;
 
-import net.certiv.fluentmark.FluentMkUI;
+import net.certiv.fluentmark.FluentUI;
 import net.certiv.fluentmark.FluentMkImages;
-import net.certiv.fluentmark.editor.FluentMkEditor;
+import net.certiv.fluentmark.editor.FluentEditor;
 import net.certiv.fluentmark.preferences.Prefs;
 
 /**
@@ -19,15 +19,15 @@ import net.certiv.fluentmark.preferences.Prefs;
  */
 public class ToggleLinkingAction extends Action {
 
-	private FluentMkEditor editor;
+	private FluentEditor editor;
 
-	public ToggleLinkingAction(FluentMkEditor editor) {
+	public ToggleLinkingAction(FluentEditor editor) {
 		super(ActionMessages.getString(ActionMessages.ToggleLinkingAction_label));
 		this.editor = editor;
 
 		setDescription(ActionMessages.getString(ActionMessages.ToggleLinkingAction_description));
 		setToolTipText(ActionMessages.getString(ActionMessages.ToggleLinkingAction_tooltip));
-		FluentMkUI.getDefault().getImageProvider().setImageDescriptors(this, FluentMkImages.OBJ, FluentMkImages.IMG_MENU_SYNC);
+		FluentUI.getDefault().getImageProvider().setImageDescriptors(this, FluentMkImages.OBJ, FluentMkImages.IMG_MENU_SYNC);
 
 		boolean isLinkingEnabled = editor.getPrefsStore().getBoolean(Prefs.EDITOR_OUTLINE_SYNC_ON_CURSOR_MOVE);
 		setChecked(isLinkingEnabled);

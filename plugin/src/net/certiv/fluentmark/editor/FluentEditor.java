@@ -77,7 +77,7 @@ import org.eclipse.ui.texteditor.IDocumentProvider;
 import org.eclipse.ui.texteditor.ITextEditorActionConstants;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 
-import net.certiv.fluentmark.FluentMkUI;
+import net.certiv.fluentmark.FluentUI;
 import net.certiv.fluentmark.convert.Converter;
 import net.certiv.fluentmark.convert.HtmlGen;
 import net.certiv.fluentmark.convert.Kind;
@@ -88,7 +88,7 @@ import net.certiv.fluentmark.editor.text.SmartBackspaceManager;
 import net.certiv.fluentmark.model.ISourceRange;
 import net.certiv.fluentmark.model.PagePart;
 import net.certiv.fluentmark.model.PageRoot;
-import net.certiv.fluentmark.outline.MkOutlinePage;
+import net.certiv.fluentmark.outline.FluentOutlinePage;
 import net.certiv.fluentmark.outline.operations.AbstractDocumentCommand;
 import net.certiv.fluentmark.outline.operations.CommandManager;
 import net.certiv.fluentmark.preferences.Prefs;
@@ -98,23 +98,23 @@ import net.certiv.fluentmark.util.Strings;
 /**
  * Text editor with markdown support.
  */
-public class FluentMkEditor extends TextEditor
+public class FluentEditor extends TextEditor
 		implements CommandManager, IShowInTarget, IShowInSource, IReconcilingListener {
 
-	public static final String ID = "net.certiv.fluentmark.editor.FluentMkEditor";
+	public static final String ID = "net.certiv.fluentmark.editor.FluentEditor";
 
 	// Updates the DslOutline pageModel selection and this editor's range indicator.
 	private class EditorSelectionChangedListener extends AbstractSelectionChangedListener {
 
 		@Override
 		public void selectionChanged(SelectionChangedEvent event) {
-			FluentMkEditor.this.selectionChanged();
+			FluentEditor.this.selectionChanged();
 		}
 	}
 
-	private FluentMkSourceViewer viewer;
-	private MkOutlinePage outlinePage;
-	private FluentMkTextTools tools;
+	private FluentSourceViewer viewer;
+	private FluentOutlinePage outlinePage;
+	private FluentTextTools tools;
 	private IColorManager colorManager;
 	private Converter converter;
 	private PageRoot pageModel;
@@ -132,7 +132,7 @@ public class FluentMkEditor extends TextEditor
 	private boolean disableSelResponse;
 	private HtmlGen htmlGen;
 
-	public FluentMkEditor() {
+	public FluentEditor() {
 		super();
 	}
 
@@ -151,8 +151,8 @@ public class FluentMkEditor extends TextEditor
 		super.initializeEditor();
 		createListeners();
 		initEditorPreferenceStore();
-		colorManager = FluentMkUI.getDefault().getColorMgr();
-		tools = FluentMkUI.getDefault().getTextTools();
+		colorManager = FluentUI.getDefault().getColorMgr();
+		tools = FluentUI.getDefault().getTextTools();
 		SourceViewerConfiguration config = tools.createSourceViewerConfiguraton(getPreferenceStore(), this);
 		setSourceViewerConfiguration(config);
 		setDocumentProvider(getDocumentProvider());
@@ -202,7 +202,7 @@ public class FluentMkEditor extends TextEditor
 
 		connectPartitioningToElement(input, doc);
 
-		FluentMkSourceViewer sourceViewer = (FluentMkSourceViewer) getSourceViewer();
+		FluentSourceViewer sourceViewer = (FluentSourceViewer) getSourceViewer();
 		if (sourceViewer != null && sourceViewer.getReconciler() == null) {
 			IReconciler reconciler = getSourceViewerConfiguration().getReconciler(sourceViewer);
 			if (reconciler != null) {
@@ -225,7 +225,7 @@ public class FluentMkEditor extends TextEditor
 		if (document instanceof IDocumentExtension3) {
 			IDocumentExtension3 extension = (IDocumentExtension3) document;
 			if (extension.getDocumentPartitioner(Partitions.MK_PARTITIONING) == null) {
-				FluentMkDocumentSetupParticipant participant = new FluentMkDocumentSetupParticipant(tools);
+				FluentDocumentSetupParticipant participant = new FluentDocumentSetupParticipant(tools);
 				participant.setup(document);
 			}
 		}
@@ -258,7 +258,7 @@ public class FluentMkEditor extends TextEditor
 		GridDataFactory.fillDefaults().grab(true, true).applyTo(editorComposite);
 		editorComposite.setLayout(new FillLayout(SWT.VERTICAL));
 
-		viewer = new FluentMkSourceViewer(editorComposite, ruler, getOverviewRuler(), isOverviewRulerVisible(), styles,
+		viewer = new FluentSourceViewer(editorComposite, ruler, getOverviewRuler(), isOverviewRulerVisible(), styles,
 				getPreferenceStore());
 		if (isFoldingEnabled() && !getPreferenceStore().getBoolean(Prefs.EDITOR_SHOW_SEGMENTS)) {
 			viewer.prepareDelayedProjection();
@@ -273,7 +273,7 @@ public class FluentMkEditor extends TextEditor
 			@Override
 			public IInformationControl createInformationControl(Shell shell) {
 				String statusFieldText = EditorsUI.getTooltipAffordanceString();
-				return new FluentMkSourceViewerInfoControl(shell, false, getOrientation(), statusFieldText);
+				return new FluentSourceViewerInfoControl(shell, false, getOrientation(), statusFieldText);
 			}
 		});
 		projectionSupport.install();
@@ -308,8 +308,8 @@ public class FluentMkEditor extends TextEditor
 	@Override
 	protected boolean affectsTextPresentation(PropertyChangeEvent event) {
 		SourceViewerConfiguration configuration = getSourceViewerConfiguration();
-		if (configuration instanceof FluentMkSourceViewerConfiguration) {
-			return ((FluentMkSourceViewerConfiguration) configuration).affectsTextPresentation(event);
+		if (configuration instanceof FluentSourceViewerConfiguration) {
+			return ((FluentSourceViewerConfiguration) configuration).affectsTextPresentation(event);
 		}
 		return false;
 	}
@@ -344,10 +344,10 @@ public class FluentMkEditor extends TextEditor
 
 	/**
 	 * Initializes the preference store for this editor. The constucted store represents the combined
-	 * values of the FluentMkUI, EditorsUI, and PlatformUI stores.
+	 * values of the FluentUI, EditorsUI, and PlatformUI stores.
 	 */
 	private void initEditorPreferenceStore() {
-		IPreferenceStore store = FluentMkUI.getDefault().getCombinedPreferenceStore();
+		IPreferenceStore store = FluentUI.getDefault().getCombinedPreferenceStore();
 		store.addPropertyChangeListener(prefChangeListener);
 		setPreferenceStore(store);
 	}
@@ -370,8 +370,8 @@ public class FluentMkEditor extends TextEditor
 		}
 	}
 
-	private MkOutlinePage createOutlinePage() {
-		final MkOutlinePage page = new MkOutlinePage(this, getPreferenceStore());
+	private FluentOutlinePage createOutlinePage() {
+		final FluentOutlinePage page = new FluentOutlinePage(this, getPreferenceStore());
 		setOutlinePageInput(page, getEditorInput());
 		return page;
 	}
@@ -390,7 +390,7 @@ public class FluentMkEditor extends TextEditor
 		}
 	}
 
-	private void setOutlinePageInput(MkOutlinePage page, IEditorInput input) {
+	private void setOutlinePageInput(FluentOutlinePage page, IEditorInput input) {
 		if (page == null) return;
 		PageRoot model = PageRoot.MODEL;
 		if (model != null) {
@@ -411,7 +411,7 @@ public class FluentMkEditor extends TextEditor
 		String property = event.getProperty();
 		try {
 			SourceViewerConfiguration config = getSourceViewerConfiguration();
-			if (config != null) ((FluentMkSourceViewerConfiguration) config).handlePropertyChangeEvent(event);
+			if (config != null) ((FluentSourceViewerConfiguration) config).handlePropertyChangeEvent(event);
 
 			if (Prefs.EDITOR_TAB_WIDTH.equals(property)) {
 				StyledText textWidget = getViewer().getTextWidget();
@@ -454,8 +454,8 @@ public class FluentMkEditor extends TextEditor
 			return (T) outlinePage;
 		}
 		if (SmartBackspaceManager.class.equals(target)) {
-			if (getSourceViewer() instanceof FluentMkSourceViewer) {
-				return (T) ((FluentMkSourceViewer) getSourceViewer()).getBackspaceManager();
+			if (getSourceViewer() instanceof FluentSourceViewer) {
+				return (T) ((FluentSourceViewer) getSourceViewer()).getBackspaceManager();
 			}
 		}
 		if (PagePart.class.equals(target)) {
@@ -484,6 +484,15 @@ public class FluentMkEditor extends TextEditor
 		IEditorInput input = getEditorInput();
 		IDocumentProvider docProvider = getDocumentProvider();
 		return docProvider == null ? null : docProvider.getDocument(input);
+	}
+
+	public FluentEditor ensureLastLineBlank() {
+		IDocument doc = getDocument();
+		String text = doc.get();
+		if (!text.endsWith(Strings.EOL)) {
+			doc.set(text + Strings.EOL);
+		}
+		return this;
 	}
 
 	public String getLineDelimiter() {
@@ -764,7 +773,7 @@ public class FluentMkEditor extends TextEditor
 	protected void installSemanticHighlighting() {
 		// if (semanticManager == null) {
 		// semanticManager = new SemanticHighlightingManager();
-		// semanticManager.install(this, (FluentMkSourceViewer) getSourceViewer(), colorManager,
+		// semanticManager.install(this, (FluentSourceViewer) getSourceViewer(), colorManager,
 		// getPreferenceStore());
 		// }
 	}

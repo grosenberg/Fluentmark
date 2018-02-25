@@ -22,20 +22,20 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.part.ViewPart;
 
-import net.certiv.fluentmark.FluentMkUI;
-import net.certiv.fluentmark.editor.FluentMkEditor;
+import net.certiv.fluentmark.FluentUI;
+import net.certiv.fluentmark.editor.FluentEditor;
 import net.certiv.fluentmark.preferences.Prefs;
 import net.certiv.fluentmark.util.PartListener;
 
-public class FluentMkPreview extends ViewPart implements PartListener, ITextListener, IPropertyChangeListener, Prefs {
+public class FluentPreview extends ViewPart implements PartListener, ITextListener, IPropertyChangeListener, Prefs {
 
-	public static final String ID = "net.certiv.fluentmark.views.FluentMkPreview";
+	public static final String ID = "net.certiv.fluentmark.views.FluentPreview";
 
-	private static FluentMkPreview viewpart;
+	private static FluentPreview viewpart;
 	private Browser browser;
 	private ViewJob viewjob;
 
-	public FluentMkPreview() {
+	public FluentPreview() {
 		viewpart = this;
 	}
 
@@ -55,8 +55,8 @@ public class FluentMkPreview extends ViewPart implements PartListener, ITextList
 	// view opened
 	@Override
 	public void partActivated(IWorkbenchPart part) {
-		if (part instanceof FluentMkEditor) {
-			((FluentMkEditor) part).getViewer().addTextListener(this);
+		if (part instanceof FluentEditor) {
+			((FluentEditor) part).getViewer().addTextListener(this);
 			viewjob.update();
 		}
 	}
@@ -64,7 +64,7 @@ public class FluentMkPreview extends ViewPart implements PartListener, ITextList
 	// view closed
 	@Override
 	public void partClosed(IWorkbenchPart part) {
-		if (part instanceof FluentMkEditor) {
+		if (part instanceof FluentEditor) {
 			try { // exception when workbench close closes the editor
 				getActivePage().hideView(viewpart);
 			} catch (Exception e) {}
@@ -114,22 +114,22 @@ public class FluentMkPreview extends ViewPart implements PartListener, ITextList
 		return getSite().getWorkbenchWindow().getActivePage();
 	}
 
-	protected FluentMkEditor getEditor() {
+	protected FluentEditor getEditor() {
 		IEditorPart editor = getActivePage().getActiveEditor();
-		if (editor != null && editor instanceof FluentMkEditor) {
-			return (FluentMkEditor) editor;
+		if (editor != null && editor instanceof FluentEditor) {
+			return (FluentEditor) editor;
 		}
 		return null;
 	}
 
 	protected ISourceViewer getSourceViewer() {
-		FluentMkEditor editor = getEditor();
+		FluentEditor editor = getEditor();
 		if (editor == null) return null;
 		return editor.getViewer();
 	}
 
 	protected IPreferenceStore getPreferenceStore() {
-		return FluentMkUI.getDefault().getPreferenceStore();
+		return FluentUI.getDefault().getPreferenceStore();
 	}
 
 	@Override

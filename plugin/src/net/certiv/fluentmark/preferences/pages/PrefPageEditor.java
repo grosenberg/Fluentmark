@@ -14,7 +14,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IWorkbench;
 
-import net.certiv.fluentmark.FluentMkUI;
+import net.certiv.fluentmark.FluentUI;
 import net.certiv.fluentmark.preferences.BaseFieldEditorPreferencePage;
 import net.certiv.fluentmark.preferences.Prefs;
 import net.certiv.fluentmark.util.SwtUtil;
@@ -32,7 +32,7 @@ public class PrefPageEditor extends BaseFieldEditorPreferencePage implements Pre
 
 	@Override
 	public void init(IWorkbench workbench) {
-		setPreferenceStore(FluentMkUI.getDefault().getPreferenceStore());
+		setPreferenceStore(FluentUI.getDefault().getPreferenceStore());
 	}
 
 	/** Create fields controlling editing assist behavior */

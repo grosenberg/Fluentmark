@@ -13,7 +13,7 @@ import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IUndoManager;
 
-import net.certiv.fluentmark.FluentMkUI;
+import net.certiv.fluentmark.FluentUI;
 
 public abstract class AbstractDocumentCommand {
 
@@ -31,7 +31,7 @@ public abstract class AbstractDocumentCommand {
 				undoManager.endCompoundChange();
 			}
 		} catch (BadLocationException e) {
-			throw new CoreException(FluentMkUI.getDefault().createStatus(IStatus.ERROR, e));
+			throw new CoreException(FluentUI.getDefault().createStatus(IStatus.ERROR, e));
 		}
 	}
 

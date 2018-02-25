@@ -23,7 +23,7 @@ import com.github.rjeschke.txtmark.Configuration;
 import com.github.rjeschke.txtmark.Configuration.Builder;
 import com.github.rjeschke.txtmark.Processor;
 
-import net.certiv.fluentmark.FluentMkUI;
+import net.certiv.fluentmark.FluentUI;
 import net.certiv.fluentmark.preferences.Prefs;
 import net.certiv.fluentmark.preferences.pages.PrefPageEditor;
 import net.certiv.fluentmark.util.Cmd;
@@ -37,7 +37,7 @@ public class Converter {
 
 	public Converter() {
 		super();
-		store = FluentMkUI.getDefault().getPreferenceStore();
+		store = FluentUI.getDefault().getPreferenceStore();
 	}
 
 	public boolean useMathJax() {

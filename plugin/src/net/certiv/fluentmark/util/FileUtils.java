@@ -36,7 +36,7 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.URIUtil;
 import org.osgi.framework.Bundle;
 
-import net.certiv.fluentmark.FluentMkUI;
+import net.certiv.fluentmark.FluentUI;
 import net.certiv.fluentmark.Log;
 
 public final class FileUtils {
@@ -82,7 +82,7 @@ public final class FileUtils {
 	 * @return null if not found.
 	 */
 	public static String fromBundle(String pathname) {
-		Bundle bundle = Platform.getBundle(FluentMkUI.PLUGIN_ID);
+		Bundle bundle = Platform.getBundle(FluentUI.PLUGIN_ID);
 		URL url = bundle.getEntry(pathname);
 		if (url == null) return null;
 		try {
@@ -233,6 +233,6 @@ public final class FileUtils {
 	}
 
 	private static File getTemplateStateFile() {
-		return FluentMkUI.getDefault().getStateLocation().append("TemplateMap.xml").toFile();
+		return FluentUI.getDefault().getStateLocation().append("TemplateMap.xml").toFile();
 	}
 }

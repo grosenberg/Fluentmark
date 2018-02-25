@@ -10,7 +10,7 @@ package net.certiv.fluentmark.preferences.pages;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
-import net.certiv.fluentmark.FluentMkUI;
+import net.certiv.fluentmark.FluentUI;
 import net.certiv.fluentmark.preferences.AbstractConfigurationBlockPreferencePage;
 import net.certiv.fluentmark.preferences.IPreferenceConfigurationBlock;
 import net.certiv.fluentmark.preferences.OverlayPreferenceStore;
@@ -37,7 +37,7 @@ public class PrefPageAppearance extends AbstractConfigurationBlockPreferencePage
 
 	@Override
 	protected void setPreferenceStore() {
-		setPreferenceStore(FluentMkUI.getDefault().getPreferenceStore());
+		setPreferenceStore(FluentUI.getDefault().getPreferenceStore());
 	}
 
 	@Override

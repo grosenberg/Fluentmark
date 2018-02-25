@@ -19,7 +19,7 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.handlers.HandlerUtil;
 
 import net.certiv.fluentmark.Log;
-import net.certiv.fluentmark.views.FluentMkPreview;
+import net.certiv.fluentmark.views.FluentPreview;
 
 public class OpenMdViewHandler extends AbstractHandler {
 
@@ -27,8 +27,8 @@ public class OpenMdViewHandler extends AbstractHandler {
 	public Object execute(final ExecutionEvent event) throws ExecutionException {
 		try {
 			IWorkbenchPage activePage = HandlerUtil.getActiveWorkbenchWindow(event).getActivePage();
-			IViewPart mdView = activePage.showView(FluentMkPreview.ID);
-			FluentMkPreview preview = (FluentMkPreview) mdView;
+			IViewPart mdView = activePage.showView(FluentPreview.ID);
+			FluentPreview preview = (FluentPreview) mdView;
 			activePage.activate(preview);
 		} catch (PartInitException e) {
 			showError(e);
@@ -38,7 +38,7 @@ public class OpenMdViewHandler extends AbstractHandler {
 
 	private void showError(Exception e) {
 		String title = "Exception while opening Markdown Preview";
-		String message = title + " (" + FluentMkPreview.ID + ")";
+		String message = title + " (" + FluentPreview.ID + ")";
 		Log.error(message, e);
 
 		Shell shell = Display.getDefault().getActiveShell();

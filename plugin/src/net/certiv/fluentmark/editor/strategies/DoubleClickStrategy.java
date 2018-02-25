@@ -21,7 +21,7 @@ import org.eclipse.ui.progress.UIJob;
 import org.eclipse.ui.texteditor.ITextEditor;
 
 import net.certiv.fluentmark.Log;
-import net.certiv.fluentmark.editor.FluentMkEditor;
+import net.certiv.fluentmark.editor.FluentEditor;
 import net.certiv.fluentmark.model.ISourceRange;
 import net.certiv.fluentmark.model.Type;
 import net.certiv.fluentmark.model.PagePart;
@@ -30,11 +30,11 @@ import net.certiv.fluentmark.tables.TableDialog;
 
 public class DoubleClickStrategy extends DefaultTextDoubleClickStrategy {
 
-	private FluentMkEditor editor;
+	private FluentEditor editor;
 
 	public DoubleClickStrategy(ITextEditor editor) {
 		super();
-		this.editor = (FluentMkEditor) editor;
+		this.editor = (FluentEditor) editor;
 	}
 
 	@Override

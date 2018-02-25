@@ -14,15 +14,15 @@ import org.eclipse.core.commands.IHandler;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.handlers.HandlerUtil;
 
-import net.certiv.fluentmark.views.FluentMkPreview;
+import net.certiv.fluentmark.views.FluentPreview;
 
 public class RefreshViewHandler extends AbstractHandler implements IHandler {
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		IWorkbenchPart part = HandlerUtil.getActivePart(event);
-		if (part instanceof FluentMkPreview) {
-			FluentMkPreview view = (FluentMkPreview) part;
+		if (part instanceof FluentPreview) {
+			FluentPreview view = (FluentPreview) part;
 			view.trigger();
 		}
 		return null;

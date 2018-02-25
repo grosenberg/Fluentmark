@@ -20,8 +20,8 @@ import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.ui.texteditor.spelling.SpellingReconcileStrategy;
 import org.eclipse.ui.texteditor.spelling.SpellingService;
 
-import net.certiv.fluentmark.FluentMkUI;
-import net.certiv.fluentmark.editor.FluentMkEditor;
+import net.certiv.fluentmark.FluentUI;
+import net.certiv.fluentmark.editor.FluentEditor;
 import net.certiv.fluentmark.editor.IProblemRequestorExtension;
 import net.certiv.fluentmark.preferences.Prefs;
 
@@ -44,7 +44,7 @@ public class MkReconcilingStrategy extends CompositeReconcilingStrategy {
 	public MkReconcilingStrategy(ISourceViewer viewer, ITextEditor editor, String documentPartitioning) {
 		this.viewer = viewer;
 		this.editor = editor;
-		this.store = FluentMkUI.getDefault().getPreferenceStore();
+		this.store = FluentUI.getDefault().getPreferenceStore();
 		setReconcilingStrategies(getReconcilingStrategies());
 
 		// TODO: figure out how to dispose
@@ -111,7 +111,7 @@ public class MkReconcilingStrategy extends CompositeReconcilingStrategy {
 				doReconcile(dirty, partition);
 			}
 		} finally {
-			((FluentMkEditor) editor).reconciled();
+			((FluentEditor) editor).reconciled();
 		}
 	}
 

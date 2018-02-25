@@ -39,7 +39,7 @@ import org.eclipse.ui.texteditor.ITextEditor;
 import net.certiv.fluentmark.editor.DocumentCharacterIterator;
 import net.certiv.fluentmark.editor.IReconcilingListener;
 import net.certiv.fluentmark.editor.ISourceReference;
-import net.certiv.fluentmark.editor.FluentMkEditor;
+import net.certiv.fluentmark.editor.FluentEditor;
 import net.certiv.fluentmark.editor.Partitions;
 import net.certiv.fluentmark.model.ISourceRange;
 import net.certiv.fluentmark.model.SourceRange;
@@ -358,7 +358,7 @@ public class FoldingStructureProvider implements IFoldingStructureProvider {
 	}
 
 	/* context and listeners */
-	private FluentMkEditor fEditor;
+	private FluentEditor fEditor;
 	private ProjectionListener fProjectionListener;
 	protected IEditorInput fInput;
 
@@ -387,8 +387,8 @@ public class FoldingStructureProvider implements IFoldingStructureProvider {
 		internalUninstall();
 		fStore = store;
 
-		if (editor instanceof FluentMkEditor) {
-			fEditor = (FluentMkEditor) editor;
+		if (editor instanceof FluentEditor) {
+			fEditor = (FluentEditor) editor;
 			fProjectionListener = new ProjectionListener(viewer);
 		}
 	}

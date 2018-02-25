@@ -63,13 +63,13 @@ import org.eclipse.ui.part.IShowInTarget;
 import org.eclipse.ui.part.ShowInContext;
 import org.eclipse.ui.views.contentoutline.ContentOutlinePage;
 
-import net.certiv.fluentmark.FluentMkUI;
+import net.certiv.fluentmark.FluentUI;
 import net.certiv.fluentmark.actions.CollapseAllAction;
 import net.certiv.fluentmark.actions.CompositeActionGroup;
 import net.certiv.fluentmark.actions.ExpandAllAction;
 import net.certiv.fluentmark.actions.OpenViewActionGroup;
 import net.certiv.fluentmark.actions.ToggleLinkingAction;
-import net.certiv.fluentmark.editor.FluentMkEditor;
+import net.certiv.fluentmark.editor.FluentEditor;
 import net.certiv.fluentmark.editor.ISourceReference;
 import net.certiv.fluentmark.model.ElementChangedEvent;
 import net.certiv.fluentmark.model.IElement;
@@ -84,9 +84,9 @@ import net.certiv.fluentmark.preferences.Prefs;
 
 /**
  * The content outline page of the Fluent editor. Publishes its context menu under
- * <code>FluentMkUI.getDefault().getPluginId() + ".outline"</code>.
+ * <code>FluentUI.getDefault().getPluginId() + ".outline"</code>.
  */
-public class MkOutlinePage extends ContentOutlinePage implements IShowInSource, IShowInTarget {
+public class FluentOutlinePage extends ContentOutlinePage implements IShowInSource, IShowInTarget {
 
 	/**
 	 * Content provider for the children of a PageRoot
@@ -123,7 +123,7 @@ public class MkOutlinePage extends ContentOutlinePage implements IShowInSource, 
 				IParent p = (IParent) parent;
 				return filter(p.getChildren());
 			}
-			return MkOutlinePage.NO_CHILDREN;
+			return FluentOutlinePage.NO_CHILDREN;
 		}
 
 		@Override
@@ -184,7 +184,7 @@ public class MkOutlinePage extends ContentOutlinePage implements IShowInSource, 
 					@Override
 					public void run() {
 						if (viewer != null) {
-							MkOutlinePage.this.setInput((PageRoot) e.getDelta());
+							FluentOutlinePage.this.setInput((PageRoot) e.getDelta());
 						}
 					}
 				});
@@ -285,7 +285,7 @@ public class MkOutlinePage extends ContentOutlinePage implements IShowInSource, 
 	private Menu menu;
 	protected OutlineViewer viewer;
 
-	private FluentMkEditor editor;
+	private FluentEditor editor;
 	protected IPreferenceStore store;
 
 	private IPropertyChangeListener fPropertyChangeListener;
@@ -295,7 +295,7 @@ public class MkOutlinePage extends ContentOutlinePage implements IShowInSource, 
 	private Hashtable<String, Action> actions = new Hashtable<>();
 	private DndConfigurationStrategy dndStrategy;
 
-	public MkOutlinePage(FluentMkEditor editor, IPreferenceStore store) {
+	public FluentOutlinePage(FluentEditor editor, IPreferenceStore store) {
 		super();
 		Assert.isNotNull(editor);
 		this.editor = editor;
@@ -312,7 +312,7 @@ public class MkOutlinePage extends ContentOutlinePage implements IShowInSource, 
 		this.store.addPropertyChangeListener(fPropertyChangeListener);
 	}
 
-	public FluentMkEditor getEditor() {
+	public FluentEditor getEditor() {
 		return editor;
 	}
 
@@ -321,7 +321,7 @@ public class MkOutlinePage extends ContentOutlinePage implements IShowInSource, 
 		Tree tree = new Tree(parent, SWT.MULTI);
 		viewer = new OutlineViewer(tree);
 		viewer.setContentProvider(new ChildrenProvider());
-		viewer.setLabelProvider(new MkOutlineLabelProvider());
+		viewer.setLabelProvider(new FluentOutlineLabelProvider());
 		viewer.setInput(input);
 
 		viewer.addOpenListener(new IOpenListener() {
@@ -349,7 +349,7 @@ public class MkOutlinePage extends ContentOutlinePage implements IShowInSource, 
 	}
 
 	private void createActionControls(Tree tree) {
-		String outlineId = FluentMkUI.PLUGIN_ID + ".outline";
+		String outlineId = FluentUI.PLUGIN_ID + ".outline";
 		MenuManager menuMgr = new MenuManager(outlineId, outlineId);
 		menuMgr.setRemoveAllWhenShown(true);
 		menuMgr.addMenuListener(new IMenuListener() {

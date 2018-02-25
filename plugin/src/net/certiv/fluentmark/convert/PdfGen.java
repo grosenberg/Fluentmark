@@ -25,7 +25,7 @@ import org.eclipse.text.edits.MultiTextEdit;
 import org.eclipse.text.edits.ReplaceEdit;
 import org.eclipse.text.edits.TextEdit;
 
-import net.certiv.fluentmark.FluentMkUI;
+import net.certiv.fluentmark.FluentUI;
 import net.certiv.fluentmark.Log;
 import net.certiv.fluentmark.model.ISourceRange;
 import net.certiv.fluentmark.model.PagePart;
@@ -93,7 +93,7 @@ public class PdfGen {
 					}
 
 					// open the converted document
-					if (FluentMkUI.getDefault().getPreferenceStore().getBoolean(Prefs.EDITOR_PDF_OPEN)) {
+					if (FluentUI.getDefault().getPreferenceStore().getBoolean(Prefs.EDITOR_PDF_OPEN)) {
 						if (Desktop.isDesktopSupported()) {
 							try {
 								Desktop.getDesktop().open(out);
@@ -175,7 +175,7 @@ public class PdfGen {
 	}
 
 	public static String convert(String base, String template, String content, File out) {
-		IPreferenceStore store = FluentMkUI.getDefault().getPreferenceStore();
+		IPreferenceStore store = FluentUI.getDefault().getPreferenceStore();
 		List<String> ops = new ArrayList<>();
 
 		String cmd = store.getString(Prefs.EDITOR_PANDOC_PROGRAM);
@@ -222,7 +222,7 @@ public class PdfGen {
 	}
 
 	protected static boolean dot2pdf(File tmpfile, String data) {
-		String cmd = FluentMkUI.getDefault().getPreferenceStore().getString(Prefs.EDITOR_DOT_PROGRAM);
+		String cmd = FluentUI.getDefault().getPreferenceStore().getString(Prefs.EDITOR_DOT_PROGRAM);
 		if (cmd.trim().isEmpty() || data.trim().isEmpty()) return false;
 
 		// generate a new value by executing dot
@@ -244,6 +244,6 @@ public class PdfGen {
 	}
 
 	private static IStatus makeStatus(int type, String msg) {
-		return new Status(type, FluentMkUI.PLUGIN_ID, msg);
+		return new Status(type, FluentUI.PLUGIN_ID, msg);
 	}
 }

@@ -19,8 +19,8 @@ import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.text.edits.DeleteEdit;
 import org.eclipse.ui.texteditor.ITextEditor;
 
-import net.certiv.fluentmark.FluentMkUI;
-import net.certiv.fluentmark.editor.FluentMkEditor;
+import net.certiv.fluentmark.FluentUI;
+import net.certiv.fluentmark.editor.FluentEditor;
 import net.certiv.fluentmark.model.Type;
 import net.certiv.fluentmark.model.PagePart;
 import net.certiv.fluentmark.model.PageRoot;
@@ -32,11 +32,11 @@ import net.certiv.fluentmark.preferences.Prefs;
 public class LineWrapEditStrategy implements IAutoEditStrategy {
 
 	private int limit; 	// Maximum line length
-	private FluentMkEditor editor;
+	private FluentEditor editor;
 
 	public LineWrapEditStrategy(ITextEditor editor) {
-		this.editor = (FluentMkEditor) editor;;
-		IPreferenceStore store = FluentMkUI.getDefault().getPreferenceStore();
+		this.editor = (FluentEditor) editor;;
+		IPreferenceStore store = FluentUI.getDefault().getPreferenceStore();
 		store.addPropertyChangeListener(new IPropertyChangeListener() {
 
 			@Override
