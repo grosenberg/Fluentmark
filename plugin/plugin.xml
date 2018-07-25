@@ -12,6 +12,7 @@
 			</with>
       </definition>
    </extension>
+   
    <extension
          point="org.eclipse.core.contenttype.contentTypes">
       <content-type

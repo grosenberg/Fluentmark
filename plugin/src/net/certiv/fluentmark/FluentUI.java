@@ -51,7 +51,7 @@ public class FluentUI extends AbstractUIPlugin {
 	private static FluentUI plugin;
 
 	private IPreferenceStore combinedStore;
-	private FluentMkImages fluentMkImages;
+	private FluentImages fluentImages;
 	private FormToolkit dialogsFormToolkit;
 	private ColorManager colorManager;
 	private FluentTextTools fluentTextTools;
@@ -64,7 +64,7 @@ public class FluentUI extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
-		fluentMkImages = new FluentMkImages(context.getBundle(), this);
+		fluentImages = new FluentImages(context.getBundle(), this);
 
 		// ISaveParticipant saveParticipant = new MyWorkspaceSaveParticipant();
 		// ISavedState lastState = ResourcesPlugin.getWorkspace().addSaveParticipant(PLUGIN_ID,
@@ -133,16 +133,16 @@ public class FluentUI extends AbstractUIPlugin {
 	}
 
 	/** Returns the image provider */
-	public FluentMkImages getImageProvider() {
-		return fluentMkImages;
+	public FluentImages getImageProvider() {
+		return fluentImages;
 	}
 
 	public static Image getImage(String key) {
-		return plugin.fluentMkImages.get(key);
+		return plugin.fluentImages.get(key);
 	}
 
 	public static ImageDescriptor getDescriptor(String key) {
-		return plugin.fluentMkImages.getDescriptor(key);
+		return plugin.fluentImages.getDescriptor(key);
 	}
 
 	/**

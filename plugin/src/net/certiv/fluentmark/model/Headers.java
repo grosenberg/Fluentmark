@@ -29,15 +29,18 @@ public class Headers {
 			this.level = computeLevel(line.text);
 		}
 
+		@Override
 		public String toString() {
 			return "level: " + level;
 		}
 	}
 
 	private Stack<Header> headers = new Stack<>();
+	private PageRoot root;
 
-	public Headers(PageRoot page) {
-		headers.push(new Header(page)); // header 0 is the PageRoot
+	public Headers(PageRoot root) {
+		this.root = root;
+		headers.push(new Header(root)); // header 0 is the PageRoot
 	}
 
 	public void putHeader(IParent current, Line line) {
@@ -67,9 +70,8 @@ public class Headers {
 	}
 
 	public void clear() {
-		while (headers.size() > 1) {
-			headers.pop();
-		}
+		headers.clear();
+		headers.push(new Header(root));
 	}
 
 	public void dispose() {

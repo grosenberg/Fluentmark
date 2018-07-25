@@ -20,7 +20,7 @@ import org.osgi.framework.Bundle;
 /**
  * Bundle of all images used by the Markdown plugin.
  */
-public class FluentMkImages {
+public class FluentImages {
 
 	public static final IPath ICONS_PATH = new Path("$nl$/icons"); //$NON-NLS-1$
 
@@ -88,9 +88,9 @@ public class FluentMkImages {
 
 	// ****************************************************************************************
 
-	public FluentMkImages(Bundle bundle, FluentUI plugin) {
-		FluentMkImages.bundle = bundle;
-		FluentMkImages.plugin = plugin;
+	public FluentImages(Bundle bundle, FluentUI plugin) {
+		FluentImages.bundle = bundle;
+		FluentImages.plugin = plugin;
 		init();
 	}
 
@@ -255,7 +255,7 @@ public class FluentMkImages {
 			URL url = new URL(bundle.getEntry("/"), "icons/");
 			return new URL(url, prefix + name);
 		} catch (MalformedURLException e) {
-			Log.error("FluentMkImages: Bad icon url", e);
+			Log.error("FluentImages: Bad icon url", e);
 			return null;
 		}
 	}

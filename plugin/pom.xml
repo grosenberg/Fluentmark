@@ -8,13 +8,13 @@
 	<parent>
 		<groupId>net.certiv.fluentmark</groupId>
 		<artifactId>fluentmark_parent</artifactId>
-		<version>1.1.1-SNAPSHOT</version>
+		<version>1.1.2-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>net.certiv.fluentmark</artifactId>
 	<packaging>eclipse-plugin</packaging>
 
-	<name>FluentMark Editor</name>
+	<name>FluentMark editor</name>
 	<description>Markdown Editor</description>
 
 	<properties>

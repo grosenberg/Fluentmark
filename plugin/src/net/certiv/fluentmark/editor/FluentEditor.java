@@ -99,7 +99,7 @@ import net.certiv.fluentmark.util.Strings;
  * Text editor with markdown support.
  */
 public class FluentEditor extends TextEditor
-		implements CommandManager, IShowInTarget, IShowInSource, IReconcilingListener {
+implements CommandManager, IShowInTarget, IShowInSource, IReconcilingListener {
 
 	public static final String ID = "net.certiv.fluentmark.editor.FluentEditor";
 
@@ -195,10 +195,10 @@ public class FluentEditor extends TextEditor
 		IDocument doc = getDocumentProvider().getDocument(input);
 
 		// check and correct line endings
-		String tmp = doc.get();
-		int hash = tmp.hashCode();
-		tmp = Strings.normalize(tmp);
-		if (hash != tmp.hashCode()) doc.set(tmp);
+		String text = doc.get();
+		int hash = text.hashCode();
+		text = Strings.normalize(text);
+		if (hash != text.hashCode()) doc.set(text);
 
 		connectPartitioningToElement(input, doc);
 
@@ -212,7 +212,7 @@ public class FluentEditor extends TextEditor
 		}
 
 		// Attach listener to new doc
-		getDocument().addDocumentListener(docListener);
+		doc.addDocumentListener(docListener);
 		installSemanticHighlighting();
 
 		// Initialize code folding
@@ -482,8 +482,8 @@ public class FluentEditor extends TextEditor
 
 	public IDocument getDocument() {
 		IEditorInput input = getEditorInput();
-		IDocumentProvider docProvider = getDocumentProvider();
-		return docProvider == null ? null : docProvider.getDocument(input);
+		IDocumentProvider provider = getDocumentProvider();
+		return provider == null ? null : provider.getDocument(input);
 	}
 
 	public FluentEditor ensureLastLineBlank() {
@@ -765,7 +765,7 @@ public class FluentEditor extends TextEditor
 			return;
 		}
 
-		List<IMarker> markers = new ArrayList<IMarker>(Arrays.asList(taskMarkers));
+		List<IMarker> markers = new ArrayList<>(Arrays.asList(taskMarkers));
 		getPageModel().markTaggedLines(markFile, tags, markers);
 
 	}

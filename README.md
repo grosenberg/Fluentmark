@@ -12,7 +12,7 @@ A full-featured Markdown editing environment for Eclipse.
       [MarkdownJ](https://github.com/myabc/markdownj), [PegDown](https://github.com/sirthias/pegdown) 
       and [TxtMark](https://github.com/rjeschke/txtmark)
 + Real-time preview
-    - smooth, fully reactively rendered HTML display
+    - smooth, fully reactively rendered HTML display, using [Vue.js](https://vuejs.org/)
     - stylesheet controlled presentation
         + multiple built-in stylesheets
         + user defined stylesheets can be selected from the filesystem
@@ -39,23 +39,27 @@ A full-featured Markdown editing environment for Eclipse.
 
 ## Install
 
-Requires Eclipse Oxygen+ JDK 1.8+.
+Requires Eclipse Photon & JDK 1.8+.
 
 **FluentMark** can be installed from the Certiv Tools update site at [www.certiv.net/updates](http://www.certiv.net/updates/).
 
 FluentMark _Preferences_ can then be found at `Window` => `Certiv Tools` => `FluentMark`  
 
-To use **Pandoc**: install [Pandoc](https://pandoc.org). Then, on the Converter preference 
+To use **Pandoc**
+: install [Pandoc](https://pandoc.org). Then, on the Converter preference 
 page, select Pandoc as the converter and select the `pandoc` executable from the 
 local filesystem.
 
-To use the **PDF** exporter: both *Pandoc* and a _LaTeX_ processor must be installed. 
+To use the **PDF** exporter
+: both *Pandoc* and a _LaTeX_ processor must be installed. 
 Pandoc recommends [*MikTeX*](https://miktex.org/).
 
-To create **DOT** generated graphics: install [Graphviz](http://www.graphviz.org/download.php). 
+To create **DOT** generated graphics
+: install [Graphviz](http://www.graphviz.org/download.php). 
 Then, on the Converter preference page, browse and select the `dot` executable. 
 
-To use **BlackFriday**: install the customized [blackfriday-tool](https://github.com/grosenberg/blackfriday-tool) 
+To use **BlackFriday**
+: install the customized [blackfriday-tool](https://github.com/grosenberg/blackfriday-tool) 
 from its GitHub repository. A Windows 64-bit compiled executable is available for 
 download: [blackfriday-tool.zip](http://www.certiv.net/updates/net.certiv.fluentmark.site/blackfriday-tool.zip). 
 Then, in the FluentMark Converter preferences for BlackFriday, browse to and select 
@@ -70,6 +74,7 @@ the `blackfriday-tool` executable.
 |Key         |Function                                          |
 |:-----------|:-------------------------------------------------|
 |Ctrl-Space  |Opens the template assist popup                   |
+|Ctrl-1      |Spell check quick correct                            |
 |Ctrl-b      |Toggles **bold** of selected text                 |
 |Ctrl-i      |Toggles _italics_ of selected text                |
 |Ctrl-/      |Toggles Markdown-style commenting of selected text|

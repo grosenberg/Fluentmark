@@ -17,7 +17,7 @@ import org.eclipse.jface.viewers.StyledString;
 import org.eclipse.swt.graphics.Image;
 
 import net.certiv.fluentmark.FluentUI;
-import net.certiv.fluentmark.FluentMkImages;
+import net.certiv.fluentmark.FluentImages;
 import net.certiv.fluentmark.model.PagePart;
 
 public class FluentOutlineLabelProvider extends LabelProvider implements IStyledLabelProvider {
@@ -47,52 +47,52 @@ public class FluentOutlineLabelProvider extends LabelProvider implements IStyled
 			String imageKey = "";
 			switch (part.getKind()) {
 				case PAGE:
-					imageKey = FluentMkImages.DESC_OBJ_PAGE;
+					imageKey = FluentImages.DESC_OBJ_PAGE;
 					break;
 				case CODE_BLOCK:
-					imageKey = FluentMkImages.DESC_OBJ_CODEBLOCK;
+					imageKey = FluentImages.DESC_OBJ_CODEBLOCK;
 					break;
 				case CODE_BLOCK_INDENTED:
-					imageKey = FluentMkImages.DESC_OBJ_CODEBLOCK_INDENTED;
+					imageKey = FluentImages.DESC_OBJ_CODEBLOCK_INDENTED;
 					break;
 				case COMMENT:
-					imageKey = FluentMkImages.DESC_OBJ_COMMENT;
+					imageKey = FluentImages.DESC_OBJ_COMMENT;
 					break;
 				case DEFINITION:
-					imageKey = FluentMkImages.DESC_OBJ_DEFINITION;
+					imageKey = FluentImages.DESC_OBJ_DEFINITION;
 					break;
 				case FRONT_MATTER:
-					imageKey = FluentMkImages.DESC_OBJ_FRONTMATTER;
+					imageKey = FluentImages.DESC_OBJ_FRONTMATTER;
 					break;
 				case HEADER:
-					imageKey = FluentMkImages.DESC_OBJ_HEADER;
+					imageKey = FluentImages.DESC_OBJ_HEADER;
 					break;
 				case HRULE:
-					imageKey = FluentMkImages.DESC_OBJ_HRULE;
+					imageKey = FluentImages.DESC_OBJ_HRULE;
 					break;
 				case HTML_BLOCK:
-					imageKey = FluentMkImages.DESC_OBJ_HTML;
+					imageKey = FluentImages.DESC_OBJ_HTML;
 					break;
 				case LIST:
-					imageKey = FluentMkImages.DESC_OBJ_LIST;
+					imageKey = FluentImages.DESC_OBJ_LIST;
 					break;
 				case MATH_BLOCK:
-					imageKey = FluentMkImages.DESC_OBJ_SUM;
+					imageKey = FluentImages.DESC_OBJ_SUM;
 					break;
 				case QUOTE:
-					imageKey = FluentMkImages.DESC_OBJ_QUOTE;
+					imageKey = FluentImages.DESC_OBJ_QUOTE;
 					break;
 				case REFERENCE:
-					imageKey = FluentMkImages.DESC_OBJ_REFERENCE;
+					imageKey = FluentImages.DESC_OBJ_REFERENCE;
 					break;
 				case TABLE:
-					imageKey = FluentMkImages.DESC_OBJ_TABLE;
+					imageKey = FluentImages.DESC_OBJ_TABLE;
 					break;
 				case TEXT:
-					imageKey = FluentMkImages.DESC_OBJ_TEXT;
+					imageKey = FluentImages.DESC_OBJ_TEXT;
 					break;
 				default:
-					imageKey = FluentMkImages.DESC_OBJ_UNDEFINED;
+					imageKey = FluentImages.DESC_OBJ_UNDEFINED;
 					break;
 			}
 
@@ -103,8 +103,8 @@ public class FluentOutlineLabelProvider extends LabelProvider implements IStyled
 		return super.getImage(element);
 	}
 
-	private FluentMkImages imageProvider() {
-		return (FluentMkImages) FluentUI.getDefault().getImageProvider();
+	private FluentImages imageProvider() {
+		return (FluentImages) FluentUI.getDefault().getImageProvider();
 	}
 
 	protected Image fetchImage(String imageKey) {

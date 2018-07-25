@@ -127,7 +127,7 @@ public class PageRoot extends Parent implements IResourceChangeListener, IDocume
 
 	/**
 	 * Entry point for invoking model updates
-	 * 
+	 *
 	 * @param text
 	 * @param resource
 	 */
@@ -497,14 +497,18 @@ public class PageRoot extends Parent implements IResourceChangeListener, IDocume
 
 	// add line to parent, returning the parent part
 	private PagePart addToParent(int idx) {
-		IParent header = headers.getCurrentParent();
-		PagePart parent = (PagePart) header.getLastChild();
 		Line line = lines.getLine(idx);
-		if (parent == null || line == null) {
-			System.out.println("help");
+		if (line == null) return null;
+
+		IParent header = headers.getCurrentParent();
+		IParent prior = header.getLastChild();
+		if (prior instanceof PagePart) {
+			PagePart parent = (PagePart) prior;
+			parent.addLine(line);
+			return parent;
 		}
-		parent.addLine(line);
-		return parent;
+
+		return addPageElement(header, line);
 	}
 
 	// set the length of the blank line separator

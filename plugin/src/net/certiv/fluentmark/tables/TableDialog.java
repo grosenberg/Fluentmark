@@ -37,7 +37,7 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.ToolBar;
 
-import net.certiv.fluentmark.FluentMkImages;
+import net.certiv.fluentmark.FluentImages;
 import net.certiv.fluentmark.FluentUI;
 import net.certiv.fluentmark.model.PagePart;
 import net.certiv.fluentmark.tables.TableModel.Row;
@@ -48,7 +48,7 @@ public class TableDialog extends MessageDialog {
 
 		public AlignLeftAction() {
 			super("Left Align");
-			setImageDescriptor(FluentUI.getDescriptor(FluentMkImages.DESC_OBJ_LEFT));
+			setImageDescriptor(FluentUI.getDescriptor(FluentImages.DESC_OBJ_LEFT));
 		}
 
 		@Override
@@ -65,7 +65,7 @@ public class TableDialog extends MessageDialog {
 
 		public AlignCenterAction() {
 			super("Center Align");
-			setImageDescriptor(FluentUI.getDescriptor(FluentMkImages.DESC_OBJ_CENTER));
+			setImageDescriptor(FluentUI.getDescriptor(FluentImages.DESC_OBJ_CENTER));
 		}
 
 		@Override
@@ -82,7 +82,7 @@ public class TableDialog extends MessageDialog {
 
 		public AlignRightAction() {
 			super("Right Align");
-			setImageDescriptor(FluentUI.getDescriptor(FluentMkImages.DESC_OBJ_RIGHT));
+			setImageDescriptor(FluentUI.getDescriptor(FluentImages.DESC_OBJ_RIGHT));
 		}
 
 		@Override
@@ -99,7 +99,7 @@ public class TableDialog extends MessageDialog {
 
 		public InsColBeforeAction() {
 			super("Insert Column Before");
-			setImageDescriptor(FluentUI.getDescriptor(FluentMkImages.DESC_OBJ_COL_INS_BEF));
+			setImageDescriptor(FluentUI.getDescriptor(FluentImages.DESC_OBJ_COL_INS_BEF));
 		}
 
 		@Override
@@ -116,7 +116,7 @@ public class TableDialog extends MessageDialog {
 
 		public InsColAfterAction() {
 			super("Insert Column After");
-			setImageDescriptor(FluentUI.getDescriptor(FluentMkImages.DESC_OBJ_COL_INS_AFT));
+			setImageDescriptor(FluentUI.getDescriptor(FluentImages.DESC_OBJ_COL_INS_AFT));
 		}
 
 		@Override
@@ -133,7 +133,7 @@ public class TableDialog extends MessageDialog {
 
 		public RmvColAction() {
 			super("Delete Column");
-			setImageDescriptor(FluentUI.getDescriptor(FluentMkImages.DESC_OBJ_COL_DEL));
+			setImageDescriptor(FluentUI.getDescriptor(FluentImages.DESC_OBJ_COL_DEL));
 		}
 
 		@Override
@@ -150,7 +150,7 @@ public class TableDialog extends MessageDialog {
 
 		public InsRowAboveAction() {
 			super("Insert Row Above");
-			setImageDescriptor(FluentUI.getDescriptor(FluentMkImages.DESC_OBJ_ROW_INS_ABV));
+			setImageDescriptor(FluentUI.getDescriptor(FluentImages.DESC_OBJ_ROW_INS_ABV));
 		}
 
 		@Override
@@ -169,7 +169,7 @@ public class TableDialog extends MessageDialog {
 
 		public InsRowBelowAction() {
 			super("Insert Row Below");
-			setImageDescriptor(FluentUI.getDescriptor(FluentMkImages.DESC_OBJ_ROW_INS_BLW));
+			setImageDescriptor(FluentUI.getDescriptor(FluentImages.DESC_OBJ_ROW_INS_BLW));
 		}
 
 		@Override
@@ -188,7 +188,7 @@ public class TableDialog extends MessageDialog {
 
 		public RmvRowAction() {
 			super("Delete Row");
-			setImageDescriptor(FluentUI.getDescriptor(FluentMkImages.DESC_OBJ_ROW_DEL));
+			setImageDescriptor(FluentUI.getDescriptor(FluentImages.DESC_OBJ_ROW_DEL));
 		}
 
 		@Override

@@ -131,7 +131,7 @@ public class SwtUtil {
 	 * <strong>Note:</strong> Use this method instead of {@link LayoutConstants#getIndent()} for
 	 * compatibility reasons.
 	 * </p>
-	 * 
+	 *
 	 * @return the indent of dependent controls, in pixels.
 	 * @since 3.9
 	 */
@@ -188,7 +188,7 @@ public class SwtUtil {
 	public static Point computeSizeConstraints(Control control, int widthInChars, int heightInChars) {
 		GC gc = new GC(control);
 		gc.setFont(control.getFont());
-		int width = gc.getFontMetrics().getAverageCharWidth();
+		int width = (int) gc.getFontMetrics().getAverageCharacterWidth();
 		int height = gc.getFontMetrics().getHeight();
 		gc.dispose();
 		return new Point(widthInChars * width, heightInChars * height);
@@ -197,7 +197,7 @@ public class SwtUtil {
 	public static int getAvgCharWidth(Control control) {
 		GC gc = new GC(control);
 		gc.setFont(control.getFont());
-		int width = gc.getFontMetrics().getAverageCharWidth();
+		int width = (int) gc.getFontMetrics().getAverageCharacterWidth();
 		gc.dispose();
 		return width;
 	}

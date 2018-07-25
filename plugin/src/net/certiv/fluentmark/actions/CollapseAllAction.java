@@ -12,7 +12,7 @@ import org.eclipse.jface.viewers.TreeViewer;
 
 import net.certiv.fluentmark.FluentUI;
 import net.certiv.fluentmark.outline.FluentOutlinePage.OutlineViewer;
-import net.certiv.fluentmark.FluentMkImages;
+import net.certiv.fluentmark.FluentImages;
 
 public class CollapseAllAction extends Action {
 
@@ -23,8 +23,8 @@ public class CollapseAllAction extends Action {
 		this.viewer = viewer;
 
 		setToolTipText(ActionMessages.CollapseAllAction_1);
-		FluentUI.getDefault().getImageProvider().setImageDescriptors(this, FluentMkImages.OBJ,
-				FluentMkImages.IMG_MENU_COLLAPSE_ALL);
+		FluentUI.getDefault().getImageProvider().setImageDescriptors(this, FluentImages.OBJ,
+				FluentImages.IMG_MENU_COLLAPSE_ALL);
 	}
 
 	@Override
