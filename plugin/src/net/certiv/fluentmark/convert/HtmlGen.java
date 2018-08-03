@@ -59,7 +59,7 @@ public class HtmlGen {
 
 	/**
 	 * Gets the current document content with a header as determined by kind.
-	 * 
+	 *
 	 * @param kind defines the intended use of the HTML: for export, for the embedded view, or minimal.
 	 */
 	public String getHtml(Kind kind) {
@@ -67,8 +67,8 @@ public class HtmlGen {
 		if (input == null) return "";
 
 		IPath pathname = input.getPath();
-		String base = pathname.removeLastSegments(1).addTrailingSeparator().toString();
-		return build(kind, convert(base), base, pathname);
+		String basepath = pathname.removeLastSegments(1).addTrailingSeparator().toString();
+		return build(kind, convert(basepath), basepath, pathname);
 	}
 
 	private String build(Kind kind, String content, String base, IPath pathname) {
@@ -110,31 +110,20 @@ public class HtmlGen {
 		return sb.toString();
 	}
 
-	private String convert(String base) {
+	private String convert(String basepath) {
 		IDocument doc = editor.getDocument();
 		int beg = 0;
 		int len = doc.getLength();
 
-		// check for and skip front matter
-		ITypedRegion region;
+		ITypedRegion[] regions;
 		try {
-			region = TextUtilities.getPartition(editor.getDocument(), Partitions.MK_PARTITIONING, beg, true);
+			regions = TextUtilities.computePartitioning(doc, Partitions.MK_PARTITIONING, beg, len, false);
 		} catch (BadLocationException e) {
-			Log.error("Failed to get partition at offset: " + beg);
+			Log.error("Failed to compute partitions." + beg);
 			return "";
-		}
-		if (region.getType().equals(Partitions.FRONT_MATTER)) {
-			beg += region.getLength();
-			len -= region.getLength();
 		}
 
-		try {
-			String text = doc.get(beg, len);
-			return converter.convert(base, text);
-		} catch (BadLocationException e) {
-			Log.error("Bad front matter exclusion: " + beg + ":" + len + "; " + region.getLength());
-			return "";
-		}
+		return converter.convert(basepath, doc, regions);
 	}
 
 	// path is the searchable base for the style to use; returns the content

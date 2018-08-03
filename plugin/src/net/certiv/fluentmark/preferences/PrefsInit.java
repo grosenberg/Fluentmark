@@ -64,6 +64,7 @@ public class PrefsInit extends AbstractPreferenceInitializer implements Prefs {
 
 		store.setDefault(EDITOR_MD_CONVERTER, KEY_TXTMARK);
 
+		store.setDefault(EDITOR_UMLMODE_ENABLED, false);
 		store.setDefault(EDITOR_DOTMODE_ENABLED, false);
 		store.setDefault(EDITOR_DOT_PROGRAM, "");
 
@@ -127,6 +128,13 @@ public class PrefsInit extends AbstractPreferenceInitializer implements Prefs {
 		PreferenceConverter.setDefault(store, EDITOR_DOT_COMMENT_COLOR, DEF_COMMENT);
 		PreferenceConverter.setDefault(store, EDITOR_DOT_STRING_COLOR, DEF_STRING);
 		PreferenceConverter.setDefault(store, EDITOR_DOT_BG_COLOR, DEF_DEFAULT);
+
+		PreferenceConverter.setDefault(store, EDITOR_UML_KEYWORD_COLOR, DEF_KEYWORD);
+		PreferenceConverter.setDefault(store, EDITOR_UML_ATTRIBS_COLOR, DEF_KEYWORD);
+		PreferenceConverter.setDefault(store, EDITOR_UML_SYMBOL_COLOR, DEF_SYMBOL);
+		PreferenceConverter.setDefault(store, EDITOR_UML_COMMENT_COLOR, DEF_COMMENT);
+		PreferenceConverter.setDefault(store, EDITOR_UML_STRING_COLOR, DEF_STRING);
+		PreferenceConverter.setDefault(store, EDITOR_UML_BG_COLOR, DEF_DEFAULT);
 
 		PreferenceConverter.setDefault(store, EDITOR_CODE_BG_COLOR, DEF_CODE_BG);
 		PreferenceConverter.setDefault(store, EDITOR_CODEBLOCK_BG_COLOR, DEF_CODE_BG);

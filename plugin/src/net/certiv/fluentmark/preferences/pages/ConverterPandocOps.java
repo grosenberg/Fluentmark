@@ -29,6 +29,7 @@ public class ConverterPandocOps extends AbstractOptionsBlock {
 		addField(new BooleanFieldEditor(EDITOR_PANDOC_SMART, "Use smart typography", bools));
 		addField(new BooleanFieldEditor(EDITOR_PANDOC_ADDTOC, "Add table of contents", bools));
 		addField(new BooleanFieldEditor(EDITOR_PANDOC_MATHJAX, "Enable Mathjax rendering", bools));
+		addField(new BooleanFieldEditor(EDITOR_UMLMODE_ENABLED, "Enable PlantUML rendering", bools));
 
 		SwtUtil.addSpacer(comp, 3);
 		pandocExe = new ProgramFieldEditor(EDITOR_PANDOC_PROGRAM, "Program:", comp, PD_MSG);

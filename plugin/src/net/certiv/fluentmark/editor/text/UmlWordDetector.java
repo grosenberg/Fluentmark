@@ -9,11 +9,11 @@ package net.certiv.fluentmark.editor.text;
 
 import org.eclipse.jface.text.rules.IWordDetector;
 
-public class DotWordDetector implements IWordDetector {
+public class UmlWordDetector implements IWordDetector {
 
 	@Override
 	public boolean isWordStart(char c) {
-		return Character.isLetter(c);
+		return Character.isLetter(c) | c == '@';
 	}
 
 	@Override

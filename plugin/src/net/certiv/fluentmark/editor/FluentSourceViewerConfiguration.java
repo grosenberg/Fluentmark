@@ -55,6 +55,7 @@ import net.certiv.fluentmark.editor.text.ScannerFrontMatter;
 import net.certiv.fluentmark.editor.text.ScannerHtml;
 import net.certiv.fluentmark.editor.text.ScannerMarkup;
 import net.certiv.fluentmark.editor.text.ScannerMath;
+import net.certiv.fluentmark.editor.text.ScannerUml;
 import net.certiv.fluentmark.preferences.Prefs;
 
 public class FluentSourceViewerConfiguration extends TextSourceViewerConfiguration {
@@ -86,6 +87,7 @@ public class FluentSourceViewerConfiguration extends TextSourceViewerConfigurati
 	private ScannerFrontMatter frontMatter;
 	private ScannerCode codeScanner;
 	private ScannerDot dotScanner;
+	private ScannerUml umlScanner;
 	private ScannerMath mathScanner;
 	private ScannerHtml htmlScanner;
 	private ScannerComment commentScanner;
@@ -112,6 +114,7 @@ public class FluentSourceViewerConfiguration extends TextSourceViewerConfigurati
 		codeScanner = new ScannerCode();
 		commentScanner = new ScannerComment();
 		dotScanner = new ScannerDot();
+		umlScanner = new ScannerUml();
 		mathScanner = new ScannerMath();
 		htmlScanner = new ScannerHtml();
 		frontMatter = new ScannerFrontMatter();
@@ -127,6 +130,7 @@ public class FluentSourceViewerConfiguration extends TextSourceViewerConfigurati
 		buildRepairer(reconciler, commentScanner, Partitions.COMMENT);
 		buildRepairer(reconciler, codeScanner, Partitions.CODEBLOCK);
 		buildRepairer(reconciler, dotScanner, Partitions.DOTBLOCK);
+		buildRepairer(reconciler, umlScanner, Partitions.UMLBLOCK);
 		buildRepairer(reconciler, mathScanner, Partitions.MATHBLOCK);
 		buildRepairer(reconciler, htmlScanner, Partitions.HTMLBLOCK);
 		buildRepairer(reconciler, markup, IDocument.DEFAULT_CONTENT_TYPE);
@@ -148,6 +152,7 @@ public class FluentSourceViewerConfiguration extends TextSourceViewerConfigurati
 		if (markup.affectsBehavior(event)) markup.adaptToPreferenceChange(event);
 		if (codeScanner.affectsBehavior(event)) codeScanner.adaptToPreferenceChange(event);
 		if (dotScanner.affectsBehavior(event)) dotScanner.adaptToPreferenceChange(event);
+		if (umlScanner.affectsBehavior(event)) umlScanner.adaptToPreferenceChange(event);
 		if (mathScanner.affectsBehavior(event)) mathScanner.adaptToPreferenceChange(event);
 		if (htmlScanner.affectsBehavior(event)) htmlScanner.adaptToPreferenceChange(event);
 		if (commentScanner.affectsBehavior(event)) commentScanner.adaptToPreferenceChange(event);
@@ -155,8 +160,8 @@ public class FluentSourceViewerConfiguration extends TextSourceViewerConfigurati
 	}
 
 	/**
-	 * Determines whether the preference change encoded by the given event changes the behavior of
-	 * one of its contained components.
+	 * Determines whether the preference change encoded by the given event changes the behavior of one
+	 * of its contained components.
 	 *
 	 * @param event the event to be investigated
 	 * @return <code>true</code> if event causes a behavioral change
@@ -165,6 +170,7 @@ public class FluentSourceViewerConfiguration extends TextSourceViewerConfigurati
 		return markup.affectsBehavior(event) //
 				|| codeScanner.affectsBehavior(event) //
 				|| dotScanner.affectsBehavior(event) //
+				|| umlScanner.affectsBehavior(event) //
 				|| mathScanner.affectsBehavior(event) //
 				|| htmlScanner.affectsBehavior(event) //
 				|| commentScanner.affectsBehavior(event) //
@@ -259,7 +265,7 @@ public class FluentSourceViewerConfiguration extends TextSourceViewerConfigurati
 
 	/**
 	 * Indicate if Hippie content assist should be enabled. The default is true.
-	 * 
+	 *
 	 * @since 1.4
 	 * @see HippieProposalProcessor
 	 */
@@ -269,7 +275,7 @@ public class FluentSourceViewerConfiguration extends TextSourceViewerConfigurati
 
 	/**
 	 * Indicate if Hippie content assist should be enabled.
-	 * 
+	 *
 	 * @since 1.4
 	 */
 	public void setEnableHippieContentAssist(boolean enableHippieContentAssist) {

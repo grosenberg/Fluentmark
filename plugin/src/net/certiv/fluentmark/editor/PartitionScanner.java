@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2016 - 2017 Certiv Analytics and others.
+ * Copyright (c) 2016 - 2018 Certiv Analytics and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -35,18 +35,22 @@ public class PartitionScanner extends RuleBasedPartitionScanner implements IScan
 		IToken codeblock = new Token(Partitions.CODEBLOCK);
 		IToken htmlblock = new Token(Partitions.HTMLBLOCK);
 		IToken dotblock = new Token(Partitions.DOTBLOCK);
+		IToken umlblock = new Token(Partitions.UMLBLOCK);
 		IToken mathblock = new Token(Partitions.MATHBLOCK);
 
-		List<IRule> rules = new ArrayList<IRule>();
+		List<IRule> rules = new ArrayList<>();
 
 		rules.add(new FrontMatterRule("---", "---", matter, '\\'));
-		rules.add(new MatchRule("\\$\\S", "\\S\\$", mathblock, '\\', false));
-		rules.add(new MultiLineRule("$$", "$$", mathblock, '\\'));
-		rules.add(new MultiLineRule("<!--", "-->", comment, '\\'));
+		rules.add(new MatchRule("\\$\\S", "\\S\\$", mathblock, '\\', true));
+		rules.add(new MultiLineRule("$$", "$$", mathblock, '\\', true));
+		rules.add(new MultiLineRule("<!--", "-->", comment, '\\', true));
 		rules.add(new HtmlCodeRule(htmlblock));
 		rules.add(new DotCodeRule(dotblock));
-		rules.add(new MultiLineRule("~~~", "~~~", codeblock, '\\'));
-		rules.add(new MultiLineRule("```", "```", codeblock, '\\'));
+		rules.add(new MultiLineRule("@startuml", "@enduml", umlblock, '\\', true));
+		rules.add(new MultiLineRule("@startdot", "@enddot", umlblock, '\\', true));
+		rules.add(new MultiLineRule("@startsalt", "@endsalt", umlblock, '\\', true));
+		rules.add(new MultiLineRule("~~~", "~~~", codeblock, '\\', true));
+		rules.add(new MultiLineRule("```", "```", codeblock, '\\', true));
 		rules.add(new IndentedCodeRule(codeblock));
 
 		IPredicateRule[] rule = new IPredicateRule[rules.size()];

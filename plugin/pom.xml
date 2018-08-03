@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project
-	xmlns="http://maven.apache.org/POM/4.0.0"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
@@ -8,7 +7,7 @@
 	<parent>
 		<groupId>net.certiv.fluentmark</groupId>
 		<artifactId>fluentmark_parent</artifactId>
-		<version>1.1.2-SNAPSHOT</version>
+		<version>1.2.0-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>net.certiv.fluentmark</artifactId>
@@ -68,6 +67,12 @@
 			<groupId>com.github.rjeschke</groupId>
 			<artifactId>txtmark</artifactId>
 			<version>0.13</version>
+		</dependency>
+
+		<dependency>
+			<groupId>net.sourceforge.plantuml</groupId>
+			<artifactId>plantuml</artifactId>
+			<version>8059</version>
 		</dependency>
 
 	</dependencies>
@@ -149,6 +154,14 @@
 									<groupId>com.github.rjeschke</groupId>
 									<artifactId>txtmark</artifactId>
 									<version>0.13</version>
+									<type>jar</type>
+									<overWrite>true</overWrite>
+								</artifactItem>
+
+								<artifactItem>
+									<groupId>net.sourceforge.plantuml</groupId>
+									<artifactId>plantuml</artifactId>
+									<version>8059</version>
 									<type>jar</type>
 									<overWrite>true</overWrite>
 								</artifactItem>

@@ -67,7 +67,8 @@ public interface Prefs extends PrefsSpelling {
 	public static final String EDITOR_PANDOC_SMART = MD_ID + ".pandocSmart";
 	public static final String EDITOR_PANDOC_MATHJAX = MD_ID + ".pandocMathjax";
 
-	public static final String EDITOR_DOTMODE_ENABLED = MD_ID + ".txtMarkDotMode";
+	public static final String EDITOR_UMLMODE_ENABLED = MD_ID + ".umlMode";
+	public static final String EDITOR_DOTMODE_ENABLED = MD_ID + ".dotMode";
 	public static final String EDITOR_DOT_PROGRAM = MD_ID + ".dotProgram";
 
 	public static final String EDITOR_EXTERNAL_COMMAND = MD_ID + ".externalConverterProgram";
@@ -108,6 +109,13 @@ public interface Prefs extends PrefsSpelling {
 	public static final String EDITOR_DOT_COMMENT_COLOR = MD_ID + ".dotCommentColor";
 	public static final String EDITOR_DOT_STRING_COLOR = MD_ID + ".dotStringColor";
 	public static final String EDITOR_DOT_BG_COLOR = MD_ID + ".dotBackgroundColor";
+
+	public static final String EDITOR_UML_KEYWORD_COLOR = MD_ID + ".umlKeywordColor";
+	public static final String EDITOR_UML_ATTRIBS_COLOR = MD_ID + ".umlAttribsColor";
+	public static final String EDITOR_UML_SYMBOL_COLOR = MD_ID + ".umlSymbolColor";
+	public static final String EDITOR_UML_COMMENT_COLOR = MD_ID + ".umlCommentColor";
+	public static final String EDITOR_UML_STRING_COLOR = MD_ID + ".umlStringColor";
+	public static final String EDITOR_UML_BG_COLOR = MD_ID + ".umlBackgroundColor";
 
 	public static final String EDITOR_GITHUB_SYNTAX = MD_ID + ".github_Syntax";
 	public static final String EDITOR_MULTIMARKDOWN_METADATA = MD_ID + ".multiMarkdown_Metadata";

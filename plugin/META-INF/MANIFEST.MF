@@ -3,7 +3,7 @@ Automatic-Module-Name: net.certiv.fluentmark
 Bundle-ManifestVersion: 2
 Bundle-Name: FluentMark Editor
 Bundle-SymbolicName: net.certiv.fluentmark;singleton:=true
-Bundle-Version: 1.1.2.qualifier
+Bundle-Version: 1.2.0.qualifier
 Bundle-Activator: net.certiv.fluentmark.FluentUI
 Bundle-Vendor: Certiv Analytics
 Require-Bundle: org.eclipse.core.commands,
@@ -28,6 +28,7 @@ Require-Bundle: org.eclipse.core.commands,
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .,
+ lib/plantuml.jar,
  lib/commons-lang3.jar,
  lib/commonmark.jar,
  lib/txtmark.jar,

@@ -56,10 +56,10 @@ public class ExportPdfHandler extends AbstractHandler {
 				source = ((IFileEditorInput) input).getFile();
 				PdfDialog pdf = new PdfDialog(shell, this, source);
 				if (pdf.open() == 0) { // 0: generate; 1: cancel; -1: close
-					String base = source.getLocation().removeLastSegments(1).addTrailingSeparator().toString();
+					String basepath = source.getLocation().removeLastSegments(1).addTrailingSeparator().toString();
 					Document doc = new Document(editor.getDocument().get());
 					PageRoot model = editor.getPageModel(true);
-					PdfGen.save(base, doc, model, template, destination);
+					PdfGen.save(basepath, doc, model, template, destination);
 
 					LinkedHashMap<String, String> map = FileUtils.getTemplateMap();
 					map.put(source.getFullPath().toString(), template); // by WS relative source pathname

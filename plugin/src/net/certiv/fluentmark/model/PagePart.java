@@ -10,6 +10,7 @@ package net.certiv.fluentmark.model;
 import java.util.Set;
 
 import net.certiv.fluentmark.convert.DotGen;
+import net.certiv.fluentmark.convert.UmlGen;
 import net.certiv.fluentmark.model.Lines.Line;
 import net.certiv.fluentmark.util.FloorKeyMap;
 import net.certiv.fluentmark.util.Strings;
@@ -102,13 +103,16 @@ public class PagePart extends Parent {
 		String meta = getFirstLine();
 		if (meta.isEmpty()) {
 			meta = "unknown";
-		}
-		if (meta.startsWith("    ")) {
+
+		} else if (meta.startsWith("    ")) {
 			meta = "indented";
-		}
-		if (meta.startsWith("~~~") || meta.startsWith("```")) {
+
+		} else if (meta.startsWith("~~~") || meta.startsWith("```")) {
 			meta = Strings.trimLeadingPunctuation(meta).trim();
 			if (meta.isEmpty()) meta = DotGen.PLAIN;
+
+		} else if (meta.startsWith("@start")) {
+			meta = UmlGen.UML;
 		}
 		return meta;
 	}
@@ -146,6 +150,7 @@ public class PagePart extends Parent {
 	}
 
 	// controls text display in outline view
+	@Override
 	public String toString() {
 		switch (getKind()) {
 			case CODE_BLOCK:
@@ -177,7 +182,7 @@ public class PagePart extends Parent {
 	/**
 	 * Returns the line index of the nearest lower marked list line given a line index in a list
 	 * containing lines originally TEXT.
-	 * 
+	 *
 	 * @param idx
 	 * @return
 	 */
@@ -187,9 +192,9 @@ public class PagePart extends Parent {
 	}
 
 	/**
-	 * Returns the line index of the next marked list line given a line index in a list containing
-	 * lines originally TEXT.
-	 * 
+	 * Returns the line index of the next marked list line given a line index in a list containing lines
+	 * originally TEXT.
+	 *
 	 * @param idx
 	 * @return
 	 */

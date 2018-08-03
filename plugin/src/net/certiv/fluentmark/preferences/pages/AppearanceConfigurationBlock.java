@@ -11,7 +11,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.core.runtime.Preferences;
@@ -95,7 +94,7 @@ class AppearanceConfigurationBlock extends AbstractConfigurationBlock {
 
 		/**
 		 * Initialize the item with the given values.
-		 * 
+		 *
 		 * @param displayName the display name
 		 * @param colorKey the color preference key
 		 * @param boldKey the bold preference key
@@ -163,7 +162,7 @@ class AppearanceConfigurationBlock extends AbstractConfigurationBlock {
 
 		/**
 		 * Initialize the item with the given values.
-		 * 
+		 *
 		 * @param displayName the display name
 		 * @param colorKey the color preference key
 		 * @param boldKey the bold preference key
@@ -206,7 +205,7 @@ class AppearanceConfigurationBlock extends AbstractConfigurationBlock {
 		@Override
 		public Object[] getElements(Object inputElement) {
 			return new String[] { fMarkupCategory, fCodeCategory, fCommentsCategory, fMathCategory, fHtmlCategory,
-					fDotCategory };
+					fDotCategory, fUmlCategory };
 		}
 
 		@Override
@@ -224,7 +223,8 @@ class AppearanceConfigurationBlock extends AbstractConfigurationBlock {
 				if (fCodeCategory.equals(entry)) return fListModel.subList(6, 8).toArray();
 				if (fDotCategory.equals(entry)) return fListModel.subList(8, 13).toArray();
 				if (fMarkupCategory.equals(entry)) return fListModel.subList(13, 21).toArray();
-				if (fMathCategory.equals(entry)) return fListModel.subList(21, fListModel.size()).toArray();
+				if (fMathCategory.equals(entry)) return fListModel.subList(21, 24).toArray();
+				if (fUmlCategory.equals(entry)) return fListModel.subList(24, fListModel.size()).toArray();
 			}
 			return new Object[0];
 		}
@@ -234,6 +234,7 @@ class AppearanceConfigurationBlock extends AbstractConfigurationBlock {
 			if (element instanceof String) return null;
 			int index = fListModel.indexOf(element);
 
+			if (index >= 24) return fUmlCategory;
 			if (index >= 21) return fMathCategory;
 			if (index >= 13) return fMarkupCategory;
 			if (index >= 8) return fDotCategory;
@@ -291,6 +292,12 @@ class AppearanceConfigurationBlock extends AbstractConfigurationBlock {
 			{ "Symbols", Prefs.EDITOR_MATH_SYMBOL_COLOR }, //
 			{ "Comments", Prefs.EDITOR_MATH_COMMENT_COLOR }, //
 
+			{ "Keywords", Prefs.EDITOR_UML_KEYWORD_COLOR }, // 24
+			{ "Types", Prefs.EDITOR_UML_ATTRIBS_COLOR }, //
+			{ "Symbols", Prefs.EDITOR_UML_SYMBOL_COLOR }, //
+			{ "Comments", Prefs.EDITOR_UML_COMMENT_COLOR }, //
+			{ "Strings", Prefs.EDITOR_UML_STRING_COLOR }, //
+
 	};
 
 	private final String fMarkupCategory = "Markup";
@@ -299,6 +306,7 @@ class AppearanceConfigurationBlock extends AbstractConfigurationBlock {
 	private final String fHtmlCategory = "Html";
 	private final String fMathCategory = "Math";
 	private final String fDotCategory = "Dot";
+	private final String fUmlCategory = "Uml";
 
 	private ColorSelector fSyntaxForegroundColorEditor;
 	private Label fColorEditorLabel;
@@ -322,10 +330,9 @@ class AppearanceConfigurationBlock extends AbstractConfigurationBlock {
 
 		fColorManager = FluentUI.getDefault().getColorMgr();
 
-		for (int i = 0, n = fSyntaxColorListModel.length; i < n; i++)
-			fListModel.add(new HighlightingColorListItem(fSyntaxColorListModel[i][0], fSyntaxColorListModel[i][1],
-					fSyntaxColorListModel[i][1] + BOLD, fSyntaxColorListModel[i][1] + ITALIC,
-					fSyntaxColorListModel[i][1] + STRIKETHROUGH, fSyntaxColorListModel[i][1] + UNDERLINE));
+		for (String[] element : fSyntaxColorListModel)
+			fListModel.add(new HighlightingColorListItem(element[0], element[1], element[1] + BOLD, element[1] + ITALIC,
+					element[1] + STRIKETHROUGH, element[1] + UNDERLINE));
 
 		store.addKeys(createOverlayStoreKeys());
 	}
@@ -501,8 +508,7 @@ class AppearanceConfigurationBlock extends AbstractConfigurationBlock {
 		gd = new GridData(SWT.BEGINNING, SWT.FILL, false, true);
 		gd.heightHint = convertHeightInCharsToPixels(7);
 		int maxWidth = 0;
-		for (Iterator<HighlightingColorListItem> it = fListModel.iterator(); it.hasNext();) {
-			HighlightingColorListItem item = it.next();
+		for (HighlightingColorListItem item : fListModel) {
 			maxWidth = Math.max(maxWidth, convertWidthInCharsToPixels(item.getDisplayName().length()));
 		}
 		ScrollBar vBar = ((Scrollable) fTreeViewer.getControl()).getVerticalBar();
@@ -690,8 +696,7 @@ class AppearanceConfigurationBlock extends AbstractConfigurationBlock {
 		fTreeViewer.addDoubleClickListener(new IDoubleClickListener() {
 
 			/*
-			 * @see
-			 * org.eclipse.jface.viewers.IDoubleClickListener#doubleClick(org.eclipse.jface.viewers.
+			 * @see org.eclipse.jface.viewers.IDoubleClickListener#doubleClick(org.eclipse.jface.viewers.
 			 * DoubleClickEvent)
 			 */
 			@Override
@@ -720,8 +725,8 @@ class AppearanceConfigurationBlock extends AbstractConfigurationBlock {
 				new PreferencesAdapter(createTemporaryCorePreferenceStore()), generalTextStore });
 		fPreviewViewer = new FluentSourceViewer(parent, null, null, false, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER,
 				store);
-		FluentSimpleSourceViewerConfiguration configuration = new FluentSimpleSourceViewerConfiguration(
-				fColorManager, store, null, Partitions.MK_PARTITIONING, false);
+		FluentSimpleSourceViewerConfiguration configuration = new FluentSimpleSourceViewerConfiguration(fColorManager,
+				store, null, Partitions.MK_PARTITIONING, false);
 		fPreviewViewer.configure(configuration);
 		Font font = JFaceResources.getFont(Prefs.EDITOR_TEXT_FONT);
 		fPreviewViewer.getTextWidget().setFont(font);

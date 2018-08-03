@@ -46,6 +46,7 @@ public class Lines {
 			prior.blankNext = isBlank();
 		}
 
+		@Override
 		public String toString() {
 			return String.format("%4d %-6.6s/%-6.6s [%5d:%3d] %s", //
 					idx, kind.toString(), nKind.toString(), offset, length, text);
@@ -184,6 +185,9 @@ public class Lines {
 		if (curTxt.startsWith("~~~")) return Type.CODE_BLOCK;
 		if (curTxt.matches("    .*")) return Type.CODE_BLOCK_INDENTED;
 
+		if (priorblank && curTxt.startsWith("@start")) return Type.CODE_BLOCK;
+		if (nxtblank && curTxt.startsWith("@end")) return Type.CODE_BLOCK;
+
 		return Type.TEXT;
 	}
 
@@ -217,6 +221,7 @@ public class Lines {
 		return Indent.measureIndentInSpaces(text, width);
 	}
 
+	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		for (Line line : lineList.values()) {

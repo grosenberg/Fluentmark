@@ -9,15 +9,17 @@ package net.certiv.fluentmark.editor.text;
 
 import org.eclipse.jface.text.rules.IWordDetector;
 
-public class DotWordDetector implements IWordDetector {
+import net.certiv.fluentmark.util.Chars;
+
+public class UmlSymbolDetector implements IWordDetector {
 
 	@Override
 	public boolean isWordStart(char c) {
-		return Character.isLetter(c);
+		return Chars.isPunctuation(c) || Chars.isSymbol(c);
 	}
 
 	@Override
 	public boolean isWordPart(char c) {
-		return Character.isLetter(c);
+		return Chars.isPunctuation(c) || Chars.isSymbol(c);
 	}
 }
