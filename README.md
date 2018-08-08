@@ -47,7 +47,7 @@ Requires Eclipse Photon & JDK 1.8+.
 Install from the Certiv Tools update site: [www.certiv.net/updates](http://www.certiv.net/updates/).
 
 Preferences ---
-: `Window`&rarr;`Certiv Tools`&rarr;`FluentMark`  
+> `Window`&rarr;`Certiv Tools`&rarr;`FluentMark`  
 
 Pandoc converter ---
 : Install [Pandoc](https://pandoc.org). The `pandoc` executable can then be 
