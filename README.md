@@ -50,24 +50,24 @@ Preferences ---
 - `Window`&rarr;`Certiv Tools`&rarr;`FluentMark`  
 
 Pandoc converter ---
-> Install [Pandoc](https://pandoc.org). The `pandoc` executable can then be 
+- Install [Pandoc](https://pandoc.org). The `pandoc` executable can then be 
 selected from the local filesystem on the Pandoc Converter preference page.
 
 PDF export ---
-> Both *Pandoc* and a _LaTeX_ processor must be installed. 
+- Both *Pandoc* and a _LaTeX_ processor must be installed. 
 Pandoc recommends [*MikTeX*](https://miktex.org/).
 
 DOT graphics ---
-> Install [Graphviz](http://www.graphviz.org/download.php). 
+- Install [Graphviz](http://www.graphviz.org/download.php). 
 The `dot` executable can then be selected on the Converter preference page. 
 
 UML diagrams ---
-> The basic PlantUml jar is built-in. Diagrams other than sequence diagrams require
+- The basic PlantUml jar is built-in. Diagrams other than sequence diagrams require
 DOT graphics. If `Graphviz` is installed in a non-default directory, set the `GRAPHVIZ_DOT` 
 environment variable to the actual installation directory. 
 
 BlackFriday converter ---
-> Install the customized [blackfriday-tool](https://github.com/grosenberg/blackfriday-tool) 
+- Install the customized [blackfriday-tool](https://github.com/grosenberg/blackfriday-tool) 
 from GitHub. A Windows 64-bit compiled executable is available for download: 
 [blackfriday-tool.zip](http://www.certiv.net/updates/net.certiv.fluentmark.site/blackfriday-tool.zip).
 The `blackfriday-tool` executable can then be selected on the BlackFriday Converter preference page.
