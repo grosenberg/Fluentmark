@@ -12,12 +12,17 @@ import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.jface.preference.IPreferenceStore;
+
+import net.certiv.fluentmark.FluentUI;
 import net.certiv.fluentmark.Log;
+import net.certiv.fluentmark.preferences.Prefs;
 import net.certiv.fluentmark.util.LRUCache;
 import net.certiv.fluentmark.util.Strings;
 import net.sourceforge.plantuml.FileFormat;
 import net.sourceforge.plantuml.FileFormatOption;
 import net.sourceforge.plantuml.SourceStringReader;
+import net.sourceforge.plantuml.cucadiagram.dot.GraphvizUtils;
 
 public class UmlGen {
 
@@ -37,6 +42,12 @@ public class UmlGen {
 		int key = data.hashCode();
 		String value = umlCache.get(key);
 		if (value != null) return value;
+
+		IPreferenceStore store = FluentUI.getDefault().getPreferenceStore();
+		String dotexe = store.getString(Prefs.EDITOR_DOT_PROGRAM);
+		if (!dotexe.isEmpty()) {
+			GraphvizUtils.setDotExecutable(dotexe);
+		}
 
 		try (ByteArrayOutputStream os = new ByteArrayOutputStream()) {
 			SourceStringReader reader = new SourceStringReader(data);

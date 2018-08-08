@@ -41,9 +41,9 @@ public class PartitionScanner extends RuleBasedPartitionScanner implements IScan
 		List<IRule> rules = new ArrayList<>();
 
 		rules.add(new FrontMatterRule("---", "---", matter, '\\'));
-		rules.add(new MatchRule("\\$\\S", "\\S\\$", mathblock, '\\', true));
-		rules.add(new MultiLineRule("$$", "$$", mathblock, '\\', true));
 		rules.add(new MultiLineRule("<!--", "-->", comment, '\\', true));
+		rules.add(new MultiLineRule("$$", "$$", mathblock, '\\', true));
+		rules.add(new MatchRule("\\$\\S", "\\S\\$\\D", mathblock, '\\', true, true));
 		rules.add(new HtmlCodeRule(htmlblock));
 		rules.add(new DotCodeRule(dotblock));
 		rules.add(new MultiLineRule("@startuml", "@enduml", umlblock, '\\', true));

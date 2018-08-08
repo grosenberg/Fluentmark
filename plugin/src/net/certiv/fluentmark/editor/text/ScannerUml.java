@@ -26,8 +26,8 @@ public class ScannerUml extends AbstractBufferedRuleBasedScanner implements ISca
 
 	private static final String[] types = { "actor", "participant", "usecase", "class", "interface", "abstract", "enum",
 			"component", "state", "object", "artifact", "folder", "rectangle", "node", "frame", "cloud", "database",
-			"storage", "agent", "stack", "boundary", "control", "entity", "card", "file", "package", "queue",
-			"archimate", };
+			"storage", "agent", "stack", "boundary", "control", "collections", "entity", "card", "file", "package",
+			"queue", "archimate", };
 
 	private static final String[] keywords = { "@startuml", "@enduml", "@startdot", "@enddot", "@startsalt", "@endsalt",
 			"as", "also", "autonumber", "caption", "title", "newpage", "box", "alt", "else", "opt", "loop", "par",

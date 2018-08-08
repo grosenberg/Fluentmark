@@ -94,6 +94,8 @@ public class Converter {
 		if (!store.getBoolean(Prefs.EDITOR_PANDOC_SMART)) {
 			args.add("-f");
 			args.add("markdown-smart");
+		} else {
+			args.add("--ascii");
 		}
 		return Cmd.process(args.toArray(new String[args.size()]), basepath, text);
 	}

@@ -44,9 +44,9 @@ public class MatchRule implements IPredicateRule {
 	protected boolean fBreaksOnEOF;
 
 	/**
-	 * Creates a rule for the given starting and ending sequence. When these sequences are detected
-	 * the rule will return the specified token. Alternatively, the sequence can also be ended by
-	 * the end of the line. Any character which follows the given escapeCharacter will be ignored.
+	 * Creates a rule for the given starting and ending sequence. When these sequences are detected the
+	 * rule will return the specified token. Alternatively, the sequence can also be ended by the end of
+	 * the line. Any character which follows the given escapeCharacter will be ignored.
 	 *
 	 * @param startSequence the pattern's start sequence
 	 * @param endSequence the pattern's end sequence, <code>null</code> is a legal value
@@ -68,10 +68,10 @@ public class MatchRule implements IPredicateRule {
 	}
 
 	/**
-	 * Creates a rule for the given starting and ending sequence. When these sequences are detected
-	 * the rule will return the specified token. Alternatively, the sequence can also be ended by
-	 * the end of the line or the end of the file. Any character which follows the given
-	 * escapeCharacter will be ignored.
+	 * Creates a rule for the given starting and ending sequence. When these sequences are detected the
+	 * rule will return the specified token. Alternatively, the sequence can also be ended by the end of
+	 * the line or the end of the file. Any character which follows the given escapeCharacter will be
+	 * ignored.
 	 *
 	 * @param startSequence the pattern's start sequence
 	 * @param endSequence the pattern's end sequence, <code>null</code> is a legal value
@@ -88,8 +88,8 @@ public class MatchRule implements IPredicateRule {
 
 	/**
 	 * Sets a column constraint for this rule. If set, the rule's token will only be returned if the
-	 * pattern is detected starting at the specified column. If the column is smaller then 0, the
-	 * column constraint is considered removed.
+	 * pattern is detected starting at the specified column. If the column is smaller then 0, the column
+	 * constraint is considered removed.
 	 *
 	 * @param column the column in which the pattern starts
 	 */
@@ -134,9 +134,9 @@ public class MatchRule implements IPredicateRule {
 	}
 
 	/**
-	 * Returns whether the next characters to be read by the character scanner are an exact match
-	 * with the given sequence. No escape characters are allowed within the sequence. If specified
-	 * the sequence is considered to be found when reading the EOF character.
+	 * Returns whether the next characters to be read by the character scanner are an exact match with
+	 * the given sequence. No escape characters are allowed within the sequence. If specified the
+	 * sequence is considered to be found when reading the EOF character.
 	 *
 	 * @param scanner the character scanner to be used
 	 * @param sequence the sequence to be detected
@@ -148,9 +148,9 @@ public class MatchRule implements IPredicateRule {
 	}
 
 	/**
-	 * Returns whether the end sequence was detected. As the pattern can be considered ended by a
-	 * line delimiter, the result of this method is <code>true</code> if the rule breaks on the end
-	 * of the line, or if the EOF character is read.
+	 * Returns whether the end sequence was detected. As the pattern can be considered ended by a line
+	 * delimiter, the result of this method is <code>true</code> if the rule breaks on the end of the
+	 * line, or if the EOF character is read.
 	 *
 	 * @param scanner the character scanner to be used
 	 * @return <code>true</code> if the end sequence has been detected
@@ -178,9 +178,9 @@ public class MatchRule implements IPredicateRule {
 				// Skip escaped character(s)
 				if (fEscapeContinuesLine) {
 					c = scanner.read();
-					for (int i = 0; i < fSortedLineDelimiters.length; i++) {
-						if (c == fSortedLineDelimiters[i][0]
-								&& sequenceDetected(scanner, fSortedLineDelimiters[i], fBreaksOnEOF)) {
+					for (char[] fSortedLineDelimiter : fSortedLineDelimiters) {
+						if (c == fSortedLineDelimiter[0]
+								&& sequenceDetected(scanner, fSortedLineDelimiter, fBreaksOnEOF)) {
 							break;
 						}
 					}
@@ -193,9 +193,9 @@ public class MatchRule implements IPredicateRule {
 				return true;
 			} else if (fBreaksOnEOL) {
 				// Check for end of line since it can be used to terminate the pattern.
-				for (int i = 0; i < fSortedLineDelimiters.length; i++) {
-					if (c == fSortedLineDelimiters[i][0]
-							&& sequenceDetected(scanner, fSortedLineDelimiters[i], true, fBreaksOnEOF))
+				for (char[] fSortedLineDelimiter : fSortedLineDelimiters) {
+					if (c == fSortedLineDelimiter[0]
+							&& sequenceDetected(scanner, fSortedLineDelimiter, true, fBreaksOnEOF))
 						return true;
 				}
 			}

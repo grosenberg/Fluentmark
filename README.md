@@ -6,75 +6,80 @@ A full-featured Markdown editing environment for Eclipse.
 
 + Choice of Markdown converter
     - full support for the [Pandoc](https://pandoc.org) converter (preferred)
-    - also supports the popular [BlackFriday](https://github.com/russross/blackfriday) 
-      converter
-    - includes several built-in converters: [CommonMark](https://github.com/jgm/CommonMark), 
-      [MarkdownJ](https://github.com/myabc/markdownj), [PegDown](https://github.com/sirthias/pegdown) 
-      and [TxtMark](https://github.com/rjeschke/txtmark)
+    - includes several alternate built-in converters
+        + [BlackFriday](https://github.com/russross/blackfriday), [CommonMark](https://github.com/jgm/CommonMark), 
+          [MarkdownJ](https://github.com/myabc/markdownj), [PegDown](https://github.com/sirthias/pegdown) 
+          & [TxtMark](https://github.com/rjeschke/txtmark)
 + Real-time preview
-    - smooth, fully reactively rendered HTML display, using [Vue.js](https://vuejs.org/)
+    - smooth, reactively rendered HTML display, using [Vue.js](https://vuejs.org/)
     - stylesheet controlled presentation
         + multiple built-in stylesheets
-        + user defined stylesheets can be selected from the filesystem
+        + local custom/user defined stylesheets
++ PDF export using Pandoc
+    - custom/user defined latex page template support
 + LaTex/Math presentation using [MathJax](https://www.mathjax.org/)
 + Code highlighting using [highlightjs](https://highlightjs.org/)
-+ Graphs presentation using the [Graphviz](http://www.graphviz.org/) DOT diagram 
-  generator
-    - diagram previews are rendered in real-time
-    - exported Web and PDF documents include the rendered diagrams as embedded images
++ Diagram rendering
+    - Graph diagrams using the [Graphviz DOT](http://www.graphviz.org/) language
+    - UML diagrams using the [PlantUml](http://www.graphviz.org/) language
+    - all diagram previews are rendered in real-time
+    - exported Web and PDF documents embed the diagrams as scalable images
 + Spell check with quick-assist correction processor
-+ Smart editing behaviors
++ Smart editing behaviors, including intelligent paragraph, list & blank line handling
 + Table editor
 + Text, list and table formatter
-+ Intelligent paragraph, list & blank line handling
-+ Outline view; supports markdown element DnD
++ Outline view with drag-and-drop support
 
-## Screenshot
+## Screenshots
 
-[![Fluentmark][1]][1]
+[![Fluentmark Dot graph][1]][1] [![Fluentmark Sequence diagram][2]][2]
 
-[1]: http://www.certiv.net/updates/net.certiv.fluentmark.site/ScreenShot.png "FluentMark"
+[1]: http://www.certiv.net/updates/net.certiv.fluentmark.site/ScreenShot.png "FluentMark 
+Dot graph" { width=100% }
+[2]: http://www.certiv.net/updates/net.certiv.fluentmark.site/ScreenShot1.png "FluentMark 
+Sequence diagram" { width=100% }
+
 
 ---
 
-## Install
+## Installation & Use
 
 Requires Eclipse Photon & JDK 1.8+.
 
-**FluentMark** can be installed from the Certiv Tools update site at [www.certiv.net/updates](http://www.certiv.net/updates/).
+Install from the Certiv Tools update site: [www.certiv.net/updates](http://www.certiv.net/updates/).
 
-FluentMark _Preferences_ can then be found at `Window` => `Certiv Tools` => `FluentMark`  
+Preferences ---
+: `Window`&rarr;`Certiv Tools`&rarr;`FluentMark`  
 
-To use **Pandoc**
-: install [Pandoc](https://pandoc.org). Then, on the Converter preference 
-page, select Pandoc as the converter and select the `pandoc` executable from the 
-local filesystem.
+Pandoc converter ---
+: Install [Pandoc](https://pandoc.org). The `pandoc` executable can then be 
+selected from the local filesystem on the Pandoc Converter preference page.
 
-To use the **PDF** exporter
-: both *Pandoc* and a _LaTeX_ processor must be installed. 
+PDF export ---
+: Both *Pandoc* and a _LaTeX_ processor must be installed. 
 Pandoc recommends [*MikTeX*](https://miktex.org/).
 
-To create **DOT** generated graphics
-: install [Graphviz](http://www.graphviz.org/download.php). 
-Then, on the Converter preference page, browse and select the `dot` executable. 
+DOT graphics ---
+: Install [Graphviz](http://www.graphviz.org/download.php). 
+The `dot` executable can then be selected on the Converter preference page. 
 
-To use **BlackFriday**
-: install the customized [blackfriday-tool](https://github.com/grosenberg/blackfriday-tool) 
-from its GitHub repository. A Windows 64-bit compiled executable is available for 
-download: [blackfriday-tool.zip](http://www.certiv.net/updates/net.certiv.fluentmark.site/blackfriday-tool.zip). 
-Then, in the FluentMark Converter preferences for BlackFriday, browse to and select 
-the `blackfriday-tool` executable.
+UML diagrams ---
+: The basic PlantUml jar is built-in. Diagrams other than sequence diagrams require
+DOT graphics. If `Graphviz` is installed in a non-default directory, set the `GRAPHVIZ_DOT` 
+environment variable to the actual installation directory. 
 
----
-
-## Use
+BlackFriday converter ---
+: Install the customized [blackfriday-tool](https://github.com/grosenberg/blackfriday-tool) 
+from GitHub. A Windows 64-bit compiled executable is available for download: 
+[blackfriday-tool.zip](http://www.certiv.net/updates/net.certiv.fluentmark.site/blackfriday-tool.zip).
+The `blackfriday-tool` executable can then be selected on the BlackFriday Converter preference page.
 
 ### Keys
 
 |Key         |Function                                          |
 |:-----------|:-------------------------------------------------|
 |Ctrl-Space  |Opens the template assist popup                   |
-|Ctrl-1      |Spell check quick correct                            |
+|Ctrl-1      |Spell check quick correct                         |
 |Ctrl-b      |Toggles **bold** of selected text                 |
 |Ctrl-i      |Toggles _italics_ of selected text                |
 |Ctrl-/      |Toggles Markdown-style commenting of selected text|
@@ -83,15 +88,33 @@ the `blackfriday-tool` executable.
 
 ### Math
 
-In-line Math uses single `$` open/close delimiters with no space after the opening 
-delimiter and before the closing delimiter. Can be embedded in other markdown features.
+In-line Math uses single `$` open/close delimiters. Can be embedded in other markdown 
+features.
 
-Math blocks are delimited using `$$` marks at the left margin.  The open delimiter 
-must follow a blank line and the close delimiter must lead a blank line.
+The opening `$` _must_ have a non-space character immediately right.  The closing 
+`$` _must_ have a non-space character immediately left and _must_ be followed immediately 
+by a non-digit. 
+
+Math blocks are delimited using double `$` (*e.g.*, `$$`) marks at the left margin. 
+The open delimiter must follow a blank line and the close delimiter must lead a blank 
+line.
+
 
 ### Table Editor
 
 `Double-click` on a table to open the table editor. While in the editor, `double-click` 
 a cell to edit text. `Tab` and arrow keys will navigate between cells. `Return` to 
 end cell editing.
+
+## Support
+
+Open an [issue on Github](https://github.com/grosenberg/fluentmark/issues). 
+
+Provide as much information as applicable, including the plugin version number, any 
+error message encountered, and a minimal example of the Markdown text at issue.
+
+## License
+
+EPL v1
+
 
