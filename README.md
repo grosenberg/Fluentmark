@@ -34,10 +34,8 @@ A full-featured Markdown editing environment for Eclipse.
 
 [![Fluentmark Dot graph][1]][1] [![Fluentmark Sequence diagram][2]][2]
 
-[1]: http://www.certiv.net/updates/net.certiv.fluentmark.site/ScreenShot.png "FluentMark 
-Dot graph" { width=100% }
-[2]: http://www.certiv.net/updates/net.certiv.fluentmark.site/ScreenShot1.png "FluentMark 
-Sequence diagram" { width=100% }
+[1]: http://www.certiv.net/updates/net.certiv.fluentmark.site/ScreenShot.png "FluentMark Dot graph" { width=100% }
+[2]: http://www.certiv.net/updates/net.certiv.fluentmark.site/ScreenShot1.png "FluentMark Sequence diagram" { width=100% }
 
 
 ---
