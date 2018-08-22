@@ -29,14 +29,26 @@ public class Formatter {
 	private static int docLength;
 
 	public static void format(FluentEditor editor, ITextSelection sel) {
+		IPreferenceStore store = editor.getPrefsStore();
+		cols = store.getInt(Prefs.EDITOR_FORMATTING_COLUMN);
+		tabWidth = store.getInt(Prefs.EDITOR_TAB_WIDTH);
+
+		doFormat(editor, sel);
+	}
+
+	public static void unwrap(FluentEditor editor, ITextSelection sel) {
+		IPreferenceStore store = editor.getPrefsStore();
+		cols = 0;
+		tabWidth = store.getInt(Prefs.EDITOR_TAB_WIDTH);
+
+		doFormat(editor, sel);
+	}
+
+	private static void doFormat(FluentEditor editor, ITextSelection sel) {
 		IDocument doc = editor.ensureLastLineBlank().getDocument();
 		if (doc == null || doc.getLength() == 0) return;
 
 		docLength = doc.getLength();
-
-		IPreferenceStore store = editor.getPrefsStore();
-		cols = store.getInt(Prefs.EDITOR_FORMATTING_COLUMN);
-		tabWidth = store.getInt(Prefs.EDITOR_TAB_WIDTH);
 
 		try {
 			PageRoot model = editor.getPageModel();

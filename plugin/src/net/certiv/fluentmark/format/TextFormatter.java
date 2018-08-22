@@ -26,19 +26,21 @@ public class TextFormatter {
 	}
 
 	/**
-	 * Format the given content by wrapping at the given col. First line will be indented by
-	 * indentFirst spaces and the remaining lines will be indented with indentRest spaces
+	 * Format the given content by wrapping at the given {@code col}, provided {@code col} is greater
+	 * than {@code 0}. First line will be indented by indentFirst spaces and the remaining lines will be
+	 * indented with indentRest spaces
 	 */
 	public static String wrap(String content, int col, String delim, int indentFirst, int indentRest) {
-		WordBreakIterator breaker = new WordBreakIterator();
-
-		content = Strings.trimLeft(content);
-		content = content.replaceAll("\\s*\\R+\\s*", " ");
-		breaker.setText(content);
-
-		List<String> lines = new ArrayList<>();
 		StringBuilder sb = new StringBuilder();
 		sb.append(Strings.dup(" ", indentFirst));
+
+		content = Strings.trimLeft(content);
+		content = content.replaceAll("\\s*?\\R+\\s*", " ");
+		if (col <= 0) return sb.append(content).toString();
+
+		WordBreakIterator breaker = new WordBreakIterator();
+		breaker.setText(content);
+		List<String> lines = new ArrayList<>();
 
 		int mark = breaker.first();
 		int dot = breaker.next();
@@ -54,7 +56,6 @@ public class TextFormatter {
 					sb.append(Strings.dup(" ", indentRest));
 				}
 			}
-
 			mark = dot;
 			dot = breaker.next();
 		}
@@ -63,7 +64,6 @@ public class TextFormatter {
 		if (!remainder.trim().isEmpty()) {
 			lines.add(remainder);
 		}
-
 		return String.join(delim, lines);
 	}
 

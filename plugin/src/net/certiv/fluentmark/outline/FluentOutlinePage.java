@@ -168,9 +168,7 @@ public class FluentOutlinePage extends ContentOutlinePage implements IShowInSour
 		}
 	}
 
-	/**
-	 * The model change listener to update the outline viewer.
-	 */
+	/** The model change listener to update the outline viewer. */
 	protected class ElementChangedListener implements IElementChangedListener {
 
 		@Override
@@ -512,7 +510,7 @@ public class FluentOutlinePage extends ContentOutlinePage implements IShowInSour
 
 	/**
 	 * Gets the clipboard. Used by copy paste actions.
-	 * 
+	 *
 	 * @return the clipboard associated with this outline
 	 */
 	public Clipboard getClipboard() {
@@ -591,7 +589,7 @@ public class FluentOutlinePage extends ContentOutlinePage implements IShowInSour
 
 	/**
 	 * Gets the text of the currently selected item. Use by copy paste and drag'n'drop operations.
-	 * 
+	 *
 	 * @return text of the currently selected item or null if no item is selected.
 	 */
 	public String getSelectedText() {
@@ -609,7 +607,7 @@ public class FluentOutlinePage extends ContentOutlinePage implements IShowInSour
 
 	/**
 	 * Pastes given text after the selected item. Used by the paste action.
-	 * 
+	 *
 	 * @param text the text to be pasted
 	 * @return true if pasting was succesful, otherwise false
 	 */

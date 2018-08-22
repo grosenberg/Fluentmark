@@ -260,6 +260,12 @@
             name="Format">
       </command>
       <command
+            defaultHandler="net.certiv.fluentmark.handlers.UnwrapHandler"
+            description="Unwrap text"
+            id="net.certiv.fluentmark.unwrap"
+            name="Unwrap">
+      </command>
+      <command
             categoryId="net.certiv.fluentmark.commands"
             defaultHandler="net.certiv.fluentmark.handlers.ToggleHiddenCommentHandler"
             description="Toggle Hidden Comment"
@@ -368,6 +374,20 @@
          </enabledWhen>
       </handler>
       <handler
+            class="net.certiv.fluentmark.handlers.UnwrapHandler"
+            commandId="net.certiv.fluentmark.unwrap">
+         <activeWhen>
+            <reference
+                  definitionId="net.certiv.fluentmark.editorVisible">
+            </reference>
+         </activeWhen>
+         <enabledWhen>
+            <reference
+                  definitionId="net.certiv.fluentmark.editorVisible">
+            </reference>
+         </enabledWhen>
+      </handler>
+      <handler
             class="net.certiv.fluentmark.handlers.ToggleHiddenCommentHandler"
             commandId="net.certiv.fluentmark.hiddenComment">
          <activeWhen>
@@ -428,6 +448,16 @@
       <handler
             class="net.certiv.fluentmark.handlers.FirebugHandler"
             commandId="net.certiv.fluentmark.firebug">
+         <activeWhen>
+            <reference
+                  definitionId="net.certiv.fluentmark.editorVisible">
+            </reference>
+         </activeWhen>
+         <enabledWhen>
+            <reference
+                  definitionId="net.certiv.fluentmark.editorVisible">
+            </reference>
+         </enabledWhen>
       </handler>
       
    </extension>
@@ -453,6 +483,12 @@
             contextId="net.certiv.fluentmark.ui.editorScope"
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
             sequence="M1+M2+F">
+      </key>
+      <key
+            commandId="net.certiv.fluentmark.unwrap"
+            contextId="net.certiv.fluentmark.ui.editorScope"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="M1+M2+M3+F">
       </key>
       <key
             commandId="net.certiv.fluentmark.hiddenComment"

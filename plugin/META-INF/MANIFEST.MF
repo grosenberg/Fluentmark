@@ -3,7 +3,7 @@ Automatic-Module-Name: net.certiv.fluentmark
 Bundle-ManifestVersion: 2
 Bundle-Name: FluentMark Editor
 Bundle-SymbolicName: net.certiv.fluentmark;singleton:=true
-Bundle-Version: 1.2.0.qualifier
+Bundle-Version: 1.2.1.qualifier
 Bundle-Activator: net.certiv.fluentmark.FluentUI
 Bundle-Vendor: Certiv Analytics
 Require-Bundle: org.eclipse.core.commands,

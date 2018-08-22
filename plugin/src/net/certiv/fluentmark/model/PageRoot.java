@@ -38,6 +38,7 @@ public class PageRoot extends Parent implements IResourceChangeListener, IDocume
 	/** Maximum length for a task tag message */
 	private static final int MSG_MAXLEN = 60;
 
+	private final UpdateJob modelJob = new UpdateJob("Model updater");
 	public static PageRoot MODEL;
 
 	/** Collection of listeners for Dsl element deltas */
@@ -82,7 +83,7 @@ public class PageRoot extends Parent implements IResourceChangeListener, IDocume
 
 	@Override
 	public void documentChanged(DocumentEvent event) {
-		updateModel(getResource(), event.getDocument().get());
+		modelJob.trigger(this, getResource(), event.getDocument().get());
 	}
 
 	protected void fire() {

@@ -6,8 +6,8 @@
 
 	<parent>
 		<groupId>net.certiv.fluentmark</groupId>
-		<artifactId>fluentmark_parent</artifactId>
-		<version>1.2.0-SNAPSHOT</version>
+		<artifactId>Fluentmark</artifactId>
+		<version>1.2.1-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>net.certiv.fluentmark</artifactId>

@@ -92,14 +92,13 @@ import net.certiv.fluentmark.outline.FluentOutlinePage;
 import net.certiv.fluentmark.outline.operations.AbstractDocumentCommand;
 import net.certiv.fluentmark.outline.operations.CommandManager;
 import net.certiv.fluentmark.preferences.Prefs;
-import net.certiv.fluentmark.preferences.pages.PrefPageEditor;
 import net.certiv.fluentmark.util.Strings;
 
 /**
  * Text editor with markdown support.
  */
 public class FluentEditor extends TextEditor
-implements CommandManager, IShowInTarget, IShowInSource, IReconcilingListener {
+		implements CommandManager, IShowInTarget, IShowInSource, IReconcilingListener {
 
 	public static final String ID = "net.certiv.fluentmark.editor.FluentEditor";
 
@@ -180,7 +179,7 @@ implements CommandManager, IShowInTarget, IShowInSource, IReconcilingListener {
 
 			@Override
 			public void propertyChange(PropertyChangeEvent event) {
-				if (event.getProperty().equals(PrefPageEditor.EDITOR_WORD_WRAP)) {
+				if (event.getProperty().equals(Prefs.EDITOR_WORD_WRAP)) {
 					getViewer().getTextWidget().setWordWrap(isWordWrap());
 				}
 			}
@@ -748,10 +747,10 @@ implements CommandManager, IShowInTarget, IShowInSource, IReconcilingListener {
 	}
 
 	void updateTaskTags(IRegion region) {
-		boolean useTags = getPreferenceStore().getBoolean(PrefPageEditor.EDITOR_TASK_TAGS);
+		boolean useTags = getPreferenceStore().getBoolean(Prefs.EDITOR_TASK_TAGS);
 		if (!useTags) return;
 
-		String tagString = getPreferenceStore().getString(PrefPageEditor.EDITOR_TASK_TAGS_DEFINED);
+		String tagString = getPreferenceStore().getString(Prefs.EDITOR_TASK_TAGS_DEFINED);
 		List<String> tags = new ArrayList<>();
 		for (String tag : tagString.split(",")) {
 			tags.add(tag.trim());
