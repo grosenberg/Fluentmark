@@ -2,6 +2,8 @@
 
 A full-featured Markdown editing environment for Eclipse.
 
+Survey: [Proposal to remove legacy converters](https://github.com/grosenberg/fluentmark/issues/30).
+
 ## Features 
 
 + Choice of Markdown converter
