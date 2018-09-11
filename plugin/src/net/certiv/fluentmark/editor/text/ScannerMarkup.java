@@ -14,6 +14,12 @@ import org.eclipse.jface.text.rules.IRule;
 import org.eclipse.jface.text.rules.IToken;
 import org.eclipse.jface.text.rules.WhitespaceRule;
 
+import net.certiv.fluentmark.editor.text.rules.EmphasisRule;
+import net.certiv.fluentmark.editor.text.rules.FirstColumnRule;
+import net.certiv.fluentmark.editor.text.rules.HeaderUnderlineRule;
+import net.certiv.fluentmark.editor.text.rules.LinkRule;
+import net.certiv.fluentmark.editor.text.rules.ListRule;
+import net.certiv.fluentmark.editor.text.rules.WhitespaceDetector;
 import net.certiv.fluentmark.preferences.Prefs;
 
 public class ScannerMarkup extends AbstractBufferedRuleBasedScanner {

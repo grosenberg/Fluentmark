@@ -60,17 +60,17 @@ public abstract class AbstractMarksHandler extends AbstractHandler {
 	}
 
 	private boolean samePartition(int beg, int len) throws BadLocationException {
-		if (len == 0) return TextUtilities.getContentType(doc, Partitions.MK_PARTITIONING, cpos, false)
+		if (len == 0) return TextUtilities.getContentType(doc, Partitions.PARTITIONING, cpos, false)
 				.equals(IDocument.DEFAULT_CONTENT_TYPE);
 
-		boolean begDef = TextUtilities.getContentType(doc, Partitions.MK_PARTITIONING, beg, false)
+		boolean begDef = TextUtilities.getContentType(doc, Partitions.PARTITIONING, beg, false)
 				.equals(IDocument.DEFAULT_CONTENT_TYPE);
-		boolean endDef = TextUtilities.getContentType(doc, Partitions.MK_PARTITIONING, beg + len - 1, false)
+		boolean endDef = TextUtilities.getContentType(doc, Partitions.PARTITIONING, beg + len - 1, false)
 				.equals(IDocument.DEFAULT_CONTENT_TYPE);
 
 		if (begDef && endDef) {
-			ITypedRegion begRegion = TextUtilities.getPartition(doc, Partitions.MK_PARTITIONING, beg, false);
-			ITypedRegion endRegion = TextUtilities.getPartition(doc, Partitions.MK_PARTITIONING, beg + len - 1, false);
+			ITypedRegion begRegion = TextUtilities.getPartition(doc, Partitions.PARTITIONING, beg, false);
+			ITypedRegion endRegion = TextUtilities.getPartition(doc, Partitions.PARTITIONING, beg + len - 1, false);
 			if (begRegion.getOffset() == endRegion.getOffset()) return true;
 		}
 		return false;

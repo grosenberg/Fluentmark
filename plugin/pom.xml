@@ -16,10 +16,18 @@
 	<name>FluentMark editor</name>
 	<description>Markdown Editor</description>
 
-	<properties>
-	</properties>
-
 	<dependencies>
+
+		<dependency>
+			<groupId>org.antlr</groupId>
+			<artifactId>antlr4-runtime</artifactId>
+			<version>4.7.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.antlr</groupId>
+			<artifactId>ST4</artifactId>
+			<version>4.0.8</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -80,10 +88,11 @@
 	<build>
 		<plugins>
 
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
-				<version>2.8</version>
+				<version>3.0.0</version>
 				<executions>
 					<execution>
 						<id>copy</id>
@@ -93,6 +102,30 @@
 						</goals>
 						<configuration>
 							<artifactItems>
+
+								<artifactItem>
+									<groupId>org.antlr</groupId>
+									<artifactId>antlr4-runtime</artifactId>
+									<version>4.7.1</version>
+									<type>jar</type>
+									<overWrite>true</overWrite>
+								</artifactItem>
+
+								<artifactItem>
+									<groupId>org.antlr</groupId>
+									<artifactId>ST4</artifactId>
+									<version>4.0.8</version>
+									<type>jar</type>
+									<overWrite>true</overWrite>
+								</artifactItem>
+
+								<artifactItem>
+									<groupId>org.antlr</groupId>
+									<artifactId>antlr-runtime</artifactId>
+									<version>3.5.2</version>
+									<type>jar</type>
+									<overWrite>true</overWrite>
+								</artifactItem>
 
 								<artifactItem>
 									<groupId>org.apache.commons</groupId>
@@ -167,15 +200,15 @@
 								</artifactItem>
 
 							</artifactItems>
+
 							<outputDirectory>lib</outputDirectory>
-							<stripVersion>true</stripVersion>
+							<stripVersion>false</stripVersion>
 							<overWriteRelease>true</overWriteRelease>
 							<overWriteSnapshots>true</overWriteSnapshots>
 						</configuration>
 					</execution>
 				</executions>
 			</plugin>
-
 		</plugins>
 	</build>
 

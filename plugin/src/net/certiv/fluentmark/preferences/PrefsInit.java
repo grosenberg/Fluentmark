@@ -59,6 +59,8 @@ public class PrefsInit extends AbstractPreferenceInitializer implements Prefs {
 		store.setDefault(EDITOR_OUTLINE_SHOW_BLANKLINES, false);
 		store.setDefault(EDITOR_OUTLINE_SYNC_ON_CURSOR_MOVE, true);
 
+		store.setDefault(EDITOR_CORRECTION_INDICATION, true);
+
 		store.setDefault(EDITOR_TASK_TAGS, true);
 		store.setDefault(EDITOR_TASK_TAGS_DEFINED, "TODO,FIXME,NOTE");
 

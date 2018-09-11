@@ -93,6 +93,18 @@ public class FluentUI extends AbstractUIPlugin {
 		return plugin;
 	}
 
+	public static void log(String msg) {
+		log(IStatus.INFO, msg, null);
+	}
+
+	public static void log(int type, String msg) {
+		log(type, msg, null);
+	}
+
+	public static void log(int type, String msg, Exception e) {
+		plugin.getLog().log(new Status(type, PLUGIN_ID, IStatus.OK, msg, e));
+	}
+
 	public IColorManager getColorMgr() {
 		if (colorManager == null) {
 			colorManager = new ColorManager(true);

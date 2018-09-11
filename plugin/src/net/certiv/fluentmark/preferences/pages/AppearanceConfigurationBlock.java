@@ -274,7 +274,7 @@ class AppearanceConfigurationBlock extends AbstractConfigurationBlock {
 			{ "Code Blocks", Prefs.EDITOR_CODEBLOCK_COLOR }, //
 
 			{ "Keywords", Prefs.EDITOR_DOT_KEYWORD_COLOR }, // 8
-			{ "Attributes", Prefs.EDITOR_DOT_ATTRIBS_COLOR }, //
+			{ "AttrMap", Prefs.EDITOR_DOT_ATTRIBS_COLOR }, //
 			{ "Symbols", Prefs.EDITOR_DOT_SYMBOL_COLOR }, //
 			{ "Comments", Prefs.EDITOR_DOT_COMMENT_COLOR }, //
 			{ "Strings", Prefs.EDITOR_DOT_STRING_COLOR }, //
@@ -726,7 +726,7 @@ class AppearanceConfigurationBlock extends AbstractConfigurationBlock {
 		fPreviewViewer = new FluentSourceViewer(parent, null, null, false, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER,
 				store);
 		FluentSimpleSourceViewerConfiguration configuration = new FluentSimpleSourceViewerConfiguration(fColorManager,
-				store, null, Partitions.MK_PARTITIONING, false);
+				store, null, Partitions.PARTITIONING, false);
 		fPreviewViewer.configure(configuration);
 		Font font = JFaceResources.getFont(Prefs.EDITOR_TEXT_FONT);
 		fPreviewViewer.getTextWidget().setFont(font);
@@ -741,7 +741,7 @@ class AppearanceConfigurationBlock extends AbstractConfigurationBlock {
 
 		String content = loadPreviewContentFromFile("ColorsPreview.md"); //$NON-NLS-1$
 		IDocument document = new Document(content);
-		FluentUI.getDefault().getTextTools().setupDocumentPartitioner(document, Partitions.MK_PARTITIONING);
+		FluentUI.getDefault().getTextTools().setupDocumentPartitioner(document, Partitions.PARTITIONING);
 		fPreviewViewer.setDocument(document);
 
 		return fPreviewViewer.getControl();

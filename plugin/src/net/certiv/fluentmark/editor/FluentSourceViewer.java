@@ -7,14 +7,8 @@
  ******************************************************************************/
 package net.certiv.fluentmark.editor;
 
-import static org.eclipse.ui.texteditor.AbstractDecoratedTextEditorPreferenceConstants.EDITOR_SELECTION_BACKGROUND_COLOR;
-import static org.eclipse.ui.texteditor.AbstractDecoratedTextEditorPreferenceConstants.EDITOR_SELECTION_BACKGROUND_DEFAULT_COLOR;
-import static org.eclipse.ui.texteditor.AbstractDecoratedTextEditorPreferenceConstants.EDITOR_SELECTION_FOREGROUND_COLOR;
-import static org.eclipse.ui.texteditor.AbstractDecoratedTextEditorPreferenceConstants.EDITOR_SELECTION_FOREGROUND_DEFAULT_COLOR;
-import static org.eclipse.ui.texteditor.AbstractTextEditor.PREFERENCE_COLOR_BACKGROUND;
-import static org.eclipse.ui.texteditor.AbstractTextEditor.PREFERENCE_COLOR_BACKGROUND_SYSTEM_DEFAULT;
-import static org.eclipse.ui.texteditor.AbstractTextEditor.PREFERENCE_COLOR_FOREGROUND;
-import static org.eclipse.ui.texteditor.AbstractTextEditor.PREFERENCE_COLOR_FOREGROUND_SYSTEM_DEFAULT;
+import static org.eclipse.ui.texteditor.AbstractDecoratedTextEditorPreferenceConstants.*;
+import static org.eclipse.ui.texteditor.AbstractTextEditor.*;
 
 import java.util.ArrayList;
 
@@ -306,7 +300,7 @@ public class FluentSourceViewer extends ProjectionViewer implements IPropertyCha
 		Assert.isNotNull(listener);
 
 		if (fTextPresentationListeners == null) {
-			fTextPresentationListeners = new ArrayList<ITextPresentationListener>();
+			fTextPresentationListeners = new ArrayList<>();
 		}
 
 		fTextPresentationListeners.remove(listener);
@@ -332,11 +326,11 @@ public class FluentSourceViewer extends ProjectionViewer implements IPropertyCha
 	}
 
 	/**
-	 * Delays setting the visual document until after the projection has been computed. This method
-	 * must only be called before the document is set on the viewer.
+	 * Delays setting the visual document until after the projection has been computed. This method must
+	 * only be called before the document is set on the viewer.
 	 * <p>
-	 * This is a performance optimization to reduce the computation of the text presentation
-	 * triggered by <code>setVisibleDocument(IDocument)</code>.
+	 * This is a performance optimization to reduce the computation of the text presentation triggered
+	 * by <code>setVisibleDocument(IDocument)</code>.
 	 * </p>
 	 */
 	void prepareDelayedProjection() {

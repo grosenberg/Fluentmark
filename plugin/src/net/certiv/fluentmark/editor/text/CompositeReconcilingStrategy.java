@@ -7,93 +7,132 @@
  ******************************************************************************/
 package net.certiv.fluentmark.editor.text;
 
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.jface.text.IDocument;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.reconciler.DirtyRegion;
 import org.eclipse.jface.text.reconciler.IReconcilingStrategy;
-import org.eclipse.jface.text.reconciler.IReconcilingStrategyExtension;
+import org.eclipse.jface.text.source.IAnnotationModel;
+import org.eclipse.jface.text.source.ISourceViewer;
+import org.eclipse.jface.util.IPropertyChangeListener;
+import org.eclipse.jface.util.PropertyChangeEvent;
+import org.eclipse.ui.texteditor.IDocumentProvider;
+import org.eclipse.ui.texteditor.ITextEditor;
+import org.eclipse.ui.texteditor.spelling.SpellingReconcileStrategy;
+import org.eclipse.ui.texteditor.spelling.SpellingService;
+
+import net.certiv.fluentmark.FluentUI;
+import net.certiv.fluentmark.editor.FluentEditor;
+import net.certiv.fluentmark.editor.IProblemRequestorExtension;
+import net.certiv.fluentmark.preferences.Prefs;
 
 /**
- * A reconciling strategy consisting of a sequence of internal reconciling strategies. By default,
- * all requests are passed on to the contained strategies.
+ * Reconciling strategy containing the regular Markdown strategy and the spelling strategy.
  */
-public class CompositeReconcilingStrategy implements IReconcilingStrategy, IReconcilingStrategyExtension {
+public class CompositeReconcilingStrategy extends MultiReconcilingStrategy {
 
-	/** The list of internal reconciling strategies. */
-	private IReconcilingStrategy[] strategies;
-
-	/**
-	 * Creates a new, empty composite reconciling strategy.
-	 */
-	public CompositeReconcilingStrategy() {}
+	private ITextEditor editor;
+	private IPreferenceStore store;
+	private ISourceViewer viewer;
 
 	/**
-	 * Sets the reconciling strategies for this composite strategy.
+	 * Creates a new Dsl reconciling strategy.
 	 *
-	 * @param strategies the strategies to be set or <code>null</code>
+	 * @param viewer the source viewer
+	 * @param editor the editor of the strategy's reconciler
+	 * @param documentPartitioning the document partitioning this strategy uses for configuration
 	 */
-	public void setReconcilingStrategies(IReconcilingStrategy[] strategies) {
-		this.strategies = strategies;
+	public CompositeReconcilingStrategy(ISourceViewer viewer, ITextEditor editor, String documentPartitioning) {
+		this.viewer = viewer;
+		this.editor = editor;
+		this.store = FluentUI.getDefault().getPreferenceStore();
+		setReconcilingStrategies(getReconcilingStrategies());
+
+		// TODO: figure out how to dispose
+		this.store.addPropertyChangeListener(new IPropertyChangeListener() {
+
+			@Override
+			public void propertyChange(PropertyChangeEvent event) {
+				if (event.getProperty().equals(Prefs.SPELLING_ENABLED)) {
+					setReconcilingStrategies(getReconcilingStrategies());
+				}
+			}
+		});
 	}
 
-	/**
-	 * Returns the previously set strategies or <code>null</code>.
-	 *
-	 * @return the contained strategies or <code>null</code>
-	 */
+	@Override
 	public IReconcilingStrategy[] getReconcilingStrategies() {
-		return strategies;
-	}
-
-	@Override
-	public void setDocument(IDocument document) {
-		if (strategies == null) return;
-
-		for (IReconcilingStrategy strategy : strategies) {
-			strategy.setDocument(document);
-		}
-	}
-
-	@Override
-	public void reconcile(DirtyRegion dirtyRegion, IRegion subRegion) {
-		if (strategies == null) return;
-
-		for (IReconcilingStrategy strategy : strategies) {
-			strategy.reconcile(dirtyRegion, subRegion);
-		}
-	}
-
-	@Override
-	public void reconcile(IRegion partition) {
-		if (strategies == null) return;
-
-		for (IReconcilingStrategy strategy : strategies) {
-			strategy.reconcile(partition);
-		}
-	}
-
-	@Override
-	public void setProgressMonitor(IProgressMonitor monitor) {
-		if (strategies == null) return;
-
-		for (IReconcilingStrategy strategy : strategies) {
-			if (strategy instanceof IReconcilingStrategyExtension) {
-				IReconcilingStrategyExtension extension = (IReconcilingStrategyExtension) strategy;
-				extension.setProgressMonitor(monitor);
+		List<IReconcilingStrategy> strategies = new ArrayList<>();
+		if (store.getBoolean(Prefs.SPELLING_ENABLED)) {
+			SpellingService service = new SpellingService(store);
+			if (service.getActiveSpellingEngineDescriptor(store) != null) {
+				IReconcilingStrategy spellStrategy = new SpellingReconcileStrategy(viewer, service);
+				strategies.add(spellStrategy);
 			}
 		}
+		if (store.getBoolean(Prefs.EDITOR_DOTMODE_ENABLED)) {
+			strategies.add(new DotReconcilingStrategy(editor, viewer));
+		}
+		if (strategies.isEmpty()) {
+			strategies.add(new NullReconcilingStrategy());
+		}
+		return strategies.toArray(new IReconcilingStrategy[strategies.size()]);
+	}
+
+	/**
+	 * Returns the problem requestor for the editor's input element.
+	 *
+	 * @return the problem requestor for the editor's input element
+	 */
+	private IProblemRequestorExtension getProblemRequestorExtension() {
+		IDocumentProvider p = editor.getDocumentProvider();
+		if (p == null) return null;
+
+		IAnnotationModel m = p.getAnnotationModel(editor.getEditorInput());
+		if (m instanceof IProblemRequestorExtension) {
+			return (IProblemRequestorExtension) m;
+		}
+		return null;
 	}
 
 	@Override
 	public void initialReconcile() {
-		if (strategies == null) return;
+		reconcile(null, null);
+	}
 
-		for (IReconcilingStrategy strategy : strategies) {
-			if (strategy instanceof IReconcilingStrategyExtension) {
-				IReconcilingStrategyExtension extension = (IReconcilingStrategyExtension) strategy;
-				extension.initialReconcile();
+	@Override
+	public void reconcile(IRegion partition) {
+		reconcile(null, partition);
+	}
+
+	@Override
+	public void reconcile(DirtyRegion dirty, IRegion partition) {
+		try {
+			IProblemRequestorExtension e = getProblemRequestorExtension();
+			if (e != null) {
+				try {
+					e.beginReportingSequence();
+					doReconcile(dirty, partition);
+				} finally {
+					e.endReportingSequence();
+				}
+			} else {
+				doReconcile(dirty, partition);
 			}
+		} finally {
+			((FluentEditor) editor).reconciled();
+		}
+	}
+
+	private void doReconcile(DirtyRegion dirty, IRegion partition) {
+		if (partition == null) {
+			super.initialReconcile();
+		} else if (dirty == null) {
+			super.reconcile(partition);
+		} else {
+			super.reconcile(dirty, partition);
 		}
 	}
 }

@@ -37,55 +37,37 @@ import org.eclipse.ui.texteditor.IDocumentProvider;
 import org.eclipse.ui.texteditor.ITextEditor;
 
 import net.certiv.fluentmark.editor.DocumentCharacterIterator;
+import net.certiv.fluentmark.editor.FluentEditor;
 import net.certiv.fluentmark.editor.IReconcilingListener;
 import net.certiv.fluentmark.editor.ISourceReference;
-import net.certiv.fluentmark.editor.FluentEditor;
 import net.certiv.fluentmark.editor.Partitions;
 import net.certiv.fluentmark.model.ISourceRange;
 import net.certiv.fluentmark.model.SourceRange;
 import net.certiv.fluentmark.preferences.Prefs;
 
-/**
- * Implementation of a {@link IFoldingStructureProvider}.
- */
+/** Implementation of a {@link IFoldingStructureProvider}. */
 public class FoldingStructureProvider implements IFoldingStructureProvider {
 
-	// /**
-	// * Listen to cursor position changes.
-	// */
-	// private final class SelectionListener implements ISelectionChangedListener {
-	//
-	// @Override
-	// public void selectionChanged(SelectionChangedEvent event) {
-	// ISelection s = event.getSelection();
-	// if (s instanceof ITextSelection) {
-	// ITextSelection selection = (ITextSelection) event.getSelection();
-	// fCursorPosition = selection.getOffset();
-	// }
-	// }
-	// }
-
-	/**
-	 * Update folding positions; triggered by reconciler.
-	 */
+	/** Update folding positions; triggered by reconciler. */
 	private class FoldingStructureReconciler implements IReconcilingListener {
 
-		private volatile boolean fReconciling;
+		private volatile boolean reconciling;
 
+		@Override
 		public void reconciled() {
-			if (fInput == null) return;
+			if (input == null) return;
 
 			synchronized (this) {
-				if (fReconciling) return;
-				fReconciling = true;
+				if (reconciling) return;
+				reconciling = true;
 			}
 			try {
-				final boolean initialReconcile = fInitialReconcilePending;
-				fInitialReconcilePending = false;
+				final boolean initialReconcile = initialReconcilePending;
+				initialReconcilePending = false;
 				FoldingStructureComputationContext ctx = createContext(initialReconcile);
 				if (ctx != null) update(ctx);
 			} finally {
-				fReconciling = false;
+				reconciling = false;
 			}
 		}
 	}
@@ -93,138 +75,134 @@ public class FoldingStructureProvider implements IFoldingStructureProvider {
 	/**
 	 * A context that contains the information needed to compute the folding structure of an
 	 * {@link ITranslationUnit}. Computed folding regions are collected via
-	 * {@linkplain #addProjectionRange(MkProjectionAnnotation.DslProjectionAnnotation, Position)
+	 * {@linkplain #addProjectionRange(FluentProjectionAnnotation.DslProjectionAnnotation, Position)
 	 * addProjectionRange}.
 	 */
 	protected final class FoldingStructureComputationContext {
 
-		private final ProjectionAnnotationModel fModel;
-		private final IDocument fDocument;
-		private final boolean fAllowCollapsing;
+		private final ProjectionAnnotationModel model;
+		private final IDocument doc;
+		private final boolean allowCollapsing;
 
-		private ISourceReference fFirstType;
-		private boolean fHasHeaderComment;
-		private LinkedHashMap<MkProjectionAnnotation, Position> fMap = new LinkedHashMap<MkProjectionAnnotation, Position>();
+		private ISourceReference firstType;
+		private boolean hasHeaderComment;
+		private LinkedHashMap<FluentProjectionAnnotation, Position> fMap = new LinkedHashMap<>();
 
-		FoldingStructureComputationContext(IDocument document, ProjectionAnnotationModel model,
-				boolean allowCollapsing) {
-			Assert.isNotNull(document);
+		FoldingStructureComputationContext(IDocument doc, ProjectionAnnotationModel model, boolean allowCollapsing) {
+			Assert.isNotNull(doc);
 			Assert.isNotNull(model);
-			fDocument = document;
-			fModel = model;
-			fAllowCollapsing = allowCollapsing;
+			this.doc = doc;
+			this.model = model;
+			this.allowCollapsing = allowCollapsing;
 		}
 
 		void setFirstType(ISourceReference reference) {
 			if (hasFirstType()) throw new IllegalStateException();
-			fFirstType = reference;
+			firstType = reference;
 		}
 
 		boolean hasFirstType() {
-			return fFirstType != null;
+			return firstType != null;
 		}
 
 		ISourceReference getFirstType() {
-			return fFirstType;
+			return firstType;
 		}
 
 		boolean hasHeaderComment() {
-			return fHasHeaderComment;
+			return hasHeaderComment;
 		}
 
 		void setHasHeaderComment() {
-			fHasHeaderComment = true;
+			hasHeaderComment = true;
 		}
 
 		/**
-		 * Returns <code>true</code> if newly created folding regions may be collapsed,
-		 * <code>false</code> if not. This is usually <code>false</code> when updating the folding
-		 * structure while typing; it may be <code>true</code> when computing or restoring the
-		 * initial folding structure.
-		 * 
-		 * @return <code>true</code> if newly created folding regions may be collapsed,
-		 *         <code>false</code> if not
+		 * Returns <code>true</code> if newly created folding regions may be collapsed, <code>false</code>
+		 * if not. This is usually <code>false</code> when updating the folding structure while typing; it
+		 * may be <code>true</code> when computing or restoring the initial folding structure.
+		 *
+		 * @return <code>true</code> if newly created folding regions may be collapsed, <code>false</code>
+		 *         if not
 		 */
 		public boolean allowCollapsing() {
-			return fAllowCollapsing;
+			return allowCollapsing;
 		}
 
 		/**
 		 * Returns the document which contains the code being folded.
-		 * 
+		 *
 		 * @return the document which contains the code being folded
 		 */
 		IDocument getDocument() {
-			return fDocument;
+			return doc;
 		}
 
 		ProjectionAnnotationModel getModel() {
-			return fModel;
+			return model;
 		}
 
 		/**
-		 * Adds a projection (folding) region to this context. The created annotation / position
-		 * pair will be added to the {@link ProjectionAnnotationModel} of the
-		 * {@link ProjectionViewer} of the editor.
-		 * 
+		 * Adds a projection (folding) region to this context. The created annotation / position pair will
+		 * be added to the {@link ProjectionAnnotationModel} of the {@link ProjectionViewer} of the editor.
+		 *
 		 * @param annotation the annotation to add
 		 * @param position the corresponding position
 		 */
-		public void addProjectionRange(MkProjectionAnnotation annotation, Position position) {
+		public void addProjectionRange(FluentProjectionAnnotation annotation, Position position) {
 			fMap.put(annotation, position);
 		}
 
 		public boolean collapseFrontMatter() {
-			return fAllowCollapsing && collapseFrontMatter;
+			return allowCollapsing && collapseFrontMatter;
 		}
 
 		public boolean collapseComments() {
-			return fAllowCollapsing && collapseComments;
+			return allowCollapsing && collapseComments;
 		}
 
 		public boolean collapseCodeblocks() {
-			return fAllowCollapsing && collapseCodeBlocks;
+			return allowCollapsing && collapseCodeBlocks;
 		}
 
 		public boolean collapseHtmlblocks() {
-			return fAllowCollapsing && collapseHtmlBlocks;
+			return allowCollapsing && collapseHtmlBlocks;
 		}
 	}
 
-	private static class MkProjectionAnnotation extends ProjectionAnnotation {
+	private static class FluentProjectionAnnotation extends ProjectionAnnotation {
 
 		public final static int COMMENT = 0;
-		// public final static int STATEMENT = 1;
 
-		private Object fKey;
-		private int fCategory;
+		private Object key;
+		private int category;
 
-		public MkProjectionAnnotation(boolean isCollapsed, Object key, boolean isComment) {
+		public FluentProjectionAnnotation(boolean isCollapsed, Object key, boolean isComment) {
 			this(isCollapsed, key, isComment ? COMMENT : 0);
 		}
 
-		public MkProjectionAnnotation(boolean isCollapsed, Object key, int category) {
+		public FluentProjectionAnnotation(boolean isCollapsed, Object key, int category) {
 			super(isCollapsed);
-			fKey = key;
-			fCategory = category;
+			this.key = key;
+			this.category = category;
 		}
 
 		public Object getElement() {
-			return fKey;
+			return key;
 		}
 
 		public void setElement(Object element) {
-			fKey = element;
+			this.key = element;
 		}
 
 		public int getCategory() {
-			return fCategory;
+			return category;
 		}
 
 		@Override
 		public String toString() {
-			return "MkProjectionAnnotation:\n" + //$NON-NLS-1$
-					"\tkey: \t" + fKey + "\n" + //$NON-NLS-1$ //$NON-NLS-2$
+			return "FluentProjectionAnnotation:\n" + //$NON-NLS-1$
+					"\tkey: \t" + key + "\n" + //$NON-NLS-1$ //$NON-NLS-2$
 					"\tcollapsed: \t" + isCollapsed() + "\n" + //$NON-NLS-1$ //$NON-NLS-2$
 					"\tcategory: \t" + getCategory() + "\n"; //$NON-NLS-1$ //$NON-NLS-2$
 		}
@@ -232,19 +210,19 @@ public class FoldingStructureProvider implements IFoldingStructureProvider {
 
 	private static final class Tuple {
 
-		MkProjectionAnnotation annotation;
+		FluentProjectionAnnotation annotation;
 		Position position;
 
-		Tuple(MkProjectionAnnotation annotation, Position position) {
+		Tuple(FluentProjectionAnnotation annotation, Position position) {
 			this.annotation = annotation;
 			this.position = position;
 		}
 	}
 
 	/**
-	 * Projection position that will return two foldable regions: one folding away the region from
-	 * after the start sequence to the beginning of the content, the other from after the first
-	 * content line until after the end sequence.
+	 * Projection position that will return two foldable regions: one folding away the region from after
+	 * the start sequence to the beginning of the content, the other from after the first content line
+	 * until after the end sequence.
 	 */
 	private static final class CommentPosition extends Position implements IProjectionPosition {
 
@@ -252,6 +230,7 @@ public class FoldingStructureProvider implements IFoldingStructureProvider {
 			super(offset, length);
 		}
 
+		@Override
 		public IRegion[] computeProjectionRegions(IDocument document) throws BadLocationException {
 			DocumentCharacterIterator sequence = new DocumentCharacterIterator(document, offset, offset + length);
 			int prefixEnd = 0;
@@ -289,9 +268,9 @@ public class FoldingStructureProvider implements IFoldingStructureProvider {
 		}
 
 		/**
-		 * Finds the offset of the first identifier part within <code>content</code>. Returns 0 if
-		 * none is found.
-		 * 
+		 * Finds the offset of the first identifier part within <code>content</code>. Returns 0 if none is
+		 * found.
+		 *
 		 * @param content the content to search
 		 * @return the first index of a unicode identifier part, or zero if none can be found
 		 */
@@ -303,53 +282,50 @@ public class FoldingStructureProvider implements IFoldingStructureProvider {
 			return 0;
 		}
 
+		@Override
 		public int computeCaptionOffset(IDocument document) {
 			DocumentCharacterIterator sequence = new DocumentCharacterIterator(document, offset, offset + length);
 			return findFirstContent(sequence, 0);
 		}
 	}
 
-	/**
-	 * Internal projection listener.
-	 */
 	private final class ProjectionListener implements IProjectionListener {
 
-		private ProjectionViewer fViewer;
+		private ProjectionViewer viewer;
 
 		/**
 		 * Registers the listener with the viewer.
-		 * 
+		 *
 		 * @param viewer the viewer to register a listener with
 		 */
 		public ProjectionListener(ProjectionViewer viewer) {
 			Assert.isLegal(viewer != null);
-			fViewer = viewer;
-			fViewer.addProjectionListener(this);
+			this.viewer = viewer;
+			this.viewer.addProjectionListener(this);
 		}
 
 		/**
 		 * Disposes of this listener and removes the projection listener from the viewer.
 		 */
 		public void dispose() {
-			if (fViewer != null) {
-				fViewer.removeProjectionListener(this);
-				fViewer = null;
+			if (viewer != null) {
+				viewer.removeProjectionListener(this);
+				viewer = null;
 			}
 		}
 
+		@Override
 		public void projectionEnabled() {
 			handleProjectionEnabled();
 		}
 
+		@Override
 		public void projectionDisabled() {
 			handleProjectionDisabled();
 		}
 	}
 
-	/**
-	 * Implementation of <code>IRegion</code> that can be reused by setting the offset and the
-	 * length.
-	 */
+	/** Implementation of <code>IRegion</code> that can be reused by setting offset and length. */
 	private static class ModifiableRegion extends Position implements IRegion {
 
 		ModifiableRegion() {
@@ -358,9 +334,10 @@ public class FoldingStructureProvider implements IFoldingStructureProvider {
 	}
 
 	/* context and listeners */
-	private FluentEditor fEditor;
-	private ProjectionListener fProjectionListener;
-	protected IEditorInput fInput;
+	private FluentEditor editor;
+	private IPreferenceStore store;
+	private ProjectionListener projectionListener;
+	protected IEditorInput input;
 
 	/* preferences */
 	private int collapseMinLimit = 2;
@@ -368,60 +345,55 @@ public class FoldingStructureProvider implements IFoldingStructureProvider {
 	private boolean codeBlockFoldingEnabled;
 	private boolean htmlBlockFoldingEnabled;
 	private boolean commentFoldingEnabled;
-	private boolean collapseFrontMatter = false;
-	private boolean collapseComments = false;
-	private boolean collapseCodeBlocks = false;
-	private boolean collapseHtmlBlocks = false;
+	private boolean collapseFrontMatter;
+	private boolean collapseComments;
+	private boolean collapseCodeBlocks;
+	private boolean collapseHtmlBlocks;
 
-	private IReconcilingListener fReconilingListener;
-	private volatile boolean fInitialReconcilePending = true;
+	private IReconcilingListener reconilingListener;
+	private volatile boolean initialReconcilePending = true;
 
-	private IPreferenceStore fStore;
-	// private SelectionListener fSelectionListener;
-	// private int fCursorPosition;
-
+	@Override
 	public void install(ITextEditor editor, ProjectionViewer viewer, IPreferenceStore store) {
 		Assert.isLegal(editor != null);
 		Assert.isLegal(viewer != null);
 
 		internalUninstall();
-		fStore = store;
+		this.store = store;
 
 		if (editor instanceof FluentEditor) {
-			fEditor = (FluentEditor) editor;
-			fProjectionListener = new ProjectionListener(viewer);
+			this.editor = (FluentEditor) editor;
+			this.projectionListener = new ProjectionListener(viewer);
 		}
 	}
 
+	@Override
 	public void uninstall() {
 		internalUninstall();
 	}
 
-	/**
-	 * Internal implementation of {@link #uninstall()}.
-	 */
 	private void internalUninstall() {
 		if (isInstalled()) {
 			handleProjectionDisabled();
-			fProjectionListener.dispose();
-			fProjectionListener = null;
-			fEditor = null;
+			projectionListener.dispose();
+			projectionListener = null;
+			editor = null;
 		}
 	}
 
 	/**
 	 * Returns <code>true</code> if the provider is installed, <code>false</code> otherwise.
-	 * 
+	 *
 	 * @return <code>true</code> if the provider is installed, <code>false</code> otherwise
 	 */
 	protected final boolean isInstalled() {
-		return fEditor != null;
+		return editor != null;
 	}
 
 	/**
 	 * Called whenever projection is enabled, for example when the viewer issues a
-	 * {@link IProjectionListener#projectionEnabled() projectionEnabled} message. When the provider
-	 * is already enabled when this method is called, it is first {@link #handleProjectionDisabled()
+	 * {@link IProjectionListener#projectionEnabled() projectionEnabled} message. When the provider is
+	 * already enabled when this method is called, it is first {@link #handleProjectionDisabled()
 	 * disabled}.
 	 * <p>
 	 * Subclasses may extend.
@@ -433,44 +405,38 @@ public class FoldingStructureProvider implements IFoldingStructureProvider {
 
 		if (isInstalled()) {
 			initialize();
-			fReconilingListener = new FoldingStructureReconciler();
-			fEditor.addReconcileListener(fReconilingListener);
-			// fSelectionListener = new SelectionListener();
-			// fEditor.getSelectionProvider().addSelectionChangedListener(fSelectionListener);
+			reconilingListener = new FoldingStructureReconciler();
+			editor.addReconcileListener(reconilingListener);
 		}
 	}
 
 	/**
 	 * Called whenever projection is disabled, for example when the provider is {@link #uninstall()
 	 * uninstalled}, when the viewer issues a {@link IProjectionListener#projectionDisabled()
-	 * projectionDisabled} message and before {@link #handleProjectionEnabled() enabling} the
-	 * provider. Implementations must be prepared to handle multiple calls to this method even if
-	 * the provider is already disabled.
+	 * projectionDisabled} message and before {@link #handleProjectionEnabled() enabling} the provider.
+	 * Implementations must be prepared to handle multiple calls to this method even if the provider is
+	 * already disabled.
 	 * <p>
 	 * Subclasses may extend.
 	 * </p>
 	 */
 	protected void handleProjectionDisabled() {
-		if (fReconilingListener != null) {
-			fEditor.removeReconcileListener(fReconilingListener);
-			fReconilingListener = null;
+		if (reconilingListener != null) {
+			editor.removeReconcileListener(reconilingListener);
+			reconilingListener = null;
 		}
-		// if (fSelectionListener != null) {
-		// fEditor.getSelectionProvider().removeSelectionChangedListener(fSelectionListener);
-		// fSelectionListener = null;
-		// }
 	}
 
+	@Override
 	public final void initialize() {
-		fInitialReconcilePending = true;
-		// fCursorPosition = -1;
+		initialReconcilePending = true;
 		update(createInitialContext());
 	}
 
 	private FoldingStructureComputationContext createInitialContext() {
 		initializePreferences();
-		fInput = getInputElement();
-		if (fInput == null) return null;
+		input = getInputElement();
+		if (input == null) return null;
 
 		return createContext(true);
 	}
@@ -486,43 +452,38 @@ public class FoldingStructureProvider implements IFoldingStructureProvider {
 	}
 
 	private IEditorInput getInputElement() {
-		if (fEditor == null) return null;
-		return fEditor.getEditorInput();
+		if (editor == null) return null;
+		return editor.getEditorInput();
 	}
 
 	private void initializePreferences() {
-		collapseMinLimit = fStore.getInt(Prefs.FOLDING_LINES_LIMIT);
+		collapseMinLimit = store.getInt(Prefs.FOLDING_LINES_LIMIT);
 
-		frontMatterFoldingEnabled = fStore.getBoolean(Prefs.FOLDING_FRONTMATTER_ENABLED);
-		commentFoldingEnabled = fStore.getBoolean(Prefs.FOLDING_HIDDEN_COMMENTS_ENABLED);
-		codeBlockFoldingEnabled = fStore.getBoolean(Prefs.FOLDING_CODEBLOCKS_ENABLED);
-		htmlBlockFoldingEnabled = fStore.getBoolean(Prefs.FOLDING_HTMLBLOCKS_ENABLED);
+		frontMatterFoldingEnabled = store.getBoolean(Prefs.FOLDING_FRONTMATTER_ENABLED);
+		commentFoldingEnabled = store.getBoolean(Prefs.FOLDING_HIDDEN_COMMENTS_ENABLED);
+		codeBlockFoldingEnabled = store.getBoolean(Prefs.FOLDING_CODEBLOCKS_ENABLED);
+		htmlBlockFoldingEnabled = store.getBoolean(Prefs.FOLDING_HTMLBLOCKS_ENABLED);
 
-		collapseFrontMatter = fStore.getBoolean(Prefs.FOLDING_INITIAL_FRONT_MATTER);
-		collapseComments = fStore.getBoolean(Prefs.FOLDING_INITIAL_HIDDEN_COMMENTS);
-		collapseCodeBlocks = fStore.getBoolean(Prefs.FOLDING_INITIAL_CODEBLOCKS);
-		collapseHtmlBlocks = fStore.getBoolean(Prefs.FOLDING_INITIAL_HTMLBLOCKS);
+		collapseFrontMatter = store.getBoolean(Prefs.FOLDING_INITIAL_FRONT_MATTER);
+		collapseComments = store.getBoolean(Prefs.FOLDING_INITIAL_HIDDEN_COMMENTS);
+		collapseCodeBlocks = store.getBoolean(Prefs.FOLDING_INITIAL_CODEBLOCKS);
+		collapseHtmlBlocks = store.getBoolean(Prefs.FOLDING_INITIAL_HTMLBLOCKS);
 	}
 
 	private void update(FoldingStructureComputationContext ctx) {
-		if (ctx == null /* || !isConsistent(fInput) */) return;
+		if (ctx == null /* || !isConsistent(input) */) return;
 
-		// if (!fInitialReconcilePending && fSelectionListener != null) {
-		// fEditor.getSelectionProvider().removeSelectionChangedListener(fSelectionListener);
-		// fSelectionListener = null;
-		// }
-
-		Map<MkProjectionAnnotation, Position> additions = new HashMap<>();
-		List<MkProjectionAnnotation> deletions = new ArrayList<>();
-		List<MkProjectionAnnotation> updates = new ArrayList<>();
+		Map<FluentProjectionAnnotation, Position> additions = new HashMap<>();
+		List<FluentProjectionAnnotation> deletions = new ArrayList<>();
+		List<FluentProjectionAnnotation> updates = new ArrayList<>();
 
 		computeFoldingStructure(ctx);
-		Map<MkProjectionAnnotation, Position> newStructure = ctx.fMap;
+		Map<FluentProjectionAnnotation, Position> newStructure = ctx.fMap;
 		Map<Object, List<Tuple>> oldStructure = computeCurrentStructure(ctx);
 
-		Iterator<MkProjectionAnnotation> e = newStructure.keySet().iterator();
+		Iterator<FluentProjectionAnnotation> e = newStructure.keySet().iterator();
 		while (e.hasNext()) {
-			MkProjectionAnnotation newAnnotation = e.next();
+			FluentProjectionAnnotation newAnnotation = e.next();
 			Object element = newAnnotation.getElement();
 			Position newPosition = newStructure.get(newAnnotation);
 
@@ -530,11 +491,11 @@ public class FoldingStructureProvider implements IFoldingStructureProvider {
 			if (annotations == null) {
 				additions.put(newAnnotation, newPosition);
 			} else {
-				Iterator<Tuple> x = annotations.iterator();
+				Iterator<Tuple> annoItr = annotations.iterator();
 				boolean matched = false;
-				while (x.hasNext()) {
-					Tuple tuple = x.next();
-					MkProjectionAnnotation existingAnnotation = tuple.annotation;
+				while (annoItr.hasNext()) {
+					Tuple tuple = annoItr.next();
+					FluentProjectionAnnotation existingAnnotation = tuple.annotation;
 					Position existingPosition = tuple.position;
 					if (newAnnotation.getCategory() == existingAnnotation.getCategory()) {
 						boolean collapseChanged = ctx.allowCollapsing()
@@ -552,7 +513,7 @@ public class FoldingStructureProvider implements IFoldingStructureProvider {
 							updates.add(existingAnnotation);
 						}
 						matched = true;
-						x.remove();
+						annoItr.remove();
 						break;
 					}
 				}
@@ -568,7 +529,7 @@ public class FoldingStructureProvider implements IFoldingStructureProvider {
 			List<Tuple> list = e2.next();
 			int size = list.size();
 			for (int i = 0; i < size; i++) {
-				MkProjectionAnnotation annotation = list.get(i).annotation;
+				FluentProjectionAnnotation annotation = list.get(i).annotation;
 				deletions.add(annotation);
 			}
 		}
@@ -581,21 +542,21 @@ public class FoldingStructureProvider implements IFoldingStructureProvider {
 	}
 
 	/**
-	 * Matches deleted annotations to changed or added ones. A deleted annotation/position tuple
-	 * that has a matching addition / change is updated and marked as changed. The matching tuple is
-	 * not added (for additions) or marked as deletion instead (for changes). The result is that
-	 * more annotations are changed and fewer get deleted/re-added.
+	 * Matches deleted annotations to changed or added ones. A deleted annotation/position tuple that
+	 * has a matching addition / change is updated and marked as changed. The matching tuple is not
+	 * added (for additions) or marked as deletion instead (for changes). The result is that more
+	 * annotations are changed and fewer get deleted/re-added.
 	 */
-	private void match(List<MkProjectionAnnotation> deletions, Map<MkProjectionAnnotation, Position> additions,
-			List<MkProjectionAnnotation> changes, FoldingStructureComputationContext ctx) {
+	private void match(List<FluentProjectionAnnotation> deletions, Map<FluentProjectionAnnotation, Position> additions,
+			List<FluentProjectionAnnotation> changes, FoldingStructureComputationContext ctx) {
 		if (deletions.isEmpty() || additions.isEmpty() && changes.isEmpty()) return;
 
-		List<MkProjectionAnnotation> newDeletions = new ArrayList<MkProjectionAnnotation>();
-		List<MkProjectionAnnotation> newChanges = new ArrayList<MkProjectionAnnotation>();
+		List<FluentProjectionAnnotation> newDeletions = new ArrayList<>();
+		List<FluentProjectionAnnotation> newChanges = new ArrayList<>();
 
-		Iterator<MkProjectionAnnotation> deletionIterator = deletions.iterator();
+		Iterator<FluentProjectionAnnotation> deletionIterator = deletions.iterator();
 		while (deletionIterator.hasNext()) {
-			MkProjectionAnnotation deleted = deletionIterator.next();
+			FluentProjectionAnnotation deleted = deletionIterator.next();
 			Position deletedPosition = ctx.getModel().getPosition(deleted);
 			if (deletedPosition == null) continue;
 
@@ -627,27 +588,26 @@ public class FoldingStructureProvider implements IFoldingStructureProvider {
 
 	/**
 	 * Finds a match for <code>tuple</code> in a collection of annotations. The positions for the
-	 * <code>MkProjectionAnnotation</code> instances in <code>annotations</code> can be found in the
-	 * passed <code>positionMap</code> or in the model if <code>positionMap</code> is
-	 * <code>null</code>.
+	 * <code>FluentProjectionAnnotation</code> instances in <code>annotations</code> can be found in the
+	 * passed <code>positionMap</code> or in the model if <code>positionMap</code> is <code>null</code>.
 	 * <p>
-	 * A tuple is said to match another if their annotations have the same category and their
-	 * position offsets are equal.
+	 * A tuple is said to match another if their annotations have the same category and their position
+	 * offsets are equal.
 	 * </p>
 	 * <p>
 	 * If a match is found, the annotation gets removed from <code>annotations</code>.
 	 * </p>
-	 * 
+	 *
 	 * @param tuple the tuple for which we want to find a match
-	 * @param annotations collection of <code>MkProjectionAnnotation</code>
+	 * @param annotations collection of <code>FluentProjectionAnnotation</code>
 	 * @param positionMap a <code>Map&lt;Annotation, Position&gt;</code> or <code>null</code>
 	 * @return a matching tuple or <code>null</code> for no match
 	 */
-	private Tuple findMatch(Tuple tuple, Collection<MkProjectionAnnotation> annotations,
-			Map<MkProjectionAnnotation, Position> positionMap, FoldingStructureComputationContext ctx) {
-		Iterator<MkProjectionAnnotation> it = annotations.iterator();
+	private Tuple findMatch(Tuple tuple, Collection<FluentProjectionAnnotation> annotations,
+			Map<FluentProjectionAnnotation, Position> positionMap, FoldingStructureComputationContext ctx) {
+		Iterator<FluentProjectionAnnotation> it = annotations.iterator();
 		while (it.hasNext()) {
-			MkProjectionAnnotation annotation = it.next();
+			FluentProjectionAnnotation annotation = it.next();
 			if (tuple.annotation.getCategory() == annotation.getCategory()) {
 				Position position = positionMap == null ? ctx.getModel().getPosition(annotation)
 						: positionMap.get(annotation);
@@ -664,26 +624,27 @@ public class FoldingStructureProvider implements IFoldingStructureProvider {
 	}
 
 	private Map<Object, List<Tuple>> computeCurrentStructure(FoldingStructureComputationContext ctx) {
-		Map<Object, List<Tuple>> map = new HashMap<Object, List<Tuple>>();
+		Map<Object, List<Tuple>> map = new HashMap<>();
 		ProjectionAnnotationModel model = ctx.getModel();
 		Iterator<?> e = model.getAnnotationIterator();
 		while (e.hasNext()) {
 			Object annotation = e.next();
-			if (annotation instanceof MkProjectionAnnotation) {
-				MkProjectionAnnotation mkAnnotation = (MkProjectionAnnotation) annotation;
-				Position position = model.getPosition(mkAnnotation);
+			if (annotation instanceof FluentProjectionAnnotation) {
+				FluentProjectionAnnotation fpa = (FluentProjectionAnnotation) annotation;
+				Position position = model.getPosition(fpa);
 				assert position != null;
-				List<Tuple> list = map.get(mkAnnotation.getElement());
+				List<Tuple> list = map.get(fpa.getElement());
 				if (list == null) {
-					list = new ArrayList<Tuple>(2);
-					map.put(mkAnnotation.getElement(), list);
+					list = new ArrayList<>(2);
+					map.put(fpa.getElement(), list);
 				}
-				list.add(new Tuple(mkAnnotation, position));
+				list.add(new Tuple(fpa, position));
 			}
 		}
 
 		Comparator<Tuple> comparator = new Comparator<Tuple>() {
 
+			@Override
 			public int compare(Tuple t1, Tuple t2) {
 				return t1.position.getOffset() - t2.position.getOffset();
 			}
@@ -697,7 +658,7 @@ public class FoldingStructureProvider implements IFoldingStructureProvider {
 	private void computeFoldingStructure(final FoldingStructureComputationContext ctx) {
 		try {
 			IDocument doc = ctx.getDocument();
-			ITypedRegion[] partitions = TextUtilities.computePartitioning(doc, Partitions.MK_PARTITIONING, 0,
+			ITypedRegion[] partitions = TextUtilities.computePartitioning(doc, Partitions.PARTITIONING, 0,
 					doc.getLength(), false);
 			computeBlockFoldingStructure(partitions, ctx);
 		} catch (BadLocationException e) {}
@@ -705,7 +666,7 @@ public class FoldingStructureProvider implements IFoldingStructureProvider {
 
 	/**
 	 * Compute folding structure based on partioning information.
-	 * 
+	 *
 	 * @param partitions array of document partitions
 	 * @param ctx the folding structure context
 	 * @throws BadLocationException
@@ -716,7 +677,7 @@ public class FoldingStructureProvider implements IFoldingStructureProvider {
 		IDocument doc = ctx.getDocument();
 		int startLine = -1;
 		int endLine = -1;
-		List<Tuple> comments = new ArrayList<Tuple>();
+		List<Tuple> comments = new ArrayList<>();
 		ModifiableRegion commentRange = new ModifiableRegion();
 		for (ITypedRegion partition : partitions) {
 			if (isFoldablePartition(partition.getType())) {
@@ -726,13 +687,13 @@ public class FoldingStructureProvider implements IFoldingStructureProvider {
 						Position projection = createBlockPosition(alignRegion(commentRange, ctx, true));
 						if (projection != null) {
 							comments.add(new Tuple(
-									new MkProjectionAnnotation(collapse,
+									new FluentProjectionAnnotation(collapse,
 											doc.get(projection.offset, Math.min(16, projection.length)), true),
 									projection));
 						}
 						startLine = -1;
 					}
-					comments.add(new Tuple(new MkProjectionAnnotation(collapse,
+					comments.add(new Tuple(new FluentProjectionAnnotation(collapse,
 							doc.get(position.offset, Math.min(16, position.length)), true), position));
 				}
 			}
@@ -740,7 +701,7 @@ public class FoldingStructureProvider implements IFoldingStructureProvider {
 		if (startLine >= 0 && endLine - startLine >= collapseMinLimit) {
 			Position projection = createBlockPosition(alignRegion(commentRange, ctx, true));
 			if (projection != null) {
-				comments.add(new Tuple(new MkProjectionAnnotation(collapse,
+				comments.add(new Tuple(new FluentProjectionAnnotation(collapse,
 						doc.get(projection.offset, Math.min(16, projection.length)), true), projection));
 			}
 		}
@@ -762,7 +723,10 @@ public class FoldingStructureProvider implements IFoldingStructureProvider {
 				return frontMatterFoldingEnabled;
 			case Partitions.COMMENT:
 				return commentFoldingEnabled;
+			case Partitions.DOTBLOCK:
 			case Partitions.CODEBLOCK:
+			case Partitions.MATHBLOCK:
+			case Partitions.UMLBLOCK:
 				return codeBlockFoldingEnabled;
 			case Partitions.HTMLBLOCK:
 				return htmlBlockFoldingEnabled;
@@ -777,22 +741,19 @@ public class FoldingStructureProvider implements IFoldingStructureProvider {
 	 * The region in the returned array (if not empty) describes the region for the DSL element that
 	 * implements the source reference.
 	 * </p>
-	 * 
+	 *
 	 * @param reference a Dsl element that is a source reference
 	 * @param ctx the folding context
 	 * @return the regions to be folded
 	 */
 	protected final IRegion[] computeProjectionRanges(ISourceReference reference,
 			FoldingStructureComputationContext ctx) {
+
 		ISourceRange range = reference.getSourceRange();
-		if (!SourceRange.isAvailable(range)) {
-			return new IRegion[0];
-		}
+		if (!SourceRange.isAvailable(range)) return new IRegion[0];
 
 		String contents = reference.getContent();
-		if (contents == null) {
-			return new IRegion[0];
-		}
+		if (contents == null) return new IRegion[0];
 
 		return new IRegion[] { new Region(range.getStartPos(), range.getLength()) };
 	}
@@ -801,7 +762,7 @@ public class FoldingStructureProvider implements IFoldingStructureProvider {
 	 * Creates a block folding position from an
 	 * {@link #alignRegion(IRegion, DslFoldingStructureProvider.FoldingStructureComputationContext, boolean)
 	 * aligned} region.
-	 * 
+	 *
 	 * @param aligned an aligned region
 	 * @return a folding position corresponding to <code>aligned</code>
 	 */
@@ -811,72 +772,67 @@ public class FoldingStructureProvider implements IFoldingStructureProvider {
 	}
 
 	/**
-	 * Aligns <code>region</code> to start and end at a line offset. The region's start is decreased
-	 * to the next line offset, and the end offset increased to the next line start or the end of
-	 * the document. <code>null</code> is returned if <code>region</code> is <code>null</code>
-	 * itself or does not comprise at least one line delimiter, as a single line cannot be folded.
-	 * 
+	 * Aligns <code>region</code> to start and end at a line offset. The region's start is decreased to
+	 * the next line offset, and the end offset increased to the next line start or the end of the
+	 * document. <code>null</code> is returned if <code>region</code> is <code>null</code> itself or
+	 * does not comprise at least one line delimiter, as a single line cannot be folded.
+	 *
 	 * @param region the region to align, may be <code>null</code>
 	 * @param ctx the folding context
 	 * @return a region equal or greater than <code>region</code> that is aligned with line offsets,
-	 *         <code>null</code> if the region is too small to be foldable (e.g. covers only one
-	 *         line)
+	 *         <code>null</code> if the region is too small to be foldable (e.g. covers only one line)
 	 */
 	protected final IRegion alignRegion(IRegion region, FoldingStructureComputationContext ctx) {
 		return alignRegion(region, ctx, true);
 	}
 
 	/**
-	 * Aligns <code>region</code> to start and end at a line offset. The region's start is decreased
-	 * to the next line offset, and the end offset increased to the next line start or the end of
-	 * the document. <code>null</code> is returned if <code>region</code> is <code>null</code>
-	 * itself or does not comprise at least one line delimiter, as a single line cannot be folded.
-	 * 
+	 * Aligns <code>region</code> to start and end at a line offset. The region's start is decreased to
+	 * the next line offset, and the end offset increased to the next line start or the end of the
+	 * document. <code>null</code> is returned if <code>region</code> is <code>null</code> itself or
+	 * does not comprise at least one line delimiter, as a single line cannot be folded.
+	 *
 	 * @param region the region to align, may be <code>null</code>
 	 * @param ctx the folding context
 	 * @param inclusive include line of end offset
 	 * @return a region equal or greater than <code>region</code> that is aligned with line offsets,
-	 *         <code>null</code> if the region is too small to be foldable (e.g. covers only one
-	 *         line)
+	 *         <code>null</code> if the region is too small to be foldable (e.g. covers only one line)
 	 */
 	protected final IRegion alignRegion(IRegion region, FoldingStructureComputationContext ctx, boolean inclusive) {
 		if (region == null) return null;
 
-		IDocument document = ctx.getDocument();
-
+		IDocument doc = ctx.getDocument();
 		try {
-
-			int start = document.getLineOfOffset(region.getOffset());
-			int end = document.getLineOfOffset(region.getOffset() + region.getLength());
+			int start = doc.getLineOfOffset(region.getOffset());
+			int end = doc.getLineOfOffset(region.getOffset() + region.getLength());
 			if (start >= end) return null;
 
-			int offset = document.getLineOffset(start);
+			int offset = doc.getLineOffset(start);
 			int endOffset;
 			if (inclusive) {
-				if (document.getNumberOfLines() > end + 1) {
-					endOffset = document.getLineOffset(end + 1);
+				if (doc.getNumberOfLines() > end + 1) {
+					endOffset = doc.getLineOffset(end + 1);
 				} else {
-					endOffset = document.getLineOffset(end) + document.getLineLength(end);
+					endOffset = doc.getLineOffset(end) + doc.getLineLength(end);
 				}
 			} else {
-				endOffset = document.getLineOffset(end);
+				endOffset = doc.getLineOffset(end);
 			}
 			return new Region(offset, endOffset - offset);
 
-		} catch (BadLocationException x) {
-			// concurrent modification
+		} catch (BadLocationException e) {
 			return null;
 		}
 	}
 
 	private ProjectionAnnotationModel getModel() {
-		return (ProjectionAnnotationModel) fEditor.getAdapter(ProjectionAnnotationModel.class);
+		return editor.getAdapter(ProjectionAnnotationModel.class);
 	}
 
 	private IDocument getDocument() {
-		if (fEditor == null) return null;
-		IDocumentProvider provider = fEditor.getDocumentProvider();
+		if (editor == null) return null;
+		IDocumentProvider provider = editor.getDocumentProvider();
 		if (provider == null) return null;
-		return provider.getDocument(fEditor.getEditorInput());
+		return provider.getDocument(editor.getEditorInput());
 	}
 }

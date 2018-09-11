@@ -16,6 +16,9 @@ import org.eclipse.jface.text.rules.IToken;
 import org.eclipse.jface.text.rules.WhitespaceRule;
 import org.eclipse.jface.text.rules.WordRule;
 
+import net.certiv.fluentmark.editor.text.rules.MathSymbolDetector;
+import net.certiv.fluentmark.editor.text.rules.MathWordDetector;
+import net.certiv.fluentmark.editor.text.rules.WhitespaceDetector;
 import net.certiv.fluentmark.preferences.Prefs;
 
 public class ScannerMath extends AbstractBufferedRuleBasedScanner {

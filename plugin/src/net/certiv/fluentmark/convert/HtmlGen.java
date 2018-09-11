@@ -117,7 +117,7 @@ public class HtmlGen {
 
 		ITypedRegion[] regions;
 		try {
-			regions = TextUtilities.computePartitioning(doc, Partitions.MK_PARTITIONING, beg, len, false);
+			regions = TextUtilities.computePartitioning(doc, Partitions.PARTITIONING, beg, len, false);
 		} catch (BadLocationException e) {
 			Log.error("Failed to compute partitions." + beg);
 			return "";

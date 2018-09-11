@@ -23,21 +23,26 @@ Require-Bundle: org.eclipse.core.commands,
  org.eclipse.ui.ide,
  org.eclipse.debug.ui,
  org.eclipse.jdt.ui,
- net.certiv.tools;bundle-version="1.0.7",
- net.certiv.spellchecker.plugin;bundle-version="3.3.2"
+ net.certiv.tools;bundle-version="[1.0.7,2.0.0)",
+ net.certiv.spellchecker.plugin;bundle-version="[3.3.2,3.4.0)"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .,
- lib/plantuml.jar,
- lib/commons-lang3.jar,
- lib/commonmark.jar,
- lib/txtmark.jar,
- lib/markdownj-core.jar,
- lib/pegdown.jar,
- lib/parboiled-java.jar,
- lib/parboiled-core.jar,
- lib/asm-all.jar
-Import-Package: org.eclipse.ui,
+ lib/antlr4-runtime-4.7.1.jar,
+ lib/antlr-runtime-3.5.2.jar,
+ lib/asm-all-4.0.jar,
+ lib/commonmark-0.10.0.jar,
+ lib/commons-lang3-3.5.jar,
+ lib/markdownj-core-0.4.jar,
+ lib/parboiled-core-1.1.8.jar,
+ lib/parboiled-java-1.1.8.jar,
+ lib/pegdown-1.6.0.jar,
+ lib/plantuml-8059.jar,
+ lib/ST4-4.0.8.jar,
+ lib/txtmark-0.13.jar
+Import-Package: com.google.common.collect;version="21.0.0",
+ org.apache.commons.lang3;version="3.1.0",
+ org.eclipse.ui,
  org.eclipse.ui.dialogs,
  org.eclipse.ui.ide,
  org.eclipse.ui.navigator

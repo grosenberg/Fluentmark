@@ -48,11 +48,87 @@
          </contentTypeBinding>
       </editor>
    </extension>
+   
+   <extension
+         id="problem"
+         name="DOT marker"
+         point="org.eclipse.core.resources.markers">
+      <super
+            type="org.eclipse.core.resources.problemmarker">
+      </super>
+   </extension>
 
+   <extension
+         point="org.eclipse.ui.editors.annotationTypes">
+      <type
+            markerSeverity="2"
+            markerType="net.certiv.fluentmark.problem"
+            name="net.certiv.fluentmark.ui.error">
+      </type>
+      <type
+            markerSeverity="1"
+            markerType="net.certiv.fluentmark.problem"
+            name="net.certiv.fluentmark.ui.warning"
+            super="org.eclipse.ui.workbench.texteditor.warning">
+      </type>
+      <type
+            markerSeverity="0"
+            markerType="net.certiv.fluentmark.problem"
+            name="net.certiv.fluentmark.ui.info"
+            super="org.eclipse.ui.workbench.texteditor.info">
+      </type>
+      <type
+            name="net.certiv.fluentmark.ui.occurrences">
+      </type>
+   </extension>
+
+   <extension
+         point="org.eclipse.ui.editors.markerAnnotationSpecification">
+      <specification
+            annotationImageProvider="net.certiv.fluentmark.editor.AnnotationImageProvider"
+            annotationType="net.certiv.fluentmark.ui.error">
+      </specification>
+      <specification
+            annotationImageProvider="net.certiv.fluentmark.editor.AnnotationImageProvider"
+            annotationType="net.certiv.fluentmark.ui.warning">
+      </specification>
+      <specification
+            annotationImageProvider="net.certiv.fluentmark.editor.AnnotationImageProvider"
+            annotationType="net.certiv.fluentmark.ui.info">
+      </specification>
+      
+      <specification
+            annotationType="net.certiv.fluentmark.ui.occurrences"
+            colorPreferenceKey="occurrenceIndicationColor"
+            colorPreferenceValue="212,212,212"
+            contributesToHeader="false"
+            highlightPreferenceKey="occurrenceHighlighting"
+            highlightPreferenceValue="true"
+            icon="$nl$/icons/full/obj16/searchm_obj.gif"
+            includeOnPreferencePage="true"
+            isGoToNextNavigationTarget="false"
+            isGoToNextNavigationTargetKey="isOccurrenceGoToNextNavigationTarget"
+            isGoToPreviousNavigationTarget="false"
+            isGoToPreviousNavigationTargetKey="isOccurrenceGoToPreviousNavigationTarget"
+            label="Occurrences"
+            overviewRulerPreferenceKey="occurrenceIndicationInOverviewRuler"
+            overviewRulerPreferenceValue="true"
+            presentationLayer="4"
+            showInNextPrevDropdownToolbarAction="true"
+            showInNextPrevDropdownToolbarActionKey="showOccurrenceInNextPrevDropdownToolbarAction"
+            textPreferenceKey="occurrenceIndication"
+            textPreferenceValue="false"
+            textStylePreferenceKey="occurrenceTextStyle"
+            textStylePreferenceValue="NONE"
+            verticalRulerPreferenceKey="occurrenceIndicationInVerticalRuler"
+            verticalRulerPreferenceValue="false">
+      </specification>
+   </extension>
+   
     <extension
        point="org.eclipse.ui.editors.templates">
     	<contextType
-           class="net.certiv.fluentmark.assist.SourceTemplateContextType"
+           class="net.certiv.fluentmark.editor.assist.SourceTemplateContextType"
            id="net.certiv.fluentmark.templateContext"
            name="Fluent Editor"
            registryId="net.certiv.fluentmark.templates">

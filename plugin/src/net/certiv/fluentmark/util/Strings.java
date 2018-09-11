@@ -7,20 +7,65 @@
  ******************************************************************************/
 package net.certiv.fluentmark.util;
 
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public final class Strings {
+
+	private static final Pattern NL = Pattern.compile(".*?(\\R)");
+
+	public static final Pattern BLANK_LINE = Pattern.compile("^\\s+$", 8);
 
 	public static final String ISO_LATIN = "ISO-8859-1";
 	public static final String UTF_8 = "UTF-8";
 	public static final String EOL = System.getProperty("line.separator");
 	// public static final String EOL2 = EOL + EOL;
 
-	public static final Pattern BLANK_LINE = Pattern.compile("^\\s+$", 8);
+	public static final String TTAB_MARK = "\u1E6F"; 		// t underbar ṯ
+	public static final String TAB_MARK = "\u2666";			// diamond ♦
+	public static final String PARA_MARK = "\u00B6";		// pillcrow ¶
+	public static final String SPACE_MARK = "\u00B7";		// middle dot ·
+	public static final String ELLIPSIS_MARK = "\u2026"; 	// ellipsis …
+	public static final String LARR_MARK = "\u2190";		// leftwards arrow
+	public static final String RARR_MARK = "\u2192";		// rightwards arrow →
+	public static final String SPACE = " ";
+
+	public static final char SPC = ' ';
+	public static final char TAB = '\t';
+	public static final char RET = '\r';
+	public static final char NLC = '\n';
+	public static final char DOT = '.';
+
+	/** Encodes WS as visible characters. */
+	public static String encode(String in) {
+		StringBuilder sb = new StringBuilder();
+		for (int idx = 0; idx < in.length(); idx++) {
+			char c = in.charAt(idx);
+			switch (c) {
+				case SPC:
+					sb.append(SPACE_MARK);
+					break;
+				case TAB:
+					sb.append(TAB_MARK);
+					break;
+				case RET:
+					if (idx + 1 == in.length() || in.charAt(idx + 1) != NLC) {
+						sb.append(PARA_MARK);
+					}
+					break;
+				case NLC:
+					sb.append(PARA_MARK);
+					break;
+				default:
+					sb.append(c);
+			}
+		}
+		return sb.toString();
+	}
 
 	public static String ellipsize(String input, int maxLength) {
 		if (input == null || input.length() < maxLength) return input;
-		return input.substring(0, maxLength) + "...";
+		return input.substring(0, maxLength) + ELLIPSIS_MARK;
 	}
 
 	public static String capitalize(String meta) {
@@ -91,6 +136,25 @@ public final class Strings {
 			count++;
 		}
 		return count;
+	}
+
+	public static int countLines(String txt) {
+		if (txt == null || txt.isEmpty()) return 0;
+
+		int cnt = 0;
+		Matcher m = NL.matcher(txt);
+		while (m.find()) {
+			cnt++;
+		}
+		return cnt;
+	}
+
+	public static int lastLineLen(String txt) {
+		if (txt == null || txt.isEmpty()) return 0;
+
+		int idx = txt.lastIndexOf(NLC);
+		if (idx == -1) return txt.length();
+		return txt.substring(idx + 1).length();
 	}
 
 	public static String toInitials(String name) {

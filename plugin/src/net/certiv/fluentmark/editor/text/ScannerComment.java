@@ -15,6 +15,7 @@ import org.eclipse.jface.text.rules.IToken;
 import org.eclipse.jface.text.rules.MultiLineRule;
 import org.eclipse.jface.text.rules.WhitespaceRule;
 
+import net.certiv.fluentmark.editor.text.rules.WhitespaceDetector;
 import net.certiv.fluentmark.preferences.Prefs;
 
 public class ScannerComment extends AbstractBufferedRuleBasedScanner {

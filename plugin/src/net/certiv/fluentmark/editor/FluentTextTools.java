@@ -29,12 +29,12 @@ public class FluentTextTools {
 	private PartitionScanner partitionScanner;
 
 	public FluentTextTools(boolean autoDispose) {
-		this(Partitions.MK_PARTITIONING, Partitions.getLegalContentTypes(), autoDispose);
+		this(Partitions.PARTITIONING, Partitions.getLegalContentTypes(), autoDispose);
 	}
 
 	/**
-	 * Creates a new Dsl text tools collection and eagerly creates and initializes all members of
-	 * this collection.
+	 * Creates a new Dsl text tools collection and eagerly creates and initializes all members of this
+	 * collection.
 	 */
 	public FluentTextTools(String partitioning, String[] legalContentTypes, boolean autoDispose) {
 		this.partitioning = partitioning;
@@ -56,7 +56,7 @@ public class FluentTextTools {
 
 	/**
 	 * Get the document partitioning used for the Dsl partitioner.
-	 * 
+	 *
 	 * @return the document partitioning used for the Dsl partitioner
 	 */
 	public String getDocumentPartitioning() {
@@ -66,13 +66,13 @@ public class FluentTextTools {
 	/**
 	 * Set the document partitioning to be used for the Dsl partitioner.
 	 */
-	public void setDocumentPartitioning(String fDocumentPartitioning) {
-		this.partitioning = fDocumentPartitioning;
+	public void setDocumentPartitioning(String partitioning) {
+		this.partitioning = partitioning;
 	}
 
 	/**
 	 * Sets up the given document for the default partitioning.
-	 * 
+	 *
 	 * @param document the document to be set up
 	 */
 	public void setupDocument(IDocument document) {
@@ -81,13 +81,12 @@ public class FluentTextTools {
 
 	/**
 	 * Sets up the given document for the default partitioning.
-	 * 
+	 *
 	 * @param document the document to be set up
 	 * @param location the path of the resource backing the document. May be null.
 	 * @param locationKind the type of path specified above. May be null.
 	 */
 	public void setupDocument(IDocument document, IPath location, LocationKind locationKind) {
-		// IDocCommentOwner owner = getDocumentationCommentOwner(location, locationKind);
 		setupDocumentPartitioner(document, partitioning);
 	}
 

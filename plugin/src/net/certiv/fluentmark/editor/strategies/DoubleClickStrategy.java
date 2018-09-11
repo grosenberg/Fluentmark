@@ -21,16 +21,19 @@ import org.eclipse.ui.progress.UIJob;
 import org.eclipse.ui.texteditor.ITextEditor;
 
 import net.certiv.fluentmark.Log;
+import net.certiv.fluentmark.convert.DotGen;
+import net.certiv.fluentmark.dialog.graphs.DotDialog;
+import net.certiv.fluentmark.dialog.tables.TableDialog;
 import net.certiv.fluentmark.editor.FluentEditor;
 import net.certiv.fluentmark.model.ISourceRange;
-import net.certiv.fluentmark.model.Type;
 import net.certiv.fluentmark.model.PagePart;
 import net.certiv.fluentmark.model.PageRoot;
-import net.certiv.fluentmark.tables.TableDialog;
 
 public class DoubleClickStrategy extends DefaultTextDoubleClickStrategy {
 
 	private FluentEditor editor;
+	private PageRoot model;
+	private PagePart part;
 
 	public DoubleClickStrategy(ITextEditor editor) {
 		super();
@@ -42,14 +45,53 @@ public class DoubleClickStrategy extends DefaultTextDoubleClickStrategy {
 		final int offset = viewer.getSelectedRange().x;
 		if (offset < 0) return;
 
-		PageRoot model = editor.getPageModel();
-		PagePart part = model.partAtOffset(offset);
+		model = editor.getPageModel();
+		part = model.partAtOffset(offset);
 
-		if (part.getKind() != Type.TABLE) {
-			super.doubleClicked(viewer);
-			return;
+		switch (part.getKind()) {
+			case CODE_BLOCK:
+				if (part.getMeta().toLowerCase().equals(DotGen.DOT)) {
+					runDotEditor();
+					return;
+				}
+
+			case TABLE:
+				runTableEditor();
+				return;
+
+			default:
 		}
 
+		super.doubleClicked(viewer);
+	}
+
+	private void runDotEditor() {
+		UIJob job = new UIJob("Dot editor") {
+
+			@Override
+			public IStatus runInUIThread(IProgressMonitor monitor) {
+				DotDialog dialog = new DotDialog(part);
+				int ret = dialog.open();
+				if (ret == 0) {
+					// String newTable = dialog.build();
+					// ISourceRange range = part.getSourceRange();
+					// editor.getViewer().setSelectedRange(range.getOffset(), 0);
+					// TextEdit edit = new ReplaceEdit(range.getOffset(), range.getLength(), newTable);
+					// try {
+					// edit.apply(editor.getDocument());
+					// } catch (MalformedTreeException | BadLocationException e) {
+					// Log.error("Failed to insert new table in part " + part + " (" + e.getMessage() + ")");
+					// return Status.CANCEL_STATUS;
+					// }
+				}
+				return Status.OK_STATUS;
+			}
+		};
+		job.setPriority(Job.INTERACTIVE);
+		job.schedule(200);
+	}
+
+	private void runTableEditor() {
 		UIJob job = new UIJob("Table editor") {
 
 			@Override

@@ -58,7 +58,7 @@ public class AnnotationIterator implements Iterator<Annotation> {
 	private void skip() {
 		while (fIterator.hasNext()) {
 			Annotation next = fIterator.next();
-			if (next instanceof IAnnotation) {
+			if (next instanceof IFluentAnnotation) {
 				if (fSkipIrrelevants) {
 					if (!next.isMarkedDeleted()) {
 						fNext = next;

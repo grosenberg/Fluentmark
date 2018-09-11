@@ -117,10 +117,10 @@ public abstract class SymbolData {
 		add("Aring", "&#197;", "\u00C5", "latin capital letter A with ring above = latin capital letter A ring, U+00C5"); // ISOlat1
 		add("AElig", "&#198;", "\u00C6", "latin capital letter AE = latin capital ligature AE, U+00C6"); // ISOlat1
 		add("Ccedil", "&#199;", "\u00C7", "latin capital letter C with cedilla, U+00C7"); // ISOlat1
-		add("Egrave", "&#200;", "\u00C8", "latin capital letter E with grave, U+00C8"); // ISOlat1
-		add("Eacute", "&#201;", "\u00C9", "latin capital letter E with acute, U+00C9"); // ISOlat1
-		add("Ecirc", "&#202;", "\u00CA", "latin capital letter E with circumflex, U+00CA"); // ISOlat1
-		add("Euml", "&#203;", "\u00CB", "latin capital letter E with diaeresis, U+00CB"); // ISOlat1
+		add("Egrave", "&#200;", "\u00C8", "latin capital letter TYPE with grave, U+00C8"); // ISOlat1
+		add("Eacute", "&#201;", "\u00C9", "latin capital letter TYPE with acute, U+00C9"); // ISOlat1
+		add("Ecirc", "&#202;", "\u00CA", "latin capital letter TYPE with circumflex, U+00CA"); // ISOlat1
+		add("Euml", "&#203;", "\u00CB", "latin capital letter TYPE with diaeresis, U+00CB"); // ISOlat1
 		add("Igrave", "&#204;", "\u00CC", "latin capital letter I with grave, U+00CC"); // ISOlat1
 		add("Iacute", "&#205;", "\u00CD", "latin capital letter I with acute, U+00CD"); // ISOlat1
 		add("Icirc", "&#206;", "\u00CE", "latin capital letter I with circumflex, U+00CE"); // ISOlat1

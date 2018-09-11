@@ -26,7 +26,7 @@ public class Filter {
 		List<IRegion> results = new ArrayList<>();
 
 		if (doc instanceof IDocumentExtension3) {
-			ITypedRegion[] partitions = ((IDocumentExtension3) doc).computePartitioning(Partitions.MK_PARTITIONING, 0,
+			ITypedRegion[] partitions = ((IDocumentExtension3) doc).computePartitioning(Partitions.PARTITIONING, 0,
 					doc.getLength(), false);
 
 			List<ITypedRegion> partitionsList = new ArrayList<>();

@@ -11,8 +11,10 @@ import org.eclipse.jface.text.IDocument;
 
 public class Partitions {
 
-	public final static String MK_PARTITIONING = "__mk_partitioning";
+	// unique partitioning type
+	public final static String PARTITIONING = "__fluent_partitioning";
 
+	// specialized partition content types
 	public static final String FRONT_MATTER = "__frontmatter";
 	public static final String COMMENT = "__comment";
 	public static final String CODEBLOCK = "__codeblock";

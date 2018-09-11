@@ -10,7 +10,7 @@ package net.certiv.fluentmark.preferences.pages;
 import org.eclipse.ui.texteditor.templates.TemplatePreferencePage;
 
 import net.certiv.fluentmark.FluentUI;
-import net.certiv.fluentmark.assist.CustomTemplateAccess;
+import net.certiv.fluentmark.editor.assist.CustomTemplateAccess;
 
 public class PrefPageTemplates extends TemplatePreferencePage {
 

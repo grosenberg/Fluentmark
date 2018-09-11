@@ -39,15 +39,16 @@ import org.eclipse.ui.texteditor.ITextEditor;
 
 import net.certiv.fluentmark.FluentUI;
 import net.certiv.fluentmark.ProgressMonitorAndCanceler;
-import net.certiv.fluentmark.assist.FluentTemplateCompletionProcessor;
-import net.certiv.fluentmark.assist.MultiContentAssistProcessor;
+import net.certiv.fluentmark.editor.assist.DotCompletionProcessor;
+import net.certiv.fluentmark.editor.assist.MultiContentAssistProcessor;
+import net.certiv.fluentmark.editor.assist.TemplateCompletionProcessor;
 import net.certiv.fluentmark.editor.color.IColorManager;
 import net.certiv.fluentmark.editor.strategies.DoubleClickStrategy;
 import net.certiv.fluentmark.editor.strategies.LineWrapEditStrategy;
 import net.certiv.fluentmark.editor.strategies.PairEditStrategy;
 import net.certiv.fluentmark.editor.strategies.SmartAutoEditStrategy;
 import net.certiv.fluentmark.editor.text.AbstractBufferedRuleBasedScanner;
-import net.certiv.fluentmark.editor.text.MkReconcilingStrategy;
+import net.certiv.fluentmark.editor.text.CompositeReconcilingStrategy;
 import net.certiv.fluentmark.editor.text.ScannerCode;
 import net.certiv.fluentmark.editor.text.ScannerComment;
 import net.certiv.fluentmark.editor.text.ScannerDot;
@@ -81,6 +82,7 @@ public class FluentSourceViewerConfiguration extends TextSourceViewerConfigurati
 	private IShowInTarget showInTarget;
 
 	private IContentAssistProcessor templatesProcessor;
+	private DotCompletionProcessor dotProcessor;
 	private boolean enableHippie = true;
 	private HippieProposalProcessor hippieProcessor;
 	private ScannerMarkup markup;
@@ -180,7 +182,7 @@ public class FluentSourceViewerConfiguration extends TextSourceViewerConfigurati
 	@Override
 	public IReconciler getReconciler(ISourceViewer viewer) {
 		if (editor != null && editor.isEditable()) {
-			MkReconcilingStrategy strategy = new MkReconcilingStrategy(viewer, editor,
+			CompositeReconcilingStrategy strategy = new CompositeReconcilingStrategy(viewer, editor,
 					getConfiguredDocumentPartitioning(viewer));
 			MonoReconciler reconciler = new MonoReconciler(strategy, false);
 			reconciler.setProgressMonitor(new ProgressMonitorAndCanceler());
@@ -192,8 +194,15 @@ public class FluentSourceViewerConfiguration extends TextSourceViewerConfigurati
 
 	@Override
 	public IAutoEditStrategy[] getAutoEditStrategies(ISourceViewer sourceViewer, String contentType) {
-		return new IAutoEditStrategy[] { new SmartAutoEditStrategy(partitioning), new LineWrapEditStrategy(editor),
-				new PairEditStrategy() };
+		switch (contentType) {
+			case Partitions.DOTBLOCK:
+				// return new IAutoEditStrategy[] { new DotAutoEditStrategy(partitioning),
+				// new LineWrapEditStrategy(editor), new PairEditStrategy() };
+
+			default:
+				return new IAutoEditStrategy[] { new SmartAutoEditStrategy(partitioning),
+						new LineWrapEditStrategy(editor), new PairEditStrategy() };
+		}
 	}
 
 	@Override
@@ -216,10 +225,13 @@ public class FluentSourceViewerConfiguration extends TextSourceViewerConfigurati
 	@Override
 	public IContentAssistant getContentAssistant(ISourceViewer sourceViewer) {
 		if (templatesProcessor == null) {
-			templatesProcessor = new FluentTemplateCompletionProcessor(editor, IDocument.DEFAULT_CONTENT_TYPE);
+			templatesProcessor = new TemplateCompletionProcessor(editor, IDocument.DEFAULT_CONTENT_TYPE);
 		}
 		if (enableHippie && hippieProcessor == null) {
 			hippieProcessor = new HippieProposalProcessor();
+		}
+		if (dotProcessor == null) {
+			dotProcessor = new DotCompletionProcessor(editor);
 		}
 
 		MultiContentAssistProcessor processor = new MultiContentAssistProcessor();
@@ -227,13 +239,12 @@ public class FluentSourceViewerConfiguration extends TextSourceViewerConfigurati
 		if (enableHippie) processor.addDelegate(hippieProcessor);
 
 		ContentAssistant assistant = new ContentAssistant();
+		configure(assistant, fPreferenceStore);
+
 		assistant.setDocumentPartitioning(getConfiguredDocumentPartitioning(sourceViewer));
 		assistant.setRestoreCompletionProposalSize(getSettings("completion_proposal_size")); //$NON-NLS-1$
 		assistant.setContentAssistProcessor(processor, IDocument.DEFAULT_CONTENT_TYPE);
-		// assistant.setContentAssistProcessor(new FluentCodeCompletionProcessor(),
-		// Partitions.CODEBLOCK);
-
-		configure(assistant, fPreferenceStore);
+		assistant.setContentAssistProcessor(processor, Partitions.DOTBLOCK);
 
 		assistant.setContextInformationPopupOrientation(IContentAssistant.CONTEXT_INFO_ABOVE);
 		assistant.setInformationControlCreator(new IInformationControlCreator() {
@@ -248,7 +259,7 @@ public class FluentSourceViewerConfiguration extends TextSourceViewerConfigurati
 	}
 
 	/**
-	 * provide a {@link IShowInTarget show in target} to connect the quick-outline popup with the
+	 * Provides a {@link IShowInTarget show in target} to connect the quick-outline popup with the
 	 * editor.
 	 */
 	public IShowInTarget getShowInTarget() {
@@ -256,7 +267,7 @@ public class FluentSourceViewerConfiguration extends TextSourceViewerConfigurati
 	}
 
 	/**
-	 * provide a {@link IShowInTarget show in target} to connect the quick-outline popup with the
+	 * Provides a {@link IShowInTarget show in target} to connect the quick-outline popup with the
 	 * editor.
 	 */
 	public void setShowInTarget(IShowInTarget showInTarget) {
@@ -273,11 +284,7 @@ public class FluentSourceViewerConfiguration extends TextSourceViewerConfigurati
 		return enableHippie;
 	}
 
-	/**
-	 * Indicate if Hippie content assist should be enabled.
-	 *
-	 * @since 1.4
-	 */
+	/** Indicate if Hippie content assist should be enabled. */
 	public void setEnableHippieContentAssist(boolean enableHippieContentAssist) {
 		this.enableHippie = enableHippieContentAssist;
 	}
@@ -317,22 +324,19 @@ public class FluentSourceViewerConfiguration extends TextSourceViewerConfigurati
 	}
 
 	private void configureTemplateProcessor(ContentAssistant assistant, IPreferenceStore store) {
-		FluentTemplateCompletionProcessor processor = getTemplateProcessor(assistant);
+		TemplateCompletionProcessor processor = getTemplateProcessor(assistant);
 		if (processor == null) return;
 
 		String triggers = store.getString(AUTOACTIVATION_TRIGGERS_MD);
 		if (triggers != null) processor.setCompletionProposalAutoActivationCharacters(triggers.toCharArray());
 
-		boolean enabled = store.getBoolean(SHOW_VISIBLE_PROPOSALS);
-		processor.restrictProposalsToVisibility(enabled);
-
-		enabled = store.getBoolean(CASE_SENSITIVITY);
-		processor.restrictProposalsToMatchingCases(enabled);
+		processor.restrictProposalsToVisibility(store.getBoolean(SHOW_VISIBLE_PROPOSALS));
+		processor.restrictProposalsToMatchingCases(store.getBoolean(CASE_SENSITIVITY));
 	}
 
-	private FluentTemplateCompletionProcessor getTemplateProcessor(ContentAssistant assistant) {
+	private TemplateCompletionProcessor getTemplateProcessor(ContentAssistant assistant) {
 		IContentAssistProcessor p = assistant.getContentAssistProcessor(IDocument.DEFAULT_CONTENT_TYPE);
-		if (p instanceof FluentTemplateCompletionProcessor) return (FluentTemplateCompletionProcessor) p;
+		if (p instanceof TemplateCompletionProcessor) return (TemplateCompletionProcessor) p;
 		return null;
 	}
 
@@ -359,6 +363,13 @@ public class FluentSourceViewerConfiguration extends TextSourceViewerConfigurati
 
 	public IInformationPresenter getHierarchyPresenter(ISourceViewer sourceViewer, boolean doCodeResolve) {
 		return null;
+	}
+
+	@Override
+	public String[] getConfiguredContentTypes(ISourceViewer sourceViewer) {
+		return new String[] { IDocument.DEFAULT_CONTENT_TYPE, Partitions.FRONT_MATTER, Partitions.COMMENT,
+				Partitions.CODEBLOCK, Partitions.HTMLBLOCK, Partitions.DOTBLOCK, Partitions.UMLBLOCK,
+				Partitions.MATHBLOCK };
 	}
 
 	@Override

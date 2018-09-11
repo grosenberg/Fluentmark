@@ -73,14 +73,14 @@ public class ToggleHiddenCommentHandler extends AbstractHandler {
 
 	private int checkPartition(IDocument doc, int beg, int len) {
 		try {
-			boolean begCmt = TextUtilities.getContentType(doc, Partitions.MK_PARTITIONING, beg, false)
+			boolean begCmt = TextUtilities.getContentType(doc, Partitions.PARTITIONING, beg, false)
 					.equals(Partitions.COMMENT);
-			boolean endCmt = TextUtilities.getContentType(doc, Partitions.MK_PARTITIONING, beg + len - 1, false)
+			boolean endCmt = TextUtilities.getContentType(doc, Partitions.PARTITIONING, beg + len - 1, false)
 					.equals(Partitions.COMMENT);
 
 			if (begCmt && endCmt) {
-				ITypedRegion begPar = TextUtilities.getPartition(doc, Partitions.MK_PARTITIONING, beg, false);
-				ITypedRegion endPar = TextUtilities.getPartition(doc, Partitions.MK_PARTITIONING, beg + len - 1, false);
+				ITypedRegion begPar = TextUtilities.getPartition(doc, Partitions.PARTITIONING, beg, false);
+				ITypedRegion endPar = TextUtilities.getPartition(doc, Partitions.PARTITIONING, beg + len - 1, false);
 				if (begPar.getOffset() == endPar.getOffset()) return SAME;
 				return DIFF;
 			}
@@ -112,7 +112,7 @@ public class ToggleHiddenCommentHandler extends AbstractHandler {
 			IDocumentUndoManager undoMgr = DocumentUndoManagerRegistry.getDocumentUndoManager(doc);
 			undoMgr.beginCompoundChange();
 
-			ITypedRegion par = TextUtilities.getPartition(doc, Partitions.MK_PARTITIONING, offset, false);
+			ITypedRegion par = TextUtilities.getPartition(doc, Partitions.PARTITIONING, offset, false);
 			int beg = par.getOffset();
 			int len = par.getLength();
 

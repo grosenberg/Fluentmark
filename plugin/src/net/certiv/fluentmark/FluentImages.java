@@ -81,6 +81,9 @@ public class FluentImages {
 	public static String DESC_OBJ_ROW_INS_ABV;
 	public static String DESC_OBJ_ROW_INS_BLW;
 
+	public static String IMG_OBJS_FIXABLE_PROBLEM;
+	public static String IMG_OBJS_FIXABLE_ERROR;
+
 	// public static String IMG_OBJS_FOLDER = prefix + "fldr_obj.gif";
 	// public static String IMG_OBJS_TEMPLATE = prefix + "template_obj.gif";
 	// public static String IMG_OBJS_VARIABLE = prefix + "variable_obj.gif";
@@ -123,7 +126,7 @@ public class FluentImages {
 		DESC_OBJ_LIST = prefix + "list.png"; //$NON-NLS-1$
 		DESC_OBJ_QUOTE = prefix + "quote.png"; //$NON-NLS-1$
 		DESC_OBJ_REFERENCE = prefix + "url_link.gif"; //$NON-NLS-1$
-		DESC_OBJ_SUM= prefix + "sum.png"; //$NON-NLS-1$
+		DESC_OBJ_SUM = prefix + "sum.png"; //$NON-NLS-1$
 		DESC_OBJ_TABLE = prefix + "table.png"; //$NON-NLS-1$
 		DESC_OBJ_TEXT = prefix + "text.png"; //$NON-NLS-1$
 		DESC_OBJ_UNDEFINED = IMG_OBJS_UNKNOWN;
@@ -137,6 +140,9 @@ public class FluentImages {
 		DESC_OBJ_ROW_DEL = prefix + "row_delete.gif"; //$NON-NLS-1$
 		DESC_OBJ_ROW_INS_ABV = prefix + "row_insert_above.gif"; //$NON-NLS-1$
 		DESC_OBJ_ROW_INS_BLW = prefix + "row_insert_below.gif"; //$NON-NLS-1$
+
+		IMG_OBJS_FIXABLE_PROBLEM = prefix + "quickfix_warning_obj.gif"; //$NON-NLS-1$
+		IMG_OBJS_FIXABLE_ERROR = prefix + "quickfix_error_obj.gif"; //$NON-NLS-1$
 
 		create(OBJ, IMG_MENU_COLLAPSE_ALL);
 		create(OBJ, IMG_MENU_EXPAND_ALL);
@@ -177,6 +183,9 @@ public class FluentImages {
 		create(OBJ, DESC_OBJ_ROW_DEL);
 		create(OBJ, DESC_OBJ_ROW_INS_ABV);
 		create(OBJ, DESC_OBJ_ROW_INS_BLW);
+
+		create(OBJ, IMG_OBJS_FIXABLE_PROBLEM);
+		create(OBJ, IMG_OBJS_FIXABLE_ERROR);
 	}
 
 	/** Retrieve the existing managed image for the given key */
@@ -190,8 +199,8 @@ public class FluentImages {
 	}
 
 	/**
-	 * Create, register, and return an image descriptor for the given prefix and named icon file in
-	 * the default bundle. The path can contain variables like $NL$. If no image could be found, the
+	 * Create, register, and return an image descriptor for the given prefix and named icon file in the
+	 * default bundle. The path can contain variables like $NL$. If no image could be found, the
 	 * 'missing image descriptor' is returned.
 	 */
 	public ImageDescriptor create(String prefix, String name) {
@@ -201,9 +210,9 @@ public class FluentImages {
 	}
 
 	/**
-	 * Create, register, and return an image descriptor for the given prefix and named icon file in
-	 * the given bundle. The path can contain variables like $NL$. If no image could be found, the
-	 * 'missing image descriptor' is returned.
+	 * Create, register, and return an image descriptor for the given prefix and named icon file in the
+	 * given bundle. The path can contain variables like $NL$. If no image could be found, the 'missing
+	 * image descriptor' is returned.
 	 */
 	public ImageDescriptor create(Bundle bundle, String prefix, String name) {
 		ImageDescriptor result = createUnmanaged(bundle, prefix, name);
@@ -212,9 +221,9 @@ public class FluentImages {
 	}
 
 	/**
-	 * Creates and returns an image descriptor for the given prefix and name in the default bundle.
-	 * The path can contain variables like $NL$. If no image could be found, the 'missing image
-	 * descriptor' is returned.
+	 * Creates and returns an image descriptor for the given prefix and name in the default bundle. The
+	 * path can contain variables like $NL$. If no image could be found, the 'missing image descriptor'
+	 * is returned.
 	 */
 	public ImageDescriptor createUnmanaged(String prefix, String name) {
 		URL url = makeIconFileURL(prefix, name.substring(prefixLen));
@@ -222,9 +231,9 @@ public class FluentImages {
 	}
 
 	/**
-	 * Creates and returns an image descriptor for the given prefix and name in the given bundle.
-	 * The path can contain variables like $NL$. If no image could be found, the 'missing image
-	 * descriptor' is returned.
+	 * Creates and returns an image descriptor for the given prefix and name in the given bundle. The
+	 * path can contain variables like $NL$. If no image could be found, the 'missing image descriptor'
+	 * is returned.
 	 */
 	public ImageDescriptor createUnmanaged(Bundle bundle, String prefix, String name) {
 		int prefixLen = bundle.getSymbolicName().length() + 1;

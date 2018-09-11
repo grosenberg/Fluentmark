@@ -13,12 +13,12 @@ import org.eclipse.text.undo.DocumentUndoManagerRegistry;
 import org.eclipse.text.undo.IDocumentUndoManager;
 
 import net.certiv.fluentmark.Log;
+import net.certiv.fluentmark.dialog.tables.TableModel;
 import net.certiv.fluentmark.editor.FluentEditor;
 import net.certiv.fluentmark.model.ISourceRange;
 import net.certiv.fluentmark.model.PagePart;
 import net.certiv.fluentmark.model.PageRoot;
 import net.certiv.fluentmark.preferences.Prefs;
-import net.certiv.fluentmark.tables.TableModel;
 import net.certiv.fluentmark.util.Indent;
 import net.certiv.fluentmark.util.Strings;
 

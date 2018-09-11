@@ -18,12 +18,12 @@ import org.eclipse.jface.text.rules.MultiLineRule;
 import org.eclipse.jface.text.rules.RuleBasedPartitionScanner;
 import org.eclipse.jface.text.rules.Token;
 
-import net.certiv.fluentmark.editor.text.DotCodeRule;
-import net.certiv.fluentmark.editor.text.FrontMatterRule;
-import net.certiv.fluentmark.editor.text.HtmlCodeRule;
 import net.certiv.fluentmark.editor.text.IScannerExt;
-import net.certiv.fluentmark.editor.text.IndentedCodeRule;
-import net.certiv.fluentmark.editor.text.MatchRule;
+import net.certiv.fluentmark.editor.text.rules.DotCodeRule;
+import net.certiv.fluentmark.editor.text.rules.FrontMatterRule;
+import net.certiv.fluentmark.editor.text.rules.HtmlCodeRule;
+import net.certiv.fluentmark.editor.text.rules.IndentedCodeRule;
+import net.certiv.fluentmark.editor.text.rules.MatchRule;
 
 public class PartitionScanner extends RuleBasedPartitionScanner implements IScannerExt {
 
