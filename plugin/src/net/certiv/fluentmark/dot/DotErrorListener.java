@@ -35,17 +35,16 @@ public class DotErrorListener extends BaseErrorListener {
 	}
 
 	@Override
-	public void syntaxError(Recognizer<?, ?> recognizer, Object symbol, int line, int charPositionInLine, String msg,
+	public void syntaxError(Recognizer<?, ?> recognizer, Object symbol, int line, int charPos, String msg,
 			RecognitionException e) {
 
-		String cause = evalError(recognizer, symbol, line, charPositionInLine, e);
-		DotProblem problem = new DotProblem(IMarker.SEVERITY_ERROR, cause, e.getOffendingToken(), record.res,
-				record.docOffset, record.docLine);
+		String cause = evalError(recognizer, symbol, line, charPos, e);
+		DotProblem problem = new DotProblem(IMarker.SEVERITY_ERROR, cause, e.getOffendingToken(), record);
 		FluentUI.log(IStatus.ERROR, problem.toString());
 		collector.accept(problem);
 	}
 
-	private static String evalError(Recognizer<?, ?> recognizer, Object symbol, int line, int charPositionInLine,
+	private static String evalError(Recognizer<?, ?> recognizer, Object symbol, int line, int charPos,
 			RecognitionException e) {
 
 		Token token = symbol instanceof Token ? (Token) symbol : null;
@@ -53,7 +52,7 @@ public class DotErrorListener extends BaseErrorListener {
 
 		String cause;
 		if (e instanceof InputMismatchException) {
-			cause = "Mismatched input at %s:%s " + getTokentext(token) + expected;
+			cause = "Mismatched input " + getTokentext(token) + " at %s:%s" + expected;
 
 		} else if (e instanceof NoViableAltException) {
 			String input = "<unknown>";
@@ -86,10 +85,10 @@ public class DotErrorListener extends BaseErrorListener {
 			cause += " at %s:%s " + getTokentext(token);
 
 		} else if (e instanceof UnwantedTokenException) {
-			cause = "Extraneous input" + getTokentext(token) + " at %s:%s" + expected;
+			cause = "Extraneous input " + getTokentext(token) + " at %s:%s" + expected;
 
 		} else if (e instanceof MissingTokenException) {
-			cause = "Missing input" + expected + " at %s:%s " + getTokentext(token);
+			cause = "Missing input " + expected + " at %s:%s " + getTokentext(token);
 
 		} else {
 			cause = String.format("Unknown recognition error of type '%s'", e.getClass().getSimpleName()) + " at %s:%s"
@@ -125,7 +124,7 @@ public class DotErrorListener extends BaseErrorListener {
 		IntervalSet expected = e.getExpectedTokens();
 		if (expected == null || expected.isNil()) return "";
 
-		StringBuilder sb = new StringBuilder(", expected {");
+		StringBuilder sb = new StringBuilder("; expected {");
 		Vocabulary vocab = e.getRecognizer().getVocabulary();
 		for (int ttype : expected.toList()) {
 			String typename = vocab.getDisplayName(ttype);

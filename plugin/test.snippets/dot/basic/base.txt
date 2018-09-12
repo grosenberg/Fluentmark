@@ -1,0 +1,8 @@
+
+digraph M1 { 
+
+    source[label="Source"]
+    parser[label="Parser"]
+	
+	source-->parser
+}

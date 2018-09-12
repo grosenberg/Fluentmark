@@ -55,6 +55,12 @@ public interface DotParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitAttribute(DotParser.AttributeContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link DotParser#value}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitValue(DotParser.ValueContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link DotParser#subgraph}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

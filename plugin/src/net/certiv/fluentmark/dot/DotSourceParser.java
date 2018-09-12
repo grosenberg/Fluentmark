@@ -20,6 +20,7 @@ import net.certiv.fluentmark.dot.gen.DotLexer;
 import net.certiv.fluentmark.dot.gen.DotParser;
 import net.certiv.fluentmark.editor.FluentEditor;
 import net.certiv.fluentmark.editor.text.DotReconcilingStrategy.DotProblemCollector;
+import net.certiv.fluentmark.preferences.Prefs;
 
 public class DotSourceParser {
 
@@ -27,9 +28,11 @@ public class DotSourceParser {
 	private final DotErrorStrategy errStrategy = new DotErrorStrategy();
 	private final DotErrorListener errListener = new DotErrorListener();
 	private FluentEditor editor;
+	private int tabWidth;
 
 	public DotSourceParser(FluentEditor editor) {
 		this.editor = editor;
+		this.tabWidth = editor.getPrefsStore().getDefaultInt(Prefs.EDITOR_TAB_WIDTH);
 	}
 
 	public void eval(IDocument doc, IRegion partition, DotProblemCollector collector) {
@@ -50,7 +53,7 @@ public class DotSourceParser {
 		}
 
 		IResource res = ResourceUtil.getResource(editor.getEditorInput());
-		Record record = new Record(res, partition, docOffset, docLine);
+		Record record = new Record(res, partition, docOffset, docLine, tabWidth);
 		errListener.setup(record, collector);
 
 		record.cs = CharStreams.fromString(text);

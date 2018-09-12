@@ -9,6 +9,7 @@ public enum Attr {
 	CLUSTERRANK("clusterrank"),
 	COLOR("color"),
 	COLORSCHEME("colorscheme"),
+	CONSTRAINT("constraint"),
 	DIR("dir"),
 	DISTORTION("distortion"),
 	EDGETOOLTIP("edgetooltip"),
@@ -45,7 +46,11 @@ public enum Attr {
 	TOOLTIP("tooltip"),
 	WIDTH("width"),
 	XLABEL("xlabel"),
-	XLP("xlp");
+	XLP("xlp"),
+
+	INVALID("Invalid")
+
+	;
 
 	private String _attribute;
 

@@ -16,13 +16,13 @@ EQ	   : '=' ;
 DIRECTED   : '->' ;
 UNDIRECTED : '--' ;
 
-STRICT	: 'strict'	;
-DIGRAPH	: 'digraph' ;
-GRAPH	: 'graph'	;
-NODE	: 'node'	;
-EDGE	: 'edge'	;
-SUBGRAPH : 'subgraph'
-		 ;
+STRICT	 : 'strict'	  ;
+DIGRAPH	 : 'digraph'  ;
+GRAPH	 : 'graph'	  ;
+SUBGRAPH : 'subgraph' ;
+NODE	 : 'node'	  ;
+EDGE : 'edge'
+	 ;
 
 // Compass Points
 N  : 'n'  ;
@@ -36,37 +36,70 @@ NW : 'nw' ;
 C	: 'c'
 	;
 
-ID
-	: NUMERAL | STRING | QUOTED_STRING | HTML_STRING
+ID : Alpha ( Alpha | Digit )* ;
+
+RGB	   : Quote RgbSeq Quote ;
+HSV	   : Quote HsvSeq Quote ;
+POINT  : Quote Decimal Comma Decimal Bang? Quote ;
+RECT   : Quote Decimal Comma Decimal Comma Decimal Comma Decimal Quote ;
+COLORS : Quote Color ( Colon Color )+ Quote ;
+STRING : Quote ( EscSeq | ~["\r\n\\] )* Quote ;
+
+SPLINE : SPOINT ( Semi SPOINT )+ ;
+SPOINT : (SplineEnd	)? ( SplineStart )? POINT ( POINT POINT POINT )+ ;
+
+HTML
+	: TagOpen ( TagOpen | TagClose | Html )* TagClose
 	;
 
-NUMERAL
-	: Minus? ( ( Dot ( DIGIT )+ ) | (DIGIT )+ ( Dot ( DIGIT )* )? )
+NUMBER
+	: Minus? ( ( Dot ( Digit )+ ) | (Digit )+ ( Dot ( Digit )* )? )
 	;
 
-STRING : ALPHA ( ALPHA | DIGIT )*			;
-ALPHA  :   [a-zA-Z_]   | '\u0080'..'\u00FF' ;
-DIGIT : [0-9]
-	  ;
+ML_COMMENT : '/*' .*? '*/' ;
+SL_COMMENT : ( '//' | Pound ) .*? ( '\r'? '\n' ) | EOF ;
 
-QUOTED_STRING : '"' (EscSeq | ~["\r\n\\] )* '"'	;
+VWS : [\r\n\f] -> channel(HIDDEN) ;
+HWS : [ \t]	   -> channel(HIDDEN) ;
 
-HTML_STRING	: TagOpen ( TagOpen | TagClose | Html )* TagClose ;
-ML_COMMENT	: '/*' .*? '*/' ;
-SL_COMMENT	: ('//' | '#' ) .*? ( '\r'? '\n' ) | EOF ;
+ERR	: . ;
 
-WS : [ \t\r\n\f'] -> channel(HIDDEN) ;
+fragment Alpha
+	:   [a-zA-Z_]
+	| '\u0080'..'\u00FF'
+	;
 
-ERR	: .	-> channel(HIDDEN) ;
+fragment Html
+	: ~[<>]+
+	;
 
-fragment Esc	  : '\\'		;
-fragment Dot	  : '.'			;
-fragment Minus	  : '-'			;
-fragment TagOpen  : '<'			;
-fragment TagClose : '>'			;
-fragment HexDigit : [0-9a-fA-F]	;
-fragment Html : ~[<>]+
-			  ;
+fragment RgbSeq
+	: Pound HexDigit HexDigit HexDigit HexDigit HexDigit HexDigit ( HexDigit HexDigit )?
+	;
+
+fragment HsvSeq
+	: HsvDigit HsvDigit HsvDigit
+	;
+
+fragment Color
+	: Alpha+ ( Semi Fract )?
+	;
+
+fragment SplineStart : Quote 'e' Comma Decimal Quote ;
+fragment SplineEnd : Quote 's' Comma Decimal Quote
+				   ;
+
+// and triple = point point point
+// and endp = "e,%f,%f"
+
+// and startp = "s,%f,%f"
+fragment Decimal  : [+-]? UDecimal	  ;
+fragment UDecimal : Digit+ Dot Digit* ;
+fragment Fract	  : '0' Dot Digit+	  ;
+
+fragment Digit	  : [0-9]						;
+fragment HexDigit : [0-9a-fA-F]					;
+fragment HsvDigit : [0-1] Dot Digit Digit Digit	;
 
 fragment EscSeq
 	:	Esc
@@ -81,93 +114,32 @@ fragment UnicodeEsc
 	:	'u' (HexDigit (HexDigit (HexDigit HexDigit?	)? )? )?
 	;
 
-// // Arrow shapes
-// BOX : 'box' ;
-// CROW : 'crow' ;
-// CURVE : 'curve' ;
-// ICURVE : 'icurve' ;
-// DIAMOND : 'diamond' ;
-// DOT : 'dot' ;
-// INV : 'inv' ;
-// NONE : 'none' ;
-// NORMAL : 'normal' ;
-// TEE : 'tee' ;
-// VEE : 'vee'
-// ;
-// // Arrows shape qualifiers
-// O : 'o' ;
-// L : 'l' ;
-// R : 'r'
-// ;
-// // Node shapes
-// POLYGON : 'polygon' ;
-// ELLIPSE : 'ellipse' ;
-// OVAL : 'oval' ;
-// CIRCLE : 'circle' ;
-// POINT : 'point' ;
-// EGG : 'egg' ;
-// TRIANGLE : 'triange' ;
-// PLAINTEXT : 'plaintext' ;
-// PLAIN : 'plain' ;
-// TRAPEZIUM : 'trapezium' ;
-// PARALLELOGRAM : 'parallelogram' ;
-// HOUSE : 'house' ;
-// PENTAGON : 'pentagon' ;
-// HEXAGON : 'hexagon' ;
-// SEPTAGON : 'septagon' ;
-// OCTAGON : 'octagon' ;
-// DOUBLECIRCLE : 'doublecircle' ;
-// DOUBLEOCTAGON : 'doubleoctagon' ;
-// TRIPLEOCTAGON : 'tripleoctagon' ;
-// INVTRIANGLE : 'invtriange' ;
-// INVTRAPEZIUM : 'invtrapezium' ;
-// INVHOUSE : 'invhouse' ;
-// MDIAMOND : 'Mdiamond' ;
-// MSQUARE : 'Mhouse' ;
-// MCIRCLE : 'Mcircle' ;
-// RECT : 'rect' ;
-// RECTANGLE : 'rectangle' ;
-// SQUARE : 'square' ;
-// STAR : 'star' ;
-// UNDERLINE : 'underline' ;
-// CYLINDER : 'cylinder' ;
-// NOTE : 'note' ;
-// TAB : 'tab' ;
-// FOLDER : 'folder' ;
-// BOX3D : 'box3d' ;
-// COMPONENT : 'component' ;
-// PROMOTER : 'promotor' ;
-// CDS : 'cds' ;
-// TERMINATOR : 'terminator' ;
-// UTR : 'utr' ;
-// PRIMERSITE : 'primersite' ;
-// RESTRICTIONSITE : 'restrictionsite' ;
-// FIVEPOVERHANG : 'fivepoverhang' ;
-// THREEPOVERHANG : 'threepoverhang' ;
-// NOVERHANG : 'noverhang' ;
-// ASSEMBLY : 'assembly' ;
-// SIGNATURE : 'signature' ;
-// INSULATOR : 'insulator' ;
-// RIBOSITE : 'ribosite' ;
-// RNASTAB : 'rnastab' ;
-// PROTEASESITE : 'proteasite' ;
-// PROTEINSTAB : 'proteinstab' ;
-// RPROMOTER : 'rpromoter' ;
-// RARROW : 'rarrow' ;
-// LARROW : 'larrow' ;
-// LPROMOTER : 'lpromoter' ;
-// RECORD : 'record' ;
-// MRECORD : 'Mrecord'
-// ;
-// BOLD : 'bold' ;
-// DASHED : 'dashed' ;
-// DIAGONALS : 'diagonals' ;
-// DOTTED : 'dotted' ;
-// FILLED : 'filled' ;
-// INVIS : 'invis' ;
-// RADIAL : 'radial' ;
-// ROUNDED : 'rounded' ;
-// SOLID : 'solid' ;
-// STRIPED : 'striped' ;
-// WEDGED : 'wedged' ;
-// TAPERED : 'tapered' ;
+fragment Quote		: '"'  ;
+fragment TagOpen	: '<'  ;
+fragment TagClose	: '>'  ;
+fragment Esc		: '\\' ;
+fragment Colon		: ':'  ;
+fragment LParen		: '('  ;
+fragment RParen		: ')'  ;
+fragment LBrace		: '{'  ;
+fragment RBrace		: '}'  ;
+fragment LBrack		: '['  ;
+fragment RBrack		: ']'  ;
+fragment Question	: '?'  ;
+fragment Bang		: '!'  ;
+fragment Star		: '*'  ;
+fragment Slash		: '/'  ;
+fragment Percent	: '%'  ;
+fragment Caret		: '^'  ;
+fragment Plus		: '+'  ;
+fragment Minus		: '-'  ;
+fragment Underscore	: '_'  ;
+fragment Pipe		: '|'  ;
+fragment Dollar		: '$'  ;
+fragment Comma		: ','  ;
+fragment Semi		: ';'  ;
+fragment Dot		: '.'  ;
+fragment At			: '@'  ;
+fragment Pound		: '#'  ;
+fragment Tilde		: '~'  ;
+

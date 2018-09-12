@@ -14,17 +14,19 @@ public class Record {
 	public IRegion region;	// typically corresponds to a partition
 	public int docOffset;	// start offset of parsed text
 	public int docLine;		// start line of parsed text
+	public int tabWidth;
 
 	public GraphContext tree;
 	public DotParser parser;
 	public CommonTokenStream ts;
 	public CodePointCharStream cs;
 
-	public Record(IResource res, IRegion region, int docOffset, int docLine) {
+	public Record(IResource res, IRegion region, int docOffset, int docLine, int tabWidth) {
 		this.res = res;
 		this.region = region;
 		this.docOffset = docOffset;
 		this.docLine = docLine;
+		this.tabWidth = tabWidth;
 	}
 
 	public void dispose() {

@@ -75,12 +75,49 @@ public final class Strings {
 		return meta.substring(0, 1).toUpperCase() + meta.substring(1);
 	}
 
+	public static String toTitleCase(String title) {
+		if (title.length() < 2) {
+			return title.toUpperCase();
+		}
+		StringBuilder sb = new StringBuilder(title.length());
+		boolean goUp = true;
+		int i = 0;
+		for (int n = title.length(); i < n; i++) {
+			char c = title.charAt(i);
+			if (Character.isLetterOrDigit(c) || c == '\'') {
+				if (goUp) {
+					sb.append(Character.toUpperCase(c));
+					goUp = false;
+				} else {
+					sb.append(Character.toLowerCase(c));
+				}
+			} else {
+				sb.append(c);
+				goUp = true;
+			}
+		}
+
+		return sb.toString();
+	}
+
 	public static String normalize(String content) throws IllegalArgumentException {
 		return content.replaceAll("\\r?\\n", EOL);
 	}
 
 	public static boolean isBlank(String line) {
 		return line == null || line.trim().isEmpty();
+	}
+
+	public static String trimQuotes(String string) {
+		if (string.charAt(0) != '\'' && string.charAt(0) != '"') {
+			return string;
+		}
+		char c = string.charAt(string.length() - 1);
+		if (c != '\'' && c != '"') {
+			return string;
+		} else {
+			return string.substring(1, string.length() - 1);
+		}
 	}
 
 	public static String trimLeadingPunctuation(String text) {
@@ -176,41 +213,47 @@ public final class Strings {
 		return sb.toString();
 	}
 
-	public static String toTitleCase(String title) {
-		if (title.length() < 2) {
-			return title.toUpperCase();
-		}
-		StringBuilder sb = new StringBuilder(title.length());
-		boolean goUp = true;
-		int i = 0;
-		for (int n = title.length(); i < n; i++) {
-			char c = title.charAt(i);
-			if (Character.isLetterOrDigit(c) || c == '\'') {
-				if (goUp) {
-					sb.append(Character.toUpperCase(c));
-					goUp = false;
-				} else {
-					sb.append(Character.toLowerCase(c));
-				}
-			} else {
-				sb.append(c);
-				goUp = true;
-			}
-		}
-
-		return sb.toString();
+	/**
+	 * Returns the visual width of the given line of text.
+	 *
+	 * @param text the string to measure
+	 * @param tabWidth the visual width of a tab
+	 * @return the visual width of <code>text</code>
+	 * @see org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javaeditor/IndentUtil.java
+	 */
+	public static int measureVisualWidth(CharSequence text, int tabWidth) {
+		return measureVisualWidth(text, tabWidth, 0);
 	}
 
-	public static String trimQuotes(String string) {
-		if (string.charAt(0) != '\'' && string.charAt(0) != '"') {
-			return string;
+	/**
+	 * Returns the visual width of the given text starting from the given offset within a line. Width is
+	 * reset each time a line separator character is encountered.
+	 *
+	 * @param text the string to measure
+	 * @param tabWidth the visual width of a tab
+	 * @param from the visual starting offset of the text
+	 * @return the visual width of <code>text</code>
+	 * @see org.eclipse.jdt.ui/ui/org/eclipse/jdt/internal/ui/javaeditor/IndentUtil.java
+	 */
+	public static int measureVisualWidth(CharSequence text, int tabWidth, int from) {
+		if (text == null || tabWidth < 0 || from < 0) throw new IllegalArgumentException();
+
+		int width = from;
+		for (int idx = 0, len = text.length(); idx < len; idx++) {
+			switch (text.charAt(idx)) {
+				case TAB:
+					if (tabWidth > 0) width += tabWidth - width % tabWidth;
+					break;
+				case RET:
+				case NLC:
+					width = 0;
+					from = 0;
+					break;
+				default:
+					width++;
+			}
 		}
-		char c = string.charAt(string.length() - 1);
-		if (c != '\'' && c != '"') {
-			return string;
-		} else {
-			return string.substring(1, string.length() - 1);
-		}
+		return width - from;
 	}
 
 	public static String dup(String value, int cnt) {

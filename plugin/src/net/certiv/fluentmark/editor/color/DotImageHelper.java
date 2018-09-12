@@ -25,9 +25,9 @@ public class DotImageHelper {
 	 * scheme
 	 */
 	protected void initializeImageRegistry(ImageRegistry reg) {
-		for (String colorScheme : DotColorsHelper.getColorSchemes()) {
-			for (String colorName : DotColorsHelper.getColorNames(colorScheme)) {
-				String hex = DotColorsHelper.get(colorScheme, colorName);
+		for (String colorScheme : DotColors.getColorSchemes()) {
+			for (String colorName : DotColors.getColorNames(colorScheme)) {
+				String hex = DotColors.get(colorScheme, colorName);
 				if (reg.get(hex) == null) {
 					Image image = createImage(hex);
 					reg.put(hex, image);

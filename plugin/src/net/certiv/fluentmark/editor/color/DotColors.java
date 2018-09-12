@@ -23,7 +23,7 @@ import com.google.common.collect.ImmutableMap;
  *
  * @author miklossy
  */
-public class DotColorsHelper {
+public class DotColors {
 
 	/**
 	 * Returns the valid dot color scheme names.
@@ -38,6 +38,10 @@ public class DotColorsHelper {
 		colorSchemes.addAll(brewerColorSchemes.keySet());
 
 		return colorSchemes;
+	}
+
+	public static String[] getColorNames() {
+		return getColorNames("").toArray(new String[0]);
 	}
 
 	/**

@@ -80,6 +80,16 @@ public interface DotParserListener extends ParseTreeListener {
 	 */
 	void exitAttribute(DotParser.AttributeContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link DotParser#value}.
+	 * @param ctx the parse tree
+	 */
+	void enterValue(DotParser.ValueContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link DotParser#value}.
+	 * @param ctx the parse tree
+	 */
+	void exitValue(DotParser.ValueContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link DotParser#subgraph}.
 	 * @param ctx the parse tree
 	 */

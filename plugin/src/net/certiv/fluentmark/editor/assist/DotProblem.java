@@ -1,27 +1,35 @@
 package net.certiv.fluentmark.editor.assist;
 
 import org.antlr.v4.runtime.Token;
+import org.antlr.v4.runtime.misc.Interval;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 
+import net.certiv.fluentmark.dot.Record;
+import net.certiv.fluentmark.util.Strings;
+
 public class DotProblem {
 
-	private int severity;
-	private String cause;
-	private Token token;
-	private IResource res;
-	private int offset; // starting offset of DOT text in doc
-	private int line;	// starting line of DOT text in doc
+	private final int severity;
+	private final String cause;
+	private final Token token;
+	private final IResource res;
+	private final int offset;	// start offset of DOT text
+	private final int line;		// start line of DOT text
+	private final int tabWidth;
+
 	private IMarker marker;
 
-	public DotProblem(int severity, String cause, Token token, IResource res, int offset, int line) {
+	public DotProblem(int severity, String cause, Token token, Record record) {
 		this.severity = severity;
 		this.token = token;
-		this.res = res;
-		this.offset = offset;
-		this.line = line;
-		this.cause = String.format(cause, getLine(), getPosInLine() + 1);
+		this.res = record.res;
+		this.offset = record.docOffset;
+		this.line = record.docLine;
+		this.tabWidth = record.tabWidth;
+
+		this.cause = String.format(cause, getLine(), getCharPos() + 1);
 	}
 
 	public IMarker getMarker() {
@@ -32,7 +40,7 @@ public class DotProblem {
 				marker.setAttribute(IMarker.SEVERITY, severity);
 				marker.setAttribute(IMarker.PRIORITY, IMarker.PRIORITY_NORMAL);
 				marker.setAttribute(IMarker.MESSAGE, cause);
-				marker.setAttribute(IMarker.LOCATION, String.format("@%s:%s", getLine(), getPosInLine() + 1));
+				marker.setAttribute(IMarker.LOCATION, String.format("@%s:%s", getLine(), getVisualCharPos()));
 				marker.setAttribute(IMarker.LINE_NUMBER, getLine() + 1);
 				marker.setAttribute(IMarker.CHAR_START, getOffset());
 				marker.setAttribute(IMarker.CHAR_END, getOffset() + getLength());
@@ -65,8 +73,17 @@ public class DotProblem {
 	}
 
 	/** Returns the char position of the error in the line. */
-	public int getPosInLine() {
+	public int getCharPos() {
 		return token.getCharPositionInLine();
+	}
+
+	/** Returns the char position of the error in the line. */
+	public int getVisualCharPos() {
+		int end = token.getStartIndex();
+		int beg = end - token.getCharPositionInLine();
+		String txt = token.getInputStream().getText(Interval.of(beg, end));
+		int width = Strings.measureVisualWidth(txt, tabWidth);
+		return width + 1;
 	}
 
 	/** Returns the offset of the error text within the document. */
