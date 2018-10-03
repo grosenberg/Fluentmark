@@ -7,14 +7,14 @@
 
 	<parent>
 		<groupId>net.certiv.fluentmark</groupId>
-		<artifactId>Fluentmark</artifactId>
+		<artifactId>parent</artifactId>
 		<version>1.2.1-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>net.certiv.fluentmark.feature</artifactId>
+	<artifactId>net.certiv.fluent.feature</artifactId>
 	<packaging>eclipse-feature</packaging>
 
-	<name>FluentMark feature</name>
+	<name>net.certiv.fluentmark :: feature</name>
 	<description>FluentMark feature</description>
 
 </project>

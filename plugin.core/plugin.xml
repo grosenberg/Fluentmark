@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.core.contenttype.contentTypes">
+      <content-type
+            base-type="org.eclipse.core.runtime.text"
+            describer="net.certiv.fluentmark.core.FluentmarkContentDescriber"
+            file-extensions="md,mdown,mkd,dot,text"
+            id="net.certiv.fluentmark.contentType"
+            name="Fluentmark Content Type"
+            priority="normal">
+      </content-type>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="net.certiv.fluentmark.core.preferences.PrefsInit">
+      </initializer>
+   </extension>
+   
+   <extension
+         id="nature"
+         name="Fluentmark Nature"
+         point="org.eclipse.core.resources.natures">
+      <runtime>
+         <run
+               class="net.certiv.fluentmark.core.FluentmarkNature">
+         </run>
+      </runtime>
+   </extension>
+</plugin>

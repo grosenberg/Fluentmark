@@ -1,0 +1,375 @@
+/* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
+/* Author: Nicolas Hery - http://nicolashery.com */
+/* Version: 29d1c5bc36da364ad5aa86946d420b7bbc54a253 */
+/* Source: https://github.com/nicolahery/markdownpad-github */
+
+//colors
+$mine_shaft: #333;
+$white: #fff;
+$black: #000;
+$celeste: #ccc;
+$tapa: #777;
+$steel_blue: #4183c4;
+$gray_nurse: #eaeaea;
+$desert_storm: #f8f8f8;
+$alto: #dddddd;
+$seashell: #f1f1f1;
+
+//@extend-elements
+//original selectors
+//h1, h2, h3, h4, h5, h6
+%extend_1 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+}
+
+//original selectors
+//code, tt
+%extend_2 {
+  margin: 0;
+  padding: 0;
+  white-space: nowrap;
+  border: 1px solid $gray_nurse;
+  background-color: $desert_storm;
+    border-radius: 3px;
+}
+
+
+body {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: $mine_shaft;
+  background-color: $white;
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+  > * {
+    &:first-child {
+      margin-top: 0 !important;
+    }
+    &:last-child {
+      margin-bottom: 0 !important;
+    }
+  }
+  > h2:first-child {
+    margin-top: 0;
+    padding-top: 0;
+  }
+  > h1:first-child {
+    margin-top: 0;
+    padding-top: 0;
+    + h2 {
+      margin-top: 0;
+      padding-top: 0;
+    }
+  }
+  > h3:first-child {
+    margin-top: 0;
+    padding-top: 0;
+  }
+  > h4:first-child {
+    margin-top: 0;
+    padding-top: 0;
+  }
+  > h5:first-child {
+    margin-top: 0;
+    padding-top: 0;
+  }
+  > h6:first-child {
+    margin-top: 0;
+    padding-top: 0;
+  }
+}
+p {
+  margin: 15px 0;
+}
+blockquote {
+  margin: 15px 0;
+  border-left: 4px solid $alto;
+  padding: 0 15px;
+  color: $tapa;
+  > {
+    :first-child {
+      margin-top: 0;
+    }
+    :last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+ul {
+  margin: 15px 0;
+  padding-left: 30px;
+  li {
+    > :first-child {
+      margin-top: 0;
+    }
+    ul:first-of-type {
+      margin-top: 0;
+    }
+    ol:first-of-type {
+      margin-top: 0;
+    }
+  }
+  ul {
+    margin-bottom: 0;
+  }
+  ol {
+    margin-bottom: 0;
+  }
+}
+ol {
+  margin: 15px 0;
+  padding-left: 30px;
+  li {
+    > :first-child {
+      margin-top: 0;
+    }
+    ol:first-of-type {
+      margin-top: 0;
+    }
+    ul:first-of-type {
+      margin-top: 0;
+    }
+  }
+  ol {
+    margin-bottom: 0;
+  }
+  ul {
+    margin-bottom: 0;
+  }
+}
+dl {
+  margin: 15px 0;
+  padding: 0;
+  dt {
+    font-size: 14px;
+    font-weight: bold;
+    font-style: italic;
+    padding: 0;
+    margin: 15px 0 5px;
+    &:first-child {
+      padding: 0;
+    }
+    > {
+      :first-child {
+        margin-top: 0;
+      }
+      :last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+  dd {
+    margin: 0 0 15px;
+    padding: 0 15px;
+    > {
+      :first-child {
+        margin-top: 0;
+      }
+      :last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+table {
+  margin: 15px 0;
+  th {
+    font-weight: bold;
+    border: 1px solid $celeste;
+    padding: 6px 13px;
+  }
+  td {
+    border: 1px solid $celeste;
+    padding: 6px 13px;
+  }
+  tr {
+    border-top: 1px solid $celeste;
+    background-color: $white;
+    &:nth-child(2n) {
+      background-color: $desert_storm;
+    }
+  }
+}
+pre {
+  margin: 15px 0;
+  font-size: 12px;
+  font-family: Consolas, Liberation Mono, Courier, monospace;
+  background-color: $desert_storm;
+  border: 1px solid $celeste;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+    border-radius: 3px;
+  > code {
+    margin: 0;
+    padding: 0;
+    white-space: pre;
+    border: none;
+    background: transparent;
+  }
+  code {
+    background-color: transparent;
+    border: none;
+  }
+  tt {
+    background-color: transparent;
+    border: none;
+  }
+}
+h1 {
+  @extend %extend_1;
+  font-size: 28px;
+  color: $black;
+  tt {
+    font-size: inherit;
+  }
+  code {
+    font-size: inherit;
+  }
+  + p {
+    margin-top: 10px;
+  }
+}
+h2 {
+  @extend %extend_1;
+  font-size: 24px;
+  border-bottom: 1px solid $celeste;
+  color: $black;
+  tt {
+    font-size: inherit;
+  }
+  code {
+    font-size: inherit;
+  }
+  + p {
+    margin-top: 10px;
+  }
+}
+h3 {
+  @extend %extend_1;
+  font-size: 18px;
+  tt {
+    font-size: inherit;
+  }
+  code {
+    font-size: inherit;
+  }
+  + p {
+    margin-top: 10px;
+  }
+}
+h4 {
+  @extend %extend_1;
+  font-size: 16px;
+  tt {
+    font-size: inherit;
+  }
+  code {
+    font-size: inherit;
+  }
+  + p {
+    margin-top: 10px;
+  }
+}
+h5 {
+  @extend %extend_1;
+  font-size: 14px;
+  tt {
+    font-size: inherit;
+  }
+  code {
+    font-size: inherit;
+  }
+  + p {
+    margin-top: 10px;
+  }
+}
+h6 {
+  @extend %extend_1;
+  color: $tapa;
+  font-size: 14px;
+  tt {
+    font-size: inherit;
+  }
+  code {
+    font-size: inherit;
+  }
+  + p {
+    margin-top: 10px;
+  }
+}
+a {
+  color: $steel_blue;
+  text-decoration: none;
+  &:first-child {
+    h1 {
+      margin-top: 0;
+      padding-top: 0;
+    }
+    h2 {
+      margin-top: 0;
+      padding-top: 0;
+    }
+    h3 {
+      margin-top: 0;
+      padding-top: 0;
+    }
+    h4 {
+      margin-top: 0;
+      padding-top: 0;
+    }
+    h5 {
+      margin-top: 0;
+      padding-top: 0;
+    }
+    h6 {
+      margin-top: 0;
+      padding-top: 0;
+    }
+  }
+  &:hover {
+    text-decoration: underline;
+  }
+}
+code {
+  font-size: 12px;
+  font-family: Consolas, Liberation Mono, Courier, monospace;
+  @extend %extend_2;
+}
+tt {
+  font-size: 12px;
+  font-family: Consolas, Liberation Mono, Courier, monospace;
+  @extend %extend_2;
+}
+kbd {
+  background-color: $alto;
+  background-image: linear-gradient($seashell, $alto);
+  background-repeat: repeat-x;
+  border-color: $alto$celeste$celeste$alto;
+  //Instead of the line below you could use @include border-image($value)
+  border-image: none;
+    border-radius: 2px 2px 2px 2px;
+  border-style: solid;
+  border-width: 1px;
+  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+  line-height: 10px;
+  padding: 1px 4px;
+}
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid $alto;
+  padding: 0;
+}
+img {
+  max-width: 100%;
+}

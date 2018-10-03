@@ -1,0 +1,165 @@
+/* https://github.com/jasonm23/markdown-css-themes/blob/gh-pages/avenir-white.css */
+//colors
+$romance: #fefefe;
+$black: #000000;
+$celeste: #cccccc;
+$tapa: #777777;
+$steel_blue: #4183c4;
+$pink_swan: #bbb;
+$gallery: #eee;
+$desert_storm: #f8f8f8;
+$gray_nurse: #eaeaea;
+$de_york: #77bb77;
+$ship_cove: #7799bb;
+$bright_red: #aa0000;
+
+//fonts
+$font_0: Avenir Next;
+$font_1: Helvetica;
+$font_2: Arial;
+$font_3: sans-serif;
+$font_4: Monaco;
+
+//@extend-elements
+//original selectors
+//a, a:visited
+%extend_1 {
+  color: $steel_blue;
+  background-color: inherit;
+  text-decoration: none;
+}
+
+//original selectors
+//button, #ws
+%extend_2 {
+  font-size: 10pt;
+  padding: 4px 6px;
+    border-radius: 5px;
+  border: 1px solid $pink_swan;
+  background-color: $gallery;
+}
+
+//original selectors
+//code, pre, #ws, #message
+%extend_3 {
+  font-family: $font_4;
+  font-size: 10pt;
+    border-radius: 3px;
+  background-color: $desert_storm;
+  color: inherit;
+}
+
+
+body {
+  font-family: $font_0, $font_1, $font_2, $font_3;
+  padding: 1em;
+  margin: auto;
+  max-width: 42em;
+  background: $romance;
+}
+h1 {
+  font-weight: bold;
+  color: $black;
+  font-size: 28pt;
+}
+h2 {
+  font-weight: bold;
+  border-bottom: 1px solid $celeste;
+  color: $black;
+  font-size: 24px;
+}
+h3 {
+  font-weight: bold;
+  font-size: 18px;
+}
+h4 {
+  font-weight: bold;
+  font-size: 16px;
+}
+h5 {
+  font-weight: bold;
+  font-size: 14px;
+}
+h6 {
+  font-weight: bold;
+  color: $tapa;
+  background-color: inherit;
+  font-size: 14px;
+}
+hr {
+  height: 0.2em;
+  border: 0;
+  color: $celeste;
+  background-color: $celeste;
+}
+p {
+  margin: 15px 0;
+}
+blockquote {
+  margin: 15px 0;
+}
+ul {
+  margin: 15px 0;
+}
+ol {
+  margin: 15px 0;
+}
+dl {
+  margin: 15px 0;
+}
+li {
+  margin: 15px 0;
+}
+table {
+  margin: 15px 0;
+}
+pre {
+  margin: 15px 0;
+  @extend %extend_3;
+  border: 1px solid $celeste;
+  overflow: auto;
+  padding: 4px 8px;
+  > code {
+    border: 0;
+    margin: 0;
+    padding: 0;
+  }
+}
+a {
+  @extend %extend_1;
+  &:visited {
+    @extend %extend_1;
+  }
+}
+#message {
+    border-radius: 6px;
+  border: 1px solid $celeste;
+  display: block;
+  width: 100%;
+  height: 60px;
+  margin: 6px 0;
+  @extend %extend_3;
+}
+button {
+  @extend %extend_2;
+}
+#ws {
+  @extend %extend_2;
+  @extend %extend_3;
+  background-color: $desert_storm;
+}
+code {
+  @extend %extend_3;
+  border: 1px solid $gray_nurse;
+  margin: 0 2px;
+  padding: 0 5px;
+}
+.send {
+  color: $de_york;
+}
+.server {
+  color: $ship_cove;
+}
+.error {
+  color: $bright_red;
+}
