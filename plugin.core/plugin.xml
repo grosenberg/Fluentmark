@@ -7,17 +7,11 @@
       <content-type
             base-type="org.eclipse.core.runtime.text"
             describer="net.certiv.fluentmark.core.FluentmarkContentDescriber"
-            file-extensions="md,mdown,mkd,dot,text"
+            file-extensions="md,markdown,mdown,mkd,Rmd"
             id="net.certiv.fluentmark.contentType"
-            name="Fluentmark Content Type"
-            priority="normal">
+            name="Fluentmark"
+            priority="high">
       </content-type>
-   </extension>
-   <extension
-         point="org.eclipse.core.runtime.preferences">
-      <initializer
-            class="net.certiv.fluentmark.core.preferences.PrefsInit">
-      </initializer>
    </extension>
    
    <extension
@@ -29,5 +23,25 @@
                class="net.certiv.fluentmark.core.FluentmarkNature">
          </run>
       </runtime>
+   </extension>
+   <extension
+         id="net.certiv.fluent.core.problem"
+         name="Fluentmark Problem"
+         point="org.eclipse.core.resources.markers">
+      <super
+            type="org.eclipse.core.resources.problemmarker">
+      </super>
+      <super
+            type="org.eclipse.core.resources.textmarker">
+      </super>
+      <persistent
+            value="false">
+      </persistent>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="net.certiv.fluentmark.core.preferences.PrefsInit">
+      </initializer>
    </extension>
 </plugin>

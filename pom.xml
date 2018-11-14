@@ -31,7 +31,6 @@
 		<module>plugin.ui</module>
 		<module>feature</module>
 		<module>site</module>
-    <module>net.certiv.fluentmark.core</module>
   </modules>
 
 	<repositories>

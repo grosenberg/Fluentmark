@@ -3,6 +3,9 @@
 	<name>FluentMark Editor</name>
 	<comment></comment>
 	<projects>
+		<project>net.certiv.dsl.core</project>
+		<project>net.certiv.dsl.lib</project>
+		<project>net.certiv.dsl.ui</project>
 	</projects>
 	<buildSpec>
 	</buildSpec>

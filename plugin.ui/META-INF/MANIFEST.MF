@@ -27,7 +27,14 @@ Require-Bundle: org.eclipse.core.commands,
  net.certiv.dsl.core;bundle-version="0.8.0",
  net.certiv.dsl.lib;bundle-version="0.8.0",
  net.certiv.dsl.ui;bundle-version="0.8.0",
- net.certiv.tools;bundle-version="[1.0.7,2.0.0)"
+ net.certiv.tools;bundle-version="[1.0.7,2.0.0)",
+ org.eclipse.pde.api.tools;bundle-version="1.1.400",
+ org.eclipse.pde.api.tools.annotations;bundle-version="1.1.200",
+ org.eclipse.pde.api.tools.ui;bundle-version="1.1.400",
+ org.eclipse.pde.build;bundle-version="3.10.100",
+ org.eclipse.pde.core;bundle-version="3.12.100",
+ org.eclipse.pde.ui;bundle-version="3.10.400",
+ org.eclipse.pde.ui.templates;bundle-version="3.6.300"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .
@@ -37,4 +44,3 @@ Import-Package: com.google.common.collect;version="21.0.0",
  org.eclipse.ui.dialogs,
  org.eclipse.ui.ide,
  org.eclipse.ui.navigator
-Export-Package: net.certiv.fluentmark.ui.gen

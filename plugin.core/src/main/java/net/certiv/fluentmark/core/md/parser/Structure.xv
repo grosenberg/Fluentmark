@@ -1,0 +1,59 @@
+xvisitor grammar Structure;
+
+options {
+	superClass = StructureBuilder;
+	parserClass = MdParser ;
+}
+
+@header {
+	package net.certiv.fluentmark.core.md.parser.gen;
+	import net.certiv.fluentmark.core.md.parser.StructureBuilder;
+}
+
+structure
+	: page
+	| frontMatter
+
+	| header
+	| paragraph
+
+	| hrule
+	| comment
+
+	| list
+	| table
+	| quote
+	| definition
+
+	| htmlBlock
+	| codeBlock
+	| mathBlock
+	;
+
+page		: /page		 		{ doModule(); } ;
+frontMatter	: //frontMatter		{ doFrontMatter(); } ;
+
+header		: //header			{ doHeader(); } ;
+paragraph	: //paragraph		{ doParagraph(); } ;
+
+hrule		: //hrule			{ doHRule(); } ;
+comment		: //comment			{ doComment(); } ;
+
+list		: //list
+				{ onEntry: doList(); }
+				{ onExit: endBlock(); }
+			;
+listItem	: //listItem		{ doListItem(); } ;
+
+table		: //table
+				{ onEntry: doTable(); }
+				{ onExit: endBlock(); }
+			;
+tableRow	: //tableRow		{ doTableRow(); } ;
+
+quote		: //quote			{ doQuote(); } ;
+definition	: //definition		{ doDefinition(); } ;
+
+htmlBlock	: //html			{ doHtmlBlock(); } ;
+codeBlock	: //codeBlock		{ doCodeBlock(); } ;
+mathBlock	: //mathBlock		{ doMathBlock(); } ;

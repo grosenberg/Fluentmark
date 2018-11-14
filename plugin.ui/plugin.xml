@@ -78,18 +78,19 @@
          point="org.eclipse.ui.editors.annotationTypes">
       <type
             markerSeverity="2"
-            markerType="net.certiv.fluentmark.problem"
-            name="net.certiv.fluentmark.ui.error">
+            markerType="net.certiv.fluent.core.problem"
+            name="net.certiv.fluentmark.ui.error"
+            super="org.eclipse.ui.workbench.texteditor.error">
       </type>
       <type
             markerSeverity="1"
-            markerType="net.certiv.fluentmark.problem"
+            markerType="net.certiv.fluent.core.problem"
             name="net.certiv.fluentmark.ui.warning"
             super="org.eclipse.ui.workbench.texteditor.warning">
       </type>
       <type
             markerSeverity="0"
-            markerType="net.certiv.fluentmark.problem"
+            markerType="net.certiv.fluent.core.problem"
             name="net.certiv.fluentmark.ui.info"
             super="org.eclipse.ui.workbench.texteditor.info">
       </type>
@@ -101,15 +102,15 @@
    <extension
          point="org.eclipse.ui.editors.markerAnnotationSpecification">
       <specification
-            annotationImageProvider="net.certiv.fluentmark.editor.marker.AnnotationImageProvider"
+            annotationImageProvider="net.certiv.fluentmark.ui.editor.FluentAnnotationImageProvider"
             annotationType="net.certiv.fluentmark.ui.error">
       </specification>
       <specification
-            annotationImageProvider="net.certiv.fluentmark.editor.marker.AnnotationImageProvider"
+            annotationImageProvider="net.certiv.fluentmark.ui.editor.FluentAnnotationImageProvider"
             annotationType="net.certiv.fluentmark.ui.warning">
       </specification>
       <specification
-            annotationImageProvider="net.certiv.fluentmark.editor.marker.AnnotationImageProvider"
+            annotationImageProvider="net.certiv.fluentmark.ui.editor.FluentAnnotationImageProvider"
             annotationType="net.certiv.fluentmark.ui.info">
       </specification>
       
@@ -120,7 +121,7 @@
             contributesToHeader="false"
             highlightPreferenceKey="occurrenceHighlighting"
             highlightPreferenceValue="true"
-            icon="$nl$/icons/full/obj16/searchm_obj.gif"
+            icon="$nl$/icons/full/obj16/searchm_obj.png"
             includeOnPreferencePage="true"
             isGoToNextNavigationTarget="false"
             isGoToNextNavigationTargetKey="isOccurrenceGoToNextNavigationTarget"
@@ -145,8 +146,8 @@
     <extension
        point="org.eclipse.ui.editors.templates">
      <include
-           file="resources/templates/templates.xml"
-           translations="resources/templates/templates.properties">
+           file="src/main/resources/templates/templates.xml"
+           translations="src/main/resources/templates/templates.properties">
      </include>
     	<contextType
            class="net.certiv.fluentmark.ui.editor.completion.FluentTemplateContextType"
@@ -236,7 +237,7 @@
             </command>
             <command
                   commandId="net.certiv.fluentmark.exportHtml"
-                  icon="icons/etool16/htmlexport.gif"
+                  icon="icons/etool16/htmlexport.png"
                   style="push"
                   tooltip="Export as HTML">
                <visibleWhen>
@@ -263,7 +264,7 @@
             locationURI="toolbar:net.certiv.fluentmark.views.FluentPreview">
          <command
                commandId="net.certiv.fluentmark.refreshView"
-               icon="icons/obj16/refresh.gif"
+               icon="icons/obj16/refresh.png"
                label="Refresh"
                style="push"
                tooltip="Refresh/redisplay view contents">
