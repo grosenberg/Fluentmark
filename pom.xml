@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-	<groupId>net.certiv.fluentmark</groupId>
-	<artifactId>parent</artifactId>
-	<version>1.2.1-SNAPSHOT</version>
+	<modelVersion>4.0.0</modelVersion>
 	<packaging>pom</packaging>
 
+	<groupId>net.certiv</groupId>
+	<artifactId>fluentmark.parent</artifactId>
+	<version>1.3.0-SNAPSHOT</version>
+
 	<name>FluentMark parent</name>
-	<description>FluentMark parent</description>
+	<description>FluentMark :: parent</description>
 
 	<organization>
 		<name>Certiv Analytics</name>
@@ -22,22 +25,30 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<tycho.version>1.1.0</tycho.version>
+		<tycho.version>1.2.0</tycho.version>
+		<tycho.extras.version>1.2.0</tycho.extras.version>
+		<tycho.test.platformArgs />
+		<tycho.test.jvmArgs>-Xmx512m</tycho.test.jvmArgs>
 		<java.version>1.8</java.version>
 	</properties>
 
 	<modules>
-		<module>plugin.core</module>
-		<module>plugin.ui</module>
-		<module>feature</module>
-		<module>site</module>
-  </modules>
+		<module>net.certiv.fluentmark.core</module>
+		<module>net.certiv.fluentmark.ui</module>
+		<module>net.certiv.fluentmark.feature</module>
+		<module>net.certiv.fluentmark.site</module>
+	</modules>
 
 	<repositories>
 		<repository>
-			<id>photon</id>
+			<id>eclipse</id>
 			<layout>p2</layout>
-			<url>http://download.eclipse.org/releases/photon</url>
+			<url>http://download.eclipse.org/releases/latest</url>
+		</repository>
+		<repository>
+			<id>dsl</id>
+			<layout>p2</layout>
+			<url>file:/D:/DevFiles/Eclipse/Dsl/net.certiv.dsl/net.certiv.dsl.site/target/repository/</url>
 		</repository>
 		<repository>
 			<id>tools</id>
@@ -45,9 +56,9 @@
 			<url>file:/D:/DevFiles/Eclipse/Certiv/net.certiv/net.certiv.tools.site/target/repository/</url>
 		</repository>
 		<repository>
-			<id>net.certiv.spellchecker</id>
+			<id>spellchecker</id>
 			<layout>p2</layout>
-			<url>file:/D:/DevFiles/Eclipse/Fluentmark/net.certiv.spellchecker/site/target/repository/</url>
+			<url>file:/D:/DevFiles/Eclipse/Dsl/net.certiv.spellchecker/site/target/repository/</url>
 		</repository>
 	</repositories>
 
@@ -129,9 +140,61 @@
 						</archive>
 					</configuration>
 				</plugin>
+				<plugin>
+					<groupId>org.eclipse.tycho</groupId>
+					<artifactId>tycho-surefire-plugin</artifactId>
+					<version>${tycho.version}</version>
+					<configuration>
+						<useUIHarness>true</useUIHarness>
+						<argLine>${tycho.test.jvmArgs}</argLine>
+						<!-- kill test JVM if tests take more than 60 seconds to finish -->
+						<forkedProcessTimeoutInSeconds>60</forkedProcessTimeoutInSeconds>
+					</configuration>
+				</plugin>
 			</plugins>
 		</pluginManagement>
 
 	</build>
+
+	<profiles>
+		<profile>
+			<id>macosx</id>
+			<activation>
+				<os>
+					<family>mac</family>
+				</os>
+			</activation>
+			<properties>
+				<tycho.test.platformArgs>-XstartOnFirstThread</tycho.test.platformArgs>
+			</properties>
+		</profile>
+		<profile>
+			<id>source-feature</id>
+			<activation>
+				<file>
+					<exists>feature.xml</exists>
+				</file>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.eclipse.tycho</groupId>
+						<artifactId>tycho-p2-plugin</artifactId>
+						<version>${tycho.version}</version>
+						<executions>
+							<execution>
+								<id>attach-p2-metadata</id>
+								<phase>package</phase>
+								<goals>
+									<goal>p2-metadata</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
 
 </project>
