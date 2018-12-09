@@ -1,0 +1,95 @@
+enter   page, LT(1)=#
+enter   part, LT(1)=#
+enter   header, LT(1)=#
+consume 0   1:0  HEADER/BOF (9:hdrText:DEFAULT) '#' rule header
+enter   word, LT(1)=First
+consume 2   1:2  WORD/    (1:hdrText:DEFAULT) 'First' rule word
+exit    word, LT(1)=Section
+enter   word, LT(1)=Section
+consume 4   1:8  WORD/    (1:default:DEFAULT) 'Section' rule word
+exit    word, LT(1)=The
+enter   word, LT(1)=The
+consume 7   3:0  WORD/BOL (1:default:DEFAULT) 'The' rule word
+exit    word, LT(1)=AI
+enter   word, LT(1)=AI
+consume 9   3:4  WORD/    (1:default:DEFAULT) 'AI' rule word
+exit    word, LT(1)=classifier
+enter   word, LT(1)=classifier
+consume 11  3:7  WORD/    (1:default:DEFAULT) 'classifier' rule word
+exit    word, LT(1)=function
+enter   word, LT(1)=function
+consume 13  3:18 WORD/    (1:default:DEFAULT) 'function' rule word
+exit    word, LT(1)=is
+enter   word, LT(1)=is
+consume 15  3:27 WORD/    (1:default:DEFAULT) 'is' rule word
+exit    word, LT(1)=part
+enter   word, LT(1)=part
+consume 17  3:30 WORD/    (1:default:DEFAULT) 'part' rule word
+exit    word, LT(1)=of
+enter   word, LT(1)=of
+consume 19  3:35 WORD/    (1:default:DEFAULT) 'of' rule word
+exit    word, LT(1)=a
+enter   word, LT(1)=a
+consume 21  3:38 WORD/    (1:default:DEFAULT) 'a' rule word
+exit    word, LT(1)=larger
+enter   word, LT(1)=larger
+consume 23  3:40 WORD/    (1:default:DEFAULT) 'larger' rule word
+exit    word, LT(1)=system.
+enter   word, LT(1)=system.
+consume 25  3:47 WORD/    (1:default:DEFAULT) 'system.' rule word
+exit    word, LT(1)=More
+enter   word, LT(1)=More
+consume 27  4:0  WORD/BOL (1:default:DEFAULT) 'More' rule word
+exit    word, LT(1)=bother.
+enter   word, LT(1)=bother.
+consume 29  4:5  WORD/    (1:default:DEFAULT) 'bother.' rule word
+exit    word, LT(1)=
+
+enter   terminal, LT(1)=
+
+consume 30  4:12 TERM/    (36:default:DEFAULT) '¶' rule terminal
+exit    terminal, LT(1)=<EOF>
+exit    header, LT(1)=<EOF>
+exit    part, LT(1)=<EOF>
+enter   part, LT(1)=<EOF>
+enter   paragraph, LT(1)=<EOF>
+enter   terminal, LT(1)=<EOF>
+consume 31  5:0  EOF/    (-1:default:DEFAULT) '<EOF>' rule terminal
+exit    terminal, LT(1)=<EOF>
+exit    paragraph, LT(1)=<EOF>
+exit    part, LT(1)=<EOF>
+enter   part, LT(1)=<EOF>
+enter   paragraph, LT(1)=<EOF>
+enter   terminal, LT(1)=<EOF>
+consume 31  5:0  EOF/    (-1:default:DEFAULT) '<EOF>' rule terminal
+exit    terminal, LT(1)=<EOF>
+exit    paragraph, LT(1)=<EOF>
+exit    part, LT(1)=<EOF>
+enter   part, LT(1)=<EOF>
+enter   paragraph, LT(1)=<EOF>
+enter   terminal, LT(1)=<EOF>
+consume 31  5:0  EOF/    (-1:default:DEFAULT) '<EOF>' rule terminal
+exit    terminal, LT(1)=<EOF>
+exit    paragraph, LT(1)=<EOF>
+exit    part, LT(1)=<EOF>
+enter   part, LT(1)=<EOF>
+enter   paragraph, LT(1)=<EOF>
+enter   terminal, LT(1)=<EOF>
+consume 31  5:0  EOF/    (-1:default:DEFAULT) '<EOF>' rule terminal
+exit    terminal, LT(1)=<EOF>
+exit    paragraph, LT(1)=<EOF>
+exit    part, LT(1)=<EOF>
+enter   part, LT(1)=<EOF>
+enter   paragraph, LT(1)=<EOF>
+enter   terminal, LT(1)=<EOF>
+consume 31  5:0  EOF/    (-1:default:DEFAULT) '<EOF>' rule terminal
+exit    terminal, LT(1)=<EOF>
+exit    paragraph, LT(1)=<EOF>
+exit    part, LT(1)=<EOF>
+enter   part, LT(1)=<EOF>
+enter   paragraph, LT(1)=<EOF>
+enter   terminal, LT(1)=<EOF>
+consume 31  5:0  EOF/    (-1:default:DEFAULT) '<EOF>' rule terminal
+exit    terminal, LT(1)=<EOF>
+exit    paragraph, LT(1)=<EOF>
+exit    part, LT(1)=<EOF>

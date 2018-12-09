@@ -26,7 +26,6 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.ToolBar;
 
 import net.certiv.dsl.core.model.IStatement;
-import net.certiv.fluentmark.ui.FluentUI;
 
 public class TableDialog extends TableDialogActions {
 
@@ -46,7 +45,6 @@ public class TableDialog extends TableDialogActions {
 		this.stmt = stmt;
 		this.style = style;
 		setShellStyle(getShellStyle() | SWT.RESIZE);
-		provider = FluentUI.getDefault().getImageProvider();
 	}
 
 	public String build() {

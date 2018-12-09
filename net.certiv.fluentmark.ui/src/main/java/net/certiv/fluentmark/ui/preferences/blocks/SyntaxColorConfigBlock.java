@@ -7,7 +7,6 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.source.IOverviewRuler;
 import org.eclipse.jface.text.source.IVerticalRuler;
 import org.eclipse.jface.text.source.projection.ProjectionViewer;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.texteditor.ITextEditor;
@@ -16,16 +15,18 @@ import net.certiv.dsl.core.color.DslColorManager;
 import net.certiv.dsl.core.color.IColorManager;
 import net.certiv.dsl.core.preferences.DslPrefsManagerDelta;
 import net.certiv.dsl.core.preferences.IDslPrefsManager;
+import net.certiv.dsl.ui.editor.DslSourceViewer;
 import net.certiv.dsl.ui.editor.DslSourceViewerConfiguration;
 import net.certiv.dsl.ui.preferences.blocks.AbstractSyntaxColorConfigBlock;
 import net.certiv.fluentmark.core.preferences.Prefs;
 import net.certiv.fluentmark.ui.FluentUI;
 import net.certiv.fluentmark.ui.editor.FluentSimpleSourceViewerConfiguration;
-import net.certiv.fluentmark.ui.editor.FluentSourceViewer;
 import net.certiv.fluentmark.ui.editor.Partitions;
 import net.certiv.fluentmark.ui.preferences.pages.SyntaxColorPage;
 
 public class SyntaxColorConfigBlock extends AbstractSyntaxColorConfigBlock {
+
+	private static final String PREVIEW_FILE_NAME = "ColorPreview.g4";
 
 	public SyntaxColorConfigBlock(SyntaxColorPage page, DslPrefsManagerDelta delta, FormToolkit formkit,
 			DslColorManager colorMgr) {
@@ -114,23 +115,25 @@ public class SyntaxColorConfigBlock extends AbstractSyntaxColorConfigBlock {
 	protected ProjectionViewer createPreviewViewer(Composite parent, IVerticalRuler verticalRuler,
 			IOverviewRuler overviewRuler, boolean showAnnotationsOverview, int styles, IDslPrefsManager store) {
 
-		return new FluentSourceViewer(parent, null, null, false, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER, store);
+		return new DslSourceViewer(page.getDslUI(), parent, verticalRuler, overviewRuler, showAnnotationsOverview,
+				styles, store);
 	}
 
 	@Override
 	protected DslSourceViewerConfiguration createSimpleSourceViewerConfiguration(IColorManager colorMgr,
 			IDslPrefsManager store, ITextEditor editor, boolean configFormatter) {
 
-		return new FluentSimpleSourceViewerConfiguration(colorMgr, store, null, Partitions.PARTITIONING, false);
+		return new FluentSimpleSourceViewerConfiguration(colorMgr, store, editor, Partitions.PARTITIONING,
+				configFormatter);
 	}
 
 	@Override
 	protected void setDocumentPartitioning(IDocument document) {
-		FluentUI.getDefault().getTextTools().setupDocumentPartitioner(document, Partitions.PARTITIONING);
+		FluentUI.getDefault().getTextTools().setupDocument(document);
 	}
 
 	@Override
 	protected InputStream getPreviewContentStream() {
-		return getClass().getResourceAsStream("ColorsPreview.md"); //$NON-NLS-1$
+		return getClass().getResourceAsStream(PREVIEW_FILE_NAME);
 	}
 }

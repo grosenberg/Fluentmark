@@ -13,8 +13,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.certiv.dsl.core.log.Log;
 import net.certiv.dsl.core.preferences.DslPrefsManager;
-import net.certiv.dsl.core.util.Log;
 import net.certiv.dsl.core.util.Strings;
 import net.certiv.fluentmark.core.FluentCore;
 import net.certiv.fluentmark.core.preferences.Prefs;

@@ -69,7 +69,7 @@ public class DotCompletionProcessor extends DslCompletionProcessor {
 	// suggestions.addAll(AttrMap.getAttrNames());
 	//
 	// } else {
-	// Attr attr = AttrMap.find(ctx.id().getText());
+	// DotAttr attr = AttrMap.find(ctx.id().getText());
 	// Props props = AttrMap.get(attr);
 	// switch (props.type) {
 	// case COLOR:

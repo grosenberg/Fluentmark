@@ -8,7 +8,7 @@ import org.antlr.v4.runtime.misc.Pair;
 
 public class MdTokenFactory implements TokenFactory<MdToken> {
 
-	private int tabWidth;
+	private int tabWidth = 4;
 
 	public MdTokenFactory() {}
 

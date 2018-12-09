@@ -15,8 +15,6 @@ import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.LexerNoViableAltException;
 import org.antlr.v4.runtime.Token;
 
-import net.certiv.dsl.core.util.stores.Fifo;
-
 /**
  * Modifies the {@code emit} related methods to implement new behaviors:
  * <p>
@@ -34,8 +32,6 @@ public abstract class LexerNeo extends Lexer {
 
 	// emit pending queue of tokens
 	protected final Deque<MdToken> _queue = new ArrayDeque<>();
-	// queue of emitted tokens
-	protected final Fifo<MdToken> _priors = new Fifo<>(8);
 
 	private boolean _mmore;			// modified more mode flag
 	private int _mtype;				// token type to emit with content of 'mmore' matches
@@ -46,10 +42,16 @@ public abstract class LexerNeo extends Lexer {
 
 	private boolean _hitBOF;
 	private boolean _hitBOL;
+	private int _startMatch = -1;
 	private int _lastStartLine = -2; // line of last matched token
 
 	public LexerNeo(CharStream input) {
 		super(input);
+	}
+
+	/** Returns the initial index of the current match operation. */
+	public int matchStart() {
+		return _startMatch;
 	}
 
 	public boolean bof() {
@@ -75,12 +77,6 @@ public abstract class LexerNeo extends Lexer {
 	}
 
 	@Override
-	public void emit(Token token) {
-		_priors.push((MdToken) token);
-		super.emit(token);
-	}
-
-	@Override
 	public Token nextToken() {
 		if (_input == null) {
 			throw new IllegalStateException("nextToken requires a non-null input stream.");
@@ -97,17 +93,16 @@ public abstract class LexerNeo extends Lexer {
 
 		if (!_queue.isEmpty()) {
 			emit(_queue.remove());
-			// System.out.println(_token.toString());
 			return _token;
 		}
 
-		int marker = _input.mark();
+		_startMatch = _input.index();
+		int mark = _input.mark();
 		try {
 			outer: while (true) {
 				if (_hitEOF) {
 					queueEOF();
 					emit(_queue.remove());
-					System.out.println(_token.toString());
 					return _token;
 				}
 
@@ -143,25 +138,22 @@ public abstract class LexerNeo extends Lexer {
 				} while (_type == MORE);
 
 				if (_mmore) {
-					_mmore = false;
 					queueModified();
 
 				} else {
-					queueToken();
+					queueMatched();
 				}
 
 				emit(_queue.remove());
-				// System.out.println(_token.toString());
 				return _token;
 			}
 
 		} finally {
-			_input.release(marker);
+			_input.release(mark);
 		}
 	}
 
-	private void queueToken() {
-		// queue the 'ordinary' token matched
+	private void queueMatched() {
 		MdToken token = (MdToken) _factory.create(_tokenFactorySourcePair, _type, _text, _channel, _tokenStartCharIndex,
 				getCharIndex() - 1, _tokenStartLine, _tokenStartCharPositionInLine);
 		token.setHit(_hitBOF, _hitBOL);
@@ -169,7 +161,7 @@ public abstract class LexerNeo extends Lexer {
 	}
 
 	private void queueModified() {
-		// queue token with modified more content
+		_mmore = false;
 		MdToken token = (MdToken) _factory.create(_tokenFactorySourcePair, _mtype, _text, _mChannel,
 				_tokenStartCharIndex, _mStartCharIndex - 1, _tokenStartLine, _tokenStartCharPositionInLine);
 		token.setHit(_hitBOF, _hitBOL);

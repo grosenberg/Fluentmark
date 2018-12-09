@@ -12,7 +12,7 @@ import java.util.List;
 import com.github.rjeschke.txtmark.BlockEmitter;
 
 import net.certiv.dsl.core.util.Strings;
-import net.certiv.fluentmark.core.model.IPageElement;
+import net.certiv.fluentmark.core.model.ModelUtil;
 
 public class DotCodeBlockEmitter implements BlockEmitter {
 
@@ -22,10 +22,10 @@ public class DotCodeBlockEmitter implements BlockEmitter {
 
 	@Override
 	public void emitBlock(StringBuilder out, List<String> lines, String meta) {
-		meta = meta == null || meta.isEmpty() ? meta = IPageElement.PLAIN : meta;
+		meta = meta == null || meta.isEmpty() ? meta = ModelUtil.PLAIN : meta;
 
 		switch (meta) {
-			case IPageElement.DOT:
+			case ModelUtil.DOT:
 				out.append(DotGen.runDot(lines));
 				break;
 

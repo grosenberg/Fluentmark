@@ -16,8 +16,8 @@ import org.eclipse.swt.browser.ProgressListener;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IPathEditorInput;
 
+import net.certiv.dsl.core.log.Log;
 import net.certiv.dsl.core.util.FileUtils;
-import net.certiv.dsl.core.util.Log;
 import net.certiv.dsl.core.util.Strings;
 import net.certiv.fluentmark.core.FluentCore;
 import net.certiv.fluentmark.core.preferences.Prefs;

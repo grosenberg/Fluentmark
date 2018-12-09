@@ -22,6 +22,8 @@ import net.certiv.fluentmark.core.md.parser.gen.MdParser.QuoteContext;
 import net.certiv.fluentmark.core.md.parser.gen.MdParser.TableContext;
 import net.certiv.fluentmark.core.md.parser.gen.MdParser.TableRowContext;
 import net.certiv.fluentmark.core.md.parser.gen.MdParser.TerminalContext;
+import net.certiv.fluentmark.core.model.ModelData;
+import net.certiv.fluentmark.core.model.ModelType;
 
 public abstract class StructureBuilder extends Processor {
 

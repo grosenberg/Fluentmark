@@ -19,6 +19,7 @@ import org.eclipse.ui.texteditor.ITextEditor;
 
 import net.certiv.dsl.core.color.IColorManager;
 import net.certiv.dsl.core.preferences.IDslPrefsManager;
+import net.certiv.dsl.ui.editor.reconcile.DslReconciler;
 
 /**
  * A simple source viewer configuration. Provides syntax coloring and disables all other features
@@ -29,6 +30,10 @@ import net.certiv.dsl.core.preferences.IDslPrefsManager;
 public class FluentSimpleSourceViewerConfiguration extends FluentSourceViewerConfiguration {
 
 	private boolean configureFormatter;
+
+	public FluentSimpleSourceViewerConfiguration(IDslPrefsManager store, ITextEditor editor, String partitioning) {
+		super(null, store, editor, partitioning);
+	}
 
 	/**
 	 * Creates a new source viewer configuration for viewers in the given editor using the given
@@ -95,8 +100,21 @@ public class FluentSimpleSourceViewerConfiguration extends FluentSourceViewerCon
 		return null;
 	}
 
+	public IInformationPresenter getOutlinePresenter(ISourceViewer sourceViewer, boolean doCodeResolve) {
+		return null;
+	}
+
+	public IInformationPresenter getHierarchyPresenter(ISourceViewer sourceViewer, boolean doCodeResolve) {
+		return null;
+	}
+
 	@Override
 	public IHyperlinkDetector[] getHyperlinkDetectors(ISourceViewer sourceViewer) {
+		return null;
+	}
+
+	@Override
+	public DslReconciler getReconciler(ISourceViewer viewer) {
 		return null;
 	}
 }

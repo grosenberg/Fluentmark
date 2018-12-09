@@ -14,7 +14,7 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.ui.texteditor.spelling.ISpellingProblemCollector;
 
-import net.certiv.dsl.core.util.Log;
+import net.certiv.dsl.core.log.Log;
 import net.certiv.fluentmark.core.FluentCore;
 import net.certiv.spellchecker.TextSpellingEngine;
 import net.certiv.spellchecker.engine.ISpellChecker;

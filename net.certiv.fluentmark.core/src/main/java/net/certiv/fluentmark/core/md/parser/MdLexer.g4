@@ -6,7 +6,10 @@ options {
 
 tokens {
 	WORD,
-	LINE
+	LINE,
+	IMAGE,
+	LINK,
+	LINK_REF
 }
 
 @header {
@@ -14,139 +17,200 @@ tokens {
 	import net.certiv.fluentmark.core.md.parser.LexerAdaptor;
 }
 
-ML_COMMENT	  : BlockComment ;
+INVS_COMMENT  : InvisibleComment ;
 HTML_COMMENT  : HtmlComment ;
 
 FRONT_MATTER  : { bof()  }? Dashes	 -> pushMode(frontMatter) ;
-CODE_BLOCK_BT : { term() }? BTicks	 -> pushMode(codeBlockBT) ;
-CODE_BLOCK_TD : { term() }? Tildes	 -> pushMode(codeBlockTD) ;
-MATH_BLOCK	  : { term() }? MathMark -> pushMode(mathBlock)	  ;
+CODE_BLOCK_BT : { aftTerm() }? BTicks	 -> pushMode(codeBlockBT) ;
+CODE_BLOCK_TD : { aftTerm() }? Tildes	 -> pushMode(codeBlockTD) ;
+MATH_BLOCK	  : { aftTerm() }? MathMark -> pushMode(mathBlock)	  ;
+TEX_BEG		  : { aftTerm() }? TexBeg   -> pushMode(texBlock)	  ;
 
-HEADER : { term() }? Hash+ -> pushMode(hdrText) ;
-SEMARK : { !term() }? ( Equals | Dashes ) ;
+HEADER : { aftTerm() }? Hash+ -> pushMode(hdrText) ; 
+SEMARK : { !aftTerm() && bol() }? ( Equals | Dashes ) ;
 
 LIST_ITEM : { bol() }? ListMark TaskMark? ;
 
-QUOTE_BLOCK	: { term() }? RAngle+ ;
+QUOTE_BLOCK	: { aftTerm() }? RAngle+ ;
 
 DEFINE_BLOCK : { bol() }? Colon ;
 
-HRULE : { term() }? ( Stars | Dashes | UScores ) ;
-
-HTML  : { term() }? HtmlPhrase+ ;
+HRULE : { aftTerm() }? ( Stars | Dashes | UScores ) { befTerm() }? ;
 
 TABLE_DEF : { bol() }? Pipe? ColDef ( Pipe ColDef )+ Pipe? ;
+PIPE	: Pipe	;
 
 UNICODE	: Unicode ;
 ENTITY	: Entity  ;
-IMAGE	: Bang LBrack ;
+TEX		: TexRaw  ;
+HTML	: HtmlPhrase+ ;
+INMATH  : InlineMath ;
+URL		: Scheme? UrlPath | LAngle Scheme? UrlPath RAngle ;
 
-LBRACK	: LBrack ;
-RBRACK	: RBrack ;
-LBRACE	: LBrace ;
-RBRACE	: RBrace ;
-LPAREN	: LParen ;
-RPAREN	: RParen ;
-PIPE	: Pipe	;
-QUOTE	: Quote ;
+LBOLD	 : Bold   { left() }? ;
+LITALIC	 : Italic { left() }? ;
+LSTRIKE	 : Strike { left() }? ;
+LSPAN	 : Tic+ { left() }? ;
+LQUOTE	 : Quote { left() }? ;
+LAPSTP	 : Apostrophe { left() }? ;
 
-LBOLD	: Bold   { left() }? ;
-LITALIC	: Italic { left() }? ;
-LSTRIKE	: Strike { left() }? ;
-RBOLD	: Bold   { right() }? ;
-RITALIC	: Italic { right() }? ;
-RSTRIKE	: Strike { right() }? ;
+RBOLD	 : Bold   { right() }? ;
+RITALIC	 : Italic { right() }? ;
+RSTRIKE	 : Strike { right() }? ;
+RSPAN	 : Tic+ { right() }? ;
+RQUOTE	 : Quote { right() }? ;
+RAPSTP	 : Apostrophe { right() }? ;
 
-INCODE : BackTic ;
-INMATH : Dollar NotWs ( NotVws* NotWs)? Dollar	;
+REF 	 : LBrack { linkRef() }? -> pushMode(linkSpec) ; 
+LINK	 : LBrack { link() }?    -> pushMode(linkSpec) ;
+LBRACK	 : LBrack -> type(WORD) ;
 
-TERM : { bol() }? Vws ( Vws | EOF ) ;
-VWS	 : Vws -> channel(HIDDEN) ;
-HWS	 : Hws -> channel(HIDDEN) ;
+IMAGE	 : Bang { link() }? -> pushMode(linkSpec) ;
+BANG	 : Bang -> type(WORD) ;
+
+TERM	: ( Spc Spc )? Vws ( Vws+ | EOF ) ;
+LBRK	: Spc Spc Vws ;
+
+VWS		: Vws -> channel(HIDDEN) ;
+HWS		: Hws -> channel(HIDDEN) ;
 
 CHAR : Char  { more(WORD); }	;
-
 ERR	: . ;
 
+
 mode hdrText;
-	STYLE_ht  : LBrace { closed('}') }? -> type(LBRACE), pushMode(styleDef)	  ;
-	LBRACK_ht : LBrack { closed(']') }? -> type(LBRACK), pushMode(linkDef)	  ;
-	IMAGE_ht  : Bang LBrack { closed(']') }? -> type(IMAGE), pushMode(linkDef) ;
+	LBRACE	  : LBrace -> pushMode(styleSpec) ;
+	
+	UNICODE_ht	: Unicode -> type(UNICODE) ;
+	ENTITY_ht	: Entity  -> type(ENTITY) ;
+	TEX_ht		: TexRaw  -> type(TEX) ;
+	HTML_ht		: HtmlPhrase+ -> type(HTML) ;
+	INMATH_ht	: InlineMath	-> type(INMATH) ;
+	HASH		: Hash	;
+	
+	LBOLD_ht	: Bold   { left() }? -> type(LBOLD) ;
+	LITALIC_ht	: Italic { left() }? -> type(LITALIC) ;
+	LSTRIKE_ht	: Strike { left() }? -> type(LSTRIKE) ;
+	LSPAN_ht	: Tic+ { left() }? -> type(LSPAN) ;
+	LQUOTE_ht	: Quote { left() }? -> type(LQUOTE) ;
+	LAPSTP_ht	: Apostrophe { left() }? -> type(LAPSTP) ;
 
-	HASH	  : Hash ;
-	UCODE_ht  : Unicode -> type(UNICODE) ;
-	ENTITY_ht : Entity	-> type(ENTITY)	 ;
+	RBOLD_ht	: Bold   { right() }? -> type(RBOLD) ;
+	RITALIC_ht	: Italic { right() }? -> type(RITALIC) ;
+	RSTRIKE_ht	: Strike { right() }? -> type(RSTRIKE) ;
+	RSPAN_ht	: Tic+ { right() }? -> type(RSPAN) ;
+	RQUOTE_ht	: Quote { right() }? -> type(RQUOTE) ;
+	RAPSTP_ht	: Apostrophe { right() }? -> type(RAPSTP) ;
 
-	LBOLD_ht   : Bold   { left() }?  -> type(LBOLD)   ;
-	LITALIC_ht : Italic { left() }?  -> type(LITALIC) ;
-	LSTRIKE_ht : Strike { left() }?  -> type(LSTRIKE) ;
+	REF_ht 		: LBrack { linkRef() }? -> type(REF), pushMode(linkSpec) ; 
+	LINK_ht		: LBrack { link() }?    -> type(LINK), pushMode(linkSpec) ;
+	LBRACK_ht	: LBrack -> type(WORD) ;
 
-	RBOLD_ht   : Bold   { right() }? -> type(RBOLD)   ;
-	RITALIC_ht : Italic { right() }? -> type(RITALIC) ;
-	RSTRIKE_ht : Strike { right() }? -> type(RSTRIKE) ;
+	IMAGE_ht	: Bang { link() }? -> type(IMAGE), pushMode(linkSpec) ;
+	BANG_ht	 	: Bang -> type(WORD) ;
 
-	INMATH_ht : Dollar NotWs ( NotVws* NotWs )? Dollar -> type(INMATH) ;
-
-	TERM_ht	: { bol() }? Vws ( Vws | EOF ) -> type(TERM), popMode ;
+	TERM_ht	: Vws ( Vws | EOF ) -> type(TERM), popMode ;
 	VWS_ht	: Vws -> type(VWS), popMode, channel(HIDDEN)   ;
 	HWS_ht	: Hws -> type(HWS), channel(HIDDEN)			   ;
-	CHAR_ht	: Char  { more(WORD); }									   ;
+	CHAR_ht	: Char  { more(WORD); }						   ;
 
-mode styleDef;
-	RBRACE_sd : RBrace -> type(RBRACE), popMode	;
+
+mode styleSpec;
+	RBRACE : RBrace -> popMode ;
+
 	CLASS : Dot	  ;
 	ID	  : Hash  ;
 	EQ	  : Equal ;
-	QUOTE_sd : Quote ->type(QUOTE);
-	TIC	  : Tic	  ;
+	QUOTE : Quote ;
+	APSTP : Apostrophe ;
+
 	HWS_sd	: Hws -> type(HWS), channel(HIDDEN) ;
 	VWS_sd	: Vws -> type(ERR), channel(HIDDEN) ;
-	CHAR_sd	: Char  { more(WORD); }							;
+	CHAR_sd	: Char  { more(WORD); }				;
 
-mode linkDef;
-	LBRACK_ld : LBrack -> type(LBRACK), pushMode(linkDef)	  ;
-	IMAGE_ld  : Bang LBrack -> type(IMAGE), pushMode(linkDef) ;
 
-	RBRACK_ld1 : RBrack { contLink() }? -> type(RBRACK)			 ;
-	RBRACK_ld2 : RBrack		-> type(RBRACK), popMode ;
+mode linkSpec ;
+	LINK_DEF : RBrack [ ]? LParen ;
+	LINK_REF : RBrack [ ]? LBrack ;
+	REF_DEF	 : RBrack [ ]? Colon -> popMode ;
+	
+	URL_lk	 : Scheme? UrlPath -> type(URL) ;
+ 	QUOTE_lk : Quote -> type(QUOTE) ;
+ 
+ 	RBRACK	: RBrack -> popMode ; 
+	RPAREN	: RParen -> popMode ;
 
-	LPAREN_ld  : LParen -> type(LPAREN)			 ;
-	RPAREN_ld2 : RParen -> type(RPAREN), popMode ;
+	HWS_lk	: Hws -> type(HWS), channel(HIDDEN) ;
+	VWS_lk	: Vws -> type(ERR), channel(HIDDEN) ;
+	CHAR_lk	: Char  { more(WORD); }				;
 
-	CHAR_ld	: Char  { more(WORD); } ;
-	HWS_ld	: Hws -> type(HWS), channel(HIDDEN) ;
-	VWS_ld	: Vws -> type(VWS), channel(HIDDEN) ;
 
 mode frontMatter;
-	FM_fm : { bol() }? Dashes -> type(FRONT_MATTER), popMode ;
+	FM_fm : { bol() }? ( Dashes | Dots ) -> type(FRONT_MATTER), popMode ;
 
 	VWS_fm	: Vws -> type(VWS), channel(HIDDEN) ;
-	CHAR_fm	: ~[\r\n]	{ more(LINE); }						;
+	CHAR_fm	: ~[\r\n]	{ more(LINE); }			;
+
 
 mode codeBlockBT;
-	CB_bt : { bol() }? BTicks -> type(CODE_BLOCK_BT), popMode ;
+	CB_bt	: { bol() }? BTicks -> type(CODE_BLOCK_BT), popMode ;
+	VWS_bt	: Vws -> type(VWS), channel(HIDDEN), mode(codeBlockBTLines) ;
 
-	VWS_bt	: Vws -> type(VWS), channel(HIDDEN) ;
-CHAR_bt	: ~[\r\n]	{ more(LINE); }						;
+	LBRACE_bt	: LBrace -> type(LBRACE), pushMode(styleSpec) ;
+
+	HWS_bt	: Hws -> type(HWS), channel(HIDDEN) ;
+	CHAR_bt	: Char  { more(WORD); }				;
+
+mode codeBlockBTLines;
+	CB_btl 		: { bol() }? BTicks -> type(CODE_BLOCK_BT), popMode ;
+
+	VWS_btl		: Vws -> type(VWS), channel(HIDDEN) ;
+	CHAR_btl	: ( Char | Hws )	{ more(LINE); }	;
+
 
 mode codeBlockTD;
 	CB_td : { bol() }? Tildes -> type(CODE_BLOCK_TD), popMode ;
+	VWS_td	: Vws -> type(VWS), channel(HIDDEN), mode(codeBlockTDLines) ;
 
-	VWS_td	: Vws -> type(VWS), channel(HIDDEN) ;
-	CHAR_td	: ~[\r\n]	{ more(LINE); }						;
+	LBRACE_td	: LBrace -> type(LBRACE), pushMode(styleSpec) ;
+
+	HWS_td	: Hws -> type(HWS), channel(HIDDEN) ;
+	CHAR_td	: Char  { more(WORD); }				;
+
+mode codeBlockTDLines;
+	CB_tdl 		: { bol() }? Tildes -> type(CODE_BLOCK_TD), popMode ;
+
+	VWS_tdl		: Vws -> type(VWS), channel(HIDDEN) ;
+	CHAR_tdl	: ( Char | Hws ) { more(LINE); }	;
+
 
 mode mathBlock;
 	MB_mb : { bol() }? MathMark -> type(MATH_BLOCK), popMode ;
 
 	VWS_mb	: Vws -> type(VWS), channel(HIDDEN) ;
-	CHAR_mb	: ~[\r\n]	{ more(LINE); }						;
+	CHAR_mb	: ( Char | Hws ) { more(LINE); }	;
+
+mode texBlock;
+	TEX_END : { bol() }? TexEnd -> popMode ;
+
+	VWS_tb	: Vws -> type(VWS), channel(HIDDEN) ;
+	CHAR_tb	: ( Char | Hws ) { more(LINE); }	;
 
 // ------------------------
 
-fragment ListMark : ( [*+-] | [0-9] Dot ) Hws ;
+fragment ListMark : Hws* ( [*+-] | [0-9] Dot ) Hws ;
 fragment TaskMark : LBrack [ a-zA-Z0-9_]? RBrack Hws ;
 
+fragment Scheme	 : Letter ( Alphanum | Dash )* '://' ;
+fragment UrlPath : UrlBase UrlFrag? ;
+fragment UrlBase : 'www'? [/.]* UrlTerm ( Dot UrlTerm )+ Slash? ;
+fragment UrlFrag : ( [#?&@=/:.-] | UrlTerm )* ( Alphanum | HexChar ) Slash? ;
+fragment UrlTerm : ( Letter | HexChar ) ( Alphanum | HexChar )* ;
+fragment HexChar : Percent HexDigit HexDigit ;
+
+
 fragment Dashes	  : '--' '-'+ ;
+fragment Dots     : '..' '.'+ ;
 fragment Equals	  : '==' '='+ ;
 fragment Stars	  : '**' '*'+ ;
 fragment UScores  : '__' '_'+ ;
@@ -158,6 +222,7 @@ fragment Italic : '*' | '_' ;
 fragment Strike : '~~' ;
 
 fragment MathMark : '$$' ;
+fragment InlineMath : Dollar NotWs ( NotVws* NotWs )? Dollar ;
 
 fragment ColDef : Colon? Dashes Colon? ;
 
@@ -170,16 +235,19 @@ fragment OpenTag  : LAngle Letter+ RAngle		 ;
 fragment CloseTag : LAngle Slash Letter+ RAngle	 ;
 fragment AutoTag  : LAngle Letter+ Slash? RAngle ;
 
-fragment BlockComment
-	: '/*' .*? '*/'
-	;
+fragment InvisibleComment	: '<!---' .*? '-->'	;  // may be pandoc specific
+fragment HtmlComment		: '<!--'  .*? '-->'	;
 
-fragment HtmlComment
-	: '<!--' .*? '-->'
-	;
-
+fragment Spc : ' ' ;
 fragment Hws : ' '+ | '\t' ;
 fragment Vws : '\r'? '\n'  ;
+
+fragment TexBeg : Esc 'begin' ( BBrack | BBrace )* ;
+fragment TexEnd : Esc 'end'   ( BBrack | BBrace )* ;
+fragment TexRaw : Esc Letter  ( Letter | Digit | TexSym )* ( BBrack | BBrace )* ;
+fragment TexSym : [!/_-] ;
+
+fragment Alphanum : Letter | Digit ;
 
 fragment Letter : UAlpha | LAlpha ;
 fragment UAlpha : [A-Z]			  ;
@@ -215,6 +283,9 @@ fragment Entity
 	| '&' Letter ( Letter | Digit )+ Semi
 	;
 
+fragment BBrace : LBrace ( EscSeq | BBrace | ~[{}\r\n\\] )* RBrace ;
+fragment BBrack : LBrack ( EscSeq | ~[\]\r\n\\] )* RBrack ;
+
 fragment NotWs  : ( EscSeq | ~[ \t\r\n\f\\] ) ;
 fragment NotVws	: ( EscSeq | ~[\r\n\f\\]	) ;
 
@@ -228,8 +299,8 @@ fragment EscSeq
 	;
 
 fragment Quote		: '"'  ;
-fragment Tic		: '\'' ;
-fragment BackTic	: '`'  ;
+fragment Apostrophe	: '\'' ;
+fragment Tic		: '`'  ;
 fragment Tilde		: '~'  ;
 fragment Esc		: '\\' ;
 fragment Dot		: '.'  ;
@@ -258,4 +329,3 @@ fragment Underscore	: '_'  ;
 fragment Pipe		: '|'  ;
 fragment Dollar		: '$'  ;
 fragment At			: '@'  ;
-

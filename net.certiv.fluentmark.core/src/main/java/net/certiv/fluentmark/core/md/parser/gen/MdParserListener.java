@@ -21,16 +21,6 @@ public interface MdParserListener extends ParseTreeListener {
 	 */
 	void exitPage(MdParser.PageContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link MdParser#part}.
-	 * @param ctx the parse tree
-	 */
-	void enterPart(MdParser.PartContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link MdParser#part}.
-	 * @param ctx the parse tree
-	 */
-	void exitPart(MdParser.PartContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link MdParser#frontMatter}.
 	 * @param ctx the parse tree
 	 */
@@ -50,6 +40,16 @@ public interface MdParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitHeader(MdParser.HeaderContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MdParser#hrule}.
+	 * @param ctx the parse tree
+	 */
+	void enterHrule(MdParser.HruleContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MdParser#hrule}.
+	 * @param ctx the parse tree
+	 */
+	void exitHrule(MdParser.HruleContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link MdParser#list}.
 	 * @param ctx the parse tree
@@ -71,66 +71,6 @@ public interface MdParserListener extends ParseTreeListener {
 	 */
 	void exitListItem(MdParser.ListItemContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link MdParser#content}.
-	 * @param ctx the parse tree
-	 */
-	void enterContent(MdParser.ContentContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link MdParser#content}.
-	 * @param ctx the parse tree
-	 */
-	void exitContent(MdParser.ContentContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link MdParser#word}.
-	 * @param ctx the parse tree
-	 */
-	void enterWord(MdParser.WordContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link MdParser#word}.
-	 * @param ctx the parse tree
-	 */
-	void exitWord(MdParser.WordContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link MdParser#style}.
-	 * @param ctx the parse tree
-	 */
-	void enterStyle(MdParser.StyleContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link MdParser#style}.
-	 * @param ctx the parse tree
-	 */
-	void exitStyle(MdParser.StyleContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link MdParser#link}.
-	 * @param ctx the parse tree
-	 */
-	void enterLink(MdParser.LinkContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link MdParser#link}.
-	 * @param ctx the parse tree
-	 */
-	void exitLink(MdParser.LinkContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link MdParser#attrLeft}.
-	 * @param ctx the parse tree
-	 */
-	void enterAttrLeft(MdParser.AttrLeftContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link MdParser#attrLeft}.
-	 * @param ctx the parse tree
-	 */
-	void exitAttrLeft(MdParser.AttrLeftContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link MdParser#attrRight}.
-	 * @param ctx the parse tree
-	 */
-	void enterAttrRight(MdParser.AttrRightContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link MdParser#attrRight}.
-	 * @param ctx the parse tree
-	 */
-	void exitAttrRight(MdParser.AttrRightContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link MdParser#table}.
 	 * @param ctx the parse tree
 	 */
@@ -140,6 +80,16 @@ public interface MdParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitTable(MdParser.TableContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MdParser#tableDef}.
+	 * @param ctx the parse tree
+	 */
+	void enterTableDef(MdParser.TableDefContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MdParser#tableDef}.
+	 * @param ctx the parse tree
+	 */
+	void exitTableDef(MdParser.TableDefContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link MdParser#tableRow}.
 	 * @param ctx the parse tree
@@ -171,16 +121,6 @@ public interface MdParserListener extends ParseTreeListener {
 	 */
 	void exitHtml(MdParser.HtmlContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link MdParser#hrule}.
-	 * @param ctx the parse tree
-	 */
-	void enterHrule(MdParser.HruleContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link MdParser#hrule}.
-	 * @param ctx the parse tree
-	 */
-	void exitHrule(MdParser.HruleContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link MdParser#codeBlock}.
 	 * @param ctx the parse tree
 	 */
@@ -200,6 +140,16 @@ public interface MdParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitMathBlock(MdParser.MathBlockContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MdParser#texBlock}.
+	 * @param ctx the parse tree
+	 */
+	void enterTexBlock(MdParser.TexBlockContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MdParser#texBlock}.
+	 * @param ctx the parse tree
+	 */
+	void exitTexBlock(MdParser.TexBlockContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link MdParser#quote}.
 	 * @param ctx the parse tree
@@ -230,6 +180,76 @@ public interface MdParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitParagraph(MdParser.ParagraphContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MdParser#link}.
+	 * @param ctx the parse tree
+	 */
+	void enterLink(MdParser.LinkContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MdParser#link}.
+	 * @param ctx the parse tree
+	 */
+	void exitLink(MdParser.LinkContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MdParser#text}.
+	 * @param ctx the parse tree
+	 */
+	void enterText(MdParser.TextContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MdParser#text}.
+	 * @param ctx the parse tree
+	 */
+	void exitText(MdParser.TextContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MdParser#word}.
+	 * @param ctx the parse tree
+	 */
+	void enterWord(MdParser.WordContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MdParser#word}.
+	 * @param ctx the parse tree
+	 */
+	void exitWord(MdParser.WordContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MdParser#style}.
+	 * @param ctx the parse tree
+	 */
+	void enterStyle(MdParser.StyleContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MdParser#style}.
+	 * @param ctx the parse tree
+	 */
+	void exitStyle(MdParser.StyleContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MdParser#attrLeft}.
+	 * @param ctx the parse tree
+	 */
+	void enterAttrLeft(MdParser.AttrLeftContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MdParser#attrLeft}.
+	 * @param ctx the parse tree
+	 */
+	void exitAttrLeft(MdParser.AttrLeftContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MdParser#attrRight}.
+	 * @param ctx the parse tree
+	 */
+	void enterAttrRight(MdParser.AttrRightContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MdParser#attrRight}.
+	 * @param ctx the parse tree
+	 */
+	void exitAttrRight(MdParser.AttrRightContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MdParser#content}.
+	 * @param ctx the parse tree
+	 */
+	void enterContent(MdParser.ContentContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MdParser#content}.
+	 * @param ctx the parse tree
+	 */
+	void exitContent(MdParser.ContentContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link MdParser#terminal}.
 	 * @param ctx the parse tree

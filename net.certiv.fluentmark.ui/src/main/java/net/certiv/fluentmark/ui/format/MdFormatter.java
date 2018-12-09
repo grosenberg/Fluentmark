@@ -12,6 +12,7 @@ import org.eclipse.ui.IEditorPart;
 
 import net.certiv.dsl.core.DslCore;
 import net.certiv.dsl.core.formatter.BaseCodeFormatter;
+import net.certiv.dsl.core.log.Log;
 import net.certiv.dsl.core.model.CodeUnit;
 import net.certiv.dsl.core.model.DslModelException;
 import net.certiv.dsl.core.model.IStatement;
@@ -21,11 +22,10 @@ import net.certiv.dsl.core.model.builder.SourceRange;
 import net.certiv.dsl.core.preferences.IDslPrefsManager;
 import net.certiv.dsl.core.util.CoreUtil;
 import net.certiv.dsl.core.util.Indent;
-import net.certiv.dsl.core.util.Log;
 import net.certiv.dsl.core.util.Strings;
 import net.certiv.fluentmark.core.FluentCore;
-import net.certiv.fluentmark.core.md.parser.ModelType;
-import net.certiv.fluentmark.core.model.PageUtil;
+import net.certiv.fluentmark.core.model.ModelType;
+import net.certiv.fluentmark.core.model.ModelUtil;
 import net.certiv.fluentmark.core.preferences.Prefs;
 import net.certiv.fluentmark.ui.dialog.tables.TableModel;
 import net.certiv.fluentmark.ui.editor.FluentEditor;
@@ -95,7 +95,7 @@ public class MdFormatter extends BaseCodeFormatter {
 	}
 
 	private void format(IStatement stmt, TextEdit edit, String delim) {
-		switch (PageUtil.getModelType(stmt)) {
+		switch (ModelUtil.getModelType(stmt)) {
 			case Terminal:
 				formatBlank(stmt, edit, delim);
 				break;
@@ -145,7 +145,7 @@ public class MdFormatter extends BaseCodeFormatter {
 	}
 
 	private void formatList(IStatement stmt, TextEdit edit, String delim, int cols, int tabWidth) {
-		for (IStatement listItem : PageUtil.getChildren(stmt, ModelType.ListItem)) {
+		for (IStatement listItem : ModelUtil.getChildren(stmt, ModelType.ListItem)) {
 			formatListItem(stmt, listItem, edit, delim, cols, tabWidth);
 		}
 	}

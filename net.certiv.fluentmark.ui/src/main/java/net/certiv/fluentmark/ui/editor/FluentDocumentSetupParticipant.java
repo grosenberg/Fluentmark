@@ -7,34 +7,12 @@
  ******************************************************************************/
 package net.certiv.fluentmark.ui.editor;
 
-import org.eclipse.core.filebuffers.IDocumentSetupParticipant;
-import org.eclipse.core.filebuffers.IDocumentSetupParticipantExtension;
-import org.eclipse.core.filebuffers.LocationKind;
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.jface.text.IDocument;
-
+import net.certiv.dsl.ui.editor.DslDocumentSetupParticipant;
 import net.certiv.fluentmark.ui.FluentUI;
 
-/** FluentDocumentSetupParticipant */
-public class FluentDocumentSetupParticipant implements IDocumentSetupParticipant, IDocumentSetupParticipantExtension {
-
-	private FluentTextTools textTools;
+public class FluentDocumentSetupParticipant extends DslDocumentSetupParticipant {
 
 	public FluentDocumentSetupParticipant() {
-		this((FluentTextTools) FluentUI.getDefault().getTextTools());
-	}
-
-	public FluentDocumentSetupParticipant(FluentTextTools textTools) {
-		this.textTools = textTools;
-	}
-
-	@Override
-	public void setup(IDocument document) {
-		setup(document, null, null);
-	}
-
-	@Override
-	public void setup(IDocument document, IPath location, LocationKind locationKind) {
-		textTools.setupDocument(document, location, locationKind);
+		super(FluentUI.getDefault().getTextTools());
 	}
 }

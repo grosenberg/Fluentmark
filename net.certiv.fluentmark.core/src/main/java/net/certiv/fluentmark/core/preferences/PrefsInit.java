@@ -21,8 +21,8 @@ import org.eclipse.ui.texteditor.spelling.SpellingService;
 import org.osgi.framework.Bundle;
 
 import net.certiv.dsl.core.DslCore;
+import net.certiv.dsl.core.log.Log;
 import net.certiv.dsl.core.preferences.DslPrefsInit;
-import net.certiv.dsl.core.util.Log;
 import net.certiv.fluentmark.core.FluentCore;
 import net.certiv.spellchecker.SpellCheckEngine;
 

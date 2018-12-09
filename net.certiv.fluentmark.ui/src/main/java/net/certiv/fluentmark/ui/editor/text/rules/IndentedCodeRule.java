@@ -13,8 +13,8 @@ import org.eclipse.jface.text.rules.IPredicateRule;
 import org.eclipse.jface.text.rules.IToken;
 import org.eclipse.jface.text.rules.Token;
 
+import net.certiv.dsl.core.log.Log;
 import net.certiv.dsl.core.util.Indent;
-import net.certiv.dsl.core.util.Log;
 import net.certiv.fluentmark.core.FluentCore;
 import net.certiv.fluentmark.core.preferences.Prefs;
 import net.certiv.fluentmark.ui.editor.PartitionScanner;

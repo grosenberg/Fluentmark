@@ -24,8 +24,8 @@ import net.certiv.dsl.core.color.IColorManager;
 import net.certiv.dsl.core.preferences.DslPrefsManager;
 import net.certiv.dsl.core.preferences.IDslPrefsManager;
 import net.certiv.dsl.ui.DslUI;
+import net.certiv.dsl.ui.editor.DslPresentationReconciler;
 import net.certiv.dsl.ui.editor.DslSourceViewerConfiguration;
-import net.certiv.dsl.ui.editor.reconcile.CompositeReconcilingStrategy;
 import net.certiv.dsl.ui.editor.reconcile.DslReconciler;
 import net.certiv.dsl.ui.editor.text.completion.DslCompletionProcessor;
 import net.certiv.dsl.ui.formatter.strategies.DslFormattingStrategy;
@@ -33,7 +33,6 @@ import net.certiv.fluentmark.core.FluentCore;
 import net.certiv.fluentmark.ui.FluentUI;
 import net.certiv.fluentmark.ui.editor.completion.DotCompletionProcessor;
 import net.certiv.fluentmark.ui.editor.completion.FluentCompletionProcessor;
-import net.certiv.fluentmark.ui.editor.reconcilers.DotReconcilingStrategy;
 import net.certiv.fluentmark.ui.editor.reconcilers.MdReconcilingStrategy;
 import net.certiv.fluentmark.ui.editor.strategies.DoubleClickStrategy;
 import net.certiv.fluentmark.ui.editor.strategies.LineWrapEditStrategy;
@@ -108,7 +107,7 @@ public class FluentSourceViewerConfiguration extends DslSourceViewerConfiguratio
 
 	@Override
 	public IPresentationReconciler getPresentationReconciler(ISourceViewer sourceViewer) {
-		PresentationReconciler reconciler = new FluentPresentationReconciler();
+		PresentationReconciler reconciler = new DslPresentationReconciler();
 		reconciler.setDocumentPartitioning(getConfiguredDocumentPartitioning(sourceViewer));
 
 		buildRepairer(reconciler, frontMatter, Partitions.FRONT_MATTER);
@@ -151,12 +150,15 @@ public class FluentSourceViewerConfiguration extends DslSourceViewerConfiguratio
 	public DslReconciler getReconciler(ISourceViewer viewer) {
 		DslReconciler reconciler = super.getReconciler(viewer);
 
-		CompositeReconcilingStrategy multi = new CompositeReconcilingStrategy();
-		multi.addReconcilingStrategy(new MdReconcilingStrategy(getEditor(), viewer));
-		multi.addReconcilingStrategy(getSpellingReconcileStrategy(viewer));
-		reconciler.setReconcilingStrategy(multi, IDocument.DEFAULT_CONTENT_TYPE);
+		// CompositeReconcilingStrategy multi = new CompositeReconcilingStrategy();
+		// multi.addReconcilingStrategy(new MdReconcilingStrategy(getEditor(), viewer));
+		// multi.addReconcilingStrategy(getSpellingReconcileStrategy(viewer));
+		// reconciler.setReconcilingStrategy(multi, IDocument.DEFAULT_CONTENT_TYPE);
+		// reconciler.setReconcilingStrategy(new DotReconcilingStrategy(getEditor(), viewer),
+		// Partitions.DOTBLOCK);
 
-		reconciler.setReconcilingStrategy(new DotReconcilingStrategy(getEditor(), viewer), Partitions.DOTBLOCK);
+		MdReconcilingStrategy mdStrategy = new MdReconcilingStrategy(getEditor(), viewer);
+		reconciler.setReconcilingStrategy(mdStrategy, IDocument.DEFAULT_CONTENT_TYPE);
 
 		return reconciler;
 	}

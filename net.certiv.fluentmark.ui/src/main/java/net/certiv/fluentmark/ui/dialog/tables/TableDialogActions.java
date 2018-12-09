@@ -27,7 +27,8 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
-import net.certiv.fluentmark.ui.FluentImages;
+import net.certiv.fluentmark.ui.FluentImageManager;
+import net.certiv.fluentmark.ui.FluentUI;
 import net.certiv.fluentmark.ui.dialog.tables.TableModel.Row;
 
 public class TableDialogActions extends MessageDialog {
@@ -36,7 +37,7 @@ public class TableDialogActions extends MessageDialog {
 			| ColumnViewerEditor.TABBING_MOVE_TO_ROW_NEIGHBOR | ColumnViewerEditor.TABBING_VERTICAL
 			| ColumnViewerEditor.KEYBOARD_ACTIVATION;
 
-	protected FluentImages provider;
+	protected FluentImageManager imgMgr;
 	protected TableViewer viewer;
 	protected Table table;
 	protected TableModel tableModel;
@@ -46,7 +47,7 @@ public class TableDialogActions extends MessageDialog {
 
 		public AlignLeftAction() {
 			super("Left Align");
-			setImageDescriptor(provider.DESC_OBJ_LEFT);
+			setImageDescriptor(imgMgr.getDescriptor(imgMgr.IMG_OBJ_LEFT));
 		}
 
 		@Override
@@ -63,7 +64,7 @@ public class TableDialogActions extends MessageDialog {
 
 		public AlignCenterAction() {
 			super("Center Align");
-			setImageDescriptor(provider.DESC_OBJ_CENTER);
+			setImageDescriptor(imgMgr.getDescriptor(imgMgr.IMG_OBJ_CENTER));
 		}
 
 		@Override
@@ -80,7 +81,7 @@ public class TableDialogActions extends MessageDialog {
 
 		public AlignRightAction() {
 			super("Right Align");
-			setImageDescriptor(provider.DESC_OBJ_RIGHT);
+			setImageDescriptor(imgMgr.getDescriptor(imgMgr.IMG_OBJ_RIGHT));
 		}
 
 		@Override
@@ -97,7 +98,7 @@ public class TableDialogActions extends MessageDialog {
 
 		public InsColBeforeAction() {
 			super("Insert Column Before");
-			setImageDescriptor(provider.DESC_OBJ_COL_INS_BEF);
+			setImageDescriptor(imgMgr.getDescriptor(imgMgr.IMG_OBJ_COL_INS_BEF));
 		}
 
 		@Override
@@ -114,7 +115,7 @@ public class TableDialogActions extends MessageDialog {
 
 		public InsColAfterAction() {
 			super("Insert Column After");
-			setImageDescriptor(provider.DESC_OBJ_COL_INS_AFT);
+			setImageDescriptor(imgMgr.getDescriptor(imgMgr.IMG_OBJ_COL_INS_AFT));
 		}
 
 		@Override
@@ -131,7 +132,7 @@ public class TableDialogActions extends MessageDialog {
 
 		public RmvColAction() {
 			super("Delete Column");
-			setImageDescriptor(provider.DESC_OBJ_COL_DEL);
+			setImageDescriptor(imgMgr.getDescriptor(imgMgr.IMG_OBJ_COL_DEL));
 		}
 
 		@Override
@@ -148,7 +149,7 @@ public class TableDialogActions extends MessageDialog {
 
 		public InsRowAboveAction() {
 			super("Insert Row Above");
-			setImageDescriptor(provider.DESC_OBJ_ROW_INS_ABV);
+			setImageDescriptor(imgMgr.getDescriptor(imgMgr.IMG_OBJ_ROW_INS_ABV));
 		}
 
 		@Override
@@ -167,7 +168,7 @@ public class TableDialogActions extends MessageDialog {
 
 		public InsRowBelowAction() {
 			super("Insert Row Below");
-			setImageDescriptor(provider.DESC_OBJ_ROW_INS_BLW);
+			setImageDescriptor(imgMgr.getDescriptor(imgMgr.IMG_OBJ_ROW_INS_BLW));
 		}
 
 		@Override
@@ -186,7 +187,7 @@ public class TableDialogActions extends MessageDialog {
 
 		public RmvRowAction() {
 			super("Delete Row");
-			setImageDescriptor(provider.DESC_OBJ_ROW_DEL);
+			setImageDescriptor(imgMgr.getDescriptor(imgMgr.IMG_OBJ_ROW_DEL));
 		}
 
 		@Override
@@ -238,6 +239,7 @@ public class TableDialogActions extends MessageDialog {
 			int dialogImageType, int defaultIndex, String... dialogButtonLabels) {
 		super(parentShell, dialogTitle, dialogTitleImage, dialogMessage, dialogImageType, defaultIndex,
 				dialogButtonLabels);
+		imgMgr = FluentUI.getDefault().getImageManager();
 	}
 
 	protected void createColumns() {

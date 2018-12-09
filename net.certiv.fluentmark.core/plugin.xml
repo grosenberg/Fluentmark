@@ -35,7 +35,7 @@
             type="org.eclipse.core.resources.textmarker">
       </super>
       <persistent
-            value="false">
+            value="true">
       </persistent>
    </extension>
    <extension

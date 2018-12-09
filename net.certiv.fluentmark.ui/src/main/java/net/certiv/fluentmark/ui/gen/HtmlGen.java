@@ -24,8 +24,8 @@ import org.eclipse.jface.text.TextUtilities;
 import org.eclipse.ui.IPathEditorInput;
 import org.osgi.framework.Bundle;
 
+import net.certiv.dsl.core.log.Log;
 import net.certiv.dsl.core.util.FileUtils;
-import net.certiv.dsl.core.util.Log;
 import net.certiv.dsl.core.util.Strings;
 import net.certiv.dsl.ui.DslUI;
 import net.certiv.fluentmark.core.FluentCore;

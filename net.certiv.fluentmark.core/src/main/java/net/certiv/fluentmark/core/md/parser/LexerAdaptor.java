@@ -3,10 +3,10 @@ package net.certiv.fluentmark.core.md.parser;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Token;
-import org.antlr.v4.runtime.misc.Interval;
 
 import net.certiv.fluentmark.core.md.parser.gen.MdLexer;
 
@@ -15,64 +15,141 @@ public abstract class LexerAdaptor extends LexerNeo {
 	private static final Set<Character> ATTRS = new HashSet<>(
 			Arrays.asList(new Character[] { '`', '\'', '"', '*', '_', '~' }));
 
+	private static final Pattern Link = Pattern.compile("\\!?\\[.*?\\]([ ]?(\\(\\S*?([ ]?\".*?\")?\\)|\\[.*?\\]))?");
+	private static final Pattern LRef = Pattern.compile("\\[.*?\\]:[ ]?(\\S+?://)?\\S+([ ]?\".*?\")?");
+
+	private final char[] in;
+	private Token last;
+
 	public LexerAdaptor(CharStream input) {
 		super(input);
+		in = input.toString().toCharArray();
 	}
 
-	/** Returns {@code true} if the immediately prior matched token is {@code MdLexer.TERM}. */
-	protected boolean term() {
+	@Override
+	public void emit(Token token) {
+		super.emit(token);
+		last = token;
+	}
+
+	/** Returns {@code true} if the immediately after {@code MdLexer.TERM}. */
+	protected boolean aftTerm() {
+		if (bof()) return true;
 		if (!bol()) return false;
-		if (prior().getType() == MdLexer.TERM) return true;
+		if (!_queue.isEmpty()) return _queue.peekLast().getType() == MdLexer.TERM;
+		return last.getType() == MdLexer.TERM;
+	}
+
+	/** Returns {@code true} if immediately before {@code MdLexer.TERM}. */
+	protected boolean befTerm() {
+		int cnt = 0;
+		for (int idx = _input.index(); idx < in.length; idx++) {
+			char ch = in[idx];
+			if (ch == Token.EOF) return true;
+			if (!Character.isWhitespace(ch)) return false;
+			if (ch == ' ' || ch == '\t' || ch == '\r') continue;
+			if (ch == '\n') {
+				if (cnt == 1) return true;
+				cnt++;
+			}
+		}
+		return true;
+	}
+
+	protected boolean link() {
+		try {
+			int idx = _input.index() - 1;
+			String txt = String.valueOf(in, idx, in.length - idx);
+			boolean found = Link.matcher(txt).lookingAt();
+			// Log.info(this, "Link (" + found + "): " + Strings.ellipsize(txt, 48));
+			return found;
+		} catch (Exception e) {}
 		return false;
 	}
 
-	private Token prior() {
-		if (!_queue.isEmpty()) return _queue.peekLast();
-		return _priors.peek();
+	protected boolean linkRef() {
+		try {
+			int idx = _input.index() - 1;
+			String txt = String.valueOf(in, idx, in.length - idx);
+			boolean found = LRef.matcher(txt).lookingAt();
+			// Log.info(this, "LinkRef(" + found + "): " + Strings.ellipsize(txt, 48));
+			return found;
+		} catch (Exception e) {}
+		return false;
 	}
 
-	/** On left edge of thing */
+	// attribute at left edge: left is ws, right is text
 	protected boolean left() {
-		for (int ch = 0, idx = 1;; ch = _input.LA(idx++)) {
-			if (ch == Token.EOF) return false;
-			if (Character.isWhitespace(ch)) return false;
-			if (ATTRS.contains(Character.valueOf((char) ch))) continue;
-			break;
+		char ch = boundaryLeft();
+		if (ch == Token.INVALID_TYPE || !isText(ch)) {
+			ch = boundaryRight();
+			return ch == Token.EOF || isText(ch);
 		}
-
-		for (int ch = 0, idx = -1, beg = -_input.index(); idx >= beg; ch = _input.LA(idx--)) {
-			if (Character.isWhitespace(ch)) break;
-			if (ATTRS.contains(Character.valueOf((char) ch))) continue;
-			return false;
-		}
-
-		return true;
+		return false;
 	}
 
-	/** On right edge of thing */
+	// attribute at right edge: left is text, right is ws
 	protected boolean right() {
-		for (int ch = 0, idx = -1, beg = -_input.index(); idx >= beg; ch = _input.LA(idx--)) {
-			if (ch == Token.EOF) return false;
-			if (Character.isWhitespace(ch)) return false;
-			if (ATTRS.contains(Character.valueOf((char) ch))) continue;
-			break;
+		char ch = boundaryLeft();
+		if (ch == Token.INVALID_TYPE || isText(ch)) {
+			ch = boundaryRight();
+			return ch == Token.EOF || !isText(ch);
 		}
-
-		for (int ch = 0, idx = 1;; ch = _input.LA(idx++)) {
-			if (Character.isWhitespace(ch)) break;
-			if (ATTRS.contains(Character.valueOf((char) ch))) continue;
-			return false;
-		}
-
-		return true;
+		return false;
 	}
 
-	/** Returns true iif the input stream contains a simple close of the just matched character. */
+	private boolean isText(char ch) {
+		return !(Character.isWhitespace(ch) || isPunctuation(ch));
+	}
+
+	private boolean isPunctuation(char ch) {
+		switch (Character.getType(ch)) {
+			case Character.DASH_PUNCTUATION:
+			case Character.START_PUNCTUATION:
+			case Character.END_PUNCTUATION:
+			case Character.CONNECTOR_PUNCTUATION:
+			case Character.OTHER_PUNCTUATION:
+			case Character.MATH_SYMBOL:
+			case Character.CURRENCY_SYMBOL:
+			case Character.MODIFIER_SYMBOL:
+			case Character.OTHER_SYMBOL:
+			case Character.INITIAL_QUOTE_PUNCTUATION:
+			case Character.FINAL_QUOTE_PUNCTUATION:
+				return true;
+			default:
+				return false;
+		}
+	}
+
+	// _input.index points at the first lookahead char
+	private char boundaryLeft() {
+		for (int idx = _input.index() - 1; idx >= 0; idx--) {
+			char ch = in[idx];
+			if (ATTRS.contains(Character.valueOf(ch))) continue;
+			return ch;
+		}
+		return Token.INVALID_TYPE;
+	}
+
+	private char boundaryRight() {
+		for (int idx = _input.index(); idx < in.length; idx++) {
+			char ch = in[idx];
+			if (ATTRS.contains(Character.valueOf(ch))) continue;
+			return ch;
+		}
+		return (char) Token.EOF;
+	}
+
+	/** Returns true iif the input stream contains a balanced close of the just matched character. */
 	protected boolean closed(int end) {
 		int beg = _input.LA(-1);
-		for (int ch = 0, idx = 1; ch != Token.EOF; ch = _input.LA(idx++)) {
-			if (ch == end) return true;
-			if (ch == beg || ch == '\r' || ch == '\n') return false;
+		int cnt = 1;
+		for (int idx = _input.index(); idx < in.length; idx++) {
+			char ch = in[idx];
+			if (ch == Token.EOF || ch == '\r' || ch == '\n') return false;
+			if (ch == beg) cnt++;
+			if (ch == end) cnt--;
+			if (cnt == 0) return true;
 		}
 		return false;
 	}
@@ -127,35 +204,15 @@ public abstract class LexerAdaptor extends LexerNeo {
 		return true; // hit EOF
 	}
 
-	/**
-	 * Returns true iif the lexer is currently positioned immediately after whitespace and before text.
-	 */
-	protected boolean attrLeft() {
-		if (isWS(_input.LA(-1)) && isText(_input.LA(1))) return true;
-		return false;
-	}
-
-	/**
-	 * Returns true iif the lexer is currently positioned immediately after text and before whitespace.
-	 */
-	protected boolean attrRight() {
-		if (isText(_input.LA(-1)) && isWS(_input.LA(1))) return true;
-		return false;
-	}
-
-	private boolean isText(int ch) {
-		return ch == Token.EOF || !Character.isWhitespace(ch);
-	}
-
-	private boolean isWS(int ch) {
-		return ch == Token.EOF || Character.isWhitespace(ch);
-	}
-
-	/** Returns true if the lexer is currently positioned at the given input string. */
-	protected boolean at(String s) {
-		int len = s.length();
-		String txt = _input.getText(Interval.of(_input.index(), _input.index() + len - 1));
-		// System.err.println(String.format("%s == %s", s, txt));
-		return s.equals(txt);
-	}
+	// /** On left edge of text without intervening ws, ignoring ATTRS. */
+	// protected boolean left() {
+	// if (!isText(boundaryLeft()) && isText(boundaryRight())) return true;
+	// return false;
+	// }
+	//
+	// /** On right edge of text without intervening ws, ignoring ATTRS. */
+	// protected boolean right() {
+	// if (isText(boundaryLeft()) && !isText(boundaryRight())) return true;
+	// return false;
+	// }
 }

@@ -4,9 +4,9 @@ import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.eclipse.core.resources.IMarker;
 
+import net.certiv.dsl.core.log.Log;
 import net.certiv.dsl.core.parser.DslProblem;
 import net.certiv.dsl.core.parser.DslProblemCollector;
-import net.certiv.dsl.core.util.Log;
 import net.certiv.fluentmark.core.dot.parser.AttrMap.Props;
 import net.certiv.fluentmark.core.dot.parser.gen.DotLexer;
 import net.certiv.fluentmark.core.dot.parser.gen.DotParser.AttrListContext;
@@ -49,7 +49,7 @@ public class Verifier {
 			for (AttributeContext attribute : ctx.attribute()) {
 				String id = attribute.id().getText();
 				Props props = AttrMap.get(id);
-				if (props.name.equals(Attr.INVALID)) {
+				if (props.name.equals(DotAttr.INVALID)) {
 					String cause = "Invalid name '" + id + "' at %s:%s";
 					reportProblem(IMarker.SEVERITY_ERROR, Kind.ATTRIBUTE, attribute.id().name, cause);
 					continue;

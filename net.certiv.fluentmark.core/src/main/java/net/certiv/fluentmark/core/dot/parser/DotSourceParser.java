@@ -12,12 +12,12 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.eclipse.jface.text.BadLocationException;
 
 import net.certiv.dsl.core.DslCore;
+import net.certiv.dsl.core.log.Log;
 import net.certiv.dsl.core.model.builder.DslModelMaker;
 import net.certiv.dsl.core.parser.DslErrorListener;
 import net.certiv.dsl.core.parser.DslErrorStrategy;
 import net.certiv.dsl.core.parser.DslParseRecord;
 import net.certiv.dsl.core.parser.DslSourceParser;
-import net.certiv.dsl.core.util.Log;
 import net.certiv.fluentmark.core.FluentCore;
 import net.certiv.fluentmark.core.dot.parser.gen.DotLexer;
 import net.certiv.fluentmark.core.dot.parser.gen.DotParser;
@@ -56,7 +56,7 @@ public class DotSourceParser extends DslSourceParser {
 			return;
 		}
 
-		DslErrorListener errListener = new DslErrorListener(this, record.collector);
+		DslErrorListener errListener = new DslErrorListener(this, record.collector, record.reportAmbiguities());
 
 		record.cs = CharStreams.fromString(content);
 		DotLexer lexer = new DotLexer(record.cs);

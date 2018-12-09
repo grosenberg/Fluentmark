@@ -20,6 +20,7 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Automatic-Module-Name: net.certiv.fluentmark.core
 Bundle-Vendor: Certiv Analytics
 Export-Package: com.github.rjeschke.txtmark,
+ h,
  net.certiv.fluentmark.core,
  net.certiv.fluentmark.core.dot.parser,
  net.certiv.fluentmark.core.md.parser,

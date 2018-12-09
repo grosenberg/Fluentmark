@@ -29,6 +29,7 @@ import org.eclipse.text.edits.MultiTextEdit;
 import org.eclipse.text.edits.ReplaceEdit;
 import org.eclipse.text.edits.TextEdit;
 
+import net.certiv.dsl.core.log.Log;
 import net.certiv.dsl.core.model.ICodeUnit;
 import net.certiv.dsl.core.model.IDslElement;
 import net.certiv.dsl.core.model.Statement;
@@ -36,14 +37,13 @@ import net.certiv.dsl.core.model.builder.IDslElementVisitor;
 import net.certiv.dsl.core.model.builder.ISourceRange;
 import net.certiv.dsl.core.preferences.DslPrefsManager;
 import net.certiv.dsl.core.util.FileUtils;
-import net.certiv.dsl.core.util.Log;
 import net.certiv.dsl.core.util.Strings;
 import net.certiv.dsl.core.util.Temps;
 import net.certiv.dsl.core.util.TextUtils;
 import net.certiv.dsl.core.util.exec.Cmd;
 import net.certiv.dsl.ui.DslUI;
 import net.certiv.fluentmark.core.FluentCore;
-import net.certiv.fluentmark.core.model.PageUtil;
+import net.certiv.fluentmark.core.model.ModelUtil;
 import net.certiv.fluentmark.core.preferences.Prefs;
 import net.sourceforge.plantuml.FileFormat;
 import net.sourceforge.plantuml.FileFormatOption;
@@ -147,7 +147,7 @@ public class PdfGen {
 						Statement stmt = (Statement) element;
 						ISourceRange range = stmt.getSourceRange();
 
-						switch (PageUtil.getModelType(stmt)) {
+						switch (ModelUtil.getModelType(stmt)) {
 							case DotGraph:
 								ISourceRange subRange = calcDotRange(doc, range);
 								if (subRange == null) break;

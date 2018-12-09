@@ -1,29 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE xml>
 <plugin>
-   
-   <extension
-         point="org.eclipse.core.contenttype.contentTypes">
-      <content-type
-            base-type="org.eclipse.core.runtime.text"
-            file-extensions="md,mdown,mkd,text"
-            id="net.certiv.fluentmark.contentType"
-            name="FluentMark Editor"
-            priority="normal">
-      </content-type>
-   </extension>
-
-   <extension
-         point="org.eclipse.core.expressions.definitions">
-      <definition
-            id="net.certiv.fluentmark.editorVisible">
-			<with variable="activePartId">
-    			<equals
-          			value="net.certiv.fluentmark.editor.FluentEditor">
-    			</equals>
-			</with>
-      </definition>
-   </extension>
 
 
    <extension
@@ -56,17 +33,50 @@
          <adapter type="org.eclipse.core.resources.IWorkspaceRoot"/>
       </factory>
    </extension>
+   
+   <extension
+         point="org.eclipse.core.contenttype.contentTypes">
+      <content-type
+            base-type="org.eclipse.core.runtime.text"
+            file-extensions="md,mdown,mkd,text"
+            id="net.certiv.fluentmark.contentType"
+            name="FluentMark Editor"
+            priority="normal">
+      </content-type>
+   </extension>
+
+   <extension
+         point="org.eclipse.core.expressions.definitions">
+      <definition
+            id="net.certiv.fluentmark.editorVisible">
+			<with variable="activePartId">
+    			<equals
+          			value="net.certiv.fluentmark.editor.FluentEditor">
+    			</equals>
+			</with>
+      </definition>
+   </extension>
+   
+   <extension
+         point="org.eclipse.ui.contexts">
+      <context
+            description="FluentMark Editor"
+            id="net.certiv.fluentmark.ui.editorScope"
+            name="FluentMark"
+            parentId="org.eclipse.ui.textEditorScope">
+      </context>
+   </extension>
 
    <extension
          point="org.eclipse.ui.editors">
       <editor
             class="net.certiv.fluentmark.ui.editor.FluentEditor"
-            contributorClass="net.certiv.fluentmark.ui.editor.FluentActionBarContributor"
+            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
             default="true"
+            extensions="md,markdown,mdown,mkd,Rmd"
             icon="icons/obj16/fluentmark_doc.png"
             id="net.certiv.fluentmark.editor.FluentEditor"
-            name="FluentMark Editor"
-            symbolicFontName="org.eclipse.jface.textfont">
+            name="FluentMark Editor">
          <contentTypeBinding
                contentTypeId="net.certiv.fluentmark.contentType">
          </contentTypeBinding>
@@ -214,76 +224,6 @@
             id="net.certiv.fluentmark.preferences.pages.PrefPageFolding"
             name="Folding">
       </page>
-   </extension>
-
-   <extension
-         point="org.eclipse.ui.menus">
-      
-      <menuContribution
-            allPopups="false"
-            locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
-         <toolbar
-               id="net.certiv.fluentmark.MarkdownEditor">
-            <command
-                  commandId="net.certiv.fluentmark.openView"
-                  icon="icons/obj16/fluentmark_doc.png"
-                  style="push"
-                  tooltip="Open FluentMark Viewer">
-               <visibleWhen>
-                  <reference
-                        definitionId="net.certiv.fluentmark.editorVisible">
-                  </reference>
-               </visibleWhen>
-            </command>
-            <command
-                  commandId="net.certiv.fluentmark.exportHtml"
-                  icon="icons/etool16/htmlexport.png"
-                  style="push"
-                  tooltip="Export as HTML">
-               <visibleWhen>
-                  <reference
-                        definitionId="net.certiv.fluentmark.editorVisible">
-                  </reference>
-               </visibleWhen>
-            </command>
-            <command
-                  commandId="net.certiv.fluentmark.exportPdf"
-                  icon="icons/obj16/pdf.png"
-                  style="push"
-                  tooltip="Export as PDF">
-               <visibleWhen>
-                  <reference
-                        definitionId="net.certiv.fluentmark.editorVisible">
-                  </reference>
-               </visibleWhen>
-            </command>
-         </toolbar>
-      </menuContribution>
-      <menuContribution
-            allPopups="false"
-            locationURI="toolbar:net.certiv.fluentmark.views.FluentPreview">
-         <command
-               commandId="net.certiv.fluentmark.refreshView"
-               icon="icons/obj16/refresh.png"
-               label="Refresh"
-               style="push"
-               tooltip="Refresh/redisplay view contents">
-         </command>
-         <command
-               commandId="net.certiv.fluentmark.openStylesheets"
-               icon="icons/obj16/css.png"
-               label="Stylesheets"
-               style="push"
-               tooltip="Open stylesheet preferences">
-         </command>
-         <command
-               commandId="net.certiv.fluentmark.firebug"
-               icon="icons/obj16/firebug.png"
-               label="Firebug"
-               style="push"
-               tooltip="Open Firebug console">
-         </command>
-      </menuContribution>
    </extension>
    <extension
          point="org.eclipse.ui.newWizards">
@@ -558,16 +498,6 @@
          </enabledWhen>
       </handler>
       
-   </extension>
-   
-   <extension
-         point="org.eclipse.ui.contexts">
-      <context
-            description="FluentMark Editor"
-            id="net.certiv.fluentmark.ui.editorScope"
-            name="FluentMark"
-            parentId="org.eclipse.ui.textEditorScope">
-      </context>
    </extension>   
 
    <extension
@@ -612,6 +542,76 @@
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
             sequence="M1+I">
       </key>
+   </extension>
+
+   <extension
+         point="org.eclipse.ui.menus">
+      
+      <menuContribution
+            allPopups="false"
+            locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
+         <toolbar
+               id="net.certiv.fluentmark.MarkdownEditor">
+            <command
+                  commandId="net.certiv.fluentmark.openView"
+                  icon="icons/obj16/fluentmark_doc.png"
+                  style="push"
+                  tooltip="Open FluentMark Viewer">
+               <visibleWhen>
+                  <reference
+                        definitionId="net.certiv.fluentmark.editorVisible">
+                  </reference>
+               </visibleWhen>
+            </command>
+            <command
+                  commandId="net.certiv.fluentmark.exportHtml"
+                  icon="icons/etool16/htmlexport.png"
+                  style="push"
+                  tooltip="Export as HTML">
+               <visibleWhen>
+                  <reference
+                        definitionId="net.certiv.fluentmark.editorVisible">
+                  </reference>
+               </visibleWhen>
+            </command>
+            <command
+                  commandId="net.certiv.fluentmark.exportPdf"
+                  icon="icons/obj16/pdf.png"
+                  style="push"
+                  tooltip="Export as PDF">
+               <visibleWhen>
+                  <reference
+                        definitionId="net.certiv.fluentmark.editorVisible">
+                  </reference>
+               </visibleWhen>
+            </command>
+         </toolbar>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="toolbar:net.certiv.fluentmark.views.FluentPreview">
+         <command
+               commandId="net.certiv.fluentmark.refreshView"
+               icon="icons/obj16/refresh.png"
+               label="Refresh"
+               style="push"
+               tooltip="Refresh/redisplay view contents">
+         </command>
+         <command
+               commandId="net.certiv.fluentmark.openStylesheets"
+               icon="icons/obj16/css.png"
+               label="Stylesheets"
+               style="push"
+               tooltip="Open stylesheet preferences">
+         </command>
+         <command
+               commandId="net.certiv.fluentmark.firebug"
+               icon="icons/obj16/firebug.png"
+               label="Firebug"
+               style="push"
+               tooltip="Open Firebug console">
+         </command>
+      </menuContribution>
    </extension>
    
 </plugin>

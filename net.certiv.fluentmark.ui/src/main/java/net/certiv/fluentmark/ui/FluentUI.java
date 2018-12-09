@@ -23,7 +23,7 @@ public class FluentUI extends DslUI {
 
 	private static FluentUI plugin;
 
-	private FluentImages imageProvider;
+	private FluentImageManager imgMgr;
 	private DslTextTools textTools;
 
 	public FluentUI() {
@@ -73,11 +73,11 @@ public class FluentUI extends DslUI {
 	}
 
 	@Override
-	public FluentImages getImageProvider() {
-		if (imageProvider == null) {
-			imageProvider = new FluentImages();
+	public FluentImageManager getImageManager() {
+		if (imgMgr == null) {
+			imgMgr = new FluentImageManager();
 		}
-		return imageProvider;
+		return imgMgr;
 	}
 
 	@Override

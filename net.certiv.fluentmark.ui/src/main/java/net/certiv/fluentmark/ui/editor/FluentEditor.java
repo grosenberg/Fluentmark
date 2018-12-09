@@ -23,11 +23,10 @@ import net.certiv.dsl.ui.editor.text.DslWordFinder;
 import net.certiv.dsl.ui.editor.text.folding.IFoldingStructureProvider;
 import net.certiv.fluentmark.core.FluentCore;
 import net.certiv.fluentmark.ui.FluentUI;
-import net.certiv.fluentmark.ui.editor.folding.FluentFoldingStructureProvier;
+import net.certiv.fluentmark.ui.editor.folding.FluentFoldingStructureProvider;
 import net.certiv.fluentmark.ui.gen.Converter;
 import net.certiv.fluentmark.ui.gen.HtmlGen;
 import net.certiv.fluentmark.ui.gen.Kind;
-import net.certiv.fluentmark.ui.outline.FluentOutlinePage;
 
 /** Text editor with markdown support. */
 public class FluentEditor extends DslEditor {
@@ -39,24 +38,17 @@ public class FluentEditor extends DslEditor {
 	private static final String[] KEY_SCOPES = new String[] { "net.certiv.fluentmark.ui.editorScope" };
 	private static final String MARK_OCCURRENCES_ANNOTATION_TYPE = "net.certiv.fluentmark.ui.editor.occurrences";
 
+	private final DslWordFinder finder = new DslWordFinder();
 	private final DefaultCharacterPairMatcher pairMatcher = new DefaultCharacterPairMatcher(STD_PAIRS,
 			Partitions.PARTITIONING);
-	private final DslWordFinder finder = new DslWordFinder();
 
-	private FluentFoldingStructureProvier foldingProvider;
+	private FluentFoldingStructureProvider foldingProvider;
+
 	private Converter converter;
 	private HtmlGen htmlGen;
 
-	// private final LRUCache<IRegion, DotSourceParser> parseRecords = new LRUCache<>(25);
-	// private HtmlGen htmlGen;
-
 	public FluentEditor() {
 		super();
-	}
-
-	@Override
-	public String getEditorId() {
-		return EDITOR_ID;
 	}
 
 	@Override
@@ -67,6 +59,11 @@ public class FluentEditor extends DslEditor {
 	@Override
 	public DslCore getDslCore() {
 		return FluentCore.getDefault();
+	}
+
+	@Override
+	public String getEditorId() {
+		return EDITOR_ID;
 	}
 
 	@Override
@@ -82,8 +79,6 @@ public class FluentEditor extends DslEditor {
 
 		converter = new Converter();
 		htmlGen = new HtmlGen(this, converter);
-
-		// pageModel = new Page(this);
 	}
 
 	@Override
@@ -109,7 +104,7 @@ public class FluentEditor extends DslEditor {
 	@Override
 	protected IFoldingStructureProvider createFoldingStructureProvider() {
 		if (foldingProvider == null) {
-			foldingProvider = new FluentFoldingStructureProvier();
+			foldingProvider = new FluentFoldingStructureProvider();
 		}
 		return foldingProvider;
 	}
@@ -150,55 +145,4 @@ public class FluentEditor extends DslEditor {
 	public boolean useMathJax() {
 		return converter.useMathJax();
 	}
-
-	// public Page getPageModel() {
-	// if (pageDirty) updatePageModel();
-	// return pageModel;
-	// }
-	//
-	// public boolean isPageModelDirty() {
-	// return pageDirty;
-	// }
-	//
-	// public Page getPageModel(boolean forceUpdate) {
-	// if (forceUpdate) pageDirty = true;
-	// return getPageModel();
-	// }
-	//
-	// public Record getParseRecord(ITypedRegion region) {
-	// return parseRecords.get(region);
-	// }
-	//
-	// public void setParseRecord(DotSourceParser data) {
-	// parseRecords.put(data.partition, data);
-	// }
-
-	// private PagePart getMatchingPagePart() {
-	// Point selectedRange = getSourceViewer().getSelectedRange();
-	// if (selectedRange != null) {
-	// return getPagePartAt(selectedRange.x, false);
-	// }
-	// return null;
-	// }
-	//
-	// /**
-	// * Returns the most narrow element including the given offset. If <code>reconcile</code> is
-	// * <code>true</code> the editor's input element is reconciled in advance. If it is
-	// * <code>false</code> this method only returns a result if the editor's input element does not
-	// need
-	// * to be reconciled.
-	// *
-	// * @param offset the offset included by the retrieved element
-	// * @param reconcile <code>true</code> if should be reconciled
-	// * @return the most narrow element which includes the given offset
-	// */
-	// private PagePart getPagePartAt(int offset, boolean reconcile) {
-	// return getPageModel().partAtOffset(offset);
-	// }
-	//
-	// private FluentOutlinePage createOutlinePage() {
-	// final FluentOutlinePage page = new FluentOutlinePage(this, getPreferenceStore());
-	// setOutlinePageInput(page, getEditorInput());
-	// return page;
-	// }
 }

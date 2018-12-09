@@ -9,12 +9,12 @@ import java.util.Set;
 public class AttrMap {
 
 	public static class Props {
-		public final Attr name;
+		public final DotAttr name;
 		public final TYPE type;
 		public final String[] values;
 		public final String defval;
 
-		public Props(Attr name, TYPE type, String[] values, String defval) {
+		public Props(DotAttr name, TYPE type, String[] values, String defval) {
 			this.name = name;
 			this.type = type;
 			this.values = values;
@@ -36,8 +36,8 @@ public class AttrMap {
 		INVALID;
 	}
 
-	private static final Map<Attr, Props> attrs = new HashMap<>();
-	private static final Map<String, Attr> names = new HashMap<>();
+	private static final Map<DotAttr, Props> attrs = new HashMap<>();
+	private static final Map<String, DotAttr> names = new HashMap<>();
 
 	private static final String[] None = new String[] {};
 	private static final String Empty = "";
@@ -66,53 +66,53 @@ public class AttrMap {
 			"radial", "rounded", "solid", "striped", "tapered", "wedged" };
 
 	static {
-		put(Attr.INVALID, TYPE.INVALID, None, Empty);
-		put(Attr.ARROWHEAD, TYPE.LIST, ArrowType, "normal");
-		put(Attr.ARROWSIZE, TYPE.NUMBER, None, "1.0");
-		put(Attr.ARROWTAIL, TYPE.LIST, ArrowType, "normal");
-		put(Attr.BB, TYPE.RECT, None, Empty);
-		put(Attr.BGCOLOR, TYPE.COLORS, None, Empty);
-		put(Attr.CLUSTERRANK, TYPE.LIST, ClusterMode, Empty);
-		put(Attr.COLOR, TYPE.COLORS, None, "black");
-		put(Attr.COLORSCHEME, TYPE.LIST, Schemes, "x11");
-		put(Attr.CONSTRAINT, TYPE.LIST, Boolean, "true");
-		put(Attr.DIR, TYPE.LIST, DirType, "forward");
-		put(Attr.DISTORTION, TYPE.NUMBER, None, "0.0");
-		put(Attr.EDGETOOLTIP, TYPE.STRING, None, Empty);
-		put(Attr.FILLCOLOR, TYPE.COLORS, None, "lightgrey");
-		put(Attr.FIXEDSIZE, TYPE.STRING, None, "false");
-		put(Attr.FONTCOLOR, TYPE.COLOR, None /* ColorNames */, "black");
-		put(Attr.FORCELABELS, TYPE.LIST, Boolean, "true");
-		put(Attr.HEAD_LP, TYPE.POINT, None, Empty);
-		put(Attr.HEADLABEL, TYPE.STRING, None, Empty);
-		put(Attr.HEADPORT, TYPE.STRING, None, "center");
-		put(Attr.HEADTOOLTIP, TYPE.STRING, None, "");
-		put(Attr.HEIGHT, TYPE.NUMBER, None, "0.5");
-		put(Attr.ID, TYPE.STRING, None, Empty);
-		put(Attr.LABEL, TYPE.STRING, None, Empty);
-		put(Attr.LABELFONTCOLOR, TYPE.COLOR, None /* ColorNames */, "black");
-		put(Attr.LABELTOOLTIP, TYPE.STRING, None, "");
-		put(Attr.LAYOUT, TYPE.STRING, None, Empty);
-		put(Attr.LP, TYPE.POINT, None, Empty);
-		put(Attr.NODESEP, TYPE.NUMBER, None, "0.25");
-		put(Attr.OUTPUTORDER, TYPE.LIST, OutputMode, "breadthfirst");
-		put(Attr.PAGEDIR, TYPE.LIST, PageDir, "BL");
-		put(Attr.POS, TYPE.SPLINE, None, Empty);
-		put(Attr.RANK, TYPE.STRING, RankType, Empty);
-		put(Attr.RANKDIR, TYPE.LIST, RankDir, Empty);
-		put(Attr.SHAPE, TYPE.LIST, Shape, "ellipse");
-		put(Attr.SIDES, TYPE.NUMBER, None, "4");
-		put(Attr.SKEW, TYPE.NUMBER, None, "0.0");
-		put(Attr.SPLINES, TYPE.STRING, None, Empty);
-		put(Attr.STYLE, TYPE.LIST, Style, Empty);
-		put(Attr.TAIL_LP, TYPE.POINT, None, Empty);
-		put(Attr.TAILLABEL, TYPE.STRING, None, Empty);
-		put(Attr.TAILPORT, TYPE.STRING, None, "center");
-		put(Attr.TAILTOOLTIP, TYPE.STRING, None, Empty);
-		put(Attr.TOOLTIP, TYPE.STRING, None, Empty);
-		put(Attr.WIDTH, TYPE.NUMBER, None, "0.75");
-		put(Attr.XLABEL, TYPE.STRING, None, Empty);
-		put(Attr.XLP, TYPE.POINT, None, Empty);
+		put(DotAttr.INVALID, TYPE.INVALID, None, Empty);
+		put(DotAttr.ARROWHEAD, TYPE.LIST, ArrowType, "normal");
+		put(DotAttr.ARROWSIZE, TYPE.NUMBER, None, "1.0");
+		put(DotAttr.ARROWTAIL, TYPE.LIST, ArrowType, "normal");
+		put(DotAttr.BB, TYPE.RECT, None, Empty);
+		put(DotAttr.BGCOLOR, TYPE.COLORS, None, Empty);
+		put(DotAttr.CLUSTERRANK, TYPE.LIST, ClusterMode, Empty);
+		put(DotAttr.COLOR, TYPE.COLORS, None, "black");
+		put(DotAttr.COLORSCHEME, TYPE.LIST, Schemes, "x11");
+		put(DotAttr.CONSTRAINT, TYPE.LIST, Boolean, "true");
+		put(DotAttr.DIR, TYPE.LIST, DirType, "forward");
+		put(DotAttr.DISTORTION, TYPE.NUMBER, None, "0.0");
+		put(DotAttr.EDGETOOLTIP, TYPE.STRING, None, Empty);
+		put(DotAttr.FILLCOLOR, TYPE.COLORS, None, "lightgrey");
+		put(DotAttr.FIXEDSIZE, TYPE.STRING, None, "false");
+		put(DotAttr.FONTCOLOR, TYPE.COLOR, None /* ColorNames */, "black");
+		put(DotAttr.FORCELABELS, TYPE.LIST, Boolean, "true");
+		put(DotAttr.HEAD_LP, TYPE.POINT, None, Empty);
+		put(DotAttr.HEADLABEL, TYPE.STRING, None, Empty);
+		put(DotAttr.HEADPORT, TYPE.STRING, None, "center");
+		put(DotAttr.HEADTOOLTIP, TYPE.STRING, None, "");
+		put(DotAttr.HEIGHT, TYPE.NUMBER, None, "0.5");
+		put(DotAttr.ID, TYPE.STRING, None, Empty);
+		put(DotAttr.LABEL, TYPE.STRING, None, Empty);
+		put(DotAttr.LABELFONTCOLOR, TYPE.COLOR, None /* ColorNames */, "black");
+		put(DotAttr.LABELTOOLTIP, TYPE.STRING, None, "");
+		put(DotAttr.LAYOUT, TYPE.STRING, None, Empty);
+		put(DotAttr.LP, TYPE.POINT, None, Empty);
+		put(DotAttr.NODESEP, TYPE.NUMBER, None, "0.25");
+		put(DotAttr.OUTPUTORDER, TYPE.LIST, OutputMode, "breadthfirst");
+		put(DotAttr.PAGEDIR, TYPE.LIST, PageDir, "BL");
+		put(DotAttr.POS, TYPE.SPLINE, None, Empty);
+		put(DotAttr.RANK, TYPE.STRING, RankType, Empty);
+		put(DotAttr.RANKDIR, TYPE.LIST, RankDir, Empty);
+		put(DotAttr.SHAPE, TYPE.LIST, Shape, "ellipse");
+		put(DotAttr.SIDES, TYPE.NUMBER, None, "4");
+		put(DotAttr.SKEW, TYPE.NUMBER, None, "0.0");
+		put(DotAttr.SPLINES, TYPE.STRING, None, Empty);
+		put(DotAttr.STYLE, TYPE.LIST, Style, Empty);
+		put(DotAttr.TAIL_LP, TYPE.POINT, None, Empty);
+		put(DotAttr.TAILLABEL, TYPE.STRING, None, Empty);
+		put(DotAttr.TAILPORT, TYPE.STRING, None, "center");
+		put(DotAttr.TAILTOOLTIP, TYPE.STRING, None, Empty);
+		put(DotAttr.TOOLTIP, TYPE.STRING, None, Empty);
+		put(DotAttr.WIDTH, TYPE.NUMBER, None, "0.75");
+		put(DotAttr.XLABEL, TYPE.STRING, None, Empty);
+		put(DotAttr.XLP, TYPE.POINT, None, Empty);
 	}
 
 	private AttrMap() {}
@@ -124,9 +124,9 @@ public class AttrMap {
 		return false;
 	}
 
-	public static Attr find(String id) {
-		Attr name = names.get(id);
-		return name != null ? name : Attr.INVALID;
+	public static DotAttr find(String id) {
+		DotAttr name = names.get(id);
+		return name != null ? name : DotAttr.INVALID;
 	}
 
 	public static Set<String> getAttrNames() {
@@ -135,30 +135,30 @@ public class AttrMap {
 
 	public static Props get(String id) {
 		try {
-			return get(Attr.valueOf(id.toUpperCase()));
+			return get(DotAttr.valueOf(id.toUpperCase()));
 		} catch (Exception e) {
-			return get(Attr.INVALID);
+			return get(DotAttr.INVALID);
 		}
 	}
 
-	public static Props get(Attr name) {
+	public static Props get(DotAttr name) {
 		return attrs.get(name);
 	}
 
-	public static TYPE getType(Attr name) {
+	public static TYPE getType(DotAttr name) {
 		return attrs.get(name).type;
 	}
 
-	public static List<String> getValues(Attr name) {
+	public static List<String> getValues(DotAttr name) {
 		return Arrays.asList(attrs.get(name).values);
 	}
 
-	public static String getDefault(Attr name) {
+	public static String getDefault(DotAttr name) {
 		return attrs.get(name).defval;
 	}
 
-	private static void put(Attr name, TYPE type, String[] values, String defval) {
+	private static void put(DotAttr name, TYPE type, String[] values, String defval) {
 		attrs.put(name, new Props(name, type, values, defval));
-		if (name != Attr.INVALID) names.put(name.toString(), name);
+		if (name != DotAttr.INVALID) names.put(name.toString(), name);
 	}
 }

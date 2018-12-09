@@ -20,12 +20,12 @@ import org.eclipse.text.edits.TextEdit;
 import org.eclipse.ui.progress.UIJob;
 import org.eclipse.ui.texteditor.ITextEditor;
 
+import net.certiv.dsl.core.log.Log;
 import net.certiv.dsl.core.model.DslModelException;
 import net.certiv.dsl.core.model.ICodeUnit;
 import net.certiv.dsl.core.model.IStatement;
 import net.certiv.dsl.core.model.builder.ISourceRange;
-import net.certiv.dsl.core.util.Log;
-import net.certiv.fluentmark.core.model.PageUtil;
+import net.certiv.fluentmark.core.model.ModelUtil;
 import net.certiv.fluentmark.ui.dialog.tables.TableDialog;
 import net.certiv.fluentmark.ui.editor.FluentEditor;
 
@@ -48,7 +48,7 @@ public class DoubleClickStrategy extends DefaultTextDoubleClickStrategy {
 		unit = editor.getInputDslElement();
 		try {
 			stmt = unit.getElementAtOffset(offset);
-			switch (PageUtil.getModelType(stmt)) {
+			switch (ModelUtil.getModelType(stmt)) {
 				case Table:
 					runTableEditor();
 					return;

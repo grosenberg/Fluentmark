@@ -5,9 +5,12 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.Lexer;
 
 import net.certiv.dsl.core.DslCore;
+import net.certiv.dsl.core.log.Log;
 import net.certiv.dsl.core.model.builder.DslModelMaker;
 import net.certiv.dsl.core.parser.DslParseRecord;
 import net.certiv.dsl.core.parser.DslSourceParser;
+import net.certiv.dsl.core.util.DebugUtil;
+import net.certiv.dsl.core.util.Strings;
 import net.certiv.fluentmark.core.FluentCore;
 import net.certiv.fluentmark.core.md.parser.gen.MdLexer;
 import net.certiv.fluentmark.core.md.parser.gen.MdParser;
@@ -52,6 +55,7 @@ public class MdSourceParser extends DslSourceParser {
 			visitor.setMaker(maker);
 			visitor.setSourceName(record.unit.getElementName());
 			visitor.findAll();
+			Log.info(this, Strings.EOL + DebugUtil.displayUnitStructure(record.unit));
 		} catch (IllegalArgumentException e) {
 			getDslErrorListener().generalError("Model analysis: %s @%s:%s", e);
 		}

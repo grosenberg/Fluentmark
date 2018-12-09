@@ -6,10 +6,11 @@ import org.antlr.v4.runtime.TokenSource;
 import org.antlr.v4.runtime.misc.Interval;
 import org.antlr.v4.runtime.misc.Pair;
 
+import net.certiv.dsl.core.parser.IDslToken;
 import net.certiv.dsl.core.util.Strings;
 import net.certiv.fluentmark.core.md.parser.gen.MdLexer;
 
-public class MdToken extends CommonToken {
+public class MdToken extends CommonToken implements IDslToken {
 
 	private int _mode;
 	private int tabWidth;
@@ -26,6 +27,11 @@ public class MdToken extends CommonToken {
 	public MdToken(Pair<TokenSource, CharStream> source, int type, int channel, int start, int stop, int tabWidth) {
 		super(source, type, channel, start, stop);
 		this.tabWidth = tabWidth;
+	}
+
+	@Override
+	public int getMode() {
+		return _mode;
 	}
 
 	public void setMode(int mode) {
@@ -68,10 +74,7 @@ public class MdToken extends CommonToken {
 
 	@Override
 	public String toString() {
-		String text = "";
-		try {
-			text = Strings.encode(getText());
-		} catch (Exception e) {}
+		String text = Strings.encode(getText());
 		String tname = MdLexer.VOCABULARY.getDisplayName(type);
 		String mname = _mode == 0 ? "default" : MdLexer.modeNames[_mode];
 		String chan = channel == 0 ? "DEFAULT" : MdLexer.channelNames[channel];
