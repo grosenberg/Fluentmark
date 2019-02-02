@@ -15,6 +15,7 @@ package net.certiv.fluentmark.ui.editor.text;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.prefs.Preferences;
 
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IDocumentPartitioner;
@@ -22,12 +23,12 @@ import org.eclipse.jface.text.ITypedRegion;
 import org.eclipse.jface.text.TextAttribute;
 import org.eclipse.jface.text.rules.IToken;
 import org.eclipse.jface.text.rules.ITokenScanner;
-import org.eclipse.mylyn.internal.wikitext.ui.WikiTextUiPlugin;
-import org.eclipse.mylyn.internal.wikitext.ui.editor.syntax.FastMarkupPartitioner.MarkupPartition;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.graphics.Font;
 
+import net.certiv.dsl.core.model.Block;
+import net.certiv.dsl.ui.Messages;
 import net.certiv.fluentmark.ui.editor.text.css.CssParser;
 import net.certiv.fluentmark.ui.editor.text.css.CssRule;
 import net.certiv.fluentmark.ui.editor.text.css.CssStyleManager;

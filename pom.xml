@@ -7,37 +7,22 @@
 	<packaging>pom</packaging>
 
 	<groupId>net.certiv</groupId>
-	<artifactId>fluentmark.parent</artifactId>
+	<artifactId>net.certiv.fluentmark</artifactId>
 	<version>1.3.0-SNAPSHOT</version>
 
-	<name>FluentMark parent</name>
-	<description>FluentMark :: parent</description>
-
+	<name>FluentMark :: parent</name>
+	<description>FluentMark parent</description>
 	<organization>
 		<name>Certiv Analytics</name>
-		<url>http://www.certiv.net/</url>
+		<url>www.certiv.net</url>
 	</organization>
-
-	<prerequisites>
-		<maven>3.0</maven>
-	</prerequisites>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<tycho.version>1.2.0</tycho.version>
-		<tycho.extras.version>1.2.0</tycho.extras.version>
-		<tycho.test.platformArgs />
-		<tycho.test.jvmArgs>-Xmx512m</tycho.test.jvmArgs>
 		<java.version>1.8</java.version>
 	</properties>
-
-	<modules>
-		<module>net.certiv.fluentmark.core</module>
-		<module>net.certiv.fluentmark.ui</module>
-		<module>net.certiv.fluentmark.feature</module>
-		<module>net.certiv.fluentmark.site</module>
-	</modules>
 
 	<repositories>
 		<repository>
@@ -70,22 +55,6 @@
 				<artifactId>tycho-maven-plugin</artifactId>
 				<version>${tycho.version}</version>
 				<extensions>true</extensions>
-				<configuration>
-					<encoding>UTF-8</encoding>
-					<source>${java.version}</source>
-					<target>${java.version}</target>
-				</configuration>
-			</plugin>
-
-			<plugin>
-				<groupId>org.eclipse.tycho</groupId>
-				<artifactId>tycho-compiler-plugin</artifactId>
-				<version>${tycho.version}</version>
-				<configuration>
-					<compilerArgs>
-						<arg>-warn:-raw,unchecked</arg>
-					</compilerArgs>
-				</configuration>
 			</plugin>
 
 			<plugin>
@@ -93,24 +62,16 @@
 				<artifactId>target-platform-configuration</artifactId>
 				<version>${tycho.version}</version>
 				<configuration>
-					<resolver>p2</resolver>
-					<pomDependencies>consider</pomDependencies>
-					<ignoreTychoRepositories>true</ignoreTychoRepositories>
+					<includePackedArtifacts>true</includePackedArtifacts>
+					<eclipse.p2.mirrors>false</eclipse.p2.mirrors>
+					<dependency-resolution>
+						<optionalDependencies>require</optionalDependencies>
+					</dependency-resolution>
 					<environments>
 						<environment>
 							<os>linux</os>
 							<ws>gtk</ws>
-							<arch>x86</arch>
-						</environment>
-						<environment>
-							<os>linux</os>
-							<ws>gtk</ws>
 							<arch>x86_64</arch>
-						</environment>
-						<environment>
-							<os>win32</os>
-							<ws>win32</ws>
-							<arch>x86</arch>
 						</environment>
 						<environment>
 							<os>win32</os>
@@ -125,10 +86,18 @@
 					</environments>
 				</configuration>
 			</plugin>
-		</plugins>
 
-		<pluginManagement>
-			<plugins>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-compiler-plugin</artifactId>
+				<version>${tycho.version}</version>
+				<configuration>
+					<compilerArgs>
+						<arg>-warn:-raw,unchecked</arg>
+					</compilerArgs>
+				</configuration>
+			</plugin>
+
 				<plugin>
 					<groupId>org.eclipse.tycho</groupId>
 					<artifactId>tycho-packaging-plugin</artifactId>
@@ -140,20 +109,7 @@
 						</archive>
 					</configuration>
 				</plugin>
-				<plugin>
-					<groupId>org.eclipse.tycho</groupId>
-					<artifactId>tycho-surefire-plugin</artifactId>
-					<version>${tycho.version}</version>
-					<configuration>
-						<useUIHarness>true</useUIHarness>
-						<argLine>${tycho.test.jvmArgs}</argLine>
-						<!-- kill test JVM if tests take more than 60 seconds to finish -->
-						<forkedProcessTimeoutInSeconds>60</forkedProcessTimeoutInSeconds>
-					</configuration>
-				</plugin>
 			</plugins>
-		</pluginManagement>
-
 	</build>
 
 	<profiles>
@@ -168,33 +124,13 @@
 				<tycho.test.platformArgs>-XstartOnFirstThread</tycho.test.platformArgs>
 			</properties>
 		</profile>
-		<profile>
-			<id>source-feature</id>
-			<activation>
-				<file>
-					<exists>feature.xml</exists>
-				</file>
-			</activation>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.eclipse.tycho</groupId>
-						<artifactId>tycho-p2-plugin</artifactId>
-						<version>${tycho.version}</version>
-						<executions>
-							<execution>
-								<id>attach-p2-metadata</id>
-								<phase>package</phase>
-								<goals>
-									<goal>p2-metadata</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
 	</profiles>
 
+	<modules>
+		<module>net.certiv.fluentmark.core</module>
+		<module>net.certiv.fluentmark.ui</module>
+		<module>net.certiv.fluentmark.feature</module>
+		<module>net.certiv.fluentmark.site</module>
+	</modules>
 
 </project>

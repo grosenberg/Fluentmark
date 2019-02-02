@@ -198,7 +198,11 @@ mode texBlock;
 
 // ------------------------
 
-fragment ListMark : Hws* ( [*+-] | [0-9] Dot ) Hws ;
+fragment ListMark  : Hws* ( BasicMark | FancyMark | ParenMark ) Hws ;
+fragment BasicMark : [*+-] | [0-9]+ Dot ;
+fragment FancyMark : Hash Dot | Letter* LAlpha Dot | Letter* UAlpha Dot Spc ;
+fragment ParenMark : LParen? Alphanum+ RParen ;
+
 fragment TaskMark : LBrack [ a-zA-Z0-9_]? RBrack Hws ;
 
 fragment Scheme	 : Letter ( Alphanum | Dash )* '://' ;

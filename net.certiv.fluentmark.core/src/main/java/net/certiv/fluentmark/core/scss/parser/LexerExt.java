@@ -16,7 +16,8 @@ public abstract class LexerExt extends Lexer {
 	}
 
 	protected boolean aftNumber() {
-		if (!_number && Character.isWhitespace(_input.LA(1))) return false;
+		if (_number && Character.isWhitespace(_input.LA(1))) return false;
+		if (!_number) return false;
 		_number = false;
 		return true;
 	}
