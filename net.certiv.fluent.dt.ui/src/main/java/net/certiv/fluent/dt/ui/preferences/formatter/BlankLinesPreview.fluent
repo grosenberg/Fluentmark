@@ -1,0 +1,45 @@
+/**
+ * Introductory Java Doc style Comment
+ *
+ * @since Forever
+ */
+
+# Fm is almost the same as TOML!
+# So lets use a FM example.
+title = "FM Example"
+[owner]
+name = "Tom Preston-Werner"
+organization = "GitHub"
+bio = "GitHub Cofounder & CEO\nLikes tater tots and beer."
+dob = 1979-05-27T07:32:00Z # First class dates? Why not?
+
+
+[database]
+server = "192.168.1.1"
+ports = [ 8001, 8001, 8002 ]
+connection_max = 5000
+enabled = true
+
+
+
+
+/* Complex array example */
+[servers]
+  # You can indent as you please. Tabs or spaces. FM don't care.
+  [servers.alpha]
+  ip = "10.0.0.1"
+  dc = "eqdc10"
+
+  [servers.beta]
+  ip = "10.0.0.2"
+  dc = "eqdc10"
+[clients]
+data = [ ["gamma", "delta"], [1, 2] ]
+
+
+
+# Line breaks are OK when inside arrays
+hosts = [
+  "alpha",
+  "omega"
+]

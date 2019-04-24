@@ -1,0 +1,65 @@
+xvisitor grammar Structure;
+
+options {
+	superClass = StructureBuilder;
+	parserClass = MdParser ;
+}
+
+@header {
+	package net.certiv.fluent.dt.core.lang.md.gen;
+	import  net.certiv.fluent.dt.core.lang.md.StructureBuilder;
+	import net.certiv.fluent.dt.core.model.ModelType;
+}
+
+structure
+	: page
+	| metaMatter
+
+	| header
+	| paragraph
+
+	| hrule
+	| comment
+
+	| list
+	| table
+	| quote
+	| definition
+
+	| htmlBlock
+	| codeBlock
+	| mathBlock
+	| texBlock
+	| umlBlock
+	;
+
+page		: /page		 		{ doModule(); } ;
+
+metaMatter	: //metaBlock		{ doStatement(ModelType.MetaMatter); } ;
+
+header		: //header			{ doHeader(); } ;
+
+paragraph	: //paragraph		{ doStatement(ModelType.Paragraph); } ;
+hrule		: //hrule			{ doStatement(ModelType.HRule); } ;
+comment		: //comment			{ doStatement(ModelType.Comment); } ;
+
+quote		: //quote			{ doStatement(ModelType.Quote); } ;
+definition	: //definition		{ doStatement(ModelType.Definition); } ;
+
+htmlBlock	: //htmlBlock		{ doStatement(ModelType.HtmlBlock); } ;
+codeBlock	: //codeBlock		{ doStatement(ModelType.CodeBlock); } ;
+mathBlock	: //mathBlock		{ doStatement(ModelType.MathBlock); } ;
+texBlock	: //texBlock		{ doStatement(ModelType.TexBlock); } ;
+umlBlock	: //umlBlock		{ doStatement(ModelType.UmlGraph); } ;
+
+list		: //list
+				{ onEntry: doList(); }
+				{ onExit: endBlock(); }
+			;
+listItem	: //listItem		{ doListItem(); } ;
+
+table		: //table
+				{ onEntry: doTable(); }
+				{ onExit: endBlock(); }
+			;
+tableRow	: //tableRow		{ doTableRow(); } ;

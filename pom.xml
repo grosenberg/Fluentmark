@@ -7,7 +7,7 @@
 	<packaging>pom</packaging>
 
 	<groupId>net.certiv</groupId>
-	<artifactId>net.certiv.fluentmark</artifactId>
+	<artifactId>net.certiv.fluent.dt</artifactId>
 	<version>1.3.0-SNAPSHOT</version>
 
 	<name>FluentMark :: parent</name>
@@ -20,30 +20,34 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<tycho.version>1.2.0</tycho.version>
+		<tycho.version>1.3.0</tycho.version>
 		<java.version>1.8</java.version>
+		<eclipse-repo.url>http://download.eclipse.org/releases/2019-03</eclipse-repo.url>
+		<certiv-repo.url>file:/D:/DevFiles/Eclipse/Tools/Certiv/net.certiv/net.certiv.tools.site/target/repository</certiv-repo.url>
+		<dsl-repo.url>file:/D:/DevFiles/Eclipse/Tools/Dsl/net.certiv.dsl/net.certiv.dsl.site/target/repository</dsl-repo.url>
+		<spell-repo.url>file:/D:/DevFiles/Eclipse/Tools/Dsl/net.certiv.spellchecker/site/target/repository</spell-repo.url>
 	</properties>
 
 	<repositories>
 		<repository>
 			<id>eclipse</id>
 			<layout>p2</layout>
-			<url>http://download.eclipse.org/releases/latest</url>
+			<url>${eclipse-repo.url}</url>
+		</repository>
+		<repository>
+			<id>certiv</id>
+			<layout>p2</layout>
+			<url>${certiv-repo.url}</url>
 		</repository>
 		<repository>
 			<id>dsl</id>
 			<layout>p2</layout>
-			<url>file:/D:/DevFiles/Eclipse/Dsl/net.certiv.dsl/net.certiv.dsl.site/target/repository/</url>
-		</repository>
-		<repository>
-			<id>tools</id>
-			<layout>p2</layout>
-			<url>file:/D:/DevFiles/Eclipse/Certiv/net.certiv/net.certiv.tools.site/target/repository/</url>
+			<url>${dsl-repo.url}</url>
 		</repository>
 		<repository>
 			<id>spellchecker</id>
 			<layout>p2</layout>
-			<url>file:/D:/DevFiles/Eclipse/Dsl/net.certiv.spellchecker/site/target/repository/</url>
+			<url>${spell-repo.url}</url>
 		</repository>
 	</repositories>
 
@@ -55,6 +59,11 @@
 				<artifactId>tycho-maven-plugin</artifactId>
 				<version>${tycho.version}</version>
 				<extensions>true</extensions>
+				<configuration>
+					<encoding>UTF-8</encoding>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+				</configuration>
 			</plugin>
 
 			<plugin>
@@ -95,21 +104,22 @@
 					<compilerArgs>
 						<arg>-warn:-raw,unchecked</arg>
 					</compilerArgs>
+					<encoding>${project.build.sourceEncoding}</encoding>
 				</configuration>
 			</plugin>
 
-				<plugin>
-					<groupId>org.eclipse.tycho</groupId>
-					<artifactId>tycho-packaging-plugin</artifactId>
-					<version>${tycho.version}</version>
-					<configuration>
-						<format>yyyyMMdd-HHmm</format>
-						<archive>
-							<addMavenDescriptor>false</addMavenDescriptor>
-						</archive>
-					</configuration>
-				</plugin>
-			</plugins>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-packaging-plugin</artifactId>
+				<version>${tycho.version}</version>
+				<configuration>
+					<format>yyyyMMdd-HHmm</format>
+					<archive>
+						<addMavenDescriptor>false</addMavenDescriptor>
+					</archive>
+				</configuration>
+			</plugin>
+		</plugins>
 	</build>
 
 	<profiles>
@@ -127,10 +137,10 @@
 	</profiles>
 
 	<modules>
-		<module>net.certiv.fluentmark.core</module>
-		<module>net.certiv.fluentmark.ui</module>
-		<module>net.certiv.fluentmark.feature</module>
-		<module>net.certiv.fluentmark.site</module>
+		<module>net.certiv.fluent.dt.core</module>
+		<module>net.certiv.fluent.dt.ui</module>
+		<module>net.certiv.fluent.dt.feature</module>
+		<module>net.certiv.fluent.dt.site</module>
 	</modules>
 
 </project>
