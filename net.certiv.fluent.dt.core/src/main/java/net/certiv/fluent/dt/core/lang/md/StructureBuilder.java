@@ -3,6 +3,7 @@ package net.certiv.fluent.dt.core.lang.md;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
+import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 import net.certiv.antlr.runtime.xvisitor.Processor;
@@ -113,8 +114,9 @@ public abstract class StructureBuilder extends Processor {
 
 	public void doListItem() {
 		ListItemContext ctx = (ListItemContext) lastPathNode();
-		ModelData data = new ModelData(ModelType.ListItem, ctx, ctx.LIST_ITEM().getText());
-		maker.statement(ctx, ctx.LIST_ITEM(), data);
+		Token mark = ctx.listMark().mark;
+		ModelData data = new ModelData(ModelType.ListItem, ctx, mark.getText());
+		maker.statement(ctx, mark, data);
 	}
 
 	public void doTable() {

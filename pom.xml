@@ -23,9 +23,7 @@
 		<tycho.version>1.3.0</tycho.version>
 		<java.version>1.8</java.version>
 		<eclipse-repo.url>http://download.eclipse.org/releases/2019-03</eclipse-repo.url>
-		<certiv-repo.url>file:/D:/DevFiles/Eclipse/Tools/Certiv/net.certiv/net.certiv.tools.site/target/repository</certiv-repo.url>
-		<dsl-repo.url>file:/D:/DevFiles/Eclipse/Tools/Dsl/net.certiv.dsl/net.certiv.dsl.site/target/repository</dsl-repo.url>
-		<spell-repo.url>file:/D:/DevFiles/Eclipse/Tools/Dsl/net.certiv.spellchecker/site/target/repository</spell-repo.url>
+		<certiv-repo.url>file:/D:/DevFiles/Eclipse/Update</certiv-repo.url>
 	</properties>
 
 	<repositories>
@@ -38,16 +36,6 @@
 			<id>certiv</id>
 			<layout>p2</layout>
 			<url>${certiv-repo.url}</url>
-		</repository>
-		<repository>
-			<id>dsl</id>
-			<layout>p2</layout>
-			<url>${dsl-repo.url}</url>
-		</repository>
-		<repository>
-			<id>spellchecker</id>
-			<layout>p2</layout>
-			<url>${spell-repo.url}</url>
 		</repository>
 	</repositories>
 

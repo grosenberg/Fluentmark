@@ -1,10 +1,7 @@
 // Generated from D:/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.core/src/main/java/net/certiv/fluent/dt/core/lang/md/MdParser.g4 by ANTLR 4.7.2
 
 	package net.certiv.fluent.dt.core.lang.md.gen;
-	import net.certiv.fluent.dt.core.lang.md.MdToken;
-	import net.certiv.fluent.dt.core.lang.md.MdParserBase;
-
-import org.antlr.v4.runtime.tree.ParseTreeListener;
+	import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
  * This interface defines a complete listener for a parse tree produced by
@@ -22,15 +19,65 @@ public interface MdParserListener extends ParseTreeListener {
 	 */
 	void exitPage(MdParser.PageContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link MdParser#metaBlock}.
+	 * Enter a parse tree produced by {@link MdParser#yamlBlock}.
 	 * @param ctx the parse tree
 	 */
-	void enterMetaBlock(MdParser.MetaBlockContext ctx);
+	void enterYamlBlock(MdParser.YamlBlockContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link MdParser#metaBlock}.
+	 * Exit a parse tree produced by {@link MdParser#yamlBlock}.
 	 * @param ctx the parse tree
 	 */
-	void exitMetaBlock(MdParser.MetaBlockContext ctx);
+	void exitYamlBlock(MdParser.YamlBlockContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MdParser#htmlBlock}.
+	 * @param ctx the parse tree
+	 */
+	void enterHtmlBlock(MdParser.HtmlBlockContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MdParser#htmlBlock}.
+	 * @param ctx the parse tree
+	 */
+	void exitHtmlBlock(MdParser.HtmlBlockContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MdParser#mathBlock}.
+	 * @param ctx the parse tree
+	 */
+	void enterMathBlock(MdParser.MathBlockContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MdParser#mathBlock}.
+	 * @param ctx the parse tree
+	 */
+	void exitMathBlock(MdParser.MathBlockContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MdParser#texBlock}.
+	 * @param ctx the parse tree
+	 */
+	void enterTexBlock(MdParser.TexBlockContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MdParser#texBlock}.
+	 * @param ctx the parse tree
+	 */
+	void exitTexBlock(MdParser.TexBlockContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MdParser#umlBlock}.
+	 * @param ctx the parse tree
+	 */
+	void enterUmlBlock(MdParser.UmlBlockContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MdParser#umlBlock}.
+	 * @param ctx the parse tree
+	 */
+	void exitUmlBlock(MdParser.UmlBlockContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MdParser#codeBlock}.
+	 * @param ctx the parse tree
+	 */
+	void enterCodeBlock(MdParser.CodeBlockContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MdParser#codeBlock}.
+	 * @param ctx the parse tree
+	 */
+	void exitCodeBlock(MdParser.CodeBlockContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link MdParser#header}.
 	 * @param ctx the parse tree
@@ -72,6 +119,16 @@ public interface MdParserListener extends ParseTreeListener {
 	 */
 	void exitListItem(MdParser.ListItemContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link MdParser#listMark}.
+	 * @param ctx the parse tree
+	 */
+	void enterListMark(MdParser.ListMarkContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MdParser#listMark}.
+	 * @param ctx the parse tree
+	 */
+	void exitListMark(MdParser.ListMarkContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link MdParser#table}.
 	 * @param ctx the parse tree
 	 */
@@ -112,66 +169,6 @@ public interface MdParserListener extends ParseTreeListener {
 	 */
 	void exitTableCell(MdParser.TableCellContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link MdParser#htmlBlock}.
-	 * @param ctx the parse tree
-	 */
-	void enterHtmlBlock(MdParser.HtmlBlockContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link MdParser#htmlBlock}.
-	 * @param ctx the parse tree
-	 */
-	void exitHtmlBlock(MdParser.HtmlBlockContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link MdParser#codeBlock}.
-	 * @param ctx the parse tree
-	 */
-	void enterCodeBlock(MdParser.CodeBlockContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link MdParser#codeBlock}.
-	 * @param ctx the parse tree
-	 */
-	void exitCodeBlock(MdParser.CodeBlockContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link MdParser#mathBlock}.
-	 * @param ctx the parse tree
-	 */
-	void enterMathBlock(MdParser.MathBlockContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link MdParser#mathBlock}.
-	 * @param ctx the parse tree
-	 */
-	void exitMathBlock(MdParser.MathBlockContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link MdParser#texBlock}.
-	 * @param ctx the parse tree
-	 */
-	void enterTexBlock(MdParser.TexBlockContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link MdParser#texBlock}.
-	 * @param ctx the parse tree
-	 */
-	void exitTexBlock(MdParser.TexBlockContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link MdParser#umlBlock}.
-	 * @param ctx the parse tree
-	 */
-	void enterUmlBlock(MdParser.UmlBlockContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link MdParser#umlBlock}.
-	 * @param ctx the parse tree
-	 */
-	void exitUmlBlock(MdParser.UmlBlockContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link MdParser#quote}.
-	 * @param ctx the parse tree
-	 */
-	void enterQuote(MdParser.QuoteContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link MdParser#quote}.
-	 * @param ctx the parse tree
-	 */
-	void exitQuote(MdParser.QuoteContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link MdParser#definition}.
 	 * @param ctx the parse tree
 	 */
@@ -202,6 +199,16 @@ public interface MdParserListener extends ParseTreeListener {
 	 */
 	void exitContent(MdParser.ContentContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link MdParser#link}.
+	 * @param ctx the parse tree
+	 */
+	void enterLink(MdParser.LinkContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MdParser#link}.
+	 * @param ctx the parse tree
+	 */
+	void exitLink(MdParser.LinkContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link MdParser#text}.
 	 * @param ctx the parse tree
 	 */
@@ -212,36 +219,6 @@ public interface MdParserListener extends ParseTreeListener {
 	 */
 	void exitText(MdParser.TextContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link MdParser#line}.
-	 * @param ctx the parse tree
-	 */
-	void enterLine(MdParser.LineContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link MdParser#line}.
-	 * @param ctx the parse tree
-	 */
-	void exitLine(MdParser.LineContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link MdParser#lnBlank}.
-	 * @param ctx the parse tree
-	 */
-	void enterLnBlank(MdParser.LnBlankContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link MdParser#lnBlank}.
-	 * @param ctx the parse tree
-	 */
-	void exitLnBlank(MdParser.LnBlankContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link MdParser#lnBreak}.
-	 * @param ctx the parse tree
-	 */
-	void enterLnBreak(MdParser.LnBreakContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link MdParser#lnBreak}.
-	 * @param ctx the parse tree
-	 */
-	void exitLnBreak(MdParser.LnBreakContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link MdParser#word}.
 	 * @param ctx the parse tree
 	 */
@@ -251,16 +228,6 @@ public interface MdParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitWord(MdParser.WordContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link MdParser#link}.
-	 * @param ctx the parse tree
-	 */
-	void enterLink(MdParser.LinkContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link MdParser#link}.
-	 * @param ctx the parse tree
-	 */
-	void exitLink(MdParser.LinkContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link MdParser#style}.
 	 * @param ctx the parse tree
@@ -302,13 +269,33 @@ public interface MdParserListener extends ParseTreeListener {
 	 */
 	void exitComment(MdParser.CommentContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link MdParser#unknown}.
+	 * Enter a parse tree produced by {@link MdParser#lnBlank}.
 	 * @param ctx the parse tree
 	 */
-	void enterUnknown(MdParser.UnknownContext ctx);
+	void enterLnBlank(MdParser.LnBlankContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link MdParser#unknown}.
+	 * Exit a parse tree produced by {@link MdParser#lnBlank}.
 	 * @param ctx the parse tree
 	 */
-	void exitUnknown(MdParser.UnknownContext ctx);
+	void exitLnBlank(MdParser.LnBlankContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MdParser#lnBreak}.
+	 * @param ctx the parse tree
+	 */
+	void enterLnBreak(MdParser.LnBreakContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MdParser#lnBreak}.
+	 * @param ctx the parse tree
+	 */
+	void exitLnBreak(MdParser.LnBreakContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MdParser#ignore}.
+	 * @param ctx the parse tree
+	 */
+	void enterIgnore(MdParser.IgnoreContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MdParser#ignore}.
+	 * @param ctx the parse tree
+	 */
+	void exitIgnore(MdParser.IgnoreContext ctx);
 }

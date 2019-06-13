@@ -9,9 +9,9 @@ import net.certiv.dsl.core.parser.problems.DslProblem;
 import net.certiv.dsl.core.parser.problems.DslProblemCollector;
 import net.certiv.fluent.dt.core.lang.dot.AttrMap.Props;
 import net.certiv.fluent.dt.core.lang.dot.gen.DotLexer;
-import net.certiv.fluent.dt.core.lang.dot.gen.DotParserBaseListener;
 import net.certiv.fluent.dt.core.lang.dot.gen.DotParser.AttrListContext;
 import net.certiv.fluent.dt.core.lang.dot.gen.DotParser.AttributeContext;
+import net.certiv.fluent.dt.core.lang.dot.gen.DotParserBaseListener;
 
 public class Verifier {
 

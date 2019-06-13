@@ -2,9 +2,9 @@ package net.certiv.fluent.dt.core;
 
 import net.certiv.dsl.core.DslContentDescriber;
 
-public class FmContentDescriber extends DslContentDescriber {
+public class FluentContentDescriber extends DslContentDescriber {
 
-	public FmContentDescriber() {
+	public FluentContentDescriber() {
 		super();
 	}
 }

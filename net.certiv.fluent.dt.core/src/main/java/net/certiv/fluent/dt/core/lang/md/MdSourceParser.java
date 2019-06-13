@@ -47,8 +47,7 @@ public class MdSourceParser extends DslSourceParser {
 	}
 
 	/**
-	 * Build the internal model used as the structural basis for the outline view,
-	 * etc.
+	 * Build the internal model used as the structural basis for the outline view, etc.
 	 */
 	@Override
 	public void analyzeStructure(DslModelMaker maker) {

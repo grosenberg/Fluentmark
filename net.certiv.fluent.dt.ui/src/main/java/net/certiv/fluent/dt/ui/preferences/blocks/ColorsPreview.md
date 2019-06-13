@@ -1,11 +1,17 @@
 Headings
 
 # h1 Heading
+
 ## h2 Heading
+
 ### h3 Heading
+
 #### h4 Heading
+
 ##### h5 Heading
+
 ###### h6 Heading
+
 
 Emphasis
 
@@ -16,6 +22,7 @@ _italic_
 ~~strikethrough~~
 
 Lists
+
 *  unordered
 -  unordered
 +  unordered
@@ -36,7 +43,9 @@ though invisible on the page
 Horizontal rules (three consecutive sybols)
 
 ___	
----	
+
+---
+	
 ***	
 
 Links
@@ -64,12 +73,17 @@ Simple `inline code` in body copy.
 
 
 ~~~
+
 fenced code block (preferred)
+
 ~~~
 
 ```
+
 fenced code block
+
 ```
+
 Html block 
 
 <figure>
@@ -81,10 +95,9 @@ Html block
 </figure>
 
 
-
-
 Quotes
 
 > Here is a quote. What this is should be self explanatory. 
-> Quotes are automatically indented when they are used.
+> Quotes are automatically indented when they are used
+
 

@@ -3,12 +3,11 @@ package net.certiv.fluent.dt.ui.editor;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
 
-import net.certiv.fluent.dt.core.FluentCore;
-
+import net.certiv.dsl.core.model.DslModel;
 import net.certiv.dsl.core.model.IStatement;
-import net.certiv.dsl.core.model.builder.ModelManager;
 import net.certiv.dsl.ui.editor.hyperlink.DslHyperlinkDetector;
 import net.certiv.dsl.ui.editor.text.DslWordFinder;
+import net.certiv.fluent.dt.core.FluentCore;
 
 public class FmHyperlinkDetector extends DslHyperlinkDetector {
 
@@ -36,7 +35,7 @@ public class FmHyperlinkDetector extends DslHyperlinkDetector {
 	}
 
 	@Override
-	public ModelManager getModelMgr() {
-		return FluentCore.getDefault().getModelManager();
+	public DslModel getDslModel() {
+		return FluentCore.getDefault().getDslModel();
 	}
 }

@@ -1,209 +1,206 @@
 package net.certiv.fluent.dt.core.lang.md;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.swing.JOptionPane;
-
 import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.IntStream;
 import org.antlr.v4.runtime.Token;
-import org.antlr.v4.runtime.misc.Interval;
 
 import net.certiv.dsl.core.util.Strings;
 import net.certiv.dsl.core.util.stores.Extent;
+import net.certiv.dsl.core.util.stores.NearMap;
 import net.certiv.fluent.dt.core.lang.md.gen.MdLexer;
 
 public abstract class MdLexerBase extends LexerNeo {
 
-	private static final Set<Character> Attrs = new HashSet<>(Arrays.asList(new Character[] { '*', '_', '~' }));
+	private static final String REF = "\\[\\V*?\\]";
+	private static final String TXT = "\\V*?";
+	private static final String SPC = "\\h*";
+	private static final String SEGMENT = "[A-z0-9#?&*@=:-]+";
 
-	private static final String BLN = "\\R\\h*\\R";
-	private static final Pattern HdrDef = Pattern.compile(BLN + "\\h*#+.*?");
+	// URL :: (\w(\w|-)*\://|[./]+/)?[A-z0-9#?&@=:-]+([./]+[A-z0-9#?&*@=:-]+)+/?
+	private static final String URL = ""	//
+			+ "("						// optional
+			+ "\\w(\\w|-)*\\://"		// device & separator
+			+ "|"						// or
+			+ "[./]+/"					// path separator
+			+ ")?"						//
+			+ SEGMENT					// first segment
+			+ "([./]+" + SEGMENT + ")*"	// separator & second segment(s)
+			+ "/?"						// optional ending slash
+	;
 
-	private static final String PipeLN = "(?:\\V*?\\|\\V*?)+\\R";
-	private static final String PipeLNx = PipeLN + "*";
-	private static final String PipeLNs = PipeLN + "+";
-	private static final String TDefLN = "\\V*?(?:\\|\\h*:?---+:?\\h*|\\h*:?---+:?\\h*\\|)+\\V*?\\R";
-	private static final Pattern Tables = Pattern.compile(BLN + PipeLNx + TDefLN + PipeLNs);
-
-	// { .class #id word="valid" } :: \{\h*([.#]\w+\h*|\w+\h*=\h*["']\w+["']\h*)+\}
-	private static final Pattern Style = Pattern.compile("\\{\\h*([.#]\\w+\\h*|\\w+\\h*=\\h*[\"']\\w+[\"']\\h*)+\\}");
-
-	// URL ::
-	// (\w(\w|-)*\://)?(www\.)?(\w[A-z0-9#?&@=:-]*[/.]+)+(\w[A-z0-9#?&@=:-]*[/.]*)+
-	private static final String URL = "(\\w(\\w|-)*\\://)?(www\\.)?(\\w[A-z0-9#?&@=:-]*[/.]+)+(\\w[A-z0-9#?&@=:-]*[/.]*)+";
-	private static final String KEY = "\\[\\w+\\]";
-	private static final String TITLE = "(\\h+[\"']\\w+[\"']\\h*)?";
-
-	// Link :: [word](URL "title")
-	// LRef :: [word][ref]
-	// LUrl :: [URL]
+	// Link :: [text](URL "title")
 	// LDef :: [ref]: URL "title"
-	private static final Pattern Link = Pattern.compile("!?" + KEY + "\\h?\\(\\h*" + URL + TITLE + "\\)");
-	private static final Pattern LRef = Pattern.compile("!?" + KEY + KEY);
-	private static final Pattern LUrl = Pattern.compile("\\[" + URL + "\\]");
-	private static final Pattern LDef = Pattern.compile(KEY + "\\:\\h*" + URL + TITLE);
+	// LRef :: [text][ref]
+	// LUrl :: [URL]
+	// LTxt :: [ref]
+	private static final Pattern Link = Pattern.compile("!?" + REF + "[ ]?\\(" + TXT + "\\)");
+	private static final Pattern LDef = Pattern.compile(REF + "\\:" + SPC + URL + SPC + "(\"\\V*?\")?");
+	private static final Pattern LRef = Pattern.compile("!?" + REF + REF);
+	private static final Pattern LUrl = Pattern.compile("!?" + "\\[" + SPC + URL + SPC + "\\]");
+	private static final Pattern LTxt = Pattern.compile("!?" + REF);
+
+	private static final Pattern Left = Pattern.compile("\\s[!?:;,.]*([*_~`'\"]+)\\S");
+	private static final Pattern Right = Pattern.compile("\\S([*_~`'\"]+)[!?:;,.]*\\s");
+
+	// { .class #id word="valid" }
+	private static final String CLASS_ID = "[\\.#]\\w+" + SPC;
+	private static final String KEY = "\\w+";
+	private static final String VALUE = "('" + TXT + "'|\"" + TXT + "\")";
+	private static final String KEY_VALUE = KEY + SPC + "=" + SPC + VALUE + SPC;
+	private static final Pattern Style = Pattern.compile("" //
+			+ "\\{" + SPC 		//
+			+ "(" + CLASS_ID	//
+			+ "|" + KEY_VALUE 	//
+			+ ")+" 				//
+			+ "\\}" 			//
+	);
 
 	private final String data;
-	private final char[] chars;
-	private Token last;
-
-	private List<Extent<Integer>> tables;
 	private boolean done;
+
+	// private final NearMap<Extent<Integer>> blocks = new NearMap<>();
+	private final NearMap<Extent<Integer>> attrL = new NearMap<>();
+	private final NearMap<Extent<Integer>> attrR = new NearMap<>();
 
 	public MdLexerBase(CharStream input) {
 		super(input);
 		data = input.toString();
-		chars = data.toCharArray();
+		insertBOFToken(MdLexer.BLANK);
+
+		Matcher m = Left.matcher(data);
+		while (m.find()) {
+			attrL.put(m.start(1), new Extent<>(m.start(1), m.end(1)));
+		}
+		m = Right.matcher(data);
+		while (m.find()) {
+			attrR.put(m.start(1), new Extent<>(m.start(1), m.end(1)));
+		}
 	}
 
 	@Override
 	public void emit(Token token) {
-		super.emit(token);
-		last = token;
-	}
+		switch (token.getType()) {
+			case MdLexer.LBOLD:
+				int idx = token.getStartIndex();
+				if (attrR.contains(idx)) {
+					((MdToken) token).setType(MdLexer.RBOLD);
+				} else if (!attrL.contains(idx)) {
+					((MdToken) token).setType(MdLexer.WORD);
+				}
+				break;
 
-	@Override
-	protected void queueBOF() {
-		queue(MdLexer.LN_BLANK);
+			case MdLexer.LITALIC:
+				idx = token.getStartIndex();
+				if (attrR.contains(idx)) {
+					((MdToken) token).setType(MdLexer.RITALIC);
+				} else if (!attrL.contains(idx)) {
+					((MdToken) token).setType(MdLexer.WORD);
+				}
+				break;
+
+			case MdLexer.LSTRIKE:
+				idx = token.getStartIndex();
+				if (attrR.contains(idx)) {
+					((MdToken) token).setType(MdLexer.RSTRIKE);
+				} else if (!attrL.contains(idx)) {
+					((MdToken) token).setType(MdLexer.WORD);
+				}
+				break;
+
+			case MdLexer.LSPAN:
+				idx = token.getStartIndex();
+				if (attrR.contains(idx)) {
+					((MdToken) token).setType(MdLexer.RSPAN);
+				} else if (!attrL.contains(idx)) {
+					((MdToken) token).setType(MdLexer.WORD);
+				}
+				break;
+
+			case MdLexer.LDQUOTE:
+				idx = token.getStartIndex();
+				if (attrR.contains(idx)) {
+					((MdToken) token).setType(MdLexer.RDQUOTE);
+				} else if (!attrL.contains(idx)) {
+					((MdToken) token).setType(MdLexer.WORD);
+				}
+				break;
+
+			case MdLexer.LSQUOTE:
+				idx = token.getStartIndex();
+				if (attrR.contains(idx)) {
+					((MdToken) token).setType(MdLexer.RSQUOTE);
+				} else if (!attrL.contains(idx)) {
+					((MdToken) token).setType(MdLexer.WORD);
+				}
+				break;
+
+			default:
+				break;
+		}
+		super.emit(token);
 	}
 
 	@Override
 	protected void queueEOF() {
 		if (!done) {
 			done = true;
-			if (last.getType() != MdLexer.LN_BLANK) queue(MdLexer.LN_BLANK);
+			if (_lastToken.getType() != MdLexer.BLANK) queue(MdLexer.BLANK);
 		}
 		super.queueEOF();
 	}
 
-	protected boolean inHeader() {
-		int idx = _tokenStartCharIndex - _tokenStartCharPositionInLine;
-		for (; idx >= 0; idx--) {
-			if (Character.isWhitespace((int) chars[idx])) {
-				if (HdrDef.matcher(data.substring(idx, _tokenStartCharIndex)).matches()) return true;
+	/**
+	 * Return {@code true} if there is no leading text, the leading text is whitespace and the
+	 * whitespace contains at least {@code cnt} newlines, or if the leading text is all
+	 * whitespace.
+	 */
+	protected boolean at(int cnt) {
+		int idx = _mStartCharIndex;
+		if (idx > 0) {
+			char ch = data.charAt(idx - 1);
+			while (ch != IntStream.EOF) {
+				if (!Character.isWhitespace(ch)) return false;
+				if (ch == Strings.NLC) {
+					cnt--;
+					if (cnt == 0) return true;
+				}
+				idx--;
+				ch = data.charAt(idx - 1);
 			}
 		}
-		return idx == 0 ? true : false;
-	}
-
-	protected boolean inTable() {
-		if (tables == null) {
-			tables = new ArrayList<>();
-			Matcher m = Tables.matcher(data);
-			while (m.find()) {
-				tables.add(new Extent<>(m.start(), m.end()));
-			}
-		}
-		for (Extent<Integer> table : tables) {
-			if (table.contains(_tokenStartCharIndex)) return true;
-		}
-		return false;
-	}
-
-	protected boolean befBL() {
-		String txt = _input.getText(Interval.of(_input.index(), _input.size()));
-		return txt.matches("\\h*\\R\\h*\\R.*");
-	}
-
-	public static void infoBox(String msg, String title) {
-		JOptionPane.showMessageDialog(null, msg, "Info: " + title, JOptionPane.INFORMATION_MESSAGE);
+		return true;
 	}
 
 	protected boolean style() {
-		Matcher m = Style.matcher(data.substring(_tokenStartCharIndex));
+		Matcher m = Style.matcher(data.substring(_mStartCharIndex));
 		return m.lookingAt();
 	}
 
 	protected boolean link() {
-		Matcher m = Link.matcher(data.substring(_tokenStartCharIndex));
+		Matcher m = Link.matcher(data.substring(_mStartCharIndex));
 		return m.lookingAt();
 	}
 
 	protected boolean lRef() {
-		Matcher m = LRef.matcher(data.substring(_tokenStartCharIndex));
+		Matcher m = LRef.matcher(data.substring(_mStartCharIndex));
+		return m.lookingAt();
+	}
+
+	protected boolean lTxt() {
+		Matcher m = LTxt.matcher(data.substring(_mStartCharIndex));
 		return m.lookingAt();
 	}
 
 	protected boolean lUrl() {
-		Matcher m = LUrl.matcher(data.substring(_tokenStartCharIndex));
+		Matcher m = LUrl.matcher(data.substring(_mStartCharIndex));
 		return m.lookingAt();
 	}
 
 	protected boolean lDef() {
-		Matcher m = LDef.matcher(data.substring(_tokenStartCharIndex));
+		Matcher m = LDef.matcher(data.substring(_mStartCharIndex));
 		return m.lookingAt();
 	}
-
-	protected boolean leftEdge(int len) {
-		int at = _input.index() - len;
-		boolean left = ws(at, -1);
-		boolean right = ws(at, +1);
-		// Log.debug(this, String.format("Left '%s' @%s %s:%s\n", enAt(at), at, left,
-		// right));
-		return left && !right;
-	}
-
-	protected boolean rightEdge(int len) {
-		int at = _input.index() - len;
-		boolean left = ws(at, -1);
-		boolean right = ws(at, +1);
-		// Log.debug(this, String.format("Right '%s' @%s %s:%s\n", enAt(at), at, left,
-		// right));
-		return !left && right;
-	}
-
-	// Some **word.**
-	// (some **word!**)
-	private boolean ws(int beg, int dir) {
-		int idx = beg;
-		do {
-			idx += dir;
-			if (idx < 0 || idx >= chars.length) return true;
-			// Log.debug(this, String.format("Check '%s' @%s", enAt(idx), idx));
-		} while (Attrs.contains(charAt(idx)) || Strings.isPunctuation(charAt(idx)));
-		return Character.isWhitespace((int) charAt(idx));
-	}
-
-	private char charAt(int idx) {
-		return _input.getText(Interval.of(idx, idx)).charAt(0);
-	}
-
-	@SuppressWarnings("unused")
-	private String enAt(int idx) {
-		return Strings.encode(_input.getText(Interval.of(idx, idx)));
-	}
-
-	// protected boolean next(char ch) {
-	// return _input.LA(1) == ch;
-	// }
-	//
-	// /**
-	// * Gets the value of the symbol at offset {@code i} from the current position.
-	// When {@code i==1},
-	// * this method returns the value of the current symbol in the stream (which is
-	// the next symbol to
-	// be
-	// * consumed). When {@code i==-1}, this method returns the value of the
-	// previously read symbol in
-	// the
-	// * stream.
-	// */
-	// protected int la(int i) {
-	// return _input.LA(i);
-	// }
-	//
-	// /** Returns {@code true} if immediately after {@code Md2Lexer.LN_BLANK}. */
-	// protected boolean aftLnBlank() {
-	// if (bof()) return true;
-	// if (!bol()) return false;
-	// if (!_queue.isEmpty()) return _queue.peekLast().getType() ==
-	// Md2Lexer.LN_BLANK;
-	// return last.getType() == Md2Lexer.LN_BLANK;
-	// }
 }

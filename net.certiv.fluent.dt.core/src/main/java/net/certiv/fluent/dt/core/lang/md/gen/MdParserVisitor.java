@@ -1,10 +1,7 @@
 // Generated from D:/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.core/src/main/java/net/certiv/fluent/dt/core/lang/md/MdParser.g4 by ANTLR 4.7.2
 
 	package net.certiv.fluent.dt.core.lang.md.gen;
-	import net.certiv.fluent.dt.core.lang.md.MdToken;
-	import net.certiv.fluent.dt.core.lang.md.MdParserBase;
-
-import org.antlr.v4.runtime.tree.ParseTreeVisitor;
+	import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
 /**
  * This interface defines a complete generic visitor for a parse tree produced
@@ -21,11 +18,41 @@ public interface MdParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitPage(MdParser.PageContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link MdParser#metaBlock}.
+	 * Visit a parse tree produced by {@link MdParser#yamlBlock}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitMetaBlock(MdParser.MetaBlockContext ctx);
+	T visitYamlBlock(MdParser.YamlBlockContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link MdParser#htmlBlock}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitHtmlBlock(MdParser.HtmlBlockContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link MdParser#mathBlock}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMathBlock(MdParser.MathBlockContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link MdParser#texBlock}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTexBlock(MdParser.TexBlockContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link MdParser#umlBlock}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitUmlBlock(MdParser.UmlBlockContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link MdParser#codeBlock}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCodeBlock(MdParser.CodeBlockContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link MdParser#header}.
 	 * @param ctx the parse tree
@@ -51,6 +78,12 @@ public interface MdParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitListItem(MdParser.ListItemContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link MdParser#listMark}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitListMark(MdParser.ListMarkContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link MdParser#table}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -75,42 +108,6 @@ public interface MdParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitTableCell(MdParser.TableCellContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link MdParser#htmlBlock}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitHtmlBlock(MdParser.HtmlBlockContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link MdParser#codeBlock}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitCodeBlock(MdParser.CodeBlockContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link MdParser#mathBlock}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitMathBlock(MdParser.MathBlockContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link MdParser#texBlock}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitTexBlock(MdParser.TexBlockContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link MdParser#umlBlock}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitUmlBlock(MdParser.UmlBlockContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link MdParser#quote}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitQuote(MdParser.QuoteContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link MdParser#definition}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -129,41 +126,23 @@ public interface MdParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitContent(MdParser.ContentContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link MdParser#link}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLink(MdParser.LinkContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link MdParser#text}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitText(MdParser.TextContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link MdParser#line}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitLine(MdParser.LineContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link MdParser#lnBlank}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitLnBlank(MdParser.LnBlankContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link MdParser#lnBreak}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitLnBreak(MdParser.LnBreakContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link MdParser#word}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitWord(MdParser.WordContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link MdParser#link}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitLink(MdParser.LinkContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link MdParser#style}.
 	 * @param ctx the parse tree
@@ -189,9 +168,21 @@ public interface MdParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitComment(MdParser.CommentContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link MdParser#unknown}.
+	 * Visit a parse tree produced by {@link MdParser#lnBlank}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitUnknown(MdParser.UnknownContext ctx);
+	T visitLnBlank(MdParser.LnBlankContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link MdParser#lnBreak}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLnBreak(MdParser.LnBreakContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link MdParser#ignore}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIgnore(MdParser.IgnoreContext ctx);
 }

@@ -13,39 +13,34 @@ options {
 
 structure
 	: page
-	| metaMatter
 
 	| header
 	| paragraph
-
 	| hrule
 	| comment
 
-	| list
-	| table
-	| quote
-	| definition
-
+	| yamlBlock
 	| htmlBlock
 	| codeBlock
 	| mathBlock
 	| texBlock
 	| umlBlock
+
+	| list
+	| table
+	| definition
 	;
 
 page		: /page		 		{ doModule(); } ;
 
-metaMatter	: //metaBlock		{ doStatement(ModelType.MetaMatter); } ;
-
 header		: //header			{ doHeader(); } ;
-
 paragraph	: //paragraph		{ doStatement(ModelType.Paragraph); } ;
 hrule		: //hrule			{ doStatement(ModelType.HRule); } ;
 comment		: //comment			{ doStatement(ModelType.Comment); } ;
 
-quote		: //quote			{ doStatement(ModelType.Quote); } ;
 definition	: //definition		{ doStatement(ModelType.Definition); } ;
 
+yamlBlock	: //yamlBlock		{ doStatement(ModelType.MetaMatter); } ;
 htmlBlock	: //htmlBlock		{ doStatement(ModelType.HtmlBlock); } ;
 codeBlock	: //codeBlock		{ doStatement(ModelType.CodeBlock); } ;
 mathBlock	: //mathBlock		{ doStatement(ModelType.MathBlock); } ;

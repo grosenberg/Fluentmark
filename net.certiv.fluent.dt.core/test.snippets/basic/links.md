@@ -3,6 +3,8 @@
 The [AI classifier](https://www.certiv.net) function compares 
 an unknown context vector `X`. 
 
+or [https://www.certiv.net](https://www.certiv.net) 
+
 [inline-style link](https://www.google.com)
 
 a [inline-style link with title](https://www.google.com "Google's Homepage")

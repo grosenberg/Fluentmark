@@ -40,8 +40,8 @@ public class DotSourceParser extends DslSourceParser {
 	}
 
 	/**
-	 * Builds a ParseTree for the given content representing the source of a
-	 * corresponding unit.
+	 * Builds a ParseTree for the given content representing the source of a corresponding
+	 * unit.
 	 */
 	@Override
 	public void parse() {
@@ -59,7 +59,7 @@ public class DotSourceParser extends DslSourceParser {
 			return;
 		}
 
-		DslErrorListener errListener = new DslErrorListener(this, record.collector, record.reportAmbiguities());
+		DslErrorListener errListener = new DslErrorListener(this, record.getCollector(), record.reportAmbiguities());
 
 		record.cs = CharStreams.fromString(content);
 		DotLexer lexer = new DotLexer(record.cs);
@@ -73,7 +73,7 @@ public class DotSourceParser extends DslSourceParser {
 		record.parser.addErrorListener(errListener);
 		record.tree = ((DotParser) record.parser).graph();
 
-		if (record.tree != null) Verifier.INST.check(this, record.collector);
+		if (record.tree != null) Verifier.INST.check(this, record.getCollector());
 	}
 
 	@Override

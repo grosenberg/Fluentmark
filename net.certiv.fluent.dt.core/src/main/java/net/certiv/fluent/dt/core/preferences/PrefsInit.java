@@ -12,7 +12,6 @@ import org.eclipse.ui.texteditor.spelling.SpellingService;
 import net.certiv.dsl.core.DslCore;
 import net.certiv.dsl.core.log.Log;
 import net.certiv.dsl.core.preferences.DslPrefsInit;
-import net.certiv.dsl.core.preferences.consts.CodeAssist;
 import net.certiv.dsl.core.preferences.consts.Editor;
 import net.certiv.dsl.core.util.Resources;
 import net.certiv.dsl.core.util.Strings;
@@ -41,9 +40,12 @@ public class PrefsInit extends DslPrefsInit implements CssDef {
 
 	@Override
 	public void initializeDefaultPreferences() {
+		super.initializeDefaultPreferences();
 
-		setString(Editor.EDITOR_TAB_POLICY, Editor.SPACE); // always use spaces
-		setInt(Editor.EDITOR_TAB_WIDTH, 4);
+		setString(Editor.EDITOR_TAB_POLICY, Editor.SPACE);
+		setBool(Editor.EDITOR_SMART_OPENING_BRACE, false);
+		setBool(Editor.EDITOR_SMART_SEMICOLON, false);
+
 		setBool(Prefs.EDITOR_WORD_WRAP, false);
 		setBool(Prefs.EDITOR_SHOW_SEGMENTS, false);
 		setBool(Prefs.FORMATTER_ENABLED, true);
@@ -51,8 +53,6 @@ public class PrefsInit extends DslPrefsInit implements CssDef {
 
 		setBool(Prefs.EDITOR_OUTLINE_SHOW_BLANKLINES, false);
 		setBool(Prefs.EDITOR_OUTLINE_SYNC_ON_CURSOR_MOVE, true);
-
-		setBool(Editor.EDITOR_CORRECTION_INDICATION, true);
 
 		setBool(Prefs.EDITOR_TASK_TAGS, true);
 		setString(Prefs.EDITOR_TASK_TAGS_DEFINED, "TODO,FIXME,NOTE");
@@ -78,14 +78,13 @@ public class PrefsInit extends DslPrefsInit implements CssDef {
 		setString(Prefs.EDITOR_PANDOC_TEMPLATE, "");
 
 		setString(Prefs.EDITOR_EXTERNAL_COMMAND, "");
+
 		setBool(Prefs.EDITOR_SECTION_NUMBERS, true);
 
-		setBool(Editor.EDITOR_SMART_BACKSPACE, true);
-		setBool(Editor.EDITOR_SMART_OPENING_BRACE, false);
-		setBool(Editor.EDITOR_SMART_SEMICOLON, false);
 		setBool(Prefs.FORMATTER_ENABLED, true);
 		setBool(Prefs.FORMATTER_UNWRAP, false);
 
+		setBool(Prefs.EDITOR_HTML_OPEN, false);
 		setBool(Prefs.EDITOR_PDF_OPEN, true);
 
 		// css
@@ -183,7 +182,7 @@ public class PrefsInit extends DslPrefsInit implements CssDef {
 
 		// This is currently disabled because the spelling engine cannot return word
 		// proposals but only correction proposals.
-		boolean def = getPrefs().getDefaultBoolean(PrefsSpelling.SPELLING_ENABLE_CONTENTASSIST);
+		boolean def = store.getDefaultBoolean(PrefsSpelling.SPELLING_ENABLE_CONTENTASSIST);
 		setBool(PrefsSpelling.SPELLING_ENABLE_CONTENTASSIST, def);
 
 		// folding
@@ -195,22 +194,6 @@ public class PrefsInit extends DslPrefsInit implements CssDef {
 		setBool(Prefs.FOLDING_DOTBLOCKS, false);
 		setBool(Prefs.FOLDING_UMLBLOCKS, false);
 		setBool(Prefs.FOLDING_MATHBLOCKS, false);
-
-		// code assist
-
-		setBool(CodeAssist.CODEASSIST_AUTOACTIVATION, false);
-		setInt(CodeAssist.CODEASSIST_AUTOACTIVATION_DELAY, 0);
-		setBool(CodeAssist.CODEASSIST_AUTOINSERT, true);
-		setBool(CodeAssist.CODEASSIST_SHOW_VISIBLE_PROPOSALS, true);
-		setBool(CodeAssist.CODEASSIST_CASE_SENSITIVITY, false);
-		setBool(CodeAssist.CODEASSIST_INSERT_COMPLETION, true);
-		setBool(CodeAssist.CODEASSIST_FILL_ARGUMENT_NAMES, true);
-		setBool(CodeAssist.CODEASSIST_PREFIX_COMPLETION, false);
-
-		setRGB(CodeAssist.CODEASSIST_PARAMETERS_BACKGROUND, new RGB(255, 255, 255));
-		setRGB(CodeAssist.CODEASSIST_PARAMETERS_FOREGROUND, new RGB(0, 0, 0));
-		setRGB(CodeAssist.CODEASSIST_REPLACEMENT_BACKGROUND, new RGB(255, 255, 0));
-		setRGB(CodeAssist.CODEASSIST_REPLACEMENT_FOREGROUND, new RGB(255, 0, 0));
 	}
 
 	// create bundle URL for the default stylesheets dir

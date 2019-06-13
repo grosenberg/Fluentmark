@@ -6,20 +6,21 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
-import net.certiv.fluent.dt.core.FluentCore;
-import net.certiv.fluent.dt.ui.FluentUI;
-
 import net.certiv.dsl.core.DslCore;
 import net.certiv.dsl.ui.DslUI;
+import net.certiv.dsl.ui.wizards.DslBaseWizard;
 import net.certiv.dsl.ui.wizards.DslContainerWizardPage;
+import net.certiv.fluent.dt.core.FluentCore;
+import net.certiv.fluent.dt.ui.FluentUI;
 
 /**
  * Wizard UI to obtain the file name and location.
  */
 public class FmNewWizardPage extends DslContainerWizardPage {
 
-	public FmNewWizardPage(IStructuredSelection selection) {
-		super("wizardPage", selection);
+	public FmNewWizardPage(DslBaseWizard wizard, IStructuredSelection selection) {
+		super("FluentNewWizardPage", wizard, selection);
+
 		setTitle("FluentMark Editor File");
 		setDescription("Creates a new file with 'md' extension.");
 	}

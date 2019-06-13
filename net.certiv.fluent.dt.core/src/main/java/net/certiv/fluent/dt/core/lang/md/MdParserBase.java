@@ -17,7 +17,7 @@ public abstract class MdParserBase extends Parser {
 			switch (_input.get(idx).getType()) {
 				case MdLexer.HWS:
 					continue;
-				case MdLexer.LN_BLANK:
+				case MdLexer.BLANK:
 				case Token.EOF:
 					return true;
 				default:
@@ -27,13 +27,13 @@ public abstract class MdParserBase extends Parser {
 		return false;
 	}
 
-	protected boolean aftNL() {
+	protected boolean raftNL() {
 		for (int idx = _input.index() - 1; idx >= 0; idx--) {
 			switch (_input.get(idx).getType()) {
 				case MdLexer.HWS:
 					continue;
-				case MdLexer.LN_BLANK:
-				case MdLexer.LN_BREAK:
+				case MdLexer.BLANK:
+				case MdLexer.BREAK:
 				case MdLexer.VWS:
 					return true;
 				default:
@@ -48,8 +48,8 @@ public abstract class MdParserBase extends Parser {
 			switch (_input.get(idx).getType()) {
 				case MdLexer.HWS:
 					continue;
-				case MdLexer.LN_BLANK:
-				case MdLexer.LN_BREAK:
+				case MdLexer.BLANK:
+				case MdLexer.BREAK:
 				case MdLexer.VWS:
 				case Token.EOF:
 					return true;

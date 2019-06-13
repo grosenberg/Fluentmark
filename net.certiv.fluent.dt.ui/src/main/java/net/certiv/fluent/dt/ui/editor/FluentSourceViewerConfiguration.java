@@ -5,6 +5,8 @@ import org.eclipse.jface.text.IAutoEditStrategy;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.ITextDoubleClickStrategy;
 import org.eclipse.jface.text.contentassist.ContentAssistant;
+import org.eclipse.jface.text.formatter.IContentFormatter;
+import org.eclipse.jface.text.formatter.MultiPassContentFormatter;
 import org.eclipse.jface.text.presentation.IPresentationReconciler;
 import org.eclipse.jface.text.presentation.PresentationReconciler;
 import org.eclipse.jface.text.source.ISourceViewer;
@@ -20,6 +22,7 @@ import net.certiv.dsl.ui.editor.DslPresentationReconciler;
 import net.certiv.dsl.ui.editor.DslSourceViewerConfiguration;
 import net.certiv.dsl.ui.editor.reconcile.DslReconciler;
 import net.certiv.dsl.ui.editor.text.completion.DslCompletionProcessor;
+import net.certiv.dsl.ui.formatter.strategies.DslFormattingStrategy;
 import net.certiv.fluent.dt.core.FluentCore;
 import net.certiv.fluent.dt.ui.FluentUI;
 import net.certiv.fluent.dt.ui.editor.completion.FmCompletionProcessor;
@@ -35,6 +38,7 @@ import net.certiv.fluent.dt.ui.editor.text.ScannerHtml;
 import net.certiv.fluent.dt.ui.editor.text.ScannerMarkup;
 import net.certiv.fluent.dt.ui.editor.text.ScannerMath;
 import net.certiv.fluent.dt.ui.editor.text.ScannerUml;
+import net.certiv.fluent.dt.ui.formatter.MdFormatter;
 
 public class FluentSourceViewerConfiguration extends DslSourceViewerConfiguration {
 
@@ -64,7 +68,6 @@ public class FluentSourceViewerConfiguration extends DslSourceViewerConfiguratio
 		return FluentCore.getDefault();
 	}
 
-	@SuppressWarnings("unused")
 	private DslPrefsManager getPrefsMgr() {
 		return getDslCore().getPrefsManager();
 	}
@@ -72,13 +75,14 @@ public class FluentSourceViewerConfiguration extends DslSourceViewerConfiguratio
 	@Override
 	protected void initializeScanners() {
 		IDslPrefsManager store = getPrefStore();
+
+		frontScanner = new ScannerFrontMatter(store);
 		codeScanner = new ScannerCode(store);
-		commentScanner = new ScannerComment(store);
 		dotScanner = new ScannerDot(store);
 		umlScanner = new ScannerUml(store);
 		mathScanner = new ScannerMath(store);
 		htmlScanner = new ScannerHtml(store);
-		frontScanner = new ScannerFrontMatter(store);
+		commentScanner = new ScannerComment(store);
 		markupScanner = new ScannerMarkup(store);
 	}
 
@@ -176,6 +180,21 @@ public class FluentSourceViewerConfiguration extends DslSourceViewerConfiguratio
 			default:
 				return new IAutoEditStrategy[] { new SmartAutoEditStrategy(partitioning) };
 		}
+	}
+
+	@Override
+	public IContentFormatter getContentFormatter(ISourceViewer viewer) {
+		MultiPassContentFormatter formatter = (MultiPassContentFormatter) super.getContentFormatter(viewer);
+
+		MdFormatter mdFormatter = new MdFormatter();
+		formatter.setMasterStrategy(new DslFormattingStrategy(getPrefsMgr(), mdFormatter));
+
+		// if (getPrefsMgr().getBoolean(Formatter.FORMATTER_NATIVE_ENABLE)) {
+		// formatter.setSlaveStrategy(new ActionCodeFormattingStrategy(),
+		// Partitions.ACTION);
+		// }
+
+		return formatter;
 	}
 
 	@Override

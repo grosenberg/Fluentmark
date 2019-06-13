@@ -3,7 +3,6 @@ package net.certiv.fluent.dt.ui.wizards;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
@@ -12,29 +11,26 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.resource.ImageDescriptor;
-
-import net.certiv.fluent.dt.core.FluentCore;
-import net.certiv.fluent.dt.ui.FluentUI;
 
 import net.certiv.dsl.core.DslCore;
 import net.certiv.dsl.core.util.CoreUtil;
 import net.certiv.dsl.ui.DslImageManager;
 import net.certiv.dsl.ui.DslUI;
 import net.certiv.dsl.ui.wizards.DslBaseWizard;
+import net.certiv.fluent.dt.core.FluentCore;
+import net.certiv.fluent.dt.ui.FluentUI;
 
 /** Create a new resource in the indicated container. */
-public class FmNewWizard extends DslBaseWizard {
+public class FluentNewWizard extends DslBaseWizard {
 
 	private FmNewWizardPage page;
 
 	/**
 	 * Constructor for FmNewWizard.
 	 */
-	public FmNewWizard() {
-		super();
+	public FluentNewWizard() {
+		super("FluentNewWizard");
 	}
 
 	@Override
@@ -60,39 +56,16 @@ public class FmNewWizard extends DslBaseWizard {
 
 	@Override
 	public void addPages() {
-		page = new FmNewWizardPage(getSelection());
+		page = new FmNewWizardPage(this, getSelection());
 		page.setTitle("File");
 		page.setDescription("Create new Fm file");
 		addPage(page);
 	}
 
 	@Override
-	public boolean performFinish() {
+	protected void finishPage(IProgressMonitor monitor) throws InterruptedException, CoreException {
 		final String filename = page.getFileName();
-		final IPath container = page.getContainerFullPath();
-
-		IRunnableWithProgress op = monitor -> {
-			try {
-				doFinish(filename, container, monitor);
-			} catch (CoreException e) {
-				throw new InvocationTargetException(e);
-			} finally {
-				monitor.done();
-			}
-		};
-		try {
-			getContainer().run(true, false, op);
-		} catch (InterruptedException e) {
-			return false;
-		} catch (InvocationTargetException e) {
-			Throwable realException = e.getTargetException();
-			MessageDialog.openError(getShell(), "Error", realException.getMessage());
-			return false;
-		}
-		return true;
-	}
-
-	private void doFinish(String filename, IPath containerPath, IProgressMonitor monitor) throws CoreException {
+		final IPath containerPath = page.getContainerFullPath();
 
 		monitor.beginTask("Creating " + filename, 2);
 		IWorkspaceRoot root = CoreUtil.getWorkspaceRoot();

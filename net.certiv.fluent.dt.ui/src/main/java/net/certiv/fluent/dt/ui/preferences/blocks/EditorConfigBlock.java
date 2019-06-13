@@ -8,13 +8,13 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import net.certiv.dsl.core.color.DslColorManager;
 import net.certiv.dsl.core.preferences.DslPrefsManagerDelta;
-import net.certiv.dsl.core.preferences.consts.Editor;
-import net.certiv.dsl.ui.preferences.blocks.AbstractEditorConfigBlock;
+import net.certiv.dsl.core.preferences.consts.Operation;
+import net.certiv.dsl.ui.preferences.blocks.DefaultEditorConfigBlock;
 import net.certiv.dsl.ui.preferences.pages.IDslPreferencePage;
 import net.certiv.dsl.ui.util.SWTFactory;
 import net.certiv.fluent.dt.core.preferences.Prefs;
 
-public class EditorConfigBlock extends AbstractEditorConfigBlock {
+public class EditorConfigBlock extends DefaultEditorConfigBlock {
 
 	public EditorConfigBlock(IDslPreferencePage page, DslPrefsManagerDelta delta, FormToolkit formkit,
 			DslColorManager colorMgr) {
@@ -23,15 +23,6 @@ public class EditorConfigBlock extends AbstractEditorConfigBlock {
 
 	@Override
 	protected List<String> createDeltaMatchKeys(List<String> keys) {
-
-		keys.add(Editor.EDITOR_TAB_POLICY);
-		keys.add(Editor.EDITOR_TAB_WIDTH);
-
-		keys.add(Editor.EDITOR_SMART_INDENT);
-		keys.add(Editor.EDITOR_SMART_BACKSPACE);
-
-		keys.add(Editor.EDITOR_SMART_HOME_END);
-		keys.add(Editor.EDITOR_SUB_WORD_NAVIGATION);
 
 		keys.add(Prefs.EDITOR_WORD_WRAP);
 		keys.add(Prefs.EDITOR_HTML_OPEN);
@@ -44,27 +35,26 @@ public class EditorConfigBlock extends AbstractEditorConfigBlock {
 		keys.add(Prefs.EDITOR_TASK_TAGS_DEFINED);
 
 		keys.add(Prefs.VIEW_UPDATE_DELAY);
-		return keys;
+
+		return super.createDeltaMatchKeys(keys);
 	}
 
 	@Override
 	public void addEditingControls(Composite parent) {
-		createGeneralGroup(parent);
+		createSettingsGroup(parent);
+		createGenGroup(parent);
+		createTabsGroup(parent);
 		createFormattingGroup(parent);
 		createTaskGroup(parent);
 		createPreviewGroup(parent);
 	}
 
-	private void createGeneralGroup(Composite parent) {
-		Composite composite = SWTFactory.createGroupComposite(parent, 3, 2, "Settings");
-		addCheckBox(composite, "Smart backspace", Editor.EDITOR_SMART_BACKSPACE, 2, 0);
-		addCheckBox(composite, "Enable word wrap", Prefs.EDITOR_WORD_WRAP, 2, 0);
-		addLabeledTextField(composite, "Indent width", Editor.EDITOR_TAB_WIDTH, 6, 0, true);
+	private void createGenGroup(Composite parent) {
+		Composite composite = SWTFactory.createGroupComposite(parent, 3, 2, "General");
 
-		SWTFactory.createHorizontalSpacer(composite, 2);
-
-		addCheckBox(composite, "Open HTML file after creation", Prefs.EDITOR_HTML_OPEN, 2, 0);
-		addCheckBox(composite, "Open PDF file after creation", Prefs.EDITOR_PDF_OPEN, 2, 0);
+		addCheckBox(composite, "Enable editor word wrap", Prefs.EDITOR_WORD_WRAP, 2, 0);
+		addLabeledCombo(composite, "Open Outline to level", Operation.OUTLINE_OPEN_LEVELS, LevelLabels, LevelValues,
+				true);
 	}
 
 	private void createFormattingGroup(Composite parent) {
@@ -81,8 +71,10 @@ public class EditorConfigBlock extends AbstractEditorConfigBlock {
 	}
 
 	private void createPreviewGroup(Composite parent) {
-		Composite preComp = SWTFactory.createGroupComposite(parent, 3, 2, "Preview");
-		addLabeledTextField(preComp, "Update rate limiter period (ms) ", Prefs.VIEW_UPDATE_DELAY, 6, 0, true);
+		Composite comp = SWTFactory.createGroupComposite(parent, 3, 2, "Preview");
+		addLabeledTextField(comp, "Preview update rate (ms) ", Prefs.VIEW_UPDATE_DELAY, 6, 0, true);
+		addCheckBox(comp, "Open HTML file after creation", Prefs.EDITOR_HTML_OPEN, 2, 0);
+		addCheckBox(comp, "Open PDF file after creation", Prefs.EDITOR_PDF_OPEN, 2, 0);
 	}
 
 }

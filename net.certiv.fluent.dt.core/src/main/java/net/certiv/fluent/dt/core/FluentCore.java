@@ -1,6 +1,5 @@
 package net.certiv.fluent.dt.core;
 
-import org.eclipse.jface.text.IDocument;
 import org.osgi.framework.BundleContext;
 
 import net.certiv.dsl.core.DslCore;
@@ -15,7 +14,7 @@ import net.certiv.fluent.dt.core.lang.md.MdSourceParser;
 public class FluentCore extends DslCore {
 
 	public static final String PLUGIN_ID = "net.certiv.fluent.dt.core";
-	public static final String[] EXTENSIONS = new String[] { "md", "dot", "mdown", "mkd", "text" };
+	public static final String[] EXTENSIONS = new String[] { "md", "dot", "mdown", "mkd" };
 
 	// Should be unique, lower case, single word;
 	public static final String DSL_NAME = "fluent";
@@ -68,21 +67,9 @@ public class FluentCore extends DslCore {
 			case DOT:
 				return new DotSourceParser(unit.getParseRecord());
 
-			case IDocument.DEFAULT_CONTENT_TYPE:
 			case MD:
-				return new MdSourceParser(unit.getParseRecord());
-
 			default:
-				return null;
+				return new MdSourceParser(unit.getParseRecord());
 		}
 	}
-
-	// @Override
-	// public DslSourceParser createSourceParser(ICodeUnit unit, String contentType)
-	// {
-	// if (DSL_NAME.equals(contentType) || getContentTypeId().equals(contentType)) {
-	// return new MdSourceParser(unit.getParseRecord());
-	// }
-	// return null;
-	// }
 }

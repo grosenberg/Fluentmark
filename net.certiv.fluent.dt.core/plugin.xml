@@ -6,8 +6,8 @@
          point="org.eclipse.core.contenttype.contentTypes">
       <content-type
             base-type="org.eclipse.core.runtime.text"
-            describer="net.certiv.fluent.dt.core.FmContentDescriber"
-            file-extensions="md"
+            describer="net.certiv.fluent.dt.core.FluentContentDescriber"
+            file-extensions="md, dot, mkd, mdown"
             id="net.certiv.fluent.dt.core.contentType"
             name="Fluentmark content "
             priority="high">
@@ -20,13 +20,17 @@
          point="org.eclipse.core.resources.natures">
       <runtime>
          <run
-               class="net.certiv.fluent.dt.core.FmNature">
+               class="net.certiv.fluent.dt.core.FluentNature">
          </run>
       </runtime>
+<!--      
       <builder
             id="net.certiv.fluent.dt.core.builder">
       </builder>
+-->
    </extension>
+
+<!--   
    <extension
          id="net.certiv.fluent.dt.core.builder"
          name="Fluentmark Builder"
@@ -39,6 +43,7 @@
          </run>
       </builder>
    </extension>
+-->
 
    <extension
          id="net.certiv.fluent.dt.core.problem"
@@ -51,7 +56,7 @@
             type="org.eclipse.core.resources.textmarker">
       </super>
       <persistent
-            value="true">
+            value="false">
       </persistent>
    </extension>
 

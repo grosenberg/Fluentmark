@@ -176,7 +176,7 @@
          point="org.eclipse.ui.newWizards">
       <wizard
             category="net.certiv.certivtools.wizards"
-            class="net.certiv.fluent.dt.ui.wizards.FmNewWizard"
+            class="net.certiv.fluent.dt.ui.wizards.FluentNewWizard"
             icon="icons/obj16/fluentmark_doc.png"
             id="net.certiv.fluent.dt.ui.wizards.FmNewWizard"
             name="Fm source file">
@@ -254,6 +254,58 @@
             label="FluentMark spelling engine">
       </engine>
    </extension>
+
+   <extension point="org.eclipse.ui.bindings">
+
+      <!--  win32:  M1=CTRL,    M2=SHIFT, M3=ALT, M4=-
+            carbon: M1=COMMAND, M2=SHIFT, M3=ALT, M4=CTRL -->
+   	 <key
+            sequence="M1+M2+F"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            contextId="net.certiv.fluent.dt.ui.fluentEditorScope"
+            commandId="net.certiv.fluent.dt.ui.edit.text.format"/>
+      <key
+            commandId="net.certiv.fluent.dt.visibleComment"
+            contextId="net.certiv.fluent.dt.ui.fluentEditorScope"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="M1+M2+/">
+      </key>
+      <key
+            commandId="net.certiv.fluent.dt.hiddenComment"
+            contextId="net.certiv.fluent.dt.ui.fluentEditorScope"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="M1+/">
+      </key>
+      <key
+            commandId="net.certiv.fluent.dt.ui.edit.text.unwrap"
+            contextId="net.certiv.fluent.dt.ui.fluentEditorScope"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="M1+M2+M3+F">
+      </key>
+      <key
+            commandId="net.certiv.fluent.dt.bold"
+            contextId="net.certiv.fluent.dt.ui.fluentEditorScope"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="M1+B">
+      </key>
+      <key
+            commandId="net.certiv.fluent.dt.italic"
+            contextId="net.certiv.fluent.dt.ui.fluentEditorScope"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="M1+I">
+      </key>
+	 <key
+	        sequence="M2+M3+O"
+            contextId="net.certiv.fluent.dt.ui.fluentEditorScope"
+	        commandId="net.certiv.fluent.dt.ui.edit.text.toggleMarkOccurrences"
+	        schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"/>
+	 <key
+	        platform="carbon"
+	        sequence="M1+M3+O"
+	        contextId="net.certiv.fluent.dt.ui.fluentEditorScope"
+	        commandId="net.certiv.fluent.dt.ui.edit.text.toggleMarkOccurrences"
+	        schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"/>
+	</extension>
    
    <extension
          point="org.eclipse.ui.commands">
@@ -536,58 +588,6 @@
       </handler>
       
    </extension>
-
-   <extension point="org.eclipse.ui.bindings">
-
-      <!--  win32:  M1=CTRL,    M2=SHIFT, M3=ALT, M4=-
-            carbon: M1=COMMAND, M2=SHIFT, M3=ALT, M4=CTRL -->
-   	 <key
-            sequence="M1+M2+F"
-            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
-            contextId="net.certiv.fluent.dt.ui.fluentEditorScope"
-            commandId="net.certiv.fluent.dt.ui.edit.text.format"/>
-      <key
-            commandId="net.certiv.fluent.dt.visibleComment"
-            contextId="net.certiv.fluent.dt.ui.fluentEditorScope"
-            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
-            sequence="M1+M2+/">
-      </key>
-      <key
-            commandId="net.certiv.fluent.dt.hiddenComment"
-            contextId="net.certiv.fluent.dt.ui.fluentEditorScope"
-            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
-            sequence="M1+/">
-      </key>
-      <key
-            commandId="net.certiv.fluent.dt.ui.edit.text.unwrap"
-            contextId="net.certiv.fluent.dt.ui.fluentEditorScope"
-            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
-            sequence="M1+M2+M3+F">
-      </key>
-      <key
-            commandId="net.certiv.fluent.dt.bold"
-            contextId="net.certiv.fluent.dt.ui.fluentEditorScope"
-            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
-            sequence="M1+B">
-      </key>
-      <key
-            commandId="net.certiv.fluent.dt.italic"
-            contextId="net.certiv.fluent.dt.ui.fluentEditorScope"
-            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
-            sequence="M1+I">
-      </key>
-	 <key
-	        sequence="M2+M3+O"
-            contextId="net.certiv.fluent.dt.ui.fluentEditorScope"
-	        commandId="net.certiv.fluent.dt.ui.edit.text.toggleMarkOccurrences"
-	        schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"/>
-	 <key
-	        platform="carbon"
-	        sequence="M1+M3+O"
-	        contextId="net.certiv.fluent.dt.ui.fluentEditorScope"
-	        commandId="net.certiv.fluent.dt.ui.edit.text.toggleMarkOccurrences"
-	        schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"/>
-	</extension>
   
   
    <extension

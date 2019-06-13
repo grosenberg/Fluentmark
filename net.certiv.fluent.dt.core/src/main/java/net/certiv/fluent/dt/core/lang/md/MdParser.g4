@@ -1,7 +1,7 @@
 parser grammar MdParser ;
 
 options {
-	superClass = MdParserBase ;
+	superClass = MdParserBase ; 
 	tokenVocab = MdLexer ;
 }
 
@@ -12,86 +12,62 @@ options {
 }
 
 page
-	:	( metaBlock | codeBlock	| mathBlock | texBlock   | htmlBlock | umlBlock
-		| list	    | table 	| quote		| definition | paragraph
-		| header    | hrule		| comment
-		| unknown	| lnBreak	| lnBlank
+	:	( codeBlock	| yamlBlock	| htmlBlock	| mathBlock	| texBlock	| umlBlock 
+		| header    | hrule		| list	    | table 	| definition
+		| paragraph	| comment	| lnBreak	| lnBlank	| ignore
 		)*
 		EOF
 	;
 
-metaBlock
-	: META VWS ( line VWS+ )* META
+yamlBlock	: YAML_BLOCK ;
+htmlBlock	: HTML_BLOCK ;
+mathBlock	: MATH_BLOCK ;
+texBlock	: TEX_BLOCK  ;
+umlBlock	: UML_BLOCK  ;
+
+codeBlock
+	: CODE_BEG ( HWS* lang=WORD )? ( HWS* style )? VWS+ 
+		code+=( WORD | HWS | VWS )* 
+	  CODE_END
 	;
 
 header
-	: LN_BLANK HASHES content* HASH* style? 
-	| LN_BLANK content* ( EQUALS | DASHES ) 
+	: BLANK HASHES content* HASH* style? 
+	| BLANK content* ( EQUALS | DASHES ) 
 	;
 
 hrule
-	: HRULE style? 
+	: BLANK HRULE style? 
 	;
 
 list
-	: LN_BLANK listItem+ { befBL() }? 
+	: BLANK listItem+  
 	;
 
 listItem
-	: LIST_ITEM line*
+	: listMark content+
 	;
 
-table : LN_BLANK hdr=tableRow tableDef rows+=tableRow+ ;
+listMark
+	: mark=SIMPLE_MARK
+	| mark=PAREN_MARK
+	| mark=UALPHA_MARK
+	| mark=LALPHA_MARK
+	;
 
-tableDef : TABLE_DEF ;
+table : BLANK hdr=tableRow tableDef rows+=tableRow+ ;
+
+tableDef : TABLE ;
 tableRow : PIPE? tableCell? ( PIPE tableCell? )+ PIPE? ;
 tableCell : content ;
 
-htmlBlock
-	: LN_BLANK HTML 
-	;
-
-codeBlock
-	: TICS   WORD? style? VWS+ ( line VWS+ )* TICS
-	| TILDES WORD? style? VWS+ ( line VWS+ )* TILDES
-	; 
-
-mathBlock
-	: MATH_MARK line* MATH_MARK 
-	;
-
-texBlock
-	: TEX_BEG line* TEX_END
-	;
-
-umlBlock
-	: UML_BEG line* UML_END
-	;
-
-quote
-	: LN_BLANK QUOTES paragraph
-	| LN_BLANK ( QUOTES content )+
-	;
-
 definition
-	: LN_BLANK content ( DEFINITION paragraph )+
+	: BLANK ( word BREAK )+ ( COLON paragraph )+
 	;
 
-paragraph	: LN_BLANK content+ ;
-content		: word+ | link | lnBreak;
-text 		: word+ ;
+paragraph	: BLANK ( BQUOTE? content )+ ;
 
-line		: WORD+ ;
-lnBlank		: LN_BLANK ;
-lnBreak		: LN_BREAK ;
-
-word
-	: attrLeft* 
-		( WORD | UNICODE | ENTITY
-		| HTML | TEX | INMATH | URL	
-		) 
-	  attrRight*
-	;
+content		: ( word | link )+ ( lnBreak ( word | link )+ )* ;
 
 // [word](URL "title") {style}
 // [word][ref]
@@ -99,9 +75,20 @@ word
 // [ref]:URL "title"
 link
 	: LINK text LINK_MARK URL ( QUOTE text QUOTE )? RPAREN style? 
+	| LDEF text DEF_MARK URL ( LDQUOTE text RDQUOTE )?
 	| LREF text REF_MARK text RBRACK style?
 	| LURL URL  RBRACK style?
-	| LDEF text DEF_MARK URL ( LDQUOTE text RDQUOTE )?
+	| LTXT text RBRACK style?
+	;
+
+text : word+ ;
+
+word
+	: attrLeft* 
+		( WORD | UNICODE | ENTITY
+		| HTML | TEX | MATH | URL
+		) 
+	  attrRight*
 	;
 
 style
@@ -117,4 +104,7 @@ attrRight : RBOLD | RITALIC | RSTRIKE | RSPAN | RDQUOTE | RSQUOTE ;
 
 comment	: HIDN_COMMENT | HTML_COMMENT ;
 
-unknown	: ERR+ ; 
+lnBlank	: BLANK ;
+lnBreak	: BREAK ;
+
+ignore	: ( ERR | BLANK | BREAK )+ ; 
