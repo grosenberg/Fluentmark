@@ -62,6 +62,10 @@ Pandoc converter ---
 - Install [Pandoc](https://pandoc.org). The `pandoc` executable can then be selected from the local filesystem 
   on the Pandoc Converter preference page.
 
+Preview ---  
+OS: Debian/Ubuntu packages (tested in Kubuntu 19.04)
+- `sudo apt-get install -y libswt-webkit-gtk-4-jni pandoc`
+
 PDF export ---
 - Both *Pandoc* and a _LaTeX_ processor must be installed. Pandoc recommends [*MikTeX*](https://miktex.org/).
 
