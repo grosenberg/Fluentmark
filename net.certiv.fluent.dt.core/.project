@@ -3,19 +3,15 @@
 	<name>net.certiv.fluent.dt.core</name>
 	<comment></comment>
 	<projects>
-		<project>net.certiv.dsl.core</project>
-		<project>net.certiv.dsl.lib</project>
-		<project>net.certiv.dsl.ui</project>
-		<project>net.certiv.spellchecker.plugin</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
-			<name>net.certiv.fluent.dt.core.builder</name>
+			<name>net.certiv.xvisitordt.core.builder</name>
 			<arguments>
 			</arguments>
 		</buildCommand>
 		<buildCommand>
-			<name>net.certiv.xvisitordt.core.builder</name>
+			<name>net.certiv.fluent.dt.core.builder</name>
 			<arguments>
 			</arguments>
 		</buildCommand>
@@ -46,11 +42,11 @@
 		</buildCommand>
 	</buildSpec>
 	<natures>
+		<nature>org.eclipse.m2e.core.maven2Nature</nature>
 		<nature>org.eclipse.pde.PluginNature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
-		<nature>org.eclipse.m2e.core.maven2Nature</nature>
 		<nature>net.certiv.antlrdt.core.nature</nature>
-		<nature>net.certiv.xvisitordt.core.nature</nature>
 		<nature>net.certiv.fluent.dt.core.nature</nature>
+		<nature>net.certiv.xvisitordt.core.nature</nature>
 	</natures>
 </projectDescription>

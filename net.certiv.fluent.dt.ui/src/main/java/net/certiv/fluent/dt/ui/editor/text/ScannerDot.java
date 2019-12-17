@@ -29,14 +29,14 @@ public class ScannerDot extends AbstractBufferedRuleBasedScanner implements ISca
 
 	private String[] tokenProperties;
 
-	private static final String[] keywords = { "strict", "graph", "digraph", "subgraph", "node", "edge", "fill",
+	public static final String[] keywords = { "strict", "graph", "digraph", "subgraph", "node", "edge", "fill",
 			"compress", "auto", "out", "dot", "neato", "twopi", "fdp", "circo", "true", "false", "scale", "polyline",
 			"line", "ortho", "90", "same", "min", "max", "lr", "rl", "bt", "kk", "circuit", "subset", "plaintext",
 			"ellipse", "oval", "circle", "egg", "triangle", "box", "diamond", "trapezium", "parallelogram", "house",
 			"hexagon", "octagon", "note", "tab", "box3d", "component", "filled", "solid", "dashed", "dotted", "bold",
 			"invis", "forward", "back", "both", "none", };
 
-	private static final String[] attribs = { "href", "URL", "fontcolor", "fontname", "fontsize", "label", "size",
+	public static final String[] attribs = { "href", "URL", "fontcolor", "fontname", "fontsize", "label", "size",
 			"ratio", "layout", "margin", "ordering", "rotate", "center", "color", "bgcolor", "overlap", "stylesheet",
 			"splines", "nodesep", "ranksep", "rankdir", "rank", "mode", "model", "start", "epsilon", "root", "mindist",
 			"k", "maxiter", "height", "width", "fixedsize", "shape", "fillcolor", "style", "xlabel", "target",

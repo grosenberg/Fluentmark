@@ -1,5 +1,11 @@
 package net.certiv.fluent.dt.ui.editor;
 
+import static net.certiv.dsl.ui.editor.text.completion.engines.IPrefixStops.*;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.eclipse.jface.text.DefaultIndentLineAutoEditStrategy;
 import org.eclipse.jface.text.IAutoEditStrategy;
 import org.eclipse.jface.text.IDocument;
@@ -8,25 +14,31 @@ import org.eclipse.jface.text.contentassist.ContentAssistant;
 import org.eclipse.jface.text.formatter.IContentFormatter;
 import org.eclipse.jface.text.formatter.MultiPassContentFormatter;
 import org.eclipse.jface.text.presentation.IPresentationReconciler;
-import org.eclipse.jface.text.presentation.PresentationReconciler;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.util.PropertyChangeEvent;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.texteditor.ITextEditor;
 
 import net.certiv.dsl.core.DslCore;
 import net.certiv.dsl.core.color.IColorManager;
 import net.certiv.dsl.core.preferences.DslPrefsManager;
 import net.certiv.dsl.core.preferences.IDslPrefsManager;
+import net.certiv.dsl.ui.DslImageManager;
 import net.certiv.dsl.ui.DslUI;
-import net.certiv.dsl.ui.editor.DslPresentationReconciler;
 import net.certiv.dsl.ui.editor.DslSourceViewerConfiguration;
-import net.certiv.dsl.ui.editor.reconcile.DslReconciler;
-import net.certiv.dsl.ui.editor.text.completion.DslCompletionProcessor;
+import net.certiv.dsl.ui.editor.reconcile.PresentationReconciler;
+import net.certiv.dsl.ui.editor.reconcile.Reconciler;
+import net.certiv.dsl.ui.editor.text.completion.CompletionCategory;
+import net.certiv.dsl.ui.editor.text.completion.CompletionProcessor;
+import net.certiv.dsl.ui.editor.text.completion.engines.ICompletionEngine;
+import net.certiv.dsl.ui.editor.text.completion.engines.KeywordEngine;
+import net.certiv.dsl.ui.editor.text.completion.engines.TemplateEngine;
 import net.certiv.dsl.ui.formatter.strategies.DslFormattingStrategy;
 import net.certiv.fluent.dt.core.FluentCore;
 import net.certiv.fluent.dt.ui.FluentUI;
-import net.certiv.fluent.dt.ui.editor.completion.FmCompletionProcessor;
+import net.certiv.fluent.dt.ui.editor.outline.FluentStatementLabelProvider;
 import net.certiv.fluent.dt.ui.editor.reconcilers.MdReconcilingStrategy;
+import net.certiv.fluent.dt.ui.editor.reconcilers.MdSematicAnalyzer;
 import net.certiv.fluent.dt.ui.editor.strategies.FluentDoubleClickStrategy;
 import net.certiv.fluent.dt.ui.editor.strategies.LineWrapEditStrategy;
 import net.certiv.fluent.dt.ui.editor.strategies.SmartAutoEditStrategy;
@@ -35,7 +47,6 @@ import net.certiv.fluent.dt.ui.editor.text.ScannerComment;
 import net.certiv.fluent.dt.ui.editor.text.ScannerDot;
 import net.certiv.fluent.dt.ui.editor.text.ScannerFrontMatter;
 import net.certiv.fluent.dt.ui.editor.text.ScannerHtml;
-import net.certiv.fluent.dt.ui.editor.text.ScannerMarkup;
 import net.certiv.fluent.dt.ui.editor.text.ScannerMath;
 import net.certiv.fluent.dt.ui.editor.text.ScannerUml;
 import net.certiv.fluent.dt.ui.formatter.MdFormatter;
@@ -51,11 +62,13 @@ public class FluentSourceViewerConfiguration extends DslSourceViewerConfiguratio
 	private ScannerMath mathScanner;
 	private ScannerHtml htmlScanner;
 	private ScannerComment commentScanner;
-	private ScannerMarkup markupScanner;
+	// private ScannerMarkup markupScanner;
 
-	public FluentSourceViewerConfiguration(IColorManager colorManager, IDslPrefsManager store, ITextEditor editor,
+	private MdSematicAnalyzer markupAnalyzer;
+
+	public FluentSourceViewerConfiguration(IColorManager colorMgr, IDslPrefsManager store, ITextEditor editor,
 			String partitioning) {
-		super(colorManager, store, editor, partitioning);
+		super(colorMgr, store, editor, partitioning);
 	}
 
 	@Override
@@ -83,7 +96,9 @@ public class FluentSourceViewerConfiguration extends DslSourceViewerConfiguratio
 		mathScanner = new ScannerMath(store);
 		htmlScanner = new ScannerHtml(store);
 		commentScanner = new ScannerComment(store);
-		markupScanner = new ScannerMarkup(store);
+
+		// markupScanner = new ScannerMarkup(store);
+		markupAnalyzer = new MdSematicAnalyzer(getDslUI());
 	}
 
 	@Override
@@ -100,8 +115,39 @@ public class FluentSourceViewerConfiguration extends DslSourceViewerConfiguratio
 	}
 
 	@Override
+	public void specializeContentAssistant(ContentAssistant assistant) {
+		FluentStatementLabelProvider provider = new FluentStatementLabelProvider();
+		DslImageManager imgMgr = getDslUI().getImageManager();
+		Image img = imgMgr.get(imgMgr.IMG_OBJS_KEYWORD);
+		Set<Character> stops = new HashSet<>(Arrays.asList(LBRACE, LBRACE, LPAREN, COLON, COMMA, SEMI, PIPE, AT));
+
+		ICompletionEngine dotWords = new KeywordEngine(img, stops, ScannerDot.keywords, ScannerDot.attribs);
+		ICompletionEngine umlWords = new KeywordEngine(img, stops, ScannerUml.keywords, ScannerUml.preprocs,
+				ScannerUml.types);
+		ICompletionEngine tagWords = new KeywordEngine(img, stops, ScannerHtml.keywords);
+		ICompletionEngine templates = new TemplateEngine(provider, stops);
+
+		CompletionCategory dot = new CompletionCategory("Dot", false, true, dotWords);
+		CompletionCategory uml = new CompletionCategory("Uml", false, true, umlWords);
+		CompletionCategory tag = new CompletionCategory("Html", false, true, tagWords);
+		CompletionCategory tmpl = new CompletionCategory("Templates", true, true, templates);
+
+		CompletionProcessor dotProc = new CompletionProcessor(getDslUI(), assistant, dot, tmpl);
+		assistant.setContentAssistProcessor(dotProc, Partitions.DOTBLOCK);
+
+		CompletionProcessor umlProc = new CompletionProcessor(getDslUI(), assistant, uml, tmpl);
+		assistant.setContentAssistProcessor(umlProc, Partitions.UMLBLOCK);
+
+		CompletionProcessor tagProc = new CompletionProcessor(getDslUI(), assistant, tag, tmpl);
+		assistant.setContentAssistProcessor(tagProc, Partitions.HTMLBLOCK);
+
+		CompletionProcessor proc = new CompletionProcessor(getDslUI(), assistant, tmpl);
+		assistant.setContentAssistProcessor(proc, IDocument.DEFAULT_CONTENT_TYPE);
+	}
+
+	@Override
 	public IPresentationReconciler getPresentationReconciler(ISourceViewer viewer) {
-		PresentationReconciler reconciler = new DslPresentationReconciler();
+		PresentationReconciler reconciler = new PresentationReconciler();
 		reconciler.setDocumentPartitioning(getConfiguredDocumentPartitioning(viewer));
 
 		buildRepairer(reconciler, frontScanner, Partitions.FRONT_MATTER);
@@ -111,14 +157,17 @@ public class FluentSourceViewerConfiguration extends DslSourceViewerConfiguratio
 		buildRepairer(reconciler, umlScanner, Partitions.UMLBLOCK);
 		buildRepairer(reconciler, mathScanner, Partitions.MATHBLOCK);
 		buildRepairer(reconciler, htmlScanner, Partitions.HTMLBLOCK);
-		buildRepairer(reconciler, markupScanner, IDocument.DEFAULT_CONTENT_TYPE);
+		// buildRepairer(reconciler, markupScanner, IDocument.DEFAULT_CONTENT_TYPE);
+
+		buildRepairer(viewer, reconciler, markupAnalyzer, IDocument.DEFAULT_CONTENT_TYPE);
 
 		return reconciler;
 	}
 
 	@Override
 	public void handlePropertyChangeEvent(PropertyChangeEvent event) {
-		if (markupScanner.affectsBehavior(event)) markupScanner.adaptToPreferenceChange(event);
+		// if (markupScanner.affectsBehavior(event))
+		// markupScanner.adaptToPreferenceChange(event);
 		if (codeScanner.affectsBehavior(event)) codeScanner.adaptToPreferenceChange(event);
 		if (dotScanner.affectsBehavior(event)) dotScanner.adaptToPreferenceChange(event);
 		if (umlScanner.affectsBehavior(event)) umlScanner.adaptToPreferenceChange(event);
@@ -130,19 +179,19 @@ public class FluentSourceViewerConfiguration extends DslSourceViewerConfiguratio
 
 	@Override
 	public boolean affectsTextPresentation(PropertyChangeEvent event) {
-		return markupScanner.affectsBehavior(event) //
-				|| codeScanner.affectsBehavior(event) //
+		return codeScanner.affectsBehavior(event) //
 				|| dotScanner.affectsBehavior(event) //
 				|| umlScanner.affectsBehavior(event) //
 				|| mathScanner.affectsBehavior(event) //
 				|| htmlScanner.affectsBehavior(event) //
 				|| commentScanner.affectsBehavior(event) //
 				|| frontScanner.affectsBehavior(event);
+		// markupScanner.affectsBehavior(event) //
 	}
 
 	@Override
-	public DslReconciler getReconciler(ISourceViewer viewer) {
-		DslReconciler reconciler = super.getReconciler(viewer);
+	public Reconciler getReconciler(ISourceViewer viewer) {
+		Reconciler reconciler = super.getReconciler(viewer);
 
 		// // CompositeReconcilingStrategy multi = new CompositeReconcilingStrategy();
 		// // multi.addReconcilingStrategy(new MdReconcilingStrategy(getEditor(),
@@ -195,17 +244,6 @@ public class FluentSourceViewerConfiguration extends DslSourceViewerConfiguratio
 		// }
 
 		return formatter;
-	}
-
-	@Override
-	protected void alterContentAssistant(ContentAssistant assistant) {
-		DslCompletionProcessor processor = new FmCompletionProcessor(getEditor(), assistant,
-				IDocument.DEFAULT_CONTENT_TYPE);
-		assistant.setContentAssistProcessor(processor, IDocument.DEFAULT_CONTENT_TYPE);
-
-		// DslCompletionProcessor dotProcessor = new DotCompletionProcessor(getEditor(),
-		// assistant, Partitions.DOTBLOCK);
-		// assistant.setContentAssistProcessor(dotProcessor, Partitions.DOTBLOCK);
 	}
 
 	@Override

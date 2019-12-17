@@ -10,6 +10,16 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
  */
 public interface DotParserListener extends ParseTreeListener {
 	/**
+	 * Enter a parse tree produced by {@link DotParser#document}.
+	 * @param ctx the parse tree
+	 */
+	void enterDocument(DotParser.DocumentContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link DotParser#document}.
+	 * @param ctx the parse tree
+	 */
+	void exitDocument(DotParser.DocumentContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link DotParser#graph}.
 	 * @param ctx the parse tree
 	 */

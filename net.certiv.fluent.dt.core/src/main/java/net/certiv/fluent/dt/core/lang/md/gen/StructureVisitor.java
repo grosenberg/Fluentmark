@@ -3,57 +3,58 @@
 // by XVisitor 4.7
 //
 package net.certiv.fluent.dt.core.lang.md.gen;
-	import org.antlr.v4.runtime.tree.ParseTree;
+	import  net.certiv.fluent.dt.core.lang.md.StructureBuilder;
+	import  net.certiv.fluent.dt.core.model.SpecType;
 
+import java.util.List;
+import org.antlr.v4.runtime.tree.ParseTree;
+import net.certiv.antlr.runtime.xvisitor.Processor;
 import net.certiv.antlr.runtime.xvisitor.xpath.EType;
-import  net.certiv.fluent.dt.core.lang.md.StructureBuilder;
-import net.certiv.fluent.dt.core.model.ModelType;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class StructureVisitor extends StructureBuilder {
 
 	public static final String[] tokenNames = {
-		"<INVALID>", "WORD", "HDR_END", "RBOLD", "RITALIC", "RSTRIKE", "RSPAN", 
-		"RDQUOTE", "RSQUOTE", "HIDN_COMMENT", "HTML_COMMENT", "URL", "LSTYLE", 
-		"LINK", "LREF", "LURL", "LDEF", "CODE_BEG", "YAML_BLOCK", "HTML_BLOCK", 
-		"MATH_BLOCK", "TEX_BLOCK", "UML_BLOCK", "UNICODE", "ENTITY", "TEX", "MATH", 
-		"HTML", "TABLE", "PIPE", "COLON", "BQUOTE", "HASHES", "DASHES", "EQUALS", 
-		"LIST_ITEM", "HRULE", "LBOLD", "LITALIC", "LSTRIKE", "LSPAN", "LDQUOTE", 
-		"LSQUOTE", "BLANK", "BREAK", "VWS", "HWS", "CHAR", "ERR", "HASH", "CHAR_h", 
-		"RSTYLE", "CLASS", "ID", "EQ", "QUOTE", "MARK", "CHAR_sd", "LINK_MARK", 
-		"REF_MARK", "DEF_MARK", "RBRACK", "RPAREN", "CHAR_l", "CODE_END", "WORD_b", 
-		"WORD_t"
+		"<INVALID>", "WORD", "RBOLD", "RITALIC", "RSTRIKE", "RSPAN", "RDQUOTE", 
+		"RSQUOTE", "HIDN_COMMENT", "HTML_COMMENT", "URL", "LSTYLE", "LINK", "LDEF", 
+		"LREF", "LURL", "LTXT", "CODE_BEG", "YAML_BLOCK", "HTML_BLOCK", "MATH_BLOCK", 
+		"TEX_BLOCK", "UML_BLOCK", "UNICODE", "ENTITY", "TEX", "MATH", "HTML", 
+		"TABLE_DEF", "PIPE", "HRULE", "HASHES", "DASHES", "EQUALS", "COLON", "SIMPLE_MARK", 
+		"PAREN_MARK", "UALPHA_MARK", "LALPHA_MARK", "LBOLD", "LITALIC", "LSTRIKE", 
+		"LSPAN", "LDQUOTE", "LSQUOTE", "SECTION", "BREAK", "BQUOTE", "DENT", "VWS", 
+		"HWS", "CHAR", "ERR", "HASH", "CHAR_h", "RSTYLE", "CLASS", "ID", "EQ", 
+		"QUOTE", "MARK", "CHAR_sd", "LINK_MARK", "REF_MARK", "DEF_MARK", "RBRACK", 
+		"RPAREN", "CHAR_l", "CODE_END", "WORD_b", "WORD_t"
 	};
 
 	public static final int
-		WORD = 1, HDR_END = 2, RBOLD = 3, RITALIC = 4, RSTRIKE = 5, RSPAN = 6, 
-		RDQUOTE = 7, RSQUOTE = 8, HIDN_COMMENT = 9, HTML_COMMENT = 10, URL = 11, 
-		LSTYLE = 12, LINK = 13, LREF = 14, LURL = 15, LDEF = 16, CODE_BEG = 17, 
+		WORD = 1, RBOLD = 2, RITALIC = 3, RSTRIKE = 4, RSPAN = 5, RDQUOTE = 6, 
+		RSQUOTE = 7, HIDN_COMMENT = 8, HTML_COMMENT = 9, URL = 10, LSTYLE = 11, 
+		LINK = 12, LDEF = 13, LREF = 14, LURL = 15, LTXT = 16, CODE_BEG = 17, 
 		YAML_BLOCK = 18, HTML_BLOCK = 19, MATH_BLOCK = 20, TEX_BLOCK = 21, UML_BLOCK = 22, 
-		UNICODE = 23, ENTITY = 24, TEX = 25, MATH = 26, HTML = 27, TABLE = 28, 
-		PIPE = 29, COLON = 30, BQUOTE = 31, HASHES = 32, DASHES = 33, EQUALS = 34, 
-		LIST_ITEM = 35, HRULE = 36, LBOLD = 37, LITALIC = 38, LSTRIKE = 39, LSPAN = 40, 
-		LDQUOTE = 41, LSQUOTE = 42, BLANK = 43, BREAK = 44, VWS = 45, HWS = 46, 
-		CHAR = 47, ERR = 48, HASH = 49, CHAR_h = 50, RSTYLE = 51, CLASS = 52, 
-		ID = 53, EQ = 54, QUOTE = 55, MARK = 56, CHAR_sd = 57, LINK_MARK = 58, 
-		REF_MARK = 59, DEF_MARK = 60, RBRACK = 61, RPAREN = 62, CHAR_l = 63, CODE_END = 64, 
-		WORD_b = 65, WORD_t = 66;
+		UNICODE = 23, ENTITY = 24, TEX = 25, MATH = 26, HTML = 27, TABLE_DEF = 28, 
+		PIPE = 29, HRULE = 30, HASHES = 31, DASHES = 32, EQUALS = 33, COLON = 34, 
+		SIMPLE_MARK = 35, PAREN_MARK = 36, UALPHA_MARK = 37, LALPHA_MARK = 38, 
+		LBOLD = 39, LITALIC = 40, LSTRIKE = 41, LSPAN = 42, LDQUOTE = 43, LSQUOTE = 44, 
+		SECTION = 45, BREAK = 46, BQUOTE = 47, DENT = 48, VWS = 49, HWS = 50, 
+		CHAR = 51, ERR = 52, HASH = 53, CHAR_h = 54, RSTYLE = 55, CLASS = 56, 
+		ID = 57, EQ = 58, QUOTE = 59, MARK = 60, CHAR_sd = 61, LINK_MARK = 62, 
+		REF_MARK = 63, DEF_MARK = 64, RBRACK = 65, RPAREN = 66, CHAR_l = 67, CODE_END = 68, 
+		WORD_b = 69, WORD_t = 70;
 
 	public static final String[] ruleNames = {
-		"page", "yamlBlock", "htmlBlock", "mathBlock", "texBlock", "umlBlock", 
-		"codeBlock", "header", "hrule", "list", "listItem", "table", "tableDef", 
-		"tableRow", "tableCell", "quote", "definition", "paragraph", "content", 
-		"text", "line", "word", "link", "style", "attrLeft", "attrRight", "comment", 
-		"lnBlank", "lnBreak", "ignore"
+		"page", "yaml", "html", "math", "tex", "uml", "code", "header", "hrule", 
+		"table", "tableRow", "list", "listItem", "listMark", "definition", "paragraph", 
+		"line", "text", "link", "word", "style", "attrLeft", "attrRight", "comment", 
+		"lnBlank", "lnBreak", "err"
 	};
 
 	public static final int
-		page = 1000, yamlBlock = 1001, htmlBlock = 1002, mathBlock = 1003, texBlock = 1004, 
-		umlBlock = 1005, codeBlock = 1006, header = 1007, hrule = 1008, list = 1009, 
-		listItem = 1010, table = 1011, tableDef = 1012, tableRow = 1013, tableCell = 1014, 
-		quote = 1015, definition = 1016, paragraph = 1017, content = 1018, text = 1019, 
-		line = 1020, word = 1021, link = 1022, style = 1023, attrLeft = 1024, 
-		attrRight = 1025, comment = 1026, lnBlank = 1027, lnBreak = 1028, ignore = 1029;
+		page = 1000, yaml = 1001, html = 1002, math = 1003, tex = 1004, uml = 1005, 
+		code = 1006, header = 1007, hrule = 1008, table = 1009, tableRow = 1010, 
+		list = 1011, listItem = 1012, listMark = 1013, definition = 1014, paragraph = 1015, 
+		line = 1016, text = 1017, link = 1018, word = 1019, style = 1020, attrLeft = 1021, 
+		attrRight = 1022, comment = 1023, lnBlank = 1024, lnBreak = 1025, err = 1026;
 
 	public StructureVisitor(ParseTree tree) {
 		super(tree);
@@ -106,64 +107,56 @@ public class StructureVisitor extends StructureBuilder {
 						addElement(EType.Rule, true, false, "header", 7); 
 					completePathSpec(); 
 
-					createPathSpec("paragraph");
-						addElement(EType.Rule, true, false, "paragraph", 17); 
-					completePathSpec(); 
-
 					createPathSpec("hrule");
 						addElement(EType.Rule, true, false, "hrule", 8); 
 					completePathSpec(); 
 
-					createPathSpec("comment");
-						addElement(EType.Rule, true, false, "comment", 26); 
-					completePathSpec(); 
-
-					createPathSpec("yamlBlock");
-						addElement(EType.Rule, true, false, "yamlBlock", 1); 
-					completePathSpec(); 
-
-					createPathSpec("htmlBlock");
-						addElement(EType.Rule, true, false, "htmlBlock", 2); 
-					completePathSpec(); 
-
-					createPathSpec("codeBlock");
-						addElement(EType.Rule, true, false, "codeBlock", 6); 
-					completePathSpec(); 
-
-					createPathSpec("mathBlock");
-						addElement(EType.Rule, true, false, "mathBlock", 3); 
-					completePathSpec(); 
-
-					createPathSpec("texBlock");
-						addElement(EType.Rule, true, false, "texBlock", 4); 
-					completePathSpec(); 
-
-					createPathSpec("umlBlock");
-						addElement(EType.Rule, true, false, "umlBlock", 5); 
-					completePathSpec(); 
-
-					createPathSpec("list");
-						addElement(EType.Rule, true, false, "list", 9); 
+					createPathSpec("paragraph");
+						addElement(EType.Rule, true, false, "paragraph", 15); 
 					completePathSpec(); 
 
 					createPathSpec("table");
-						addElement(EType.Rule, true, false, "table", 11); 
-					completePathSpec(); 
-
-					createPathSpec("quote");
-						addElement(EType.Rule, true, false, "quote", 15); 
+						addElement(EType.Rule, true, false, "table", 9); 
 					completePathSpec(); 
 
 					createPathSpec("definition");
-						addElement(EType.Rule, true, false, "definition", 16); 
+						addElement(EType.Rule, true, false, "definition", 14); 
+					completePathSpec(); 
+
+					createPathSpec("list");
+						addElement(EType.Rule, true, false, "list", 11); 
+					completePathSpec(); 
+
+					createPathSpec("comment");
+						addElement(EType.Rule, true, false, "comment", 23); 
+					completePathSpec(); 
+
+					createPathSpec("yaml");
+						addElement(EType.Rule, true, false, "yaml", 1); 
+					completePathSpec(); 
+
+					createPathSpec("html");
+						addElement(EType.Rule, true, false, "html", 2); 
+					completePathSpec(); 
+
+					createPathSpec("code");
+						addElement(EType.Rule, true, false, "code", 6); 
+					completePathSpec(); 
+
+					createPathSpec("math");
+						addElement(EType.Rule, true, false, "math", 3); 
+					completePathSpec(); 
+
+					createPathSpec("tex");
+						addElement(EType.Rule, true, false, "tex", 4); 
+					completePathSpec(); 
+
+					createPathSpec("uml");
+						addElement(EType.Rule, true, false, "uml", 5); 
 					completePathSpec(); 
 
 					createPathSpec("listItem");
-						addElement(EType.Rule, true, false, "listItem", 10); 
-					completePathSpec(); 
-
-					createPathSpec("tableRow");
-						addElement(EType.Rule, true, false, "tableRow", 13); 
+						addElement(EType.Rule, true, false, "listItem", 12); 
 					completePathSpec(); 
 	}
 
@@ -177,50 +170,44 @@ public class StructureVisitor extends StructureBuilder {
 					case "header":
 						header();
 						break;
-					case "paragraph":
-						paragraph();
-						break;
 					case "hrule":
 						hrule();
 						break;
-					case "comment":
-						comment();
-						break;
-					case "quote":
-						quote();
+					case "paragraph":
+						paragraph();
 						break;
 					case "definition":
 						definition();
 						break;
-					case "yamlBlock":
-						yamlBlock();
+					case "table":
+						table();
 						break;
-					case "htmlBlock":
-						htmlBlock();
+					case "comment":
+						comment();
 						break;
-					case "codeBlock":
-						codeBlock();
+					case "yaml":
+						yaml();
 						break;
-					case "mathBlock":
-						mathBlock();
+					case "html":
+						html();
 						break;
-					case "texBlock":
-						texBlock();
+					case "code":
+						code();
 						break;
-					case "umlBlock":
-						umlBlock();
+					case "math":
+						math();
+						break;
+					case "tex":
+						tex();
+						break;
+					case "uml":
+						uml();
 						break;
 					case "list":
 						list();
 						break;
 					case "listItem":
 						listItem();
-						break;
-					case "table":
-						table();
-						break;
-					case "tableRow":
-						tableRow();
 						break;
 		}
 	}
@@ -233,48 +220,48 @@ public class StructureVisitor extends StructureBuilder {
 		if (entering()) { doHeader(); }
 	}
 
-	private void paragraph() {
-		if (entering()) { doStatement(ModelType.Paragraph); }
-	}
-
 	private void hrule() {
-		if (entering()) { doStatement(ModelType.HRule); }
+		if (entering()) { doStatement(SpecType.HRule); }
 	}
 
-	private void comment() {
-		if (entering()) { doStatement(ModelType.Comment); }
-	}
-
-	private void quote() {
-		if (entering()) { doStatement(ModelType.Quote); }
+	private void paragraph() {
+		if (entering()) { doStatement(SpecType.Paragraph); }
 	}
 
 	private void definition() {
-		if (entering()) { doStatement(ModelType.Definition); }
+		if (entering()) { doStatement(SpecType.Definition); }
 	}
 
-	private void yamlBlock() {
-		if (entering()) { doStatement(ModelType.MetaMatter); }
+	private void table() {
+		if (entering()) { doStatement(SpecType.Table); }
 	}
 
-	private void htmlBlock() {
-		if (entering()) { doStatement(ModelType.HtmlBlock); }
+	private void comment() {
+		if (entering()) { doStatement(SpecType.Comment); }
 	}
 
-	private void codeBlock() {
-		if (entering()) { doStatement(ModelType.CodeBlock); }
+	private void yaml() {
+		if (entering()) { doStatement(SpecType.YamlBlock); }
 	}
 
-	private void mathBlock() {
-		if (entering()) { doStatement(ModelType.MathBlock); }
+	private void html() {
+		if (entering()) { doStatement(SpecType.HtmlBlock); }
 	}
 
-	private void texBlock() {
-		if (entering()) { doStatement(ModelType.TexBlock); }
+	private void code() {
+		if (entering()) { doStatement(SpecType.CodeBlock); }
 	}
 
-	private void umlBlock() {
-		if (entering()) { doStatement(ModelType.UmlGraph); }
+	private void math() {
+		if (entering()) { doStatement(SpecType.MathBlock); }
+	}
+
+	private void tex() {
+		if (entering()) { doStatement(SpecType.TexBlock) ; }
+	}
+
+	private void uml() {
+		if (entering()) { doStatement(SpecType.UmlBlock) ; }
 	}
 
 	private void list() {
@@ -284,15 +271,6 @@ public class StructureVisitor extends StructureBuilder {
 
 	private void listItem() {
 		if (entering()) { doListItem(); }
-	}
-
-	private void table() {
-		if (entering()) { doTable(); }
-		if (exiting()) { endBlock(); }
-	}
-
-	private void tableRow() {
-		if (entering()) { doTableRow(); }
 	}
 
 

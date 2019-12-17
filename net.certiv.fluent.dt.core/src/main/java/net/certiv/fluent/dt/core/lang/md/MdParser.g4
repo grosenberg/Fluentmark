@@ -1,51 +1,61 @@
 parser grammar MdParser ;
 
 options {
-	superClass = MdParserBase ; 
 	tokenVocab = MdLexer ;
 }
 
-@header {
+@header { 
 	package net.certiv.fluent.dt.core.lang.md.gen;
-	import net.certiv.fluent.dt.core.lang.md.MdToken;
-	import net.certiv.fluent.dt.core.lang.md.MdParserBase;
 }
 
 page
-	:	( codeBlock	| yamlBlock	| htmlBlock	| mathBlock	| texBlock	| umlBlock 
-		| header    | hrule		| list	    | table 	| definition
-		| paragraph	| comment	| lnBreak	| lnBlank	| ignore
+	:	( yaml	 | html  | math  | tex | uml | code
+		| header | hrule | table | list 
+		| paragraph | definition  
+		| lnBlank   | lnBreak 
+		| comment   | err 
 		)*
-		EOF
+	EOF
 	;
 
-yamlBlock	: YAML_BLOCK ;
-htmlBlock	: HTML_BLOCK ;
-mathBlock	: MATH_BLOCK ;
-texBlock	: TEX_BLOCK  ;
-umlBlock	: UML_BLOCK  ;
+yaml : YAML_BLOCK ;
+html : HTML_BLOCK ;
+math : MATH_BLOCK ;
+tex	 : TEX_BLOCK  ;
+uml	 : UML_BLOCK  ;
 
-codeBlock
-	: CODE_BEG ( HWS* lang=WORD )? ( HWS* style )? VWS+ 
-		code+=( WORD | HWS | VWS )* 
+code
+	: CODE_SPAN
+	| CODE_BEG lang=WORD? style? VWS+ 
+		( WORD | VWS )* 
 	  CODE_END
 	;
 
 header
-	: BLANK HASHES content* HASH* style? 
-	| BLANK content* ( EQUALS | DASHES ) 
+	: HASHES line HASH* style?
+	| line ( EQUALS | DASHES )
 	;
 
 hrule
-	: BLANK HRULE style? 
+	: HRULE style?
+	;
+
+table
+	: tableRow* 
+	  TABLE_DEF style? 
+	  tableRow*
+	;
+
+tableRow
+	: PIPE? ( line? PIPE )+ line? PIPE?
 	;
 
 list
-	: BLANK listItem+  
+	: listItem+
 	;
 
 listItem
-	: listMark content+
+	: listMark ( line lnBreak? )*
 	;
 
 listMark
@@ -55,56 +65,51 @@ listMark
 	| mark=LALPHA_MARK
 	;
 
-table : BLANK hdr=tableRow tableDef rows+=tableRow+ ;
-
-tableDef : TABLE ;
-tableRow : PIPE? tableCell? ( PIPE tableCell? )+ PIPE? ;
-tableCell : content ;
-
 definition
-	: BLANK ( word BREAK )+ ( COLON paragraph )+
+	: line
+	  ( COLON line ( lnBreak line )* )+
 	;
 
-paragraph	: BLANK ( BQUOTE? content )+ ;
+paragraph
+	: line ( lnBreak line )*
+	;
 
-content		: ( word | link )+ ( lnBreak ( word | link )+ )* ;
+line : ( word | link )+ ;
 
-// [word](URL "title") {style}
-// [word][ref]
-// [URL] {style}
-// [ref]:URL "title"
 link
-	: LINK text LINK_MARK URL ( QUOTE text QUOTE )? RPAREN style? 
-	| LDEF text DEF_MARK URL ( LDQUOTE text RDQUOTE )?
-	| LREF text REF_MARK text RBRACK style?
-	| LURL URL  RBRACK style?
-	| LTXT text RBRACK style?
+	: ( IMAGE | LBRACK ) ( link | text ) LINK_SEP URL ( LDQUOTE text RDQUOTE )? RPAREN style?
+	| ( IMAGE | LBRACK ) ( link | text ) REF_SEP text RBRACK style?
+	| ( IMAGE | LBRACK ) text? RBRACK style?
+	| ( IMAGE | LBRACK ) URL RBRACK style?
+	| LBRACK text DEF_SEP URL ( LDQUOTE text RDQUOTE )?
 	;
 
 text : word+ ;
 
 word
 	: attrLeft* 
-		( WORD | UNICODE | ENTITY
+		( WORD | RPAREN 
+		| UNICODE | ENTITY
 		| HTML | TEX | MATH | URL
 		) 
 	  attrRight*
 	;
 
 style
-	: LSTYLE ( CLASS WORD
-			 | ID WORD
-			 | WORD EQ ( QUOTE? WORD QUOTE? | MARK? WORD MARK? ) 
-			 )+ 
+	: LSTYLE 
+		( CLASS WORD
+		| ID WORD
+		| WORD EQ ( QUOTE? WORD QUOTE? | MARK? WORD MARK? )
+		)+ 
 	  RSTYLE
 	;
 
 attrLeft  : LBOLD | LITALIC | LSTRIKE | LSPAN | LDQUOTE | LSQUOTE ;
 attrRight : RBOLD | RITALIC | RSTRIKE | RSPAN | RDQUOTE | RSQUOTE ;
 
-comment	: HIDN_COMMENT | HTML_COMMENT ;
+comment : COMMENT ;
 
-lnBlank	: BLANK ;
-lnBreak	: BREAK ;
+lnBlank : LINE_BLANK ;
+lnBreak : LINE_BREAK ;
 
-ignore	: ( ERR | BLANK | BREAK )+ ; 
+err : ERR+ ; 

@@ -1,11 +1,10 @@
 package net.certiv.fluent.dt.ui.editor;
 
-import net.certiv.fluent.dt.core.FluentCore;
-import net.certiv.fluent.dt.ui.FluentUI;
-
 import net.certiv.dsl.core.DslCore;
 import net.certiv.dsl.ui.DslUI;
-import net.certiv.dsl.ui.editor.scanners.AbstractAnnotationImageProvider;
+import net.certiv.dsl.ui.editor.AbstractAnnotationImageProvider;
+import net.certiv.fluent.dt.core.FluentCore;
+import net.certiv.fluent.dt.ui.FluentUI;
 
 public class FmAnnotationImageProvider extends AbstractAnnotationImageProvider {
 

@@ -13,6 +13,12 @@ import org.antlr.v4.runtime.tree.ParseTreeVisitor;
  */
 public interface DotParserVisitor<T> extends ParseTreeVisitor<T> {
 	/**
+	 * Visit a parse tree produced by {@link DotParser#document}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDocument(DotParser.DocumentContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link DotParser#graph}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

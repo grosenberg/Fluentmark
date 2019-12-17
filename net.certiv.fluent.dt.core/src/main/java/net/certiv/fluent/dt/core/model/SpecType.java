@@ -1,49 +1,59 @@
 package net.certiv.fluent.dt.core.model;
 
-public enum ModelType {
-	Page("Page"),
-	MetaMatter("Front Matter"),
+import net.certiv.dsl.core.model.builder.ISpecType;
 
-	Header("Header"),
-	Setext("Setext"),
+public enum SpecType implements ISpecType {
+	Page("Page", "*"),
 
-	Paragraph("Paragraph"),
+	Header("Header", "h"),
+	Setext("Header", "h"),
+	Paragraph("Paragraph", "p"),
+	HRule("Horizontal Rule", "hr"),
 
-	HRule("Horizontal Rule"),
+	Bold("Bold", "b"),
+	Italic("Italic", "i"),
+	Underline("Underline", "u"),
 
-	List("List"),
-	ListItem("List Item"),
-	Table("Table"),
-	TableRow("Table Row"),
+	Span("Span", "pre"),
 
-	Quote("Quote"),
-	Definition("Definition"),
-	Reference("Link reference"),
+	Link("Link", "u"),
+	Cite("Link cite", "u"),
 
-	HtmlBlock("HTML Block"),
-	MathBlock("Math Block"),
-	TexBlock("LaTex Block"),
+	List("List", "ul"),
+	ListItem("List Item", "li"),
+	Table("Table", "td"),
+	TableRow("Table Row", "tr"),
 
-	CodeBlock("Code Block"),
-	CodeBlockIndented("Indented Code Block"),
-	DotGraph("Dot Graph"),
-	UmlGraph("UML Graph"),
+	Quote("Quote", "q"),
+	Definition("Definition", "dl"),
 
-	Comment("Comment"),
-	Terminal("Blank Line"),
+	YamlBlock("YAML Block", ""),
+	HtmlBlock("HTML Block", ""),
+	MathBlock("Math Block", ""),
+	TexBlock("LaTex Block", ""),
+	DotBlock("Dot Block", ""),
+	UmlBlock("UML Block", ""),
 
-	Unknown("Unknown"),
+	CodeBlock("Code Block", "code"),
+	CodeBlockIndented("Code Block (indented)", "code"),
+
+	Comment("Comment", "comment"),
+	Terminal("Blank Line", ""),
+
+	Unknown("Unknown", ""),
 
 	;
 
-	private String _displayName;
+	public final String name;
+	public final String css;
 
-	ModelType(String displayName) {
-		_displayName = displayName;
+	SpecType(String name, String css) {
+		this.name = name;
+		this.css = css;
 	}
 
 	@Override
 	public String toString() {
-		return _displayName;
+		return name;
 	}
 }

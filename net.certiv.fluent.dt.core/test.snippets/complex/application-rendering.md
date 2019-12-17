@@ -601,6 +601,7 @@ One of possible ways to inject the module script into the page is to override ``
 This section describes how to secure the web application, which includes implementing authentication and authorization.
 
 #### Authentication
+
 ##### Set redirection to principal home
 
 In ``plugin.xml`` add the following route:

@@ -19,8 +19,8 @@ import org.eclipse.jface.text.ITypedRegion;
 import com.vladsch.flexmark.html.HtmlRenderer;
 import com.vladsch.flexmark.parser.Parser;
 import com.vladsch.flexmark.parser.ParserEmulationProfile;
-import com.vladsch.flexmark.util.options.MutableDataHolder;
-import com.vladsch.flexmark.util.options.MutableDataSet;
+import com.vladsch.flexmark.util.data.MutableDataHolder;
+import com.vladsch.flexmark.util.data.MutableDataSet;
 
 import net.certiv.dsl.core.util.exec.Cmd;
 import net.certiv.fluent.dt.core.FluentCore;

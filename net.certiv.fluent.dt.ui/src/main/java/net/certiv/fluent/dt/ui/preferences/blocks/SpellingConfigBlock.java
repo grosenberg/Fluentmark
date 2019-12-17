@@ -11,6 +11,7 @@ import java.io.File;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -223,14 +224,14 @@ public class SpellingConfigBlock extends AbstractConfigBlock {
 		String label;
 		if (hasPlaformDictionaries) {
 			label = PreferencesMessages.SpellingPreferencePage_dictionary_label;
-			localeCombo = addLocaleBox(dictionary, label, PrefsSpelling.SPELLING_LOCALE, getDictionaryCodes(locales),
-					getDictionaryLabels(locales), 0);
+			localeCombo = addLocaleBox(dictionary, label, PrefsSpelling.SPELLING_LOCALE, getDictionaryLabels(locales),
+					getDictionaryCodes(locales), 0);
 			localeCombo.setEnabled(locales.size() > 0);
 			new Label(dictionary, SWT.NONE);
 		}
 
 		label = PreferencesMessages.SpellingPreferencePage_workspace_dictionary_label;
-		dictPath = addLabeledTextField(dictionary, label, PrefsSpelling.SPELLING_USER_DICTIONARY, 0, 0, false);
+		dictPath = addTextField(dictionary, label, PrefsSpelling.SPELLING_USER_DICTIONARY, 0, 0);
 
 		GridData gd = (GridData) dictPath.getLayoutData();
 		gd.grabExcessHorizontalSpace = true;
@@ -273,8 +274,8 @@ public class SpellingConfigBlock extends AbstractConfigBlock {
 
 	private Composite addAdvanced(Composite parent) {
 		Composite advanced = SWTFactory.makeGroup(parent, "Advanced", 2);
-		addLabeledTextField(advanced, "Proposal threshhold", PrefsSpelling.SPELLING_PROPOSAL_THRESHOLD, 20, 6, true);
-		addLabeledTextField(advanced, "Problems threshhold", PrefsSpelling.SPELLING_PROBLEMS_THRESHOLD, 20, 6, true);
+		addTextField(advanced, "Proposal threshhold", PrefsSpelling.SPELLING_PROPOSAL_THRESHOLD, 20, 6, FType.INTEGER);
+		addTextField(advanced, "Problems threshhold", PrefsSpelling.SPELLING_PROBLEMS_THRESHOLD, 20, 6, FType.INTEGER);
 		return advanced;
 	}
 
@@ -331,32 +332,34 @@ public class SpellingConfigBlock extends AbstractConfigBlock {
 		return labels;
 	}
 
-	protected Combo addLocaleBox(Composite parent, String label, String key, String[] values, String[] valueLabels,
+	protected Combo addLocaleBox(Composite parent, String label, String key, String[] labels, String[] values,
 			int indent) {
 
-		ControlData data = new ControlData(key, values);
-		Combo combo = addCombo(parent, label, key, values, valueLabels, indent, false);
-		combo.setData(data);
+		Map<String, Object> map = toMap(labels, values);
+		Combo combo = addLabeledCombo(parent, label, key, map, indent);
 
-		String currValue = getDelta().getString(key);
-		Locale locale = SpellCheckEngine.convertToLocale(currValue);
-		locale = SpellCheckEngine.findClosestLocale(locale);
-		if (locale != null) currValue = locale.toString();
-		combo.select(data.getSelection(currValue));
+		// ControlData data = new ControlData(key, values);
+		// combo.setData(data);
+		//
+		// String currValue = getDelta().getString(key);
+		// Locale locale = SpellCheckEngine.convertToLocale(currValue);
+		// locale = SpellCheckEngine.findClosestLocale(locale);
+		// if (locale != null) currValue = locale.toString();
+		// combo.select(data.getSelection(currValue));
+
 		return combo;
 	}
 
-	@Override
-	protected void comboFieldChanged(Combo combo, Object oData) {
-		if (combo == localeCombo) {
-			ControlData data = (ControlData) oData;
-			String value = data.getValue(combo.getSelectionIndex());
-			Locale locale = SpellCheckEngine.convertToLocale(value);
-			locale = SpellCheckEngine.findClosestLocale(locale);
-			if (locale != null) value = locale.toString();
-			getDelta().setValue(data.getKey(), value);
-		}
-	}
+	// protected void comboFieldChanged(Combo combo, Object oData) {
+	// if (combo == localeCombo) {
+	// ControlData data = (ControlData) oData;
+	// String value = data.getValue(combo.getSelectionIndex());
+	// Locale locale = SpellCheckEngine.convertToLocale(value);
+	// locale = SpellCheckEngine.findClosestLocale(locale);
+	// if (locale != null) value = locale.toString();
+	// getDelta().setValue(data.getKey(), value);
+	// }
+	// }
 
 	/**
 	 * Creates the encoding field editor.
@@ -403,9 +406,8 @@ public class SpellingConfigBlock extends AbstractConfigBlock {
 				StatusInfo status = new StatusInfo();
 				if (newMessage != null) status.setError(newMessage);
 				fEncodingFieldEditorStatus = status;
-				context.statusChanged(
-						StatusUtil.getMostSevere(new IStatus[]
-						{ fThresholdStatus, fFileStatus, fEncodingFieldEditorStatus }));
+				context.statusChanged(StatusUtil
+						.getMostSevere(new IStatus[] { fThresholdStatus, fFileStatus, fEncodingFieldEditorStatus }));
 			}
 		};
 		encEditor.setPage(fakePage);
@@ -431,8 +433,7 @@ public class SpellingConfigBlock extends AbstractConfigBlock {
 		}
 
 		IStatus status = StatusUtil
-				.getMostSevere(new IStatus[]
-				{ fThresholdStatus, fFileStatus, fEncodingFieldEditorStatus });
+				.getMostSevere(new IStatus[] { fThresholdStatus, fFileStatus, fEncodingFieldEditorStatus });
 		context.statusChanged(status);
 
 		if (Prefs.SPELLING_ENABLED.equals(key)) {

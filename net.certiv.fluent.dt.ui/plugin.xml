@@ -6,7 +6,7 @@
          name="Fm Document"
          point="org.eclipse.core.filebuffers.documentSetup">
       <participant
-            class="net.certiv.fluent.dt.ui.editor.FmDocumentSetupParticipant"
+            class="net.certiv.fluent.dt.ui.editor.FluentDocumentSetupParticipant"
             contentTypeId="net.certiv.fluent.dt.core.contentType"
             extensions="md,mdown,mkd">
       </participant>
@@ -396,6 +396,12 @@
             description="Italic"
             id="net.certiv.fluent.dt.italic"
             name="Italic">
+      </command>
+      <command
+            categoryId="net.certiv.fluent.dt.ui.category.source"
+            description="Clean document problem markers"
+            id="net.certiv.fluent.dt.ui.removeMarkersCommand"
+            name="Clean Problems">
       </command>   </extension>
 
 <!--
@@ -586,6 +592,10 @@
             </reference>
          </enabledWhen>
       </handler>
+      <handler
+            class="net.certiv.dsl.ui.handlers.CleanGrammarHandler"
+            commandId="net.certiv.fluent.dt.ui.removeMarkersCommand">
+      </handler>
       
    </extension>
   
@@ -673,5 +683,19 @@
       </menuContribution>
    </extension>
 
+	<extension point="org.eclipse.ui.menus">
+    	<menuContribution locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+         <command
+               commandId="net.certiv.fluent.dt.ui.removeMarkersCommand"
+               id="net.certiv.fluent.dt.ui.removeMarkersCommand"
+               tooltip="Clean document problem markers">
+            style="push">
+            <visibleWhen>
+        		<reference definitionId="net.certiv.fluent.dt.activeContexts.definition"/>
+			</visibleWhen>
+         </command>
+      </menuContribution>
+
+   </extension>
   
 </plugin>

@@ -29,12 +29,12 @@ public class ScannerUml extends AbstractBufferedRuleBasedScanner implements ISca
 
 	private String[] tokenProperties;
 
-	private static final String[] types = { "actor", "participant", "usecase", "class", "interface", "abstract", "enum",
+	public static final String[] types = { "actor", "participant", "usecase", "class", "interface", "abstract", "enum",
 			"component", "state", "object", "artifact", "folder", "rectangle", "node", "frame", "cloud", "database",
 			"storage", "agent", "stack", "boundary", "control", "collections", "entity", "card", "file", "package",
 			"queue", "archimate", };
 
-	private static final String[] keywords = { "@startuml", "@enduml", "@startdot", "@enddot", "@startsalt", "@endsalt",
+	public static final String[] keywords = { "@startuml", "@enduml", "@startdot", "@enddot", "@startsalt", "@endsalt",
 			"as", "also", "autonumber", "caption", "title", "newpage", "box", "alt", "else", "opt", "loop", "par",
 			"break", "critical", "note", "rnote", "hnote", "legend", "group", "left", "right", "of", "on", "link",
 			"over", "end", "activate", "deactivate", "destroy", "create", "footbox", "hide", "show", "skinparam",
@@ -42,7 +42,7 @@ public class ScannerUml extends AbstractBufferedRuleBasedScanner implements ISca
 			"else", "elseif", "endif", "partition", "footer", "header", "center", "rotate", "ref", "return", "is",
 			"repeat", "start", "stop", "while", "endwhile", "fork", "again", "kill", "order", };
 
-	private static final String[] preprocs = { "!exit", "!include", "!pragma", "!define", "!undef", "!if", "!ifdef",
+	public static final String[] preprocs = { "!exit", "!include", "!pragma", "!define", "!undef", "!if", "!ifdef",
 			"!endif", "!ifndef", "!else", "!definelong", "!enddefinelong", };
 
 	private static final String[] symbols = { "{", "}", "[", "]", "<-", "<--", "<---", "-", "--", "---", "->", "-->",

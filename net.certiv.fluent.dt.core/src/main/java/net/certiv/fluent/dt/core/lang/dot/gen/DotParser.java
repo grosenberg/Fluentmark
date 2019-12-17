@@ -2,25 +2,14 @@
 
 	package net.certiv.fluent.dt.core.lang.dot.gen;
 
-import java.util.List;
-
-import org.antlr.v4.runtime.NoViableAltException;
-import org.antlr.v4.runtime.Parser;
-import org.antlr.v4.runtime.ParserRuleContext;
-import org.antlr.v4.runtime.RecognitionException;
-import org.antlr.v4.runtime.RuntimeMetaData;
-import org.antlr.v4.runtime.Token;
-import org.antlr.v4.runtime.TokenStream;
-import org.antlr.v4.runtime.Vocabulary;
-import org.antlr.v4.runtime.VocabularyImpl;
-import org.antlr.v4.runtime.atn.ATN;
-import org.antlr.v4.runtime.atn.ATNDeserializer;
-import org.antlr.v4.runtime.atn.ParserATNSimulator;
-import org.antlr.v4.runtime.atn.PredictionContextCache;
+import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
-import org.antlr.v4.runtime.tree.ParseTreeListener;
-import org.antlr.v4.runtime.tree.ParseTreeVisitor;
-import org.antlr.v4.runtime.tree.TerminalNode;
+import org.antlr.v4.runtime.*;
+import org.antlr.v4.runtime.misc.*;
+import org.antlr.v4.runtime.tree.*;
+import java.util.List;
+import java.util.Iterator;
+import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class DotParser extends Parser {
@@ -30,20 +19,22 @@ public class DotParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		COMMA=1, SEMI=2, LBRACE=3, RBRACE=4, LBRACK=5, RBRACK=6, COLON=7, EQ=8, 
-		DIRECTED=9, UNDIRECTED=10, STRICT=11, DIGRAPH=12, GRAPH=13, SUBGRAPH=14, 
-		NODE=15, EDGE=16, N=17, NE=18, E=19, SE=20, S=21, SW=22, W=23, NW=24, 
-		C=25, ID=26, RGB=27, HSV=28, POINT=29, RECT=30, COLORS=31, STRING=32, 
-		SPLINE=33, SPOINT=34, HTML=35, NUMBER=36, ML_COMMENT=37, SL_COMMENT=38, 
-		VWS=39, HWS=40, ERR=41;
+		DOTCODE=1, DOTUML=2, DIGRAPH=3, GRAPH=4, STRICT=5, OTHER=6, LBRACE=7, 
+		RBRACE=8, RGB=9, HSV=10, POINT=11, RECT=12, COLORS=13, STRING=14, SPLINE=15, 
+		SPOINT=16, HTML=17, NUMBER=18, ML_COMMENT=19, SL_COMMENT=20, COMMA=21, 
+		SEMI=22, LBRACK=23, RBRACK=24, COLON=25, EQ=26, DIRECTED=27, UNDIRECTED=28, 
+		SUBGRAPH=29, NODE=30, EDGE=31, N=32, NE=33, E=34, SE=35, S=36, SW=37, 
+		W=38, NW=39, C=40, ID=41, VWS=42, HWS=43, ERR=44;
 	public static final int
-		RULE_graph = 0, RULE_stmt = 1, RULE_nodeStmt = 2, RULE_edgeStmt = 3, RULE_attrStmt = 4, 
-		RULE_attrList = 5, RULE_attribute = 6, RULE_value = 7, RULE_subgraph = 8, 
-		RULE_edgeRhs = 9, RULE_nodeId = 10, RULE_port = 11, RULE_id = 12, RULE_compass = 13;
+		RULE_document = 0, RULE_graph = 1, RULE_stmt = 2, RULE_nodeStmt = 3, RULE_edgeStmt = 4, 
+		RULE_attrStmt = 5, RULE_attrList = 6, RULE_attribute = 7, RULE_value = 8, 
+		RULE_subgraph = 9, RULE_edgeRhs = 10, RULE_nodeId = 11, RULE_port = 12, 
+		RULE_id = 13, RULE_compass = 14;
 	private static String[] makeRuleNames() {
 		return new String[] {
-			"graph", "stmt", "nodeStmt", "edgeStmt", "attrStmt", "attrList", "attribute", 
-			"value", "subgraph", "edgeRhs", "nodeId", "port", "id", "compass"
+			"document", "graph", "stmt", "nodeStmt", "edgeStmt", "attrStmt", "attrList", 
+			"attribute", "value", "subgraph", "edgeRhs", "nodeId", "port", "id", 
+			"compass"
 		};
 	}
 	public static final String[] ruleNames = makeRuleNames();
@@ -55,11 +46,12 @@ public class DotParser extends Parser {
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
-			null, "COMMA", "SEMI", "LBRACE", "RBRACE", "LBRACK", "RBRACK", "COLON", 
-			"EQ", "DIRECTED", "UNDIRECTED", "STRICT", "DIGRAPH", "GRAPH", "SUBGRAPH", 
+			null, "DOTCODE", "DOTUML", "DIGRAPH", "GRAPH", "STRICT", "OTHER", "LBRACE", 
+			"RBRACE", "RGB", "HSV", "POINT", "RECT", "COLORS", "STRING", "SPLINE", 
+			"SPOINT", "HTML", "NUMBER", "ML_COMMENT", "SL_COMMENT", "COMMA", "SEMI", 
+			"LBRACK", "RBRACK", "COLON", "EQ", "DIRECTED", "UNDIRECTED", "SUBGRAPH", 
 			"NODE", "EDGE", "N", "NE", "E", "SE", "S", "SW", "W", "NW", "C", "ID", 
-			"RGB", "HSV", "POINT", "RECT", "COLORS", "STRING", "SPLINE", "SPOINT", 
-			"HTML", "NUMBER", "ML_COMMENT", "SL_COMMENT", "VWS", "HWS", "ERR"
+			"VWS", "HWS", "ERR"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -112,6 +104,89 @@ public class DotParser extends Parser {
 		super(input);
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
+	public static class DocumentContext extends ParserRuleContext {
+		public TerminalNode EOF() { return getToken(DotParser.EOF, 0); }
+		public List<GraphContext> graph() {
+			return getRuleContexts(GraphContext.class);
+		}
+		public GraphContext graph(int i) {
+			return getRuleContext(GraphContext.class,i);
+		}
+		public List<TerminalNode> OTHER() { return getTokens(DotParser.OTHER); }
+		public TerminalNode OTHER(int i) {
+			return getToken(DotParser.OTHER, i);
+		}
+		public DocumentContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_document; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof DotParserListener ) ((DotParserListener)listener).enterDocument(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof DotParserListener ) ((DotParserListener)listener).exitDocument(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof DotParserVisitor ) return ((DotParserVisitor<? extends T>)visitor).visitDocument(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final DocumentContext document() throws RecognitionException {
+		DocumentContext _localctx = new DocumentContext(_ctx, getState());
+		enterRule(_localctx, 0, RULE_document);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(34);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << DIGRAPH) | (1L << GRAPH) | (1L << STRICT) | (1L << OTHER))) != 0)) {
+				{
+				setState(32);
+				_errHandler.sync(this);
+				switch (_input.LA(1)) {
+				case DIGRAPH:
+				case GRAPH:
+				case STRICT:
+					{
+					setState(30);
+					graph();
+					}
+					break;
+				case OTHER:
+					{
+					setState(31);
+					match(OTHER);
+					}
+					break;
+				default:
+					throw new NoViableAltException(this);
+				}
+				}
+				setState(36);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			}
+			setState(37);
+			match(EOF);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
 	public static class GraphContext extends ParserRuleContext {
 		public Token gtype;
 		public TerminalNode LBRACE() { return getToken(DotParser.LBRACE, 0); }
@@ -149,22 +224,22 @@ public class DotParser extends Parser {
 
 	public final GraphContext graph() throws RecognitionException {
 		GraphContext _localctx = new GraphContext(_ctx, getState());
-		enterRule(_localctx, 0, RULE_graph);
+		enterRule(_localctx, 2, RULE_graph);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(29);
+			setState(40);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==STRICT) {
 				{
-				setState(28);
+				setState(39);
 				match(STRICT);
 				}
 			}
 
-			setState(31);
+			setState(42);
 			((GraphContext)_localctx).gtype = _input.LT(1);
 			_la = _input.LA(1);
 			if ( !(_la==DIGRAPH || _la==GRAPH) ) {
@@ -175,33 +250,33 @@ public class DotParser extends Parser {
 				_errHandler.reportMatch(this);
 				consume();
 			}
-			setState(33);
+			setState(44);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << N) | (1L << NE) | (1L << E) | (1L << SE) | (1L << S) | (1L << SW) | (1L << W) | (1L << NW) | (1L << C) | (1L << ID))) != 0)) {
 				{
-				setState(32);
+				setState(43);
 				id();
 				}
 			}
 
-			setState(35);
+			setState(46);
 			match(LBRACE);
-			setState(39);
+			setState(50);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << GRAPH) | (1L << SUBGRAPH) | (1L << NODE) | (1L << EDGE) | (1L << N) | (1L << NE) | (1L << E) | (1L << SE) | (1L << S) | (1L << SW) | (1L << W) | (1L << NW) | (1L << C) | (1L << ID))) != 0)) {
 				{
 				{
-				setState(36);
+				setState(47);
 				stmt();
 				}
 				}
-				setState(41);
+				setState(52);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(42);
+			setState(53);
 			match(RBRACE);
 			}
 		}
@@ -254,51 +329,51 @@ public class DotParser extends Parser {
 
 	public final StmtContext stmt() throws RecognitionException {
 		StmtContext _localctx = new StmtContext(_ctx, getState());
-		enterRule(_localctx, 2, RULE_stmt);
+		enterRule(_localctx, 4, RULE_stmt);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(49);
+			setState(60);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,3,_ctx) ) {
+			switch ( getInterpreter().adaptivePredict(_input,5,_ctx) ) {
 			case 1:
 				{
-				setState(44);
+				setState(55);
 				nodeStmt();
 				}
 				break;
 			case 2:
 				{
-				setState(45);
+				setState(56);
 				edgeStmt();
 				}
 				break;
 			case 3:
 				{
-				setState(46);
+				setState(57);
 				attrStmt();
 				}
 				break;
 			case 4:
 				{
-				setState(47);
+				setState(58);
 				attribute();
 				}
 				break;
 			case 5:
 				{
-				setState(48);
+				setState(59);
 				subgraph();
 				}
 				break;
 			}
-			setState(52);
+			setState(63);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==SEMI) {
 				{
-				setState(51);
+				setState(62);
 				match(SEMI);
 				}
 			}
@@ -347,24 +422,24 @@ public class DotParser extends Parser {
 
 	public final NodeStmtContext nodeStmt() throws RecognitionException {
 		NodeStmtContext _localctx = new NodeStmtContext(_ctx, getState());
-		enterRule(_localctx, 4, RULE_nodeStmt);
+		enterRule(_localctx, 6, RULE_nodeStmt);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(54);
+			setState(65);
 			nodeId();
-			setState(58);
+			setState(69);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==LBRACK) {
 				{
 				{
-				setState(55);
+				setState(66);
 				attrList();
 				}
 				}
-				setState(60);
+				setState(71);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -421,12 +496,12 @@ public class DotParser extends Parser {
 
 	public final EdgeStmtContext edgeStmt() throws RecognitionException {
 		EdgeStmtContext _localctx = new EdgeStmtContext(_ctx, getState());
-		enterRule(_localctx, 6, RULE_edgeStmt);
+		enterRule(_localctx, 8, RULE_edgeStmt);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(63);
+			setState(74);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case N:
@@ -440,44 +515,44 @@ public class DotParser extends Parser {
 			case C:
 			case ID:
 				{
-				setState(61);
+				setState(72);
 				nodeId();
 				}
 				break;
 			case SUBGRAPH:
 				{
-				setState(62);
+				setState(73);
 				subgraph();
 				}
 				break;
 			default:
 				throw new NoViableAltException(this);
 			}
-			setState(66); 
+			setState(77); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
 				{
-				setState(65);
+				setState(76);
 				edgeRhs();
 				}
 				}
-				setState(68); 
+				setState(79); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			} while ( _la==DIRECTED || _la==UNDIRECTED );
-			setState(73);
+			setState(84);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==LBRACK) {
 				{
 				{
-				setState(70);
+				setState(81);
 				attrList();
 				}
 				}
-				setState(75);
+				setState(86);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -526,12 +601,12 @@ public class DotParser extends Parser {
 
 	public final AttrStmtContext attrStmt() throws RecognitionException {
 		AttrStmtContext _localctx = new AttrStmtContext(_ctx, getState());
-		enterRule(_localctx, 8, RULE_attrStmt);
+		enterRule(_localctx, 10, RULE_attrStmt);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(76);
+			setState(87);
 			((AttrStmtContext)_localctx).atype = _input.LT(1);
 			_la = _input.LA(1);
 			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << GRAPH) | (1L << NODE) | (1L << EDGE))) != 0)) ) {
@@ -542,17 +617,17 @@ public class DotParser extends Parser {
 				_errHandler.reportMatch(this);
 				consume();
 			}
-			setState(78); 
+			setState(89); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
 				{
-				setState(77);
+				setState(88);
 				attrList();
 				}
 				}
-				setState(80); 
+				setState(91); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			} while ( _la==LBRACK );
@@ -607,27 +682,27 @@ public class DotParser extends Parser {
 
 	public final AttrListContext attrList() throws RecognitionException {
 		AttrListContext _localctx = new AttrListContext(_ctx, getState());
-		enterRule(_localctx, 10, RULE_attrList);
+		enterRule(_localctx, 12, RULE_attrList);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(82);
+			setState(93);
 			match(LBRACK);
-			setState(89);
+			setState(100);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << N) | (1L << NE) | (1L << E) | (1L << SE) | (1L << S) | (1L << SW) | (1L << W) | (1L << NW) | (1L << C) | (1L << ID))) != 0)) {
 				{
 				{
-				setState(83);
+				setState(94);
 				attribute();
-				setState(85);
+				setState(96);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==COMMA || _la==SEMI) {
 					{
-					setState(84);
+					setState(95);
 					_la = _input.LA(1);
 					if ( !(_la==COMMA || _la==SEMI) ) {
 					_errHandler.recoverInline(this);
@@ -642,11 +717,11 @@ public class DotParser extends Parser {
 
 				}
 				}
-				setState(91);
+				setState(102);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(92);
+			setState(103);
 			match(RBRACK);
 			}
 		}
@@ -690,15 +765,15 @@ public class DotParser extends Parser {
 
 	public final AttributeContext attribute() throws RecognitionException {
 		AttributeContext _localctx = new AttributeContext(_ctx, getState());
-		enterRule(_localctx, 12, RULE_attribute);
+		enterRule(_localctx, 14, RULE_attribute);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(94);
+			setState(105);
 			id();
-			setState(95);
+			setState(106);
 			match(EQ);
-			setState(96);
+			setState(107);
 			value();
 			}
 		}
@@ -747,9 +822,9 @@ public class DotParser extends Parser {
 
 	public final ValueContext value() throws RecognitionException {
 		ValueContext _localctx = new ValueContext(_ctx, getState());
-		enterRule(_localctx, 14, RULE_value);
+		enterRule(_localctx, 16, RULE_value);
 		try {
-			setState(108);
+			setState(119);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case N:
@@ -764,70 +839,70 @@ public class DotParser extends Parser {
 			case ID:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(98);
+				setState(109);
 				id();
 				}
 				break;
 			case STRING:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(99);
+				setState(110);
 				match(STRING);
 				}
 				break;
 			case HTML:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(100);
+				setState(111);
 				match(HTML);
 				}
 				break;
 			case NUMBER:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(101);
+				setState(112);
 				match(NUMBER);
 				}
 				break;
 			case POINT:
 				enterOuterAlt(_localctx, 5);
 				{
-				setState(102);
+				setState(113);
 				match(POINT);
 				}
 				break;
 			case RECT:
 				enterOuterAlt(_localctx, 6);
 				{
-				setState(103);
+				setState(114);
 				match(RECT);
 				}
 				break;
 			case SPLINE:
 				enterOuterAlt(_localctx, 7);
 				{
-				setState(104);
+				setState(115);
 				match(SPLINE);
 				}
 				break;
 			case COLORS:
 				enterOuterAlt(_localctx, 8);
 				{
-				setState(105);
+				setState(116);
 				match(COLORS);
 				}
 				break;
 			case RGB:
 				enterOuterAlt(_localctx, 9);
 				{
-				setState(106);
+				setState(117);
 				match(RGB);
 				}
 				break;
 			case HSV:
 				enterOuterAlt(_localctx, 10);
 				{
-				setState(107);
+				setState(118);
 				match(HSV);
 				}
 				break;
@@ -880,40 +955,40 @@ public class DotParser extends Parser {
 
 	public final SubgraphContext subgraph() throws RecognitionException {
 		SubgraphContext _localctx = new SubgraphContext(_ctx, getState());
-		enterRule(_localctx, 16, RULE_subgraph);
+		enterRule(_localctx, 18, RULE_subgraph);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(110);
+			setState(121);
 			match(SUBGRAPH);
-			setState(112);
+			setState(123);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << N) | (1L << NE) | (1L << E) | (1L << SE) | (1L << S) | (1L << SW) | (1L << W) | (1L << NW) | (1L << C) | (1L << ID))) != 0)) {
 				{
-				setState(111);
+				setState(122);
 				id();
 				}
 			}
 
-			setState(114);
+			setState(125);
 			match(LBRACE);
-			setState(118);
+			setState(129);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << GRAPH) | (1L << SUBGRAPH) | (1L << NODE) | (1L << EDGE) | (1L << N) | (1L << NE) | (1L << E) | (1L << SE) | (1L << S) | (1L << SW) | (1L << W) | (1L << NW) | (1L << C) | (1L << ID))) != 0)) {
 				{
 				{
-				setState(115);
+				setState(126);
 				stmt();
 				}
 				}
-				setState(120);
+				setState(131);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(121);
+			setState(132);
 			match(RBRACE);
 			}
 		}
@@ -959,12 +1034,12 @@ public class DotParser extends Parser {
 
 	public final EdgeRhsContext edgeRhs() throws RecognitionException {
 		EdgeRhsContext _localctx = new EdgeRhsContext(_ctx, getState());
-		enterRule(_localctx, 18, RULE_edgeRhs);
+		enterRule(_localctx, 20, RULE_edgeRhs);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(123);
+			setState(134);
 			((EdgeRhsContext)_localctx).op = _input.LT(1);
 			_la = _input.LA(1);
 			if ( !(_la==DIRECTED || _la==UNDIRECTED) ) {
@@ -975,7 +1050,7 @@ public class DotParser extends Parser {
 				_errHandler.reportMatch(this);
 				consume();
 			}
-			setState(126);
+			setState(137);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case N:
@@ -989,13 +1064,13 @@ public class DotParser extends Parser {
 			case C:
 			case ID:
 				{
-				setState(124);
+				setState(135);
 				nodeId();
 				}
 				break;
 			case SUBGRAPH:
 				{
-				setState(125);
+				setState(136);
 				subgraph();
 				}
 				break;
@@ -1043,19 +1118,19 @@ public class DotParser extends Parser {
 
 	public final NodeIdContext nodeId() throws RecognitionException {
 		NodeIdContext _localctx = new NodeIdContext(_ctx, getState());
-		enterRule(_localctx, 20, RULE_nodeId);
+		enterRule(_localctx, 22, RULE_nodeId);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(128);
+			setState(139);
 			id();
-			setState(130);
+			setState(141);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==COLON) {
 				{
-				setState(129);
+				setState(140);
 				port();
 				}
 			}
@@ -1105,27 +1180,27 @@ public class DotParser extends Parser {
 
 	public final PortContext port() throws RecognitionException {
 		PortContext _localctx = new PortContext(_ctx, getState());
-		enterRule(_localctx, 22, RULE_port);
+		enterRule(_localctx, 24, RULE_port);
 		int _la;
 		try {
-			setState(140);
+			setState(151);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,18,_ctx) ) {
+			switch ( getInterpreter().adaptivePredict(_input,20,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(132);
+				setState(143);
 				match(COLON);
-				setState(133);
+				setState(144);
 				id();
-				setState(136);
+				setState(147);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==COLON) {
 					{
-					setState(134);
+					setState(145);
 					match(COLON);
-					setState(135);
+					setState(146);
 					compass();
 					}
 				}
@@ -1135,9 +1210,9 @@ public class DotParser extends Parser {
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(138);
+				setState(149);
 				match(COLON);
-				setState(139);
+				setState(150);
 				compass();
 				}
 				break;
@@ -1187,12 +1262,12 @@ public class DotParser extends Parser {
 
 	public final IdContext id() throws RecognitionException {
 		IdContext _localctx = new IdContext(_ctx, getState());
-		enterRule(_localctx, 24, RULE_id);
+		enterRule(_localctx, 26, RULE_id);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(142);
+			setState(153);
 			((IdContext)_localctx).name = _input.LT(1);
 			_la = _input.LA(1);
 			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << N) | (1L << NE) | (1L << E) | (1L << SE) | (1L << S) | (1L << SW) | (1L << W) | (1L << NW) | (1L << C) | (1L << ID))) != 0)) ) {
@@ -1248,12 +1323,12 @@ public class DotParser extends Parser {
 
 	public final CompassContext compass() throws RecognitionException {
 		CompassContext _localctx = new CompassContext(_ctx, getState());
-		enterRule(_localctx, 26, RULE_compass);
+		enterRule(_localctx, 28, RULE_compass);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(144);
+			setState(155);
 			((CompassContext)_localctx).dir = _input.LT(1);
 			_la = _input.LA(1);
 			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << N) | (1L << NE) | (1L << E) | (1L << SE) | (1L << S) | (1L << SW) | (1L << W) | (1L << NW) | (1L << C))) != 0)) ) {
@@ -1278,48 +1353,52 @@ public class DotParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3+\u0095\4\2\t\2\4"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3.\u00a0\4\2\t\2\4"+
 		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t"+
-		"\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\3\2\5\2 \n\2\3\2\3\2\5\2$\n\2"+
-		"\3\2\3\2\7\2(\n\2\f\2\16\2+\13\2\3\2\3\2\3\3\3\3\3\3\3\3\3\3\5\3\64\n"+
-		"\3\3\3\5\3\67\n\3\3\4\3\4\7\4;\n\4\f\4\16\4>\13\4\3\5\3\5\5\5B\n\5\3\5"+
-		"\6\5E\n\5\r\5\16\5F\3\5\7\5J\n\5\f\5\16\5M\13\5\3\6\3\6\6\6Q\n\6\r\6\16"+
-		"\6R\3\7\3\7\3\7\5\7X\n\7\7\7Z\n\7\f\7\16\7]\13\7\3\7\3\7\3\b\3\b\3\b\3"+
-		"\b\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\5\to\n\t\3\n\3\n\5\ns\n\n\3"+
-		"\n\3\n\7\nw\n\n\f\n\16\nz\13\n\3\n\3\n\3\13\3\13\3\13\5\13\u0081\n\13"+
-		"\3\f\3\f\5\f\u0085\n\f\3\r\3\r\3\r\3\r\5\r\u008b\n\r\3\r\3\r\5\r\u008f"+
-		"\n\r\3\16\3\16\3\17\3\17\3\17\2\2\20\2\4\6\b\n\f\16\20\22\24\26\30\32"+
-		"\34\2\b\3\2\16\17\4\2\17\17\21\22\3\2\3\4\3\2\13\f\3\2\23\34\3\2\23\33"+
-		"\2\u00a4\2\37\3\2\2\2\4\63\3\2\2\2\68\3\2\2\2\bA\3\2\2\2\nN\3\2\2\2\f"+
-		"T\3\2\2\2\16`\3\2\2\2\20n\3\2\2\2\22p\3\2\2\2\24}\3\2\2\2\26\u0082\3\2"+
-		"\2\2\30\u008e\3\2\2\2\32\u0090\3\2\2\2\34\u0092\3\2\2\2\36 \7\r\2\2\37"+
-		"\36\3\2\2\2\37 \3\2\2\2 !\3\2\2\2!#\t\2\2\2\"$\5\32\16\2#\"\3\2\2\2#$"+
-		"\3\2\2\2$%\3\2\2\2%)\7\5\2\2&(\5\4\3\2\'&\3\2\2\2(+\3\2\2\2)\'\3\2\2\2"+
-		")*\3\2\2\2*,\3\2\2\2+)\3\2\2\2,-\7\6\2\2-\3\3\2\2\2.\64\5\6\4\2/\64\5"+
-		"\b\5\2\60\64\5\n\6\2\61\64\5\16\b\2\62\64\5\22\n\2\63.\3\2\2\2\63/\3\2"+
-		"\2\2\63\60\3\2\2\2\63\61\3\2\2\2\63\62\3\2\2\2\64\66\3\2\2\2\65\67\7\4"+
-		"\2\2\66\65\3\2\2\2\66\67\3\2\2\2\67\5\3\2\2\28<\5\26\f\29;\5\f\7\2:9\3"+
-		"\2\2\2;>\3\2\2\2<:\3\2\2\2<=\3\2\2\2=\7\3\2\2\2><\3\2\2\2?B\5\26\f\2@"+
-		"B\5\22\n\2A?\3\2\2\2A@\3\2\2\2BD\3\2\2\2CE\5\24\13\2DC\3\2\2\2EF\3\2\2"+
-		"\2FD\3\2\2\2FG\3\2\2\2GK\3\2\2\2HJ\5\f\7\2IH\3\2\2\2JM\3\2\2\2KI\3\2\2"+
-		"\2KL\3\2\2\2L\t\3\2\2\2MK\3\2\2\2NP\t\3\2\2OQ\5\f\7\2PO\3\2\2\2QR\3\2"+
-		"\2\2RP\3\2\2\2RS\3\2\2\2S\13\3\2\2\2T[\7\7\2\2UW\5\16\b\2VX\t\4\2\2WV"+
-		"\3\2\2\2WX\3\2\2\2XZ\3\2\2\2YU\3\2\2\2Z]\3\2\2\2[Y\3\2\2\2[\\\3\2\2\2"+
-		"\\^\3\2\2\2][\3\2\2\2^_\7\b\2\2_\r\3\2\2\2`a\5\32\16\2ab\7\n\2\2bc\5\20"+
-		"\t\2c\17\3\2\2\2do\5\32\16\2eo\7\"\2\2fo\7%\2\2go\7&\2\2ho\7\37\2\2io"+
-		"\7 \2\2jo\7#\2\2ko\7!\2\2lo\7\35\2\2mo\7\36\2\2nd\3\2\2\2ne\3\2\2\2nf"+
-		"\3\2\2\2ng\3\2\2\2nh\3\2\2\2ni\3\2\2\2nj\3\2\2\2nk\3\2\2\2nl\3\2\2\2n"+
-		"m\3\2\2\2o\21\3\2\2\2pr\7\20\2\2qs\5\32\16\2rq\3\2\2\2rs\3\2\2\2st\3\2"+
-		"\2\2tx\7\5\2\2uw\5\4\3\2vu\3\2\2\2wz\3\2\2\2xv\3\2\2\2xy\3\2\2\2y{\3\2"+
-		"\2\2zx\3\2\2\2{|\7\6\2\2|\23\3\2\2\2}\u0080\t\5\2\2~\u0081\5\26\f\2\177"+
-		"\u0081\5\22\n\2\u0080~\3\2\2\2\u0080\177\3\2\2\2\u0081\25\3\2\2\2\u0082"+
-		"\u0084\5\32\16\2\u0083\u0085\5\30\r\2\u0084\u0083\3\2\2\2\u0084\u0085"+
-		"\3\2\2\2\u0085\27\3\2\2\2\u0086\u0087\7\t\2\2\u0087\u008a\5\32\16\2\u0088"+
-		"\u0089\7\t\2\2\u0089\u008b\5\34\17\2\u008a\u0088\3\2\2\2\u008a\u008b\3"+
-		"\2\2\2\u008b\u008f\3\2\2\2\u008c\u008d\7\t\2\2\u008d\u008f\5\34\17\2\u008e"+
-		"\u0086\3\2\2\2\u008e\u008c\3\2\2\2\u008f\31\3\2\2\2\u0090\u0091\t\6\2"+
-		"\2\u0091\33\3\2\2\2\u0092\u0093\t\7\2\2\u0093\35\3\2\2\2\25\37#)\63\66"+
-		"<AFKRW[nrx\u0080\u0084\u008a\u008e";
+		"\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\3\2\3\2\7\2#\n\2\f\2"+
+		"\16\2&\13\2\3\2\3\2\3\3\5\3+\n\3\3\3\3\3\5\3/\n\3\3\3\3\3\7\3\63\n\3\f"+
+		"\3\16\3\66\13\3\3\3\3\3\3\4\3\4\3\4\3\4\3\4\5\4?\n\4\3\4\5\4B\n\4\3\5"+
+		"\3\5\7\5F\n\5\f\5\16\5I\13\5\3\6\3\6\5\6M\n\6\3\6\6\6P\n\6\r\6\16\6Q\3"+
+		"\6\7\6U\n\6\f\6\16\6X\13\6\3\7\3\7\6\7\\\n\7\r\7\16\7]\3\b\3\b\3\b\5\b"+
+		"c\n\b\7\be\n\b\f\b\16\bh\13\b\3\b\3\b\3\t\3\t\3\t\3\t\3\n\3\n\3\n\3\n"+
+		"\3\n\3\n\3\n\3\n\3\n\3\n\5\nz\n\n\3\13\3\13\5\13~\n\13\3\13\3\13\7\13"+
+		"\u0082\n\13\f\13\16\13\u0085\13\13\3\13\3\13\3\f\3\f\3\f\5\f\u008c\n\f"+
+		"\3\r\3\r\5\r\u0090\n\r\3\16\3\16\3\16\3\16\5\16\u0096\n\16\3\16\3\16\5"+
+		"\16\u009a\n\16\3\17\3\17\3\20\3\20\3\20\2\2\21\2\4\6\b\n\f\16\20\22\24"+
+		"\26\30\32\34\36\2\b\3\2\5\6\4\2\6\6 !\3\2\27\30\3\2\35\36\3\2\"+\3\2\""+
+		"*\2\u00b0\2$\3\2\2\2\4*\3\2\2\2\6>\3\2\2\2\bC\3\2\2\2\nL\3\2\2\2\fY\3"+
+		"\2\2\2\16_\3\2\2\2\20k\3\2\2\2\22y\3\2\2\2\24{\3\2\2\2\26\u0088\3\2\2"+
+		"\2\30\u008d\3\2\2\2\32\u0099\3\2\2\2\34\u009b\3\2\2\2\36\u009d\3\2\2\2"+
+		" #\5\4\3\2!#\7\b\2\2\" \3\2\2\2\"!\3\2\2\2#&\3\2\2\2$\"\3\2\2\2$%\3\2"+
+		"\2\2%\'\3\2\2\2&$\3\2\2\2\'(\7\2\2\3(\3\3\2\2\2)+\7\7\2\2*)\3\2\2\2*+"+
+		"\3\2\2\2+,\3\2\2\2,.\t\2\2\2-/\5\34\17\2.-\3\2\2\2./\3\2\2\2/\60\3\2\2"+
+		"\2\60\64\7\t\2\2\61\63\5\6\4\2\62\61\3\2\2\2\63\66\3\2\2\2\64\62\3\2\2"+
+		"\2\64\65\3\2\2\2\65\67\3\2\2\2\66\64\3\2\2\2\678\7\n\2\28\5\3\2\2\29?"+
+		"\5\b\5\2:?\5\n\6\2;?\5\f\7\2<?\5\20\t\2=?\5\24\13\2>9\3\2\2\2>:\3\2\2"+
+		"\2>;\3\2\2\2><\3\2\2\2>=\3\2\2\2?A\3\2\2\2@B\7\30\2\2A@\3\2\2\2AB\3\2"+
+		"\2\2B\7\3\2\2\2CG\5\30\r\2DF\5\16\b\2ED\3\2\2\2FI\3\2\2\2GE\3\2\2\2GH"+
+		"\3\2\2\2H\t\3\2\2\2IG\3\2\2\2JM\5\30\r\2KM\5\24\13\2LJ\3\2\2\2LK\3\2\2"+
+		"\2MO\3\2\2\2NP\5\26\f\2ON\3\2\2\2PQ\3\2\2\2QO\3\2\2\2QR\3\2\2\2RV\3\2"+
+		"\2\2SU\5\16\b\2TS\3\2\2\2UX\3\2\2\2VT\3\2\2\2VW\3\2\2\2W\13\3\2\2\2XV"+
+		"\3\2\2\2Y[\t\3\2\2Z\\\5\16\b\2[Z\3\2\2\2\\]\3\2\2\2][\3\2\2\2]^\3\2\2"+
+		"\2^\r\3\2\2\2_f\7\31\2\2`b\5\20\t\2ac\t\4\2\2ba\3\2\2\2bc\3\2\2\2ce\3"+
+		"\2\2\2d`\3\2\2\2eh\3\2\2\2fd\3\2\2\2fg\3\2\2\2gi\3\2\2\2hf\3\2\2\2ij\7"+
+		"\32\2\2j\17\3\2\2\2kl\5\34\17\2lm\7\34\2\2mn\5\22\n\2n\21\3\2\2\2oz\5"+
+		"\34\17\2pz\7\20\2\2qz\7\23\2\2rz\7\24\2\2sz\7\r\2\2tz\7\16\2\2uz\7\21"+
+		"\2\2vz\7\17\2\2wz\7\13\2\2xz\7\f\2\2yo\3\2\2\2yp\3\2\2\2yq\3\2\2\2yr\3"+
+		"\2\2\2ys\3\2\2\2yt\3\2\2\2yu\3\2\2\2yv\3\2\2\2yw\3\2\2\2yx\3\2\2\2z\23"+
+		"\3\2\2\2{}\7\37\2\2|~\5\34\17\2}|\3\2\2\2}~\3\2\2\2~\177\3\2\2\2\177\u0083"+
+		"\7\t\2\2\u0080\u0082\5\6\4\2\u0081\u0080\3\2\2\2\u0082\u0085\3\2\2\2\u0083"+
+		"\u0081\3\2\2\2\u0083\u0084\3\2\2\2\u0084\u0086\3\2\2\2\u0085\u0083\3\2"+
+		"\2\2\u0086\u0087\7\n\2\2\u0087\25\3\2\2\2\u0088\u008b\t\5\2\2\u0089\u008c"+
+		"\5\30\r\2\u008a\u008c\5\24\13\2\u008b\u0089\3\2\2\2\u008b\u008a\3\2\2"+
+		"\2\u008c\27\3\2\2\2\u008d\u008f\5\34\17\2\u008e\u0090\5\32\16\2\u008f"+
+		"\u008e\3\2\2\2\u008f\u0090\3\2\2\2\u0090\31\3\2\2\2\u0091\u0092\7\33\2"+
+		"\2\u0092\u0095\5\34\17\2\u0093\u0094\7\33\2\2\u0094\u0096\5\36\20\2\u0095"+
+		"\u0093\3\2\2\2\u0095\u0096\3\2\2\2\u0096\u009a\3\2\2\2\u0097\u0098\7\33"+
+		"\2\2\u0098\u009a\5\36\20\2\u0099\u0091\3\2\2\2\u0099\u0097\3\2\2\2\u009a"+
+		"\33\3\2\2\2\u009b\u009c\t\6\2\2\u009c\35\3\2\2\2\u009d\u009e\t\7\2\2\u009e"+
+		"\37\3\2\2\2\27\"$*.\64>AGLQV]bfy}\u0083\u008b\u008f\u0095\u0099";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

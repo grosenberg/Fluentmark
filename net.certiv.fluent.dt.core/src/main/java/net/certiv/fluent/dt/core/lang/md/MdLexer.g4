@@ -6,7 +6,6 @@ options {
 
 tokens {
 	WORD,
-	HDR_END,
 
 	RBOLD,
 	RITALIC,
@@ -21,58 +20,66 @@ tokens {
 	import  net.certiv.fluent.dt.core.lang.md.MdLexerBase;
 }
 
-HIDN_COMMENT : CommentHidden ;
-HTML_COMMENT : CommentHtml	 ;
+COMMENT : Comment ;
 
-URL	: Scheme? UrlPath
-	| LAngle Scheme? UrlPath RAngle
+URL	: Url
+	| LAngle Url RAngle
 	;
 
 LSTYLE	: LBrace { style() }? -> pushMode(Style) ;
 
-LINK	: LBrack { link()  }? -> pushMode(Link)	 ;
-LDEF	: LBrack { lDef()  }? -> pushMode(Link)	 ;
-LREF	: LBrack { lRef()  }? -> pushMode(Link)	 ;
-LURL	: LBrack { lUrl()  }? -> pushMode(Link)	 ;
-LTXT	: LBrack { lTxt()  }? -> pushMode(Link)	 ;
+// link elements
+LBRACK		: LBrack ;
+IMAGE		: Bang LBrack ;
+LINK_SEP	: RBrack Spc? LParen ;
+REF_SEP		: RBrack Spc? LBrack ;
+DEF_SEP		: RBrack Spc? Colon ;
+RBRACK		: RBrack ;
+RPAREN		: RParen ;
 
 // code blocks
 CODE_BEG : Tics		{ at(2) }? -> pushMode(CodeTics) ;
 CODE_ALT : Tildes	{ at(2) }? -> type(CODE_BEG), pushMode(CodeTildes) ;
+CODE_SPAN
+	: Tic Tic ( EscSeq | ~[\\] )*? Tic Tic
+	| Tic ( EscSeq | ~[`\\] )* Tic
+	;
+
 
 // other blocks
 YAML_BLOCK : YamlBlock { at(2) }? ;
 HTML_BLOCK : HtmlBlock { at(2) }? ;
 
-MATH_BLOCK : MathMark .*? Vws+ MathMark	{ at(2) }? ;
-TEX_BLOCK  : TexBeg   .*? Vws+ TexEnd	{ at(2) }? ;
-UML_BLOCK  : UmlBeg   .*? Vws+ UmlEnd	{ at(2) }? ;
+MATH_BLOCK : MathMark .*? MathMark	{ at(2) }? ;
+TEX_BLOCK  : TexBeg   .*? TexEnd	{ at(2) }? ;
+UML_BLOCK  : UmlBeg   .*? UmlEnd	{ at(2) }? ;
 
-// special strings 
-UNICODE	: Unicode	 ;
-ENTITY	: Entity	 ;
-TEX		: TexRaw	 ;
-MATH	: InlineMath ;
-HTML	: Html		 ;
+// special inline strings  
+UNICODE	: Unicode	;
+ENTITY	: Entity	;
+TEX		: TexRaw	;
+MATH	: Math 		;
+HTML	: HtmlTag	;
 
 // tables
-TABLE	: BlockQuote? Pipe? ColDef ( Pipe ColDef )+ Pipe? { at(1) }? ;
-PIPE	: Pipe	;
+TABLE_DEF	: Pipe? ColDef ( Pipe ColDef )+ Pipe? { at(1) }? ;
+PIPE		: Pipe	;
 
 // hrule
-HRULE	: BlockQuote? HRule { at(2) }? ;
+HRULE	: HRule { at(2) }? ;
 
 // headers
-HASHES	: BlockQuote? Hash+		{ at(1) }? ;
-DASHES	: BlockQuote? Dashes	{ at(1) }? ;
-EQUALS	: BlockQuote? Equals	{ at(1) }? ;
-COLON	: BlockQuote? Colon		{ at(1) }? ;
+HASHES	: Hash+		{ at(1) }? ;
+DASHES	: Dashes	{ at(1) }? ;
+EQUALS	: Equals	{ at(1) }? ;
+
+COLON	: Colon		{ at(1) }? ;
 
 // list marks
-SIMPLE_MARK	: BlockQuote? Hws* ( [*+-] | Digit+ Dot | Hash Dot ) TaskMark? Sps	{ at(1) }? ;
-PAREN_MARK	: BlockQuote? Hws* LParen? Alphanum+ RParen TaskMark? Sps			{ at(1) }? ;
-UALPHA_MARK	: BlockQuote? Hws* UAlpha+ Dot TaskMark? Sps						{ at(1) }? ;
-LALPHA_MARK	: BlockQuote? Hws* LAlpha+ Dot TaskMark? Sps						{ at(1) }? ;
+SIMPLE_MARK	: ( [*+-] | Digit+ Dot | Hash Dot ) TaskMark? Sps	{ at(1) }? ;
+PAREN_MARK	: LParen? Alphanum+ RParen TaskMark? Sps			{ at(1) }? ;
+UALPHA_MARK	: UAlpha+ Dot TaskMark? Sps							{ at(1) }? ;
+LALPHA_MARK	: LAlpha+ Dot TaskMark? Sps							{ at(1) }? ;
 
 // attributes
 LBOLD	 : '**' | '__' ;
@@ -82,9 +89,10 @@ LSPAN	 : '`'  ;
 LDQUOTE	 : '"'  ;
 LSQUOTE	 : '\'' ;
 
-BQUOTE	: BlockQuote { at(1) }? ; 
-BLANK	: Hws* Vws ( ( Hws* Vws )+ | EOF ) ;
-BREAK	: Spc Spc Vws	;
+LINE_BLANK  : Vws Hws* Vws   ;	
+LINE_BREAK	: Spc Spc Vws ;
+LINE_QUOTE	: BlockQuote { at(1) }? -> channel(HIDDEN) ;
+LINE_DENT	: Dent 	{ at(1) }? 		-> channel(HIDDEN) ;
 
 VWS		: Vws -> channel(HIDDEN) ;
 HWS		: Hws -> channel(HIDDEN) ;
@@ -103,63 +111,68 @@ mode Header;
 mode Style;
 	RSTYLE	: RBrace -> popMode ;
 	
-	CLASS : Dot	  ;
-	ID	  : Hash  ;
-	EQ	  : Equal ;
-	QUOTE : Quote ;
-	MARK  : Mark  ;
+	CLASS	: Dot	;
+	ID	 	: Hash  ;
+	EQ	 	: Equal ;
+	QUOTE	: Quote ;
+	MARK	: Mark  ;
 	
-	HWS_sd : Hws -> type(HWS), channel(HIDDEN) ;
-	CHAR_sd : Char  { more(WORD); } ;
-
-
-mode Link;
-	LINK_MARK : RBrack Spc? LParen ;
-	REF_MARK  : RBrack Spc? LBrack ;
-	DEF_MARK  : RBrack Spc? Colon	-> popMode ;
-	RBRACK	  : RBrack 				-> popMode ;
-	RPAREN	  : RParen 				-> popMode ;
-
-	URL_l	: Scheme? UrlPath 	-> type(URL)   ;
-	QUOTE_l : Quote 			-> type(QUOTE) ;
-
-	HWS_l  : Hws -> type(HWS), channel(HIDDEN) ;
-	CHAR_l : Char  { more(WORD); } ;
+	HWS_s	: Hws -> type(HWS), channel(HIDDEN) ;
+	CHAR_s	: Char  { more(WORD); } ;
 
 
 mode CodeTics;
-	CODE_END : Vws+ Tics 			-> popMode	;
+	CODE_END : Vws BlockQuote? Tics -> popMode	;
 	LSTYLE_b : LBrace { style() }?	-> type(LSTYLE), pushMode(Style) ;
-
+	
 	VWS_b  : Vws -> type(VWS) ;
-	HWS_b  : Hws -> type(HWS) ;
+	HWS_b  : Hws -> type(HWS), channel(HIDDEN) ;
 	WORD_b : Char { more(WORD); } ;
 
 
 mode CodeTildes;
-	TILDES_t : Vws+ Tildes 			-> type(CODE_END), popMode ;
+	TILDES_t : Vws BlockQuote? Tildes -> type(CODE_END), popMode ;
 	LSTYLE_t : LBrace { style() }?	-> type(LSTYLE), pushMode(Style) ;
 
 	VWS_t	: Vws	-> type(VWS) ;
-	HWS_t	: Hws	-> type(HWS) ;
+	HWS_t	: Hws	-> type(HWS), channel(HIDDEN) ;
 	WORD_t	: Char { more(WORD); } ;
 
 
 // ------------------------
 
-fragment BlockQuote	: ( RAngle Spc? )* RAngle Sps 		;
+fragment BlockQuote	: Spx ( RAngle Spc? )* RAngle Spc Hws*	;
 fragment TaskMark	: Sps LBrack [ a-zA-Z0-9_]? RBrack	;
 
-fragment Scheme	 : Letter ( Alphanum | Dash )* '://' ;
-fragment UrlPath : ( UrlRoot | UrlFile) UrlFrag?	 ;
+// ------------------------
 
-fragment UrlRoot : 'www.'? UrlTerm ( Dot UrlTerm )+ Slash?	 ;
-fragment UrlFile : [/.]* '/' UrlTerm ( [.+_-] UrlTerm )* Slash? ;
-fragment UrlTerm : ( Letter | HexChar ) UrlChar*			 ;
-fragment UrlFrag : ([#?&@=/:.-] | UrlTerm )* UrlChar+ Slash? ;
-fragment UrlChar : ( Alphanum | HexChar )					 ;
+fragment Url		
+	: UrlScheme UrlHost UrlPath?
+	| UrlHost UrlPath?
+	| UrlPath 
+	;
 
-fragment HexChar : Percent HexDigit HexDigit ;
+fragment UrlScheme	: Letter ( Alphanum | [.+-] )+ '://' ;
+fragment UrlHost
+	: UrlUser ( UrlName | UrlIp ) UrlPort? 
+	| ( UrlName | UrlIp ) UrlPort? 
+	;
+fragment UrlPath	: UrlSegment+ UrlQuery? UrlFrag? ;
+
+fragment UrlSegment : [./]+ ( [%+._-] | Alphanum )* ;
+fragment UrlQuery	: Question ( [%+=&;._-] | Alphanum )+ ;
+fragment UrlFrag	: Hash ( [%+._-] | Alphanum )+ ;
+
+fragment UrlName	: UrlTerm ( Dot UrlTerm )+ ;
+fragment UrlIp		
+	: Digit+ ( Dot Digit+ )+
+	| LBrack HexDigit+ ( Colon HexDigit+ )+ RBrack 
+	;
+fragment UrlUser 	: ~[:@/ \t\r\n\f\\]+ Colon ~[:@/ \t\r\n\f\\]+ At ;
+fragment UrlPort	: Colon Digit+ ;
+fragment UrlTerm	: Letter ( Alphanum | [_-] )* ;
+
+// ------------------------
 
 fragment HRule
 	: '--' '-'+
@@ -178,7 +191,7 @@ fragment Tics	: '``' '`'+ ;
 fragment Tildes	: '~~' '~'+	;
 
 fragment MathMark	: '$$' ;
-fragment InlineMath : Dollar NotWs ( NotVws* NotWs )? Dollar ;
+fragment Math 		: Dollar NotWs ( NotVws* NotWs )? Dollar ;
 
 fragment ColDef : Colon? Dashes Colon? ;
 
@@ -189,9 +202,10 @@ fragment Html
 	| AutoTag
 	;
 
-fragment OpenTag  : LAngle Letter+ RAngle		;
-fragment CloseTag : LAngle Slash Letter+ RAngle	;
-fragment AutoTag  : LAngle Letter+ Slash RAngle ;
+fragment HtmlTag	: OpenTag | CloseTag | AutoTag	;
+fragment OpenTag	: LAngle Letter+ RAngle			;
+fragment CloseTag	: LAngle Slash Letter+ RAngle	;
+fragment AutoTag	: LAngle Letter+ Slash RAngle	;
 
 // YAML
 fragment YamlBlock : YamlBeg ( YamlKey ( YamlVal )* )+ YamlEnd ;
@@ -201,15 +215,17 @@ fragment YamlKey : Char+ Colon .*? ( Hws* Vws )+ ;
 fragment YamlVal : ( ( '  ' | '\t' )+ | '- ' ) .*? ( Hws* Vws )+ ;
 fragment YamlEnd : ( Dashes | Dots ) Hws* Vws ;
 
-// may be pandoc specific
-fragment CommentHidden	: '<!---' .*? '-->' ;
-fragment CommentHtml	: '<!--' .*? '-->'  ;
+fragment Comment : '<!--' .*? '-->' ;
 
 // edge specific delimiters
 fragment Delimiters : [*_~`"] ;
 
 fragment Vws : '\r'? '\n' ;
 fragment Hws : Spc+ | '\t' ;
+
+fragment Dent : Spc Spc Spc Spc+ | '\t'+ ;
+
+fragment Spx : ( Spc ( Spc Spc? )? )? ;
 fragment Sps : Spc ( Spc Spc? )? ;
 fragment Spc : ' ' ;
 
@@ -218,15 +234,15 @@ fragment TexEnd : Esc 'end'	  ( BBrack | BBrace )* ;
 
 fragment TexRaw : Esc Letter  ( Letter | Digit | TexSym )* ( BBrack | BBrace )* ;
 fragment TexSym : [!/_-] ;
-fragment UmlBeg : '@startuml' | '@startdot' ;
-fragment UmlEnd : '@enduml'	  | '@enddot'	;
+fragment UmlBeg : '@start' Letter Letter Letter+ ;
+fragment UmlEnd : '@end'   Letter Letter Letter+ ;
 
 fragment Alphanum : Letter | Digit	;
 fragment Letter	  : UAlpha | LAlpha ;
 fragment UAlpha	  : [A-Z]			;
 fragment LAlpha	  : [a-z]			;
 
-// all chars except control & ws
+// all chars except control & whitespaces
 fragment Char
 	: '\u0021'..'\u007E'
 	| '\u00A0'..'\u00FF'
@@ -253,7 +269,7 @@ fragment UnicodeEsc
 fragment Entity
 	: '&#' Digit+ Semi
 	| '&#' [xX] HexDigit+ Semi
-	| '&' Letter ( Letter | Digit )+ Semi
+	| '&'  Letter ( Letter | Digit )+ Semi
 	;
 
 fragment BBrace	: LBrace ( EscSeq | BBrace | ~[{}\r\n\\] )* RBrace ;

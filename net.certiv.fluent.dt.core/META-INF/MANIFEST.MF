@@ -10,12 +10,11 @@ Bundle-Vendor: Certiv Analytics
 Export-Package: net.certiv.fluent.dt.core,
  net.certiv.fluent.dt.core.builder,
  net.certiv.fluent.dt.core.formatter,
+ net.certiv.fluent.dt.core.lang,
  net.certiv.fluent.dt.core.lang.dot,
  net.certiv.fluent.dt.core.lang.dot.gen,
  net.certiv.fluent.dt.core.lang.md,
  net.certiv.fluent.dt.core.lang.md.gen,
- net.certiv.fluent.dt.core.lang.scss,
- net.certiv.fluent.dt.core.lang.scss.gen,
  net.certiv.fluent.dt.core.model,
  net.certiv.fluent.dt.core.preferences
 Require-Bundle: net.certiv.dsl.core;bundle-version="0.6.0",

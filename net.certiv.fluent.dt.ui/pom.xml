@@ -18,7 +18,8 @@
 	<description>Fluentmark UI</description>
 
 	<properties>
-		<flexmark.version>0.40.34</flexmark.version>
+		<flexmark.version>0.50.44</flexmark.version>
+		<plantuml.version>1.2019.12</plantuml.version>
 	</properties>
 
 
@@ -27,7 +28,7 @@
 		<dependency>
 			<groupId>net.sourceforge.plantuml</groupId>
 			<artifactId>plantuml</artifactId>
-			<version>8059</version>
+			<version>${plantuml.version}</version>
 		</dependency>
 
 		<dependency>
@@ -230,7 +231,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
-				<version>3.0.0</version>
 				<executions>
 					<execution>
 						<id>copy</id>
@@ -244,11 +244,10 @@
 								<artifactItem>
 									<groupId>net.sourceforge.plantuml</groupId>
 									<artifactId>plantuml</artifactId>
-									<version>8059</version>
+									<version>${plantuml.version}</version>
 									<type>jar</type>
 									<overWrite>true</overWrite>
 								</artifactItem>
-
 
 								<artifactItem>
 									<groupId>com.vladsch.flexmark</groupId>

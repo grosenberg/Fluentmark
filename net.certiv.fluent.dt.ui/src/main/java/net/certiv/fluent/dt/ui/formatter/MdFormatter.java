@@ -2,6 +2,7 @@ package net.certiv.fluent.dt.ui.formatter;
 
 import java.util.List;
 
+import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.TextUtilities;
 import org.eclipse.text.edits.MalformedTreeException;
@@ -23,8 +24,8 @@ import net.certiv.dsl.core.util.CoreUtil;
 import net.certiv.dsl.core.util.Indent;
 import net.certiv.dsl.core.util.Strings;
 import net.certiv.fluent.dt.core.FluentCore;
-import net.certiv.fluent.dt.core.model.ModelType;
-import net.certiv.fluent.dt.core.model.ModelUtil;
+import net.certiv.fluent.dt.core.model.SpecType;
+import net.certiv.fluent.dt.core.model.SpecUtil;
 import net.certiv.fluent.dt.core.preferences.Prefs;
 import net.certiv.fluent.dt.ui.editor.FluentEditor;
 import net.certiv.fluent.dt.ui.editor.strategies.tables.TableModel;
@@ -94,7 +95,7 @@ public class MdFormatter extends BaseCodeFormatter {
 	}
 
 	private void format(IStatement stmt, TextEdit edit, String delim) {
-		switch (ModelUtil.getModelType(stmt)) {
+		switch (SpecUtil.getSpecType(stmt)) {
 			case Terminal:
 				formatBlank(stmt, edit, delim);
 				break;
@@ -113,7 +114,7 @@ public class MdFormatter extends BaseCodeFormatter {
 	}
 
 	private void formatBlank(IStatement stmt, TextEdit edit, String delim) {
-		ISourceRange range = stmt.getSourceRangeChecked();
+		ISourceRange range = stmt.toSourceRange();
 		int eols = range.getEndLine() - range.getBegLine() + 1;
 		String rep = Strings.dup(eols, delim);
 		if (range.getOffset() + range.getLength() <= docLength) {
@@ -124,14 +125,14 @@ public class MdFormatter extends BaseCodeFormatter {
 	private void formatTable(IStatement stmt, TextEdit edit, String delim) {
 		TableModel table = new TableModel(delim);
 		table.load(stmt);
-		ISourceRange range = stmt.getSourceRangeChecked();
+		ISourceRange range = stmt.toSourceRange();
 		String content = table.build();
 		if (content != null) edit.addChild(new ReplaceEdit(range.getOffset(), range.getLength(), content));
 	}
 
 	private void formatText(IStatement stmt, TextEdit edit, String delim, int cols) {
 		try {
-			ISourceRange range = stmt.getSourceRange();
+			ISourceRange range = stmt.toSourceRange();
 			int offset = range.getOffset();
 			int len = range.getLength() - delim.length();
 			if (len <= 0) return;
@@ -140,11 +141,13 @@ public class MdFormatter extends BaseCodeFormatter {
 			content = TextFormatter.wrap(content, cols, delim);
 
 			edit.addChild(new ReplaceEdit(offset, len, content));
-		} catch (DslModelException | MalformedTreeException e) {}
+		} catch (MalformedTreeException | BadLocationException e) {
+			Log.error(this, e.getMessage(), e);
+		}
 	}
 
 	private void formatList(IStatement stmt, TextEdit edit, String delim, int cols, int tabWidth) {
-		for (IStatement listItem : ModelUtil.getChildren(stmt, ModelType.ListItem)) {
+		for (IStatement listItem : SpecUtil.getChildren(stmt, SpecType.ListItem)) {
 			formatListItem(stmt, listItem, edit, delim, cols, tabWidth);
 		}
 	}
@@ -152,7 +155,7 @@ public class MdFormatter extends BaseCodeFormatter {
 	private void formatListItem(IStatement stmt, IStatement listItem, TextEdit edit, String delim, int cols,
 			int tabWidth) {
 		try {
-			ISourceRange range = listItem.getSourceRange();
+			ISourceRange range = listItem.toSourceRange();
 			int offset = range.getOffset();
 			int len = range.getLength() - delim.length();
 			if (len <= 0) return;
@@ -163,7 +166,9 @@ public class MdFormatter extends BaseCodeFormatter {
 			content = TextFormatter.wrap(content, cols, delim, tabWidth * indent, (tabWidth * indent) + markWidth);
 
 			edit.addChild(new ReplaceEdit(offset, len, content));
-		} catch (DslModelException | MalformedTreeException e) {}
+		} catch (MalformedTreeException | BadLocationException e) {
+			Log.error(this, e.getMessage(), e);
+		}
 	}
 
 	private int listMarkWidth(String item) {

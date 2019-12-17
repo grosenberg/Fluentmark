@@ -13,15 +13,16 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.sourceforge.plantuml.FileFormat;
+import net.sourceforge.plantuml.FileFormatOption;
+import net.sourceforge.plantuml.SourceStringReader;
+import net.sourceforge.plantuml.cucadiagram.dot.GraphvizUtils;
+
 import net.certiv.dsl.core.log.Log;
 import net.certiv.dsl.core.preferences.DslPrefsManager;
 import net.certiv.dsl.core.util.Strings;
 import net.certiv.fluent.dt.core.FluentCore;
 import net.certiv.fluent.dt.core.preferences.Prefs;
-import net.sourceforge.plantuml.FileFormat;
-import net.sourceforge.plantuml.FileFormatOption;
-import net.sourceforge.plantuml.SourceStringReader;
-import net.sourceforge.plantuml.cucadiagram.dot.GraphvizUtils;
 
 public class UmlGen {
 
@@ -48,7 +49,7 @@ public class UmlGen {
 
 		try (ByteArrayOutputStream os = new ByteArrayOutputStream()) {
 			SourceStringReader reader = new SourceStringReader(data);
-			reader.generateImage(os, new FileFormatOption(FileFormat.SVG));
+			reader.outputImage(os, new FileFormatOption(FileFormat.SVG));
 			value = new String(os.toByteArray(), Charset.forName("UTF-8"));
 		} catch (IOException e) {
 			Log.error(UmlGen.class, "Uml exception on" + Strings.EOL + data, e);

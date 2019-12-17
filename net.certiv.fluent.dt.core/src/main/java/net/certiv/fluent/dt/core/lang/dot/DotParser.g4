@@ -8,12 +8,16 @@ options {
 	package net.certiv.fluent.dt.core.lang.dot.gen;
 }
 
+document
+	: ( graph | OTHER )* EOF
+	;
+
 graph
 	: STRICT? gtype= ( GRAPH | DIGRAPH ) id? LBRACE stmt* RBRACE
 	;
 
 stmt
-	: (nodeStmt | edgeStmt | attrStmt | attribute | subgraph ) SEMI?
+	: ( nodeStmt | edgeStmt | attrStmt | attribute | subgraph ) SEMI?
 	;
 
 nodeStmt
@@ -29,7 +33,7 @@ attrStmt
 	;
 
 attrList
-	: LBRACK ( attribute (COMMA | SEMI )? )* RBRACK
+	: LBRACK ( attribute ( COMMA | SEMI )? )* RBRACK
 	;
 
 attribute

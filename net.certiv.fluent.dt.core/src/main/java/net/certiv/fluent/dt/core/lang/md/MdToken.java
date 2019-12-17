@@ -19,6 +19,8 @@ public class MdToken extends CommonToken implements IDslToken {
 	private boolean bol;
 	private int dents;
 
+	private boolean quoted;
+
 	public MdToken(int type, String text, int tabWidth) {
 		super(type, text);
 		this.tabWidth = tabWidth;
@@ -29,6 +31,14 @@ public class MdToken extends CommonToken implements IDslToken {
 		this.tabWidth = tabWidth;
 	}
 
+	public boolean isQuoted() {
+		return quoted;
+	}
+
+	public void setQuoted(boolean quoted) {
+		this.quoted = quoted;
+	}
+
 	@Override
 	public int getMode() {
 		return _mode;
@@ -36,6 +46,17 @@ public class MdToken extends CommonToken implements IDslToken {
 
 	public void setMode(int mode) {
 		_mode = mode;
+	}
+
+	public boolean isListMark() {
+		switch (type) {
+			case MdLexer.SIMPLE_MARK:
+			case MdLexer.PAREN_MARK:
+			case MdLexer.UALPHA_MARK:
+			case MdLexer.LALPHA_MARK:
+				return true;
+		}
+		return false;
 	}
 
 	public void setHit(boolean bof, boolean bol) {
@@ -78,7 +99,7 @@ public class MdToken extends CommonToken implements IDslToken {
 		String tname = MdLexer.VOCABULARY.getDisplayName(type);
 		String mname = _mode == 0 ? "default" : MdLexer.modeNames[_mode];
 		String chan = channel == 0 ? "DEFAULT" : MdLexer.channelNames[channel];
-		String mark = "/   ";
+		String mark = "    ";
 		if (bol) mark = "/BOL";
 		if (bof) mark = "/BOF";
 

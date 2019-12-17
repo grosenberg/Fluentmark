@@ -3,31 +3,20 @@ package net.certiv.fluent.dt.core;
 import org.osgi.framework.BundleContext;
 
 import net.certiv.dsl.core.DslCore;
+import net.certiv.dsl.core.lang.LanguageManager;
 import net.certiv.dsl.core.log.Log;
 import net.certiv.dsl.core.log.Log.LogLevel;
-import net.certiv.dsl.core.model.ICodeUnit;
-import net.certiv.dsl.core.parser.DslSourceParser;
-import net.certiv.fluent.dt.core.lang.dot.DotSourceParser;
-import net.certiv.fluent.dt.core.lang.md.MdSourceParser;
+import net.certiv.fluent.dt.core.lang.FluentLangManager;
 
-/** The activator class controls the plug-in life cycle. */
 public class FluentCore extends DslCore {
-
-	public static final String PLUGIN_ID = "net.certiv.fluent.dt.core";
-	public static final String[] EXTENSIONS = new String[] { "md", "dot", "mdown", "mkd" };
-
-	// Should be unique, lower case, single word;
-	public static final String DSL_NAME = "fluent";
-
-	// unique parser language types
-	public static final String MD = "md";
-	public static final String DOT = "dot";
 
 	public static FluentCore plugin;
 
+	private FluentLangManager langMgr;
+
 	public FluentCore() {
 		super();
-		Log.defLevel(LogLevel.Debug);
+		Log.defLevel(LogLevel.Info);
 	}
 
 	public static FluentCore getDefault() {
@@ -57,19 +46,10 @@ public class FluentCore extends DslCore {
 	}
 
 	@Override
-	public String[] getDslFileExtensions() {
-		return EXTENSIONS;
-	}
-
-	@Override
-	public DslSourceParser createSourceParser(ICodeUnit unit, String contentType) {
-		switch (contentType) {
-			case DOT:
-				return new DotSourceParser(unit.getParseRecord());
-
-			case MD:
-			default:
-				return new MdSourceParser(unit.getParseRecord());
+	public LanguageManager getLangManager() {
+		if (langMgr == null) {
+			langMgr = new FluentLangManager(this);
 		}
+		return langMgr;
 	}
 }

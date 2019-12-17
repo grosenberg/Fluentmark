@@ -103,7 +103,7 @@ public class TableDialog extends TableDialogActions {
 		mgr.add(new RmvRowAction());
 		viewer.getControl().setMenu(mgr.createContextMenu(viewer.getControl()));
 
-		tableModel = new TableModel(stmt.getDefaultDelimiter());
+		tableModel = new TableModel(stmt.getCodeUnit().getDefaultLineDelimiter());
 		setInput(stmt);
 		return body;
 	}

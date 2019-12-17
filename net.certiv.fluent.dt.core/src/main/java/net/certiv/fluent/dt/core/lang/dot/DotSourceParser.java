@@ -9,12 +9,14 @@ package net.certiv.fluent.dt.core.lang.dot;
 
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.Lexer;
+
 import org.eclipse.jface.text.BadLocationException;
+import org.eclipse.jface.text.IDocument;
 
 import net.certiv.dsl.core.DslCore;
 import net.certiv.dsl.core.log.Log;
-import net.certiv.dsl.core.model.builder.DslModelMaker;
-import net.certiv.dsl.core.parser.DslErrorListener;
+import net.certiv.dsl.core.model.builder.ModelBuilder;
 import net.certiv.dsl.core.parser.DslErrorStrategy;
 import net.certiv.dsl.core.parser.DslParseRecord;
 import net.certiv.dsl.core.parser.DslSourceParser;
@@ -25,7 +27,6 @@ import net.certiv.fluent.dt.core.lang.dot.gen.DotParser;
 public class DotSourceParser extends DslSourceParser {
 
 	private static final DotTokenFactory TokenFactory = new DotTokenFactory();
-	private static final String ErrMsg = "Failed to extract DOT text from document.";
 
 	private final DslErrorStrategy errStrategy = new DslErrorStrategy();
 
@@ -39,41 +40,42 @@ public class DotSourceParser extends DslSourceParser {
 		return FluentCore.getDefault();
 	}
 
-	/**
-	 * Builds a ParseTree for the given content representing the source of a corresponding
-	 * unit.
-	 */
 	@Override
 	public void parse() {
-		String content = "";
-		try {
-			record.docLine = record.doc.getLineOfOffset(record.region.getOffset()) + 1; // trim markup
-			record.docOffset = record.doc.getLineOffset(record.docLine);
-
-			int endLine = record.doc.getLineOfOffset(record.region.getOffset() + record.region.getLength()) - 1;
-			int endOffset = record.doc.getLineOffset(endLine);
-
-			content = record.doc.get(record.docOffset, endOffset - record.docOffset);
-		} catch (BadLocationException e) {
-			Log.error(this, ErrMsg, e);
-			return;
-		}
-
-		DslErrorListener errListener = new DslErrorListener(this, record.getCollector(), record.reportAmbiguities());
-
-		record.cs = CharStreams.fromString(content);
-		DotLexer lexer = new DotLexer(record.cs);
+		record.cs = CharStreams.fromString(getContent(), record.unit.getFile().getName());
+		Lexer lexer = new DotLexer(record.cs);
 		lexer.removeErrorListeners();
-		lexer.addErrorListener(errListener);
+		lexer.addErrorListener(getDslErrorListener());
 
 		record.ts = new CommonTokenStream(lexer);
 		record.parser = new DotParser(record.ts);
 		record.parser.setErrorHandler(errStrategy);
 		record.parser.removeErrorListeners();
-		record.parser.addErrorListener(errListener);
-		record.tree = ((DotParser) record.parser).graph();
+		record.parser.addErrorListener(getDslErrorListener());
+		record.tree = ((DotParser) record.parser).document();
 
 		if (record.tree != null) Verifier.INST.check(this, record.getCollector());
+	}
+
+	@Override
+	public String getContent() {
+		String content = super.getContent();
+		if (content.startsWith("~~~") || content.startsWith("```")) {
+			try {
+				IDocument doc = record.unit.getDocument();
+				record.docLine += 1;
+				record.docOffset = doc.getLineOffset(record.docLine);
+
+				int ln = doc.getLineOfOffset(record.region.getOffset() + record.region.getLength()) - 1;
+				int end = doc.getLineOffset(ln);
+
+				content = doc.get(record.docOffset, end - record.docOffset);
+
+			} catch (BadLocationException e) {
+				Log.error(this, ErrMsg, e);
+			}
+		}
+		return content;
 	}
 
 	@Override
@@ -82,7 +84,7 @@ public class DotSourceParser extends DslSourceParser {
 	}
 
 	@Override
-	public void analyzeStructure(DslModelMaker maker) {
+	public void analyzeStructure(ModelBuilder maker) {
 		// GraphContext graph = (GraphContext) getTree();
 		// String name = graph.id() != null ? graph.id().getText() : "Dot Block";
 		// ModelData data = new ModelData(ModelType.DotBlock, graph, name);

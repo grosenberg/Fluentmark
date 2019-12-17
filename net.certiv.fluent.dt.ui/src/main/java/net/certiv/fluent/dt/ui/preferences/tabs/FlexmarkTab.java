@@ -1,13 +1,13 @@
 package net.certiv.fluent.dt.ui.preferences.tabs;
 
-import static net.certiv.fluent.dt.core.preferences.Prefs.EDITOR_FLEXMARK_MATHJAX;
-import static net.certiv.fluent.dt.core.preferences.Prefs.EDITOR_FLEXMARK_PROFILE;
+import static net.certiv.fluent.dt.core.preferences.Prefs.*;
 
 import org.eclipse.swt.widgets.Composite;
 
 import com.vladsch.flexmark.parser.ParserEmulationProfile;
 
 import net.certiv.dsl.core.preferences.DslPrefsManagerDelta;
+import net.certiv.dsl.ui.preferences.blocks.AbstractConfigBlock;
 import net.certiv.dsl.ui.preferences.tabs.AbstractTab;
 import net.certiv.dsl.ui.util.SWTFactory;
 import net.certiv.fluent.dt.ui.preferences.blocks.ConvertersConfigBlock;
@@ -28,7 +28,7 @@ public class FlexmarkTab extends AbstractTab {
 	@Override
 	protected void createControls(Composite comp) {
 		Composite config = SWTFactory.createGroupComposite(comp, 1, 3, "Markdown configuration");
-		block.addLabeledCombo(config, "Profile", EDITOR_FLEXMARK_PROFILE, profiles, false);
+		block.addLabeledCombo(config, "Profile", EDITOR_FLEXMARK_PROFILE, AbstractConfigBlock.toMap(profiles));
 
 		Composite bools = SWTFactory.createGroupComposite(comp, 3, 1, "Options");
 		block.addCheckBox(bools, "Enable Mathjax rendering", EDITOR_FLEXMARK_MATHJAX, 0);

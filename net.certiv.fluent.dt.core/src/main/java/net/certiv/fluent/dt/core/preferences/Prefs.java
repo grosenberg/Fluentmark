@@ -9,7 +9,7 @@ package net.certiv.fluent.dt.core.preferences;
 
 import org.eclipse.ui.texteditor.spelling.SpellingService;
 
-public class Prefs extends PrefsSpelling implements CssDef {
+public class Prefs extends PrefsSpelling implements ResourceDef {
 
 	// preference store keys
 

@@ -1,25 +1,19 @@
 package net.certiv.fluent.dt.core.preferences;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.Locale;
 
-import org.eclipse.core.runtime.Path;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.ui.texteditor.spelling.SpellingService;
 
 import net.certiv.dsl.core.DslCore;
-import net.certiv.dsl.core.log.Log;
 import net.certiv.dsl.core.preferences.DslPrefsInit;
 import net.certiv.dsl.core.preferences.consts.Editor;
-import net.certiv.dsl.core.util.Resources;
 import net.certiv.dsl.core.util.Strings;
 import net.certiv.fluent.dt.core.FluentCore;
 import net.certiv.spellchecker.SpellCheckEngine;
 
 /** Initializer for the preferences unique to this plugin. */
-public class PrefsInit extends DslPrefsInit implements CssDef {
+public class PrefsInit extends DslPrefsInit implements ResourceDef {
 
 	private static final RGB DEF_DEFAULT = new RGB(0, 0, 0);
 	private static final RGB DEF_COMMENT = new RGB(128, 0, 0);
@@ -41,6 +35,8 @@ public class PrefsInit extends DslPrefsInit implements CssDef {
 	@Override
 	public void initializeDefaultPreferences() {
 		super.initializeDefaultPreferences();
+
+		setInt(Editor.EDITOR_TAB_WIDTH, 2);
 
 		setString(Editor.EDITOR_TAB_POLICY, Editor.SPACE);
 		setBool(Editor.EDITOR_SMART_OPENING_BRACE, false);
@@ -89,15 +85,19 @@ public class PrefsInit extends DslPrefsInit implements CssDef {
 
 		// css
 
-		String cssDir = cssDir();
+		String cssDir = resourceDir(BUNDLE_ID, CSS);
 		setString(Prefs.EDITOR_CSS_INTERNAL_DIR, cssDir);
-		setString(Prefs.EDITOR_CSS_FILE, cssDir + DEFAULT_CSS);
+		setString(Prefs.EDITOR_CSS_FILE, cssDir + MARKDOWN_CSS);
 
 		setBool(Prefs.EDITOR_CSS_EXTERNAL_ENABLE, false);
-		setString(Prefs.EDITOR_CSS_EXTERNAL_DIR, "");
+		setString(Prefs.EDITOR_CSS_EXTERNAL_DIR, Strings.EMPTY);
 
 		setBool(Prefs.EDITOR_GITHUB_SYNTAX, true);
 		setBool(Prefs.EDITOR_MULTIMARKDOWN_METADATA, true);
+
+		String semanticDir = resourceDir(BUNDLE_ID, SEMANTIC);
+		setString(Prefs.EDITOR_SEMANTIC_INTERNAL_DIR, semanticDir);
+		setString(Prefs.EDITOR_SEMANTIC_STYLESHEET, semanticDir + DEFAULT_CSS);
 
 		// colors
 
@@ -194,19 +194,5 @@ public class PrefsInit extends DslPrefsInit implements CssDef {
 		setBool(Prefs.FOLDING_DOTBLOCKS, false);
 		setBool(Prefs.FOLDING_UMLBLOCKS, false);
 		setBool(Prefs.FOLDING_MATHBLOCKS, false);
-	}
-
-	// create bundle URL for the default stylesheets dir
-	private String cssDir() {
-		String bid = "net.certiv.fluent.dt.ui";
-		Path path = new Path(RESOURCES_CSS);
-		try {
-			URL url = Resources.fromBundle(bid, path);
-			return url.toURI().toString();
-
-		} catch (IOException | URISyntaxException e) {
-			Log.error(this, "Failed to access CSS cache at: " + bid + Strings.SLASH + path.toString());
-			return "";
-		}
 	}
 }

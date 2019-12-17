@@ -4,66 +4,89 @@ lexer grammar DotLexer ;
 	package net.certiv.fluent.dt.core.lang.dot.gen;
 }
 
-COMMA  : ',' ;
-SEMI   : ';' ;
-LBRACE : '{' ;
-RBRACE : '}' ;
-LBRACK : '[' ;
-RBRACK : ']' ;
-COLON  : ':' ;
-EQ	   : '=' ;
-
-DIRECTED   : '->' ;
-UNDIRECTED : '--' ;
-
-STRICT	 : 'strict'	  ;
-DIGRAPH	 : 'digraph'  ;
-GRAPH	 : 'graph'	  ;
-SUBGRAPH : 'subgraph' ;
-NODE	 : 'node'	  ;
-EDGE : 'edge'
-	 ;
-
-// Compass Points
-N  : 'n'  ;
-NE : 'ne' ;
-E  : 'e'  ;
-SE : 'se' ;
-S  : 's'  ;
-SW : 'sw' ;
-W  : 'w'  ;
-NW : 'nw' ;
-C	: 'c'
+DOTCODE	
+	: CodeMark Hws*? 'dot' -> pushMode(DOT) 
 	;
 
-ID : Alpha ( Alpha | Digit )* ;
+DOTUML	: '@startdot' -> pushMode(DOT) ;
+DIGRAPH	: 'digraph'	  -> pushMode(DOT) ;
+GRAPH	: 'graph'	  -> pushMode(DOT) ;
 
-RGB	   : Quote RgbSeq Quote ;
-HSV	   : Quote HsvSeq Quote ;
-POINT  : Quote Decimal Comma Decimal Bang? Quote ;
-RECT   : Quote Decimal Comma Decimal Comma Decimal Comma Decimal Quote ;
-COLORS : Quote Color ( Colon Color )+ Quote ;
-STRING : Quote ( EscSeq | ~["\r\n\\] )* Quote ;
+STRICT	: 'strict' ;
 
-SPLINE : SPOINT ( Semi SPOINT )+ ;
+OTHER	: . ;
 
-SPOINT : ( SplineEnd )? ( SplineStart )? POINT ( POINT POINT POINT )+ ;
+mode DOT ;
+	DGH	: 'digraph'	-> type(DIGRAPH) ;
+	GRH	: 'graph'	-> type(GRAPH)   ;
+	SCT : 'strict'	-> type(STRICT)  ;
 
-HTML
-	: TagOpen ( TagOpen | TagClose | Html )* TagClose
+	LBRACE : '{' -> pushMode(DOT) ;
+	RBRACE : '}' -> popMode ;
+
+	RGB	   : Quote RgbSeq Quote ;
+	HSV	   : Quote HsvSeq Quote ;
+	POINT  : Quote Decimal Comma Decimal Bang? Quote ;
+	RECT   : Quote Decimal Comma Decimal Comma Decimal Comma Decimal Quote ;
+	COLORS : Quote Color ( Colon Color )+ Quote ;
+	STRING : Quote ( EscSeq | ~["\r\n\\] )* Quote ;
+
+	SPLINE : SPOINT ( Semi SPOINT )+ ;
+
+	SPOINT : ( SplineEnd )? ( SplineStart )? POINT ( POINT POINT POINT )+ ;
+
+	HTML
+		: TagOpen ( TagOpen | TagClose | Html )* TagClose
+		;
+
+	NUMBER
+		: Minus? ( ( Dot ( Digit )+ ) | (Digit )+ ( Dot ( Digit )* )? )
+		;
+
+	ML_COMMENT : '/*' .*? '*/' ;
+	SL_COMMENT : ( '//' | Pound ) .*? ( '\r'? '\n' ) | EOF ;
+
+	COMMA  : ',' ;
+	SEMI   : ';' ;
+	LBRACK : '[' ;
+	RBRACK : ']' ;
+	COLON  : ':' ;
+	EQ	   : '=' ;
+
+	DIRECTED   : '->' ;
+	UNDIRECTED : '--' ;
+
+	SUBGRAPH : 'subgraph' ;
+	NODE	 : 'node'	  ;
+	EDGE	 : 'edge'	  ;
+
+	// Compass Points
+	N  : 'n'  ;
+	NE : 'ne' ;
+	E  : 'e'  ;
+	SE : 'se' ;
+	S  : 's'  ;
+	SW : 'sw' ;
+	W  : 'w'  ;
+	NW : 'nw' ;
+	C  : 'c'  ;
+
+	ID : Alpha ( Alpha | Digit )* ;
+
+	VWS : Vws -> channel(HIDDEN) ;
+	HWS : Hws -> channel(HIDDEN) ;
+
+	ERR	: . ;
+	
+// endMode DOT
+
+fragment CodeMark 
+	: '``' '`'+ 
+	| '~~' '~'+ 
 	;
 
-NUMBER
-	: Minus? ( ( Dot ( Digit )+ ) | (Digit )+ ( Dot ( Digit )* )? )
-	;
-
-ML_COMMENT : '/*' .*? '*/' ;
-SL_COMMENT : ( '//' | Pound ) .*? ( '\r'? '\n' ) | EOF ;
-
-VWS : [\r\n\f] -> channel(HIDDEN) ;
-HWS : [ \t]	   -> channel(HIDDEN) ;
-
-ERR	: . ;
+fragment Vws : [\r\n\f] ;
+fragment Hws : [ \t] ;
 
 fragment Alpha
 	:   [a-zA-Z_]

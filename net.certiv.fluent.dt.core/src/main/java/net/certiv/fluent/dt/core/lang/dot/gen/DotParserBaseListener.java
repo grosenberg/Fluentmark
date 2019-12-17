@@ -18,6 +18,18 @@ public class DotParserBaseListener implements DotParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterDocument(DotParser.DocumentContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDocument(DotParser.DocumentContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterGraph(DotParser.GraphContext ctx) { }
 	/**
 	 * {@inheritDoc}

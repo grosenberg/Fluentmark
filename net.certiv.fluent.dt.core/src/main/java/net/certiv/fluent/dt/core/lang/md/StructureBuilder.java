@@ -3,25 +3,29 @@ package net.certiv.fluent.dt.core.lang.md;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
+import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.TerminalNode;
 
 import net.certiv.antlr.runtime.xvisitor.Processor;
+import net.certiv.dsl.core.model.Block;
+import net.certiv.dsl.core.model.IStatement.BaseType;
 import net.certiv.dsl.core.model.ModuleStmt;
 import net.certiv.dsl.core.model.Statement;
-import net.certiv.dsl.core.model.builder.DslModelMaker;
+import net.certiv.dsl.core.model.builder.ModelBuilder;
+import net.certiv.fluent.dt.core.lang.md.gen.MdLexer;
+import net.certiv.fluent.dt.core.lang.md.gen.MdParser;
 import net.certiv.fluent.dt.core.lang.md.gen.MdParser.HeaderContext;
 import net.certiv.fluent.dt.core.lang.md.gen.MdParser.ListContext;
 import net.certiv.fluent.dt.core.lang.md.gen.MdParser.ListItemContext;
 import net.certiv.fluent.dt.core.lang.md.gen.MdParser.PageContext;
-import net.certiv.fluent.dt.core.lang.md.gen.MdParser.TableContext;
-import net.certiv.fluent.dt.core.lang.md.gen.MdParser.TableRowContext;
-import net.certiv.fluent.dt.core.model.ModelData;
-import net.certiv.fluent.dt.core.model.ModelType;
+import net.certiv.fluent.dt.core.model.SpecData;
+import net.certiv.fluent.dt.core.model.SpecType;
 
 public abstract class StructureBuilder extends Processor {
 
-	private DslModelMaker maker;
+	private ModelBuilder builder;
 	private String name = "<Undefined>"; // typically, the source file name
 	private Deque<Header> headers = new ArrayDeque<>();
 
@@ -45,33 +49,35 @@ public abstract class StructureBuilder extends Processor {
 		super(tree);
 	}
 
-	public void setMaker(DslModelMaker maker) {
-		this.maker = maker;
+	public void setMaker(ModelBuilder builder) {
+		this.builder = builder;
 	}
 
 	public void setSourceName(String name) {
 		this.name = name;
 	}
 
-	/** Called on a GrammarSpecContext node. */
+	/** Called on a PageContext node. */
 	public void doModule() {
 		PageContext ctx = (PageContext) lastPathNode();
-		ModelData data = new ModelData(ModelType.Page, ctx, name);
-		ModuleStmt module = maker.module(ctx, name, data);
-		maker.pushParent(module);
+		SpecData data = new SpecData(BaseType.UNIT, SpecType.Page, rulename(ctx), ctx, name);
+		ModuleStmt module = builder.module(ctx, name, data);
+		builder.pushParent(module);
 
 		headers.push(new Header(module, 0)); // header 0 is the root
 	}
 
 	public void doHeader() {
 		HeaderContext ctx = (HeaderContext) lastPathNode();
-		ModelData data = new ModelData(ModelType.Header, ctx);
+		SpecData data = new SpecData(BaseType.TYPE, SpecType.Header, rulename(ctx), ctx, name);
 
 		int level = calc(ctx);
+		data.setLevel(level);
+
 		Statement parent = getEnclosingParent(level);
-		maker.toParent(parent);
-		Statement stmt = maker.statement(ctx, ctx, data);
-		maker.pushParent(stmt);
+		builder.toParent(parent);
+		Statement stmt = builder.statement(ctx, ctx, data);
+		builder.pushParent(stmt);
 		headers.push(new Header(stmt, level));
 	}
 
@@ -99,40 +105,58 @@ public abstract class StructureBuilder extends Processor {
 		return headers.peek().stmt;
 	}
 
-	public void doStatement(ModelType type) {
-		ParseTree ctx = lastPathNode();
-		ModelData data = new ModelData(type, ctx);
-		maker.statement(ctx, ctx, data);
+	public void doStatement(SpecType type) {
+		ParserRuleContext ctx = (ParserRuleContext) lastPathNode();
+		SpecData data = new SpecData(BaseType.TYPE, type, rulename(ctx), ctx, name);
+		builder.statement(ctx, ctx, data);
 	}
 
 	public void doList() {
 		ListContext ctx = (ListContext) lastPathNode();
-		ModelData data = new ModelData(ModelType.List, ctx);
-		Statement stmt = maker.statement(ctx, ctx, data);
-		maker.pushParent(stmt);
+		SpecData data = new SpecData(BaseType.TYPE, SpecType.List, rulename(ctx), ctx, name);
+		Statement stmt = builder.statement(ctx, ctx, data);
+		builder.pushParent(stmt);
 	}
 
 	public void doListItem() {
 		ListItemContext ctx = (ListItemContext) lastPathNode();
 		Token mark = ctx.listMark().mark;
-		ModelData data = new ModelData(ModelType.ListItem, ctx, mark.getText());
-		maker.statement(ctx, mark, data);
+		SpecData data = new SpecData(BaseType.TYPE, SpecType.ListItem, rulename(ctx), ctx, mark.getText());
+		data.setSimpleListMark(mark.getType() == MdLexer.SIMPLE_MARK);
+		builder.statement(ctx, mark, data);
 	}
 
-	public void doTable() {
-		TableContext ctx = (TableContext) lastPathNode();
-		ModelData data = new ModelData(ModelType.Table, ctx);
-		Statement stmt = maker.statement(ctx, ctx, data);
-		maker.pushParent(stmt);
-	}
-
-	public void doTableRow() {
-		TableRowContext ctx = (TableRowContext) lastPathNode();
-		ModelData data = new ModelData(ModelType.TableRow, ctx);
-		maker.statement(ctx, ctx, data);
-	}
+	// public void doTable() {
+	// TableContext ctx = (TableContext) lastPathNode();
+	// ModelData data = new ModelData(ModelType.Table, ctx);
+	// Statement stmt = builder.statement(ctx, ctx, data);
+	// builder.pushParent(stmt);
+	// }
+	//
+	// public void doTableRow() {
+	// TableRowContext ctx = (TableRowContext) lastPathNode();
+	// ModelData data = new ModelData(ModelType.TableRow, ctx);
+	// builder.statement(ctx, ctx, data);
+	// }
 
 	public void endBlock() {
-		maker.popParent();
+		builder.popParent();
+	}
+
+	@SuppressWarnings("unused")
+	private void addField(BaseType baseType, SpecType specType, String rulename, ParseTree ctx) {
+		if (ctx != null) {
+			builder.field(ctx, ctx, baseType, new SpecData(baseType, specType, rulename, ctx, ctx.getText()));
+		}
+	}
+
+	@SuppressWarnings("unused")
+	private void addBlock(int blockType, TerminalNode beg, TerminalNode end) {
+		Block block = builder.block(blockType, beg, end, null);
+		if (block != null) builder.pushParent(block);
+	}
+
+	private String rulename(ParserRuleContext ctx) {
+		return MdParser.ruleNames[ctx.getRuleIndex()];
 	}
 }

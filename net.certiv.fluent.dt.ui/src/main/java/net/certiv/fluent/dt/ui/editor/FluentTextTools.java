@@ -5,18 +5,26 @@ import org.eclipse.jface.text.rules.IPartitionTokenScanner;
 import org.eclipse.jface.text.source.SourceViewerConfiguration;
 import org.eclipse.ui.texteditor.ITextEditor;
 
-import net.certiv.fluent.dt.core.FluentCore;
-
 import net.certiv.dsl.core.color.IColorManager;
+import net.certiv.dsl.core.lang.LanguageManager;
 import net.certiv.dsl.core.preferences.IDslPrefsManager;
 import net.certiv.dsl.ui.editor.text.DslTextTools;
+import net.certiv.fluent.dt.core.FluentCore;
+import net.certiv.fluent.dt.core.lang.FluentLangManager;
 
-public class FmTextTools extends DslTextTools {
+public class FluentTextTools extends DslTextTools {
 
 	private PartitionScanner partitionScanner;
 
-	public FmTextTools(boolean autoDispose) {
+	public FluentTextTools(boolean autoDispose) {
 		super(Partitions.PARTITIONING, Partitions.getContentTypes(), autoDispose);
+	}
+
+	@Override
+	protected void createSecondaryLanguageDefinitions() {
+		LanguageManager mgr = FluentCore.getDefault().getLangManager();
+		mgr.setPartitionIds(FluentLangManager.DOT, Partitions.DOTBLOCK);
+		// mgr.setPartitionIds(FluentLangManager.UML, Partitions.UMLBLOCK);
 	}
 
 	@Override

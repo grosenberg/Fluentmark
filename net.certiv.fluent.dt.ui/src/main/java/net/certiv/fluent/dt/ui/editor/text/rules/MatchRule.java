@@ -51,7 +51,7 @@ public class MatchRule implements IPredicateRule {
 	 * the line. Any character which follows the given escapeCharacter will be ignored.
 	 *
 	 * @param startSequence the pattern's start sequence
-	 * @param endSequence the pattern's end sequence, <code>null</code> is a legal value
+	 * @param endSequence the pattern's end sequence, {@code null} is a legal value
 	 * @param token the token which will be returned on success
 	 * @param escapeCharacter any character following this one will be ignored
 	 * @param breaksOnEOL indicates whether the end of the line also terminates the pattern
@@ -76,7 +76,7 @@ public class MatchRule implements IPredicateRule {
 	 * ignored.
 	 *
 	 * @param startSequence the pattern's start sequence
-	 * @param endSequence the pattern's end sequence, <code>null</code> is a legal value
+	 * @param endSequence the pattern's end sequence, {@code null} is a legal value
 	 * @param token the token which will be returned on success
 	 * @param escapeCharacter any character following this one will be ignored
 	 * @param breaksOnEOL indicates whether the end of the line also terminates the pattern
@@ -112,10 +112,10 @@ public class MatchRule implements IPredicateRule {
 
 	/**
 	 * Evaluates this rules without considering any column constraints. Resumes detection, i.e. look
-	 * sonly for the end sequence required by this rule if the <code>resume</code> flag is set.
+	 * sonly for the end sequence required by this rule if the {@code resume} flag is set.
 	 *
 	 * @param scanner the character scanner to be used
-	 * @param resume <code>true</code> if detection should be resumed, <code>false</code> otherwise
+	 * @param resume {@code true} if detection should be resumed, {@code false} otherwise
 	 * @return the token resulting from this evaluation
 	 * @since 2.0
 	 */
@@ -143,7 +143,7 @@ public class MatchRule implements IPredicateRule {
 	 * @param scanner the character scanner to be used
 	 * @param sequence the sequence to be detected
 	 * @param eofAllowed indicated whether EOF terminates the pattern
-	 * @return <code>true</code> if the given sequence has been detected
+	 * @return {@code true} if the given sequence has been detected
 	 */
 	protected boolean sequenceDetected(ICharacterScanner scanner, char[] sequence, boolean eofAllowed) {
 		return sequenceDetected(scanner, sequence, true, eofAllowed);
@@ -151,11 +151,11 @@ public class MatchRule implements IPredicateRule {
 
 	/**
 	 * Returns whether the end sequence was detected. As the pattern can be considered ended by a line
-	 * delimiter, the result of this method is <code>true</code> if the rule breaks on the end of the
+	 * delimiter, the result of this method is {@code true} if the rule breaks on the end of the
 	 * line, or if the EOF character is read.
 	 *
 	 * @param scanner the character scanner to be used
-	 * @return <code>true</code> if the end sequence has been detected
+	 * @return {@code true} if the end sequence has been detected
 	 */
 	protected boolean endSequenceDetected(ICharacterScanner scanner) {
 		char[][] originalDelimiters = scanner.getLegalLineDelimiters();

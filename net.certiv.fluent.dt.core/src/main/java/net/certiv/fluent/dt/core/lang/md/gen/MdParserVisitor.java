@@ -1,7 +1,8 @@
 // Generated from D:/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.core/src/main/java/net/certiv/fluent/dt/core/lang/md/MdParser.g4 by ANTLR 4.7.2
-
+ 
 	package net.certiv.fluent.dt.core.lang.md.gen;
-	import org.antlr.v4.runtime.tree.ParseTreeVisitor;
+
+import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
 /**
  * This interface defines a complete generic visitor for a parse tree produced
@@ -18,41 +19,41 @@ public interface MdParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitPage(MdParser.PageContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link MdParser#yamlBlock}.
+	 * Visit a parse tree produced by {@link MdParser#yaml}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitYamlBlock(MdParser.YamlBlockContext ctx);
+	T visitYaml(MdParser.YamlContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link MdParser#htmlBlock}.
+	 * Visit a parse tree produced by {@link MdParser#html}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitHtmlBlock(MdParser.HtmlBlockContext ctx);
+	T visitHtml(MdParser.HtmlContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link MdParser#mathBlock}.
+	 * Visit a parse tree produced by {@link MdParser#math}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitMathBlock(MdParser.MathBlockContext ctx);
+	T visitMath(MdParser.MathContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link MdParser#texBlock}.
+	 * Visit a parse tree produced by {@link MdParser#tex}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitTexBlock(MdParser.TexBlockContext ctx);
+	T visitTex(MdParser.TexContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link MdParser#umlBlock}.
+	 * Visit a parse tree produced by {@link MdParser#uml}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitUmlBlock(MdParser.UmlBlockContext ctx);
+	T visitUml(MdParser.UmlContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link MdParser#codeBlock}.
+	 * Visit a parse tree produced by {@link MdParser#code}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitCodeBlock(MdParser.CodeBlockContext ctx);
+	T visitCode(MdParser.CodeContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link MdParser#header}.
 	 * @param ctx the parse tree
@@ -65,6 +66,18 @@ public interface MdParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitHrule(MdParser.HruleContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link MdParser#table}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTable(MdParser.TableContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link MdParser#tableRow}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTableRow(MdParser.TableRowContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link MdParser#list}.
 	 * @param ctx the parse tree
@@ -84,30 +97,6 @@ public interface MdParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitListMark(MdParser.ListMarkContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link MdParser#table}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitTable(MdParser.TableContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link MdParser#tableDef}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitTableDef(MdParser.TableDefContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link MdParser#tableRow}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitTableRow(MdParser.TableRowContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link MdParser#tableCell}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitTableCell(MdParser.TableCellContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link MdParser#definition}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -120,11 +109,11 @@ public interface MdParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitParagraph(MdParser.ParagraphContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link MdParser#content}.
+	 * Visit a parse tree produced by {@link MdParser#line}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitContent(MdParser.ContentContext ctx);
+	T visitLine(MdParser.LineContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link MdParser#link}.
 	 * @param ctx the parse tree
@@ -180,9 +169,9 @@ public interface MdParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitLnBreak(MdParser.LnBreakContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link MdParser#ignore}.
+	 * Visit a parse tree produced by {@link MdParser#err}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitIgnore(MdParser.IgnoreContext ctx);
+	T visitErr(MdParser.ErrContext ctx);
 }

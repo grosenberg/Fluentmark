@@ -46,18 +46,43 @@
 -->
 
    <extension
-         id="net.certiv.fluent.dt.core.problem"
-         name="Fm Problem"
+         id="net.certiv.fluent.dt.core.md.problem"
+         name="Markdown Problem"
          point="org.eclipse.core.resources.markers">
-      <super
-            type="org.eclipse.core.resources.problemmarker">
-      </super>
-      <super
-            type="org.eclipse.core.resources.textmarker">
-      </super>
-      <persistent
-            value="false">
-      </persistent>
+      <super type="org.eclipse.core.resources.problemmarker"/>
+      <persistent value="false"/>
+   </extension>
+
+   <extension
+         id="net.certiv.fluent.dt.core.dot.problem"
+         name="Dot Problem"
+         point="org.eclipse.core.resources.markers">
+      <super type="org.eclipse.core.resources.problemmarker"/>
+      <persistent value="false"/>
+   </extension>
+
+   <extension
+         id="net.certiv.fluent.dt.core.uml.problem"
+         name="Uml Problem"
+         point="org.eclipse.core.resources.markers">
+      <super type="org.eclipse.core.resources.problemmarker"/>
+      <persistent value="false"/>
+   </extension>
+
+   <extension
+         id="net.certiv.fluent.dt.core.tex.problem"
+         name="Tex Problem"
+         point="org.eclipse.core.resources.markers">
+      <super type="org.eclipse.core.resources.problemmarker"/>
+      <persistent value="false"/>
+   </extension>
+
+   <extension
+         id="net.certiv.fluent.dt.core.problem"
+         name="Markdown Problem"
+         point="org.eclipse.core.resources.markers">
+      <super type="org.eclipse.core.resources.problemmarker"/>
+      <persistent value="false"/>
    </extension>
 
    <extension

@@ -6,7 +6,7 @@
 
     Alice ->   Bob : Second authentication Request
     Alice <--o Bob : Second authentication Response
-@enduml
+@enduml 
 
 ## LaTeX math test
 

@@ -3,6 +3,7 @@ package net.certiv.fluent.dt.ui.editor;
 import org.eclipse.jface.text.IAutoEditStrategy;
 import org.eclipse.jface.text.IInformationControlCreator;
 import org.eclipse.jface.text.ITextHover;
+import org.eclipse.jface.text.contentassist.ContentAssistant;
 import org.eclipse.jface.text.formatter.IContentFormatter;
 import org.eclipse.jface.text.hyperlink.IHyperlinkDetector;
 import org.eclipse.jface.text.information.IInformationPresenter;
@@ -12,7 +13,7 @@ import org.eclipse.ui.texteditor.ITextEditor;
 
 import net.certiv.dsl.core.color.IColorManager;
 import net.certiv.dsl.core.preferences.IDslPrefsManager;
-import net.certiv.dsl.ui.editor.reconcile.DslReconciler;
+import net.certiv.dsl.ui.editor.reconcile.Reconciler;
 
 public class FluentSimpleSourceViewerConfiguration extends FluentSourceViewerConfiguration {
 
@@ -56,6 +57,9 @@ public class FluentSimpleSourceViewerConfiguration extends FluentSourceViewerCon
 	}
 
 	@Override
+	public void specializeContentAssistant(ContentAssistant assistant) {}
+
+	@Override
 	public IContentFormatter getContentFormatter(ISourceViewer sourceViewer) {
 		return null;
 	}
@@ -84,7 +88,7 @@ public class FluentSimpleSourceViewerConfiguration extends FluentSourceViewerCon
 	}
 
 	@Override
-	public DslReconciler getReconciler(ISourceViewer viewer) {
+	public Reconciler getReconciler(ISourceViewer viewer) {
 		return null;
 	}
 }

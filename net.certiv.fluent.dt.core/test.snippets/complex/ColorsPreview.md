@@ -1,10 +1,15 @@
 Headings
 
 # h1 Heading
+
 ## h2 Heading
+
 ### h3 Heading
+
 #### h4 Heading
+
 ##### h5 Heading
+
 ###### h6 Heading
 
 Emphasis
@@ -36,7 +41,9 @@ though invisible on the page
 Horizontal rules (three consecutive sybols)
 
 ___	
----	
+
+---
+	
 ***	
 
 Links
@@ -70,6 +77,7 @@ fenced code block (preferred)
 ```
 fenced code block
 ```
+
 Html block 
 
 <figure>

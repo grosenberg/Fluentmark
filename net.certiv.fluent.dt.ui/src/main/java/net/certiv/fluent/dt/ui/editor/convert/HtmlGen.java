@@ -6,6 +6,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 
+import org.osgi.framework.Bundle;
+
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
@@ -22,14 +24,14 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.ITypedRegion;
 import org.eclipse.jface.text.TextUtilities;
 import org.eclipse.ui.IPathEditorInput;
-import org.osgi.framework.Bundle;
 
 import net.certiv.dsl.core.log.Log;
+import net.certiv.dsl.core.util.Chars;
 import net.certiv.dsl.core.util.FileUtils;
 import net.certiv.dsl.core.util.Strings;
 import net.certiv.fluent.dt.core.FluentCore;
-import net.certiv.fluent.dt.core.preferences.CssDef;
 import net.certiv.fluent.dt.core.preferences.Prefs;
+import net.certiv.fluent.dt.core.preferences.ResourceDef;
 import net.certiv.fluent.dt.ui.FluentUI;
 import net.certiv.fluent.dt.ui.editor.FluentEditor;
 import net.certiv.fluent.dt.ui.editor.Partitions;
@@ -49,7 +51,7 @@ import net.certiv.fluent.dt.ui.editor.Partitions;
  * </ul>
  * </ul>
  */
-public class HtmlGen implements CssDef {
+public class HtmlGen implements ResourceDef {
 
 	private FluentEditor editor;
 	private Converter converter;
@@ -151,7 +153,7 @@ public class HtmlGen implements CssDef {
 
 		// 2) look for a file with the name 'markdown.css' in the same set of
 		// directories
-		style = path.removeLastSegments(1).append(DEFAULT_CSS);
+		style = path.removeLastSegments(1).append(MARKDOWN_CSS);
 		pathUrl = find(style);
 		if (pathUrl != null) return pathUrl;
 
@@ -161,7 +163,7 @@ public class HtmlGen implements CssDef {
 		String customCss = store.getString(Prefs.EDITOR_CSS_EXTERNAL_DIR);
 		if (!customCss.isEmpty()) {
 			File file = new File(customCss);
-			if (file.isFile() && file.getName().endsWith(Strings.DOT + CSS)) {
+			if (file.isFile() && file.getName().endsWith(Chars.DOT + CSS)) {
 				return toURL(file);
 			}
 		}
@@ -182,7 +184,7 @@ public class HtmlGen implements CssDef {
 
 		// 5) read 'markdown.css' from the bundle
 		Bundle bundle = Platform.getBundle(FluentUI.PLUGIN_ID);
-		URL url = FileLocator.find(bundle, new Path(RESOURCES_CSS + DEFAULT_CSS), null);
+		URL url = FileLocator.find(bundle, new Path(CSS + MARKDOWN_CSS), null);
 		url = FileLocator.toFileURL(url);
 		return url;
 	}

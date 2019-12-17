@@ -1,6 +1,5 @@
 package net.certiv.fluent.dt.ui;
 
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.osgi.framework.BundleContext;
 
 import net.certiv.dsl.core.DslCore;
@@ -8,10 +7,10 @@ import net.certiv.dsl.core.log.Log;
 import net.certiv.dsl.core.log.Log.LogLevel;
 import net.certiv.dsl.ui.DslUI;
 import net.certiv.dsl.ui.editor.text.DslTextTools;
+import net.certiv.dsl.ui.templates.CompletionManager;
 import net.certiv.fluent.dt.core.FluentCore;
 import net.certiv.fluent.dt.ui.editor.FluentEditor;
-import net.certiv.fluent.dt.ui.editor.FmTextTools;
-import net.certiv.fluent.dt.ui.templates.MdContextType;
+import net.certiv.fluent.dt.ui.editor.FluentTextTools;
 
 public class FluentUI extends DslUI {
 
@@ -21,6 +20,7 @@ public class FluentUI extends DslUI {
 
 	private ImageManager imgMgr;
 	private DslTextTools textTools;
+	private CompletionManager compMgr;
 
 	public FluentUI() {
 		super();
@@ -59,19 +59,6 @@ public class FluentUI extends DslUI {
 	}
 
 	@Override
-	public String getDslLanguageName() {
-		return FluentCore.DSL_NAME;
-	}
-
-	/**
-	 * Returns an image descriptor for the image file at the given plug-in relative
-	 * path
-	 */
-	public static ImageDescriptor getImageDescriptor(String path) {
-		return imageDescriptorFromPlugin(PLUGIN_ID, path);
-	}
-
-	@Override
 	public ImageManager getImageManager() {
 		if (imgMgr == null) {
 			imgMgr = new ImageManager();
@@ -82,18 +69,21 @@ public class FluentUI extends DslUI {
 	@Override
 	public DslTextTools getTextTools() {
 		if (textTools == null) {
-			textTools = new FmTextTools(true);
+			textTools = new FluentTextTools(true);
 		}
 		return textTools;
 	}
 
 	@Override
-	protected String[] getDslContextTypes() {
-		return new String[] { MdContextType.FM_CONTEXT_TYPE_ID };
+	protected String getEditorId() {
+		return FluentEditor.EDITOR_ID;
 	}
 
 	@Override
-	protected String getEditorId() {
-		return FluentEditor.EDITOR_ID;
+	public CompletionManager getCompletionMgr() {
+		if (compMgr == null) {
+			compMgr = new FluentCompletionManager(this, getEditorId());
+		}
+		return compMgr;
 	}
 }

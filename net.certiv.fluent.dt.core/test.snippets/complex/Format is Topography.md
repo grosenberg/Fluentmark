@@ -1,7 +1,6 @@
 # Format is Topography
 
 Topography
-
 : a detailed description or representation on a map of salient features appropriate 
 for distinct identification of an area relative to a defined root locus.
 

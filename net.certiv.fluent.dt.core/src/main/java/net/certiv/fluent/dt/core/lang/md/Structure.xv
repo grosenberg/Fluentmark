@@ -8,53 +8,50 @@ options {
 @header {
 	package net.certiv.fluent.dt.core.lang.md.gen;
 	import  net.certiv.fluent.dt.core.lang.md.StructureBuilder;
-	import net.certiv.fluent.dt.core.model.ModelType;
+	import  net.certiv.fluent.dt.core.model.ModelType;
 }
 
 structure
 	: page
 
 	| header
-	| paragraph
 	| hrule
-	| comment
-
-	| yamlBlock
-	| htmlBlock
-	| codeBlock
-	| mathBlock
-	| texBlock
-	| umlBlock
-
-	| list
+	| paragraph
 	| table
 	| definition
+	| list
+	
+
+	| comment
+
+	| yaml
+	| html
+	| code
+	| math
+	| tex
+	| uml
 	;
 
-page		: /page		 		{ doModule(); } ;
+page		: /page		 	{ doModule(); } ;
 
-header		: //header			{ doHeader(); } ;
-paragraph	: //paragraph		{ doStatement(ModelType.Paragraph); } ;
-hrule		: //hrule			{ doStatement(ModelType.HRule); } ;
-comment		: //comment			{ doStatement(ModelType.Comment); } ;
+header		: //header		{ doHeader(); } ;
+hrule		: //hrule		{ doStatement(ModelType.HRule); } ;
+paragraph	: //paragraph	{ doStatement(ModelType.Paragraph); } ;
+definition	: //definition	{ doStatement(ModelType.Definition); } ;
+table		: //table		{ doStatement(ModelType.Table); } ;
 
-definition	: //definition		{ doStatement(ModelType.Definition); } ;
+comment		: //comment		{ doStatement(ModelType.Comment); } ;
 
-yamlBlock	: //yamlBlock		{ doStatement(ModelType.MetaMatter); } ;
-htmlBlock	: //htmlBlock		{ doStatement(ModelType.HtmlBlock); } ;
-codeBlock	: //codeBlock		{ doStatement(ModelType.CodeBlock); } ;
-mathBlock	: //mathBlock		{ doStatement(ModelType.MathBlock); } ;
-texBlock	: //texBlock		{ doStatement(ModelType.TexBlock); } ;
-umlBlock	: //umlBlock		{ doStatement(ModelType.UmlGraph); } ;
+yaml	: //yaml	{ doStatement(ModelType.YamlBlock); } ;
+html	: //html	{ doStatement(ModelType.HtmlBlock); } ;
+code	: //code	{ doStatement(ModelType.CodeBlock); } ;
+math	: //math	{ doStatement(ModelType.MathBlock); } ;
+tex		: //tex		{ doStatement(ModelType.TexBlock) ; } ;
+uml		: //uml		{ doStatement(ModelType.UmlBlock) ; } ;
 
 list		: //list
 				{ onEntry: doList(); }
 				{ onExit: endBlock(); }
 			;
-listItem	: //listItem		{ doListItem(); } ;
 
-table		: //table
-				{ onEntry: doTable(); }
-				{ onExit: endBlock(); }
-			;
-tableRow	: //tableRow		{ doTableRow(); } ;
+listItem	: //listItem		{ doListItem(); } ;

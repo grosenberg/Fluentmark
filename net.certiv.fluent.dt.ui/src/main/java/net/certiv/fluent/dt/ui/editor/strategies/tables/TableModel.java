@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.ArrayUtils;
+
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.swt.SWT;
 
@@ -68,7 +69,7 @@ public class TableModel {
 
 		try {
 			for (int lnum = this.stmt.getStartLine(), row = 0; lnum <= this.stmt.getEndLine(); lnum++) {
-				String text = TextUtils.getText(unit.getParseRecord().doc, lnum);
+				String text = TextUtils.getText(unit.getDocument(), lnum);
 				String[] cols = parseRow(text.substring(1));
 				if (text.trim().contains("---")) {
 					formatRow = row;
@@ -196,7 +197,7 @@ public class TableModel {
 			if (aligns[col] == SWT.RIGHT || aligns[col] == SWT.CENTER) sb.append(":");
 			sb.append("|");
 		}
-		String existing = TextUtils.getText(stmt.getCodeUnit().getParseRecord().doc, row.num);
+		String existing = TextUtils.getText(stmt.getCodeUnit().getDocument(), row.num);
 		int mark = existing.lastIndexOf("|");
 		if (mark < existing.length() - 1) {
 			sb.append(existing.substring(mark + 1));
@@ -222,7 +223,7 @@ public class TableModel {
 			sb.append(Strings.dup(padRight, Strings.SPACE));
 			sb.append("|");
 		}
-		String existing = TextUtils.getText(stmt.getCodeUnit().getParseRecord().doc, row.num);
+		String existing = TextUtils.getText(stmt.getCodeUnit().getDocument(), row.num);
 		int mark = existing.lastIndexOf("|");
 		if (mark < existing.length() - 1) {
 			sb.append(existing.substring(mark + 1));

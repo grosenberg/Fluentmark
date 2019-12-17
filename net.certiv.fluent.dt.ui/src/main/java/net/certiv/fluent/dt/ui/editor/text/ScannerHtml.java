@@ -26,7 +26,7 @@ import net.certiv.fluent.dt.ui.editor.text.rules.WhitespaceDetector;
 public class ScannerHtml extends AbstractBufferedRuleBasedScanner {
 
 	private String[] tokenProperties;
-	private static final String[] keywords = { "a", "abbr", "acronym", "address", "applet", "area", "article", "aside",
+	public static final String[] keywords = { "a", "abbr", "acronym", "address", "applet", "area", "article", "aside",
 			"audio", "b", "base", "basefont", "bdi", "bdo", "bgsound", "big", "blink", "blockquote", "body", "br",
 			"button", "canvas", "caption", "center", "cite", "code", "col", "colgroup", "command", "content", "data",
 			"datalist", "dd", "del", "details", "dfn", "dialog", "dir", "div", "dl", "dt", "element", "em", "embed",
@@ -38,7 +38,7 @@ public class ScannerHtml extends AbstractBufferedRuleBasedScanner {
 			"samp", "script", "section", "select", "shadow", "small", "source", "spacer", "span", "strike", "strong",
 			"style", "sub", "summary", "sup", "table", "tbody", "td", "template", "textarea", "tfoot", "th", "thead",
 			"time", "title", "tr", "track", "tt", "u", "ul", "var", "video", "wbr", "xmp" };
-	private static final String[] symbols = { "<", "/", "=", ">" };
+	public static final String[] symbols = { "<", "/", "=", ">" };
 
 	public ScannerHtml(IDslPrefsManager store) {
 		super(store);

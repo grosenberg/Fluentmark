@@ -27,8 +27,8 @@ public class Verifier {
 	}
 
 	/**
-	 * Verifies the semantic and attribute value correctness of the DOT spec
-	 * described by the given srcParser. Issues are reported to the given collector.
+	 * Verifies the semantic and attribute value correctness of the DOT spec described by the
+	 * given srcParser. Issues are reported to the given collector.
 	 */
 	public void check(DotSourceParser srcParser, DslProblemCollector collector) {
 		this.srcParser = srcParser;

@@ -25,6 +25,9 @@ public class EditorConfigBlock extends DefaultEditorConfigBlock {
 	protected List<String> createDeltaMatchKeys(List<String> keys) {
 
 		keys.add(Prefs.EDITOR_WORD_WRAP);
+		keys.add(Operation.OUTLINE_OPEN_LEVELS);
+
+		keys.add(Prefs.VIEW_UPDATE_DELAY);
 		keys.add(Prefs.EDITOR_HTML_OPEN);
 		keys.add(Prefs.EDITOR_PDF_OPEN);
 
@@ -34,47 +37,35 @@ public class EditorConfigBlock extends DefaultEditorConfigBlock {
 		keys.add(Prefs.EDITOR_TASK_TAGS);
 		keys.add(Prefs.EDITOR_TASK_TAGS_DEFINED);
 
-		keys.add(Prefs.VIEW_UPDATE_DELAY);
-
 		return super.createDeltaMatchKeys(keys);
 	}
 
 	@Override
 	public void addEditingControls(Composite parent) {
-		createSettingsGroup(parent);
-		createGenGroup(parent);
+		Composite settings = createSettingsGroup(parent);
+		appendSettings(settings);
+
 		createTabsGroup(parent);
+		createOutlineGroup(parent);
 		createFormattingGroup(parent);
-		createTaskGroup(parent);
 		createPreviewGroup(parent);
 	}
 
-	private void createGenGroup(Composite parent) {
-		Composite composite = SWTFactory.createGroupComposite(parent, 3, 2, "General");
-
-		addCheckBox(composite, "Enable editor word wrap", Prefs.EDITOR_WORD_WRAP, 2, 0);
-		addLabeledCombo(composite, "Open Outline to level", Operation.OUTLINE_OPEN_LEVELS, LevelLabels, LevelValues,
-				true);
+	private void appendSettings(Composite composite) {
+		addCheckBox(composite, "Enable editor word wrap", Prefs.EDITOR_WORD_WRAP, 2, 2);
 	}
 
 	private void createFormattingGroup(Composite parent) {
 		Composite composite = SWTFactory.createGroupComposite(parent, 3, 3, "Formatting");
 		addCheckBox(composite, "Formatting enabled", Prefs.FORMATTER_ENABLED, 3, 0);
-		addLabeledTextField(composite, "Line width", Prefs.FORMATTER_WRAP_COLUMN, 6, 0, true);
-		SWTFactory.createLabel(composite, "(set to '0' to disable wrapping)", SWT.BEGINNING);
-	}
-
-	private void createTaskGroup(Composite parent) {
-		Composite composite = SWTFactory.createGroupComposite(parent, 3, 2, "Task tags");
-		addCheckBox(composite, "Use task tags", Prefs.EDITOR_TASK_TAGS, 2, 0);
-		addLabeledTextField(composite, "Task tags defined", Prefs.EDITOR_TASK_TAGS_DEFINED, 0, 0, false);
+		addTextField(composite, "Line width", Prefs.FORMATTER_WRAP_COLUMN, 6, 0, FType.INTEGER);
+		SWTFactory.createLabel(composite, "(set to '0' to disable formatter wrapping)", SWT.BEGINNING);
 	}
 
 	private void createPreviewGroup(Composite parent) {
 		Composite comp = SWTFactory.createGroupComposite(parent, 3, 2, "Preview");
-		addLabeledTextField(comp, "Preview update rate (ms) ", Prefs.VIEW_UPDATE_DELAY, 6, 0, true);
+		addTextField(comp, "Preview update rate (ms) ", Prefs.VIEW_UPDATE_DELAY, 6, 0, FType.INTEGER);
 		addCheckBox(comp, "Open HTML file after creation", Prefs.EDITOR_HTML_OPEN, 2, 0);
 		addCheckBox(comp, "Open PDF file after creation", Prefs.EDITOR_PDF_OPEN, 2, 0);
 	}
-
 }

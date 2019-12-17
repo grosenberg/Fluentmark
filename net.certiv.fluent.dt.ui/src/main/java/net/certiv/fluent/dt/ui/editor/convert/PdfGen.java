@@ -29,6 +29,10 @@ import org.eclipse.text.edits.MultiTextEdit;
 import org.eclipse.text.edits.ReplaceEdit;
 import org.eclipse.text.edits.TextEdit;
 
+import net.sourceforge.plantuml.FileFormat;
+import net.sourceforge.plantuml.FileFormatOption;
+import net.sourceforge.plantuml.SourceStringReader;
+
 import net.certiv.dsl.core.log.Log;
 import net.certiv.dsl.core.model.ICodeUnit;
 import net.certiv.dsl.core.model.IDslElement;
@@ -38,16 +42,12 @@ import net.certiv.dsl.core.model.builder.ISourceRange;
 import net.certiv.dsl.core.preferences.DslPrefsManager;
 import net.certiv.dsl.core.util.FileUtils;
 import net.certiv.dsl.core.util.Strings;
-import net.certiv.dsl.core.util.Temps;
 import net.certiv.dsl.core.util.TextUtils;
 import net.certiv.dsl.core.util.exec.Cmd;
 import net.certiv.dsl.ui.DslUI;
 import net.certiv.fluent.dt.core.FluentCore;
-import net.certiv.fluent.dt.core.model.ModelUtil;
+import net.certiv.fluent.dt.core.model.SpecUtil;
 import net.certiv.fluent.dt.core.preferences.Prefs;
-import net.sourceforge.plantuml.FileFormat;
-import net.sourceforge.plantuml.FileFormatOption;
-import net.sourceforge.plantuml.SourceStringReader;
 
 public class PdfGen {
 
@@ -80,7 +80,7 @@ public class PdfGen {
 	 */
 	public static void save(ICodeUnit unit, String template, String pathname) {
 		final String basepath = unit.getLocation().removeLastSegments(1).addTrailingSeparator().toString();
-		Document doc = new Document(unit.getParseRecord().doc.get());
+		Document doc = new Document(unit.getDocument().get());
 
 		Job job = new Job("Generating Pdf") {
 
@@ -145,10 +145,10 @@ public class PdfGen {
 				public boolean visit(IDslElement element) throws CoreException {
 					if (element.getKind() == IDslElement.STATEMENT) {
 						Statement stmt = (Statement) element;
-						ISourceRange range = stmt.getSourceRange();
+						ISourceRange range = stmt.toSourceRange();
 
-						switch (ModelUtil.getModelType(stmt)) {
-							case DotGraph:
+						switch (SpecUtil.getSpecType(stmt)) {
+							case DotBlock:
 								ISourceRange subRange = calcDotRange(doc, range);
 								if (subRange == null) break;
 
@@ -165,7 +165,7 @@ public class PdfGen {
 								if (ok) edit.addChild(splice(unit, doc, range, tmpfile));
 								break;
 
-							case UmlGraph:
+							case UmlBlock:
 								tmpfile = createTmpFile(dir, "eps");
 								if (tmpfile == null) break;
 
@@ -219,7 +219,7 @@ public class PdfGen {
 	// clean up temporary files
 	protected static void cleanup(File dir) {
 		try {
-			Temps.deleteFolder(dir);
+			FileUtils.deleteFolder(dir);
 		} catch (IOException e) {}
 	}
 
@@ -264,7 +264,7 @@ public class PdfGen {
 	private static boolean uml2pdf(File file, String text) {
 		try (ByteArrayOutputStream os = new ByteArrayOutputStream()) {
 			SourceStringReader reader = new SourceStringReader(text);
-			reader.generateImage(os, new FileFormatOption(FileFormat.EPS));
+			reader.outputImage(os, new FileFormatOption(FileFormat.EPS));
 			String result = new String(os.toByteArray(), Charset.forName("UTF-8"));
 			FileUtils.write(file, result);
 			return true;
@@ -298,7 +298,7 @@ public class PdfGen {
 
 	private static File getTmpFolder() throws IOException {
 		try {
-			return Temps.createFolder("mk_" + Temps.nextRandom());
+			return FileUtils.createFolder("mk_" + FileUtils.nextRandom());
 		} catch (IOException e) {
 			String msg = String.format("Failed creating tmp folder (%s)", e.getMessage());
 			throw new IOException(msg);
@@ -307,7 +307,7 @@ public class PdfGen {
 
 	private static File createTmpFile(File dir, String ext) {
 		try {
-			return Temps.createFile("fluent_", "." + ext, dir);
+			return FileUtils.createFile("fluent_", "." + ext, dir);
 		} catch (IOException e) {
 			Log.error(PdfGen.class, String.format("Failed creating tmp file (%s)", e.getMessage()));
 			return null;

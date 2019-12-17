@@ -20,7 +20,7 @@ import net.certiv.fluent.dt.ui.editor.convert.Converter;
 import net.certiv.fluent.dt.ui.editor.convert.HtmlGen;
 import net.certiv.fluent.dt.ui.editor.convert.Kind;
 import net.certiv.fluent.dt.ui.editor.folding.FmFoldingStructureProvider;
-import net.certiv.fluent.dt.ui.editor.outline.FmOutlinePage;
+import net.certiv.fluent.dt.ui.editor.outline.FluentOutlinePage;
 
 public class FluentEditor extends DslEditor {
 
@@ -90,8 +90,8 @@ public class FluentEditor extends DslEditor {
 	}
 
 	@Override
-	protected FmOutlinePage doCreateOutlinePage() {
-		return new FmOutlinePage(this, getPreferenceStore());
+	protected FluentOutlinePage doCreateOutlinePage() {
+		return new FluentOutlinePage(this, getPreferenceStore());
 	}
 
 	@Override
@@ -107,7 +107,7 @@ public class FluentEditor extends DslEditor {
 		if (document instanceof IDocumentExtension3) {
 			IDocumentExtension3 extension = (IDocumentExtension3) document;
 			if (extension.getDocumentPartitioner(Partitions.PARTITIONING) == null) {
-				FmDocumentSetupParticipant participant = new FmDocumentSetupParticipant();
+				FluentDocumentSetupParticipant participant = new FluentDocumentSetupParticipant();
 				participant.setup(document);
 			}
 		}

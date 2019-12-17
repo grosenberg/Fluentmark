@@ -4,7 +4,7 @@ import org.eclipse.jface.text.templates.TemplateContext;
 import org.eclipse.jface.text.templates.TemplateVariableResolver;
 
 import net.certiv.dsl.core.model.ICodeUnit;
-import net.certiv.dsl.ui.editor.text.completion.tmpl.DslTemplateContext;
+import net.certiv.dsl.ui.editor.text.completion.DslTemplateContext;
 
 public class VocabName extends TemplateVariableResolver {
 

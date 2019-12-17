@@ -25,7 +25,7 @@ import net.certiv.dsl.core.model.DslModelException;
 import net.certiv.dsl.core.model.ICodeUnit;
 import net.certiv.dsl.core.model.IStatement;
 import net.certiv.dsl.core.model.builder.ISourceRange;
-import net.certiv.fluent.dt.core.model.ModelUtil;
+import net.certiv.fluent.dt.core.model.SpecUtil;
 import net.certiv.fluent.dt.ui.editor.FluentEditor;
 import net.certiv.fluent.dt.ui.editor.strategies.tables.TableDialog;
 
@@ -48,7 +48,7 @@ public class FluentDoubleClickStrategy extends DefaultTextDoubleClickStrategy {
 		unit = editor.getInputDslElement();
 		try {
 			stmt = unit.getElementAtOffset(offset);
-			switch (ModelUtil.getModelType(stmt)) {
+			switch (SpecUtil.getSpecType(stmt)) {
 				case Table:
 					runTableEditor();
 					return;
@@ -68,13 +68,7 @@ public class FluentDoubleClickStrategy extends DefaultTextDoubleClickStrategy {
 				int ret = dialog.open();
 				if (ret == 0) {
 					String newTable = dialog.build();
-					ISourceRange range;
-					try {
-						range = stmt.getSourceRange();
-					} catch (DslModelException e) {
-						return Status.CANCEL_STATUS;
-					}
-
+					ISourceRange range = stmt.toSourceRange();
 					editor.getViewer().setSelectedRange(range.getOffset(), 0);
 					TextEdit edit = new ReplaceEdit(range.getOffset(), range.getLength(), newTable);
 					try {

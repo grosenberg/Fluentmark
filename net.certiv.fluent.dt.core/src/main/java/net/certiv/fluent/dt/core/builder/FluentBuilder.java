@@ -22,15 +22,12 @@ public class FluentBuilder extends DslBuilder {
 	}
 
 	@Override
-	public String getBuilderID() {
+	protected String taskId() {
 		return BUILDER_ID;
 	}
 
 	@Override
-	public IStatus buildSourceModules(IProgressMonitor monitor, int ticks, List<ICodeUnit> srcModules)
-			throws CoreException {
-
-		// Log.info(this, String.format("Building %s", srcModules));
+	protected IStatus buildUnits(List<ICodeUnit> srcModules, IProgressMonitor monitor, int ticks) throws CoreException {
 		return Status.OK_STATUS;
 	}
 }

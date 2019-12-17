@@ -17,22 +17,24 @@ import org.antlr.v4.runtime.Token;
 /**
  * Modifies the {@code emit} related methods to implement new behaviors:
  * <p>
- * The {@code more} mode is unchanged from the native {@code Lexer} implementation. If
- * {@code more} mode is enabled, the token match is effectively extended to include the
- * first token, other than skipped tokens, matched by a non-{@code more}ed rule. While
- * {@code more} mode is active, no BOL or DENT tokens will be emitted.
+ * The {@code more} mode is unchanged from the native {@code Lexer}
+ * implementation. If {@code more} mode is enabled, the token match is
+ * effectively extended to include the first token, other than skipped tokens,
+ * matched by a non-{@code more}ed rule. While {@code more} mode is active, no
+ * BOL or DENT tokens will be emitted.
  * <p>
- * If {@code modified more} mode is enabled, the token match is effectively extended to
- * include all tokens matched by a the {@code modified more}ed rule. When any other token
- * is matched, the emit of that token is deferred and a constructed token of the
- * {@code modified more} defined type is immediately emitted.
+ * If {@code modified more} mode is enabled, the token match is effectively
+ * extended to include all tokens matched by a the {@code modified more}ed rule.
+ * When any other token is matched, the emit of that token is deferred and a
+ * constructed token of the {@code modified more} defined type is immediately
+ * emitted.
  */
 public abstract class LexerNeo extends Lexer {
 
 	// pending queue of tokens for emit
 	protected final ArrayDeque<MdToken> _queue = new ArrayDeque<>();
-	// last token emit'd
-	protected MdToken _lastToken;
+
+	protected MdToken _lastToken;	// last token emit'd
 
 	private boolean _mmore;			// modified more mode flag
 	private int _mtype;				// token type to emit with content of 'mmore' matches
@@ -44,13 +46,15 @@ public abstract class LexerNeo extends Lexer {
 	private boolean _atBOL;
 
 	private int _typeBOF = Token.EOF;
+	private String _textBOF = null;
 
 	public LexerNeo(CharStream input) {
 		super(input);
 	}
 
-	public void insertBOFToken(int type) {
-		_typeBOF = type;
+	public void insertBOFToken(int ttype, String ttext) {
+		_typeBOF = ttype;
+		_textBOF = ttext;
 	}
 
 	public boolean bol() {
@@ -111,6 +115,7 @@ public abstract class LexerNeo extends Lexer {
 					int ttype;
 					try {
 						ttype = getInterpreter().match(_input, _mode);
+						// Log.debug(this, "...matched " + createMatched().toString());
 					} catch (LexerNoViableAltException e) {
 						notifyListeners(e); // report error
 						recover(e);
@@ -144,6 +149,14 @@ public abstract class LexerNeo extends Lexer {
 		}
 	}
 
+	// private MdToken createMatched() {
+	// MdToken token = (MdToken) _factory.create(_tokenFactorySourcePair, _type,
+	// _text, _channel, _tokenStartCharIndex,
+	// getCharIndex() - 1, _tokenStartLine, _tokenStartCharPositionInLine);
+	// token.setHit(_lastToken == null, _atBOL);
+	// return token;
+	// }
+
 	private void queueMatched() {
 		MdToken token = (MdToken) _factory.create(_tokenFactorySourcePair, _type, _text, _channel, _tokenStartCharIndex,
 				getCharIndex() - 1, _tokenStartLine, _tokenStartCharPositionInLine);
@@ -168,7 +181,11 @@ public abstract class LexerNeo extends Lexer {
 	}
 
 	protected void queue(int ttype) {
-		MdToken token = (MdToken) _factory.create(_tokenFactorySourcePair, ttype, null, Token.DEFAULT_CHANNEL,
+		queue(ttype, null);
+	}
+
+	protected void queue(int ttype, String text) {
+		MdToken token = (MdToken) _factory.create(_tokenFactorySourcePair, ttype, text, Token.DEFAULT_CHANNEL,
 				_input.index(), _input.index() - 1, getLine(), getCharPositionInLine());
 		token.setHit(_lastToken == null, _atBOL);
 		_queue.add(token);
@@ -178,7 +195,7 @@ public abstract class LexerNeo extends Lexer {
 	public void emit(Token token) {
 		if (_lastToken == null && _typeBOF > Token.EOF) {
 			_queue.addFirst((MdToken) token);
-			token = _factory.create(_tokenFactorySourcePair, _typeBOF, null, Token.DEFAULT_CHANNEL, 0, -1, 1, 0);
+			token = _factory.create(_tokenFactorySourcePair, _typeBOF, _textBOF, Token.DEFAULT_CHANNEL, 0, -1, 0, 0);
 			((MdToken) token).setHit(true, true);
 		}
 		_lastToken = (MdToken) token;

@@ -24,8 +24,8 @@ import net.certiv.dsl.core.model.IStatement;
 import net.certiv.dsl.core.model.builder.ISourceRange;
 import net.certiv.dsl.ui.editor.text.SmartEdit;
 import net.certiv.fluent.dt.core.FluentCore;
-import net.certiv.fluent.dt.core.model.ModelType;
-import net.certiv.fluent.dt.core.model.ModelUtil;
+import net.certiv.fluent.dt.core.model.SpecType;
+import net.certiv.fluent.dt.core.model.SpecUtil;
 import net.certiv.fluent.dt.core.preferences.Prefs;
 import net.certiv.fluent.dt.ui.editor.FluentEditor;
 
@@ -95,8 +95,8 @@ public class LineWrapEditStrategy implements IAutoEditStrategy {
 
 			try {
 				IStatement stmt = editor.getInputDslElement().getElementAtOffset(offset);
-				if (ModelUtil.getModelType(stmt) == ModelType.ListItem) {
-					ISourceRange range = stmt.getSourceRange();
+				if (SpecUtil.getSpecType(stmt) == SpecType.ListItem) {
+					ISourceRange range = stmt.toSourceRange();
 					markWidth = range.getIdLength();
 				}
 			} catch (DslModelException e) {}
