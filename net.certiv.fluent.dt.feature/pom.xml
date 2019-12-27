@@ -10,7 +10,7 @@
 	<parent>
 		<groupId>net.certiv</groupId>
 		<artifactId>net.certiv.fluent.dt</artifactId>
-		<version>1.3.0-SNAPSHOT</version>
+		<version>1.4.0-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>net.certiv.fluent.dt.feature</artifactId>

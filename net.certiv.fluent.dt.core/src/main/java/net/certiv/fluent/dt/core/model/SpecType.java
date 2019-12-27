@@ -1,9 +1,10 @@
 package net.certiv.fluent.dt.core.model;
 
 import net.certiv.dsl.core.model.builder.ISpecType;
+import net.certiv.dsl.core.util.Strings;
 
 public enum SpecType implements ISpecType {
-	Page("Page", "*"),
+	Page("Page", "body"),
 
 	Header("Header", "h"),
 	Setext("Header", "h"),
@@ -14,33 +15,35 @@ public enum SpecType implements ISpecType {
 	Italic("Italic", "i"),
 	Underline("Underline", "u"),
 
-	Span("Span", "pre"),
+	Span("Span", "span"),
 
-	Link("Link", "u"),
-	Cite("Link cite", "u"),
+	Link("Link", "a"),
+	Cite("Link cite", "cite"),
 
-	List("List", "ul"),
+	ListOrdered("Ordered list", "ol"),
+	ListUnordered("Unordered list", "ul"),
 	ListItem("List Item", "li"),
-	Table("Table", "td"),
+
+	Table("Table", "table"),
 	TableRow("Table Row", "tr"),
 
 	Quote("Quote", "q"),
 	Definition("Definition", "dl"),
 
-	YamlBlock("YAML Block", ""),
-	HtmlBlock("HTML Block", ""),
-	MathBlock("Math Block", ""),
-	TexBlock("LaTex Block", ""),
-	DotBlock("Dot Block", ""),
-	UmlBlock("UML Block", ""),
-
 	CodeBlock("Code Block", "code"),
 	CodeBlockIndented("Code Block (indented)", "code"),
 
-	Comment("Comment", "comment"),
-	Terminal("Blank Line", ""),
+	YamlBlock("YAML Block", Strings.EMPTY),
+	HtmlBlock("HTML Block", Strings.EMPTY),
+	MathBlock("Math Block", Strings.EMPTY),
+	TexBlock("LaTex Block", Strings.EMPTY),
+	DotBlock("Dot Block", Strings.EMPTY),
+	UmlBlock("UML Block", Strings.EMPTY),
 
-	Unknown("Unknown", ""),
+	Comment("Comment", "comment"),
+
+	Terminal("Blank Line", Strings.EMPTY),
+	Unknown("Unknown", Strings.EMPTY),
 
 	;
 
@@ -50,6 +53,11 @@ public enum SpecType implements ISpecType {
 	SpecType(String name, String css) {
 		this.name = name;
 		this.css = css;
+	}
+
+	@Override
+	public String getStyle() {
+		return css;
 	}
 
 	@Override

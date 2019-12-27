@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2016 - 2017 Certiv Analytics and others.
+ * Copyright (c) 2016 - 2019 Certiv Analytics and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -14,14 +14,14 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.dialogs.PreferencesUtil;
 import org.eclipse.ui.handlers.HandlerUtil;
 
-public class OpenStylesheetsHandler extends AbstractHandler {
+import net.certiv.fluent.dt.ui.preferences.page.StylesPage;
 
-	private static final String STYLES_ID = "net.certiv.fluentmark.ui.preferences.PrefPageStyles";
+public class OpenStylesheetsHandler extends AbstractHandler {
 
 	@Override
 	public Object execute(final ExecutionEvent event) throws ExecutionException {
 		Shell shell = HandlerUtil.getActiveShell(event);
-		PreferencesUtil.createPreferenceDialogOn(shell, STYLES_ID, null, null).open();
+		PreferencesUtil.createPreferenceDialogOn(shell, StylesPage.class.getName(), null, null).open();
 		return null;
 	}
 }

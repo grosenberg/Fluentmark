@@ -7,6 +7,9 @@
  ******************************************************************************/
 package net.certiv.fluent.dt.ui.views;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.text.ITextListener;
 import org.eclipse.jface.text.ITextViewer;
@@ -22,6 +25,7 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.part.ViewPart;
 
+import net.certiv.dsl.core.preferences.DslPrefsManager;
 import net.certiv.dsl.core.util.eclipse.PartListener;
 import net.certiv.fluent.dt.core.FluentCore;
 import net.certiv.fluent.dt.core.preferences.Prefs;
@@ -34,6 +38,8 @@ public class FluentPreview extends ViewPart implements PartListener, ITextListen
 	private static FluentPreview viewpart;
 	private Browser browser;
 	private ViewJob viewjob;
+
+	private final Set<String> WatchProperties = new HashSet<>();
 
 	public FluentPreview() {
 		viewpart = this;
@@ -80,10 +86,17 @@ public class FluentPreview extends ViewPart implements PartListener, ITextListen
 	// on property store change
 	@Override
 	public void propertyChange(PropertyChangeEvent event) {
-		switch (event.getProperty()) {
-			case Prefs.EDITOR_CSS_EXTERNAL_DIR:
-			case Prefs.EDITOR_CSS_INTERNAL_DIR:
-				if (viewjob != null) viewjob.load();
+		if (viewjob != null) {
+			if (WatchProperties.isEmpty()) {
+				DslPrefsManager mgr = FluentCore.getDefault().getPrefsManager();
+				WatchProperties.add(mgr.bind(Prefs.EDITOR_PREVIEW_EXTERNAL_DIR));
+				WatchProperties.add(mgr.bind(Prefs.EDITOR_PREVIEW_INTERNAL_DIR));
+				WatchProperties.add(mgr.bind(Prefs.EDITOR_PREVIEW_FILE));
+			}
+
+			if (WatchProperties.contains(event.getProperty())) {
+				viewjob.load();
+			}
 		}
 	}
 

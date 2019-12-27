@@ -4,6 +4,7 @@ import org.eclipse.jface.text.templates.TemplateContext;
 import org.eclipse.jface.text.templates.TemplateVariableResolver;
 
 import net.certiv.dsl.core.model.ICodeUnit;
+import net.certiv.dsl.core.util.Chars;
 import net.certiv.dsl.ui.editor.text.completion.DslTemplateContext;
 
 public class VocabName extends TemplateVariableResolver {
@@ -27,8 +28,8 @@ public class VocabName extends TemplateVariableResolver {
 		String vocabName = null;
 		if (unit != null) {
 			vocabName = unit.getElementName();
-			if (vocabName != null && vocabName.lastIndexOf('.') > 0) {
-				vocabName = vocabName.substring(0, vocabName.lastIndexOf('.'));
+			if (vocabName != null && vocabName.lastIndexOf(Chars.DOT) > 0) {
+				vocabName = vocabName.substring(0, vocabName.lastIndexOf(Chars.DOT));
 			}
 		}
 		return vocabName;

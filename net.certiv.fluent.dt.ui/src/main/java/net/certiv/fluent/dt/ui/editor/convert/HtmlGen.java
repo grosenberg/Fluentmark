@@ -26,12 +26,10 @@ import org.eclipse.jface.text.TextUtilities;
 import org.eclipse.ui.IPathEditorInput;
 
 import net.certiv.dsl.core.log.Log;
-import net.certiv.dsl.core.util.Chars;
 import net.certiv.dsl.core.util.FileUtils;
 import net.certiv.dsl.core.util.Strings;
 import net.certiv.fluent.dt.core.FluentCore;
 import net.certiv.fluent.dt.core.preferences.Prefs;
-import net.certiv.fluent.dt.core.preferences.ResourceDef;
 import net.certiv.fluent.dt.ui.FluentUI;
 import net.certiv.fluent.dt.ui.editor.FluentEditor;
 import net.certiv.fluent.dt.ui.editor.Partitions;
@@ -51,7 +49,7 @@ import net.certiv.fluent.dt.ui.editor.Partitions;
  * </ul>
  * </ul>
  */
-public class HtmlGen implements ResourceDef {
+public class HtmlGen {
 
 	private FluentEditor editor;
 	private Converter converter;
@@ -83,10 +81,10 @@ public class HtmlGen implements ResourceDef {
 		switch (kind) {
 			case EXPORT:
 				sb.append("<html><head>" + Strings.EOL);
-				sb.append(FileUtils.fromBundle(pluginId, "resources/html/meta.html") + Strings.EOL);
-				sb.append(FileUtils.fromBundle(pluginId, "resources/html/highlight.html") + Strings.EOL);
+				sb.append(FileUtils.fromBundle(pluginId, "html/meta.html") + Strings.EOL);
+				sb.append(FileUtils.fromBundle(pluginId, "html/highlight.html") + Strings.EOL);
 				if (editor.useMathJax()) {
-					sb.append(FileUtils.fromBundle(pluginId, "resources/html/mathjax.html") + Strings.EOL);
+					sb.append(FileUtils.fromBundle(pluginId, "html/mathjax.html") + Strings.EOL);
 				}
 				sb.append("<style media=\"screen\" type=\"text/css\">" + Strings.EOL);
 				sb.append(getStyle(pathname) + Strings.EOL);
@@ -104,7 +102,7 @@ public class HtmlGen implements ResourceDef {
 				break;
 
 			case VIEW:
-				String preview = FileUtils.fromBundle(pluginId, "resources/html/preview.html");
+				String preview = FileUtils.fromBundle(pluginId, "html/preview.html");
 				preview = preview.replaceFirst("%path%", base);
 				sb.append(preview.replaceFirst("%styles%", getStyle(pathname)));
 				break;
@@ -147,33 +145,33 @@ public class HtmlGen implements ResourceDef {
 	private URL findStyle(IPath path) throws Exception {
 		// 1) look for a file having the same name as the input file, beginning in the
 		// current directory, parent directories, and the current project directory.
-		IPath style = path.removeFileExtension().addFileExtension(CSS);
+		IPath style = path.removeFileExtension().addFileExtension(Prefs.CSS);
 		URL pathUrl = find(style);
 		if (pathUrl != null) return pathUrl;
 
 		// 2) look for a file with the name 'markdown.css' in the same set of
 		// directories
-		style = path.removeLastSegments(1).append(MARKDOWN_CSS);
+		style = path.removeLastSegments(1).append(Prefs.MARKDOWN_CSS);
 		pathUrl = find(style);
 		if (pathUrl != null) return pathUrl;
 
 		// 3) read the file identified by the pref key 'EDITOR_CSS_EXTERNAL' from the
 		// filesystem
 		IPreferenceStore store = FluentCore.getDefault().getPrefsManager();
-		String customCss = store.getString(Prefs.EDITOR_CSS_EXTERNAL_DIR);
+		String customCss = store.getString(Prefs.EDITOR_PREVIEW_EXTERNAL_DIR);
 		if (!customCss.isEmpty()) {
 			File file = new File(customCss);
-			if (file.isFile() && file.getName().endsWith(Chars.DOT + CSS)) {
+			if (file.isFile() && file.getName().endsWith(Prefs.DOT_CSS)) {
 				return toURL(file);
 			}
 		}
 
 		// 4) read the file identified by the pref key 'EDITOR_CSS_BUILTIN' from the
 		// bundle
-		String builtinCss = store.getString(Prefs.EDITOR_CSS_INTERNAL_DIR);
+		String builtinCss = store.getString(Prefs.EDITOR_PREVIEW_INTERNAL_DIR);
 		if (!builtinCss.isEmpty()) {
 			try {
-				URI uri = new URI(builtinCss.replace(".css", ".min.css"));
+				URI uri = new URI(builtinCss.replace(Prefs.DOT_CSS, Prefs.DOT_MIN_CSS));
 				URL url = FileLocator.toFileURL(uri.toURL());
 				File file = URIUtil.toFile(URIUtil.toURI(url));
 				if (file.isFile()) return url;
@@ -184,7 +182,7 @@ public class HtmlGen implements ResourceDef {
 
 		// 5) read 'markdown.css' from the bundle
 		Bundle bundle = Platform.getBundle(FluentUI.PLUGIN_ID);
-		URL url = FileLocator.find(bundle, new Path(CSS + MARKDOWN_CSS), null);
+		URL url = FileLocator.find(bundle, new Path(Prefs.PREVIEW).append(Prefs.MARKDOWN_CSS), null);
 		url = FileLocator.toFileURL(url);
 		return url;
 	}

@@ -3,7 +3,7 @@
 <plugin>
    <extension
          id="net.certiv.fluent.dt.ui.editor.FmDocumentSetupParticipant"
-         name="Fm Document"
+         name="FluentMark Document"
          point="org.eclipse.core.filebuffers.documentSetup">
       <participant
             class="net.certiv.fluent.dt.ui.editor.FluentDocumentSetupParticipant"
@@ -154,17 +154,47 @@
      </contextTypeRegistry>
      <contextType
            class="net.certiv.fluent.dt.ui.templates.MdContextType"
-           id="net.certiv.fluent.dt.ui.templates.element"
-           name="Fluent Element"
+           id="net.certiv.fluent.dt.ui.templates.md"
+           name="Markdown"
+           registryId="net.certiv.fluent.dt.ui.editor.FluentEditor">
+     </contextType>
+     <contextType
+           class="net.certiv.fluent.dt.ui.templates.YamlContextType"
+           id="net.certiv.fluent.dt.ui.templates.yaml"
+           name="Yaml"
+           registryId="net.certiv.fluent.dt.ui.editor.FluentEditor">
+     </contextType>
+     <contextType
+           class="net.certiv.fluent.dt.ui.templates.HtmlContextType"
+           id="net.certiv.fluent.dt.ui.templates.html"
+           name="Html"
+           registryId="net.certiv.fluent.dt.ui.editor.FluentEditor">
+     </contextType>
+     <contextType
+           class="net.certiv.fluent.dt.ui.templates.MathContextType"
+           id="net.certiv.fluent.dt.ui.templates.math"
+           name="Math"
+           registryId="net.certiv.fluent.dt.ui.editor.FluentEditor">
+     </contextType>
+     <contextType
+           class="net.certiv.fluent.dt.ui.templates.DotContextType"
+           id="net.certiv.fluent.dt.ui.templates.dot"
+           name="Dot"
+           registryId="net.certiv.fluent.dt.ui.editor.FluentEditor">
+     </contextType>
+     <contextType
+           class="net.certiv.fluent.dt.ui.templates.UmlContextType"
+           id="net.certiv.fluent.dt.ui.templates.uml"
+           name="Uml"
            registryId="net.certiv.fluent.dt.ui.editor.FluentEditor">
      </contextType>
      <include
-           file="resources/templates/templates.xml"
-           translations="resources/templates/templates.properties">
+           file="templates/templates.xml"
+           translations="templates/templates.properties">
      </include>
       <resolver
             class="net.certiv.fluent.dt.ui.templates.VocabName"
-            contextTypeId="net.certiv.fluent.dt.ui.templates.element"
+            contextTypeId="net.certiv.fluent.dt.ui.templates.md"
             description="Proper name of the Tokens Vocabulary file"
             icon="icons/elcl16/templateprop_co.png"
             name="Tokens Vocab Name"
@@ -191,43 +221,37 @@
       <page
             category="net.certiv.certivtools.prefs.TopLevelPage"
             class="net.certiv.fluent.dt.ui.preferences.page.GeneralPage"
-            id="net.certiv.fluent.dt.ui.preferences.page.PrefPageGeneral"
+            id="net.certiv.fluent.dt.ui.preferences.page.GeneralPage"
             name="Fluentmark">
       </page>
       <page
-            category="net.certiv.fluent.dt.ui.preferences.page.PrefPageGeneral"
-            class="net.certiv.fluent.dt.ui.preferences.page.ConvertersPage"
-            id="net.certiv.fluent.dt.ui.preferences.page.PrefPageConverters"
-            name="Converters">
-      </page>
-      <page
-            category="net.certiv.fluent.dt.ui.preferences.page.PrefPageGeneral"
+            category="net.certiv.fluent.dt.ui.preferences.page.GeneralPage"
             class="net.certiv.fluent.dt.ui.preferences.page.EditorPage"
-            id="net.certiv.fluent.preferences.page.PrefPageEditor"
+            id="net.certiv.fluent.dt.ui.preferences.page.EditorPage"
             name="Editor">
       </page>
       <page
-            category="net.certiv.fluent.dt.ui.preferences.page.PrefPageGeneral"
+            category="net.certiv.fluent.dt.ui.preferences.page.GeneralPage"
             class="net.certiv.fluent.dt.ui.preferences.page.FoldingPage"
-            id="net.certiv.fluent.dt.ui.preferences.page.PrefPageFolding"
+            id="net.certiv.fluent.dt.ui.preferences.page.FoldingPage"
             name="Folding">
       </page>
       <page
-            category="net.certiv.fluent.dt.ui.preferences.page.PrefPageGeneral"
+            category="net.certiv.fluent.dt.ui.preferences.page.GeneralPage"
             class="net.certiv.fluent.dt.ui.preferences.page.StylesPage"
-            id="net.certiv.fluent.dt.ui.page1"
-            name="Styles">
+            id="net.certiv.fluent.dt.ui.preferences.page.StylesPage"
+            name="Stylesheets">
       </page>
       <page
-            category="net.certiv.fluent.dt.ui.preferences.page.PrefPageGeneral"
+            category="net.certiv.fluent.dt.ui.preferences.page.GeneralPage"
             class="net.certiv.fluent.dt.ui.preferences.page.SyntaxColorPage"
-            id="net.certiv.fluent.dt.ui.preferences.page.PrefPageSyntaxColoring"
+            id="net.certiv.fluent.dt.ui.preferences.page.SyntaxColorPage"
             name="Syntax Coloring">
       </page>
       <page
-            category="net.certiv.fluent.dt.ui.preferences.page.PrefPageGeneral"
+            category="net.certiv.fluent.dt.ui.preferences.page.GeneralPage"
             class="net.certiv.fluent.dt.ui.preferences.page.TemplatesPage"
-            id="net.certiv.fluent.dt.ui.preferences.page.PrefPageCodeTemplates"
+            id="net.certiv.fluent.dt.ui.preferences.page.TemplatesPage"
             name="Templates">
       </page>
    </extension>
@@ -312,40 +336,40 @@
       <category
             name="Fluentmark"
             description="Fluentmark"
-            id="net.certiv.fluent.dt.ui.category.source">
+            id="net.certiv.fluent.dt.ui.commands">
       </category>
       <command
-            categoryId="net.certiv.fluent.dt.ui.category.source"
+            categoryId="net.certiv.fluent.dt.ui.commands"
             description="Open FluentMark View"
             id="net.certiv.fluent.dt.openView"
             name="Open FluentMark View">
       </command>
       <command
-            categoryId="net.certiv.fluent.dt.ui.category.source"
+            categoryId="net.certiv.fluent.dt.ui.commands"
             description="Open stylesheets preference"
             id="net.certiv.fluent.dt.openStylesheets"
             name="OpenStylesheets">
       </command>
       <command
-                        categoryId="net.certiv.fluent.dt.ui.category.source"
+            categoryId="net.certiv.fluent.dt.ui.commands"
             description="Open Firebug"
             id="net.certiv.fluent.dt.firebug"
             name="Open Firebug">
       </command>
       <command
-            categoryId="net.certiv.fluent.dt.ui.category.source"
+            categoryId="net.certiv.fluent.dt.ui.commands"
             description="Export as Html"
             id="net.certiv.fluent.dt.exportHtml"
             name="ExportHTML">
       </command>
       <command
-            categoryId="net.certiv.fluent.dt.ui.category.source"
+            categoryId="net.certiv.fluent.dt.ui.commands"
             description="Export as PDF"
             id="net.certiv.fluent.dt.exportPdf"
             name="ExportPDF">
       </command>
       <command
-            categoryId="net.certiv.fluent.dt.ui.category.source"
+            categoryId="net.certiv.fluent.dt.ui.commands"
             description="Refresh view"
             id="net.certiv.fluent.dt.refreshView"
             name="Refresh view">
@@ -353,17 +377,17 @@
       <command
             name="Format text"
             description="Format text"
-            categoryId="net.certiv.fluent.dt.ui.category.source"
+            categoryId="net.certiv.fluent.dt.ui.commands"
             id="net.certiv.fluent.dt.ui.edit.text.format">
       </command>
       <command
-            categoryId="net.certiv.fluent.dt.ui.category.source"
+            categoryId="net.certiv.fluent.dt.ui.commands"
             description="Unwrap text"
             id="net.certiv.fluent.dt.ui.edit.text.unwrap"
             name="Unwrap">
       </command>
       <command
-            categoryId="net.certiv.fluent.dt.ui.category.source"
+            categoryId="net.certiv.fluent.dt.ui.commands"
             description="Toggle occurrence marking"
             id="net.certiv.fluent.dt.ui.edit.text.toggleMarkOccurrences"
             name="Mark Occurrences">
@@ -373,32 +397,32 @@
          </state>
       </command>
       <command
-                        categoryId="net.certiv.fluent.dt.ui.category.source"
+            categoryId="net.certiv.fluent.dt.ui.commands"
             description="Visible Comment"
             id="net.certiv.fluent.dt.visibleComment"
             name="Visible Comment">
       </command>
       <command
-                        categoryId="net.certiv.fluent.dt.ui.category.source"
+            categoryId="net.certiv.fluent.dt.ui.commands"
             description="Hidden Comment"
             id="net.certiv.fluent.dt.hiddenComment"
             name="Hidden Comment ">
       </command>
       <command
-                        categoryId="net.certiv.fluent.dt.ui.category.source"
+            categoryId="net.certiv.fluent.dt.ui.commands"
             description="Bold"
             id="net.certiv.fluent.dt.bold"
             name="Bold">
       </command>
       <command
-                        categoryId="net.certiv.fluent.dt.ui.category.source"
+            categoryId="net.certiv.fluent.dt.ui.commands"
             defaultHandler="net.certiv.fluent.dt.ui.handlers.ItalicHandler"
             description="Italic"
             id="net.certiv.fluent.dt.italic"
             name="Italic">
       </command>
       <command
-            categoryId="net.certiv.fluent.dt.ui.category.source"
+            categoryId="net.certiv.fluent.dt.ui.commands"
             description="Clean document problem markers"
             id="net.certiv.fluent.dt.ui.removeMarkersCommand"
             name="Clean Problems">
@@ -443,31 +467,11 @@
       <handler
             class="net.certiv.fluent.dt.ui.handlers.OpenStylesheetsHandler"
             commandId="net.certiv.fluent.dt.openStylesheets">
-         <activeWhen>
-            <reference
-                  definitionId="net.certiv.fluent.dt.activeContexts.definition">
-            </reference>
-         </activeWhen>
-         <enabledWhen>
-            <reference
-                  definitionId="net.certiv.fluent.dt.activeContexts.definition">
-            </reference>
-         </enabledWhen>
       </handler>
       
       <handler
             class="net.certiv.fluent.dt.ui.handlers.FirebugHandler"
             commandId="net.certiv.fluent.dt.firebug">
-         <activeWhen>
-            <reference
-                  definitionId="net.certiv.fluent.dt.activeContexts.definition">
-            </reference>
-         </activeWhen>
-         <enabledWhen>
-            <reference
-                  definitionId="net.certiv.fluent.dt.activeContexts.definition">
-            </reference>
-         </enabledWhen>
       </handler>
       <handler
             class="net.certiv.fluent.dt.ui.handlers.ExportHtmlHandler"
@@ -658,7 +662,7 @@
       </menuContribution>
       <menuContribution
             allPopups="false"
-            locationURI="toolbar:net.certiv.fluent.dt.views.FluentPreview">
+            locationURI="toolbar:net.certiv.fluent.dt.ui.views.FluentPreview">
          <command
                commandId="net.certiv.fluent.dt.refreshView"
                icon="icons/obj16/refresh.png"

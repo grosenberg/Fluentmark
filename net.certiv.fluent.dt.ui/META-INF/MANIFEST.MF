@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Fluent UI
 Automatic-Module-Name: net.certiv.fluent.dt.ui
 Bundle-SymbolicName: net.certiv.fluent.dt.ui;singleton:=true
-Bundle-Version: 1.3.0.qualifier
+Bundle-Version: 1.4.0.qualifier
 Bundle-ClassPath: .,
  lib/flexmark-0.50.44.jar,
  lib/flexmark-ext-abbreviation-0.50.44.jar,
@@ -68,3 +68,4 @@ Require-Bundle: net.certiv.fluent.dt.core;bundle-version="0.2.0",
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Eclipse-RegisterBuddy: net.certiv.dsl.lib
+Export-Package: h

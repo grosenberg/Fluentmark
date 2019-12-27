@@ -1,10 +1,11 @@
 package net.certiv.fluent.dt.ui.preferences.page;
 
-import org.eclipse.jface.layout.GridDataFactory;
-import org.eclipse.jface.layout.GridLayoutFactory;
-import org.eclipse.swt.SWT;
+import static net.certiv.fluent.dt.core.preferences.Prefs.*;
+
+import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import net.certiv.dsl.core.DslCore;
@@ -12,11 +13,26 @@ import net.certiv.dsl.core.color.DslColorManager;
 import net.certiv.dsl.core.preferences.DslPrefsManagerDelta;
 import net.certiv.dsl.ui.DslUI;
 import net.certiv.dsl.ui.preferences.blocks.IPreferenceConfigBlock;
+import net.certiv.dsl.ui.preferences.editors.ComboSelectFieldEditor;
 import net.certiv.dsl.ui.preferences.pages.AbstractFieldEditorPreferencePage;
+import net.certiv.dsl.ui.util.SWTFactory;
 import net.certiv.fluent.dt.core.FluentCore;
+import net.certiv.fluent.dt.core.preferences.Prefs;
 import net.certiv.fluent.dt.ui.FluentUI;
+import net.certiv.fluent.dt.ui.preferences.blocks.Cnv;
+import net.certiv.fluent.dt.ui.preferences.blocks.ConvertersConfigBlock;
 
 public class GeneralPage extends AbstractFieldEditorPreferencePage {
+
+	private static final String[][] converters = new String[][] { //
+			{ "Pandoc", Prefs.KEY_PANDOC }, //
+			{ "Flexmark", Prefs.KEY_FLEXMARK }, //
+			{ "BlackFriday", Prefs.KEY_BLACKFRIDAY }, //
+			{ "External", Prefs.KEY_EXTERNAL }, //
+	};
+
+	private ComboSelectFieldEditor combo;
+	private ConvertersConfigBlock block;
 
 	public GeneralPage() {
 		super(GRID);
@@ -32,33 +48,55 @@ public class GeneralPage extends AbstractFieldEditorPreferencePage {
 		return FluentCore.getDefault();
 	}
 
-	/** Creates the field editors. */
 	@Override
-	public void createFieldEditors() {
-		Composite parent = getFieldEditorParent();
-
-		Group postGroup = new Group(parent, SWT.NONE);
-		GridDataFactory.fillDefaults().indent(0, 6).grab(true, false).span(2, 1).applyTo(postGroup);
-		GridLayoutFactory.fillDefaults().margins(6, 6).applyTo(postGroup);
-		postGroup.setText("General Options");
-
-		Composite inComp = new Composite(postGroup, SWT.NONE);
-		GridDataFactory.fillDefaults().indent(0, 4).grab(true, false).applyTo(inComp);
-		GridLayoutFactory.fillDefaults().applyTo(inComp);
-
-		// addField(new BooleanFieldEditor(bind(Editor.EDITOR_MARK_OCCURRENCES), "Mark
-		// occurrences", inComp));
+	public void init(IWorkbench workbench) {
+		super.init(workbench);
+		String converter = getPreferenceStore().getString(Prefs.EDITOR_MD_CONVERTER);
+		switch (converter) {
+			case KEY_PANDOC:
+			case KEY_FLEXMARK:
+			case KEY_BLACKFRIDAY:
+			case KEY_EXTERNAL:
+				break;
+			default:
+				getPreferenceStore().setToDefault(Prefs.EDITOR_MD_CONVERTER);
+		}
 	}
 
 	@Override
-	public void performDefaults() {
-		super.performDefaults();
+	protected Control createContents(Composite parent) {
+		Control control = super.createContents(parent);
+		String key = getPreferenceStore().getString(Prefs.EDITOR_MD_CONVERTER);
+		Cnv cnv = Cnv.find(key);
+		block.selectTab(cnv.index());
+		return control;
+	}
+
+	@Override
+	protected void createFieldEditors() {
+		Composite parent = getFieldEditorParent();
+		Composite base = SWTFactory.createGroupComposite(parent, 1, 3, "Conversion filter selection");
+		combo = new ComboSelectFieldEditor(Prefs.EDITOR_MD_CONVERTER, "Converter:", converters, base);
+		addField(combo);
 	}
 
 	@Override
 	protected IPreferenceConfigBlock createConfigurationBlock(AbstractFieldEditorPreferencePage page, Composite parent,
 			DslPrefsManagerDelta delta, FormToolkit formkit, DslColorManager colorMgr) {
-		return null;
+		block = new ConvertersConfigBlock(this, delta, formkit, colorMgr);
+		return block;
+	}
+
+	@Override
+	public void propertyChange(PropertyChangeEvent event) {
+		if (event.getSource() == combo && !event.getNewValue().equals(event.getOldValue())) {
+			setErrorMessage(null);
+			setMessage(null);
+			Cnv cnv = Cnv.find(combo.getKey());
+			block.selectTab(cnv.index());
+			block.validateSettings(combo.getKey());
+		}
+		super.propertyChange(event);
 	}
 
 	@Override

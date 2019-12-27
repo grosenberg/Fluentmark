@@ -6,7 +6,7 @@
 		name="h1"
 		description="%describe.h1"
 		id="net.certiv.fluentmark.ui.templates.h1"
-		context="fluentmark.markdown"
+		context="markdown"
 		enabled="true"
 		autoinsert="false">%template.h1
 	</template>
@@ -15,7 +15,7 @@
 		name="h2"
 		description="%describe.h2"
 		id="net.certiv.fluentmark.ui.templates.h2"
-		context="fluentmark.markdown"
+		context="markdown"
 		enabled="true"
 		autoinsert="false">%template.h2
 	</template>
@@ -24,7 +24,7 @@
 		name="h3"
 		description="%describe.h3"
 		id="net.certiv.fluentmark.ui.templates.h3"
-		context="fluentmark.markdown"
+		context="markdown"
 		enabled="true"
 		autoinsert="false">%template.h3
 	</template>
@@ -33,7 +33,7 @@
 		name="h4"
 		description="%describe.h4"
 		id="net.certiv.fluentmark.ui.templates.h4"
-		context="fluentmark.markdown"
+		context="markdown"
 		enabled="true"
 		autoinsert="false">%template.h4
 	</template>
@@ -43,7 +43,7 @@
 		name="h5"
 		description="%describe.h5"
 		id="net.certiv.fluentmark.ui.templates.h5"
-		context="fluentmark.markdown"
+		context="markdown"
 		enabled="true"
 		autoinsert="false">%template.h5
 	</template>
@@ -52,7 +52,7 @@
 		name="code_block"
 		description="%describe.code_block"
 		id="net.certiv.fluentmark.ui.templates.code_block"
-		context="fluentmark.markdown"
+		context="markdown"
 		enabled="true"
 		autoinsert="false">%template.code_block
 	</template>
@@ -61,7 +61,7 @@
 		name="dot_block"
 		description="%describe.dot_block"
 		id="net.certiv.fluentmark.ui.templates.dot_block"
-		context="fluentmark.markdown"
+		context="markdown"
 		enabled="true"
 		autoinsert="false">%template.dot_block
 	</template>
@@ -70,7 +70,7 @@
 		name="table"
 		description="%describe.table"
 		id="net.certiv.fluentmark.ui.templates.table"
-		context="fluentmark.markdown"
+		context="markdown"
 		enabled="true"
 		autoinsert="false">%template.table
 	</template>

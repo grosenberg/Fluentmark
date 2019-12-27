@@ -9,7 +9,7 @@ package net.certiv.fluent.dt.core.preferences;
 
 import org.eclipse.ui.texteditor.spelling.SpellingService;
 
-public class Prefs extends PrefsSpelling implements ResourceDef {
+public class Prefs extends PrefsSpelling {
 
 	// preference store keys
 
@@ -97,10 +97,13 @@ public class Prefs extends PrefsSpelling implements ResourceDef {
 	public static final String EDITOR_GITHUB_SYNTAX = "{DSL_ID}" + ".github_Syntax";
 	public static final String EDITOR_MULTIMARKDOWN_METADATA = "{DSL_ID}" + ".multiMarkdown_Metadata";
 
-	public static final String EDITOR_CSS_EXTERNAL_ENABLE = "{DSL_ID}" + ".cssExternalEnable";
-	public static final String EDITOR_CSS_INTERNAL_DIR = "{DSL_ID}" + ".cssInternalDir";
-	public static final String EDITOR_CSS_EXTERNAL_DIR = "{DSL_ID}" + ".cssExternalDir";
-	public static final String EDITOR_CSS_FILE = "{DSL_ID}" + ".cssFile";
+	public static final String PREVIEW = "css/preview";
+	public static final String MARKDOWN_CSS = "markdown.css";
+
+	public static final String EDITOR_PREVIEW_FILE = "{DSL_ID}" + ".cssFile";
+	public static final String EDITOR_PREVIEW_INTERNAL_DIR = "{DSL_ID}" + ".previewIntDir";
+	public static final String EDITOR_PREVIEW_EXTERNAL_DIR = "{DSL_ID}" + ".previewExtDir";
+	public static final String EDITOR_PREVIEW_EXTERNAL_ENABLE = "{DSL_ID}" + ".previewExtEnable";
 
 	public static final String EDITOR_HTML_OPEN = "{DSL_ID}" + ".htmlOpen";
 	public static final String EDITOR_PDF_OPEN = "{DSL_ID}" + ".pdfOpen";

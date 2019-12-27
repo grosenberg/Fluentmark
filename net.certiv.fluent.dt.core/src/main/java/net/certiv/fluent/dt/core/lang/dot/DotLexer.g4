@@ -5,7 +5,8 @@ lexer grammar DotLexer ;
 }
 
 DOTCODE	
-	: CodeMark Hws*? 'dot' -> pushMode(DOT) 
+	: CodeMark Hws*? 'dot' -> pushMode(DOT)
+	| CodeMark -> type(OTHER)
 	;
 
 DOTUML	: '@startdot' -> pushMode(DOT) ;

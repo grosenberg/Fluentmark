@@ -23,8 +23,13 @@ public class SpecData implements IStmtData {
 
 	public ParseTree value;			// statement value context
 
-	public int level;
-	public boolean unordered;
+	// -----------------------------------------------------------
+
+	public int hdrLevel;			// header level
+	public int dents;				// statement leading indents
+	public boolean begList;			// list item begins new (sub) list
+	public boolean endList;			// list item resumes last (sub) list
+	public SpecType listType;		// list item type
 
 	/** Represents a simple statement; name contains the display text. */
 	public SpecData(BaseType baseType, SpecType specType, String ruleName, ParseTree stmtNode, String name) {
@@ -58,18 +63,30 @@ public class SpecData implements IStmtData {
 	}
 
 	/** Header level. */
-	public void setLevel(int level) {
-		this.level = level;
+	public void setHeaderLevel(int level) {
+		this.hdrLevel = level;
 	}
 
-	/** List item type. */
-	public void setSimpleListMark(boolean unordered) {
-		this.unordered = unordered;
+	/** List type containing this list item. */
+	public void setListType(SpecType type) {
+		this.listType = type;
+	}
+
+	/** Indent level. */
+	public void setDents(int dents) {
+		this.dents = dents;
+	}
+
+	public void begList() {
+		begList = true;
+	}
+
+	public void endList() {
+		endList = true;
 	}
 
 	@Override
 	public String toString() {
 		return String.format("ModelData [key=%s]", name);
 	}
-
 }

@@ -21,9 +21,8 @@ public class MdSyntax {
 	// key = token type; value = token line
 	private final HashList<Integer, Integer> index = new HashList<>();
 
-	private final Set<Integer> listSet = new HashSet<>(
-			Arrays.asList(new Integer[]
-			{ MdLexer.SIMPLE_MARK, MdLexer.PAREN_MARK, MdLexer.UALPHA_MARK, MdLexer.LALPHA_MARK }));
+	private final Set<Integer> listSet = new HashSet<>(Arrays.asList(MdLexer.UNORDERED_MARK, MdLexer.NUMBER_MARK,
+			MdLexer.PAREN_MARK, MdLexer.UALPHA_MARK, MdLexer.LALPHA_MARK));
 
 	public MdSyntax(CommonTokenStream ts) {
 		this.ts = ts;

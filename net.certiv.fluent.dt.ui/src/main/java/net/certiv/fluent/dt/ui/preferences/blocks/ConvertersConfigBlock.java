@@ -71,7 +71,7 @@ public class ConvertersConfigBlock extends AbstractConfigBlock {
 	@Override
 	public Composite createContents(Composite parent) {
 		Composite contents = super.createContents(parent);
-		folder = SWTFactory.createTabFolder(contents, SWT.NONE, GridData.FILL_HORIZONTAL, SWT.DEFAULT);
+		folder = addTabFolder(contents, SWT.NONE, GridData.BEGINNING, GridData.BEGINNING, true, true, SWT.DEFAULT);
 		Dialog.applyDialogFont(folder);
 
 		createTab(Cnv.PANDOC);
@@ -91,7 +91,7 @@ public class ConvertersConfigBlock extends AbstractConfigBlock {
 	}
 
 	private void createTab(Cnv type) {
-		Composite comp = SWTFactory.createComposite(folder, 1, 1, GridData.FILL_BOTH);
+		Composite comp = SWTFactory.createComposite(folder, 1, 1, GridData.FILL_HORIZONTAL);
 		TabItem tab = new TabItem(folder, SWT.NONE, type.index());
 		tab.setText(type.title());
 		tab.setControl(comp);

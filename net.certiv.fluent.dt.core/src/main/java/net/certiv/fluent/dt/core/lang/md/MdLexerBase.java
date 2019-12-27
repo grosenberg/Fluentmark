@@ -73,7 +73,8 @@ public abstract class MdLexerBase extends LexerNeo {
 				break;
 
 			// list marks
-			case MdLexer.SIMPLE_MARK:
+			case MdLexer.UNORDERED_MARK:
+			case MdLexer.NUMBER_MARK:
 			case MdLexer.PAREN_MARK:
 			case MdLexer.UALPHA_MARK:
 			case MdLexer.LALPHA_MARK:

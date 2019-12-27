@@ -4,7 +4,6 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 
 import org.antlr.v4.runtime.ParserRuleContext;
-import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
@@ -72,7 +71,7 @@ public abstract class StructureBuilder extends Processor {
 		SpecData data = new SpecData(BaseType.TYPE, SpecType.Header, rulename(ctx), ctx, name);
 
 		int level = calc(ctx);
-		data.setLevel(level);
+		data.setHeaderLevel(level);
 
 		Statement parent = getEnclosingParent(level);
 		builder.toParent(parent);
@@ -111,18 +110,44 @@ public abstract class StructureBuilder extends Processor {
 		builder.statement(ctx, ctx, data);
 	}
 
+	private boolean startList = false;
+	private int listDents = -1;
+
 	public void doList() {
 		ListContext ctx = (ListContext) lastPathNode();
-		SpecData data = new SpecData(BaseType.TYPE, SpecType.List, rulename(ctx), ctx, name);
+		MdToken mark = (MdToken) ((ListItemContext) ctx.getChild(0)).listMark().mark;
+		SpecType type = mark.getType() == MdLexer.UNORDERED_MARK ? SpecType.ListUnordered : SpecType.ListOrdered;
+
+		SpecData data = new SpecData(BaseType.TYPE, type, rulename(ctx), ctx, type.name);
+		data.setListType(type);
+		data.setDents(mark.getDents());
+		data.begList();
+
+		startList = true;
+
 		Statement stmt = builder.statement(ctx, ctx, data);
 		builder.pushParent(stmt);
 	}
 
 	public void doListItem() {
 		ListItemContext ctx = (ListItemContext) lastPathNode();
-		Token mark = ctx.listMark().mark;
+		MdToken mark = (MdToken) ctx.listMark().mark;
 		SpecData data = new SpecData(BaseType.TYPE, SpecType.ListItem, rulename(ctx), ctx, mark.getText());
-		data.setSimpleListMark(mark.getType() == MdLexer.SIMPLE_MARK);
+		int dents = mark.getDents();
+		data.setDents(dents);
+
+		SpecType type = mark.getType() == MdLexer.UNORDERED_MARK ? SpecType.ListUnordered : SpecType.ListOrdered;
+		data.setListType(type);
+
+		if (startList) {
+			listDents = dents;
+			startList = false;
+		} else {
+			if (listDents < dents) data.begList();
+			if (listDents > dents) data.endList();
+			listDents = dents;
+		}
+
 		builder.statement(ctx, mark, data);
 	}
 

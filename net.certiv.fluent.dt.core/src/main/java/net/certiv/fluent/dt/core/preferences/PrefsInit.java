@@ -13,7 +13,7 @@ import net.certiv.fluent.dt.core.FluentCore;
 import net.certiv.spellchecker.SpellCheckEngine;
 
 /** Initializer for the preferences unique to this plugin. */
-public class PrefsInit extends DslPrefsInit implements ResourceDef {
+public class PrefsInit extends DslPrefsInit {
 
 	private static final RGB DEF_DEFAULT = new RGB(0, 0, 0);
 	private static final RGB DEF_COMMENT = new RGB(128, 0, 0);
@@ -83,21 +83,22 @@ public class PrefsInit extends DslPrefsInit implements ResourceDef {
 		setBool(Prefs.EDITOR_HTML_OPEN, false);
 		setBool(Prefs.EDITOR_PDF_OPEN, true);
 
-		// css
-
-		String cssDir = resourceDir(BUNDLE_ID, CSS);
-		setString(Prefs.EDITOR_CSS_INTERNAL_DIR, cssDir);
-		setString(Prefs.EDITOR_CSS_FILE, cssDir + MARKDOWN_CSS);
-
-		setBool(Prefs.EDITOR_CSS_EXTERNAL_ENABLE, false);
-		setString(Prefs.EDITOR_CSS_EXTERNAL_DIR, Strings.EMPTY);
-
 		setBool(Prefs.EDITOR_GITHUB_SYNTAX, true);
 		setBool(Prefs.EDITOR_MULTIMARKDOWN_METADATA, true);
 
-		String semanticDir = resourceDir(BUNDLE_ID, SEMANTIC);
+		// stylesheets
+
+		String BUNDLE_ID = "net.certiv.fluent.dt.ui";
+		String previewDir = resourceDir(BUNDLE_ID, Prefs.PREVIEW);
+		setString(Prefs.EDITOR_PREVIEW_INTERNAL_DIR, previewDir);
+		setString(Prefs.EDITOR_PREVIEW_FILE, previewDir + Prefs.MARKDOWN_CSS);
+
+		setBool(Prefs.EDITOR_PREVIEW_EXTERNAL_ENABLE, false);
+		setString(Prefs.EDITOR_PREVIEW_EXTERNAL_DIR, Strings.EMPTY);
+
+		String semanticDir = resourceDir(BUNDLE_ID, Prefs.SEMANTIC);
 		setString(Prefs.EDITOR_SEMANTIC_INTERNAL_DIR, semanticDir);
-		setString(Prefs.EDITOR_SEMANTIC_STYLESHEET, semanticDir + DEFAULT_CSS);
+		setString(Prefs.EDITOR_SEMANTIC_FILE, semanticDir + Prefs.DEFAULT_CSS);
 
 		// colors
 

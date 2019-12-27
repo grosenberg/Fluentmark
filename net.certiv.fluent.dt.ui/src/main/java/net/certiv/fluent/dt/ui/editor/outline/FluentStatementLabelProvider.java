@@ -53,7 +53,7 @@ public class FluentStatementLabelProvider extends StatementLabelProvider {
 					case Quote:
 						return data.ruleName;
 
-					case List:
+					case ListUnordered:
 					case ListItem:
 						return summary(text);
 
@@ -142,7 +142,7 @@ public class FluentStatementLabelProvider extends StatementLabelProvider {
 					case HRule:
 						desc = mgr.getDescriptor(mgr.IMG_OBJ_HRULE);
 						break;
-					case List:
+					case ListUnordered:
 						desc = mgr.getDescriptor(mgr.IMG_OBJ_LIST);
 						// if (addOverlay(data.decoration & ModelData.ORDERED)) {
 						// desc = createOverlayImageDescriptor(desc,

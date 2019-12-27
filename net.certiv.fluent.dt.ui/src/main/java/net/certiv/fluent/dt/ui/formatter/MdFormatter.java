@@ -102,7 +102,7 @@ public class MdFormatter extends BaseCodeFormatter {
 			case Paragraph:
 				formatText(stmt, edit, delim, cols);
 				break;
-			case List:
+			case ListUnordered:
 				formatList(stmt, edit, delim, cols, tabWidth);
 				break;
 			case Table:

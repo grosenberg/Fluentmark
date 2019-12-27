@@ -11,6 +11,7 @@ tokens {
 	RITALIC,
 	RSTRIKE,
 	RSPAN,
+	RDSPAN,
 	RDQUOTE,
 	RSQUOTE
 }
@@ -76,16 +77,19 @@ EQUALS	: Equals	{ at(1) }? ;
 COLON	: Colon		{ at(1) }? ;
 
 // list marks
-SIMPLE_MARK	: ( [*+-] | Digit+ Dot | Hash Dot ) TaskMark? Sps	{ at(1) }? ;
-PAREN_MARK	: LParen? Alphanum+ RParen TaskMark? Sps			{ at(1) }? ;
-UALPHA_MARK	: UAlpha+ Dot TaskMark? Sps							{ at(1) }? ;
-LALPHA_MARK	: LAlpha+ Dot TaskMark? Sps							{ at(1) }? ;
+UNORDERED_MARK	: [*+-] TaskMark? Sps	{ at(1) }? ;
+
+NUMBER_MARK	: ( Digit+ Dot | Hash Dot ) TaskMark? Sps	{ at(1) }? ;
+PAREN_MARK	: LParen? Alphanum+ RParen TaskMark? Sps	{ at(1) }? ;
+UALPHA_MARK	: UAlpha+ Dot TaskMark? Sps					{ at(1) }? ;
+LALPHA_MARK	: LAlpha+ Dot TaskMark? Sps					{ at(1) }? ;
 
 // attributes
 LBOLD	 : '**' | '__' ;
 LITALIC	 : '*'  | '_'  ;
 LSTRIKE	 : '~~' ;
 LSPAN	 : '`'  ;
+LDSPAN	 : '``' ;
 LDQUOTE	 : '"'  ;
 LSQUOTE	 : '\'' ;
 

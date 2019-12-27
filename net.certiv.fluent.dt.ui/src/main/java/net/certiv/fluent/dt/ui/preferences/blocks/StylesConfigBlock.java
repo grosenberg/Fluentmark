@@ -18,18 +18,18 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import net.certiv.dsl.core.color.DslColorManager;
 import net.certiv.dsl.core.log.Log;
 import net.certiv.dsl.core.preferences.DslPrefsManagerDelta;
-import net.certiv.dsl.core.util.Chars;
 import net.certiv.dsl.ui.preferences.bind.DirectorypathValidator;
 import net.certiv.dsl.ui.preferences.blocks.AbstractConfigBlock;
 import net.certiv.dsl.ui.preferences.pages.IDslPreferencePage;
 import net.certiv.dsl.ui.util.SWTFactory;
 import net.certiv.fluent.dt.core.preferences.Prefs;
-import net.certiv.fluent.dt.ui.editor.convert.HtmlGen;
 
 public class StylesConfigBlock extends AbstractConfigBlock {
 
-	private Composite extComp;
-	private Combo combo;
+	private Combo pCombo;
+	private Composite pComp;
+	private Combo sCombo;
+	private Composite sComp;
 
 	public StylesConfigBlock(IDslPreferencePage page, DslPrefsManagerDelta delta, FormToolkit formkit,
 			DslColorManager colorMgr) {
@@ -39,11 +39,16 @@ public class StylesConfigBlock extends AbstractConfigBlock {
 	@Override
 	protected List<String> createDeltaMatchKeys(List<String> keys) {
 		keys.add(Prefs.EDITOR_SEMANTIC_ENABLED);
-		keys.add(Prefs.EDITOR_SEMANTIC_STYLESHEET);
 
+		keys.add(Prefs.EDITOR_SEMANTIC_FILE);
 		keys.add(Prefs.EDITOR_SEMANTIC_INTERNAL_DIR);
-		keys.add(Prefs.EDITOR_SEMANTIC_EXTERNAL_ENABLE);
 		keys.add(Prefs.EDITOR_SEMANTIC_EXTERNAL_DIR);
+		keys.add(Prefs.EDITOR_SEMANTIC_EXTERNAL_ENABLE);
+
+		keys.add(Prefs.EDITOR_PREVIEW_FILE);
+		keys.add(Prefs.EDITOR_PREVIEW_INTERNAL_DIR);
+		keys.add(Prefs.EDITOR_PREVIEW_EXTERNAL_DIR);
+		keys.add(Prefs.EDITOR_PREVIEW_EXTERNAL_ENABLE);
 
 		return keys;
 	}
@@ -58,45 +63,99 @@ public class StylesConfigBlock extends AbstractConfigBlock {
 	}
 
 	private void addEditingControls(Composite parent) {
-		createStyleSheetsGroup(parent);
+		createSemanticStylesGroup(parent);
+		createPreviewStylesGroup(parent);
 	}
 
-	protected Composite createStyleSheetsGroup(Composite parent) {
-		Composite comp = SWTFactory.createGroupComposite(parent, 3, 2, "Editor Semantic Styles");
+	protected Composite createSemanticStylesGroup(Composite parent) {
+		Composite comp = SWTFactory.createGroupComposite(parent, 3, 2, "Semantic Editor Styles");
 
 		addCheckBox(comp, "Enable", Prefs.EDITOR_SEMANTIC_ENABLED, 2, 4);
+		sCombo = addLabeledCombo(comp, "Select", Prefs.EDITOR_SEMANTIC_FILE, semanticFiles());
 
-		Map<String, Object> values = getValues();
-		combo = addLabeledCombo(comp, "Select", Prefs.EDITOR_SEMANTIC_STYLESHEET, values);
-		SWTFactory.createVerticalSpacer(comp, 1, 3);
+		addVerticalSpace(comp, 1, 3);
 
-		Button ex = addCheckBox(comp, "External stylesheets", Prefs.EDITOR_SEMANTIC_EXTERNAL_ENABLE, 2, 4);
-		ex.addSelectionListener(new SelectionAdapter() {
+		addCheckBox(comp, "Use xternal stylesheet", Prefs.EDITOR_SEMANTIC_EXTERNAL_ENABLE, 2, 4)
+				.addSelectionListener(new SelectionAdapter() {
 
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				adjustControls(ex.getSelection());
-			}
-		});
+					@Override
+					public void widgetSelected(SelectionEvent e) {
+						adjustSemanticSelection(((Button) e.widget).getSelection());
+					}
+				});
 
-		extComp = SWTFactory.createComposite(comp, 2, 2, 4);
-		addDirectoryField(extComp, Prefs.EDITOR_SEMANTIC_EXTERNAL_DIR, 2, 2, "Directory", 50,
+		sComp = SWTFactory.createComposite(comp, 2, 2, 4);
+		addDirectoryField(sComp, Prefs.EDITOR_SEMANTIC_EXTERNAL_DIR, 2, 2, "Directory", 50,
 				new DirectorypathValidator(null, true));
 
-		adjustControls(ex.getSelection());
+		adjustSemanticSelection(delta.getBoolean(Prefs.EDITOR_SEMANTIC_EXTERNAL_ENABLE));
 		return comp;
 	}
 
-	private void adjustControls(boolean external) {
-		String choice = delta.getString(Prefs.EDITOR_SEMANTIC_STYLESHEET);
-		enableControls(extComp, external);
+	private void adjustSemanticSelection(boolean external) {
+		String choice = delta.getString(Prefs.EDITOR_SEMANTIC_FILE);
+		File f = new File(choice);
+		choice = f.getName();
+		enableControls(sComp, external);
 		if (external) {
-			updateCombo(combo, choices(Prefs.EDITOR_SEMANTIC_EXTERNAL_DIR));
+			updateCombo(sCombo, choices(Prefs.EDITOR_SEMANTIC_EXTERNAL_DIR));
 		} else {
-			updateCombo(combo, choices(Prefs.EDITOR_SEMANTIC_INTERNAL_DIR));
+			updateCombo(sCombo, choices(Prefs.EDITOR_SEMANTIC_INTERNAL_DIR));
 		}
-		int idx = combo.indexOf(choice);
-		if (idx > -1) combo.select(idx);
+		int idx = sCombo.indexOf(choice);
+		if (idx > -1) sCombo.select(idx);
+	}
+
+	private Map<String, Object> semanticFiles() {
+		if (delta.getBoolean(Prefs.EDITOR_SEMANTIC_EXTERNAL_ENABLE)) {
+			return choices(Prefs.EDITOR_SEMANTIC_EXTERNAL_DIR);
+		}
+		return choices(Prefs.EDITOR_SEMANTIC_INTERNAL_DIR);
+	}
+
+	protected Composite createPreviewStylesGroup(Composite parent) {
+		Composite comp = SWTFactory.createGroupComposite(parent, 3, 2, "Html Preview/Export Styles");
+
+		pCombo = addLabeledCombo(comp, "Select", Prefs.EDITOR_PREVIEW_FILE, previewFiles());
+
+		addVerticalSpace(comp, 1, 3);
+
+		addCheckBox(comp, "Use external stylesheet", Prefs.EDITOR_PREVIEW_EXTERNAL_ENABLE, 2, 0)
+				.addSelectionListener(new SelectionAdapter() {
+
+					@Override
+					public void widgetSelected(SelectionEvent e) {
+						adjustPreviewSelection(((Button) e.widget).getSelection());
+					}
+				});
+
+		pComp = SWTFactory.createComposite(comp, 2, 2, 4);
+		addDirectoryField(pComp, Prefs.EDITOR_PREVIEW_EXTERNAL_DIR, 2, 2, "Directory", 50,
+				new DirectorypathValidator(null, true));
+
+		adjustPreviewSelection(delta.getBoolean(Prefs.EDITOR_PREVIEW_EXTERNAL_ENABLE));
+		return comp;
+	}
+
+	private void adjustPreviewSelection(boolean external) {
+		String choice = delta.getString(Prefs.EDITOR_PREVIEW_FILE);
+		File f = new File(choice);
+		choice = f.getName();
+		enableControls(pComp, external);
+		if (external) {
+			updateCombo(pCombo, choices(Prefs.EDITOR_PREVIEW_EXTERNAL_DIR));
+		} else {
+			updateCombo(pCombo, choices(Prefs.EDITOR_PREVIEW_INTERNAL_DIR));
+		}
+		int idx = pCombo.indexOf(choice);
+		if (idx > -1) pCombo.select(idx);
+	}
+
+	private Map<String, Object> previewFiles() {
+		if (delta.getBoolean(Prefs.EDITOR_PREVIEW_EXTERNAL_ENABLE)) {
+			return choices(Prefs.EDITOR_PREVIEW_EXTERNAL_DIR);
+		}
+		return choices(Prefs.EDITOR_PREVIEW_INTERNAL_DIR);
 	}
 
 	private void enableControls(Composite comp, boolean enable) {
@@ -109,20 +168,13 @@ public class StylesConfigBlock extends AbstractConfigBlock {
 		}
 	}
 
-	private Map<String, Object> getValues() {
-		boolean ext = delta.getBoolean(Prefs.EDITOR_SEMANTIC_EXTERNAL_ENABLE);
-		Map<String, Object> values = ext ? choices(Prefs.EDITOR_SEMANTIC_EXTERNAL_DIR)
-				: choices(Prefs.EDITOR_SEMANTIC_INTERNAL_DIR);
-		return values;
-	}
-
 	private Map<String, Object> choices(String key) {
 		Map<String, Object> map = new HashMap<>();
 		final File root = dir(delta.bind(key));
 		if (root == null || !root.isDirectory()) return map;
 
 		for (String filename : root.list()) {
-			if (filename.endsWith(Chars.DOT + HtmlGen.CSS) && !filename.endsWith(Chars.DOT + HtmlGen.MIN_CSS)) {
+			if (filename.endsWith(Prefs.DOT_CSS) && !filename.endsWith(Prefs.DOT_MIN_CSS)) {
 				map.put(filename, root.toURI().resolve(filename).toString());
 			}
 		}

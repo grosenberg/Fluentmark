@@ -59,7 +59,8 @@ listItem
 	;
 
 listMark
-	: mark=SIMPLE_MARK
+	: mark=UNORDERED_MARK
+	| mark=NUMBER_MARK
 	| mark=PAREN_MARK
 	| mark=UALPHA_MARK
 	| mark=LALPHA_MARK
@@ -104,8 +105,8 @@ style
 	  RSTYLE
 	;
 
-attrLeft  : LBOLD | LITALIC | LSTRIKE | LSPAN | LDQUOTE | LSQUOTE ;
-attrRight : RBOLD | RITALIC | RSTRIKE | RSPAN | RDQUOTE | RSQUOTE ;
+attrLeft  : LBOLD | LITALIC | LSTRIKE | LSPAN | LDSPAN | LDQUOTE | LSQUOTE ;
+attrRight : RBOLD | RITALIC | RSTRIKE | RSPAN | RDSPAN | RDQUOTE | RSQUOTE ;
 
 comment : COMMENT ;
 

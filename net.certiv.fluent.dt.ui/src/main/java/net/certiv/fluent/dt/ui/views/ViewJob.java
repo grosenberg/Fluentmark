@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 import org.apache.commons.lang3.StringEscapeUtils;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -31,7 +32,10 @@ public class ViewJob extends Job {
 	private static final String Render = "Fluent.set('%s');";
 
 	private enum State {
-		NONE, LOAD, READY, TYPESET;
+		NONE,
+		LOAD,
+		READY,
+		TYPESET;
 	}
 
 	private ProgressListener watcher = new ProgressAdapter() {
@@ -67,12 +71,10 @@ public class ViewJob extends Job {
 
 	public boolean load(boolean firebug) {
 		FluentEditor editor = view.getEditor();
-		if (editor == null)
-			return false;
+		if (editor == null) return false;
 
 		IPathEditorInput input = (IPathEditorInput) editor.getEditorInput();
-		if (input == null)
-			return false;
+		if (input == null) return false;
 
 		state = State.LOAD;
 		if (editor.useMathJax()) {
@@ -85,7 +87,7 @@ public class ViewJob extends Job {
 		browser.addProgressListener(watcher);
 		timer = System.nanoTime();
 		String pluginId = FluentUI.getDefault().getPluginId();
-		String script = FileUtils.fromBundle(pluginId, "resources/html/firebug.html") + Strings.EOL;
+		String script = FileUtils.fromBundle(pluginId, Prefs.HTML + "/firebug.html") + Strings.EOL;
 		String content = editor.getHtml(Kind.VIEW);
 		if (firebug) {
 			content = content.replaceFirst("</head>", script + "</head>");
@@ -95,16 +97,15 @@ public class ViewJob extends Job {
 	}
 
 	public void update() {
-		if (state != State.READY)
-			return;
+		if (state != State.READY) return;
 		switch (getState()) {
-		case Job.WAITING:
-		case Job.RUNNING:
-			schedule(store.getInt(Prefs.VIEW_UPDATE_DELAY));
-			break;
-		default:
-			schedule(SHORT);
-			break;
+			case Job.WAITING:
+			case Job.RUNNING:
+				schedule(store.getInt(Prefs.VIEW_UPDATE_DELAY));
+				break;
+			default:
+				schedule(SHORT);
+				break;
 		}
 	}
 
@@ -118,13 +119,9 @@ public class ViewJob extends Job {
 		timer = System.nanoTime();
 
 		String html = editor.getHtml(Kind.UPDATE);
-		if (html.isEmpty())
-			return Status.CANCEL_STATUS;
+		if (html.isEmpty()) return Status.CANCEL_STATUS;
 
-		// String script = String.format(Render,
-		// StringEscapeUtils.escapeEcmaScript(html));
-		if (mathjax)
-			state = State.READY;
+		if (mathjax) state = State.READY;
 
 		// execute script on UI thread
 		Display.getDefault().asyncExec(new Runnable() {
@@ -134,8 +131,7 @@ public class ViewJob extends Job {
 				if (browser != null && !browser.isDisposed()) {
 					String script = String.format(Render, StringEscapeUtils.escapeEcmaScript(html));
 					boolean ok = browser.execute(script);
-					if (!ok)
-						Log.error(this, "Script execute failed.");
+					if (!ok) Log.error(this, "Script execute failed.");
 				}
 			}
 		});
@@ -145,14 +141,14 @@ public class ViewJob extends Job {
 
 	protected void done() {
 		switch (state) {
-		case LOAD:
-			result("ViewJob ready");
-			state = State.READY;
-			update();
-			break;
-		default:
-			state = State.READY;
-			break;
+			case LOAD:
+				result("ViewJob ready");
+				state = State.READY;
+				update();
+				break;
+			default:
+				state = State.READY;
+				break;
 		}
 	}
 

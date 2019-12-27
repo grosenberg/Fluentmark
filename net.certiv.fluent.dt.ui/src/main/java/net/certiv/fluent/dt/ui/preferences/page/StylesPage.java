@@ -39,6 +39,6 @@ public class StylesPage extends AbstractPreferencePage {
 
 	@Override
 	protected void setDescription() {
-		setDescription("Styles");
+		setDescription("Stylesheets");
 	}
 }
