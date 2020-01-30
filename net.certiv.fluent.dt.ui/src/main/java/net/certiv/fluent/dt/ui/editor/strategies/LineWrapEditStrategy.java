@@ -21,10 +21,10 @@ import org.eclipse.ui.texteditor.ITextEditor;
 
 import net.certiv.dsl.core.model.DslModelException;
 import net.certiv.dsl.core.model.IStatement;
-import net.certiv.dsl.core.model.builder.ISourceRange;
+import net.certiv.dsl.core.model.builder.SourceRange;
 import net.certiv.dsl.ui.editor.text.SmartEdit;
 import net.certiv.fluent.dt.core.FluentCore;
-import net.certiv.fluent.dt.core.model.SpecType;
+import net.certiv.fluent.dt.core.model.SpecializedType;
 import net.certiv.fluent.dt.core.model.SpecUtil;
 import net.certiv.fluent.dt.core.preferences.Prefs;
 import net.certiv.fluent.dt.ui.editor.FluentEditor;
@@ -95,8 +95,8 @@ public class LineWrapEditStrategy implements IAutoEditStrategy {
 
 			try {
 				IStatement stmt = editor.getInputDslElement().getElementAtOffset(offset);
-				if (SpecUtil.getSpecType(stmt) == SpecType.ListItem) {
-					ISourceRange range = stmt.toSourceRange();
+				if (SpecUtil.getSpecializedType(stmt) == SpecializedType.ListItem) {
+					SourceRange range = stmt.getRange();
 					markWidth = range.getIdLength();
 				}
 			} catch (DslModelException e) {}

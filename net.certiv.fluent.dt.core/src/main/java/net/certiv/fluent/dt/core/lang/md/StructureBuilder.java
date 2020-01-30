@@ -1,32 +1,63 @@
 package net.certiv.fluent.dt.core.lang.md;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
+import java.util.HashMap;
+import java.util.LinkedList;
 
 import org.antlr.v4.runtime.ParserRuleContext;
+import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 import net.certiv.antlr.runtime.xvisitor.Processor;
-import net.certiv.dsl.core.model.Block;
-import net.certiv.dsl.core.model.IStatement.BaseType;
+import net.certiv.dsl.core.model.ModelType;
 import net.certiv.dsl.core.model.ModuleStmt;
 import net.certiv.dsl.core.model.Statement;
 import net.certiv.dsl.core.model.builder.ModelBuilder;
 import net.certiv.fluent.dt.core.lang.md.gen.MdLexer;
 import net.certiv.fluent.dt.core.lang.md.gen.MdParser;
+import net.certiv.fluent.dt.core.lang.md.gen.MdParser.AttrLeftContext;
+import net.certiv.fluent.dt.core.lang.md.gen.MdParser.AttrRightContext;
+import net.certiv.fluent.dt.core.lang.md.gen.MdParser.CodeBlockContext;
 import net.certiv.fluent.dt.core.lang.md.gen.MdParser.HeaderContext;
 import net.certiv.fluent.dt.core.lang.md.gen.MdParser.ListContext;
 import net.certiv.fluent.dt.core.lang.md.gen.MdParser.ListItemContext;
 import net.certiv.fluent.dt.core.lang.md.gen.MdParser.PageContext;
-import net.certiv.fluent.dt.core.model.SpecData;
-import net.certiv.fluent.dt.core.model.SpecType;
+import net.certiv.fluent.dt.core.lang.md.gen.MdParser.WordContext;
+import net.certiv.fluent.dt.core.model.SpecUtil;
+import net.certiv.fluent.dt.core.model.Specialization;
+import net.certiv.fluent.dt.core.model.SpecializedType;
 
 public abstract class StructureBuilder extends Processor {
 
+	class Mark {
+
+		ParserRuleContext ctx;
+		MdToken begToken;
+
+		int beg;
+		int type;
+		SpecializedType specType;
+		Specialization data;
+
+		Mark(ParserRuleContext ctx, MdToken begToken) {
+			this.ctx = ctx;
+			this.begToken = begToken;
+
+			beg = begToken.getStartIndex();
+			type = begToken.getType();
+			specType = toSpecType(begToken);
+			data = new Specialization(ModelType.SPAN, specType, rulename(ctx), ctx, specType.name);
+		}
+	}
+
+	private final LinkedList<Header> headers = new LinkedList<>();
+	/** key=token type; value=attributes of left context */
+	private final HashMap<Integer, Mark> attributes = new HashMap<>();
+
 	private ModelBuilder builder;
 	private String name = "<Undefined>"; // typically, the source file name
-	private Deque<Header> headers = new ArrayDeque<>();
+	private boolean startList = false;
+	private int listDents = -1;
 
 	class Header {
 
@@ -48,7 +79,7 @@ public abstract class StructureBuilder extends Processor {
 		super(tree);
 	}
 
-	public void setMaker(ModelBuilder builder) {
+	public void setBuilder(ModelBuilder builder) {
 		this.builder = builder;
 	}
 
@@ -59,16 +90,15 @@ public abstract class StructureBuilder extends Processor {
 	/** Called on a PageContext node. */
 	public void doModule() {
 		PageContext ctx = (PageContext) lastPathNode();
-		SpecData data = new SpecData(BaseType.UNIT, SpecType.Page, rulename(ctx), ctx, name);
+		Specialization data = new Specialization(ModelType.MODULE, SpecializedType.Page, rulename(ctx), ctx, name);
 		ModuleStmt module = builder.module(ctx, name, data);
 		builder.pushParent(module);
-
 		headers.push(new Header(module, 0)); // header 0 is the root
 	}
 
 	public void doHeader() {
 		HeaderContext ctx = (HeaderContext) lastPathNode();
-		SpecData data = new SpecData(BaseType.TYPE, SpecType.Header, rulename(ctx), ctx, name);
+		Specialization data = new Specialization(ModelType.TYPE, SpecializedType.Header, rulename(ctx), ctx, name);
 
 		int level = calc(ctx);
 		data.setHeaderLevel(level);
@@ -104,21 +134,143 @@ public abstract class StructureBuilder extends Processor {
 		return headers.peek().stmt;
 	}
 
-	public void doStatement(SpecType type) {
+	public void doStatement(SpecializedType type) {
 		ParserRuleContext ctx = (ParserRuleContext) lastPathNode();
-		SpecData data = new SpecData(BaseType.TYPE, type, rulename(ctx), ctx, name);
+		Specialization data = new Specialization(ModelType.TYPE, type, rulename(ctx), ctx, name);
+		Statement stmt = builder.statement(ctx, ctx, data);
+		builder.pushParent(stmt);
+	}
+
+	public void doType(SpecializedType type) {
+		ParserRuleContext ctx = (ParserRuleContext) lastPathNode();
+		if (type == SpecializedType.CodeBlock) {
+			Token lang = ((CodeBlockContext) ctx).lang;
+			if (lang != null) {
+				if (SpecUtil.DOT.equalsIgnoreCase(lang.getText())) {
+					type = SpecializedType.DotBlock;
+				} else if (SpecUtil.UML.equalsIgnoreCase(lang.getText())) {
+					type = SpecializedType.UmlBlock;
+				}
+			}
+		}
+		Specialization data = new Specialization(ModelType.TYPE, type, rulename(ctx), ctx, name);
 		builder.statement(ctx, ctx, data);
 	}
 
-	private boolean startList = false;
-	private int listDents = -1;
+	public void doWord() {
+		WordContext ctx = (WordContext) lastPathNode();
+		SpecializedType specializedType;
+		switch (ctx.w.getType()) {
+			case MdLexer.CODE_SPAN:
+				specializedType = SpecializedType.CodeSpan;
+				break;
+			case MdLexer.MATH_SPAN:
+				specializedType = SpecializedType.MathSpan;
+				break;
+
+			case MdLexer.WORD:
+			case MdLexer.RPAREN:
+			case MdLexer.UNICODE:
+			case MdLexer.ENTITY:
+			case MdLexer.HTML:
+			case MdLexer.TEX:
+			case MdLexer.URL:
+			default:
+				return;
+		}
+
+		Specialization data = new Specialization(ModelType.LITERAL, specializedType, rulename(ctx), ctx, name);
+		builder.field(ctx, ctx, ModelType.LITERAL, data);
+	}
+
+	public void doAttrL() {
+		AttrLeftContext ctx = (AttrLeftContext) lastPathNode();
+		for (ParseTree child : ctx.children) {
+			TerminalNode node = (TerminalNode) child;
+			MdToken begAttr = (MdToken) node.getSymbol();
+			attributes.put(begAttr.getType(), new Mark(ctx, begAttr));
+		}
+	}
+
+	public void doAttrR() {
+		AttrRightContext ctx = (AttrRightContext) lastPathNode();
+		for (ParseTree child : ctx.children) {
+			TerminalNode node = (TerminalNode) child;
+			MdToken endAttr = (MdToken) node.getSymbol();
+			Mark mark = attributes.get(leftEquiv(endAttr.getType()));
+			if (mark != null) {
+				builder.field(mark.ctx, mark.begToken, endAttr, mark.data.name, ModelType.SPAN, mark.data);
+				attributes.remove(mark.type);
+			}
+		}
+	}
+
+	// --------------------------------------------------
+
+	private int leftEquiv(int type) {
+		switch (type) {
+			case MdLexer.RBOLD:
+				return MdLexer.LBOLD;
+			case MdLexer.RITALIC:
+				return MdLexer.LITALIC;
+			case MdLexer.RSTRIKE:
+				return MdLexer.LSTRIKE;
+			case MdLexer.RDQUOTE:
+				return MdLexer.LDQUOTE;
+			case MdLexer.RSQUOTE:
+				return MdLexer.LSQUOTE;
+			case MdLexer.RDSPAN:
+				return MdLexer.LDSPAN;
+			case MdLexer.RSPAN:
+				return MdLexer.LSPAN;
+
+			default:
+				return Token.INVALID_TYPE;
+		}
+	}
+
+	private SpecializedType toSpecType(MdToken token) {
+		switch (token.getType()) {
+			case MdLexer.LBOLD:
+			case MdLexer.RBOLD:
+				return SpecializedType.Bold;
+
+			case MdLexer.LITALIC:
+			case MdLexer.RITALIC:
+				return SpecializedType.Italic;
+
+			case MdLexer.LSTRIKE:
+			case MdLexer.RSTRIKE:
+				return SpecializedType.Strike;
+
+			case MdLexer.LSPAN:
+			case MdLexer.RSPAN:
+				return SpecializedType.Span;
+
+			case MdLexer.LDSPAN:
+			case MdLexer.RDSPAN:
+				return SpecializedType.Span;
+
+			case MdLexer.LDQUOTE:
+			case MdLexer.RDQUOTE:
+				return SpecializedType.Quote;
+
+			case MdLexer.LSQUOTE:
+			case MdLexer.RSQUOTE:
+				return SpecializedType.Quote;
+
+			default:
+				return SpecializedType.Unknown;
+		}
+	}
 
 	public void doList() {
 		ListContext ctx = (ListContext) lastPathNode();
 		MdToken mark = (MdToken) ((ListItemContext) ctx.getChild(0)).listMark().mark;
-		SpecType type = mark.getType() == MdLexer.UNORDERED_MARK ? SpecType.ListUnordered : SpecType.ListOrdered;
+		SpecializedType type = mark.getType() == MdLexer.UNORDERED_MARK ? SpecializedType.ListUnordered
+				: SpecializedType.ListOrdered;
 
-		SpecData data = new SpecData(BaseType.TYPE, type, rulename(ctx), ctx, type.name);
+		Specialization data = new Specialization(ModelType.TYPE, type, rulename(ctx), ctx, type.name);
 		data.setListType(type);
 		data.setDents(mark.getDents());
 		data.begList();
@@ -132,11 +284,13 @@ public abstract class StructureBuilder extends Processor {
 	public void doListItem() {
 		ListItemContext ctx = (ListItemContext) lastPathNode();
 		MdToken mark = (MdToken) ctx.listMark().mark;
-		SpecData data = new SpecData(BaseType.TYPE, SpecType.ListItem, rulename(ctx), ctx, mark.getText());
+		Specialization data = new Specialization(ModelType.TYPE, SpecializedType.ListItem, rulename(ctx), ctx,
+				mark.getText());
 		int dents = mark.getDents();
 		data.setDents(dents);
 
-		SpecType type = mark.getType() == MdLexer.UNORDERED_MARK ? SpecType.ListUnordered : SpecType.ListOrdered;
+		SpecializedType type = mark.getType() == MdLexer.UNORDERED_MARK ? SpecializedType.ListUnordered
+				: SpecializedType.ListOrdered;
 		data.setListType(type);
 
 		if (startList) {
@@ -165,20 +319,14 @@ public abstract class StructureBuilder extends Processor {
 	// }
 
 	public void endBlock() {
+		// if (lastPathNode() instanceof ParagraphContext) {
+		// for (Span span : spans.values()) {
+		// span.createField(builder);
+		// }
+		// spans.clear();
+		// stacks.clear();
+		// }
 		builder.popParent();
-	}
-
-	@SuppressWarnings("unused")
-	private void addField(BaseType baseType, SpecType specType, String rulename, ParseTree ctx) {
-		if (ctx != null) {
-			builder.field(ctx, ctx, baseType, new SpecData(baseType, specType, rulename, ctx, ctx.getText()));
-		}
-	}
-
-	@SuppressWarnings("unused")
-	private void addBlock(int blockType, TerminalNode beg, TerminalNode end) {
-		Block block = builder.block(blockType, beg, end, null);
-		if (block != null) builder.pushParent(block);
 	}
 
 	private String rulename(ParserRuleContext ctx) {

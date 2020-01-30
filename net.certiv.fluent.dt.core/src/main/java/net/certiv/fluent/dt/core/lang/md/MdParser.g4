@@ -9,8 +9,9 @@ options {
 }
 
 page
-	:	( yaml	 | html  | math  | tex | uml | code
-		| header | hrule | table | list 
+	:	( yamlBlock | htmlBlock  | mathBlock  
+		| texBlock  | umlBlock   | codeBlock
+		| header    | hrule | table | list 
 		| paragraph | definition  
 		| lnBlank   | lnBreak 
 		| comment   | err 
@@ -18,15 +19,14 @@ page
 	EOF
 	;
 
-yaml : YAML_BLOCK ;
-html : HTML_BLOCK ;
-math : MATH_BLOCK ;
-tex	 : TEX_BLOCK  ;
-uml	 : UML_BLOCK  ;
+yamlBlock : YAML_BLOCK ; 
+htmlBlock : HTML_BLOCK ;
+mathBlock : MATH_BLOCK ;
+texBlock  : TEX_BLOCK  ;
+umlBlock  : UML_BLOCK  ;
 
-code
-	: CODE_SPAN
-	| CODE_BEG lang=WORD? style? VWS+ 
+codeBlock
+	: CODE_BEG lang=WORD? style? VWS+ 
 		( WORD | VWS )* 
 	  CODE_END
 	;
@@ -89,9 +89,10 @@ text : word+ ;
 
 word
 	: attrLeft* 
-		( WORD | RPAREN 
+	  w=( WORD | RPAREN 
+	  	| CODE_SPAN | MATH_SPAN
 		| UNICODE | ENTITY
-		| HTML | TEX | MATH | URL
+		| HTML | TEX | URL
 		) 
 	  attrRight*
 	;

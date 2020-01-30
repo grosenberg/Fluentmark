@@ -17,15 +17,15 @@ import net.certiv.dsl.core.log.Log;
 import net.certiv.dsl.core.model.CodeUnit;
 import net.certiv.dsl.core.model.DslModelException;
 import net.certiv.dsl.core.model.IStatement;
-import net.certiv.dsl.core.model.builder.ISourceRange;
 import net.certiv.dsl.core.model.builder.SourceRange;
 import net.certiv.dsl.core.preferences.IDslPrefsManager;
+import net.certiv.dsl.core.util.Chars;
 import net.certiv.dsl.core.util.CoreUtil;
 import net.certiv.dsl.core.util.Indent;
 import net.certiv.dsl.core.util.Strings;
 import net.certiv.fluent.dt.core.FluentCore;
-import net.certiv.fluent.dt.core.model.SpecType;
 import net.certiv.fluent.dt.core.model.SpecUtil;
+import net.certiv.fluent.dt.core.model.SpecializedType;
 import net.certiv.fluent.dt.core.preferences.Prefs;
 import net.certiv.fluent.dt.ui.editor.FluentEditor;
 import net.certiv.fluent.dt.ui.editor.strategies.tables.TableModel;
@@ -95,7 +95,7 @@ public class MdFormatter extends BaseCodeFormatter {
 	}
 
 	private void format(IStatement stmt, TextEdit edit, String delim) {
-		switch (SpecUtil.getSpecType(stmt)) {
+		switch (SpecUtil.getSpecializedType(stmt)) {
 			case Terminal:
 				formatBlank(stmt, edit, delim);
 				break;
@@ -114,7 +114,7 @@ public class MdFormatter extends BaseCodeFormatter {
 	}
 
 	private void formatBlank(IStatement stmt, TextEdit edit, String delim) {
-		ISourceRange range = stmt.toSourceRange();
+		SourceRange range = stmt.getRange();
 		int eols = range.getEndLine() - range.getBegLine() + 1;
 		String rep = Strings.dup(eols, delim);
 		if (range.getOffset() + range.getLength() <= docLength) {
@@ -125,14 +125,14 @@ public class MdFormatter extends BaseCodeFormatter {
 	private void formatTable(IStatement stmt, TextEdit edit, String delim) {
 		TableModel table = new TableModel(delim);
 		table.load(stmt);
-		ISourceRange range = stmt.toSourceRange();
+		SourceRange range = stmt.getRange();
 		String content = table.build();
 		if (content != null) edit.addChild(new ReplaceEdit(range.getOffset(), range.getLength(), content));
 	}
 
 	private void formatText(IStatement stmt, TextEdit edit, String delim, int cols) {
 		try {
-			ISourceRange range = stmt.toSourceRange();
+			SourceRange range = stmt.getRange();
 			int offset = range.getOffset();
 			int len = range.getLength() - delim.length();
 			if (len <= 0) return;
@@ -147,7 +147,7 @@ public class MdFormatter extends BaseCodeFormatter {
 	}
 
 	private void formatList(IStatement stmt, TextEdit edit, String delim, int cols, int tabWidth) {
-		for (IStatement listItem : SpecUtil.getChildren(stmt, SpecType.ListItem)) {
+		for (IStatement listItem : SpecUtil.getChildren(stmt, SpecializedType.ListItem)) {
 			formatListItem(stmt, listItem, edit, delim, cols, tabWidth);
 		}
 	}
@@ -155,7 +155,7 @@ public class MdFormatter extends BaseCodeFormatter {
 	private void formatListItem(IStatement stmt, IStatement listItem, TextEdit edit, String delim, int cols,
 			int tabWidth) {
 		try {
-			ISourceRange range = listItem.toSourceRange();
+			SourceRange range = listItem.getRange();
 			int offset = range.getOffset();
 			int len = range.getLength() - delim.length();
 			if (len <= 0) return;
@@ -175,13 +175,13 @@ public class MdFormatter extends BaseCodeFormatter {
 		String line = item.trim();
 		char c = line.charAt(0);
 		switch (c) {
-			case '-':
-			case '+':
-			case '*':
+			case Chars.DASH:
+			case Chars.PLUS:
+			case Chars.STAR:
 				return 2;
 
 			default:
-				int dot = line.indexOf('.');
+				int dot = line.indexOf(Chars.DOT);
 				if (dot > 0) return dot + 2;
 		}
 		return 0;

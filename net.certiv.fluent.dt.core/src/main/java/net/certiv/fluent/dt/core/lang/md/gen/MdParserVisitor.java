@@ -19,41 +19,41 @@ public interface MdParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitPage(MdParser.PageContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link MdParser#yaml}.
+	 * Visit a parse tree produced by {@link MdParser#yamlBlock}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitYaml(MdParser.YamlContext ctx);
+	T visitYamlBlock(MdParser.YamlBlockContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link MdParser#html}.
+	 * Visit a parse tree produced by {@link MdParser#htmlBlock}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitHtml(MdParser.HtmlContext ctx);
+	T visitHtmlBlock(MdParser.HtmlBlockContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link MdParser#math}.
+	 * Visit a parse tree produced by {@link MdParser#mathBlock}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitMath(MdParser.MathContext ctx);
+	T visitMathBlock(MdParser.MathBlockContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link MdParser#tex}.
+	 * Visit a parse tree produced by {@link MdParser#texBlock}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitTex(MdParser.TexContext ctx);
+	T visitTexBlock(MdParser.TexBlockContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link MdParser#uml}.
+	 * Visit a parse tree produced by {@link MdParser#umlBlock}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitUml(MdParser.UmlContext ctx);
+	T visitUmlBlock(MdParser.UmlBlockContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link MdParser#code}.
+	 * Visit a parse tree produced by {@link MdParser#codeBlock}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitCode(MdParser.CodeContext ctx);
+	T visitCodeBlock(MdParser.CodeBlockContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link MdParser#header}.
 	 * @param ctx the parse tree
@@ -120,6 +120,18 @@ public interface MdParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitLink(MdParser.LinkContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link MdParser#styledtext}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStyledtext(MdParser.StyledtextContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link MdParser#beg}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBeg(MdParser.BegContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link MdParser#text}.
 	 * @param ctx the parse tree

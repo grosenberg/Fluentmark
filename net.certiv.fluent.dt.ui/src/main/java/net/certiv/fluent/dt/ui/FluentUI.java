@@ -75,7 +75,7 @@ public class FluentUI extends DslUI {
 	}
 
 	@Override
-	protected String getEditorId() {
+	public String getEditorId() {
 		return FluentEditor.EDITOR_ID;
 	}
 

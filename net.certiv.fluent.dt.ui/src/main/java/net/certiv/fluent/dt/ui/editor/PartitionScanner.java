@@ -23,14 +23,13 @@ import net.certiv.fluent.dt.ui.editor.text.rules.DotCodeRule;
 import net.certiv.fluent.dt.ui.editor.text.rules.FrontMatterRule;
 import net.certiv.fluent.dt.ui.editor.text.rules.HtmlCodeRule;
 import net.certiv.fluent.dt.ui.editor.text.rules.IndentedCodeRule;
-import net.certiv.fluent.dt.ui.editor.text.rules.MatchRule;
 
 public class PartitionScanner extends RuleBasedPartitionScanner implements IScannerExt {
 
 	public PartitionScanner() {
 		super();
 
-		IToken matter = new Token(Partitions.FRONT_MATTER);
+		IToken matter = new Token(Partitions.YAMLBLOCK);
 		IToken comment = new Token(Partitions.COMMENT);
 		IToken codeblock = new Token(Partitions.CODEBLOCK);
 		IToken htmlblock = new Token(Partitions.HTMLBLOCK);
@@ -43,11 +42,11 @@ public class PartitionScanner extends RuleBasedPartitionScanner implements IScan
 		rules.add(new FrontMatterRule("---", "---", matter, '\\'));
 		rules.add(new MultiLineRule("<!--", "-->", comment, '\\', true));
 		rules.add(new MultiLineRule("$$", "$$", mathblock, '\\', true));
-		rules.add(new MatchRule("\\$\\S", "\\S\\$\\D", mathblock, '\\', true, true));
+		// rules.add(new MatchRule("\\$\\S", "\\S\\$\\D", mathblock, '\\', true, true));
 		rules.add(new HtmlCodeRule(htmlblock));
 		rules.add(new DotCodeRule(dotblock));
 		rules.add(new MultiLineRule("@startuml", "@enduml", umlblock, '\\', true));
-		rules.add(new MultiLineRule("@startdot", "@enddot", umlblock, '\\', true));
+		rules.add(new MultiLineRule("@startdot", "@enddot", dotblock, '\\', true));
 		rules.add(new MultiLineRule("~~~", "~~~", codeblock, '\\', true));
 		rules.add(new MultiLineRule("```", "```", codeblock, '\\', true));
 		rules.add(new IndentedCodeRule(codeblock));

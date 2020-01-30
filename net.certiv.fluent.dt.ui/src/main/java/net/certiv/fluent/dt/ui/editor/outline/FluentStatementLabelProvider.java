@@ -1,7 +1,5 @@
 package net.certiv.fluent.dt.ui.editor.outline;
 
-import static net.certiv.dsl.core.model.IDslElement.*;
-
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.swt.graphics.Image;
@@ -10,8 +8,9 @@ import net.certiv.dsl.core.log.Log;
 import net.certiv.dsl.core.util.Chars;
 import net.certiv.dsl.core.util.Strings;
 import net.certiv.dsl.ui.editor.StatementLabelProvider;
-import net.certiv.fluent.dt.core.model.SpecData;
 import net.certiv.fluent.dt.core.model.SpecUtil;
+import net.certiv.fluent.dt.core.model.Specialization;
+import net.certiv.fluent.dt.core.model.SpecializedType;
 import net.certiv.fluent.dt.ui.FluentUI;
 import net.certiv.fluent.dt.ui.ImageManager;
 
@@ -23,10 +22,10 @@ public class FluentStatementLabelProvider extends StatementLabelProvider {
 
 	@Override
 	public String decorateText(String text) {
-		switch (getElementKind()) {
+		switch (getStatementType()) {
 			case MODULE:
 				if (hasData()) {
-					SpecData data = (SpecData) getData();
+					Specialization data = (Specialization) getData();
 					return data.name;
 				}
 				return text;
@@ -38,9 +37,9 @@ public class FluentStatementLabelProvider extends StatementLabelProvider {
 			case FIELD:
 				if (!hasData()) return text;
 
-				SpecData data = (SpecData) getData();
+				Specialization data = (Specialization) getData();
 				String msg = Strings.EMPTY;
-				switch (data.specType) {
+				switch (data.specializedType) {
 					case Paragraph:
 					case Setext:
 						return summary(text);
@@ -53,11 +52,19 @@ public class FluentStatementLabelProvider extends StatementLabelProvider {
 					case Quote:
 						return data.ruleName;
 
+					case ListOrdered:
 					case ListUnordered:
+						return "List";
+
 					case ListItem:
-						return summary(text);
+						text = summary(text);
+						if (data.listType == SpecializedType.ListUnordered) {
+							text = text.replaceFirst("^[ +*-]*", Strings.EMPTY);
+						}
+						return text;
 
 					case CodeBlock:
+					case CodeBlockIndented:
 						msg = summary(text);
 						msg = msg.replace(msg.charAt(0), Chars.SP).trim();
 						if (!msg.isEmpty()) {
@@ -66,8 +73,8 @@ public class FluentStatementLabelProvider extends StatementLabelProvider {
 								msg = msg.substring(0, dot).trim();
 							}
 						}
-						if (msg.isEmpty()) return data.specType.name;
-						return String.format("%s %s", Strings.titleCase(msg.trim()), data.specType.name);
+						if (msg.isEmpty()) return data.specializedType.name;
+						return String.format("%s %s", Strings.titleCase(msg.trim()), data.specializedType.name);
 
 					case HRule:
 					case DotBlock:
@@ -76,8 +83,7 @@ public class FluentStatementLabelProvider extends StatementLabelProvider {
 					case HtmlBlock:
 					case TexBlock:
 					case MathBlock:
-					case CodeBlockIndented:
-						return data.specType.name;
+						return data.specializedType.name;
 
 					default:
 						return data.name;
@@ -90,7 +96,7 @@ public class FluentStatementLabelProvider extends StatementLabelProvider {
 				return null;
 
 			default:
-				return text + " [" + getElementKind() + "]";
+				return text + " [" + getStatementType() + "]";
 		}
 	}
 
@@ -113,13 +119,9 @@ public class FluentStatementLabelProvider extends StatementLabelProvider {
 		ImageManager mgr = (ImageManager) imgMgr;
 
 		ImageDescriptor desc = null;
-		switch (getElementKind()) {
-			case DSL_UNIT:
-				desc = mgr.getDescriptor(mgr.IMG_OBJS_CONTAINER);
-				break;
-
+		switch (getStatementType()) {
 			case MODULE:
-				desc = mgr.getDescriptor(mgr.IMG_OBJ_PAGE);
+				desc = mgr.getDescriptor(mgr.IMG_OBJS_UNIT);
 				break;
 
 			case DECLARATION:
@@ -129,10 +131,7 @@ public class FluentStatementLabelProvider extends StatementLabelProvider {
 			case STATEMENT:
 			case FIELD:
 				desc = mgr.getDescriptor(mgr.IMG_OBJS_STATEMENT);
-				switch (SpecUtil.getSpecType(getStatement())) {
-					case YamlBlock:
-						desc = mgr.getDescriptor(mgr.IMG_OBJ_FRONTMATTER);
-						break;
+				switch (SpecUtil.getSpecializedType(getStatement())) {
 					case Header:
 						desc = mgr.getDescriptor(mgr.IMG_OBJ_HEADER);
 						break;
@@ -142,20 +141,14 @@ public class FluentStatementLabelProvider extends StatementLabelProvider {
 					case HRule:
 						desc = mgr.getDescriptor(mgr.IMG_OBJ_HRULE);
 						break;
+					case ListOrdered:
+						desc = mgr.getDescriptor(mgr.IMG_OBJ_ORDERED_LIST);
+						break;
 					case ListUnordered:
-						desc = mgr.getDescriptor(mgr.IMG_OBJ_LIST);
-						// if (addOverlay(data.decoration & ModelData.ORDERED)) {
-						// desc = createOverlayImageDescriptor(desc,
-						// provider.getDescriptor(provider.IMG_OVR_ORDERED),
-						// TOP_RIGHT);
-						// } else if (addOverlay(data.decoration & ModelData.UNORDERED)) {
-						// desc = createOverlayImageDescriptor(desc,
-						// provider.getDescriptor(provider.IMG_OVR_UNORDERED),
-						// TOP_RIGHT);
-						// }
+						desc = mgr.getDescriptor(mgr.IMG_OBJ_UNORDERED_LIST);
 						break;
 					case ListItem:
-						desc = mgr.getDescriptor(mgr.IMG_OBJ_LIST);
+						desc = mgr.getDescriptor(mgr.IMG_OBJ_LIST_ITEM);
 						break;
 					case Table:
 						desc = mgr.getDescriptor(mgr.IMG_OBJ_TABLE);
@@ -169,21 +162,29 @@ public class FluentStatementLabelProvider extends StatementLabelProvider {
 					case Definition:
 						desc = mgr.getDescriptor(mgr.IMG_OBJ_DEFINITION);
 						break;
-					case HtmlBlock:
-						desc = mgr.getDescriptor(mgr.IMG_OBJ_HTML);
-						break;
+
 					case CodeBlock:
 						desc = mgr.getDescriptor(mgr.IMG_OBJ_CODEBLOCK);
 						break;
+					case CodeBlockIndented:
+						desc = mgr.getDescriptor(mgr.IMG_OBJ_CODEBLOCK_INDENTED);
+						break;
+
+					case HtmlBlock:
+						desc = mgr.getDescriptor(mgr.IMG_OBJ_HTML);
+						break;
+					case YamlBlock:
+						desc = mgr.getDescriptor(mgr.IMG_OBJ_YAMLBLOCK);
+						break;
+					case TexBlock:
 					case MathBlock:
-						desc = mgr.getDescriptor(mgr.IMG_OBJ_SUM);
+						desc = mgr.getDescriptor(mgr.IMG_OBJ_MATHBLOCK);
 						break;
 					case DotBlock:
-						desc = mgr.getDescriptor(mgr.IMG_OBJS_DECLARATION);
-						break;
 					case UmlBlock:
-						desc = mgr.getDescriptor(mgr.IMG_OBJS_TYPEDEF);
+						desc = mgr.getDescriptor(mgr.IMG_OBJ_DOTBLOCK);
 						break;
+
 					case Terminal:
 						desc = mgr.getDescriptor(mgr.IMG_OBJS_BREAKPOINT);
 						break;

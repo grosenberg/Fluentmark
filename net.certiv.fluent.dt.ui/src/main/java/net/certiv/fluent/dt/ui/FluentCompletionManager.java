@@ -1,6 +1,5 @@
 package net.certiv.fluent.dt.ui;
 
-import net.certiv.dsl.core.model.IDslElement;
 import net.certiv.dsl.core.model.IStatement;
 import net.certiv.dsl.ui.DslUI;
 import net.certiv.dsl.ui.templates.CompletionManager;
@@ -21,13 +20,12 @@ public class FluentCompletionManager extends CompletionManager {
 
 	@Override
 	public String getContentAssistScope(IStatement stmt) {
-		switch (stmt.getKind()) {
-			case IDslElement.DSL_UNIT:
-			case IDslElement.MODULE:
-			case IDslElement.DECLARATION:
+		switch (stmt.getModelType()) {
+			case MODULE:
+			case DECLARATION:
 				return PAGE;
 
-			case IDslElement.STATEMENT:
+			case STATEMENT:
 				switch (stmt.getRulename()) {
 					case YAML:
 						return YAML;
@@ -44,10 +42,10 @@ public class FluentCompletionManager extends CompletionManager {
 				}
 				return PAGE;
 
-			case IDslElement.IMPORT:
-			case IDslElement.FIELD:
-			case IDslElement.BEG_BLOCK:
-			case IDslElement.END_BLOCK:
+			case IMPORT:
+			case FIELD:
+			case BEG_BLOCK:
+			case END_BLOCK:
 			default:
 				return null;
 		}

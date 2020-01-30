@@ -15,8 +15,8 @@ public class Partitions {
 	public final static String PARTITIONING = "__fluent_partitioning";
 
 	// specialized partition content types
-	public static final String FRONT_MATTER = "__frontmatter";
 	public static final String COMMENT = "__comment";
+	public static final String YAMLBLOCK = "__yamlblock";
 	public static final String CODEBLOCK = "__codeblock";
 	public static final String HTMLBLOCK = "__htmlblock";
 	public static final String DOTBLOCK = "__dotblock";
@@ -24,7 +24,7 @@ public class Partitions {
 	public static final String MATHBLOCK = "__mathblock";
 
 	/** Partition type groups by similar treatment */
-	public static final String[] SPECIAL_TYPES = new String[] { FRONT_MATTER, COMMENT, CODEBLOCK, HTMLBLOCK, DOTBLOCK,
+	public static final String[] SPECIAL_TYPES = new String[] { COMMENT, YAMLBLOCK, CODEBLOCK, HTMLBLOCK, DOTBLOCK,
 			UMLBLOCK, MATHBLOCK };
 	public static final String[] STRING_AND_COMMENT_TYPES = new String[] { COMMENT };
 	public static final String[] COMMENT_TYPES = new String[] { COMMENT };

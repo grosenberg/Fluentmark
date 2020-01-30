@@ -200,27 +200,6 @@ h3 {
 	page-break-after: avoid;
 }
 
-a[href]:after {
-	content: "(" attr(href) ")";
-}
-
-abbr[title]:after {
-	content: "(" attr(title) ")";
-}
-
-.ir a:after {
-	content: "";
-}
-
-a[href^="javascript:"]:after {
-	content: "";
-}
-
-a[href^="#"]:after {
-	content: "";
-}
-
-}
 li p:last-child {
 	margin: 0;
 }

@@ -34,13 +34,10 @@ public abstract class MdLexerBase extends LexerNeo {
 			+ "\\}" 			//
 	);
 
-	private static final Pattern LTerm = Pattern.compile("\\s\\p{Punct}*?([*_~`'\"]+)\\p{Punct}*?\\w",
-			Pattern.UNICODE_CHARACTER_CLASS);
-	private static final Pattern RTerm = Pattern.compile("\\w\\p{Punct}*?([*_~`'\"]+)\\p{Punct}*?\\s",
-			Pattern.UNICODE_CHARACTER_CLASS);
+	private static final Pattern PUNCT = Pattern.compile("(\\p{Punct}+)");
 
-	private final NearMap<Extent<Integer>> attrL = new NearMap<>();
-	private final NearMap<Extent<Integer>> attrR = new NearMap<>();
+	private final NearMap<Extent<Integer>> lefts = new NearMap<>();
+	private final NearMap<Extent<Integer>> rights = new NearMap<>();
 
 	private final String data;
 	private boolean done;
@@ -51,17 +48,9 @@ public abstract class MdLexerBase extends LexerNeo {
 	public MdLexerBase(CharStream input) {
 		super(input);
 		data = input.toString();
+		defineExtents();
 
 		insertBOFToken(MdLexer.LINE_BLANK, Strings.EOL + Strings.EOL);
-
-		Matcher m = LTerm.matcher(data);
-		while (m.find()) {
-			attrL.put(m.start(1), new Extent<>(m.start(1), m.end(1)));
-		}
-		m = RTerm.matcher(data);
-		while (m.find()) {
-			attrR.put(m.start(1), new Extent<>(m.start(1), m.end(1)));
-		}
 	}
 
 	@Override
@@ -83,27 +72,27 @@ public abstract class MdLexerBase extends LexerNeo {
 
 			// attributes
 			case MdLexer.LBOLD:
-				fixAttr(token, MdLexer.LBOLD, MdLexer.RBOLD, MdLexer.WORD);
+				adjAttr(token, MdLexer.LBOLD, MdLexer.RBOLD, MdLexer.WORD);
 				break;
 
 			case MdLexer.LITALIC:
-				fixAttr(token, MdLexer.LITALIC, MdLexer.RITALIC, MdLexer.WORD);
+				adjAttr(token, MdLexer.LITALIC, MdLexer.RITALIC, MdLexer.WORD);
 				break;
 
 			case MdLexer.LSTRIKE:
-				fixAttr(token, MdLexer.LSTRIKE, MdLexer.RSTRIKE, MdLexer.WORD);
+				adjAttr(token, MdLexer.LSTRIKE, MdLexer.RSTRIKE, MdLexer.WORD);
 				break;
 
 			case MdLexer.LSPAN:
-				fixAttr(token, MdLexer.LSPAN, MdLexer.RSPAN, MdLexer.WORD);
+				adjAttr(token, MdLexer.LSPAN, MdLexer.RSPAN, MdLexer.WORD);
 				break;
 
 			case MdLexer.LDQUOTE:
-				fixAttr(token, MdLexer.LDQUOTE, MdLexer.RDQUOTE, MdLexer.WORD);
+				adjAttr(token, MdLexer.LDQUOTE, MdLexer.RDQUOTE, MdLexer.WORD);
 				break;
 
 			case MdLexer.LSQUOTE:
-				fixAttr(token, MdLexer.LSQUOTE, MdLexer.RSQUOTE, MdLexer.WORD);
+				adjAttr(token, MdLexer.LSQUOTE, MdLexer.RSQUOTE, MdLexer.WORD);
 				break;
 
 			default:
@@ -113,6 +102,69 @@ public abstract class MdLexerBase extends LexerNeo {
 			section.put(token.getLine(), token);
 		}
 		super.emit(token);
+	}
+
+	private void defineExtents() {
+		Matcher m = PUNCT.matcher(data);
+		int len = data.length();
+		boolean lWs;
+		boolean lCh;
+		boolean rWs;
+		boolean rCh;
+
+		while (m.find()) {
+			int beg = m.start(1);
+			int end = m.end(1);
+
+			if (beg > 0) {
+				int ch = data.charAt(beg - 1);
+				lWs = Character.isWhitespace(ch);
+				lCh = Character.isLetterOrDigit(ch);
+			} else {
+				lWs = true;
+				lCh = false;
+			}
+
+			if (end < len) {
+				int ch = data.charAt(end);
+				rWs = Character.isWhitespace(ch);
+				rCh = Character.isLetterOrDigit(ch);
+			} else {
+				rWs = true;
+				rCh = false;
+			}
+
+			if (lWs && rCh) lefts.put(beg, new Extent<>(beg, end));
+			if (lCh && rWs) rights.put(beg, new Extent<>(beg, end));
+
+			// String pre = data.substring(Math.max(0, beg - 10), beg);
+			// String txt = Strings.GUILL_L2_MARK + data.substring(beg, end) +
+			// Strings.GUILL_R2_MARK;
+			// String pst = data.substring(Math.min(len, end), Math.min(len, end + 10));
+			//
+			// String kind;
+			// if (lWs && rCh) {
+			// kind = "Left";
+			// } else if (lCh && rWs) {
+			// kind = "Right";
+			// } else {
+			// kind = "None";
+			// }
+			//
+			// Log.info(this, "Found @%s:%s %s%s%s [%s]", beg, end + 1 - beg, pre, txt, pst,
+			// kind);
+		}
+	}
+
+	private void adjAttr(MdToken token, int left, int right, int none) {
+		int idx = token.getStartIndex();
+		if (lefts.contains(idx)) {
+			token.setType(left);
+		} else if (rights.contains(idx)) {
+			token.setType(right);
+		} else {
+			token.setType(none);
+		}
 	}
 
 	private boolean inList() {
@@ -125,17 +177,6 @@ public abstract class MdLexerBase extends LexerNeo {
 			}
 		}
 		return true;
-	}
-
-	private void fixAttr(MdToken token, int left, int right, int none) {
-		int idx = token.getStartIndex();
-		if (attrL.contains(idx)) {
-			token.setType(left);
-		} else if (attrR.contains(idx)) {
-			token.setType(right);
-		} else {
-			token.setType(none);
-		}
 	}
 
 	@Override
@@ -168,6 +209,10 @@ public abstract class MdLexerBase extends LexerNeo {
 			}
 		}
 		return true;
+	}
+
+	protected boolean notDigit() {
+		return !Character.isDigit(_input.LA(1));
 	}
 
 	protected boolean style() {

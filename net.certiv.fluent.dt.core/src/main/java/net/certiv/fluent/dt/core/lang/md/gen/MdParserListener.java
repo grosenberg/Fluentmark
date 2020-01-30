@@ -20,65 +20,65 @@ public interface MdParserListener extends ParseTreeListener {
 	 */
 	void exitPage(MdParser.PageContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link MdParser#yaml}.
+	 * Enter a parse tree produced by {@link MdParser#yamlBlock}.
 	 * @param ctx the parse tree
 	 */
-	void enterYaml(MdParser.YamlContext ctx);
+	void enterYamlBlock(MdParser.YamlBlockContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link MdParser#yaml}.
+	 * Exit a parse tree produced by {@link MdParser#yamlBlock}.
 	 * @param ctx the parse tree
 	 */
-	void exitYaml(MdParser.YamlContext ctx);
+	void exitYamlBlock(MdParser.YamlBlockContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link MdParser#html}.
+	 * Enter a parse tree produced by {@link MdParser#htmlBlock}.
 	 * @param ctx the parse tree
 	 */
-	void enterHtml(MdParser.HtmlContext ctx);
+	void enterHtmlBlock(MdParser.HtmlBlockContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link MdParser#html}.
+	 * Exit a parse tree produced by {@link MdParser#htmlBlock}.
 	 * @param ctx the parse tree
 	 */
-	void exitHtml(MdParser.HtmlContext ctx);
+	void exitHtmlBlock(MdParser.HtmlBlockContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link MdParser#math}.
+	 * Enter a parse tree produced by {@link MdParser#mathBlock}.
 	 * @param ctx the parse tree
 	 */
-	void enterMath(MdParser.MathContext ctx);
+	void enterMathBlock(MdParser.MathBlockContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link MdParser#math}.
+	 * Exit a parse tree produced by {@link MdParser#mathBlock}.
 	 * @param ctx the parse tree
 	 */
-	void exitMath(MdParser.MathContext ctx);
+	void exitMathBlock(MdParser.MathBlockContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link MdParser#tex}.
+	 * Enter a parse tree produced by {@link MdParser#texBlock}.
 	 * @param ctx the parse tree
 	 */
-	void enterTex(MdParser.TexContext ctx);
+	void enterTexBlock(MdParser.TexBlockContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link MdParser#tex}.
+	 * Exit a parse tree produced by {@link MdParser#texBlock}.
 	 * @param ctx the parse tree
 	 */
-	void exitTex(MdParser.TexContext ctx);
+	void exitTexBlock(MdParser.TexBlockContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link MdParser#uml}.
+	 * Enter a parse tree produced by {@link MdParser#umlBlock}.
 	 * @param ctx the parse tree
 	 */
-	void enterUml(MdParser.UmlContext ctx);
+	void enterUmlBlock(MdParser.UmlBlockContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link MdParser#uml}.
+	 * Exit a parse tree produced by {@link MdParser#umlBlock}.
 	 * @param ctx the parse tree
 	 */
-	void exitUml(MdParser.UmlContext ctx);
+	void exitUmlBlock(MdParser.UmlBlockContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link MdParser#code}.
+	 * Enter a parse tree produced by {@link MdParser#codeBlock}.
 	 * @param ctx the parse tree
 	 */
-	void enterCode(MdParser.CodeContext ctx);
+	void enterCodeBlock(MdParser.CodeBlockContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link MdParser#code}.
+	 * Exit a parse tree produced by {@link MdParser#codeBlock}.
 	 * @param ctx the parse tree
 	 */
-	void exitCode(MdParser.CodeContext ctx);
+	void exitCodeBlock(MdParser.CodeBlockContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link MdParser#header}.
 	 * @param ctx the parse tree
@@ -189,6 +189,26 @@ public interface MdParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitLink(MdParser.LinkContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MdParser#styledtext}.
+	 * @param ctx the parse tree
+	 */
+	void enterStyledtext(MdParser.StyledtextContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MdParser#styledtext}.
+	 * @param ctx the parse tree
+	 */
+	void exitStyledtext(MdParser.StyledtextContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MdParser#beg}.
+	 * @param ctx the parse tree
+	 */
+	void enterBeg(MdParser.BegContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MdParser#beg}.
+	 * @param ctx the parse tree
+	 */
+	void exitBeg(MdParser.BegContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link MdParser#text}.
 	 * @param ctx the parse tree

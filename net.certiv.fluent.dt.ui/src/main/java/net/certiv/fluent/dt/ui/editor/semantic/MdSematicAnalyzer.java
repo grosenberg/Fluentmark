@@ -1,13 +1,13 @@
-package net.certiv.fluent.dt.ui.editor.reconcilers;
+package net.certiv.fluent.dt.ui.editor.semantic;
 
 import net.certiv.dsl.core.model.IStatement;
 import net.certiv.dsl.ui.DslUI;
 import net.certiv.dsl.ui.editor.semantic.SemanticAnalyzer;
-import net.certiv.dsl.ui.styles.Segment;
-import net.certiv.dsl.ui.styles.Selector;
+import net.certiv.dsl.ui.editor.styles.Segment;
+import net.certiv.dsl.ui.editor.styles.Selector;
 import net.certiv.fluent.dt.core.lang.FluentLangManager;
-import net.certiv.fluent.dt.core.model.SpecData;
-import net.certiv.fluent.dt.core.model.SpecType;
+import net.certiv.fluent.dt.core.model.Specialization;
+import net.certiv.fluent.dt.core.model.SpecializedType;
 
 public class MdSematicAnalyzer extends SemanticAnalyzer {
 
@@ -17,7 +17,7 @@ public class MdSematicAnalyzer extends SemanticAnalyzer {
 
 	@Override
 	protected boolean qualified(IStatement stmt) {
-		switch ((SpecType) stmt.getSpecType()) {
+		switch ((SpecializedType) stmt.getSpecializedType()) {
 			case Page:
 
 			case Paragraph:
@@ -35,13 +35,18 @@ public class MdSematicAnalyzer extends SemanticAnalyzer {
 
 			case Link:
 			case Cite:
+
 			case Span:
+			case CodeSpan:
+			case MathSpan:
+
 			case Definition:
 			case Quote:
 
 			case Bold:
 			case Italic:
 			case Underline:
+			case Strike:
 
 			case CodeBlock:
 			case CodeBlockIndented:
@@ -59,8 +64,8 @@ public class MdSematicAnalyzer extends SemanticAnalyzer {
 		for (int idx = 0; idx < context.size(); idx++) {
 			Segment seg = context.get(idx);
 			if (seg.hasData()) {
-				SpecData data = (SpecData) seg.getData();
-				SpecType type = (SpecType) data.getSpecType();
+				Specialization data = (Specialization) seg.getData();
+				SpecializedType type = (SpecializedType) data.getSpecializedType();
 
 				switch (type) {
 					case Header:

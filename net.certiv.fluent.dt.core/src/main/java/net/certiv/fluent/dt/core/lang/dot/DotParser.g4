@@ -13,7 +13,7 @@ document
 	;
 
 graph
-	: STRICT? gtype= ( GRAPH | DIGRAPH ) id? LBRACE stmt* RBRACE
+	: GRAPH id? LBRACE stmt* RBRACE
 	;
 
 stmt
@@ -29,7 +29,7 @@ edgeStmt
 	;
 
 attrStmt
-	: atype= ( GRAPH | NODE | EDGE ) attrList+
+	: atype=( GRAPH | NODE | EDGE ) attrList+
 	;
 
 attrList
@@ -52,7 +52,7 @@ subgraph
 	;
 
 edgeRhs
-	: op= ( DIRECTED | UNDIRECTED ) ( nodeId | subgraph )
+	: op=( DIRECTED | UNDIRECTED ) ( nodeId | subgraph )
 	;
 
 nodeId

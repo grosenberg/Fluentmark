@@ -69,7 +69,7 @@ public class HtmlGen {
 	 */
 	public String getHtml(Kind kind) {
 		IPathEditorInput input = (IPathEditorInput) editor.getEditorInput();
-		if (input == null) return "";
+		if (input == null) return Strings.EMPTY;
 
 		IPath pathname = input.getPath();
 		String basepath = pathname.removeLastSegments(1).addTrailingSeparator().toString();
@@ -125,7 +125,7 @@ public class HtmlGen {
 			regions = TextUtilities.computePartitioning(doc, Partitions.PARTITIONING, beg, len, false);
 		} catch (BadLocationException e) {
 			Log.error(this, "Failed to compute partitions." + beg);
-			return "";
+			return Strings.EMPTY;
 		}
 
 		return converter.convert(basepath, doc, regions);
@@ -139,7 +139,7 @@ public class HtmlGen {
 		} catch (Exception e) {
 			Log.error(this, "Failed reading stylesheet", e);
 		}
-		return "";
+		return Strings.EMPTY;
 	}
 
 	private URL findStyle(IPath path) throws Exception {

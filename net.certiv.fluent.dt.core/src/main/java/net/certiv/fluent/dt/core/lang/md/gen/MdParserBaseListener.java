@@ -30,73 +30,73 @@ public class MdParserBaseListener implements MdParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterYaml(MdParser.YamlContext ctx) { }
+	@Override public void enterYamlBlock(MdParser.YamlBlockContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitYaml(MdParser.YamlContext ctx) { }
+	@Override public void exitYamlBlock(MdParser.YamlBlockContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterHtml(MdParser.HtmlContext ctx) { }
+	@Override public void enterHtmlBlock(MdParser.HtmlBlockContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitHtml(MdParser.HtmlContext ctx) { }
+	@Override public void exitHtmlBlock(MdParser.HtmlBlockContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterMath(MdParser.MathContext ctx) { }
+	@Override public void enterMathBlock(MdParser.MathBlockContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitMath(MdParser.MathContext ctx) { }
+	@Override public void exitMathBlock(MdParser.MathBlockContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterTex(MdParser.TexContext ctx) { }
+	@Override public void enterTexBlock(MdParser.TexBlockContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitTex(MdParser.TexContext ctx) { }
+	@Override public void exitTexBlock(MdParser.TexBlockContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterUml(MdParser.UmlContext ctx) { }
+	@Override public void enterUmlBlock(MdParser.UmlBlockContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitUml(MdParser.UmlContext ctx) { }
+	@Override public void exitUmlBlock(MdParser.UmlBlockContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCode(MdParser.CodeContext ctx) { }
+	@Override public void enterCodeBlock(MdParser.CodeBlockContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitCode(MdParser.CodeContext ctx) { }
+	@Override public void exitCodeBlock(MdParser.CodeBlockContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -229,6 +229,30 @@ public class MdParserBaseListener implements MdParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitLink(MdParser.LinkContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterStyledtext(MdParser.StyledtextContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitStyledtext(MdParser.StyledtextContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterBeg(MdParser.BegContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitBeg(MdParser.BegContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

@@ -14,7 +14,6 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.rules.IRule;
 import org.eclipse.jface.text.rules.IToken;
 import org.eclipse.jface.text.rules.MultiLineRule;
-import org.eclipse.jface.text.rules.SingleLineRule;
 import org.eclipse.jface.text.rules.WhitespaceRule;
 
 import net.certiv.dsl.core.preferences.IDslPrefsManager;
@@ -41,13 +40,13 @@ public class ScannerCode extends AbstractBufferedRuleBasedScanner implements ISc
 
 	@Override
 	protected List<IRule> createRules() {
-		IToken code = getToken(Prefs.EDITOR_CODE_COLOR);
+		// IToken code = getToken(Prefs.EDITOR_CODE_COLOR);
 		IToken block = getToken(Prefs.EDITOR_CODEBLOCK_COLOR);
 
 		List<IRule> rules = new ArrayList<>();
 		rules.add(new MultiLineRule("```", "```", block, '\\', true));
 		rules.add(new MultiLineRule("~~~", "~~~", block, '\\', true));
-		rules.add(new SingleLineRule("`", "`", code, '\\', true));
+		// rules.add(new SingleLineRule("`", "`", code, '\\', true));
 		rules.add(new WhitespaceRule(new WhitespaceDetector()));
 		return rules;
 	}

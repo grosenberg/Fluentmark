@@ -8,7 +8,7 @@ options {
 @header {
 	package net.certiv.fluent.dt.core.lang.md.gen;
 	import  net.certiv.fluent.dt.core.lang.md.StructureBuilder;
-	import  net.certiv.fluent.dt.core.model.ModelType;
+	import  static net.certiv.fluent.dt.core.model.SpecializedType.*;
 }
 
 structure
@@ -20,38 +20,48 @@ structure
 	| table
 	| definition
 	| list
-	
+	| word
+	| attrL
+	| attrR
 
 	| comment
 
-	| yaml
-	| html
-	| code
-	| math
-	| tex
-	| uml
+	| yamlBlock
+	| htmlBlock
+	| codeBlock
+	| mathBlock
+	| texBlock
+	| umlBlock
 	;
 
 page		: /page		 	{ doModule(); } ;
 
 header		: //header		{ doHeader(); } ;
-hrule		: //hrule		{ doStatement(ModelType.HRule); } ;
-paragraph	: //paragraph	{ doStatement(ModelType.Paragraph); } ;
-definition	: //definition	{ doStatement(ModelType.Definition); } ;
-table		: //table		{ doStatement(ModelType.Table); } ;
+hrule		: //hrule		{ doType(HRule); } ;
+comment		: //comment		{ doType(Comment); } ;
 
-comment		: //comment		{ doStatement(ModelType.Comment); } ;
+yamlBlock	: //yamlBlock	{ doType(YamlBlock); } ;
+htmlBlock	: //htmlBlock	{ doType(HtmlBlock); } ;
+codeBlock	: //codeBlock	{ doType(CodeBlock); } ;
+mathBlock	: //mathBlock	{ doType(MathBlock); } ;
+texBlock	: //texBlock	{ doType(TexBlock) ; } ;
+umlBlock	: //umlBlock	{ doType(UmlBlock) ; } ;
 
-yaml	: //yaml	{ doStatement(ModelType.YamlBlock); } ;
-html	: //html	{ doStatement(ModelType.HtmlBlock); } ;
-code	: //code	{ doStatement(ModelType.CodeBlock); } ;
-math	: //math	{ doStatement(ModelType.MathBlock); } ;
-tex		: //tex		{ doStatement(ModelType.TexBlock) ; } ;
-uml		: //uml		{ doStatement(ModelType.UmlBlock) ; } ;
+definition	: //definition	{ doType(Definition); } ;
+table		: //table		{ doType(Table); } ;
+
+paragraph	: //paragraph	
+				{ onEntry: doStatement(Paragraph); } 
+				{ onExit:  endBlock(); }
+			;
+
+word		: //word		{ doWord() ; } ;
+attrL		: //attrLeft	{ doAttrL() ; } ;
+attrR		: //attrRight	{ doAttrR() ; } ;
 
 list		: //list
 				{ onEntry: doList(); }
-				{ onExit: endBlock(); }
+				{ onExit:  endBlock(); }
 			;
 
-listItem	: //listItem		{ doListItem(); } ;
+listItem	: //listItem	{ doListItem(); } ;

@@ -75,7 +75,7 @@ public class StylesConfigBlock extends AbstractConfigBlock {
 
 		addVerticalSpace(comp, 1, 3);
 
-		addCheckBox(comp, "Use xternal stylesheet", Prefs.EDITOR_SEMANTIC_EXTERNAL_ENABLE, 2, 4)
+		addCheckBox(comp, "Use external stylesheet", Prefs.EDITOR_SEMANTIC_EXTERNAL_ENABLE, 2, 4)
 				.addSelectionListener(new SelectionAdapter() {
 
 					@Override

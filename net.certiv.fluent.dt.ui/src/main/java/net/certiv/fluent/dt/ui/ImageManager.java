@@ -1,7 +1,8 @@
 package net.certiv.fluent.dt.ui;
 
-import org.eclipse.jface.resource.ImageRegistry;
 import org.osgi.framework.Bundle;
+
+import org.eclipse.jface.resource.ImageRegistry;
 
 import net.certiv.dsl.ui.DslImageManager;
 
@@ -21,15 +22,27 @@ public class ImageManager extends DslImageManager {
 	public final String IMG_OBJ_UNDEFINED = IMG_OBJS_UNKNOWN;
 
 	public final String IMG_OBJ_PAGE = create(locBundle, OBJ, locPrefix + "page.png"); //$NON-NLS-1$
-	public final String IMG_OBJ_CODEBLOCK = create(locBundle, OBJ, locPrefix + "code.png"); //$NON-NLS-1$
-	public final String IMG_OBJ_CODEBLOCK_INDENTED = create(locBundle, OBJ, locPrefix + "code.png"); //$NON-NLS-1$
 	public final String IMG_OBJ_COMMENT = create(locBundle, OBJ, locPrefix + "comment.png"); //$NON-NLS-1$
 	public final String IMG_OBJ_DEFINITION = create(locBundle, OBJ, locPrefix + "definition.png"); //$NON-NLS-1$
-	public final String IMG_OBJ_FRONTMATTER = create(locBundle, OBJ, locPrefix + "codeblock.png"); //$NON-NLS-1$
+	public final String IMG_OBJ_YAMLBLOCK = create(locBundle, OBJ, locPrefix + "codeblock.png"); //$NON-NLS-1$
 	public final String IMG_OBJ_HEADER = create(locBundle, OBJ, locPrefix + "header.png"); //$NON-NLS-1$
-	public final String IMG_OBJ_HRULE = create(locBundle, OBJ, locPrefix + "hr.png"); //$NON-NLS-1$
+	public final String IMG_OBJ_HRULE = create(locBundle, OBJ, locPrefix + "hrule.png"); //$NON-NLS-1$
 	public final String IMG_OBJ_HTML = create(locBundle, OBJ, locPrefix + "html.png"); //$NON-NLS-1$
+
+	public final String IMG_OBJ_CODEBLOCK = create(locBundle, OBJ, locPrefix + "code.png"); //$NON-NLS-1$
+	public final String IMG_OBJ_CODEBLOCK_INDENTED = create(locBundle, OBJ, locPrefix + "code.png"); //$NON-NLS-1$
+
+	public final String IMG_OBJ_DOTBLOCK = create(locBundle, OBJ, locPrefix + "code.png"); //$NON-NLS-1$
+	public final String IMG_OBJ_UMLBLOCK = create(locBundle, OBJ, locPrefix + "code.png"); //$NON-NLS-1$
+	public final String IMG_OBJ_MATHBLOCK = create(locBundle, OBJ, locPrefix + "code.png"); //$NON-NLS-1$
+
 	public final String IMG_OBJ_LIST = create(locBundle, OBJ, locPrefix + "list.png"); //$NON-NLS-1$
+	public final String IMG_OBJ_LIST_ITEM = create(locBundle, OBJ, locPrefix + "listItem.png"); //$NON-NLS-1$
+	public final String IMG_OBJ_UNORDERED_LIST = create(locBundle, OBJ, locPrefix + "unorderList.png"); //$NON-NLS-1$
+	public final String IMG_OBJ_UNORDERED_ITEM = create(locBundle, OBJ, locPrefix + "unorderItem.png"); //$NON-NLS-1$
+	public final String IMG_OBJ_ORDERED_LIST = create(locBundle, OBJ, locPrefix + "orderList.png"); //$NON-NLS-1$
+	public final String IMG_OBJ_ORDERED_ITEM = create(locBundle, OBJ, locPrefix + "orderItem.png"); //$NON-NLS-1$
+
 	public final String IMG_OBJ_QUOTE = create(locBundle, OBJ, locPrefix + "quote.png"); //$NON-NLS-1$
 	public final String IMG_OBJ_REFERENCE = create(locBundle, OBJ, locPrefix + "url_link.png"); //$NON-NLS-1$
 	public final String IMG_OBJ_SUM = create(locBundle, OBJ, locPrefix + "sum.png"); //$NON-NLS-1$

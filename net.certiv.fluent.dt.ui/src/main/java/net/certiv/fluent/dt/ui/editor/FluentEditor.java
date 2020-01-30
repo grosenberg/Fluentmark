@@ -91,7 +91,7 @@ public class FluentEditor extends DslEditor {
 
 	@Override
 	protected FluentOutlinePage doCreateOutlinePage() {
-		return new FluentOutlinePage(this, getPreferenceStore());
+		return new FluentOutlinePage(getPreferenceStore());
 	}
 
 	@Override

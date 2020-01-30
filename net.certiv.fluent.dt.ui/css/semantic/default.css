@@ -78,7 +78,7 @@ del {
 }
 
 pre, code, kbd, samp {
-	background-color: #f8f8f8;
+	background-color: lightgrey;
 	font-family: 'courier new', monospace;
 	font-size: 0.98em;
 	border: 1px solid #cccccc;
@@ -88,6 +88,15 @@ span, tt {
 	background-color: #f8f8f8;
 	font-family: 'courier new', monospace;
 	font-size: 0.98em;
+}
+
+span .math {
+	background-color: #e6e6ff;
+}
+
+span .strikethrough {
+	text-decoration: line-through;
+	color: red;
 }
 
 q, blockquote {

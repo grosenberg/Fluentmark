@@ -41,23 +41,6 @@ public class DotSourceParser extends DslSourceParser {
 	}
 
 	@Override
-	public void parse() {
-		record.cs = CharStreams.fromString(getContent(), record.unit.getFile().getName());
-		Lexer lexer = new DotLexer(record.cs);
-		lexer.removeErrorListeners();
-		lexer.addErrorListener(getDslErrorListener());
-
-		record.ts = new CommonTokenStream(lexer);
-		record.parser = new DotParser(record.ts);
-		record.parser.setErrorHandler(errStrategy);
-		record.parser.removeErrorListeners();
-		record.parser.addErrorListener(getDslErrorListener());
-		record.tree = ((DotParser) record.parser).document();
-
-		if (record.tree != null) Verifier.INST.check(this, record.getCollector());
-	}
-
-	@Override
 	public String getContent() {
 		String content = super.getContent();
 		if (content.startsWith("~~~") || content.startsWith("```")) {
@@ -72,23 +55,69 @@ public class DotSourceParser extends DslSourceParser {
 				content = doc.get(record.docOffset, end - record.docOffset);
 
 			} catch (BadLocationException e) {
-				Log.error(this, ErrMsg, e);
+				Log.error(this, ERR_MSG, e);
 			}
 		}
 		return content;
 	}
 
 	@Override
-	public boolean modelContributor() {
+	public boolean doAnalysis() {
 		return false;
 	}
 
 	@Override
-	public void analyzeStructure(ModelBuilder maker) {
-		// GraphContext graph = (GraphContext) getTree();
-		// String name = graph.id() != null ? graph.id().getText() : "Dot Block";
-		// ModelData data = new ModelData(ModelType.DotBlock, graph, name);
-		// data.type = Type.RAW;
-		// maker.statement(graph, graph.id(), data);
+	public boolean doVerify() {
+		return true;
+	}
+
+	@Override
+	public Throwable parse() {
+		try {
+			record.cs = CharStreams.fromString(getContent(), record.unit.getFile().getName());
+			Lexer lexer = new DotLexer(record.cs);
+			lexer.removeErrorListeners();
+			lexer.addErrorListener(getDslErrorListener());
+
+			record.ts = new CommonTokenStream(lexer);
+			record.parser = new DotParser(record.ts);
+			record.parser.setErrorHandler(errStrategy);
+			record.parser.removeErrorListeners();
+			record.parser.addErrorListener(getDslErrorListener());
+			record.tree = ((DotParser) record.parser).document();
+			return null;
+
+		} catch (Exception | Error e) {
+			getDslErrorListener().generalError(ERR_PARSER, e);
+			return e;
+		}
+	}
+
+	@Override
+	public Throwable verify() {
+		try {
+			Verifier.INST.check(this, record.getCollector());
+			return null;
+	
+		} catch (Exception | Error e) {
+			getDslErrorListener().generalError(ERR_VALIDATE, e);
+			return e;
+		}
+	}
+
+	@Override
+	public Throwable analyze(ModelBuilder maker) {
+		try {
+			// GraphContext graph = (GraphContext) getTree();
+			// String name = graph.id() != null ? graph.id().getText() : "Dot Block";
+			// ModelData data = new ModelData(ModelType.DotBlock, graph, name);
+			// data.type = Type.RAW;
+			// maker.statement(graph, graph.id(), data);
+			return null;
+
+		} catch (Exception | Error e) {
+			getDslErrorListener().generalError(ERR_ANALYSIS, e);
+			return e;
+		}
 	}
 }

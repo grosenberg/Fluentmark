@@ -22,6 +22,7 @@ import com.vladsch.flexmark.parser.ParserEmulationProfile;
 import com.vladsch.flexmark.util.data.MutableDataHolder;
 import com.vladsch.flexmark.util.data.MutableDataSet;
 
+import net.certiv.dsl.core.util.Strings;
 import net.certiv.dsl.core.util.exec.Cmd;
 import net.certiv.fluent.dt.core.FluentCore;
 import net.certiv.fluent.dt.core.preferences.Prefs;
@@ -29,8 +30,8 @@ import net.certiv.fluent.dt.ui.editor.Partitions;
 
 public class Converter {
 
-	private static final Pattern DOTBEG = Pattern.compile("(~~~+|```+)\\h*dot\\s+", Pattern.DOTALL);
-	private static final Pattern DOTEND = Pattern.compile("(~~~+|```+)\\h*", Pattern.DOTALL);
+	private static final Pattern DOTBEG = Pattern.compile("(~~~+|```+)\\h*dot[ \t\r\n]", Pattern.DOTALL);
+	private static final Pattern DOTEND = Pattern.compile("(~~~+|```+)[ \t\r\n]", Pattern.DOTALL);
 
 	private IPreferenceStore store;
 
@@ -67,12 +68,12 @@ public class Converter {
 				text = getText(doc, regions, true);
 				return useExternal(basepath, text);
 		}
-		return "";
+		return Strings.EMPTY;
 	}
 
 	private String usePandoc(String basepath, String text) {
 		String cmd = store.getString(Prefs.EDITOR_PANDOC_PROGRAM);
-		if (cmd.trim().isEmpty()) return "";
+		if (cmd.trim().isEmpty()) return Strings.EMPTY;
 
 		List<String> args = new ArrayList<>();
 		args.add(cmd);
@@ -101,7 +102,7 @@ public class Converter {
 
 	private String useBlackFriday(String basepath, String text) {
 		String cmd = store.getString(Prefs.EDITOR_BLACKFRIDAY_PROGRAM);
-		if (cmd.trim().isEmpty()) return "";
+		if (cmd.trim().isEmpty()) return Strings.EMPTY;
 
 		List<String> args = new ArrayList<>();
 		args.add(cmd);
@@ -126,10 +127,10 @@ public class Converter {
 		if (args.length > 0) {
 			return Cmd.process(args, basepath, text);
 		}
-		return "";
+		return Strings.EMPTY;
 	}
 
-	private String getText(IDocument doc, ITypedRegion[] regions, boolean inclFM) {
+	private String getText(IDocument doc, ITypedRegion[] regions, boolean inclYaml) {
 		List<String> parts = new ArrayList<>();
 		for (ITypedRegion region : regions) {
 			String text = null;
@@ -139,8 +140,8 @@ public class Converter {
 				continue;
 			}
 			switch (region.getType()) {
-				case Partitions.FRONT_MATTER:
-					if (!inclFM) continue;
+				case Partitions.YAMLBLOCK:
+					if (!inclYaml) continue;
 					break;
 				case Partitions.DOTBLOCK:
 					if (store.getBoolean(Prefs.EDITOR_DOTMODE_ENABLED)) {
@@ -158,14 +159,13 @@ public class Converter {
 			}
 			parts.add(text);
 		}
-
-		return String.join(" ", parts);
+		return String.join(Strings.SPACE, parts);
 	}
 
 	private String filter(String text, Pattern beg, Pattern end) {
 		String result = text;
 		if (beg != null) {
-			result = beg.matcher(result).replaceFirst("");
+			result = beg.matcher(result).replaceFirst(Strings.EMPTY);
 		}
 		if (end != null) {
 			Matcher m = end.matcher(result);

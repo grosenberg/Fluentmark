@@ -38,7 +38,7 @@ import net.certiv.fluent.dt.core.FluentCore;
 import net.certiv.fluent.dt.ui.FluentUI;
 import net.certiv.fluent.dt.ui.editor.outline.FluentStatementLabelProvider;
 import net.certiv.fluent.dt.ui.editor.reconcilers.MdReconcilingStrategy;
-import net.certiv.fluent.dt.ui.editor.reconcilers.MdSematicAnalyzer;
+import net.certiv.fluent.dt.ui.editor.semantic.MdSematicAnalyzer;
 import net.certiv.fluent.dt.ui.editor.strategies.FluentDoubleClickStrategy;
 import net.certiv.fluent.dt.ui.editor.strategies.LineWrapEditStrategy;
 import net.certiv.fluent.dt.ui.editor.strategies.SmartAutoEditStrategy;
@@ -96,8 +96,6 @@ public class FluentSourceViewerConfiguration extends DslSourceViewerConfiguratio
 		mathScanner = new ScannerMath(store);
 		htmlScanner = new ScannerHtml(store);
 		commentScanner = new ScannerComment(store);
-
-		// markupScanner = new ScannerMarkup(store);
 		markupAnalyzer = new MdSematicAnalyzer(getDslUI());
 	}
 
@@ -147,19 +145,18 @@ public class FluentSourceViewerConfiguration extends DslSourceViewerConfiguratio
 
 	@Override
 	public IPresentationReconciler getPresentationReconciler(ISourceViewer viewer) {
-		PresentationReconciler reconciler = new PresentationReconciler();
+		PresentationReconciler reconciler = new PresentationReconciler(getDslUI());
 		reconciler.setDocumentPartitioning(getConfiguredDocumentPartitioning(viewer));
 
-		buildRepairer(reconciler, frontScanner, Partitions.FRONT_MATTER);
+		buildRepairer(reconciler, frontScanner, Partitions.YAMLBLOCK);
 		buildRepairer(reconciler, commentScanner, Partitions.COMMENT);
 		buildRepairer(reconciler, codeScanner, Partitions.CODEBLOCK);
 		buildRepairer(reconciler, dotScanner, Partitions.DOTBLOCK);
 		buildRepairer(reconciler, umlScanner, Partitions.UMLBLOCK);
 		buildRepairer(reconciler, mathScanner, Partitions.MATHBLOCK);
 		buildRepairer(reconciler, htmlScanner, Partitions.HTMLBLOCK);
-		// buildRepairer(reconciler, markupScanner, IDocument.DEFAULT_CONTENT_TYPE);
 
-		buildRepairer(viewer, reconciler, markupAnalyzer, IDocument.DEFAULT_CONTENT_TYPE);
+		buildRepairer(getEditor(), viewer, reconciler, markupAnalyzer, IDocument.DEFAULT_CONTENT_TYPE);
 
 		return reconciler;
 	}
@@ -203,7 +200,7 @@ public class FluentSourceViewerConfiguration extends DslSourceViewerConfiguratio
 		// // Partitions.DOTBLOCK);
 
 		MdReconcilingStrategy mdStrategy = new MdReconcilingStrategy(getEditor(), viewer);
-		reconciler.setReconcilingStrategy(mdStrategy, IDocument.DEFAULT_CONTENT_TYPE);
+		reconciler.addReconcilingStrategy(mdStrategy, IDocument.DEFAULT_CONTENT_TYPE);
 
 		return reconciler;
 	}
@@ -218,7 +215,7 @@ public class FluentSourceViewerConfiguration extends DslSourceViewerConfiguratio
 						new LineWrapEditStrategy(getEditor()) };
 
 			case Partitions.COMMENT:
-			case Partitions.FRONT_MATTER:
+			case Partitions.YAMLBLOCK:
 			case Partitions.HTMLBLOCK:
 			case Partitions.MATHBLOCK:
 				return new IAutoEditStrategy[] { new DefaultIndentLineAutoEditStrategy() };

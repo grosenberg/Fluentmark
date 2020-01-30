@@ -1,9 +1,10 @@
 package net.certiv.fluent.dt.core.model;
 
-import net.certiv.dsl.core.model.builder.ISpecType;
+import net.certiv.dsl.core.model.builder.ISpecializedType;
 import net.certiv.dsl.core.util.Strings;
 
-public enum SpecType implements ISpecType {
+public enum SpecializedType implements ISpecializedType {
+
 	Page("Page", "body"),
 
 	Header("Header", "h"),
@@ -14,8 +15,11 @@ public enum SpecType implements ISpecType {
 	Bold("Bold", "b"),
 	Italic("Italic", "i"),
 	Underline("Underline", "u"),
+	Strike("Strikethrough", "span.strikethrough"),
 
 	Span("Span", "span"),
+	CodeSpan("Code span", "code"),
+	MathSpan("Math span", "span.math"),
 
 	Link("Link", "a"),
 	Cite("Link cite", "cite"),
@@ -31,7 +35,7 @@ public enum SpecType implements ISpecType {
 	Definition("Definition", "dl"),
 
 	CodeBlock("Code Block", "code"),
-	CodeBlockIndented("Code Block (indented)", "code"),
+	CodeBlockIndented("Indented Block", "code"),
 
 	YamlBlock("YAML Block", Strings.EMPTY),
 	HtmlBlock("HTML Block", Strings.EMPTY),
@@ -50,7 +54,7 @@ public enum SpecType implements ISpecType {
 	public final String name;
 	public final String css;
 
-	SpecType(String name, String css) {
+	SpecializedType(String name, String css) {
 		this.name = name;
 		this.css = css;
 	}

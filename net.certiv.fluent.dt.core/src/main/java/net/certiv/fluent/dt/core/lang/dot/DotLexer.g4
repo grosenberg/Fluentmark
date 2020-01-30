@@ -1,94 +1,93 @@
 lexer grammar DotLexer ;
 
+options {
+	superClass = LexerBase;
+}
+    
 @header {
 	package net.certiv.fluent.dt.core.lang.dot.gen;
+	import net.certiv.fluent.dt.core.lang.dot.LexerBase; 
 }
 
-DOTCODE	
-	: CodeMark Hws*? 'dot' -> pushMode(DOT)
-	| CodeMark -> type(OTHER)
-	;
+DOTCODE	: CodeMark Hws* 'dot' { at() }? -> type(OTHER), pushMode(DOT)	;
+DOT_END	: CodeMark { at() }? -> type(OTHER)	;
 
-DOTUML	: '@startdot' -> pushMode(DOT) ;
-DIGRAPH	: 'digraph'	  -> pushMode(DOT) ;
-GRAPH	: 'graph'	  -> pushMode(DOT) ;
+DOTUML	: '@startdot' { at() }? -> type(OTHER), pushMode(DOT) ;
 
-STRICT	: 'strict' ;
+VWS	: Vws -> channel(HIDDEN) ;
+HWS	: Hws -> channel(HIDDEN) ;
 
-OTHER	: . ;
+OTHER : . ;
 
-mode DOT ;
-	DGH	: 'digraph'	-> type(DIGRAPH) ;
-	GRH	: 'graph'	-> type(GRAPH)   ;
-	SCT : 'strict'	-> type(STRICT)  ;
+mode DOT;
+	UMLBEG	: '@startdot' { at() }? -> type(OTHER), pushMode(DOT) ;
 
-	LBRACE : '{' -> pushMode(DOT) ;
-	RBRACE : '}' -> popMode ;
+    GRAPH	: ( 'strict' Hws+ )? ( 'graph' | 'digraph' ) { at() }? ;
+    LBRACE	: '{' -> pushMode(DOT)	;
 
-	RGB	   : Quote RgbSeq Quote ;
-	HSV	   : Quote HsvSeq Quote ;
-	POINT  : Quote Decimal Comma Decimal Bang? Quote ;
-	RECT   : Quote Decimal Comma Decimal Comma Decimal Comma Decimal Quote ;
-	COLORS : Quote Color ( Colon Color )+ Quote ;
-	STRING : Quote ( EscSeq | ~["\r\n\\] )* Quote ;
+    RBRACE	: '}' -> popMode		;
+	UMLEND	: '@enddot' { at() }? -> type(OTHER), popMode ;
+	DOTEND	: CodeMark { at() }? -> type(OTHER), popMode ;
 
-	SPLINE : SPOINT ( Semi SPOINT )+ ;
+    RGB	   : Quote RgbSeq Quote ;
+    HSV	   : Quote HsvSeq Quote ;
+    POINT  : Quote Decimal Comma Decimal Bang? Quote ;
+    RECT   : Quote Decimal Comma Decimal Comma Decimal Comma Decimal Quote ;
+    COLORS : Quote Color ( Colon Color )+ Quote ;
+    STRING : Quote ( EscSeq | ~["\r\n\\] )* Quote ;
 
-	SPOINT : ( SplineEnd )? ( SplineStart )? POINT ( POINT POINT POINT )+ ;
+    SPLINE : SPOINT ( Semi SPOINT )+ ;
 
-	HTML
-		: TagOpen ( TagOpen | TagClose | Html )* TagClose
-		;
+    SPOINT : ( SplineEnd )? ( SplineStart )? POINT ( POINT POINT POINT )+ ;
 
-	NUMBER
-		: Minus? ( ( Dot ( Digit )+ ) | (Digit )+ ( Dot ( Digit )* )? )
-		;
+    HTML   : TagOpen ( TagOpen | TagClose | Html )* TagClose ;
 
-	ML_COMMENT : '/*' .*? '*/' ;
-	SL_COMMENT : ( '//' | Pound ) .*? ( '\r'? '\n' ) | EOF ;
+    NUMBER : Minus? ( ( Dot ( Digit )+ ) | (Digit )+ ( Dot ( Digit )* )? ) ;
 
-	COMMA  : ',' ;
-	SEMI   : ';' ;
-	LBRACK : '[' ;
-	RBRACK : ']' ;
-	COLON  : ':' ;
-	EQ	   : '=' ;
+    ML_COMMENT : '/*' .*? '*/' ;
+    SL_COMMENT : ( '//' | Pound ) ( EscSeq | ~[\r\n\\] )* | EOF ;
 
-	DIRECTED   : '->' ;
-	UNDIRECTED : '--' ;
+    COMMA  : ',' ;
+    SEMI   : ';' ;
+    LBRACK : '[' ;
+    RBRACK : ']' ;
+    COLON  : ':' ;
+    EQ	   : '=' ;
 
-	SUBGRAPH : 'subgraph' ;
-	NODE	 : 'node'	  ;
-	EDGE	 : 'edge'	  ;
+    DIRECTED   : '->' ;
+    UNDIRECTED : '--' ;
 
-	// Compass Points
-	N  : 'n'  ;
-	NE : 'ne' ;
-	E  : 'e'  ;
-	SE : 'se' ;
-	S  : 's'  ;
-	SW : 'sw' ;
-	W  : 'w'  ;
-	NW : 'nw' ;
-	C  : 'c'  ;
+    SUBGRAPH : 'subgraph' ;
+    NODE	 : 'node'	  ;
+    EDGE	 : 'edge'	  ;
 
-	ID : Alpha ( Alpha | Digit )* ;
+    // Compass Points
+    N  : 'n'  ;
+    NE : 'ne' ;
+    E  : 'e'  ;
+    SE : 'se' ;
+    S  : 's'  ;
+    SW : 'sw' ;
+    W  : 'w'  ;
+    NW : 'nw' ;
+    C  : 'c'  ;
 
-	VWS : Vws -> channel(HIDDEN) ;
-	HWS : Hws -> channel(HIDDEN) ;
+    ID : Alpha ( Alpha | Digit )* ;
 
-	ERR	: . ;
-	
+    VX	: Vws -> type(VWS), channel(HIDDEN) ;
+    HX	: Hws -> type(HWS), channel(HIDDEN) ;
+
+    ERR	: .	-> type(OTHER) ;
+
 // endMode DOT
 
-fragment CodeMark 
-	: '``' '`'+ 
-	| '~~' '~'+ 
+fragment CodeMark
+	: '``' '`'+
+	| '~~' '~'+
 	;
 
-fragment Vws : [\r\n\f] ;
-fragment Hws : [ \t] ;
-
+fragment Vws : [\r\n\f]	;
+fragment Hws : [ \t]	;
 fragment Alpha
 	:   [a-zA-Z_]
 	| '\u0080'..'\u00FF'

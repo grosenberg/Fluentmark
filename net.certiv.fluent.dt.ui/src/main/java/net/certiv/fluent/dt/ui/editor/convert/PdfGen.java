@@ -35,10 +35,11 @@ import net.sourceforge.plantuml.SourceStringReader;
 
 import net.certiv.dsl.core.log.Log;
 import net.certiv.dsl.core.model.ICodeUnit;
-import net.certiv.dsl.core.model.IDslElement;
+import net.certiv.dsl.core.model.IStatement;
+import net.certiv.dsl.core.model.IStatementVisitor;
+import net.certiv.dsl.core.model.ModelType;
 import net.certiv.dsl.core.model.Statement;
-import net.certiv.dsl.core.model.builder.IDslElementVisitor;
-import net.certiv.dsl.core.model.builder.ISourceRange;
+import net.certiv.dsl.core.model.builder.SourceRange;
 import net.certiv.dsl.core.preferences.DslPrefsManager;
 import net.certiv.dsl.core.util.FileUtils;
 import net.certiv.dsl.core.util.Strings;
@@ -47,6 +48,7 @@ import net.certiv.dsl.core.util.exec.Cmd;
 import net.certiv.dsl.ui.DslUI;
 import net.certiv.fluent.dt.core.FluentCore;
 import net.certiv.fluent.dt.core.model.SpecUtil;
+import net.certiv.fluent.dt.core.model.SpecializedType;
 import net.certiv.fluent.dt.core.preferences.Prefs;
 
 public class PdfGen {
@@ -139,17 +141,18 @@ public class PdfGen {
 		MultiTextEdit edit = new MultiTextEdit();
 
 		try {
-			unit.decend(new IDslElementVisitor() {
+			unit.getModuleStatement().decend(new IStatementVisitor() {
 
 				@Override
-				public boolean visit(IDslElement element) throws CoreException {
-					if (element.getKind() == IDslElement.STATEMENT) {
+				public boolean onEntry(IStatement element) throws CoreException {
+					if (element.getModelType() == ModelType.STATEMENT) {
 						Statement stmt = (Statement) element;
-						ISourceRange range = stmt.toSourceRange();
+						SourceRange range = stmt.getRange();
+						SpecializedType type = SpecUtil.getSpecializedType(stmt);
 
-						switch (SpecUtil.getSpecType(stmt)) {
+						switch (type) {
 							case DotBlock:
-								ISourceRange subRange = calcDotRange(doc, range);
+								SourceRange subRange = calcDotRange(doc, range);
 								if (subRange == null) break;
 
 								File tmpfile = createTmpFile(dir, "pdf");
@@ -200,7 +203,7 @@ public class PdfGen {
 		List<String> ops = new ArrayList<>();
 
 		String cmd = store.getString(Prefs.EDITOR_PANDOC_PROGRAM);
-		if (cmd.trim().isEmpty()) return "";
+		if (cmd.trim().isEmpty()) return Strings.EMPTY;
 
 		ops.add(cmd);
 		ops.addAll(Arrays.asList(PDF_OPS));
@@ -227,7 +230,7 @@ public class PdfGen {
 		return new Status(type, DslUI.PLUGIN_ID, msg);
 	}
 
-	private static ISourceRange calcDotRange(IDocument doc, ISourceRange clipRange) {
+	private static SourceRange calcDotRange(IDocument doc, SourceRange clipRange) {
 		int begLine = clipRange.getBegLine() + 1;
 		int endLine = clipRange.getEndLine() - 1;
 
@@ -274,7 +277,7 @@ public class PdfGen {
 		return false;
 	}
 
-	private static TextEdit splice(ICodeUnit unit, IDocument doc, ISourceRange range, File tmpfile) {
+	private static TextEdit splice(ICodeUnit unit, IDocument doc, SourceRange range, File tmpfile) {
 		String dir = tmpfile.getParent().replace("\\", "/") + "/";
 		String name = tmpfile.getName();
 
@@ -287,7 +290,7 @@ public class PdfGen {
 		return new ReplaceEdit(range.getOffset(), range.getLength(), latex);
 	}
 
-	private static String extractText(IDocument doc, ISourceRange range) {
+	private static String extractText(IDocument doc, SourceRange range) {
 		try {
 			return doc.get(range.getOffset(), range.getLength());
 		} catch (BadLocationException e) {
