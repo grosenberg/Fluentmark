@@ -79,6 +79,22 @@ BlackFriday converter ---
   A Windows 64-bit compiled executable is available for download: [blackfriday-tool.zip](http://www.certiv.net/updates/net.certiv.fluentmark.site/blackfriday-tool.zip). 
   The `blackfriday-tool` executable can then be selected on the BlackFriday Converter preference page.
 
+### First steps using it
+
+After configuring the plugin, open a markdown file in _Fluent Editor_. You will see syntax highlighting if 
+you do it right.
+
+![Icon indicates, you use the correct editor.](doc/correct-editor-picked.jpg)
+
+On top are three buttons:
+
+![Fluent menu buttons to view, export as HTML and export as PDF](doc/the-three-buttons.jpg)
+
+The export to ... buttons will open a dialog, where to save the file.
+
+If you need to generate a complete site based on markdown files, consider to use your 
+favoreite build tool (maven, gradle, etc.) instead. FluentMark is just for editing.
+
 ### Keys
 
 |Key             |Function                                          |
