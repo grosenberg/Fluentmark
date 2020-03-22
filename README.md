@@ -86,11 +86,13 @@ you do it right.
 
 ![Icon indicates, you use the correct editor.](doc/correct-editor-picked.jpg)
 
-On top are three buttons:
+In the menubar appear three buttons:
 
-![Fluent menu buttons to view, export as HTML and export as PDF](doc/the-three-buttons.jpg)
+* Open MarkFluent Viewer
+* Export as HTML (Will open a dialog)
+* Export as PDF (Will open a dialog)
 
-The export to ... buttons will open a dialog, where to save the file.
+![FluentMark menu buttons for markdown files.](doc/the-three-buttons.jpg)
 
 If you need to generate a complete site based on markdown files, consider to use your 
 favoreite build tool (maven, gradle, etc.) instead. FluentMark is just for editing.
