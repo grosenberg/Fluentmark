@@ -15,7 +15,7 @@ import net.certiv.dsl.core.DslCore;
 import net.certiv.dsl.core.formatter.BaseCodeFormatter;
 import net.certiv.dsl.core.log.Log;
 import net.certiv.dsl.core.model.CodeUnit;
-import net.certiv.dsl.core.model.DslModelException;
+import net.certiv.dsl.core.model.ModelException;
 import net.certiv.dsl.core.model.IStatement;
 import net.certiv.dsl.core.model.builder.SourceRange;
 import net.certiv.dsl.core.preferences.IDslPrefsManager;
@@ -85,7 +85,7 @@ public class MdFormatter extends BaseCodeFormatter {
 				}
 			}
 
-		} catch (DslModelException e) {
+		} catch (ModelException e) {
 			Log.error(this, e.getLocalizedMessage());
 		} finally {
 			getDslCore().FormatterLock.unlock();

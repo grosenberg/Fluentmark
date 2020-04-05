@@ -140,6 +140,7 @@ public class PdfGen {
 		// build latex 'graphics include' blocks
 		MultiTextEdit edit = new MultiTextEdit();
 
+		unit.lock();
 		try {
 			unit.getModuleStatement().decend(new IStatementVisitor() {
 
@@ -194,6 +195,9 @@ public class PdfGen {
 		} catch (MalformedTreeException | BadLocationException | CoreException e) {
 			String msg = String.format("Failed applying AUX block edits (%s)", e.getMessage());
 			throw new IOException(msg);
+
+		} finally {
+			unit.unlock();
 		}
 		return dir;
 	}

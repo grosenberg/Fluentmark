@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.eclipse.core.runtime.CoreException;
 
+import net.certiv.dsl.core.model.ICodeUnit;
 import net.certiv.dsl.core.model.IStatement;
 import net.certiv.dsl.core.model.IStatementVisitor;
 
@@ -17,6 +18,8 @@ public class SpecUtil {
 	/** Returns all statement children of the given specialized type. */
 	public static List<IStatement> getChildren(IStatement stmt, SpecializedType specializedType) {
 		List<IStatement> children = new ArrayList<>();
+		ICodeUnit unit = stmt.getCodeUnit();
+		unit.lock();
 		try {
 			stmt.decend(new IStatementVisitor() {
 
@@ -26,7 +29,9 @@ public class SpecUtil {
 					return true;
 				}
 			});
-		} catch (CoreException e) {}
+		} catch (CoreException e) {} finally {
+			unit.unlock();
+		}
 		return children;
 	}
 

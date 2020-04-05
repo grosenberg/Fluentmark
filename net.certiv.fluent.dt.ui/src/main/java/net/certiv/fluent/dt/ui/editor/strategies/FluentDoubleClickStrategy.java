@@ -21,7 +21,7 @@ import org.eclipse.ui.progress.UIJob;
 import org.eclipse.ui.texteditor.ITextEditor;
 
 import net.certiv.dsl.core.log.Log;
-import net.certiv.dsl.core.model.DslModelException;
+import net.certiv.dsl.core.model.ModelException;
 import net.certiv.dsl.core.model.ICodeUnit;
 import net.certiv.dsl.core.model.IStatement;
 import net.certiv.dsl.core.model.builder.SourceRange;
@@ -55,7 +55,7 @@ public class FluentDoubleClickStrategy extends DefaultTextDoubleClickStrategy {
 
 				default:
 			}
-		} catch (DslModelException e) {}
+		} catch (ModelException e) {}
 		super.doubleClicked(viewer);
 	}
 

@@ -3,11 +3,11 @@ package net.certiv.fluent.dt.ui.editor;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.rules.IPartitionTokenScanner;
 import org.eclipse.jface.text.source.SourceViewerConfiguration;
-import org.eclipse.ui.texteditor.ITextEditor;
 
 import net.certiv.dsl.core.color.IColorManager;
 import net.certiv.dsl.core.lang.LanguageManager;
 import net.certiv.dsl.core.preferences.IDslPrefsManager;
+import net.certiv.dsl.ui.editor.DslEditor;
 import net.certiv.dsl.ui.editor.text.DslTextTools;
 import net.certiv.fluent.dt.core.FluentCore;
 import net.certiv.fluent.dt.core.lang.FluentLangManager;
@@ -63,7 +63,7 @@ public class FluentTextTools extends DslTextTools {
 	}
 
 	@Override
-	public SourceViewerConfiguration createSourceViewerConfiguraton(IDslPrefsManager store, ITextEditor editor,
+	public SourceViewerConfiguration createSourceViewerConfiguraton(IDslPrefsManager store, DslEditor editor,
 			String partitioning) {
 		return new FluentSourceViewerConfiguration(getColorManager(), store, editor, partitioning);
 	}

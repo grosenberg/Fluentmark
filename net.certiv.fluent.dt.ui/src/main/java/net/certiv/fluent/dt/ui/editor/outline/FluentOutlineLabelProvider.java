@@ -7,16 +7,16 @@ import org.eclipse.swt.graphics.Image;
 import net.certiv.dsl.core.log.Log;
 import net.certiv.dsl.core.util.Chars;
 import net.certiv.dsl.core.util.Strings;
-import net.certiv.dsl.ui.editor.StatementLabelProvider;
+import net.certiv.dsl.ui.editor.outline.OutlineLabelProvider;
 import net.certiv.fluent.dt.core.model.SpecUtil;
 import net.certiv.fluent.dt.core.model.Specialization;
 import net.certiv.fluent.dt.core.model.SpecializedType;
 import net.certiv.fluent.dt.ui.FluentUI;
 import net.certiv.fluent.dt.ui.ImageManager;
 
-public class FluentStatementLabelProvider extends StatementLabelProvider {
+public class FluentOutlineLabelProvider extends OutlineLabelProvider {
 
-	public FluentStatementLabelProvider() {
+	public FluentOutlineLabelProvider() {
 		super(FluentUI.getDefault().getImageManager());
 	}
 
@@ -177,12 +177,16 @@ public class FluentStatementLabelProvider extends StatementLabelProvider {
 						desc = mgr.getDescriptor(mgr.IMG_OBJ_YAMLBLOCK);
 						break;
 					case TexBlock:
+						desc = mgr.getDescriptor(mgr.IMG_OBJ_TEXBLOCK);
+						break;
 					case MathBlock:
 						desc = mgr.getDescriptor(mgr.IMG_OBJ_MATHBLOCK);
 						break;
 					case DotBlock:
-					case UmlBlock:
 						desc = mgr.getDescriptor(mgr.IMG_OBJ_DOTBLOCK);
+						break;
+					case UmlBlock:
+						desc = mgr.getDescriptor(mgr.IMG_OBJ_UMLBLOCK);
 						break;
 
 					case Terminal:

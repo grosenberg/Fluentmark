@@ -9,11 +9,11 @@ import org.eclipse.jface.viewers.ILabelDecorator;
 
 import net.certiv.dsl.core.model.ISourceUnit;
 import net.certiv.dsl.core.model.IStatement;
-import net.certiv.dsl.ui.editor.DslOutlinePage;
+import net.certiv.dsl.ui.editor.outline.OutlinePage;
 import net.certiv.fluent.dt.core.model.Specialization;
 import net.certiv.fluent.dt.ui.FluentUI;
 
-public class FluentOutlinePage extends DslOutlinePage {
+public class FluentOutlinePage extends OutlinePage {
 
 	protected class FluentDataProvider extends OutlineDataProvider {
 
@@ -55,7 +55,7 @@ public class FluentOutlinePage extends DslOutlinePage {
 
 	@Override
 	protected ILabelDecorator getLabelDecorator() {
-		return new FluentStatementLabelProvider();
+		return new FluentOutlineLabelProvider();
 	}
 
 	@Override

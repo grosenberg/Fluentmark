@@ -26,12 +26,12 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.part.ViewPart;
 
 import net.certiv.dsl.core.preferences.DslPrefsManager;
-import net.certiv.dsl.core.util.eclipse.PartListener;
+import net.certiv.dsl.core.util.eclipse.PartAdaptor;
 import net.certiv.fluent.dt.core.FluentCore;
 import net.certiv.fluent.dt.core.preferences.Prefs;
 import net.certiv.fluent.dt.ui.editor.FluentEditor;
 
-public class FluentPreview extends ViewPart implements PartListener, ITextListener, IPropertyChangeListener {
+public class FluentPreview extends ViewPart implements PartAdaptor, ITextListener, IPropertyChangeListener {
 
 	public static final String ID = "net.certiv.fluent.dt.ui.views.FluentPreview";
 

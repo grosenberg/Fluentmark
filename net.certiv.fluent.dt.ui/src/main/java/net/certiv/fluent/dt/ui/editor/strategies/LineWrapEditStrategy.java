@@ -19,7 +19,7 @@ import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.text.edits.DeleteEdit;
 import org.eclipse.ui.texteditor.ITextEditor;
 
-import net.certiv.dsl.core.model.DslModelException;
+import net.certiv.dsl.core.model.ModelException;
 import net.certiv.dsl.core.model.IStatement;
 import net.certiv.dsl.core.model.builder.SourceRange;
 import net.certiv.dsl.ui.editor.text.SmartEdit;
@@ -99,7 +99,7 @@ public class LineWrapEditStrategy implements IAutoEditStrategy {
 					SourceRange range = stmt.getRange();
 					markWidth = range.getIdLength();
 				}
-			} catch (DslModelException e) {}
+			} catch (ModelException e) {}
 
 			StringBuffer buf = new StringBuffer(cmd.text);
 			if (forceNL) buf.append(TextUtilities.getDefaultLineDelimiter(doc)); // force new line

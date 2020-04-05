@@ -17,7 +17,6 @@ import org.eclipse.jface.text.presentation.IPresentationReconciler;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.ui.texteditor.ITextEditor;
 
 import net.certiv.dsl.core.DslCore;
 import net.certiv.dsl.core.color.IColorManager;
@@ -25,9 +24,9 @@ import net.certiv.dsl.core.preferences.DslPrefsManager;
 import net.certiv.dsl.core.preferences.IDslPrefsManager;
 import net.certiv.dsl.ui.DslImageManager;
 import net.certiv.dsl.ui.DslUI;
+import net.certiv.dsl.ui.editor.DslEditor;
 import net.certiv.dsl.ui.editor.DslSourceViewerConfiguration;
 import net.certiv.dsl.ui.editor.reconcile.PresentationReconciler;
-import net.certiv.dsl.ui.editor.reconcile.Reconciler;
 import net.certiv.dsl.ui.editor.text.completion.CompletionCategory;
 import net.certiv.dsl.ui.editor.text.completion.CompletionProcessor;
 import net.certiv.dsl.ui.editor.text.completion.engines.ICompletionEngine;
@@ -36,8 +35,7 @@ import net.certiv.dsl.ui.editor.text.completion.engines.TemplateEngine;
 import net.certiv.dsl.ui.formatter.strategies.DslFormattingStrategy;
 import net.certiv.fluent.dt.core.FluentCore;
 import net.certiv.fluent.dt.ui.FluentUI;
-import net.certiv.fluent.dt.ui.editor.outline.FluentStatementLabelProvider;
-import net.certiv.fluent.dt.ui.editor.reconcilers.MdReconcilingStrategy;
+import net.certiv.fluent.dt.ui.editor.outline.FluentOutlineLabelProvider;
 import net.certiv.fluent.dt.ui.editor.semantic.MdSematicAnalyzer;
 import net.certiv.fluent.dt.ui.editor.strategies.FluentDoubleClickStrategy;
 import net.certiv.fluent.dt.ui.editor.strategies.LineWrapEditStrategy;
@@ -55,7 +53,7 @@ public class FluentSourceViewerConfiguration extends DslSourceViewerConfiguratio
 
 	private FluentDoubleClickStrategy doubleClickStrategy;
 
-	private ScannerFrontMatter frontScanner;
+	private ScannerFrontMatter yamlScanner;
 	private ScannerCode codeScanner;
 	private ScannerDot dotScanner;
 	private ScannerUml umlScanner;
@@ -66,9 +64,9 @@ public class FluentSourceViewerConfiguration extends DslSourceViewerConfiguratio
 
 	private MdSematicAnalyzer markupAnalyzer;
 
-	public FluentSourceViewerConfiguration(IColorManager colorMgr, IDslPrefsManager store, ITextEditor editor,
+	public FluentSourceViewerConfiguration(IColorManager colorMgr, IDslPrefsManager store, DslEditor editor,
 			String partitioning) {
-		super(colorMgr, store, editor, partitioning);
+		super(FluentCore.getDefault(), colorMgr, store, editor, partitioning);
 	}
 
 	@Override
@@ -89,7 +87,7 @@ public class FluentSourceViewerConfiguration extends DslSourceViewerConfiguratio
 	protected void initializeScanners() {
 		IDslPrefsManager store = getPrefStore();
 
-		frontScanner = new ScannerFrontMatter(store);
+		yamlScanner = new ScannerFrontMatter(store);
 		codeScanner = new ScannerCode(store);
 		dotScanner = new ScannerDot(store);
 		umlScanner = new ScannerUml(store);
@@ -114,7 +112,7 @@ public class FluentSourceViewerConfiguration extends DslSourceViewerConfiguratio
 
 	@Override
 	public void specializeContentAssistant(ContentAssistant assistant) {
-		FluentStatementLabelProvider provider = new FluentStatementLabelProvider();
+		FluentOutlineLabelProvider provider = new FluentOutlineLabelProvider();
 		DslImageManager imgMgr = getDslUI().getImageManager();
 		Image img = imgMgr.get(imgMgr.IMG_OBJS_KEYWORD);
 		Set<Character> stops = new HashSet<>(Arrays.asList(LBRACE, LBRACE, LPAREN, COLON, COMMA, SEMI, PIPE, AT));
@@ -148,7 +146,7 @@ public class FluentSourceViewerConfiguration extends DslSourceViewerConfiguratio
 		PresentationReconciler reconciler = new PresentationReconciler(getDslUI());
 		reconciler.setDocumentPartitioning(getConfiguredDocumentPartitioning(viewer));
 
-		buildRepairer(reconciler, frontScanner, Partitions.YAMLBLOCK);
+		buildRepairer(reconciler, yamlScanner, Partitions.YAMLBLOCK);
 		buildRepairer(reconciler, commentScanner, Partitions.COMMENT);
 		buildRepairer(reconciler, codeScanner, Partitions.CODEBLOCK);
 		buildRepairer(reconciler, dotScanner, Partitions.DOTBLOCK);
@@ -171,7 +169,7 @@ public class FluentSourceViewerConfiguration extends DslSourceViewerConfiguratio
 		if (mathScanner.affectsBehavior(event)) mathScanner.adaptToPreferenceChange(event);
 		if (htmlScanner.affectsBehavior(event)) htmlScanner.adaptToPreferenceChange(event);
 		if (commentScanner.affectsBehavior(event)) commentScanner.adaptToPreferenceChange(event);
-		if (frontScanner.affectsBehavior(event)) frontScanner.adaptToPreferenceChange(event);
+		if (yamlScanner.affectsBehavior(event)) yamlScanner.adaptToPreferenceChange(event);
 	}
 
 	@Override
@@ -182,27 +180,8 @@ public class FluentSourceViewerConfiguration extends DslSourceViewerConfiguratio
 				|| mathScanner.affectsBehavior(event) //
 				|| htmlScanner.affectsBehavior(event) //
 				|| commentScanner.affectsBehavior(event) //
-				|| frontScanner.affectsBehavior(event);
+				|| yamlScanner.affectsBehavior(event);
 		// markupScanner.affectsBehavior(event) //
-	}
-
-	@Override
-	public Reconciler getReconciler(ISourceViewer viewer) {
-		Reconciler reconciler = super.getReconciler(viewer);
-
-		// // CompositeReconcilingStrategy multi = new CompositeReconcilingStrategy();
-		// // multi.addReconcilingStrategy(new MdReconcilingStrategy(getEditor(),
-		// viewer));
-		// // multi.addReconcilingStrategy(getSpellingReconcileStrategy(viewer));
-		// // reconciler.setReconcilingStrategy(multi, IDocument.DEFAULT_CONTENT_TYPE);
-		// // reconciler.setReconcilingStrategy(new DotReconcilingStrategy(getEditor(),
-		// // viewer),
-		// // Partitions.DOTBLOCK);
-
-		MdReconcilingStrategy mdStrategy = new MdReconcilingStrategy(getEditor(), viewer);
-		reconciler.addReconcilingStrategy(mdStrategy, IDocument.DEFAULT_CONTENT_TYPE);
-
-		return reconciler;
 	}
 
 	@Override

@@ -4,13 +4,14 @@ import org.osgi.framework.Bundle;
 
 import org.eclipse.jface.resource.ImageRegistry;
 
+import net.certiv.dsl.core.util.Chars;
 import net.certiv.dsl.ui.DslImageManager;
 
 /** Bundle of all images used by the Fluentmark plugin. */
 public class ImageManager extends DslImageManager {
 
 	private static final Bundle locBundle = FluentUI.getDefault().getBundle();
-	private static final String locPrefix = locBundle.getSymbolicName() + '.';
+	private static final String locPrefix = locBundle.getSymbolicName() + Chars.DOT;
 
 	public final String IMG_MENU_COLLAPSE_ALL = create(locBundle, OBJ, locPrefix + "collapseall.png"); //$NON-NLS-1$
 	public final String IMG_MENU_EXPAND_ALL = create(locBundle, OBJ, locPrefix + "expandall.png"); //$NON-NLS-1$
@@ -32,9 +33,10 @@ public class ImageManager extends DslImageManager {
 	public final String IMG_OBJ_CODEBLOCK = create(locBundle, OBJ, locPrefix + "code.png"); //$NON-NLS-1$
 	public final String IMG_OBJ_CODEBLOCK_INDENTED = create(locBundle, OBJ, locPrefix + "code.png"); //$NON-NLS-1$
 
-	public final String IMG_OBJ_DOTBLOCK = create(locBundle, OBJ, locPrefix + "code.png"); //$NON-NLS-1$
-	public final String IMG_OBJ_UMLBLOCK = create(locBundle, OBJ, locPrefix + "code.png"); //$NON-NLS-1$
-	public final String IMG_OBJ_MATHBLOCK = create(locBundle, OBJ, locPrefix + "code.png"); //$NON-NLS-1$
+	public final String IMG_OBJ_DOTBLOCK = create(locBundle, OBJ, locPrefix + "graph.png"); //$NON-NLS-1$
+	public final String IMG_OBJ_UMLBLOCK = create(locBundle, OBJ, locPrefix + "uml.png"); //$NON-NLS-1$
+	public final String IMG_OBJ_MATHBLOCK = create(locBundle, OBJ, locPrefix + "function.png"); //$NON-NLS-1$
+	public final String IMG_OBJ_TEXBLOCK = create(locBundle, OBJ, locPrefix + "tex.png"); //$NON-NLS-1$
 
 	public final String IMG_OBJ_LIST = create(locBundle, OBJ, locPrefix + "list.png"); //$NON-NLS-1$
 	public final String IMG_OBJ_LIST_ITEM = create(locBundle, OBJ, locPrefix + "listItem.png"); //$NON-NLS-1$

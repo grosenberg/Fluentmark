@@ -87,15 +87,15 @@
    <extension
          point="org.eclipse.ui.editors.markerAnnotationSpecification">
       <specification
-            annotationImageProvider="net.certiv.fluent.dt.ui.editor.FmAnnotationImageProvider"
+            annotationImageProvider="net.certiv.fluent.dt.ui.editor.AnnotationImageProvider"
             annotationType="net.certiv.fluent.dt.ui.error">
       </specification>
       <specification
-            annotationImageProvider="net.certiv.fluent.dt.ui.editor.FmAnnotationImageProvider"
+            annotationImageProvider="net.certiv.fluent.dt.ui.editor.AnnotationImageProvider"
             annotationType="net.certiv.fluent.dt.ui.warning">
       </specification>
       <specification
-            annotationImageProvider="net.certiv.fluent.dt.ui.editor.FmAnnotationImageProvider"
+            annotationImageProvider="net.certiv.fluent.dt.ui.editor.AnnotationImageProvider"
             annotationType="net.certiv.fluent.dt.ui.info">
       </specification>
       <specification

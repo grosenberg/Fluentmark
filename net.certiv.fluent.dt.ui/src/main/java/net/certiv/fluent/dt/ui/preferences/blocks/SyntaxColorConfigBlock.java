@@ -9,12 +9,12 @@ import org.eclipse.jface.text.source.IVerticalRuler;
 import org.eclipse.jface.text.source.projection.ProjectionViewer;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
-import org.eclipse.ui.texteditor.ITextEditor;
 
 import net.certiv.dsl.core.color.DslColorManager;
 import net.certiv.dsl.core.color.IColorManager;
 import net.certiv.dsl.core.preferences.DslPrefsManagerDelta;
 import net.certiv.dsl.core.preferences.IDslPrefsManager;
+import net.certiv.dsl.ui.editor.DslEditor;
 import net.certiv.dsl.ui.editor.DslSourceViewer;
 import net.certiv.dsl.ui.editor.DslSourceViewerConfiguration;
 import net.certiv.dsl.ui.preferences.blocks.AbstractSyntaxColorConfigBlock;
@@ -121,7 +121,7 @@ public class SyntaxColorConfigBlock extends AbstractSyntaxColorConfigBlock {
 
 	@Override
 	protected DslSourceViewerConfiguration createSimpleSourceViewerConfiguration(IColorManager colorMgr,
-			IDslPrefsManager store, ITextEditor editor, boolean configFormatter) {
+			IDslPrefsManager store, DslEditor editor, boolean configFormatter) {
 
 		return new FluentSimpleSourceViewerConfiguration(colorMgr, store, editor, Partitions.PARTITIONING,
 				configFormatter);

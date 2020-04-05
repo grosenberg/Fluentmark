@@ -5,7 +5,7 @@
  * that can be found in the LICENSE.txt file in the project root,
  * and is available at http://www.eclipse.org/legal/epl-v10.html
  *******************************************************************************/
-package net.certiv.fluent.dt.core.lang.dot;
+package net.certiv.fluent.dt.core.lang.eqn;
 
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -20,13 +20,13 @@ import net.certiv.fluent.dt.core.FluentCore;
 import net.certiv.fluent.dt.core.lang.dot.gen.DotLexer;
 import net.certiv.fluent.dt.core.lang.dot.gen.DotParser;
 
-public class DotSourceParser extends DslSourceParser {
+public class EqnSourceParser extends DslSourceParser {
 
-	private static final DotTokenFactory TokenFactory = new DotTokenFactory();
+	private static final EqnTokenFactory TokenFactory = new EqnTokenFactory();
 
 	private final DslErrorStrategy errStrategy = new DslErrorStrategy();
 
-	public DotSourceParser(DslParseRecord record) {
+	public EqnSourceParser(DslParseRecord record) {
 		super(record);
 		TokenFactory.setTabWidth(record.tabWidth);
 	}
@@ -93,7 +93,7 @@ public class DotSourceParser extends DslSourceParser {
 	@Override
 	public Throwable verify() {
 		try {
-			Verifier.INST.check(this, record.getCollector());
+			// Verifier.INST.check(this, record.getCollector());
 			return null;
 
 		} catch (Exception | Error e) {

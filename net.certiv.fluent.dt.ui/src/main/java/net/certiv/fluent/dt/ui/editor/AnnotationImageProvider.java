@@ -6,7 +6,7 @@ import net.certiv.dsl.ui.editor.AbstractAnnotationImageProvider;
 import net.certiv.fluent.dt.core.FluentCore;
 import net.certiv.fluent.dt.ui.FluentUI;
 
-public class FmAnnotationImageProvider extends AbstractAnnotationImageProvider {
+public class AnnotationImageProvider extends AbstractAnnotationImageProvider {
 
 	@Override
 	public DslUI getDslUI() {
