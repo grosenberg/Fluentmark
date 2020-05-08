@@ -1,4 +1,4 @@
-package net.certiv.fluent.dt.core.lang.dot;
+package net.certiv.fluent.dt.core.lang.dot.model;
 
 public enum DotAttr {
 	ARROWHEAD("arrowhead"),
@@ -16,6 +16,7 @@ public enum DotAttr {
 	FILLCOLOR("fillcolor"),
 	FIXEDSIZE("fixedsize"),
 	FONTCOLOR("fontcolor"),
+	FONTSIZE("fontsize"),
 	FORCELABELS("forcelabels"),
 	HEAD_LP("head_lp"),
 	HEADLABEL("headlabel"),

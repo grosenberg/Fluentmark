@@ -10,7 +10,7 @@
  *     Matthias Wienand (itemis AG) - initial API and implementation
  *     Tamas Miklossy   (itemis AG) - initial API and implementation
  *******************************************************************************/
-package net.certiv.fluent.dt.core.lang.eqn;
+package net.certiv.fluent.dt.core.lang.dot.model;
 
 import java.util.Arrays;
 import java.util.HashMap;

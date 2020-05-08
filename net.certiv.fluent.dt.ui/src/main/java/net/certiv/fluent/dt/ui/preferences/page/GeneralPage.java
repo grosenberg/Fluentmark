@@ -10,7 +10,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import net.certiv.dsl.core.DslCore;
 import net.certiv.dsl.core.color.DslColorManager;
-import net.certiv.dsl.core.preferences.DslPrefsManagerDelta;
+import net.certiv.dsl.core.preferences.PrefsDeltaManager;
 import net.certiv.dsl.ui.DslUI;
 import net.certiv.dsl.ui.preferences.blocks.IPreferenceConfigBlock;
 import net.certiv.dsl.ui.preferences.editors.ComboSelectFieldEditor;
@@ -75,14 +75,14 @@ public class GeneralPage extends AbstractFieldEditorPreferencePage {
 	@Override
 	protected void createFieldEditors() {
 		Composite parent = getFieldEditorParent();
-		Composite base = SWTFactory.createGroupComposite(parent, 1, 3, "Conversion filter selection");
+		Composite base = SWTFactory.createGroupComposite(parent, 2, 3, "Conversion filter selection");
 		combo = new ComboSelectFieldEditor(Prefs.EDITOR_MD_CONVERTER, "Converter:", converters, base);
 		addField(combo);
 	}
 
 	@Override
 	protected IPreferenceConfigBlock createConfigurationBlock(AbstractFieldEditorPreferencePage page, Composite parent,
-			DslPrefsManagerDelta delta, FormToolkit formkit, DslColorManager colorMgr) {
+			PrefsDeltaManager delta, FormToolkit formkit, DslColorManager colorMgr) {
 		block = new ConvertersConfigBlock(this, delta, formkit, colorMgr);
 		return block;
 	}

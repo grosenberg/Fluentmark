@@ -6,17 +6,12 @@
 	</projects>
 	<buildSpec>
 		<buildCommand>
-			<name>net.certiv.xvisitordt.core.builder</name>
+			<name>net.certiv.xvisitor.dt.core.builder</name>
 			<arguments>
 			</arguments>
 		</buildCommand>
 		<buildCommand>
-			<name>net.certiv.fluent.dt.core.builder</name>
-			<arguments>
-			</arguments>
-		</buildCommand>
-		<buildCommand>
-			<name>net.certiv.antlrdt.core.builder</name>
+			<name>net.certiv.antlr.dt.core.builder</name>
 			<arguments>
 			</arguments>
 		</buildCommand>
@@ -45,8 +40,7 @@
 		<nature>org.eclipse.m2e.core.maven2Nature</nature>
 		<nature>org.eclipse.pde.PluginNature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
-		<nature>net.certiv.antlrdt.core.nature</nature>
-		<nature>net.certiv.fluent.dt.core.nature</nature>
-		<nature>net.certiv.xvisitordt.core.nature</nature>
+		<nature>net.certiv.antlr.dt.core.nature</nature>
+		<nature>net.certiv.xvisitor.dt.core.nature</nature>
 	</natures>
 </projectDescription>

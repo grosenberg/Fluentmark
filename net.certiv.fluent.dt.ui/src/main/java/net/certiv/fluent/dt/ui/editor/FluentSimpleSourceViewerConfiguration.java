@@ -11,16 +11,16 @@ import org.eclipse.jface.text.source.IAnnotationHover;
 import org.eclipse.jface.text.source.ISourceViewer;
 
 import net.certiv.dsl.core.color.IColorManager;
-import net.certiv.dsl.core.preferences.IDslPrefsManager;
+import net.certiv.dsl.core.preferences.IPrefsManager;
 import net.certiv.dsl.ui.editor.DslEditor;
 
 public class FluentSimpleSourceViewerConfiguration extends FluentSourceViewerConfiguration {
 
-	public FluentSimpleSourceViewerConfiguration(IDslPrefsManager store, DslEditor editor, String partitioning) {
+	public FluentSimpleSourceViewerConfiguration(IPrefsManager store, DslEditor editor, String partitioning) {
 		super(null, store, editor, partitioning);
 	}
 
-	public FluentSimpleSourceViewerConfiguration(IColorManager colorManager, IDslPrefsManager store, DslEditor editor,
+	public FluentSimpleSourceViewerConfiguration(IColorManager colorManager, IPrefsManager store, DslEditor editor,
 			String partitioning, boolean configureFormatter) {
 		super(colorManager, store, editor, partitioning);
 	}

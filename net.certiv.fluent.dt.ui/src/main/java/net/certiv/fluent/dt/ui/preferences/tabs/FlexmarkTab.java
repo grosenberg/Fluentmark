@@ -6,7 +6,7 @@ import org.eclipse.swt.widgets.Composite;
 
 import com.vladsch.flexmark.parser.ParserEmulationProfile;
 
-import net.certiv.dsl.core.preferences.DslPrefsManagerDelta;
+import net.certiv.dsl.core.preferences.PrefsDeltaManager;
 import net.certiv.dsl.ui.preferences.blocks.AbstractConfigBlock;
 import net.certiv.dsl.ui.preferences.tabs.AbstractTab;
 import net.certiv.dsl.ui.util.SWTFactory;
@@ -21,7 +21,7 @@ public class FlexmarkTab extends AbstractTab {
 			{ "Pegdown", ParserEmulationProfile.PEGDOWN.toString() } //
 	};
 
-	public FlexmarkTab(ConvertersConfigBlock block, Composite parent, DslPrefsManagerDelta delta, String title) {
+	public FlexmarkTab(ConvertersConfigBlock block, Composite parent, PrefsDeltaManager delta, String title) {
 		super(block, parent, title);
 	}
 

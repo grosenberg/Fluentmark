@@ -7,8 +7,8 @@ options {
 
 @header {
 	package net.certiv.fluent.dt.core.lang.md.gen;
-	import  net.certiv.fluent.dt.core.lang.md.StructureBuilder;
-	import  static net.certiv.fluent.dt.core.model.SpecializedType.*;
+	import  net.certiv.fluent.dt.core.lang.md.model.StructureBuilder;
+	import  static net.certiv.fluent.dt.core.lang.md.model.SpecializationType.*;
 }
 
 structure

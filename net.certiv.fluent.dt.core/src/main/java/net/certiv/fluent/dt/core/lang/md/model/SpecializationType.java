@@ -1,9 +1,9 @@
-package net.certiv.fluent.dt.core.model;
+package net.certiv.fluent.dt.core.lang.md.model;
 
 import net.certiv.dsl.core.model.builder.ISpecializedType;
 import net.certiv.dsl.core.util.Strings;
 
-public enum SpecializedType implements ISpecializedType {
+public enum SpecializationType implements ISpecializedType {
 
 	Page("Page", "body"),
 
@@ -54,7 +54,7 @@ public enum SpecializedType implements ISpecializedType {
 	public final String name;
 	public final String css;
 
-	SpecializedType(String name, String css) {
+	SpecializationType(String name, String css) {
 		this.name = name;
 		this.css = css;
 	}

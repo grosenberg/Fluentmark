@@ -4,7 +4,7 @@
  * that can be found in the LICENSE.txt file in the project root,
  * and is available at http://www.eclipse.org/legal/epl-v10.html
  *******************************************************************************/
-package net.certiv.fluent.dt.core.lang.md;
+package net.certiv.fluent.dt.core.lang;
 
 import java.util.ArrayDeque;
 
@@ -13,6 +13,8 @@ import org.antlr.v4.runtime.IntStream;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.LexerNoViableAltException;
 import org.antlr.v4.runtime.Token;
+
+import net.certiv.fluent.dt.core.lang.md.MdToken;
 
 /**
  * Modifies the {@code emit} related methods to implement new behaviors:
@@ -148,14 +150,6 @@ public abstract class LexerNeo extends Lexer {
 			_input.release(mark);
 		}
 	}
-
-	// private MdToken createMatched() {
-	// MdToken token = (MdToken) _factory.create(_tokenFactorySourcePair, _type,
-	// _text, _channel, _tokenStartCharIndex,
-	// getCharIndex() - 1, _tokenStartLine, _tokenStartCharPositionInLine);
-	// token.setHit(_lastToken == null, _atBOL);
-	// return token;
-	// }
 
 	private void queueMatched() {
 		MdToken token = (MdToken) _factory.create(_tokenFactorySourcePair, _type, _text, _channel, _tokenStartCharIndex,

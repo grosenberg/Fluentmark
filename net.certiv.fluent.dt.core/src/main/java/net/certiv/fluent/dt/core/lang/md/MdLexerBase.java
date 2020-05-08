@@ -13,6 +13,7 @@ import net.certiv.dsl.core.util.Strings;
 import net.certiv.dsl.core.util.stores.Extent;
 import net.certiv.dsl.core.util.stores.HashList;
 import net.certiv.dsl.core.util.stores.NearMap;
+import net.certiv.fluent.dt.core.lang.LexerNeo;
 import net.certiv.fluent.dt.core.lang.md.gen.MdLexer;
 
 public abstract class MdLexerBase extends LexerNeo {

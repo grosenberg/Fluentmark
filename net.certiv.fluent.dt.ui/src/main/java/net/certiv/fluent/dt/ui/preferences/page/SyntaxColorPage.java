@@ -1,7 +1,7 @@
 package net.certiv.fluent.dt.ui.preferences.page;
 
 import net.certiv.dsl.core.DslCore;
-import net.certiv.dsl.core.preferences.DslPrefsManagerDelta;
+import net.certiv.dsl.core.preferences.PrefsDeltaManager;
 import net.certiv.dsl.ui.DslUI;
 import net.certiv.dsl.ui.preferences.blocks.IPreferenceConfigBlock;
 import net.certiv.dsl.ui.preferences.pages.AbstractPreferencePage;
@@ -26,7 +26,7 @@ public class SyntaxColorPage extends AbstractPreferencePage {
 	}
 
 	@Override
-	protected IPreferenceConfigBlock createConfigurationBlock(DslPrefsManagerDelta delta) {
+	protected IPreferenceConfigBlock createConfigurationBlock(PrefsDeltaManager delta) {
 		return new SyntaxColorConfigBlock(this, delta, getFormkit(), getColorMgr());
 	}
 

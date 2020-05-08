@@ -15,7 +15,7 @@ import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.handlers.HandlerUtil;
 
-import net.certiv.dsl.core.preferences.DslPrefsManager;
+import net.certiv.dsl.core.preferences.PrefsManager;
 import net.certiv.fluent.dt.core.preferences.Prefs;
 import net.certiv.fluent.dt.ui.editor.FluentEditor;
 
@@ -31,7 +31,7 @@ public class UnwrapHandler extends AbstractHandler {
 		IEditorPart active = HandlerUtil.getActiveEditor(event);
 		if (active instanceof FluentEditor) {
 			FluentEditor editor = (FluentEditor) active;
-			DslPrefsManager store = editor.getPrefsMgr();
+			PrefsManager store = editor.getPrefsMgr();
 			if (store.getBoolean(Prefs.FORMATTER_ENABLED)) {
 				store.setValue(Prefs.FORMATTER_UNWRAP, true);
 				ITextOperationTarget target = editor.getAdapter(ITextOperationTarget.class);

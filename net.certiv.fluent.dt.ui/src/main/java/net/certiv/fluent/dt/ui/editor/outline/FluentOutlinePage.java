@@ -7,10 +7,10 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.ILabelDecorator;
 
-import net.certiv.dsl.core.model.ISourceUnit;
+import net.certiv.dsl.core.model.ISourcePart;
 import net.certiv.dsl.core.model.IStatement;
 import net.certiv.dsl.ui.editor.outline.OutlinePage;
-import net.certiv.fluent.dt.core.model.Specialization;
+import net.certiv.fluent.dt.core.lang.md.model.Specialization;
 import net.certiv.fluent.dt.ui.FluentUI;
 
 public class FluentOutlinePage extends OutlinePage {
@@ -18,7 +18,7 @@ public class FluentOutlinePage extends OutlinePage {
 	protected class FluentDataProvider extends OutlineDataProvider {
 
 		@Override
-		protected IStatement[] filterChildren(ISourceUnit node) {
+		protected IStatement[] filterChildren(ISourcePart node) {
 			List<IStatement> filtered = new ArrayList<>();
 			IStatement[] children = super.filterChildren(node);
 			for (IStatement child : children) {
@@ -30,7 +30,7 @@ public class FluentOutlinePage extends OutlinePage {
 		private boolean excluded(IStatement child) {
 			if (child.hasData()) {
 				Specialization data = (Specialization) child.getData();
-				switch (data.specializedType) {
+				switch (data.specializationType) {
 					case Bold:
 					case Italic:
 					case Underline:

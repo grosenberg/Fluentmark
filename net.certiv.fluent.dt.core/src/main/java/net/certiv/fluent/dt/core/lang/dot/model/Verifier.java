@@ -1,4 +1,4 @@
-package net.certiv.fluent.dt.core.lang.dot;
+package net.certiv.fluent.dt.core.lang.dot.model;
 
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
@@ -7,12 +7,14 @@ import org.eclipse.core.resources.IMarker;
 
 import net.certiv.dsl.core.log.Log;
 import net.certiv.dsl.core.parser.problems.DslProblem;
-import net.certiv.dsl.core.parser.problems.DslProblemCollector;
-import net.certiv.fluent.dt.core.lang.dot.AttrMap.Props;
+import net.certiv.dsl.core.parser.problems.ProblemCollector;
+import net.certiv.dsl.core.util.Strings;
+import net.certiv.fluent.dt.core.lang.dot.DotSourceParser;
 import net.certiv.fluent.dt.core.lang.dot.gen.DotLexer;
 import net.certiv.fluent.dt.core.lang.dot.gen.DotParser.AttrListContext;
 import net.certiv.fluent.dt.core.lang.dot.gen.DotParser.AttributeContext;
 import net.certiv.fluent.dt.core.lang.dot.gen.DotParserBaseListener;
+import net.certiv.fluent.dt.core.lang.dot.model.AttrMap.Props;
 
 public class Verifier {
 
@@ -20,7 +22,7 @@ public class Verifier {
 	private static final ContextVisitor visitor = INST.new ContextVisitor();
 
 	private DotSourceParser parser;
-	private DslProblemCollector collector;
+	private ProblemCollector collector;
 
 	private enum Kind {
 		SEMANTIC,
@@ -31,7 +33,7 @@ public class Verifier {
 	 * Verifies the semantic and attribute value correctness of the DOT spec
 	 * described by the given srcParser. Issues are reported to the given collector.
 	 */
-	public void check(DotSourceParser parser, DslProblemCollector collector) {
+	public void check(DotSourceParser parser, ProblemCollector collector) {
 		this.parser = parser;
 		this.collector = collector;
 		ParseTreeWalker.DEFAULT.walk(visitor, parser.getRecord().tree);
@@ -61,7 +63,7 @@ public class Verifier {
 				String cause = null;
 				switch (props.type) {
 					case LIST:
-						if (!AttrMap.in(props.values, value)) {
+						if (!AttrMap.in(props.values, Strings.deQuote(value))) {
 							cause = "Invalid value '" + value + "' at %s:%s";
 						}
 						break;

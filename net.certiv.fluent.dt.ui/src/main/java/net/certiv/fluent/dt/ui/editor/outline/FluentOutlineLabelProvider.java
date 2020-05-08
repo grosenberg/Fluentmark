@@ -8,9 +8,9 @@ import net.certiv.dsl.core.log.Log;
 import net.certiv.dsl.core.util.Chars;
 import net.certiv.dsl.core.util.Strings;
 import net.certiv.dsl.ui.editor.outline.OutlineLabelProvider;
+import net.certiv.fluent.dt.core.lang.md.model.Specialization;
+import net.certiv.fluent.dt.core.lang.md.model.SpecializationType;
 import net.certiv.fluent.dt.core.model.SpecUtil;
-import net.certiv.fluent.dt.core.model.Specialization;
-import net.certiv.fluent.dt.core.model.SpecializedType;
 import net.certiv.fluent.dt.ui.FluentUI;
 import net.certiv.fluent.dt.ui.ImageManager;
 
@@ -22,6 +22,7 @@ public class FluentOutlineLabelProvider extends OutlineLabelProvider {
 
 	@Override
 	public String decorateText(String text) {
+
 		switch (getStatementType()) {
 			case MODULE:
 				if (hasData()) {
@@ -39,7 +40,7 @@ public class FluentOutlineLabelProvider extends OutlineLabelProvider {
 
 				Specialization data = (Specialization) getData();
 				String msg = Strings.EMPTY;
-				switch (data.specializedType) {
+				switch (data.specializationType) {
 					case Paragraph:
 					case Setext:
 						return summary(text);
@@ -58,7 +59,7 @@ public class FluentOutlineLabelProvider extends OutlineLabelProvider {
 
 					case ListItem:
 						text = summary(text);
-						if (data.listType == SpecializedType.ListUnordered) {
+						if (data.listType == SpecializationType.ListUnordered) {
 							text = text.replaceFirst("^[ +*-]*", Strings.EMPTY);
 						}
 						return text;
@@ -73,8 +74,8 @@ public class FluentOutlineLabelProvider extends OutlineLabelProvider {
 								msg = msg.substring(0, dot).trim();
 							}
 						}
-						if (msg.isEmpty()) return data.specializedType.name;
-						return String.format("%s %s", Strings.titleCase(msg.trim()), data.specializedType.name);
+						if (msg.isEmpty()) return data.specializationType.name;
+						return String.format("%s %s", Strings.titleCase(msg.trim()), data.specializationType.name);
 
 					case HRule:
 					case DotBlock:
@@ -83,7 +84,7 @@ public class FluentOutlineLabelProvider extends OutlineLabelProvider {
 					case HtmlBlock:
 					case TexBlock:
 					case MathBlock:
-						return data.specializedType.name;
+						return data.specializationType.name;
 
 					default:
 						return data.name;
@@ -141,15 +142,27 @@ public class FluentOutlineLabelProvider extends OutlineLabelProvider {
 					case HRule:
 						desc = mgr.getDescriptor(mgr.IMG_OBJ_HRULE);
 						break;
+
 					case ListOrdered:
 						desc = mgr.getDescriptor(mgr.IMG_OBJ_ORDERED_LIST);
 						break;
 					case ListUnordered:
 						desc = mgr.getDescriptor(mgr.IMG_OBJ_UNORDERED_LIST);
 						break;
+
 					case ListItem:
-						desc = mgr.getDescriptor(mgr.IMG_OBJ_LIST_ITEM);
+						if (element.hasData()) {
+							Specialization data = (Specialization) element.getData();
+							if (data.listType == SpecializationType.ListUnordered) {
+								desc = mgr.getDescriptor(mgr.IMG_OBJ_UNORDERED_ITEM);
+							} else {
+								desc = mgr.getDescriptor(mgr.IMG_OBJ_ORDERED_ITEM);
+							}
+						} else {
+							desc = mgr.getDescriptor(mgr.IMG_OBJ_LIST_ITEM);
+						}
 						break;
+
 					case Table:
 						desc = mgr.getDescriptor(mgr.IMG_OBJ_TABLE);
 						break;

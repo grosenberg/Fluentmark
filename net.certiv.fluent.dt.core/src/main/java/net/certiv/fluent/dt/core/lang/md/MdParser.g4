@@ -91,7 +91,7 @@ word
 	: attrLeft* 
 	  w=( WORD | RPAREN 
 	  	| CODE_SPAN | MATH_SPAN
-		| UNICODE | ENTITY
+		| UNICODE	| ENTITY
 		| HTML | TEX | URL
 		) 
 	  attrRight*

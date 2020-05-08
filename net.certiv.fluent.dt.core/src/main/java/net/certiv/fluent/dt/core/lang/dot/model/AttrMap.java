@@ -1,10 +1,12 @@
-package net.certiv.fluent.dt.core.lang.dot;
+package net.certiv.fluent.dt.core.lang.dot.model;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import net.certiv.dsl.core.util.Strings;
 
 public class AttrMap {
 
@@ -23,7 +25,7 @@ public class AttrMap {
 	}
 
 	// attribute value types
-	public static enum TYPE {
+	public enum TYPE {
 		COLOR, // single color
 		COLORS, // color or colorlist
 		LIST,	// constrained to values, unquoted
@@ -39,8 +41,8 @@ public class AttrMap {
 	private static final Map<DotAttr, Props> attrs = new HashMap<>();
 	private static final Map<String, DotAttr> names = new HashMap<>();
 
-	private static final String[] None = new String[] {};
-	private static final String Empty = "";
+	private static final String[] None = Strings.EMPTY_STRINGS;
+	private static final String Empty = Strings.EMPTY;
 
 	private static final String[] ArrowType = new String[] { "box", "crow", "curve", "icurve", "diamond", "dot", "odot",
 			"ediamond", "empty", "inv", "invdot", "invodot", "invempty", "none", "normal", "open", "tee", "vee", "o",
@@ -82,6 +84,7 @@ public class AttrMap {
 		put(DotAttr.FILLCOLOR, TYPE.COLORS, None, "lightgrey");
 		put(DotAttr.FIXEDSIZE, TYPE.STRING, None, "false");
 		put(DotAttr.FONTCOLOR, TYPE.COLOR, None /* ColorNames */, "black");
+		put(DotAttr.FONTSIZE, TYPE.NUMBER, None, "0.0");
 		put(DotAttr.FORCELABELS, TYPE.LIST, Boolean, "true");
 		put(DotAttr.HEAD_LP, TYPE.POINT, None, Empty);
 		put(DotAttr.HEADLABEL, TYPE.STRING, None, Empty);

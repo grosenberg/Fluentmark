@@ -42,7 +42,7 @@ mode DOT;
 
     HTML   : TagOpen ( TagOpen | TagClose | Html )* TagClose ;
 
-    NUMBER : Minus? ( ( Dot ( Digit )+ ) | (Digit )+ ( Dot ( Digit )* )? ) ;
+    NUMBER : Minus? ( ( Dot ( Digit )+ ) | ( Digit )+ ( Dot ( Digit )* )? ) ;
 
     ML_COMMENT : '/*' .*? '*/' ;
     SL_COMMENT : ( '//' | Pound ) ( EscSeq | ~[\r\n\\] )* | EOF ;

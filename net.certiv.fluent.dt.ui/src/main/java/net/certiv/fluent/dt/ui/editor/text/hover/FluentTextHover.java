@@ -10,7 +10,7 @@ package net.certiv.fluent.dt.ui.editor.text.hover;
 import org.eclipse.ui.IEditorPart;
 
 import net.certiv.dsl.core.DslCore;
-import net.certiv.dsl.core.preferences.IDslPrefsManager;
+import net.certiv.dsl.core.preferences.IPrefsManager;
 import net.certiv.dsl.ui.DslUI;
 import net.certiv.dsl.ui.editor.text.hover.DslSourceHover;
 import net.certiv.fluent.dt.core.FluentCore;
@@ -18,7 +18,7 @@ import net.certiv.fluent.dt.ui.FluentUI;
 
 public class FluentTextHover extends DslSourceHover {
 
-	public FluentTextHover(IEditorPart editor, IDslPrefsManager store) {
+	public FluentTextHover(IEditorPart editor, IPrefsManager store) {
 		super(editor, store);
 	}
 

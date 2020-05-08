@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import net.certiv.dsl.core.log.Log;
-import net.certiv.dsl.core.preferences.DslPrefsManager;
+import net.certiv.dsl.core.preferences.PrefsManager;
 import net.certiv.dsl.core.util.Strings;
 import net.certiv.dsl.core.util.exec.Cmd;
 import net.certiv.fluent.dt.core.FluentCore;
@@ -29,7 +29,7 @@ public class DotGen {
 	}
 
 	public static String runDot(String data) {
-		DslPrefsManager store = FluentCore.getDefault().getPrefsManager();
+		PrefsManager store = FluentCore.getDefault().getPrefsManager();
 		String cmd = store.getString(Prefs.EDITOR_DOT_PROGRAM);
 		if (data.trim().isEmpty() || cmd.trim().isEmpty()) return "";
 

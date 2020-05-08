@@ -18,8 +18,8 @@
 	<description>Fluentmark UI</description>
 
 	<properties>
-		<flexmark.version>0.50.44</flexmark.version>
-		<plantuml.version>1.2019.12</plantuml.version>
+		<flexmark.version>0.61.4</flexmark.version>
+		<plantuml.version>1.2020.6</plantuml.version>
 	</properties>
 
 
@@ -99,11 +99,6 @@
 		<dependency>
 			<groupId>com.vladsch.flexmark</groupId>
 			<artifactId>flexmark-ext-gfm-strikethrough</artifactId>
-			<version>${flexmark.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.vladsch.flexmark</groupId>
-			<artifactId>flexmark-ext-gfm-tables</artifactId>
 			<version>${flexmark.version}</version>
 		</dependency>
 		<dependency>
@@ -188,12 +183,7 @@
 		</dependency>
 		<dependency>
 			<groupId>com.vladsch.flexmark</groupId>
-			<artifactId>flexmark-formatter</artifactId>
-			<version>${flexmark.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.vladsch.flexmark</groupId>
-			<artifactId>flexmark-html-parser</artifactId>
+			<artifactId>flexmark-html2md-converter</artifactId>
 			<version>${flexmark.version}</version>
 		</dependency>
 		<dependency>
@@ -213,7 +203,57 @@
 		</dependency>
 		<dependency>
 			<groupId>com.vladsch.flexmark</groupId>
-			<artifactId>flexmark-util</artifactId>
+			<artifactId>flexmark-util-ast</artifactId>
+			<version>${flexmark.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.vladsch.flexmark</groupId>
+			<artifactId>flexmark-util-builder</artifactId>
+			<version>${flexmark.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.vladsch.flexmark</groupId>
+			<artifactId>flexmark-util-collection</artifactId>
+			<version>${flexmark.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.vladsch.flexmark</groupId>
+			<artifactId>flexmark-util-data</artifactId>
+			<version>${flexmark.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.vladsch.flexmark</groupId>
+			<artifactId>flexmark-util-dependency</artifactId>
+			<version>${flexmark.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.vladsch.flexmark</groupId>
+			<artifactId>flexmark-util-format</artifactId>
+			<version>${flexmark.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.vladsch.flexmark</groupId>
+			<artifactId>flexmark-util-html</artifactId>
+			<version>${flexmark.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.vladsch.flexmark</groupId>
+			<artifactId>flexmark-util-misc</artifactId>
+			<version>${flexmark.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.vladsch.flexmark</groupId>
+			<artifactId>flexmark-util-options</artifactId>
+			<version>${flexmark.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.vladsch.flexmark</groupId>
+			<artifactId>flexmark-util-sequence</artifactId>
+			<version>${flexmark.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.vladsch.flexmark</groupId>
+			<artifactId>flexmark-util-visitor</artifactId>
 			<version>${flexmark.version}</version>
 		</dependency>
 		<dependency>
@@ -349,13 +389,6 @@
 								</artifactItem>
 								<artifactItem>
 									<groupId>com.vladsch.flexmark</groupId>
-									<artifactId>flexmark-ext-gfm-tables</artifactId>
-									<version>${flexmark.version}</version>
-									<type>jar</type>
-									<overWrite>true</overWrite>
-								</artifactItem>
-								<artifactItem>
-									<groupId>com.vladsch.flexmark</groupId>
 									<artifactId>flexmark-ext-gfm-tasklist</artifactId>
 									<version>${flexmark.version}</version>
 									<type>jar</type>
@@ -468,14 +501,7 @@
 								</artifactItem>
 								<artifactItem>
 									<groupId>com.vladsch.flexmark</groupId>
-									<artifactId>flexmark-formatter</artifactId>
-									<version>${flexmark.version}</version>
-									<type>jar</type>
-									<overWrite>true</overWrite>
-								</artifactItem>
-								<artifactItem>
-									<groupId>com.vladsch.flexmark</groupId>
-									<artifactId>flexmark-html-parser</artifactId>
+									<artifactId>flexmark-html2md-converter</artifactId>
 									<version>${flexmark.version}</version>
 									<type>jar</type>
 									<overWrite>true</overWrite>
@@ -503,7 +529,77 @@
 								</artifactItem>
 								<artifactItem>
 									<groupId>com.vladsch.flexmark</groupId>
-									<artifactId>flexmark-util</artifactId>
+									<artifactId>flexmark-util-ast</artifactId>
+									<version>${flexmark.version}</version>
+									<type>jar</type>
+									<overWrite>true</overWrite>
+								</artifactItem>
+								<artifactItem>
+									<groupId>com.vladsch.flexmark</groupId>
+									<artifactId>flexmark-util-builder</artifactId>
+									<version>${flexmark.version}</version>
+									<type>jar</type>
+									<overWrite>true</overWrite>
+								</artifactItem>
+								<artifactItem>
+									<groupId>com.vladsch.flexmark</groupId>
+									<artifactId>flexmark-util-collection</artifactId>
+									<version>${flexmark.version}</version>
+									<type>jar</type>
+									<overWrite>true</overWrite>
+								</artifactItem>
+								<artifactItem>
+									<groupId>com.vladsch.flexmark</groupId>
+									<artifactId>flexmark-util-data</artifactId>
+									<version>${flexmark.version}</version>
+									<type>jar</type>
+									<overWrite>true</overWrite>
+								</artifactItem>
+								<artifactItem>
+									<groupId>com.vladsch.flexmark</groupId>
+									<artifactId>flexmark-util-dependency</artifactId>
+									<version>${flexmark.version}</version>
+									<type>jar</type>
+									<overWrite>true</overWrite>
+								</artifactItem>
+								<artifactItem>
+									<groupId>com.vladsch.flexmark</groupId>
+									<artifactId>flexmark-util-format</artifactId>
+									<version>${flexmark.version}</version>
+									<type>jar</type>
+									<overWrite>true</overWrite>
+								</artifactItem>
+								<artifactItem>
+									<groupId>com.vladsch.flexmark</groupId>
+									<artifactId>flexmark-util-html</artifactId>
+									<version>${flexmark.version}</version>
+									<type>jar</type>
+									<overWrite>true</overWrite>
+								</artifactItem>
+								<artifactItem>
+									<groupId>com.vladsch.flexmark</groupId>
+									<artifactId>flexmark-util-misc</artifactId>
+									<version>${flexmark.version}</version>
+									<type>jar</type>
+									<overWrite>true</overWrite>
+								</artifactItem>
+								<artifactItem>
+									<groupId>com.vladsch.flexmark</groupId>
+									<artifactId>flexmark-util-options</artifactId>
+									<version>${flexmark.version}</version>
+									<type>jar</type>
+									<overWrite>true</overWrite>
+								</artifactItem>
+								<artifactItem>
+									<groupId>com.vladsch.flexmark</groupId>
+									<artifactId>flexmark-util-sequence</artifactId>
+									<version>${flexmark.version}</version>
+									<type>jar</type>
+									<overWrite>true</overWrite>
+								</artifactItem>
+								<artifactItem>
+									<groupId>com.vladsch.flexmark</groupId>
+									<artifactId>flexmark-util-visitor</artifactId>
 									<version>${flexmark.version}</version>
 									<type>jar</type>
 									<overWrite>true</overWrite>

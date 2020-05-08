@@ -39,18 +39,18 @@ public class MdSourceParser extends DslSourceParser {
 			Lexer lexer = new MdLexer(record.cs);
 			lexer.setTokenFactory(TokenFactory);
 			lexer.removeErrorListeners();
-			lexer.addErrorListener(getDslErrorListener());
+			lexer.addErrorListener(getErrorListener());
 			record.ts = new CommonTokenStream(lexer);
 
 			record.parser = new MdParser(record.ts);
 			record.parser.setTokenFactory(TokenFactory);
 			record.parser.removeErrorListeners();
-			record.parser.addErrorListener(getDslErrorListener());
+			record.parser.addErrorListener(getErrorListener());
 			record.tree = ((MdParser) record.parser).page();
 			return null;
 
 		} catch (Exception | Error e) {
-			getDslErrorListener().generalError(ERR_ANALYSIS, e);
+			getErrorListener().generalError(ERR_ANALYSIS, e);
 			return e;
 		}
 	}
@@ -60,14 +60,14 @@ public class MdSourceParser extends DslSourceParser {
 		try {
 			StructureVisitor visitor = new StructureVisitor(record.tree);
 			visitor.setBuilder(builder);
-			visitor.setSourceName(record.unit.getElementName());
+			visitor.setSourceName(record.unit.getPackageName());
 			builder.beginAnalysis();
 			visitor.findAll();
 			builder.endAnalysis();
 			return null;
 
 		} catch (Exception | Error e) {
-			getDslErrorListener().generalError(ERR_ANALYSIS, e);
+			getErrorListener().generalError(ERR_ANALYSIS, e);
 			return e;
 		}
 	}

@@ -1,4 +1,4 @@
-// Generated from D:/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.core/src/main/java/net/certiv/fluent/dt/core/lang/md/MdParser.g4 by ANTLR 4.7.2
+// Generated from D:/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.core/src/main/java/net/certiv/fluent/dt/core/lang/md/MdParser.g4 by ANTLR 4.8
  
 	package net.certiv.fluent.dt.core.lang.md.gen;
 
@@ -189,26 +189,6 @@ public interface MdParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitLink(MdParser.LinkContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link MdParser#styledtext}.
-	 * @param ctx the parse tree
-	 */
-	void enterStyledtext(MdParser.StyledtextContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link MdParser#styledtext}.
-	 * @param ctx the parse tree
-	 */
-	void exitStyledtext(MdParser.StyledtextContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link MdParser#beg}.
-	 * @param ctx the parse tree
-	 */
-	void enterBeg(MdParser.BegContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link MdParser#beg}.
-	 * @param ctx the parse tree
-	 */
-	void exitBeg(MdParser.BegContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link MdParser#text}.
 	 * @param ctx the parse tree

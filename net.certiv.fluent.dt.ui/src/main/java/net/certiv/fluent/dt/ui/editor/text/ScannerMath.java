@@ -16,7 +16,7 @@ import org.eclipse.jface.text.rules.IToken;
 import org.eclipse.jface.text.rules.WhitespaceRule;
 import org.eclipse.jface.text.rules.WordRule;
 
-import net.certiv.dsl.core.preferences.IDslPrefsManager;
+import net.certiv.dsl.core.preferences.IPrefsManager;
 import net.certiv.dsl.ui.editor.scanners.AbstractBufferedRuleBasedScanner;
 import net.certiv.fluent.dt.core.preferences.Prefs;
 import net.certiv.fluent.dt.ui.editor.text.rules.MathSymbolDetector;
@@ -27,7 +27,7 @@ public class ScannerMath extends AbstractBufferedRuleBasedScanner {
 
 	private String[] tokenProperties;
 
-	public ScannerMath(IDslPrefsManager store) {
+	public ScannerMath(IPrefsManager store) {
 		super(store);
 		initialize();
 	}

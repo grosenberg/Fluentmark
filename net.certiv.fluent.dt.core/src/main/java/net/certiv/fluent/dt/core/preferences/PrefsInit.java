@@ -96,9 +96,9 @@ public class PrefsInit extends DslPrefsInit {
 		setBool(Prefs.EDITOR_PREVIEW_EXTERNAL_ENABLE, false);
 		setString(Prefs.EDITOR_PREVIEW_EXTERNAL_DIR, Strings.EMPTY);
 
-		String semanticDir = resourceDir(BUNDLE_ID, Prefs.SEMANTIC);
-		setString(Prefs.EDITOR_SEMANTIC_INTERNAL_DIR, semanticDir);
-		setString(Prefs.EDITOR_SEMANTIC_FILE, semanticDir + Prefs.DEFAULT_CSS);
+		String semanticDir = resourceDir(BUNDLE_ID, Editor.SEMANTIC);
+		setString(Editor.EDITOR_SEMANTIC_INTERNAL_DIR, semanticDir);
+		setString(Editor.EDITOR_SEMANTIC_FILE, semanticDir + Editor.DEFAULT_CSS);
 
 		// colors
 

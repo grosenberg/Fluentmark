@@ -18,14 +18,14 @@ import net.certiv.dsl.core.model.CodeUnit;
 import net.certiv.dsl.core.model.ModelException;
 import net.certiv.dsl.core.model.IStatement;
 import net.certiv.dsl.core.model.builder.SourceRange;
-import net.certiv.dsl.core.preferences.IDslPrefsManager;
+import net.certiv.dsl.core.preferences.IPrefsManager;
 import net.certiv.dsl.core.util.Chars;
 import net.certiv.dsl.core.util.CoreUtil;
 import net.certiv.dsl.core.util.Indent;
 import net.certiv.dsl.core.util.Strings;
 import net.certiv.fluent.dt.core.FluentCore;
+import net.certiv.fluent.dt.core.lang.md.model.SpecializationType;
 import net.certiv.fluent.dt.core.model.SpecUtil;
-import net.certiv.fluent.dt.core.model.SpecializedType;
 import net.certiv.fluent.dt.core.preferences.Prefs;
 import net.certiv.fluent.dt.ui.editor.FluentEditor;
 import net.certiv.fluent.dt.ui.editor.strategies.tables.TableModel;
@@ -47,7 +47,7 @@ public class MdFormatter extends BaseCodeFormatter {
 
 	@Override
 	public TextEdit format(int kind, String content, int offset, int length, int indentLevel, String lineSeparator,
-			IDslPrefsManager store) {
+			IPrefsManager store) {
 
 		setPrefsManager(store);
 		checkCanceled();
@@ -147,7 +147,7 @@ public class MdFormatter extends BaseCodeFormatter {
 	}
 
 	private void formatList(IStatement stmt, TextEdit edit, String delim, int cols, int tabWidth) {
-		for (IStatement listItem : SpecUtil.getChildren(stmt, SpecializedType.ListItem)) {
+		for (IStatement listItem : SpecUtil.getChildren(stmt, SpecializationType.ListItem)) {
 			formatListItem(stmt, listItem, edit, delim, cols, tabWidth);
 		}
 	}

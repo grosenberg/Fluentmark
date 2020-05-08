@@ -1,4 +1,4 @@
-// Generated from D:/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.core/src/main/java/net/certiv/fluent/dt/core/lang/dot/DotParser.g4 by ANTLR 4.7.2
+// Generated from D:/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.core/src/main/java/net/certiv/fluent/dt/core/lang/dot/DotParser.g4 by ANTLR 4.8
 
 	package net.certiv.fluent.dt.core.lang.dot.gen;
 
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class DotParser extends Parser {
-	static { RuntimeMetaData.checkVersion("4.7.2", RuntimeMetaData.VERSION); }
+	static { RuntimeMetaData.checkVersion("4.8", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
@@ -102,6 +102,7 @@ public class DotParser extends Parser {
 		super(input);
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
+
 	public static class DocumentContext extends ParserRuleContext {
 		public TerminalNode EOF() { return getToken(DotParser.EOF, 0); }
 		public List<GraphContext> graph() {
@@ -763,9 +764,6 @@ public class DotParser extends Parser {
 	}
 
 	public static class ValueContext extends ParserRuleContext {
-		public IdContext id() {
-			return getRuleContext(IdContext.class,0);
-		}
 		public TerminalNode STRING() { return getToken(DotParser.STRING, 0); }
 		public TerminalNode HTML() { return getToken(DotParser.HTML, 0); }
 		public TerminalNode NUMBER() { return getToken(DotParser.NUMBER, 0); }
@@ -775,6 +773,9 @@ public class DotParser extends Parser {
 		public TerminalNode COLORS() { return getToken(DotParser.COLORS, 0); }
 		public TerminalNode RGB() { return getToken(DotParser.RGB, 0); }
 		public TerminalNode HSV() { return getToken(DotParser.HSV, 0); }
+		public IdContext id() {
+			return getRuleContext(IdContext.class,0);
+		}
 		public ValueContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -801,6 +802,69 @@ public class DotParser extends Parser {
 			setState(116);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
+			case STRING:
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(106);
+				match(STRING);
+				}
+				break;
+			case HTML:
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(107);
+				match(HTML);
+				}
+				break;
+			case NUMBER:
+				enterOuterAlt(_localctx, 3);
+				{
+				setState(108);
+				match(NUMBER);
+				}
+				break;
+			case POINT:
+				enterOuterAlt(_localctx, 4);
+				{
+				setState(109);
+				match(POINT);
+				}
+				break;
+			case RECT:
+				enterOuterAlt(_localctx, 5);
+				{
+				setState(110);
+				match(RECT);
+				}
+				break;
+			case SPLINE:
+				enterOuterAlt(_localctx, 6);
+				{
+				setState(111);
+				match(SPLINE);
+				}
+				break;
+			case COLORS:
+				enterOuterAlt(_localctx, 7);
+				{
+				setState(112);
+				match(COLORS);
+				}
+				break;
+			case RGB:
+				enterOuterAlt(_localctx, 8);
+				{
+				setState(113);
+				match(RGB);
+				}
+				break;
+			case HSV:
+				enterOuterAlt(_localctx, 9);
+				{
+				setState(114);
+				match(HSV);
+				}
+				break;
 			case N:
 			case NE:
 			case E:
@@ -811,73 +875,10 @@ public class DotParser extends Parser {
 			case NW:
 			case C:
 			case ID:
-				enterOuterAlt(_localctx, 1);
-				{
-				setState(106);
-				id();
-				}
-				break;
-			case STRING:
-				enterOuterAlt(_localctx, 2);
-				{
-				setState(107);
-				match(STRING);
-				}
-				break;
-			case HTML:
-				enterOuterAlt(_localctx, 3);
-				{
-				setState(108);
-				match(HTML);
-				}
-				break;
-			case NUMBER:
-				enterOuterAlt(_localctx, 4);
-				{
-				setState(109);
-				match(NUMBER);
-				}
-				break;
-			case POINT:
-				enterOuterAlt(_localctx, 5);
-				{
-				setState(110);
-				match(POINT);
-				}
-				break;
-			case RECT:
-				enterOuterAlt(_localctx, 6);
-				{
-				setState(111);
-				match(RECT);
-				}
-				break;
-			case SPLINE:
-				enterOuterAlt(_localctx, 7);
-				{
-				setState(112);
-				match(SPLINE);
-				}
-				break;
-			case COLORS:
-				enterOuterAlt(_localctx, 8);
-				{
-				setState(113);
-				match(COLORS);
-				}
-				break;
-			case RGB:
-				enterOuterAlt(_localctx, 9);
-				{
-				setState(114);
-				match(RGB);
-				}
-				break;
-			case HSV:
 				enterOuterAlt(_localctx, 10);
 				{
 				setState(115);
-				match(HSV);
+				id();
 				}
 				break;
 			default:
@@ -1356,9 +1357,9 @@ public class DotParser extends Parser {
 		"US\3\2\2\2VX\t\2\2\2WY\5\16\b\2XW\3\2\2\2YZ\3\2\2\2ZX\3\2\2\2Z[\3\2\2"+
 		"\2[\r\3\2\2\2\\c\7\27\2\2]_\5\20\t\2^`\t\3\2\2_^\3\2\2\2_`\3\2\2\2`b\3"+
 		"\2\2\2a]\3\2\2\2be\3\2\2\2ca\3\2\2\2cd\3\2\2\2df\3\2\2\2ec\3\2\2\2fg\7"+
-		"\30\2\2g\17\3\2\2\2hi\5\34\17\2ij\7\32\2\2jk\5\22\n\2k\21\3\2\2\2lw\5"+
-		"\34\17\2mw\7\16\2\2nw\7\21\2\2ow\7\22\2\2pw\7\13\2\2qw\7\f\2\2rw\7\17"+
-		"\2\2sw\7\r\2\2tw\7\t\2\2uw\7\n\2\2vl\3\2\2\2vm\3\2\2\2vn\3\2\2\2vo\3\2"+
+		"\30\2\2g\17\3\2\2\2hi\5\34\17\2ij\7\32\2\2jk\5\22\n\2k\21\3\2\2\2lw\7"+
+		"\16\2\2mw\7\21\2\2nw\7\22\2\2ow\7\13\2\2pw\7\f\2\2qw\7\17\2\2rw\7\r\2"+
+		"\2sw\7\t\2\2tw\7\n\2\2uw\5\34\17\2vl\3\2\2\2vm\3\2\2\2vn\3\2\2\2vo\3\2"+
 		"\2\2vp\3\2\2\2vq\3\2\2\2vr\3\2\2\2vs\3\2\2\2vt\3\2\2\2vu\3\2\2\2w\23\3"+
 		"\2\2\2xz\7\35\2\2y{\5\34\17\2zy\3\2\2\2z{\3\2\2\2{|\3\2\2\2|\u0080\7\7"+
 		"\2\2}\177\5\6\4\2~}\3\2\2\2\177\u0082\3\2\2\2\u0080~\3\2\2\2\u0080\u0081"+

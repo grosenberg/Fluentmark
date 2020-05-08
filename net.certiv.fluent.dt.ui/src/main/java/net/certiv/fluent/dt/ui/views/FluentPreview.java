@@ -25,7 +25,7 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.part.ViewPart;
 
-import net.certiv.dsl.core.preferences.DslPrefsManager;
+import net.certiv.dsl.core.preferences.PrefsManager;
 import net.certiv.dsl.core.util.eclipse.PartAdaptor;
 import net.certiv.fluent.dt.core.FluentCore;
 import net.certiv.fluent.dt.core.preferences.Prefs;
@@ -88,7 +88,7 @@ public class FluentPreview extends ViewPart implements PartAdaptor, ITextListene
 	public void propertyChange(PropertyChangeEvent event) {
 		if (viewjob != null) {
 			if (WatchProperties.isEmpty()) {
-				DslPrefsManager mgr = FluentCore.getDefault().getPrefsManager();
+				PrefsManager mgr = FluentCore.getDefault().getPrefsManager();
 				WatchProperties.add(mgr.bind(Prefs.EDITOR_PREVIEW_EXTERNAL_DIR));
 				WatchProperties.add(mgr.bind(Prefs.EDITOR_PREVIEW_INTERNAL_DIR));
 				WatchProperties.add(mgr.bind(Prefs.EDITOR_PREVIEW_FILE));

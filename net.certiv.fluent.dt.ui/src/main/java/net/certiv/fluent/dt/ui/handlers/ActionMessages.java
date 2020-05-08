@@ -4,7 +4,7 @@ import org.eclipse.osgi.util.NLS;
 
 public final class ActionMessages extends NLS {
 
-	private static final String BUNDLE_NAME = "net.certiv.antlrdt4.ui.editor.ActionMessages";
+	private static final String BUNDLE_NAME = "net.certiv.antlr.dt.ui.editor.ActionMessages";
 
 	private ActionMessages() {}
 

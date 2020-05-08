@@ -40,7 +40,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.ide.dialogs.EncodingFieldEditor;
 
 import net.certiv.dsl.core.color.DslColorManager;
-import net.certiv.dsl.core.preferences.DslPrefsManagerDelta;
+import net.certiv.dsl.core.preferences.PrefsDeltaManager;
 import net.certiv.dsl.ui.dialogs.StatusUtil;
 import net.certiv.dsl.ui.preferences.ScrolledPageContent;
 import net.certiv.dsl.ui.preferences.blocks.AbstractConfigBlock;
@@ -107,7 +107,7 @@ public class SpellingConfigBlock extends AbstractConfigBlock {
 		}
 	}
 
-	public SpellingConfigBlock(IDslPreferencePage page, DslPrefsManagerDelta delta, FormToolkit formkit,
+	public SpellingConfigBlock(IDslPreferencePage page, PrefsDeltaManager delta, FormToolkit formkit,
 			DslColorManager colorMgr, IStatusChangeListener context) {
 
 		super(page, delta, formkit, colorMgr);

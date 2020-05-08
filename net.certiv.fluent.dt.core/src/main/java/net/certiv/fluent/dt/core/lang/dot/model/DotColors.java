@@ -9,7 +9,7 @@
  * Contributors:
  *     Tamas Miklossy (itemis AG) - initial API and implementation (bug #461506)
  *******************************************************************************/
-package net.certiv.fluent.dt.core.lang.eqn;
+package net.certiv.fluent.dt.core.lang.dot.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +23,7 @@ import com.google.common.collect.ImmutableMap;
  *
  * @author miklossy
  */
-public class EqnColors {
+public class DotColors {
 
 	/**
 	 * Returns the valid dot color scheme names.

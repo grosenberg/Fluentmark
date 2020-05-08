@@ -6,7 +6,7 @@ import org.eclipse.jface.text.source.SourceViewerConfiguration;
 
 import net.certiv.dsl.core.color.IColorManager;
 import net.certiv.dsl.core.lang.LanguageManager;
-import net.certiv.dsl.core.preferences.IDslPrefsManager;
+import net.certiv.dsl.core.preferences.IPrefsManager;
 import net.certiv.dsl.ui.editor.DslEditor;
 import net.certiv.dsl.ui.editor.text.DslTextTools;
 import net.certiv.fluent.dt.core.FluentCore;
@@ -63,13 +63,13 @@ public class FluentTextTools extends DslTextTools {
 	}
 
 	@Override
-	public SourceViewerConfiguration createSourceViewerConfiguraton(IDslPrefsManager store, DslEditor editor,
+	public SourceViewerConfiguration createSourceViewerConfiguraton(IPrefsManager store, DslEditor editor,
 			String partitioning) {
 		return new FluentSourceViewerConfiguration(getColorManager(), store, editor, partitioning);
 	}
 
 	@Override
-	public SourceViewerConfiguration createSimpleSourceViewerConfiguration(IDslPrefsManager store,
+	public SourceViewerConfiguration createSimpleSourceViewerConfiguration(IPrefsManager store,
 			String partitioning) {
 		return new FluentSimpleSourceViewerConfiguration(store, null, partitioning);
 	}

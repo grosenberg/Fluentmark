@@ -3,7 +3,7 @@ package net.certiv.fluent.dt.ui.views;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.text.StringEscapeUtils;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -19,6 +19,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IPathEditorInput;
 
 import net.certiv.dsl.core.log.Log;
+import net.certiv.dsl.core.preferences.consts.Editor;
 import net.certiv.dsl.core.util.FileUtils;
 import net.certiv.dsl.core.util.Strings;
 import net.certiv.fluent.dt.core.FluentCore;
@@ -59,8 +60,8 @@ public class ViewJob extends Job {
 	public ViewJob(FluentPreview view) {
 		super("Preview");
 		this.view = view;
-		this.browser = view.getBrowser();
-		this.store = FluentCore.getDefault().getPrefsManager();
+		browser = view.getBrowser();
+		store = FluentCore.getDefault().getPrefsManager();
 
 		load();
 	}
@@ -87,7 +88,7 @@ public class ViewJob extends Job {
 		browser.addProgressListener(watcher);
 		timer = System.nanoTime();
 		String pluginId = FluentUI.getDefault().getPluginId();
-		String script = FileUtils.fromBundle(pluginId, Prefs.HTML + "/firebug.html") + Strings.EOL;
+		String script = FileUtils.fromBundle(pluginId, Editor.HTML + "/firebug.html") + Strings.EOL;
 		String content = editor.getHtml(Kind.VIEW);
 		if (firebug) {
 			content = content.replaceFirst("</head>", script + "</head>");

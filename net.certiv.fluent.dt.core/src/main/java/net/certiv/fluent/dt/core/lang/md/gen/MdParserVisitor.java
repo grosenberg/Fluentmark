@@ -1,4 +1,4 @@
-// Generated from D:/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.core/src/main/java/net/certiv/fluent/dt/core/lang/md/MdParser.g4 by ANTLR 4.7.2
+// Generated from D:/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.core/src/main/java/net/certiv/fluent/dt/core/lang/md/MdParser.g4 by ANTLR 4.8
  
 	package net.certiv.fluent.dt.core.lang.md.gen;
 
@@ -120,18 +120,6 @@ public interface MdParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitLink(MdParser.LinkContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link MdParser#styledtext}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitStyledtext(MdParser.StyledtextContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link MdParser#beg}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitBeg(MdParser.BegContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link MdParser#text}.
 	 * @param ctx the parse tree

@@ -5,7 +5,7 @@ import static net.certiv.fluent.dt.core.preferences.Prefs.*;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 
-import net.certiv.dsl.core.preferences.DslPrefsManagerDelta;
+import net.certiv.dsl.core.preferences.PrefsDeltaManager;
 import net.certiv.dsl.ui.preferences.tabs.AbstractTab;
 import net.certiv.dsl.ui.util.SWTFactory;
 import net.certiv.fluent.dt.ui.preferences.blocks.Cnv;
@@ -14,9 +14,9 @@ import net.certiv.fluent.dt.ui.preferences.blocks.ConvertersConfigBlock;
 public class BlackFridayTab extends AbstractTab {
 
 	private Text text;
-	private DslPrefsManagerDelta delta;
+	private PrefsDeltaManager delta;
 
-	public BlackFridayTab(ConvertersConfigBlock block, Composite parent, DslPrefsManagerDelta delta, String title) {
+	public BlackFridayTab(ConvertersConfigBlock block, Composite parent, PrefsDeltaManager delta, String title) {
 		super(block, parent, title);
 		this.delta = delta;
 	}

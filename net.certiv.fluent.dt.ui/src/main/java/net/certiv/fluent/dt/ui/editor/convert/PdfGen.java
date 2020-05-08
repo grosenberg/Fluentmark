@@ -40,15 +40,15 @@ import net.certiv.dsl.core.model.IStatementVisitor;
 import net.certiv.dsl.core.model.ModelType;
 import net.certiv.dsl.core.model.Statement;
 import net.certiv.dsl.core.model.builder.SourceRange;
-import net.certiv.dsl.core.preferences.DslPrefsManager;
+import net.certiv.dsl.core.preferences.PrefsManager;
 import net.certiv.dsl.core.util.FileUtils;
 import net.certiv.dsl.core.util.Strings;
 import net.certiv.dsl.core.util.TextUtils;
 import net.certiv.dsl.core.util.exec.Cmd;
 import net.certiv.dsl.ui.DslUI;
 import net.certiv.fluent.dt.core.FluentCore;
+import net.certiv.fluent.dt.core.lang.md.model.SpecializationType;
 import net.certiv.fluent.dt.core.model.SpecUtil;
-import net.certiv.fluent.dt.core.model.SpecializedType;
 import net.certiv.fluent.dt.core.preferences.Prefs;
 
 public class PdfGen {
@@ -109,7 +109,7 @@ public class PdfGen {
 					}
 
 					// open the converted document
-					DslPrefsManager store = FluentCore.getDefault().getPrefsManager();
+					PrefsManager store = FluentCore.getDefault().getPrefsManager();
 					if (store.getBoolean(Prefs.EDITOR_PDF_OPEN)) {
 						if (Desktop.isDesktopSupported()) {
 							try {
@@ -149,7 +149,7 @@ public class PdfGen {
 					if (element.getModelType() == ModelType.STATEMENT) {
 						Statement stmt = (Statement) element;
 						SourceRange range = stmt.getRange();
-						SpecializedType type = SpecUtil.getSpecializedType(stmt);
+						SpecializationType type = SpecUtil.getSpecializedType(stmt);
 
 						switch (type) {
 							case DotBlock:
@@ -255,7 +255,7 @@ public class PdfGen {
 	}
 
 	private static boolean dot2pdf(File file, String data) {
-		DslPrefsManager store = FluentCore.getDefault().getPrefsManager();
+		PrefsManager store = FluentCore.getDefault().getPrefsManager();
 		String cmd = store.getString(Prefs.EDITOR_DOT_PROGRAM);
 		if (cmd.trim().isEmpty() || data.trim().isEmpty()) return false;
 

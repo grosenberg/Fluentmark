@@ -12,8 +12,8 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import net.certiv.dsl.core.color.DslColorManager;
 import net.certiv.dsl.core.color.IColorManager;
-import net.certiv.dsl.core.preferences.DslPrefsManagerDelta;
-import net.certiv.dsl.core.preferences.IDslPrefsManager;
+import net.certiv.dsl.core.preferences.PrefsDeltaManager;
+import net.certiv.dsl.core.preferences.IPrefsManager;
 import net.certiv.dsl.ui.editor.DslEditor;
 import net.certiv.dsl.ui.editor.DslSourceViewer;
 import net.certiv.dsl.ui.editor.DslSourceViewerConfiguration;
@@ -28,7 +28,7 @@ public class SyntaxColorConfigBlock extends AbstractSyntaxColorConfigBlock {
 
 	private static final String PREVIEW_FILE_NAME = "ColorsPreview.md";
 
-	public SyntaxColorConfigBlock(SyntaxColorPage page, DslPrefsManagerDelta delta, FormToolkit formkit,
+	public SyntaxColorConfigBlock(SyntaxColorPage page, PrefsDeltaManager delta, FormToolkit formkit,
 			DslColorManager colorMgr) {
 		super(page, delta, formkit, colorMgr);
 	}
@@ -113,7 +113,7 @@ public class SyntaxColorConfigBlock extends AbstractSyntaxColorConfigBlock {
 
 	@Override
 	protected ProjectionViewer createPreviewViewer(Composite parent, IVerticalRuler verticalRuler,
-			IOverviewRuler overviewRuler, boolean showAnnotationsOverview, int styles, IDslPrefsManager store) {
+			IOverviewRuler overviewRuler, boolean showAnnotationsOverview, int styles, IPrefsManager store) {
 
 		return new DslSourceViewer(page.getDslUI(), parent, verticalRuler, overviewRuler, showAnnotationsOverview,
 				styles, store);
@@ -121,7 +121,7 @@ public class SyntaxColorConfigBlock extends AbstractSyntaxColorConfigBlock {
 
 	@Override
 	protected DslSourceViewerConfiguration createSimpleSourceViewerConfiguration(IColorManager colorMgr,
-			IDslPrefsManager store, DslEditor editor, boolean configFormatter) {
+			IPrefsManager store, DslEditor editor, boolean configFormatter) {
 
 		return new FluentSimpleSourceViewerConfiguration(colorMgr, store, editor, Partitions.PARTITIONING,
 				configFormatter);

@@ -18,7 +18,7 @@ import org.eclipse.jface.text.rules.SingleLineRule;
 import org.eclipse.jface.text.rules.WhitespaceRule;
 import org.eclipse.jface.text.rules.WordRule;
 
-import net.certiv.dsl.core.preferences.IDslPrefsManager;
+import net.certiv.dsl.core.preferences.IPrefsManager;
 import net.certiv.dsl.ui.editor.scanners.AbstractBufferedRuleBasedScanner;
 import net.certiv.fluent.dt.core.preferences.Prefs;
 import net.certiv.fluent.dt.ui.editor.text.rules.UmlSymbolDetector;
@@ -48,7 +48,7 @@ public class ScannerUml extends AbstractBufferedRuleBasedScanner implements ISca
 	private static final String[] symbols = { "{", "}", "[", "]", "<-", "<--", "<---", "-", "--", "---", "->", "-->",
 			"--->", "(", ")" };
 
-	public ScannerUml(IDslPrefsManager store) {
+	public ScannerUml(IPrefsManager store) {
 		super(store);
 		initialize();
 	}

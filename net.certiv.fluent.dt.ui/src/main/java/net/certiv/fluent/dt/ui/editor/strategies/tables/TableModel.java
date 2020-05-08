@@ -92,12 +92,12 @@ public class TableModel {
 
 	public void insertCol(int target) {
 		numCols++;
-		aligns = ArrayUtils.add(aligns, target, SWT.LEFT);
+		aligns = ArrayUtils.insert(target, aligns, SWT.LEFT);
 		for (Row row : rows) {
 			if (row.row == formatRow) {
-				row.data = ArrayUtils.add(row.data, target, ":---");
+				row.data = ArrayUtils.insert(target, row.data, ":---");
 			} else {
-				row.data = ArrayUtils.add(row.data, target, "");
+				row.data = ArrayUtils.insert(target, row.data, "");
 			}
 		}
 		headers = rows.get(0).data;

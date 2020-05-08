@@ -20,8 +20,8 @@ import org.eclipse.swt.graphics.Image;
 
 import net.certiv.dsl.core.DslCore;
 import net.certiv.dsl.core.color.IColorManager;
-import net.certiv.dsl.core.preferences.DslPrefsManager;
-import net.certiv.dsl.core.preferences.IDslPrefsManager;
+import net.certiv.dsl.core.preferences.PrefsManager;
+import net.certiv.dsl.core.preferences.IPrefsManager;
 import net.certiv.dsl.ui.DslImageManager;
 import net.certiv.dsl.ui.DslUI;
 import net.certiv.dsl.ui.editor.DslEditor;
@@ -64,7 +64,7 @@ public class FluentSourceViewerConfiguration extends DslSourceViewerConfiguratio
 
 	private MdSematicAnalyzer markupAnalyzer;
 
-	public FluentSourceViewerConfiguration(IColorManager colorMgr, IDslPrefsManager store, DslEditor editor,
+	public FluentSourceViewerConfiguration(IColorManager colorMgr, IPrefsManager store, DslEditor editor,
 			String partitioning) {
 		super(FluentCore.getDefault(), colorMgr, store, editor, partitioning);
 	}
@@ -79,13 +79,13 @@ public class FluentSourceViewerConfiguration extends DslSourceViewerConfiguratio
 		return FluentCore.getDefault();
 	}
 
-	private DslPrefsManager getPrefsMgr() {
+	private PrefsManager getPrefsMgr() {
 		return getDslCore().getPrefsManager();
 	}
 
 	@Override
 	protected void initializeScanners() {
-		IDslPrefsManager store = getPrefStore();
+		IPrefsManager store = getPrefStore();
 
 		yamlScanner = new ScannerFrontMatter(store);
 		codeScanner = new ScannerCode(store);

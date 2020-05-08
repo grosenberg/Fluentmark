@@ -41,10 +41,9 @@ attribute
 	;
 
 value
-	: id
-	| STRING | HTML
+	: STRING | HTML
 	| NUMBER | POINT | RECT | SPLINE
-	| COLORS | RGB	 | HSV
+	| COLORS | RGB	 | HSV	| id
 	;
 
 subgraph

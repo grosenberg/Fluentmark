@@ -16,7 +16,7 @@ import org.eclipse.jface.text.rules.IToken;
 import org.eclipse.jface.text.rules.MultiLineRule;
 import org.eclipse.jface.text.rules.WhitespaceRule;
 
-import net.certiv.dsl.core.preferences.IDslPrefsManager;
+import net.certiv.dsl.core.preferences.IPrefsManager;
 import net.certiv.dsl.ui.editor.scanners.AbstractBufferedRuleBasedScanner;
 import net.certiv.fluent.dt.core.preferences.Prefs;
 import net.certiv.fluent.dt.ui.editor.text.rules.WhitespaceDetector;
@@ -25,7 +25,7 @@ public class ScannerCode extends AbstractBufferedRuleBasedScanner implements ISc
 
 	private String[] tokenProperties;
 
-	public ScannerCode(IDslPrefsManager store) {
+	public ScannerCode(IPrefsManager store) {
 		super(store);
 		initialize();
 	}

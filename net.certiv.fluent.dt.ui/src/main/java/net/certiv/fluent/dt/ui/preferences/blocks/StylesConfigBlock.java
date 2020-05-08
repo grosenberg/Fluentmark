@@ -17,7 +17,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import net.certiv.dsl.core.color.DslColorManager;
 import net.certiv.dsl.core.log.Log;
-import net.certiv.dsl.core.preferences.DslPrefsManagerDelta;
+import net.certiv.dsl.core.preferences.PrefsDeltaManager;
 import net.certiv.dsl.ui.preferences.bind.DirectorypathValidator;
 import net.certiv.dsl.ui.preferences.blocks.AbstractConfigBlock;
 import net.certiv.dsl.ui.preferences.pages.IDslPreferencePage;
@@ -31,7 +31,7 @@ public class StylesConfigBlock extends AbstractConfigBlock {
 	private Combo sCombo;
 	private Composite sComp;
 
-	public StylesConfigBlock(IDslPreferencePage page, DslPrefsManagerDelta delta, FormToolkit formkit,
+	public StylesConfigBlock(IDslPreferencePage page, PrefsDeltaManager delta, FormToolkit formkit,
 			DslColorManager colorMgr) {
 		super(page, delta, formkit, colorMgr);
 	}

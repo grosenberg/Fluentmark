@@ -2,27 +2,25 @@ package net.certiv.fluent.dt.ui.preferences.page;
 
 import org.eclipse.jface.text.IDocument;
 
-import net.certiv.fluent.dt.core.FluentCore;
-import net.certiv.fluent.dt.ui.FluentUI;
-import net.certiv.fluent.dt.ui.editor.Partitions;
-import net.certiv.fluent.dt.ui.editor.FluentSimpleSourceViewerConfiguration;
-import net.certiv.fluent.dt.ui.editor.FluentSourceViewerConfiguration;
-
 import net.certiv.dsl.core.DslCore;
 import net.certiv.dsl.core.color.IColorManager;
-import net.certiv.dsl.core.preferences.DslPrefsManagerDelta;
-import net.certiv.dsl.core.preferences.IDslPrefsManager;
+import net.certiv.dsl.core.preferences.IPrefsManager;
+import net.certiv.dsl.core.preferences.PrefsDeltaManager;
 import net.certiv.dsl.ui.DslUI;
 import net.certiv.dsl.ui.editor.text.DslTextTools;
 import net.certiv.dsl.ui.preferences.pages.DslTemplatePreferencePage;
 import net.certiv.dsl.ui.templates.CompletionManager;
+import net.certiv.fluent.dt.core.FluentCore;
+import net.certiv.fluent.dt.ui.FluentUI;
+import net.certiv.fluent.dt.ui.editor.FluentSimpleSourceViewerConfiguration;
+import net.certiv.fluent.dt.ui.editor.FluentSourceViewerConfiguration;
+import net.certiv.fluent.dt.ui.editor.Partitions;
 
 public class TemplatesPage extends DslTemplatePreferencePage {
 
 	public TemplatesPage() {
 		super();
-		DslPrefsManagerDelta delta = getDslCore().getPrefsManager().createDeltaManager();
-		delta.setDefaultProject(null);
+		PrefsDeltaManager delta = getDslCore().getPrefsManager().createDeltaManager();
 		setPreferenceStore(delta);
 	}
 
@@ -38,7 +36,7 @@ public class TemplatesPage extends DslTemplatePreferencePage {
 
 	@Override
 	protected FluentSourceViewerConfiguration createSourceViewerConfiguration() {
-		return new FluentSimpleSourceViewerConfiguration(getColorManager(), (IDslPrefsManager) getPreferenceStore(), null,
+		return new FluentSimpleSourceViewerConfiguration(getColorManager(), (IPrefsManager) getPreferenceStore(), null,
 				Partitions.PARTITIONING, false);
 	}
 

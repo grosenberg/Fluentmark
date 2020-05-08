@@ -14,21 +14,6 @@
       </content-type>
    </extension>
 
-   <extension
-         id="net.certiv.fluent.dt.core.nature"
-         name="Fluentmark Nature"
-         point="org.eclipse.core.resources.natures">
-      <runtime>
-         <run
-               class="net.certiv.fluent.dt.core.FluentNature">
-         </run>
-      </runtime>
-<!--      
-      <builder
-            id="net.certiv.fluent.dt.core.builder">
-      </builder>
--->
-   </extension>
 
 <!--   
    <extension

@@ -19,7 +19,7 @@ import net.sourceforge.plantuml.SourceStringReader;
 import net.sourceforge.plantuml.cucadiagram.dot.GraphvizUtils;
 
 import net.certiv.dsl.core.log.Log;
-import net.certiv.dsl.core.preferences.DslPrefsManager;
+import net.certiv.dsl.core.preferences.PrefsManager;
 import net.certiv.dsl.core.util.Strings;
 import net.certiv.fluent.dt.core.FluentCore;
 import net.certiv.fluent.dt.core.preferences.Prefs;
@@ -41,7 +41,7 @@ public class UmlGen {
 		String value = umlCache.get(key);
 		if (value != null) return value;
 
-		DslPrefsManager store = FluentCore.getDefault().getPrefsManager();
+		PrefsManager store = FluentCore.getDefault().getPrefsManager();
 		String dotexe = store.getString(Prefs.EDITOR_DOT_PROGRAM);
 		if (!dotexe.isEmpty()) {
 			GraphvizUtils.setDotExecutable(dotexe);

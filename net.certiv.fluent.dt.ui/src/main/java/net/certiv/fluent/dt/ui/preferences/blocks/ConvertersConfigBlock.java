@@ -13,7 +13,7 @@ import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import net.certiv.dsl.core.color.DslColorManager;
-import net.certiv.dsl.core.preferences.DslPrefsManagerDelta;
+import net.certiv.dsl.core.preferences.PrefsDeltaManager;
 import net.certiv.dsl.ui.preferences.blocks.AbstractConfigBlock;
 import net.certiv.dsl.ui.preferences.pages.IDslPreferencePage;
 import net.certiv.dsl.ui.preferences.tabs.AbstractTab;
@@ -32,7 +32,7 @@ public class ConvertersConfigBlock extends AbstractConfigBlock {
 	private BlackFridayTab blackFridayTab;
 	private ExternalTab externalTab;
 
-	public ConvertersConfigBlock(IDslPreferencePage page, DslPrefsManagerDelta delta, FormToolkit formkit,
+	public ConvertersConfigBlock(IDslPreferencePage page, PrefsDeltaManager delta, FormToolkit formkit,
 			DslColorManager colorMgr) {
 		super(page, delta, formkit, colorMgr);
 	}
@@ -71,7 +71,7 @@ public class ConvertersConfigBlock extends AbstractConfigBlock {
 	@Override
 	public Composite createContents(Composite parent) {
 		Composite contents = super.createContents(parent);
-		folder = addTabFolder(contents, SWT.NONE, GridData.BEGINNING, GridData.BEGINNING, true, true, SWT.DEFAULT);
+		folder = addTabFolder(contents, SWT.NONE, GridData.FILL, GridData.BEGINNING, true, true, SWT.DEFAULT);
 		Dialog.applyDialogFont(folder);
 
 		createTab(Cnv.PANDOC);
@@ -79,11 +79,11 @@ public class ConvertersConfigBlock extends AbstractConfigBlock {
 		createTab(Cnv.BLACKFRIDAY);
 		createTab(Cnv.EXTERNAL);
 
-		Composite graphs = SWTFactory.createGroupComposite(contents, 3, 3, "Graph Generators");
+		Composite graphs = SWTFactory.createGroupComposite(contents, 2, 3, "Graph Generators");
 		addCheckBox(graphs, "Enable PlantUML generator", EDITOR_UMLMODE_ENABLED, 3, 4);
-		addCheckBox(graphs, "Enable Graphviz Dot generator", EDITOR_DOTMODE_ENABLED, 3, 4);
+		addCheckBox(graphs, "Enable Graphviz generator", EDITOR_DOTMODE_ENABLED, 3, 4);
 
-		addProgramField(graphs, EDITOR_DOT_PROGRAM, 4, 3, "Dot executable", 50, AbstractTab.validFilePath);
+		addProgramField(graphs, EDITOR_DOT_PROGRAM, 4, 3, "Dot executable", 0, AbstractTab.validFilePath);
 
 		SWTFactory.createVerticalSpacer(contents, 1);
 

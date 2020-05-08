@@ -14,7 +14,7 @@ import org.eclipse.jface.text.rules.IRule;
 import org.eclipse.jface.text.rules.IToken;
 import org.eclipse.jface.text.rules.WhitespaceRule;
 
-import net.certiv.dsl.core.preferences.IDslPrefsManager;
+import net.certiv.dsl.core.preferences.IPrefsManager;
 import net.certiv.dsl.ui.editor.scanners.AbstractBufferedRuleBasedScanner;
 import net.certiv.fluent.dt.core.preferences.Prefs;
 import net.certiv.fluent.dt.ui.editor.text.rules.FrontMatterRule;
@@ -24,7 +24,7 @@ public class ScannerFrontMatter extends AbstractBufferedRuleBasedScanner {
 
 	private String[] tokenProperties;
 
-	public ScannerFrontMatter(IDslPrefsManager store) {
+	public ScannerFrontMatter(IPrefsManager store) {
 		super(store);
 		initialize();
 	}

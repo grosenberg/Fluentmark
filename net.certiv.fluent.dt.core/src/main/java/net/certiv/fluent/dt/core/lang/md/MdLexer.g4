@@ -21,7 +21,7 @@ tokens {
 	import  net.certiv.fluent.dt.core.lang.md.MdLexerBase;
 }
 
-COMMENT : Comment ;
+COMMENT : Comment ; 
 
 URL
 	: Url
@@ -41,12 +41,12 @@ RBRACK	 : RBrack			  ;
 RPAREN	 : RParen			  ;
 
 // code blocks
-CODE_BEG : Tics { at(2) }?	  -> pushMode(CodeTics)	;
+CODE_BEG : Tics   { at(2) }? -> pushMode(CodeTics)	;
 CODE_ALT : Tildes { at(2) }? -> type(CODE_BEG), pushMode(CodeTildes) ;
 
 CODE_SPAN
-	: Tic Tic ( EscSeq | ~[\r\n\f\\]  )*? Tic Tic
-	| Tic	  ( EscSeq | ~[`\r\n\f\\] )* Tic
+	: Tic Tic ( EscSeq | ~[\\]  )*? Tic Tic
+	| Tic	  ( EscSeq | ~[`\\] )* Tic
 	;
 
 // other blocks
@@ -54,8 +54,8 @@ YAML_BLOCK : YamlBlock { at(2) }? ;
 HTML_BLOCK : HtmlBlock { at(2) }? ;
 
 MATH_BLOCK : MathMark .*? MathMark { at(2) }? ;
-TEX_BLOCK  : TexBeg  .*? TexEnd { at(2) }?	  ;
-UML_BLOCK  : UmlBeg  .*? UmlEnd { at(2) }?    ;
+TEX_BLOCK  : TexBeg   .*? TexEnd { at(2) }?	  ;
+UML_BLOCK  : UmlBeg   .*? UmlEnd { at(2) }?   ;
 
 // special inline strings
 UNICODE	: Unicode ;
@@ -107,40 +107,37 @@ CHAR : ( Char | EscChar ) { more(WORD); } ;
 ERR	 : . ;
 
 mode Header;
-HASH	 : Hash+ ;
-LSTYLE_h : LBrace { style() }? -> type(LSTYLE), pushMode(Style) ;
+	HASH	 : Hash+ ;
+	LSTYLE_h : LBrace { style() }? -> type(LSTYLE), pushMode(Style) ;
 
-HWS_h  : Hws -> type(HWS), channel(HIDDEN) ;
-CHAR_h : ( Char | EscChar ) { more(WORD); } ;
+	HWS_h  : Hws -> type(HWS), channel(HIDDEN) ;
+	CHAR_h : ( Char | EscChar ) { more(WORD); } ;
 
 mode Style;
-RSTYLE : RBrace -> popMode ;
-CLASS : Dot	  ;
-ID	  : Hash  ;
-EQ	  : Equal ;
-QUOTE : Quote ;
-MARK  : Mark  ;
-HWS_s  : Hws -> type(HWS), channel(HIDDEN) ;
-CHAR_s : ( Char | EscChar ) { more(WORD); } ;
+	RSTYLE : RBrace -> popMode ;
+	CLASS : Dot	  ;
+	ID	  : Hash  ;
+	EQ	  : Equal ;
+	QUOTE : Quote ;
+	MARK  : Mark  ;
+	HWS_s  : Hws -> type(HWS), channel(HIDDEN) ;
+	CHAR_s : ( Char | EscChar ) { more(WORD); } ;
 
 mode CodeTics;
+	CODE_END : Vws BlockQuote? Tics -> popMode			   ;
+	LSTYLE_b : LBrace { style() }? -> type(LSTYLE), pushMode(Style) ;
 
-CODE_END : Vws BlockQuote? Tics -> popMode			   ;
-LSTYLE_b : LBrace { style() }? -> type(LSTYLE), pushMode(Style) ;
-
-VWS_b  : Vws -> type(VWS) ;
-HWS_b  : Hws -> type(HWS), channel(HIDDEN) ;
-CHAR_b : ( Char | EscChar ) { more(WORD); } ;
+	VWS_b  : Vws -> type(VWS) ;
+	HWS_b  : Hws -> type(HWS), channel(HIDDEN) ;
+	CHAR_b : ( Char | EscChar ) { more(WORD); } ;
 
 mode CodeTildes;
+	TILDES_t : Vws BlockQuote? Tildes -> type(CODE_END), popMode ;
+	LSTYLE_t : LBrace { style() }? -> type(LSTYLE), pushMode(Style)		 ;
 
-TILDES_t : Vws BlockQuote? Tildes -> type(CODE_END), popMode ;
-LSTYLE_t : LBrace { style() }? -> type(LSTYLE), pushMode(Style)		 ;
-
-VWS_t : Vws	-> type(VWS) ;
-HWS_t : Hws	-> type(HWS), channel(HIDDEN) ;
-CHAR_t
-	  : ( Char | EscChar ) { more(WORD); } ;
+	VWS_t : Vws	-> type(VWS) ;
+	HWS_t : Hws	-> type(HWS), channel(HIDDEN) ;
+	CHR_t : ( Char | EscChar ) { more(WORD); } ;
 
 // ------------------------
 

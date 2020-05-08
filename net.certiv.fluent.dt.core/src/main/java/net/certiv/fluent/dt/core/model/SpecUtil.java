@@ -8,6 +8,8 @@ import org.eclipse.core.runtime.CoreException;
 import net.certiv.dsl.core.model.ICodeUnit;
 import net.certiv.dsl.core.model.IStatement;
 import net.certiv.dsl.core.model.IStatementVisitor;
+import net.certiv.fluent.dt.core.lang.md.model.Specialization;
+import net.certiv.fluent.dt.core.lang.md.model.SpecializationType;
 
 public class SpecUtil {
 
@@ -16,7 +18,7 @@ public class SpecUtil {
 	public static final String UML = "uml";
 
 	/** Returns all statement children of the given specialized type. */
-	public static List<IStatement> getChildren(IStatement stmt, SpecializedType specializedType) {
+	public static List<IStatement> getChildren(IStatement stmt, SpecializationType specializationType) {
 		List<IStatement> children = new ArrayList<>();
 		ICodeUnit unit = stmt.getCodeUnit();
 		unit.lock();
@@ -25,7 +27,7 @@ public class SpecUtil {
 
 				@Override
 				public boolean onEntry(IStatement child) throws CoreException {
-					if (getSpecializedType(child) == specializedType) children.add(child);
+					if (getSpecializedType(child) == specializationType) children.add(child);
 					return true;
 				}
 			});
@@ -35,11 +37,10 @@ public class SpecUtil {
 		return children;
 	}
 
-	public static SpecializedType getSpecializedType(IStatement stmt) {
-		if (stmt.hasData()) {
-			Specialization data = (Specialization) stmt.getData();
-			return data.specializedType;
-		}
-		return SpecializedType.Unknown;
+	public static SpecializationType getSpecializedType(IStatement stmt) {
+		if (!stmt.hasData()) return SpecializationType.Unknown;
+
+		Specialization data = (Specialization) stmt.getData();
+		return data.specializationType;
 	}
 }

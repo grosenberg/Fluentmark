@@ -24,7 +24,7 @@ public abstract class L2Char extends L2Object {
 ```
 
 ~~~ dot
-Some dot spec
+
 ~~~
 
 Done.
