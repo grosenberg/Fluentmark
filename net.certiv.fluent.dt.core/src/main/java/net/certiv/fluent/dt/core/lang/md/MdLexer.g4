@@ -42,16 +42,18 @@ RPAREN	 : RParen			  ;
 
 // code blocks
 CODE_BEG : Tics   { at(2) }? -> pushMode(CodeTics)	;
-CODE_ALT : Tildes { at(2) }? -> type(CODE_BEG), pushMode(CodeTildes) ;
+CODE_TLD : Tildes { at(2) }? -> type(CODE_BEG), pushMode(CodeTildes) ;
 
 CODE_SPAN
-	: Tic Tic ( EscSeq | ~[\\]  )*? Tic Tic
-	| Tic	  ( EscSeq | ~[`\\] )* Tic
+	: Tic2 ( EscSeq | ~[\\]  )*? ( Tic2 | Vws Hws* Vws | EOF )
+	| Tic  ( EscSeq | ~[`\\] )*? ( Tic  | Vws Hws* Vws | EOF )
 	;
 
 // other blocks
 YAML_BLOCK : YamlBlock { at(2) }? ;
 HTML_BLOCK : HtmlBlock { at(2) }? ;
+
+DOT_BLOCK  : DotBlock { at(2) }? ;
 
 MATH_BLOCK : MathMark .*? MathMark { at(2) }? ;
 TEX_BLOCK  : TexBeg   .*? TexEnd { at(2) }?	  ;
@@ -124,7 +126,7 @@ mode Style;
 	CHAR_s : ( Char | EscChar ) { more(WORD); } ;
 
 mode CodeTics;
-	CODE_END : Vws BlockQuote? Tics -> popMode			   ;
+	CODE_END : Vws BlockQuote? Tics -> popMode	;
 	LSTYLE_b : LBrace { style() }? -> type(LSTYLE), pushMode(Style) ;
 
 	VWS_b  : Vws -> type(VWS) ;
@@ -133,7 +135,7 @@ mode CodeTics;
 
 mode CodeTildes;
 	TILDES_t : Vws BlockQuote? Tildes -> type(CODE_END), popMode ;
-	LSTYLE_t : LBrace { style() }? -> type(LSTYLE), pushMode(Style)		 ;
+	LSTYLE_t : LBrace { style() }? -> type(LSTYLE), pushMode(Style) ;
 
 	VWS_t : Vws	-> type(VWS) ;
 	HWS_t : Hws	-> type(HWS), channel(HIDDEN) ;
@@ -163,7 +165,7 @@ fragment UrlSegment	: [./]+ ([%+._-] | Alphanum	)* ;
 
 fragment UrlQuery	: Question ([%+=&;._-] | Alphanum )+  ;
 fragment UrlFrag	: Hash ([%+._-] | Alphanum )+ ;
-fragment UrlName : UrlTerm ( Dot UrlTerm )+	;
+fragment UrlName	: UrlTerm ( Dot UrlTerm )+	;
 fragment UrlIp
 	: Digit+		   ( Dot Digit+		 )+
 	| LBrack HexDigit+ ( Colon HexDigit+ )+ RBrack
@@ -201,7 +203,7 @@ fragment ColDef : Colon? Dashes Colon? ;
 // HTML
 fragment HtmlBlock : Html+ ;
 fragment Html
-	: OpenTag ( Html | EscSeq | ~ '<' )+ CloseTag
+	: OpenTag ( Html | EscSeq | ~'<' )+ CloseTag
 	| AutoTag
 	;
 
@@ -209,6 +211,12 @@ fragment HtmlTag  : OpenTag | CloseTag | AutoTag ;
 fragment OpenTag  : LAngle Letter+ RAngle		 ;
 fragment CloseTag : LAngle Slash Letter+ RAngle	 ;
 fragment AutoTag  : LAngle Letter+ Slash RAngle  ;
+
+// DOT
+fragment DotBlock : 'strict'? ( 'digragh' | 'graph' ) .*?  DotBody ;
+fragment DotBody
+	: LBrace ( DotBody | EscSeq | ~'}' )+ RBrace 
+	;
 
 // YAML
 fragment YamlBlock : YamlBeg ( YamlKey ( YamlVal )* )+ YamlEnd ;
@@ -292,6 +300,7 @@ fragment EscSeq
 fragment Quote		: '"'  ;
 fragment Mark		: '\'' ;
 fragment Tic		: '`'  ;
+fragment Tic2		: '``' ;
 fragment Tilde		: '~'  ;
 fragment Esc		: '\\' ;
 fragment Dot		: '.'  ;

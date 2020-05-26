@@ -31,6 +31,12 @@ public interface MdParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitHtmlBlock(MdParser.HtmlBlockContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link MdParser#dotBlock}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDotBlock(MdParser.DotBlockContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link MdParser#mathBlock}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

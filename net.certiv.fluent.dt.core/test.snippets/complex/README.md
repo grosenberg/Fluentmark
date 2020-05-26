@@ -36,7 +36,7 @@ Survey: [Proposal to remove legacy converters](https://github.com/grosenberg/flu
 
 <figure>
 <figcaption>1. Dot Graph</figcaption>
-[![Fluentmark Dot graph][1]][1]
+[![Fluentmark Dot Graph][1]][1]
 </figure>
 
 <figure>

@@ -40,6 +40,16 @@ public interface MdParserListener extends ParseTreeListener {
 	 */
 	void exitHtmlBlock(MdParser.HtmlBlockContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link MdParser#dotBlock}.
+	 * @param ctx the parse tree
+	 */
+	void enterDotBlock(MdParser.DotBlockContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MdParser#dotBlock}.
+	 * @param ctx the parse tree
+	 */
+	void exitDotBlock(MdParser.DotBlockContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link MdParser#mathBlock}.
 	 * @param ctx the parse tree
 	 */

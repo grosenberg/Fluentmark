@@ -1,18 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
-   <extension
+
+  <extension point="org.eclipse.core.expressions.definitions">
+    <definition id="net.certiv.fluent.dt.ui.context.definition">
+      <with variable="activeEditor">
+        <instanceof value="net.certiv.fluent.dt.ui.editor.FluentEditor" />
+      </with>
+    </definition>
+
+    <definition id="net.certiv.fluent.dt.ui.select.definition">
+      <with variable="selection">
+         <count value="+" />
+           <iterate ifEmpty="false" operator="and">
+          <or>
+                 <instanceof value="org.eclipse.core.resources.IContainer" />
+                 <adapt type="org.eclipse.core.resources.IFile">
+                    <or>
+                        <test property="org.eclipse.core.resources.extension" value="md" />
+                        <test property="org.eclipse.core.resources.extension" value="mdown" />
+                        <test property="org.eclipse.core.resources.extension" value="mkd" />
+                    </or>
+                 </adapt>
+              </or>
+          </iterate>
+      </with>
+    </definition>
+  </extension>  
+  
+  <extension
+         point="org.eclipse.core.filebuffers.documentSetup"
          id="net.certiv.fluent.dt.ui.editor.FmDocumentSetupParticipant"
-         name="FluentMark Document"
-         point="org.eclipse.core.filebuffers.documentSetup">
-      <participant
+         name="FluentMark Document">
+   <participant
             class="net.certiv.fluent.dt.ui.editor.FluentDocumentSetupParticipant"
             contentTypeId="net.certiv.fluent.dt.core.contentType"
             extensions="md,mdown,mkd">
       </participant>
    </extension>
 
-   <extension
+  <extension
          point="org.eclipse.core.runtime.adapters">
       <factory
             class="net.certiv.dsl.ui.DslElementAdapterFactory"
@@ -35,15 +62,17 @@
       </factory>
    </extension>
 
-   <extension point="org.eclipse.core.expressions.definitions">
-		<definition id="net.certiv.fluent.dt.activeContexts.definition">
-			<with variable="activePartId">
-				<equals value="net.certiv.fluent.dt.ui.editor.FluentEditor" />
-			</with>
-		</definition>
-	</extension>
+  <extension
+         point="org.eclipse.ui.contexts">
+      <context
+            description="Fluentmark Editor Context"
+            id="net.certiv.fluent.dt.ui.fluentEditorScope"
+            name="Fluent Content"
+            parentId="org.eclipse.ui.textEditorScope">
+      </context>
+   </extension>
 
-   <extension
+  <extension
          point="org.eclipse.ui.editors">
       <editor
             class="net.certiv.fluent.dt.ui.editor.FluentEditor"
@@ -59,7 +88,68 @@
       </editor>
    </extension>
 
-   <extension
+  <extension
+        point="org.eclipse.ui.editors.templates">
+     <contextTypeRegistry
+           id="net.certiv.fluent.dt.ui.editor.FluentEditor">
+     </contextTypeRegistry>
+     <contextType
+           class="net.certiv.fluent.dt.ui.templates.PageContextType"
+           id="net.certiv.fluent.dt.ui.templates.page"
+           name="Page"
+           registryId="net.certiv.fluent.dt.ui.editor.FluentEditor">
+     </contextType>
+     <contextType
+           class="net.certiv.fluent.dt.ui.templates.YamlContextType"
+           id="net.certiv.fluent.dt.ui.templates.yaml"
+           name="Yaml"
+           registryId="net.certiv.fluent.dt.ui.editor.FluentEditor">
+     </contextType>
+     <contextType
+           class="net.certiv.fluent.dt.ui.templates.HtmlContextType"
+           id="net.certiv.fluent.dt.ui.templates.html"
+           name="Html"
+           registryId="net.certiv.fluent.dt.ui.editor.FluentEditor">
+     </contextType>
+     <contextType
+           class="net.certiv.fluent.dt.ui.templates.MathContextType"
+           id="net.certiv.fluent.dt.ui.templates.math"
+           name="Math"
+           registryId="net.certiv.fluent.dt.ui.editor.FluentEditor">
+     </contextType>
+     <contextType
+           class="net.certiv.fluent.dt.ui.templates.DotContextType"
+           id="net.certiv.fluent.dt.ui.templates.dot"
+           name="Dot"
+           registryId="net.certiv.fluent.dt.ui.editor.FluentEditor">
+     </contextType>
+      <contextType
+            class="net.certiv.fluent.dt.ui.templates.TexContextType"
+            id="net.certiv.fluent.dt.ui.templates.tex"
+            name="Tex"
+            registryId="net.certiv.fluent.dt.ui.editor.FluentEditor">
+      </contextType>
+     <contextType
+           class="net.certiv.fluent.dt.ui.templates.UmlContextType"
+           id="net.certiv.fluent.dt.ui.templates.uml"
+           name="Uml"
+           registryId="net.certiv.fluent.dt.ui.editor.FluentEditor">
+     </contextType>
+     <include
+           file="templates/templates.xml"
+           translations="templates/templates.properties">
+     </include>
+      <resolver
+            class="net.certiv.fluent.dt.ui.templates.VocabName"
+            contextTypeId="net.certiv.fluent.dt.ui.templates.page"
+            description="Proper name of the Tokens Vocabulary file"
+            icon="icons/elcl16/templateprop_co.png"
+            name="Tokens Vocab Name"
+            type="vocabName">
+      </resolver>
+  </extension>
+
+  <extension
          point="org.eclipse.ui.editors.annotationTypes">
       <type
             markerSeverity="2"
@@ -84,7 +174,7 @@
       </type>
    </extension>
    
-   <extension
+  <extension
          point="org.eclipse.ui.editors.markerAnnotationSpecification">
       <specification
             annotationImageProvider="net.certiv.fluent.dt.ui.editor.AnnotationImageProvider"
@@ -123,86 +213,21 @@
             verticalRulerPreferenceKey="occurrenceIndicationInVerticalRuler"
             verticalRulerPreferenceValue="false">
       </specification>
-   </extension>
+  </extension>
 
 
-   <extension
+  <extension
          point="org.eclipse.ui.workbench.texteditor.hyperlinkDetectors">
       <hyperlinkDetector
             activate="true"
-            class="net.certiv.fluent.dt.ui.editor.FmHyperlinkDetector"
+            class="net.certiv.fluent.dt.ui.editor.FluentHyperlinkDetector"
             id="net.certiv.fluent.dt.ui.editor.FmHyperlinkDetector"
             name="Fluent hyperlink"
             targetId="net.certiv.dsl.ui.codeUnit">
       </hyperlinkDetector>
    </extension>
-
-   <extension
-         point="org.eclipse.ui.contexts">
-      <context
-            description="Fluentmark Editor Context"
-            id="net.certiv.fluent.dt.ui.fluentEditorScope"
-            name="Fluent Content"
-            parentId="org.eclipse.ui.textEditorScope">
-      </context>
-   </extension>
-
-  <extension
-        point="org.eclipse.ui.editors.templates">
-     <contextTypeRegistry
-           id="net.certiv.fluent.dt.ui.editor.FluentEditor">
-     </contextTypeRegistry>
-     <contextType
-           class="net.certiv.fluent.dt.ui.templates.MdContextType"
-           id="net.certiv.fluent.dt.ui.templates.md"
-           name="Markdown"
-           registryId="net.certiv.fluent.dt.ui.editor.FluentEditor">
-     </contextType>
-     <contextType
-           class="net.certiv.fluent.dt.ui.templates.YamlContextType"
-           id="net.certiv.fluent.dt.ui.templates.yaml"
-           name="Yaml"
-           registryId="net.certiv.fluent.dt.ui.editor.FluentEditor">
-     </contextType>
-     <contextType
-           class="net.certiv.fluent.dt.ui.templates.HtmlContextType"
-           id="net.certiv.fluent.dt.ui.templates.html"
-           name="Html"
-           registryId="net.certiv.fluent.dt.ui.editor.FluentEditor">
-     </contextType>
-     <contextType
-           class="net.certiv.fluent.dt.ui.templates.MathContextType"
-           id="net.certiv.fluent.dt.ui.templates.math"
-           name="Math"
-           registryId="net.certiv.fluent.dt.ui.editor.FluentEditor">
-     </contextType>
-     <contextType
-           class="net.certiv.fluent.dt.ui.templates.DotContextType"
-           id="net.certiv.fluent.dt.ui.templates.dot"
-           name="Dot"
-           registryId="net.certiv.fluent.dt.ui.editor.FluentEditor">
-     </contextType>
-     <contextType
-           class="net.certiv.fluent.dt.ui.templates.UmlContextType"
-           id="net.certiv.fluent.dt.ui.templates.uml"
-           name="Uml"
-           registryId="net.certiv.fluent.dt.ui.editor.FluentEditor">
-     </contextType>
-     <include
-           file="templates/templates.xml"
-           translations="templates/templates.properties">
-     </include>
-      <resolver
-            class="net.certiv.fluent.dt.ui.templates.VocabName"
-            contextTypeId="net.certiv.fluent.dt.ui.templates.md"
-            description="Proper name of the Tokens Vocabulary file"
-            icon="icons/elcl16/templateprop_co.png"
-            name="Tokens Vocab Name"
-            type="vocabName">
-      </resolver>
-  </extension>
   
-   <extension
+  <extension
          point="org.eclipse.ui.newWizards">
       <wizard
             category="net.certiv.certivtools.wizards"
@@ -216,7 +241,7 @@
       </wizard>
    </extension>
 
-   <extension
+  <extension
          point="org.eclipse.ui.preferencePages">
       <page
             category="net.certiv.certivtools.prefs.TopLevelPage"
@@ -269,7 +294,7 @@
       </view>
    </extension>
 
-   <extension
+  <extension
          point="org.eclipse.ui.workbench.texteditor.spellingEngine">
       <engine
             class="net.certiv.fluent.dt.ui.editor.spell.SpellingEngine"
@@ -279,11 +304,11 @@
       </engine>
    </extension>
 
-   <extension point="org.eclipse.ui.bindings">
+  <extension point="org.eclipse.ui.bindings">
 
       <!--  win32:  M1=CTRL,    M2=SHIFT, M3=ALT, M4=-
             carbon: M1=COMMAND, M2=SHIFT, M3=ALT, M4=CTRL -->
-   	 <key
+      <key
             sequence="M1+M2+F"
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
             contextId="net.certiv.fluent.dt.ui.fluentEditorScope"
@@ -318,20 +343,20 @@
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
             sequence="M1+I">
       </key>
-	 <key
-	        sequence="M2+M3+O"
+   <key
+          sequence="M2+M3+O"
             contextId="net.certiv.fluent.dt.ui.fluentEditorScope"
-	        commandId="net.certiv.fluent.dt.ui.edit.text.toggleMarkOccurrences"
-	        schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"/>
-	 <key
-	        platform="carbon"
-	        sequence="M1+M3+O"
-	        contextId="net.certiv.fluent.dt.ui.fluentEditorScope"
-	        commandId="net.certiv.fluent.dt.ui.edit.text.toggleMarkOccurrences"
-	        schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"/>
-	</extension>
+          commandId="net.certiv.fluent.dt.ui.edit.text.toggleMarkOccurrences"
+          schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"/>
+   <key
+          platform="carbon"
+          sequence="M1+M3+O"
+          contextId="net.certiv.fluent.dt.ui.fluentEditorScope"
+          commandId="net.certiv.fluent.dt.ui.edit.text.toggleMarkOccurrences"
+          schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"/>
+  </extension>
    
-   <extension
+  <extension
          point="org.eclipse.ui.commands">
       <category
             name="Fluentmark"
@@ -448,19 +473,19 @@
 -->
 
 
-   <extension
+  <extension
          point="org.eclipse.ui.handlers">
       <handler
             class="net.certiv.fluent.dt.ui.handlers.OpenMdViewHandler"
             commandId="net.certiv.fluent.dt.openView">
          <activeWhen>
             <reference
-                  definitionId="net.certiv.fluent.dt.activeContexts.definition">
+                  definitionId="net.certiv.fluent.dt.ui.context.definition">
             </reference>
          </activeWhen>
          <enabledWhen>
             <reference
-                  definitionId="net.certiv.fluent.dt.activeContexts.definition">
+                  definitionId="net.certiv.fluent.dt.ui.context.definition">
             </reference>
          </enabledWhen>
       </handler>
@@ -478,12 +503,12 @@
             commandId="net.certiv.fluent.dt.exportHtml">
          <activeWhen>
             <reference
-                  definitionId="net.certiv.fluent.dt.activeContexts.definition">
+                  definitionId="net.certiv.fluent.dt.ui.context.definition">
             </reference>
          </activeWhen>
          <enabledWhen>
             <reference
-                  definitionId="net.certiv.fluent.dt.activeContexts.definition">
+                  definitionId="net.certiv.fluent.dt.ui.context.definition">
             </reference>
          </enabledWhen>
       </handler>
@@ -492,12 +517,12 @@
             commandId="net.certiv.fluent.dt.exportPdf">
          <activeWhen>
             <reference
-                  definitionId="net.certiv.fluent.dt.activeContexts.definition">
+                  definitionId="net.certiv.fluent.dt.ui.context.definition">
             </reference>
          </activeWhen>
          <enabledWhen>
             <reference
-                  definitionId="net.certiv.fluent.dt.activeContexts.definition">
+                  definitionId="net.certiv.fluent.dt.ui.context.definition">
             </reference>
          </enabledWhen>
       </handler>
@@ -506,12 +531,12 @@
             commandId="net.certiv.fluent.dt.ui.edit.text.format">
          <activeWhen>
             <reference
-                  definitionId="net.certiv.fluent.dt.activeContexts.definition">
+                  definitionId="net.certiv.fluent.dt.ui.context.definition">
             </reference>
          </activeWhen>
          <enabledWhen>
             <reference
-                  definitionId="net.certiv.fluent.dt.activeContexts.definition">
+                  definitionId="net.certiv.fluent.dt.ui.context.definition">
             </reference>
          </enabledWhen>
       </handler>
@@ -520,36 +545,36 @@
             commandId="net.certiv.fluent.dt.ui.edit.text.unwrap">
          <activeWhen>
             <reference
-                  definitionId="net.certiv.fluent.dt.activeContexts.definition">
+                  definitionId="net.certiv.fluent.dt.ui.context.definition">
             </reference>
          </activeWhen>
          <enabledWhen>
             <reference
-                  definitionId="net.certiv.fluent.dt.activeContexts.definition">
+                  definitionId="net.certiv.fluent.dt.ui.context.definition">
             </reference>
          </enabledWhen>
       </handler>
       <handler
             class="net.certiv.fluent.dt.ui.handlers.ToggleMarkingHandler"
             commandId="net.certiv.fluent.dt.ui.edit.text.toggleMarkOccurrences">
-			<activeWhen>
-				<reference definitionId="net.certiv.fluent.dt.activeContexts.definition" />
-			</activeWhen>
-			<enabledWhen>
-				<reference definitionId="net.certiv.fluent.dt.activeContexts.definition" />
-			</enabledWhen>
+      <activeWhen>
+        <reference definitionId="net.certiv.fluent.dt.ui.context.definition" />
+      </activeWhen>
+      <enabledWhen>
+        <reference definitionId="net.certiv.fluent.dt.ui.context.definition" />
+      </enabledWhen>
       </handler>
       <handler
             class="net.certiv.fluent.dt.ui.handlers.ToggleVisibleCommentHandler"
             commandId="net.certiv.fluent.dt.visibleComment">
          <activeWhen>
             <reference
-                  definitionId="net.certiv.fluent.dt.activeContexts.definition">
+                  definitionId="net.certiv.fluent.dt.ui.context.definition">
             </reference>
          </activeWhen>
          <enabledWhen>
             <reference
-                  definitionId="net.certiv.fluent.dt.activeContexts.definition">
+                  definitionId="net.certiv.fluent.dt.ui.context.definition">
             </reference>
          </enabledWhen>
       </handler>
@@ -558,12 +583,12 @@
             commandId="net.certiv.fluent.dt.hiddenComment">
          <activeWhen>
             <reference
-                  definitionId="net.certiv.fluent.dt.activeContexts.definition">
+                  definitionId="net.certiv.fluent.dt.ui.context.definition">
             </reference>
          </activeWhen>
          <enabledWhen>
             <reference
-                  definitionId="net.certiv.fluent.dt.activeContexts.definition">
+                  definitionId="net.certiv.fluent.dt.ui.context.definition">
             </reference>
          </enabledWhen>
       </handler>
@@ -572,12 +597,12 @@
             commandId="net.certiv.fluent.dt.bold">
          <activeWhen>
             <reference
-                  definitionId="net.certiv.fluent.dt.activeContexts.definition">
+                  definitionId="net.certiv.fluent.dt.ui.context.definition">
             </reference>
          </activeWhen>
          <enabledWhen>
             <reference
-                  definitionId="net.certiv.fluent.dt.activeContexts.definition">
+                  definitionId="net.certiv.fluent.dt.ui.context.definition">
             </reference>
          </enabledWhen>
       </handler>
@@ -587,12 +612,12 @@
             commandId="net.certiv.fluent.dt.italic">
          <activeWhen>
             <reference
-                  definitionId="net.certiv.fluent.dt.activeContexts.definition">
+                  definitionId="net.certiv.fluent.dt.ui.context.definition">
             </reference>
          </activeWhen>
          <enabledWhen>
             <reference
-                  definitionId="net.certiv.fluent.dt.activeContexts.definition">
+                  definitionId="net.certiv.fluent.dt.ui.context.definition">
             </reference>
          </enabledWhen>
       </handler>
@@ -604,7 +629,7 @@
    </extension>
   
   
-   <extension
+  <extension
          point="org.eclipse.ui.menus">
       <menuContribution
             locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
@@ -618,7 +643,7 @@
                <visibleWhen
                      checkEnabled="false">
                   <reference
-                        definitionId="net.certiv.fluent.dt.activeContexts.definition">
+                        definitionId="net.certiv.fluent.dt.ui.context.definition">
                   </reference>
                </visibleWhen>
             </command>
@@ -630,7 +655,7 @@
                <visibleWhen
                      checkEnabled="false">
                   <reference
-            	         definitionId="net.certiv.fluent.dt.activeContexts.definition">
+                       definitionId="net.certiv.fluent.dt.ui.context.definition">
                   </reference>
                </visibleWhen>
             </command>
@@ -642,7 +667,7 @@
                <visibleWhen
                      checkEnabled="false">
                   <reference
-            	         definitionId="net.certiv.fluent.dt.activeContexts.definition">
+                       definitionId="net.certiv.fluent.dt.ui.context.definition">
                   </reference>
                </visibleWhen>
             </command>
@@ -651,12 +676,12 @@
                   icon="icons/etool16/mark_occurrences.png"
                   style="toggle"
                   tooltip="Toggle Mark Occcurrences">
-	            <visibleWhen
-    	              checkEnabled="false">
-        	       <reference
-            	         definitionId="net.certiv.fluent.dt.activeContexts.definition">
-	               </reference>
-    	        </visibleWhen>
+              <visibleWhen
+                    checkEnabled="false">
+                 <reference
+                       definitionId="net.certiv.fluent.dt.ui.context.definition">
+                 </reference>
+              </visibleWhen>
             </command>
          </toolbar>
       </menuContribution>
@@ -687,19 +712,22 @@
       </menuContribution>
    </extension>
 
-	<extension point="org.eclipse.ui.menus">
-    	<menuContribution locationURI="popup:org.eclipse.ui.popup.any?after=additions">
-         <command
-               commandId="net.certiv.fluent.dt.ui.removeMarkersCommand"
-               id="net.certiv.fluent.dt.ui.removeMarkersCommand"
-               tooltip="Clean document problem markers">
-            style="push">
-            <visibleWhen>
-        		<reference definitionId="net.certiv.fluent.dt.activeContexts.definition"/>
-			</visibleWhen>
-         </command>
-      </menuContribution>
+  <extension point="org.eclipse.ui.menus">
+    <menuContribution locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+      <command
+            commandId="net.certiv.fluent.dt.ui.removeMarkersCommand"
+            id="net.certiv.fluent.dt.ui.removeMarkersCommand"
+            style="push"
+            tooltip="Clean document problem markers">
+        <visibleWhen>
+          <or>
+            <reference definitionId="net.certiv.fluent.dt.ui.context.definition" />
+            <reference definitionId="net.certiv.fluent.dt.ui.select.definition" />
+          </or>
+        </visibleWhen>
+      </command>
+    </menuContribution>
 
-   </extension>
+  </extension>
   
 </plugin>

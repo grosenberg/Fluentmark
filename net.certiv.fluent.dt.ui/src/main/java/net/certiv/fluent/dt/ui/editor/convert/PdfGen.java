@@ -129,7 +129,7 @@ public class PdfGen {
 			}
 		};
 
-		job.setPriority(Job.BUILD);
+		job.setPriority(Job.LONG);
 		job.schedule();
 	}
 

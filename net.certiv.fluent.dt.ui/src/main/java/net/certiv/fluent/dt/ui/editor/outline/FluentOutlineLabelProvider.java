@@ -77,6 +77,7 @@ public class FluentOutlineLabelProvider extends OutlineLabelProvider {
 						if (msg.isEmpty()) return data.specializationType.name;
 						return String.format("%s %s", Strings.titleCase(msg.trim()), data.specializationType.name);
 
+					case Comment:
 					case HRule:
 					case DotBlock:
 					case UmlBlock:
@@ -200,6 +201,10 @@ public class FluentOutlineLabelProvider extends OutlineLabelProvider {
 						break;
 					case UmlBlock:
 						desc = mgr.getDescriptor(mgr.IMG_OBJ_UMLBLOCK);
+						break;
+
+					case Comment:
+						desc = mgr.getDescriptor(mgr.IMG_OBJ_COMMENT);
 						break;
 
 					case Terminal:

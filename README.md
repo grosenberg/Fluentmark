@@ -44,8 +44,8 @@ Survey: [Proposal to remove legacy converters](https://github.com/grosenberg/flu
 [![Fluentmark Sequence diagram][2]][2]
 </figure>
 
-[1]: http://www.certiv.net/updates/net.certiv.fluentmark.site/ScreenShot.png "FluentMark Dot graph" 
-[2]: http://www.certiv.net/updates/net.certiv.fluentmark.site/ScreenShot1.png "FluentMark Sequence diagram" 
+[1]: http://www.certiv.net/updates/net.certiv.fluentmark.site/ScreenShot.png "FluentMark Dot Graph" 
+[2]: http://www.certiv.net/updates/net.certiv.fluentmark.site/ScreenShot1.png "FluentMark Sequence Diagram" 
 
 
 
@@ -95,7 +95,7 @@ BlackFriday converter ---
 |Ctrl-i          |Toggles _italics_ of selected text                |
 |Ctrl-/          |Toggles Markdown-style commenting of selected text|
 |Ctrl-Shift-/    |Toggles HTML-style commenting of selected text    |
-|Ctrl-Shift-f    |Format - full page or selection                   |
+|Ctrl-Shift-f    |Format - full page or selected text               |
 |Ctrl-Shift-Alt-f|Format - with unwrapped text                      |
 
 ### Math
@@ -103,9 +103,10 @@ BlackFriday converter ---
 In-line Math uses single `$` open/close delimiters. Can be embedded in other markdown features.
 
 The opening `$` _must_ have a non-space character immediately right.  The closing `$` _must_ have a non-space 
-character immediately left and _must_ be followed immediately by a non-digit. 
+character immediately left and _must_ be followed immediately by a non-digit or white 
+space. 
 
-Math blocks are delimited using double `$` (*i.e.*, `$$`) marks at the left margin. The open delimiter 
+Math blocks are delimited using double `$`, *i.e.*, `$$`, marks at the left margin. The open delimiter 
 must follow a blank line and the close delimiter must lead a blank line.
 
 
@@ -127,8 +128,8 @@ and a minimal example of the Markdown text at issue.
     - [Pandoc's Markdown](https://pandoc.org/MANUAL.html#pandocs-markdown)
     - [GitHub Flavored Markdown](https://github.github.com/gfm/)
     - [Daring Fireball Markdown](https://daringfireball.net/projects/markdown/syntax)
-1. [TEX Commands available in MathJax](http://www.onemathematicalcat.org/MathJaxDocumentation/TeXSyntax.htm)
-1. [PlantUML Language Specification](http://plantuml.com/sitemap-language-specification)
+1. [TEX Commands available in MathJax](https://www.onemathematicalcat.org/MathJaxDocumentation/TeXSyntax.htm)
+1. [PlantUML Language Specification](https://plantuml.com/sitemap-language-specification)
 1. [Dot Language Man Page](http://www.graphviz.org/pdf/dot.1.pdf)
 1. Pandoc Latex Templates (for PDF generation):
     - [Starter Templates](https://github.com/jez/pandoc-starter)

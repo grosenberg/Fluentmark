@@ -6,6 +6,7 @@ import org.antlr.v4.runtime.Lexer;
 
 import net.certiv.dsl.core.DslCore;
 import net.certiv.dsl.core.model.builder.ModelBuilder;
+import net.certiv.dsl.core.parser.DslErrorListener;
 import net.certiv.dsl.core.parser.DslParseRecord;
 import net.certiv.dsl.core.parser.DslSourceParser;
 import net.certiv.fluent.dt.core.FluentCore;
@@ -34,23 +35,26 @@ public class MdSourceParser extends DslSourceParser {
 
 	@Override
 	public Throwable parse() {
+		DslErrorListener auditor = getErrorListener();
 		try {
-			record.cs = CharStreams.fromString(getContent(), record.unit.getFile().getName());
-			Lexer lexer = new MdLexer(record.cs);
+			record.setCharStream(CharStreams.fromString(getContent(), record.unit.getFile().getName()));
+			Lexer lexer = new MdLexer(record.getCharStream());
 			lexer.setTokenFactory(TokenFactory);
 			lexer.removeErrorListeners();
-			lexer.addErrorListener(getErrorListener());
-			record.ts = new CommonTokenStream(lexer);
+			lexer.addErrorListener(auditor);
+			record.setTokenStream(new CommonTokenStream(lexer));
 
-			record.parser = new MdParser(record.ts);
-			record.parser.setTokenFactory(TokenFactory);
-			record.parser.removeErrorListeners();
-			record.parser.addErrorListener(getErrorListener());
-			record.tree = ((MdParser) record.parser).page();
+			MdParser parser = new MdParser(record.getTokenStream());
+			parser.setTokenFactory(TokenFactory);
+			parser.removeErrorListeners();
+			parser.addErrorListener(getErrorListener());
+			record.setParser(parser);
+			record.setTree(parser.page());
+
 			return null;
 
 		} catch (Exception | Error e) {
-			getErrorListener().generalError(ERR_ANALYSIS, e);
+			auditor.generalError(ERR_ANALYSIS, e);
 			return e;
 		}
 	}
@@ -58,7 +62,7 @@ public class MdSourceParser extends DslSourceParser {
 	@Override
 	public Throwable analyze(ModelBuilder builder) {
 		try {
-			StructureVisitor visitor = new StructureVisitor(record.tree);
+			StructureVisitor visitor = new StructureVisitor(record.getTree());
 			visitor.setBuilder(builder);
 			visitor.setSourceName(record.unit.getPackageName());
 			builder.beginAnalysis();

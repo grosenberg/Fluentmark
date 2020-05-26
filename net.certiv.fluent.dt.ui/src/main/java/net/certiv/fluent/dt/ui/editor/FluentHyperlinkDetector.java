@@ -4,9 +4,9 @@ import net.certiv.dsl.core.model.DslModel;
 import net.certiv.dsl.ui.editor.hyperlink.DslHyperlinkDetector;
 import net.certiv.fluent.dt.core.FluentCore;
 
-public class FmHyperlinkDetector extends DslHyperlinkDetector {
+public class FluentHyperlinkDetector extends DslHyperlinkDetector {
 
-	public FmHyperlinkDetector() {
+	public FluentHyperlinkDetector() {
 		super();
 	}
 

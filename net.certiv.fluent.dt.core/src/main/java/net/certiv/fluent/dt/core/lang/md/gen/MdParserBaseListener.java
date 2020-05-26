@@ -54,6 +54,18 @@ public class MdParserBaseListener implements MdParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterDotBlock(MdParser.DotBlockContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDotBlock(MdParser.DotBlockContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterMathBlock(MdParser.MathBlockContext ctx) { }
 	/**
 	 * {@inheritDoc}

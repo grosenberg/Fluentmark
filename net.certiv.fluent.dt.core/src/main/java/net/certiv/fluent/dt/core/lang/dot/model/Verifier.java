@@ -36,7 +36,7 @@ public class Verifier {
 	public void check(DotSourceParser parser, ProblemCollector collector) {
 		this.parser = parser;
 		this.collector = collector;
-		ParseTreeWalker.DEFAULT.walk(visitor, parser.getRecord().tree);
+		ParseTreeWalker.DEFAULT.walk(visitor, parser.getRecord().getTree());
 	}
 
 	private void reportProblem(int severity, Kind kind, Token token, String cause) {

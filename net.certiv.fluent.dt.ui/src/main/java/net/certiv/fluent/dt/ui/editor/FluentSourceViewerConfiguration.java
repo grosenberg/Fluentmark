@@ -113,8 +113,9 @@ public class FluentSourceViewerConfiguration extends DslSourceViewerConfiguratio
 	@Override
 	public void specializeContentAssistant(ContentAssistant assistant) {
 		FluentOutlineLabelProvider provider = new FluentOutlineLabelProvider();
-		DslImageManager imgMgr = getDslUI().getImageManager();
-		Image img = imgMgr.get(imgMgr.IMG_OBJS_KEYWORD);
+		DslUI ui = getDslUI();
+		DslImageManager mgr = ui.getImageManager();
+		Image img = mgr.get(mgr.IMG_OBJS_KEYWORD);
 		Set<Character> stops = new HashSet<>(Arrays.asList(LBRACE, LBRACE, LPAREN, COLON, COMMA, SEMI, PIPE, AT));
 
 		ICompletionEngine dotWords = new KeywordEngine(img, stops, ScannerDot.keywords, ScannerDot.attribs);
@@ -126,18 +127,18 @@ public class FluentSourceViewerConfiguration extends DslSourceViewerConfiguratio
 		CompletionCategory dot = new CompletionCategory("Dot", false, true, dotWords);
 		CompletionCategory uml = new CompletionCategory("Uml", false, true, umlWords);
 		CompletionCategory tag = new CompletionCategory("Html", false, true, tagWords);
-		CompletionCategory tmpl = new CompletionCategory("Templates", true, true, templates);
+		CompletionCategory tmp = new CompletionCategory("Templates", true, true, templates);
 
-		CompletionProcessor dotProc = new CompletionProcessor(getDslUI(), assistant, dot, tmpl);
+		CompletionProcessor dotProc = new CompletionProcessor(ui, assistant, dot, tmp);
 		assistant.setContentAssistProcessor(dotProc, Partitions.DOTBLOCK);
 
-		CompletionProcessor umlProc = new CompletionProcessor(getDslUI(), assistant, uml, tmpl);
+		CompletionProcessor umlProc = new CompletionProcessor(ui, assistant, uml, tmp);
 		assistant.setContentAssistProcessor(umlProc, Partitions.UMLBLOCK);
 
-		CompletionProcessor tagProc = new CompletionProcessor(getDslUI(), assistant, tag, tmpl);
+		CompletionProcessor tagProc = new CompletionProcessor(ui, assistant, tag, tmp);
 		assistant.setContentAssistProcessor(tagProc, Partitions.HTMLBLOCK);
 
-		CompletionProcessor proc = new CompletionProcessor(getDslUI(), assistant, tmpl);
+		CompletionProcessor proc = new CompletionProcessor(ui, assistant, tmp);
 		assistant.setContentAssistProcessor(proc, IDocument.DEFAULT_CONTENT_TYPE);
 	}
 

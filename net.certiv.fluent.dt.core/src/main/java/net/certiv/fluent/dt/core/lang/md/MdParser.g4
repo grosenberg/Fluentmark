@@ -9,26 +9,26 @@ options {
 }
 
 page
-	:	( yamlBlock | htmlBlock  | mathBlock  
-		| texBlock  | umlBlock   | codeBlock
-		| header    | hrule | table | list 
-		| paragraph | definition  
-		| lnBlank   | lnBreak 
-		| comment   | err 
+	:	( yamlBlock	| htmlBlock | dotBlock  |  mathBlock
+		| texBlock	| umlBlock	| codeBlock
+		| header	| hrule
+		| table	    | list
+		| paragraph | definition
+		| lnBlank	| lnBreak
+		| comment	| err
 		)*
 	EOF
 	;
 
-yamlBlock : YAML_BLOCK ; 
-htmlBlock : HTML_BLOCK ;
+yamlBlock : YAML_BLOCK ;
+htmlBlock : HTML_BLOCK ; 
+dotBlock  : DOT_BLOCK  ;
 mathBlock : MATH_BLOCK ;
-texBlock  : TEX_BLOCK  ;
+texBlock  : TEX_BLOCK  ; 
 umlBlock  : UML_BLOCK  ;
 
 codeBlock
-	: CODE_BEG lang=WORD? style? VWS+ 
-		( WORD | VWS )* 
-	  CODE_END
+	: CODE_BEG lang=WORD? style? VWS+ ( WORD | VWS )* CODE_END
 	;
 
 header
@@ -40,10 +40,8 @@ hrule
 	: HRULE style?
 	;
 
-table
-	: tableRow* 
-	  TABLE_DEF style? 
-	  tableRow*
+table 
+	: tableRow* TABLE_DEF style? tableRow*
 	;
 
 tableRow
@@ -67,15 +65,16 @@ listMark
 	;
 
 definition
-	: line
-	  ( COLON line ( lnBreak line )* )+
+	: line ( COLON line ( lnBreak line )* )+
 	;
 
 paragraph
 	: line ( lnBreak line )*
 	;
 
-line : ( word | link )+ ;
+line 
+	: ( word | link )+ 
+	;
 
 link
 	: ( IMAGE | LBRACK ) ( link | text ) LINK_SEP URL ( LDQUOTE text RDQUOTE )? RPAREN style?
@@ -89,11 +88,11 @@ text : word+ ;
 
 word
 	: attrLeft* 
-	  w=( WORD | RPAREN 
-	  	| CODE_SPAN | MATH_SPAN
-		| UNICODE	| ENTITY
-		| HTML | TEX | URL
-		) 
+	  w= ( WORD		 |  RPAREN 
+		 | CODE_SPAN |  MATH_SPAN
+		 | UNICODE	 |  ENTITY
+		 | HTML		 | TEX | URL
+		 )
 	  attrRight*
 	;
 
@@ -110,7 +109,6 @@ attrLeft  : LBOLD | LITALIC | LSTRIKE | LSPAN | LDSPAN | LDQUOTE | LSQUOTE ;
 attrRight : RBOLD | RITALIC | RSTRIKE | RSPAN | RDSPAN | RDQUOTE | RSQUOTE ;
 
 comment : COMMENT ;
-
 lnBlank : LINE_BLANK ;
 lnBreak : LINE_BREAK ;
 

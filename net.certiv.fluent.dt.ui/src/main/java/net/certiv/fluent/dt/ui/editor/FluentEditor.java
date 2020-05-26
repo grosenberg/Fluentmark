@@ -25,8 +25,8 @@ import net.certiv.fluent.dt.ui.editor.outline.FluentOutlinePage;
 public class FluentEditor extends DslEditor {
 
 	public static final String EDITOR_ID = "net.certiv.fluent.dt.ui.editor.FluentEditor";
-	public static final String EDITOR_CONTEXT = "#FmEditorContext";
-	public static final String RULER_CONTEXT = "#FmRulerContext";
+	public static final String EDITOR_CONTEXT = "#FluentEditorContext";
+	public static final String RULER_CONTEXT = "#FluentRulerContext";
 
 	private static final String[] EDITOR_KEY_SCOPE = new String[] { "net.certiv.fluent.dt.ui.fluentEditorScope" };
 	private static final String MARK_OCCURRENCES_ANNOTATION_TYPE = "net.certiv.fluent.dt.ui.occurrences";

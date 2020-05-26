@@ -6,7 +6,7 @@
 		name="h1"
 		description="%describe.h1"
 		id="net.certiv.fluentmark.ui.templates.h1"
-		context="markdown"
+		context="page"
 		enabled="true"
 		autoinsert="false">%template.h1
 	</template>
@@ -15,7 +15,7 @@
 		name="h2"
 		description="%describe.h2"
 		id="net.certiv.fluentmark.ui.templates.h2"
-		context="markdown"
+		context="page"
 		enabled="true"
 		autoinsert="false">%template.h2
 	</template>
@@ -24,55 +24,162 @@
 		name="h3"
 		description="%describe.h3"
 		id="net.certiv.fluentmark.ui.templates.h3"
-		context="markdown"
+		context="page"
 		enabled="true"
 		autoinsert="false">%template.h3
 	</template>
-
+	
 	<template
-		name="h4"
-		description="%describe.h4"
-		id="net.certiv.fluentmark.ui.templates.h4"
-		context="markdown"
+		name="Link self"
+		description="%describe.link_self"
+		id="net.certiv.fluentmark.ui.templates.link_self"
+		context="page"
 		enabled="true"
-		autoinsert="false">%template.h4
-	</template>
-
-
-	<template
-		name="h5"
-		description="%describe.h5"
-		id="net.certiv.fluentmark.ui.templates.h5"
-		context="markdown"
-		enabled="true"
-		autoinsert="false">%template.h5
+		autoinsert="false">template.link_self
 	</template>
 
 	<template
-		name="code_block"
+		name="Link inline"
+		description="%describe.link_inl"
+		id="net.certiv.fluentmark.ui.templates.link_inl"
+		context="page"
+		enabled="true"
+		autoinsert="false">%template.link_inl
+	</template>
+
+	<template
+		name="Link indirect"
+		description="%describe.link_ind"
+		id="net.certiv.fluentmark.ui.templates.link_ind"
+		context="page"
+		enabled="true"
+		autoinsert="false">%template.link_ind
+	</template>
+
+	<template
+		name="Link target"
+		description="%describe.link_ref"
+		id="net.certiv.fluentmark.ui.templates.link_ref"
+		context="page"
+		enabled="true"
+		autoinsert="false">%template.link_ref
+	</template>
+
+	<template
+		name="Image self"
+		description="%describe.link_img_self"
+		id="net.certiv.fluentmark.ui.templates.link_img_self"
+		context="page"
+		enabled="true"
+		autoinsert="false">%template.link_img_self
+	</template>
+
+	<template
+		name="Image inline"
+		description="%describe.link_img_inl"
+		id="net.certiv.fluentmark.ui.templates.link_img_inl"
+		context="page"
+		enabled="true"
+		autoinsert="false">%template.link_img_inl
+	</template>
+
+	<template
+		name="Image indirect"
+		description="%describe.link_img_ind"
+		id="net.certiv.fluentmark.ui.templates.link_img_ind"
+		context="page"
+		enabled="true"
+		autoinsert="false">%template.link_img_ind
+	</template>
+
+	<template
+		name="Footnote"
+		description="%describe.link_fn"
+		id="net.certiv.fluentmark.ui.templates.link_fn"
+		context="page"
+		enabled="true"
+		autoinsert="false">%template.link_fn
+	</template>
+
+	<template
+		name="Footnote target"
+		description="%describe.link_fn_ref"
+		id="net.certiv.fluentmark.ui.templates.link_fn_ref"
+		context="page"
+		enabled="true"
+		autoinsert="false">%template.link_fn_ref
+	</template>
+
+	<template
+		name="Table"
+		description="%describe.table"
+		id="net.certiv.fluentmark.ui.templates.table"
+		context="page"
+		enabled="true"
+		autoinsert="false">%template.table
+	</template>
+
+	<template
+		name="Figure"
+		description="%describe.html_figure"
+		id="net.certiv.fluentmark.ui.templates.html_figure"
+		context="page"
+		enabled="true"
+		autoinsert="false">%template.html_figure
+	</template>
+
+	<template
+		name="Code Block"
 		description="%describe.code_block"
 		id="net.certiv.fluentmark.ui.templates.code_block"
-		context="markdown"
+		context="page"
 		enabled="true"
 		autoinsert="false">%template.code_block
 	</template>
 
 	<template
-		name="dot_block"
-		description="%describe.dot_block"
-		id="net.certiv.fluentmark.ui.templates.dot_block"
-		context="markdown"
+		name="Math Block"
+		description="%describe.math_block"
+		id="net.certiv.fluentmark.ui.templates.math_block"
+		context="page"
 		enabled="true"
-		autoinsert="false">%template.dot_block
+		autoinsert="false">%template.math_block
 	</template>
 
 	<template
-		name="table"
-		description="%describe.table"
-		id="net.certiv.fluentmark.ui.templates.table"
-		context="markdown"
+		name="Tex Equation"
+		description="%describe.tex_eq"
+		id="net.certiv.fluentmark.ui.templates.tex_eq"
+		context="page"
 		enabled="true"
-		autoinsert="false">%template.table
+		autoinsert="false">%template.tex_eq
+	</template>
+
+	<template
+		name="Tex Equation Aligned"
+		description="%describe.tex_align"
+		id="net.certiv.fluentmark.ui.templates.tex_align"
+		context="page"
+		enabled="true"
+		autoinsert="false">%template.tex_align
+	</template>
+
+	<template
+		name="Dot Graph"
+		description="%describe.dot_graph"
+		id="net.certiv.fluentmark.ui.templates.dot_graph"
+		context="page"
+		enabled="true"
+		autoinsert="false">%template.dot_graph
+	</template>
+
+	<template
+		name="Sequence Diagram"
+		description="%describe.uml_seq"
+		id="net.certiv.fluentmark.ui.templates.uml_seq"
+		context="page"
+		enabled="true"
+		autoinsert="false">%template.uml_seq
 	</template>
 
 </templates>
