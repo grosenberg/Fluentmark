@@ -19,13 +19,14 @@ import org.eclipse.jface.text.rules.WhitespaceRule;
 import org.eclipse.jface.text.rules.WordRule;
 
 import net.certiv.dsl.core.preferences.IPrefsManager;
-import net.certiv.dsl.ui.editor.scanners.AbstractBufferedRuleBasedScanner;
+import net.certiv.dsl.ui.editor.scanners.DslRuleBasedScanner;
+import net.certiv.dsl.ui.editor.semantic.StylesManager;
 import net.certiv.fluent.dt.core.preferences.Prefs;
 import net.certiv.fluent.dt.ui.editor.text.rules.UmlSymbolDetector;
 import net.certiv.fluent.dt.ui.editor.text.rules.UmlWordDetector;
 import net.certiv.fluent.dt.ui.editor.text.rules.WhitespaceDetector;
 
-public class ScannerUml extends AbstractBufferedRuleBasedScanner implements IScannerExt {
+public class ScannerUml extends DslRuleBasedScanner implements IScannerExt {
 
 	private String[] tokenProperties;
 
@@ -48,8 +49,8 @@ public class ScannerUml extends AbstractBufferedRuleBasedScanner implements ISca
 	private static final String[] symbols = { "{", "}", "[", "]", "<-", "<--", "<---", "-", "--", "---", "->", "-->",
 			"--->", "(", ")" };
 
-	public ScannerUml(IPrefsManager store) {
-		super(store);
+	public ScannerUml(IPrefsManager store, StylesManager stylesMgr) {
+		super(store, stylesMgr);
 		initialize();
 	}
 

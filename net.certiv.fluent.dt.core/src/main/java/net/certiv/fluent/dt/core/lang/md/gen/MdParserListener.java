@@ -160,15 +160,105 @@ public interface MdParserListener extends ParseTreeListener {
 	 */
 	void exitListMark(MdParser.ListMarkContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link MdParser#definition}.
+	 * Enter a parse tree produced by {@link MdParser#link}.
 	 * @param ctx the parse tree
 	 */
-	void enterDefinition(MdParser.DefinitionContext ctx);
+	void enterLink(MdParser.LinkContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link MdParser#definition}.
+	 * Exit a parse tree produced by {@link MdParser#link}.
 	 * @param ctx the parse tree
 	 */
-	void exitDefinition(MdParser.DefinitionContext ctx);
+	void exitLink(MdParser.LinkContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MdParser#linkStd}.
+	 * @param ctx the parse tree
+	 */
+	void enterLinkStd(MdParser.LinkStdContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MdParser#linkStd}.
+	 * @param ctx the parse tree
+	 */
+	void exitLinkStd(MdParser.LinkStdContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MdParser#linkRef}.
+	 * @param ctx the parse tree
+	 */
+	void enterLinkRef(MdParser.LinkRefContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MdParser#linkRef}.
+	 * @param ctx the parse tree
+	 */
+	void exitLinkRef(MdParser.LinkRefContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MdParser#linkDef}.
+	 * @param ctx the parse tree
+	 */
+	void enterLinkDef(MdParser.LinkDefContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MdParser#linkDef}.
+	 * @param ctx the parse tree
+	 */
+	void exitLinkDef(MdParser.LinkDefContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MdParser#kind}.
+	 * @param ctx the parse tree
+	 */
+	void enterKind(MdParser.KindContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MdParser#kind}.
+	 * @param ctx the parse tree
+	 */
+	void exitKind(MdParser.KindContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MdParser#subject}.
+	 * @param ctx the parse tree
+	 */
+	void enterSubject(MdParser.SubjectContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MdParser#subject}.
+	 * @param ctx the parse tree
+	 */
+	void exitSubject(MdParser.SubjectContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MdParser#altText}.
+	 * @param ctx the parse tree
+	 */
+	void enterAltText(MdParser.AltTextContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MdParser#altText}.
+	 * @param ctx the parse tree
+	 */
+	void exitAltText(MdParser.AltTextContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MdParser#target}.
+	 * @param ctx the parse tree
+	 */
+	void enterTarget(MdParser.TargetContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MdParser#target}.
+	 * @param ctx the parse tree
+	 */
+	void exitTarget(MdParser.TargetContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MdParser#linkText}.
+	 * @param ctx the parse tree
+	 */
+	void enterLinkText(MdParser.LinkTextContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MdParser#linkText}.
+	 * @param ctx the parse tree
+	 */
+	void exitLinkText(MdParser.LinkTextContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MdParser#linkWord}.
+	 * @param ctx the parse tree
+	 */
+	void enterLinkWord(MdParser.LinkWordContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MdParser#linkWord}.
+	 * @param ctx the parse tree
+	 */
+	void exitLinkWord(MdParser.LinkWordContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link MdParser#paragraph}.
 	 * @param ctx the parse tree
@@ -180,6 +270,16 @@ public interface MdParserListener extends ParseTreeListener {
 	 */
 	void exitParagraph(MdParser.ParagraphContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link MdParser#definition}.
+	 * @param ctx the parse tree
+	 */
+	void enterDefinition(MdParser.DefinitionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MdParser#definition}.
+	 * @param ctx the parse tree
+	 */
+	void exitDefinition(MdParser.DefinitionContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link MdParser#line}.
 	 * @param ctx the parse tree
 	 */
@@ -189,16 +289,6 @@ public interface MdParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitLine(MdParser.LineContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link MdParser#link}.
-	 * @param ctx the parse tree
-	 */
-	void enterLink(MdParser.LinkContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link MdParser#link}.
-	 * @param ctx the parse tree
-	 */
-	void exitLink(MdParser.LinkContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link MdParser#text}.
 	 * @param ctx the parse tree

@@ -19,13 +19,14 @@ import org.eclipse.jface.text.rules.WhitespaceRule;
 import org.eclipse.jface.text.rules.WordRule;
 
 import net.certiv.dsl.core.preferences.IPrefsManager;
-import net.certiv.dsl.ui.editor.scanners.AbstractBufferedRuleBasedScanner;
+import net.certiv.dsl.ui.editor.scanners.DslRuleBasedScanner;
+import net.certiv.dsl.ui.editor.semantic.StylesManager;
 import net.certiv.fluent.dt.core.preferences.Prefs;
 import net.certiv.fluent.dt.ui.editor.text.rules.DotSymbolDetector;
 import net.certiv.fluent.dt.ui.editor.text.rules.DotWordDetector;
 import net.certiv.fluent.dt.ui.editor.text.rules.WhitespaceDetector;
 
-public class ScannerDot extends AbstractBufferedRuleBasedScanner implements IScannerExt {
+public class ScannerDot extends DslRuleBasedScanner implements IScannerExt {
 
 	private String[] tokenProperties;
 
@@ -57,8 +58,8 @@ public class ScannerDot extends AbstractBufferedRuleBasedScanner implements ISca
 
 	private static final String[] symbols = { "{", "}", "[", "]", "=", "->" };
 
-	public ScannerDot(IPrefsManager store) {
-		super(store);
+	public ScannerDot(IPrefsManager store, StylesManager stylesMgr) {
+		super(store, stylesMgr);
 		initialize();
 	}
 

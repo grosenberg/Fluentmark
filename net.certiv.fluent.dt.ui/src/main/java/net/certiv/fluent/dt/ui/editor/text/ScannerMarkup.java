@@ -15,7 +15,8 @@ import org.eclipse.jface.text.rules.IToken;
 import org.eclipse.jface.text.rules.WhitespaceRule;
 
 import net.certiv.dsl.core.preferences.IPrefsManager;
-import net.certiv.dsl.ui.editor.scanners.AbstractBufferedRuleBasedScanner;
+import net.certiv.dsl.ui.editor.scanners.DslRuleBasedScanner;
+import net.certiv.dsl.ui.editor.semantic.StylesManager;
 import net.certiv.fluent.dt.core.preferences.Prefs;
 import net.certiv.fluent.dt.ui.editor.text.rules.EmphasisRule;
 import net.certiv.fluent.dt.ui.editor.text.rules.FirstColumnRule;
@@ -24,12 +25,12 @@ import net.certiv.fluent.dt.ui.editor.text.rules.LinkRule;
 import net.certiv.fluent.dt.ui.editor.text.rules.ListRule;
 import net.certiv.fluent.dt.ui.editor.text.rules.WhitespaceDetector;
 
-public class ScannerMarkup extends AbstractBufferedRuleBasedScanner {
+public class ScannerMarkup extends DslRuleBasedScanner {
 
 	private String[] tokenProperties;
 
-	public ScannerMarkup(IPrefsManager store) {
-		super(store);
+	public ScannerMarkup(IPrefsManager store, StylesManager stylesMgr) {
+		super(store, stylesMgr);
 		initialize();
 	}
 

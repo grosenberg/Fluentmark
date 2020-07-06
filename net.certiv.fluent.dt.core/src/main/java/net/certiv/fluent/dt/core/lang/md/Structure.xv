@@ -55,7 +55,7 @@ paragraph	: //paragraph
 				{ onExit:  endBlock(); }
 			;
 
-word		: //word		{ doWord() ; } ;
+word		: //freeWord	{ doWord() ; } ;
 attrL		: //attrLeft	{ doAttrL() ; } ;
 attrR		: //attrRight	{ doAttrR() ; } ;
 

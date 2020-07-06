@@ -27,7 +27,7 @@ public class EditorPage extends AbstractPreferencePage {
 
 	@Override
 	protected IPreferenceConfigBlock createConfigurationBlock(PrefsDeltaManager delta) {
-		return new EditorConfigBlock(this, delta, getFormkit(), getColorMgr());
+		return new EditorConfigBlock(this, delta, getFormkit(), getColorRegistry());
 	}
 
 	@Override

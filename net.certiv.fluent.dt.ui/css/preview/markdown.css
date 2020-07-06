@@ -6,8 +6,7 @@ h1, h2, h3, h4, h5, h6 {
 
 pre, code, kbd, samp {
   color: black;
-  font-family: monospace, monospace;
-  _font-family: 'courier new', monospace;
+  font-family: 'courier new', monospace;
   font-size: 0.98em; }
 
 sub, sup {

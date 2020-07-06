@@ -2,12 +2,12 @@ package net.certiv.fluent.dt.ui.editor.semantic;
 
 import net.certiv.dsl.core.model.IStatement;
 import net.certiv.dsl.ui.DslUI;
+import net.certiv.dsl.ui.css.dom.Segment;
+import net.certiv.dsl.ui.css.dom.Selector;
 import net.certiv.dsl.ui.editor.semantic.SemanticAnalyzer;
-import net.certiv.dsl.ui.editor.styles.Segment;
-import net.certiv.dsl.ui.editor.styles.Selector;
 import net.certiv.fluent.dt.core.lang.FluentLangManager;
-import net.certiv.fluent.dt.core.lang.md.model.SpecializationType;
 import net.certiv.fluent.dt.core.lang.md.model.Specialization;
+import net.certiv.fluent.dt.core.lang.md.model.SpecializationType;
 
 public class MdSematicAnalyzer extends SemanticAnalyzer {
 

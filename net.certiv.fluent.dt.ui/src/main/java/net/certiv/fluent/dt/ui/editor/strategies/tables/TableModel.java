@@ -69,7 +69,7 @@ public class TableModel {
 
 		try {
 			for (int lnum = this.stmt.getStartLine(), row = 0; lnum <= this.stmt.getEndLine(); lnum++) {
-				String text = TextUtils.getText(unit.getDocument(), lnum);
+				String text = TextUtils.getText(unit.getDocument(), lnum - 1);
 				String[] cols = parseRow(text.substring(1));
 				if (text.trim().contains("---")) {
 					formatRow = row;

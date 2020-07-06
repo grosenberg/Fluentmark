@@ -19,8 +19,8 @@ import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.text.edits.DeleteEdit;
 import org.eclipse.ui.texteditor.ITextEditor;
 
-import net.certiv.dsl.core.model.ModelException;
 import net.certiv.dsl.core.model.IStatement;
+import net.certiv.dsl.core.model.ModelException;
 import net.certiv.dsl.core.model.builder.SourceRange;
 import net.certiv.dsl.ui.editor.text.SmartEdit;
 import net.certiv.fluent.dt.core.FluentCore;

@@ -1,7 +1,6 @@
 package net.certiv.fluent.dt.ui.preferences.formatter;
 
-import static net.certiv.dsl.ui.preferences.IEditorConfig.TabPolicyLabels;
-import static net.certiv.dsl.ui.preferences.IEditorConfig.TabPolicyValues;
+import static net.certiv.dsl.ui.preferences.IEditorConfig.*;
 
 import java.net.URL;
 

@@ -17,18 +17,19 @@ import org.eclipse.jface.text.rules.WhitespaceRule;
 import org.eclipse.jface.text.rules.WordRule;
 
 import net.certiv.dsl.core.preferences.IPrefsManager;
-import net.certiv.dsl.ui.editor.scanners.AbstractBufferedRuleBasedScanner;
+import net.certiv.dsl.ui.editor.scanners.DslRuleBasedScanner;
+import net.certiv.dsl.ui.editor.semantic.StylesManager;
 import net.certiv.fluent.dt.core.preferences.Prefs;
 import net.certiv.fluent.dt.ui.editor.text.rules.MathSymbolDetector;
 import net.certiv.fluent.dt.ui.editor.text.rules.MathWordDetector;
 import net.certiv.fluent.dt.ui.editor.text.rules.WhitespaceDetector;
 
-public class ScannerMath extends AbstractBufferedRuleBasedScanner {
+public class ScannerMath extends DslRuleBasedScanner {
 
 	private String[] tokenProperties;
 
-	public ScannerMath(IPrefsManager store) {
-		super(store);
+	public ScannerMath(IPrefsManager store, StylesManager stylesMgr) {
+		super(store, stylesMgr);
 		initialize();
 	}
 

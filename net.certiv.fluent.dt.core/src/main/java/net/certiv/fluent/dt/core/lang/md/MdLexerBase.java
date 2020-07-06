@@ -5,7 +5,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.antlr.v4.runtime.CharStream;
-import org.antlr.v4.runtime.IntStream;
 import org.antlr.v4.runtime.Token;
 
 import net.certiv.dsl.core.util.Chars;
@@ -13,10 +12,10 @@ import net.certiv.dsl.core.util.Strings;
 import net.certiv.dsl.core.util.stores.Extent;
 import net.certiv.dsl.core.util.stores.HashList;
 import net.certiv.dsl.core.util.stores.NearMap;
-import net.certiv.fluent.dt.core.lang.LexerNeo;
+import net.certiv.fluent.dt.core.lang.LexerNlp;
 import net.certiv.fluent.dt.core.lang.md.gen.MdLexer;
 
-public abstract class MdLexerBase extends LexerNeo {
+public abstract class MdLexerBase extends LexerNlp {
 
 	private static final String TXT = "\\V*";
 	private static final String SPC = "\\h*";
@@ -37,30 +36,42 @@ public abstract class MdLexerBase extends LexerNeo {
 
 	private static final Pattern PUNCT = Pattern.compile("(\\p{Punct}+)");
 
+	private final String data;
+
 	private final NearMap<Extent<Integer>> lefts = new NearMap<>();
 	private final NearMap<Extent<Integer>> rights = new NearMap<>();
-
-	private final String data;
-	private boolean done;
 
 	// key=line no; value=visible tokens
 	private final HashList<Integer, MdToken> section = new HashList<>();
 
 	public MdLexerBase(CharStream input) {
 		super(input);
+
+		setBofToken(MdLexer.LINE_BLANK, Strings.EMPTY);
+		setEofToken(MdLexer.LINE_BLANK, Strings.EMPTY);
+
+		setLnBegPrefixes(MdLexer.VWS, MdLexer.HWS, MdLexer.LINE_DENT, MdLexer.LINE_QUOTE);
+
+		setBlockBeg(MdLexer.LINE_BLANK);
+		setBlkBegPrefixes(MdLexer.LINE_BLANK, MdLexer.VWS, MdLexer.HWS, MdLexer.LINE_DENT, MdLexer.LINE_QUOTE);
+
 		data = input.toString();
 		defineExtents();
-
-		insertBOFToken(MdLexer.LINE_BLANK, Strings.EOL + Strings.EOL);
 	}
 
 	@Override
 	public void emit(Token tok) {
 		MdToken token = (MdToken) tok;
+		updateType(token);
+		if (token.getChannel() == Token.DEFAULT_CHANNEL) {
+			section.put(token.getLine(), token);
+		}
+		super.emit(token);
+	}
+
+	// adjust actual token types
+	private void updateType(MdToken token) {
 		switch (token.getType()) {
-			case MdLexer.LINE_BLANK:
-				section.clear();
-				break;
 
 			// list marks
 			case MdLexer.UNORDERED_MARK:
@@ -99,10 +110,6 @@ public abstract class MdLexerBase extends LexerNeo {
 			default:
 				break;
 		}
-		if (token.getChannel() == Token.DEFAULT_CHANNEL) {
-			section.put(token.getLine(), token);
-		}
-		super.emit(token);
 	}
 
 	private void defineExtents() {
@@ -152,7 +159,8 @@ public abstract class MdLexerBase extends LexerNeo {
 			// kind = "None";
 			// }
 			//
-			// Log.info(this, "Found @%s:%s %s%s%s [%s]", beg, end + 1 - beg, pre, txt, pst,
+			// Log.info(this, "Found @%s:%s %s%s%s [%s]", beg, end + 1 - beg, pre, txt,
+			// pst,
 			// kind);
 		}
 	}
@@ -180,40 +188,12 @@ public abstract class MdLexerBase extends LexerNeo {
 		return true;
 	}
 
-	@Override
-	protected void queueEOF() {
-		if (!done) {
-			done = true;
-			if (_lastToken.getType() != MdLexer.LINE_BLANK) {
-				queue(MdLexer.LINE_BLANK, Strings.EOL + Strings.EOL);
-			}
-		}
-		super.queueEOF();
-	}
-
-	/**
-	 * Return {@code true} if there is no leading text, the leading text is
-	 * whitespace and the whitespace contains at least {@code cnt} newlines, or if
-	 * the leading text is all whitespace. Ignores the block quote character.
-	 */
-	protected boolean at(int cnt) {
-		int idx = _mStartCharIndex;
-		if (idx > 0) {
-			for (char ch = 0; ch != IntStream.EOF && idx >= 0; idx--) {
-				ch = data.charAt(idx - 1);
-				if (ch == '>') continue;
-				if (!Character.isWhitespace(ch)) return false;
-				if (ch == Chars.EOL) {
-					cnt--;
-					if (cnt == 0) return true;
-				}
-			}
-		}
-		return true;
-	}
-
 	protected boolean notDigit() {
 		return !Character.isDigit(_input.LA(1));
+	}
+
+	protected boolean notTic() {
+		return _input.LA(1) != Chars.TIC;
 	}
 
 	protected boolean style() {
@@ -221,8 +201,8 @@ public abstract class MdLexerBase extends LexerNeo {
 	}
 
 	private boolean check(Pattern pat) {
-		int dot = data.indexOf(Chars.EOL, _mStartCharIndex);
-		String line = dot > 0 ? data.substring(_mStartCharIndex, dot - 1) : data.substring(_mStartCharIndex);
+		int dot = data.indexOf(Chars.EOL, _pStartCharIndex);
+		String line = dot > 0 ? data.substring(_pStartCharIndex, dot - 1) : data.substring(_pStartCharIndex);
 		Matcher m = pat.matcher(line);
 		boolean found = m.lookingAt();
 		// Log.debug(this, String.format("Cond %s '%s'", found, line));

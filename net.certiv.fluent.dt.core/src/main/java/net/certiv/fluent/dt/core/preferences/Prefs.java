@@ -104,6 +104,7 @@ public class Prefs extends PrefsSpelling {
 	public static final String EDITOR_PREVIEW_INTERNAL_DIR = "{DSL_ID}" + ".previewIntDir";
 	public static final String EDITOR_PREVIEW_EXTERNAL_DIR = "{DSL_ID}" + ".previewExtDir";
 	public static final String EDITOR_PREVIEW_EXTERNAL_ENABLE = "{DSL_ID}" + ".previewExtEnable";
+	public static final String EDITOR_PREVIEW_MAXDEPTH = "{DSL_ID}" + ".previewExtMaxDepth";
 
 	public static final String EDITOR_HTML_OPEN = "{DSL_ID}" + ".htmlOpen";
 	public static final String EDITOR_PDF_OPEN = "{DSL_ID}" + ".pdfOpen";

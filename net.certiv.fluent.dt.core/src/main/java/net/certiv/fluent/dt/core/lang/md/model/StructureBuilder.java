@@ -157,27 +157,19 @@ public abstract class StructureBuilder extends Processor {
 
 	public void doWord() {
 		WordContext ctx = (WordContext) lastPathNode();
-		SpecializationType specializationType;
+		SpecializationType type;
 		switch (ctx.w.getType()) {
-			case MdLexer.CODE_SPAN:
-				specializationType = SpecializationType.CodeSpan;
+			case MdLexer.SPAN:
+				type = SpecializationType.CodeSpan;
 				break;
 			case MdLexer.MATH_SPAN:
-				specializationType = SpecializationType.MathSpan;
+				type = SpecializationType.MathSpan;
 				break;
-
-			case MdLexer.WORD:
-			case MdLexer.RPAREN:
-			case MdLexer.UNICODE:
-			case MdLexer.ENTITY:
-			case MdLexer.HTML:
-			case MdLexer.TEX:
-			case MdLexer.URL:
 			default:
 				return;
 		}
 
-		Specialization data = new Specialization(specializationType, rulename(ctx), ctx, name);
+		Specialization data = new Specialization(type, rulename(ctx), ctx, name);
 		builder.field(ctx, ctx, ModelType.LITERAL, data);
 	}
 

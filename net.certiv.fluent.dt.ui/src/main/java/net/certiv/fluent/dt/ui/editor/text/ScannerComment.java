@@ -16,16 +16,17 @@ import org.eclipse.jface.text.rules.MultiLineRule;
 import org.eclipse.jface.text.rules.WhitespaceRule;
 
 import net.certiv.dsl.core.preferences.IPrefsManager;
-import net.certiv.dsl.ui.editor.scanners.AbstractBufferedRuleBasedScanner;
+import net.certiv.dsl.ui.editor.scanners.DslRuleBasedScanner;
+import net.certiv.dsl.ui.editor.semantic.StylesManager;
 import net.certiv.fluent.dt.core.preferences.Prefs;
 import net.certiv.fluent.dt.ui.editor.text.rules.WhitespaceDetector;
 
-public class ScannerComment extends AbstractBufferedRuleBasedScanner {
+public class ScannerComment extends DslRuleBasedScanner {
 
 	private String[] tokenProperties;
 
-	public ScannerComment(IPrefsManager store) {
-		super(store);
+	public ScannerComment(IPrefsManager store, StylesManager stylesMgr) {
+		super(store, stylesMgr);
 		initialize();
 	}
 

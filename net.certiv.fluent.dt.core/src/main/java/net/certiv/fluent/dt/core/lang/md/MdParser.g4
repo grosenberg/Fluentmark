@@ -20,9 +20,11 @@ page
 	EOF
 	;
 
+// ==== Blocks ============
+
 yamlBlock : YAML_BLOCK ;
 htmlBlock : HTML_BLOCK ; 
-dotBlock  : DOT_BLOCK  ;
+dotBlock  : DOT_BLOCK  ; 
 mathBlock : MATH_BLOCK ;
 texBlock  : TEX_BLOCK  ; 
 umlBlock  : UML_BLOCK  ;
@@ -30,6 +32,8 @@ umlBlock  : UML_BLOCK  ;
 codeBlock
 	: CODE_BEG lang=WORD? style? VWS+ ( WORD | VWS )* CODE_END
 	;
+
+// ==== Headers ============
 
 header
 	: HASHES line HASH* style?
@@ -40,6 +44,8 @@ hrule
 	: HRULE style?
 	;
 
+// ==== Tables ============
+
 table 
 	: tableRow* TABLE_DEF style? tableRow*
 	;
@@ -47,6 +53,8 @@ table
 tableRow
 	: PIPE? ( line? PIPE )+ line? PIPE?
 	;
+
+// ==== Lists ============
 
 list
 	: listItem+
@@ -64,34 +72,86 @@ listMark
 	| mark=LALPHA_MARK
 	;
 
-definition
-	: line ( COLON line ( lnBreak line )* )+
+// ==== Links ============
+
+link
+	: linkStd style?
+	| linkRef style?
+	| linkDef style?
 	;
+
+// [text](url altText) 
+// [text](text altText)
+linkStd
+	: kind subject LNK_SEP target altText? RPAREN 
+	;
+
+// [text][url]
+// [text][text]
+// [text][]
+// [text]
+linkRef
+	: kind subject LNK_REF linkText? RBRACK
+	| kind subject RBRACK
+	;
+
+// [text]: url altText
+linkDef
+	: LBRACK linkText LNK_DEF target altText? 
+	;
+
+kind
+	: IMAGE 
+	| LBRACK 
+	;
+
+subject
+	: linkStd
+	| linkRef
+	| target
+	;
+		
+altText : LDQUOTE text RDQUOTE ;
+
+target
+	: URL
+	| linkText
+	;
+
+linkText : linkWord+ ;
+
+linkWord
+	: attrLeft* 
+	  w= ( WORD		| TEX | URL
+		 | SPAN 	| MATH_SPAN
+		 | UNICODE	| ENTITY
+		 | HTML 
+		 )
+	  attrRight*
+	;
+
+// ==== Text ============
 
 paragraph
 	: line ( lnBreak line )*
 	;
 
-line 
-	: ( word | link )+ 
+definition
+	: line ( COLON line ( lnBreak line )* )+
 	;
 
-link
-	: ( IMAGE | LBRACK ) ( link | text ) LINK_SEP URL ( LDQUOTE text RDQUOTE )? RPAREN style?
-	| ( IMAGE | LBRACK ) ( link | text ) REF_SEP text RBRACK style?
-	| ( IMAGE | LBRACK ) text? RBRACK style?
-	| ( IMAGE | LBRACK ) URL RBRACK style?
-	| LBRACK text DEF_SEP URL ( LDQUOTE text RDQUOTE )?
+line 
+	: ( text | link )+ 
 	;
 
 text : word+ ;
 
 word
 	: attrLeft* 
-	  w= ( WORD		 |  RPAREN 
-		 | CODE_SPAN |  MATH_SPAN
-		 | UNICODE	 |  ENTITY
-		 | HTML		 | TEX | URL
+	  w= ( WORD		| TEX | URL
+		 | SPAN 	| MATH_SPAN
+		 | UNICODE	| ENTITY
+		 | HTML		| RPAREN 
 		 )
 	  attrRight*
 	;

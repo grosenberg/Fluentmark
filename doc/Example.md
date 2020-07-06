@@ -4,7 +4,7 @@ A machine learning based system for performing language-agnostic source code for
 
 ### Theory of Operation
 
-CODEBUFF uses a k-Nearest Neighbor (kNN) machine learning model. Exemplars, derived 
+CODEBUFF uses a k-Nearest Neighbor (`kNN`) machine learning model. Exemplars, derived 
 from a corpus of well-formatted documents, form the basis of the model. Codebuff works 
 well for the __limited__ purpose of testing.   
 
@@ -26,7 +26,7 @@ digraph M1{
 	module->format[label="Formatting  \nCmds         " ]
 	source->format
 	format->output
-    output->parser[color=green constraint=false label="Add to Model"]
+    output->parser[color=green constraint=false label="Update Model"]
 }
 
 ~~~
@@ -85,13 +85,13 @@ features are used to capture the relative location of line breaks and
 ### Process
 
 1. corpus documents are read & parsed
-- exemplars are derived for each real corpus token
-- corpus exemplars are stored as an in-memory model
-- source document is read and parsed
-- exemplars are derived for each real source token
-- source exemplars are successively used to query the model
-- each query returns a corpus exemplar as a formatting directive
-- the directive controls the formatted ouput of the real source token
+1. exemplars are derived for each real corpus token
+1. corpus exemplars are stored as an in-memory model
+1. source document is read and parsed
+1. exemplars are derived for each real source token
+1. source exemplars are successively used to query the model
+1. each query returns a corpus exemplar as a formatting directive
+1. the directive controls the formatted ouput of the real source token
 
 
 @startuml

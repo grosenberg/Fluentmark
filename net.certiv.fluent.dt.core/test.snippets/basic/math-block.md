@@ -1,4 +1,4 @@
-# Math Block 
+# Math Block
 
 $$
   x = a_0 + \cfrac{1}{a_1

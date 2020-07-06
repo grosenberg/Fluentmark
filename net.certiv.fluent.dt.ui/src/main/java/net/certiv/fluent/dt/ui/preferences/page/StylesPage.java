@@ -34,7 +34,7 @@ public class StylesPage extends AbstractPreferencePage {
 
 	@Override
 	protected IPreferenceConfigBlock createConfigurationBlock(PrefsDeltaManager delta) {
-		return new StylesConfigBlock(this, delta, getFormkit(), getColorMgr());
+		return new StylesConfigBlock(this, delta, getFormkit(), getColorRegistry());
 	}
 
 	@Override

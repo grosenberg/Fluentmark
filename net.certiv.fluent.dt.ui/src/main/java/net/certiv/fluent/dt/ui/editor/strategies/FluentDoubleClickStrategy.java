@@ -21,9 +21,9 @@ import org.eclipse.ui.progress.UIJob;
 import org.eclipse.ui.texteditor.ITextEditor;
 
 import net.certiv.dsl.core.log.Log;
-import net.certiv.dsl.core.model.ModelException;
 import net.certiv.dsl.core.model.ICodeUnit;
 import net.certiv.dsl.core.model.IStatement;
+import net.certiv.dsl.core.model.ModelException;
 import net.certiv.dsl.core.model.builder.SourceRange;
 import net.certiv.fluent.dt.core.model.SpecUtil;
 import net.certiv.fluent.dt.ui.editor.FluentEditor;

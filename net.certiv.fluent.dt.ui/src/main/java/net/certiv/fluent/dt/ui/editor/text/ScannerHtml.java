@@ -17,13 +17,14 @@ import org.eclipse.jface.text.rules.WhitespaceRule;
 import org.eclipse.jface.text.rules.WordRule;
 
 import net.certiv.dsl.core.preferences.IPrefsManager;
-import net.certiv.dsl.ui.editor.scanners.AbstractBufferedRuleBasedScanner;
+import net.certiv.dsl.ui.editor.scanners.DslRuleBasedScanner;
+import net.certiv.dsl.ui.editor.semantic.StylesManager;
 import net.certiv.fluent.dt.core.preferences.Prefs;
 import net.certiv.fluent.dt.ui.editor.text.rules.HtmlSymbolDetector;
 import net.certiv.fluent.dt.ui.editor.text.rules.HtmlWordDetector;
 import net.certiv.fluent.dt.ui.editor.text.rules.WhitespaceDetector;
 
-public class ScannerHtml extends AbstractBufferedRuleBasedScanner {
+public class ScannerHtml extends DslRuleBasedScanner {
 
 	private String[] tokenProperties;
 	public static final String[] keywords = { "a", "abbr", "acronym", "address", "applet", "area", "article", "aside",
@@ -40,8 +41,8 @@ public class ScannerHtml extends AbstractBufferedRuleBasedScanner {
 			"time", "title", "tr", "track", "tt", "u", "ul", "var", "video", "wbr", "xmp" };
 	public static final String[] symbols = { "<", "/", "=", ">" };
 
-	public ScannerHtml(IPrefsManager store) {
-		super(store);
+	public ScannerHtml(IPrefsManager store, StylesManager stylesMgr) {
+		super(store, stylesMgr);
 		initialize();
 	}
 

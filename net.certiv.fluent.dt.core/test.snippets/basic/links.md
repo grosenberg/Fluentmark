@@ -1,5 +1,7 @@
 # Links
 
+An [auto-link](#auto) style link
+
 The [AI classifier](https://www.certiv.net) function compares 
 an unknown context vector `X`. 
 

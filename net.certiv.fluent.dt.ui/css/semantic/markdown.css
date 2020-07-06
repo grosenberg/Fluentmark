@@ -1,12 +1,54 @@
+body {
+	color: #444;
+	font-family: 'Fira Mono', 'Droid Sans Mono', 'Roboto Mono', 'Ubuntu Mono', monospace;
+	font-size: 12px;
+	line-height: 1.5em;
+	padding: 1em;
+	margin: auto;
+	max-width: 42em;
+	background: #fefefe;
+}
+
 h1, h2, h3, h4, h5, h6 {
 	font-weight: normal;
 	color: #111;
 	line-height: 1em;
+	orphans: 3;
+	widows: 3;
+	page-break-after: avoid;
+}
+
+h1 {
+	font-size: 2.5em;
+}
+
+h2 {
+	font-size: 2em;
+}
+
+h3 {
+	font-size: 1.5em;
+}
+
+h4 {
+	font-weight: bold;
+	font-size: 1.2em;
+}
+
+h5 {
+	font-weight: bold;
+	font-size: 1em;
+}
+
+h6 {
+	font-weight: bold;
+	font-size: 0.9em;
 }
 
 pre, code, kbd, samp {
 	color: black;
-	font-family: 'courier new', monospace;
+	font-family: 'Fira Code', 'Source Code Pro' 'DejaVu Sans Code', 
+		'Liberation Mono', 'courier new', monospace;
 	font-size: 0.98em;
 }
 
@@ -15,23 +57,6 @@ sub, sup {
 	line-height: 0;
 	position: relative;
 	vertical-align: baseline;
-}
-
-html {
-	font-size: 100%;
-	overflow-y: scroll;
-}
-
-body {
-	color: #444;
-	font-family: Georgia, Palatino, Palatino Linotype, Times,
-		Times New Roman, serif;
-	font-size: 12px;
-	line-height: 1.5em;
-	padding: 1em;
-	margin: auto;
-	max-width: 42em;
-	background: #fefefe;
 }
 
 a {
@@ -77,33 +102,6 @@ img {
 	vertical-align: middle;
 }
 
-h1 {
-	font-size: 2.5em;
-}
-
-h2 {
-	font-size: 2em;
-}
-
-h3 {
-	font-size: 1.5em;
-}
-
-h4 {
-	font-weight: bold;
-	font-size: 1.2em;
-}
-
-h5 {
-	font-weight: bold;
-	font-size: 1em;
-}
-
-h6 {
-	font-weight: bold;
-	font-size: 0.9em;
-}
-
 blockquote {
 	color: #666666;
 	margin: 0;
@@ -127,24 +125,32 @@ pre {
 	word-wrap: break-word;
 }
 
-b {
+b, strong {
 	font-weight: bold;
 }
 
-strong {
-	font-weight: bold;
-}
-
-dfn {
+i, em, dfn var, cite {
 	font-style: italic;
 }
 
-ins {
+u, ins {
 	background: #ff9;
 	color: black;
 	text-decoration: none;
 }
 
+del {
+	text-decoration: line-through;
+}
+
+span .math {
+	background-color: #e6e6ff;
+}
+
+span .strikethrough {
+	text-decoration: line-through;
+	color: red;
+}
 mark {
 	background: #ff0;
 	color: black;
@@ -188,17 +194,6 @@ p {
 	widows: 3;
 }
 
-h2 {
-	orphans: 3;
-	widows: 3;
-	page-break-after: avoid;
-}
-
-h3 {
-	orphans: 3;
-	widows: 3;
-	page-break-after: avoid;
-}
 
 li p:last-child {
 	margin: 0;

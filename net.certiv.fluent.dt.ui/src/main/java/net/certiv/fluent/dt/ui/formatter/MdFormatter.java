@@ -15,10 +15,11 @@ import net.certiv.dsl.core.DslCore;
 import net.certiv.dsl.core.formatter.BaseCodeFormatter;
 import net.certiv.dsl.core.log.Log;
 import net.certiv.dsl.core.model.CodeUnit;
-import net.certiv.dsl.core.model.ModelException;
 import net.certiv.dsl.core.model.IStatement;
+import net.certiv.dsl.core.model.ModelException;
 import net.certiv.dsl.core.model.builder.SourceRange;
 import net.certiv.dsl.core.preferences.IPrefsManager;
+import net.certiv.dsl.core.preferences.consts.Editor;
 import net.certiv.dsl.core.util.Chars;
 import net.certiv.dsl.core.util.CoreUtil;
 import net.certiv.dsl.core.util.Indent;
@@ -60,7 +61,7 @@ public class MdFormatter extends BaseCodeFormatter {
 			} else {
 				cols = store.getInt(Prefs.FORMATTER_WRAP_COLUMN);
 			}
-			tabWidth = store.getInt(Prefs.EDITOR_TAB_WIDTH);
+			tabWidth = store.getInt(Editor.EDITOR_TAB_WIDTH);
 
 			IEditorPart active = CoreUtil.getActiveEditor();
 			if (active instanceof FluentEditor) {
@@ -134,8 +135,7 @@ public class MdFormatter extends BaseCodeFormatter {
 		try {
 			SourceRange range = stmt.getRange();
 			int offset = range.getOffset();
-			int len = range.getLength() - delim.length();
-			if (len <= 0) return;
+			int len = range.getLength();
 
 			String content = stmt.getSource();
 			content = TextFormatter.wrap(content, cols, delim);
@@ -157,8 +157,7 @@ public class MdFormatter extends BaseCodeFormatter {
 		try {
 			SourceRange range = listItem.getRange();
 			int offset = range.getOffset();
-			int len = range.getLength() - delim.length();
-			if (len <= 0) return;
+			int len = range.getLength();
 
 			String content = listItem.getSource();
 			int indent = Indent.measureIndentInTabs(content, tabWidth);

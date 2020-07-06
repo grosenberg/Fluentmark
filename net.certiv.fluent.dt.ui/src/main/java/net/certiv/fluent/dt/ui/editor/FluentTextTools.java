@@ -4,7 +4,7 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.rules.IPartitionTokenScanner;
 import org.eclipse.jface.text.source.SourceViewerConfiguration;
 
-import net.certiv.dsl.core.color.IColorManager;
+import net.certiv.dsl.core.color.DslColorRegistry;
 import net.certiv.dsl.core.lang.LanguageManager;
 import net.certiv.dsl.core.preferences.IPrefsManager;
 import net.certiv.dsl.ui.editor.DslEditor;
@@ -74,8 +74,8 @@ public class FluentTextTools extends DslTextTools {
 		return new FluentSimpleSourceViewerConfiguration(store, null, partitioning);
 	}
 
-	private IColorManager getColorManager() {
-		return FluentCore.getDefault().getColorManager();
+	private DslColorRegistry getColorManager() {
+		return FluentCore.getDefault().getColorRegistry();
 	}
 
 	@Override

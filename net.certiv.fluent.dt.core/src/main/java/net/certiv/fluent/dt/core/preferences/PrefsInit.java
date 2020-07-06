@@ -57,23 +57,23 @@ public class PrefsInit extends DslPrefsInit {
 
 		setBool(Prefs.EDITOR_UMLMODE_ENABLED, false);
 		setBool(Prefs.EDITOR_DOTMODE_ENABLED, false);
-		setString(Prefs.EDITOR_DOT_PROGRAM, "");
+		setString(Prefs.EDITOR_DOT_PROGRAM, Strings.EMPTY);
 
 		setString(Prefs.EDITOR_FLEXMARK_PROFILE, "GITHUB_DOC");
 		setBool(Prefs.EDITOR_FLEXMARK_MATHJAX, true);
 
 		setBool(Prefs.EDITOR_BLACKFRIDAY_ADDTOC, false);
 		setBool(Prefs.EDITOR_BLACKFRIDAY_SMART, true);
-		setString(Prefs.EDITOR_BLACKFRIDAY_PROGRAM, "");
+		setString(Prefs.EDITOR_BLACKFRIDAY_PROGRAM, Strings.EMPTY);
 
 		setBool(Prefs.EDITOR_PANDOC_ADDTOC, false);
 		setBool(Prefs.EDITOR_PANDOC_MATHJAX, false);
 		setBool(Prefs.EDITOR_PANDOC_SMART, true);
-		setString(Prefs.EDITOR_PANDOC_PROGRAM, "");
-		setString(Prefs.EDITOR_PANDOC_TEMPLATES, "");
-		setString(Prefs.EDITOR_PANDOC_TEMPLATE, "");
+		setString(Prefs.EDITOR_PANDOC_PROGRAM, Strings.EMPTY);
+		setString(Prefs.EDITOR_PANDOC_TEMPLATES, Strings.EMPTY);
+		setString(Prefs.EDITOR_PANDOC_TEMPLATE, Strings.EMPTY);
 
-		setString(Prefs.EDITOR_EXTERNAL_COMMAND, "");
+		setString(Prefs.EDITOR_EXTERNAL_COMMAND, Strings.EMPTY);
 
 		setBool(Prefs.EDITOR_SECTION_NUMBERS, true);
 
@@ -95,6 +95,7 @@ public class PrefsInit extends DslPrefsInit {
 
 		setBool(Prefs.EDITOR_PREVIEW_EXTERNAL_ENABLE, false);
 		setString(Prefs.EDITOR_PREVIEW_EXTERNAL_DIR, Strings.EMPTY);
+		setInt(Prefs.EDITOR_PREVIEW_MAXDEPTH, 2);
 
 		String semanticDir = resourceDir(BUNDLE_ID, Editor.SEMANTIC);
 		setString(Editor.EDITOR_SEMANTIC_INTERNAL_DIR, semanticDir);
@@ -172,7 +173,7 @@ public class PrefsInit extends DslPrefsInit {
 		setBool(PrefsSpelling.SPELLING_IGNORE_AMPERSAND_IN_PROPERTIES, true);
 		setBool(PrefsSpelling.SPELLING_IGNORE_NON_LETTERS, true);
 		setBool(PrefsSpelling.SPELLING_IGNORE_JAVA_STRINGS, false);
-		setString(PrefsSpelling.SPELLING_USER_DICTIONARY, ""); //$NON-NLS-1$
+		setString(PrefsSpelling.SPELLING_USER_DICTIONARY, Strings.EMPTY);
 
 		// For backwards compatibility we must use the property and not the workspace
 		// default

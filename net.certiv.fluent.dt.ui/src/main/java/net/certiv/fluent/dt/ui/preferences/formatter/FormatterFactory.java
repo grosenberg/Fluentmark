@@ -2,16 +2,15 @@ package net.certiv.fluent.dt.ui.preferences.formatter;
 
 import java.net.URL;
 
-import net.certiv.fluent.dt.core.FluentCore;
-import net.certiv.fluent.dt.core.formatter.FmSourceFormatter;
-import net.certiv.fluent.dt.ui.FluentUI;
-
 import net.certiv.dsl.core.DslCore;
 import net.certiv.dsl.core.formatter.IDslCodeFormatter;
 import net.certiv.dsl.ui.DslUI;
 import net.certiv.dsl.ui.formatter.DslFormatterFactory;
 import net.certiv.dsl.ui.formatter.IFormatterModifyDialog;
 import net.certiv.dsl.ui.formatter.IFormatterModifyDialogOwner;
+import net.certiv.fluent.dt.core.FluentCore;
+import net.certiv.fluent.dt.core.formatter.FmSourceFormatter;
+import net.certiv.fluent.dt.ui.FluentUI;
 
 public class FormatterFactory extends DslFormatterFactory {
 

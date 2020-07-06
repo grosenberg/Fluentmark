@@ -27,6 +27,6 @@ public class FoldingPage extends AbstractPreferencePage {
 
 	@Override
 	protected IPreferenceConfigBlock createConfigurationBlock(PrefsDeltaManager delta) {
-		return new FoldingConfigBlock(this, delta, getFormkit(), getColorMgr());
+		return new FoldingConfigBlock(this, delta, getFormkit(), getColorRegistry());
 	}
 }

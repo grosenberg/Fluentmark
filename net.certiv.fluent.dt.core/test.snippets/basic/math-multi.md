@@ -7,6 +7,10 @@ to the `Xj` from all `N` exemplars to find the `k` nearest.
 
 Here's the proof: $\frac{n!}{k!(n-k)!} = \binom{n}{k}$
 
+ $$
+ \frac{n!}{k!(n-k)!} = \binom{n}{k}
+ $$
+
 $$
   x = a_0 + \cfrac{1}{a_1
           + \cfrac{1}{a_2
@@ -40,7 +44,12 @@ $$
   \end{cases}
 $$
 
+\begin{equation} 
+ f(x)=(x+a)(x+b)
+\end{equation}
+
 \begin{align*}
  f(x) &= (x+a)(x+b) \\
  &= x^2 + (a+b)x + ab
 \end{align*}
+

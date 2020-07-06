@@ -27,7 +27,7 @@ public class SyntaxColorPage extends AbstractPreferencePage {
 
 	@Override
 	protected IPreferenceConfigBlock createConfigurationBlock(PrefsDeltaManager delta) {
-		return new SyntaxColorConfigBlock(this, delta, getFormkit(), getColorMgr());
+		return new SyntaxColorConfigBlock(this, delta, getFormkit(), getColorRegistry());
 	}
 
 	@Override

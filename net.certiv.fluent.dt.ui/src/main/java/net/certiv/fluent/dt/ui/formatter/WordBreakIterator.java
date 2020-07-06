@@ -6,9 +6,7 @@ import java.text.StringCharacterIterator;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A word break iterator sensetive to markdown constructs
- */
+/** A word break iterator sensetive to markdown constructs */
 public class WordBreakIterator extends BreakIterator {
 
 	public static class Feature {
@@ -107,12 +105,14 @@ public class WordBreakIterator extends BreakIterator {
 		// }
 		// char precedingChar = text.substring(next - 1, next).charAt(0);
 		// char followingChar = text.substring(next + 1, next + 2).charAt(0);
-		// System.out.println("text[" + next + "]=" + c + ", preceding char=" + precedingChar
+		// System.out.println("text[" + next + "]=" + c + ", preceding char=" +
+		// precedingChar
 		// + ", following char=" + followingChar);
 		// // Default rule: If the boundary is not a letter or digit, it can be one of
 		// // the many punctuation chars. If the character before and after the boundary
 		// // character is alphanumeric, then we consider this a boundary.
-		// if (Character.isLetterOrDigit(precedingChar) && Character.isLetterOrDigit(followingChar))
+		// if (Character.isLetterOrDigit(precedingChar) &&
+		// Character.isLetterOrDigit(followingChar))
 		// {
 		// break;
 		// }

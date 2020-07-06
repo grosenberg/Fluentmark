@@ -39,7 +39,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.ide.dialogs.EncodingFieldEditor;
 
-import net.certiv.dsl.core.color.DslColorManager;
+import net.certiv.dsl.core.color.DslColorRegistry;
 import net.certiv.dsl.core.preferences.PrefsDeltaManager;
 import net.certiv.dsl.ui.dialogs.StatusUtil;
 import net.certiv.dsl.ui.preferences.ScrolledPageContent;
@@ -108,9 +108,9 @@ public class SpellingConfigBlock extends AbstractConfigBlock {
 	}
 
 	public SpellingConfigBlock(IDslPreferencePage page, PrefsDeltaManager delta, FormToolkit formkit,
-			DslColorManager colorMgr, IStatusChangeListener context) {
+			DslColorRegistry reg, IStatusChangeListener context) {
 
-		super(page, delta, formkit, colorMgr);
+		super(page, delta, formkit, reg);
 		this.context = context;
 	}
 
@@ -452,8 +452,7 @@ public class SpellingConfigBlock extends AbstractConfigBlock {
 	}
 
 	/**
-	 * Validates that the file with the specified absolute path exists and can be
-	 * opened.
+	 * Validates that the file with the specified absolute path exists and can be opened.
 	 *
 	 * @param path The path of the file to validate
 	 * @return a status without error if the path is valid

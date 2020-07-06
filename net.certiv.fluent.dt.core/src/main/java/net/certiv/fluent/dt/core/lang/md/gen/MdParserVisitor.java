@@ -103,11 +103,65 @@ public interface MdParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitListMark(MdParser.ListMarkContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link MdParser#definition}.
+	 * Visit a parse tree produced by {@link MdParser#link}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitDefinition(MdParser.DefinitionContext ctx);
+	T visitLink(MdParser.LinkContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link MdParser#linkStd}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLinkStd(MdParser.LinkStdContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link MdParser#linkRef}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLinkRef(MdParser.LinkRefContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link MdParser#linkDef}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLinkDef(MdParser.LinkDefContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link MdParser#kind}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitKind(MdParser.KindContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link MdParser#subject}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSubject(MdParser.SubjectContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link MdParser#altText}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAltText(MdParser.AltTextContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link MdParser#target}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTarget(MdParser.TargetContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link MdParser#linkText}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLinkText(MdParser.LinkTextContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link MdParser#linkWord}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLinkWord(MdParser.LinkWordContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link MdParser#paragraph}.
 	 * @param ctx the parse tree
@@ -115,17 +169,17 @@ public interface MdParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitParagraph(MdParser.ParagraphContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link MdParser#definition}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDefinition(MdParser.DefinitionContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link MdParser#line}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitLine(MdParser.LineContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link MdParser#link}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitLink(MdParser.LinkContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link MdParser#text}.
 	 * @param ctx the parse tree

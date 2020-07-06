@@ -4,15 +4,14 @@ import java.net.URL;
 
 import org.eclipse.swt.widgets.Composite;
 
-import net.certiv.fluent.dt.core.FluentCore;
-import net.certiv.fluent.dt.ui.FluentUI;
-
 import net.certiv.dsl.core.DslCore;
 import net.certiv.dsl.core.preferences.consts.Formatter;
 import net.certiv.dsl.ui.DslUI;
 import net.certiv.dsl.ui.formatter.FormatterModifyTabPage;
 import net.certiv.dsl.ui.formatter.IFormatterModifyDialog;
 import net.certiv.dsl.ui.preferences.bind.IControlCreationManager;
+import net.certiv.fluent.dt.core.FluentCore;
+import net.certiv.fluent.dt.ui.FluentUI;
 
 public class TabBlankLines extends FormatterModifyTabPage {
 

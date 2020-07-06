@@ -19,14 +19,15 @@ import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.graphics.Image;
 
 import net.certiv.dsl.core.DslCore;
-import net.certiv.dsl.core.color.IColorManager;
-import net.certiv.dsl.core.preferences.PrefsManager;
+import net.certiv.dsl.core.color.DslColorRegistry;
 import net.certiv.dsl.core.preferences.IPrefsManager;
+import net.certiv.dsl.core.preferences.PrefsManager;
 import net.certiv.dsl.ui.DslImageManager;
 import net.certiv.dsl.ui.DslUI;
 import net.certiv.dsl.ui.editor.DslEditor;
 import net.certiv.dsl.ui.editor.DslSourceViewerConfiguration;
 import net.certiv.dsl.ui.editor.reconcile.PresentationReconciler;
+import net.certiv.dsl.ui.editor.semantic.StylesManager;
 import net.certiv.dsl.ui.editor.text.completion.CompletionCategory;
 import net.certiv.dsl.ui.editor.text.completion.CompletionProcessor;
 import net.certiv.dsl.ui.editor.text.completion.engines.ICompletionEngine;
@@ -64,9 +65,9 @@ public class FluentSourceViewerConfiguration extends DslSourceViewerConfiguratio
 
 	private MdSematicAnalyzer markupAnalyzer;
 
-	public FluentSourceViewerConfiguration(IColorManager colorMgr, IPrefsManager store, DslEditor editor,
+	public FluentSourceViewerConfiguration(DslColorRegistry reg, IPrefsManager store, DslEditor editor,
 			String partitioning) {
-		super(FluentCore.getDefault(), colorMgr, store, editor, partitioning);
+		super(FluentCore.getDefault(), reg, store, editor, partitioning);
 	}
 
 	@Override
@@ -86,14 +87,15 @@ public class FluentSourceViewerConfiguration extends DslSourceViewerConfiguratio
 	@Override
 	protected void initializeScanners() {
 		IPrefsManager store = getPrefStore();
+		StylesManager mgr = getDslUI().getStylesManager();
 
-		yamlScanner = new ScannerFrontMatter(store);
-		codeScanner = new ScannerCode(store);
-		dotScanner = new ScannerDot(store);
-		umlScanner = new ScannerUml(store);
-		mathScanner = new ScannerMath(store);
-		htmlScanner = new ScannerHtml(store);
-		commentScanner = new ScannerComment(store);
+		yamlScanner = new ScannerFrontMatter(store, mgr);
+		codeScanner = new ScannerCode(store, mgr);
+		dotScanner = new ScannerDot(store, mgr);
+		umlScanner = new ScannerUml(store, mgr);
+		mathScanner = new ScannerMath(store, mgr);
+		htmlScanner = new ScannerHtml(store, mgr);
+		commentScanner = new ScannerComment(store, mgr);
 		markupAnalyzer = new MdSematicAnalyzer(getDslUI());
 	}
 

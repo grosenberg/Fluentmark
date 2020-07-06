@@ -1,5 +1,12 @@
 # FluentMark
 
+
+~~~ {language="java"}
+
+something
+
+~~~
+
 ```java
 code
 ```

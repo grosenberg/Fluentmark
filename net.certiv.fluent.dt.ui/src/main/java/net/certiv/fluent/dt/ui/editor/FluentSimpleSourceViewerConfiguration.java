@@ -10,7 +10,7 @@ import org.eclipse.jface.text.information.IInformationPresenter;
 import org.eclipse.jface.text.source.IAnnotationHover;
 import org.eclipse.jface.text.source.ISourceViewer;
 
-import net.certiv.dsl.core.color.IColorManager;
+import net.certiv.dsl.core.color.DslColorRegistry;
 import net.certiv.dsl.core.preferences.IPrefsManager;
 import net.certiv.dsl.ui.editor.DslEditor;
 
@@ -20,7 +20,7 @@ public class FluentSimpleSourceViewerConfiguration extends FluentSourceViewerCon
 		super(null, store, editor, partitioning);
 	}
 
-	public FluentSimpleSourceViewerConfiguration(IColorManager colorManager, IPrefsManager store, DslEditor editor,
+	public FluentSimpleSourceViewerConfiguration(DslColorRegistry colorManager, IPrefsManager store, DslEditor editor,
 			String partitioning, boolean configureFormatter) {
 		super(colorManager, store, editor, partitioning);
 	}

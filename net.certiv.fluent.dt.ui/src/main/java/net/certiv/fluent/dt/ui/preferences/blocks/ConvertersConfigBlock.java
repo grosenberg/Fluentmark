@@ -12,7 +12,7 @@ import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
-import net.certiv.dsl.core.color.DslColorManager;
+import net.certiv.dsl.core.color.DslColorRegistry;
 import net.certiv.dsl.core.preferences.PrefsDeltaManager;
 import net.certiv.dsl.ui.preferences.blocks.AbstractConfigBlock;
 import net.certiv.dsl.ui.preferences.pages.IDslPreferencePage;
@@ -33,8 +33,8 @@ public class ConvertersConfigBlock extends AbstractConfigBlock {
 	private ExternalTab externalTab;
 
 	public ConvertersConfigBlock(IDslPreferencePage page, PrefsDeltaManager delta, FormToolkit formkit,
-			DslColorManager colorMgr) {
-		super(page, delta, formkit, colorMgr);
+			DslColorRegistry reg) {
+		super(page, delta, formkit, reg);
 	}
 
 	@Override

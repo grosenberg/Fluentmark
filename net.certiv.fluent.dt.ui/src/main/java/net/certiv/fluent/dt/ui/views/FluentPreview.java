@@ -7,9 +7,6 @@
  ******************************************************************************/
 package net.certiv.fluent.dt.ui.views;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.text.ITextListener;
 import org.eclipse.jface.text.ITextViewer;
@@ -39,8 +36,6 @@ public class FluentPreview extends ViewPart implements PartAdaptor, ITextListene
 	private Browser browser;
 	private ViewJob viewjob;
 
-	private final Set<String> WatchProperties = new HashSet<>();
-
 	public FluentPreview() {
 		viewpart = this;
 	}
@@ -58,45 +53,43 @@ public class FluentPreview extends ViewPart implements PartAdaptor, ITextListene
 	}
 
 	// -------------------------------------------------------------------------
-	// view opened
+
 	@Override
-	public void partActivated(IWorkbenchPart part) {
+	public void partActivated(IWorkbenchPart part) { // view opened
 		if (part instanceof FluentEditor) {
 			((FluentEditor) part).getViewer().addTextListener(this);
 			viewjob.update();
 		}
 	}
 
-	// view closed
 	@Override
-	public void partClosed(IWorkbenchPart part) {
+	public void partClosed(IWorkbenchPart part) { // view closed
 		if (part instanceof FluentEditor) {
-			try { // exception when workbench close closes the editor
-				getActivePage().hideView(viewpart);
-			} catch (Exception e) {}
+			// try {
+			// for (IWorkbenchPage page : CoreUtil.getActiveWorkbenchWindow().getPages()) {
+			// for (IEditorReference ed : page.getEditorReferences()) {
+			// ???
+			// }
+			// }
+			// if (!CoreUtil.getActiveWorkbench().isClosing()) getActivePage().hideView(viewpart);
+			// } catch (Exception e) {}
 		}
 	}
 
-	// on content change in the editor's text viewer
 	@Override
-	public void textChanged(TextEvent event) {
+	public void textChanged(TextEvent event) {	// on editor content change
 		if (viewjob != null) viewjob.update();
 	}
 
-	// on property store change
 	@Override
-	public void propertyChange(PropertyChangeEvent event) {
+	public void propertyChange(PropertyChangeEvent event) {	// on property store change
 		if (viewjob != null) {
-			if (WatchProperties.isEmpty()) {
-				PrefsManager mgr = FluentCore.getDefault().getPrefsManager();
-				WatchProperties.add(mgr.bind(Prefs.EDITOR_PREVIEW_EXTERNAL_DIR));
-				WatchProperties.add(mgr.bind(Prefs.EDITOR_PREVIEW_INTERNAL_DIR));
-				WatchProperties.add(mgr.bind(Prefs.EDITOR_PREVIEW_FILE));
-			}
-
-			if (WatchProperties.contains(event.getProperty())) {
-				viewjob.load();
-			}
+			PrefsManager mgr = FluentCore.getDefault().getPrefsManager();
+			if (mgr.keyMatch(event.getProperty(), //
+					Prefs.EDITOR_PREVIEW_FILE, //
+					Prefs.EDITOR_PREVIEW_EXTERNAL_ENABLE, //
+					Prefs.EDITOR_PREVIEW_EXTERNAL_DIR //
+			)) viewjob.load();
 		}
 	}
 

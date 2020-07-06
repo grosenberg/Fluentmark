@@ -7,17 +7,17 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
-import net.certiv.dsl.core.color.DslColorManager;
+import net.certiv.dsl.core.color.DslColorRegistry;
 import net.certiv.dsl.core.log.Log;
 import net.certiv.dsl.core.preferences.PrefsDeltaManager;
 import net.certiv.dsl.core.preferences.consts.Editor;
@@ -29,14 +29,19 @@ import net.certiv.fluent.dt.core.preferences.Prefs;
 
 public class StylesConfigBlock extends AbstractConfigBlock {
 
-	private Combo prvCombo;
-	private Composite prvComp;
+	private Composite stdComp;
+	private Composite extComp;
+	private Button stdEn;
+	private Button extEn;
 	private Combo smtCombo;
-	private Composite smtComp;
+
+	private Composite prvComp;
+	private Combo prvCombo;
+	private Button prvEx;
 
 	public StylesConfigBlock(IDslPreferencePage page, PrefsDeltaManager delta, FormToolkit formkit,
-			DslColorManager colorMgr) {
-		super(page, delta, formkit, colorMgr);
+			DslColorRegistry reg) {
+		super(page, delta, formkit, reg);
 	}
 
 	@Override
@@ -47,6 +52,8 @@ public class StylesConfigBlock extends AbstractConfigBlock {
 		keys.add(Editor.EDITOR_SEMANTIC_INTERNAL_DIR);
 		keys.add(Editor.EDITOR_SEMANTIC_EXTERNAL_DIR);
 		keys.add(Editor.EDITOR_SEMANTIC_EXTERNAL_ENABLE);
+		keys.add(Editor.EDITOR_SEMANTIC_EXTERNAL_MAXDEPTH);
+		keys.add(Editor.EDITOR_SEMANTIC_EXTERNAL_SENTINELS);
 
 		keys.add(Prefs.EDITOR_PREVIEW_FILE);
 		keys.add(Prefs.EDITOR_PREVIEW_INTERNAL_DIR);
@@ -59,90 +66,119 @@ public class StylesConfigBlock extends AbstractConfigBlock {
 	@Override
 	public Composite createContents(Composite parent) {
 		Composite contents = super.createContents(parent);
-		Composite comp = SWTFactory.createGroupComposite(contents, 1, 3, "Stylesheet Selection");
-
-		createSemanticStylesGroup(parent);
-		createPreviewStylesGroup(parent);
-		return comp;
+		createSemanticStylesGroup(contents);
+		createPreviewStylesGroup(contents);
+		return contents;
 	}
 
 	protected Composite createSemanticStylesGroup(Composite parent) {
 		Composite comp = SWTFactory.createGroupComposite(parent, 3, 2, "Semantic Editor Styles");
-		addCheckBox(comp, "Enable", Editor.EDITOR_SEMANTIC_ENABLED, 2, 4);
-		smtCombo = addLabeledCombo(comp, "Select", Editor.EDITOR_SEMANTIC_FILE);
+		stdEn = addCheckBox(comp, "Enable", Editor.EDITOR_SEMANTIC_ENABLED, 2, 4);
 
-		addVerticalSpace(comp, 1, 3);
-		addCheckBox(comp, "External stylesheets", Editor.EDITOR_SEMANTIC_EXTERNAL_ENABLE, 2, 4)
-				.addSelectionListener(new SelectionAdapter() {
+		stdComp = SWTFactory.createComposite(comp, 2, 2, 4);
+		smtCombo = addLabeledCombo(stdComp, "Select", Editor.EDITOR_SEMANTIC_FILE);
+		addSpace(stdComp, 1, 3);
 
-					@Override
-					public void widgetSelected(SelectionEvent e) {
-						adjustSemanticSelection(((Button) e.widget).getSelection());
-					}
-				});
+		extEn = addCheckBox(stdComp, "External stylesheets", Editor.EDITOR_SEMANTIC_EXTERNAL_ENABLE, 2, 4);
+		extComp = SWTFactory.createComposite(stdComp, 2, 2, 4);
 
-		smtComp = SWTFactory.createComposite(comp, 2, 2, 4);
-		addDirectoryField(smtComp, Editor.EDITOR_SEMANTIC_EXTERNAL_DIR, 2, 2, "Directory", 50,
-				new DirectorypathValidator(null, true)).addModifyListener(new ModifyListener() {
+		addDirectoryField(extComp, Editor.EDITOR_SEMANTIC_EXTERNAL_DIR, 2, 2, "Directory", 50,
+				new DirectorypathValidator(null, true)).addModifyListener(e -> updateSemantics(true));
+		addLabeledSpinner(extComp, "Max depth", Editor.EDITOR_SEMANTIC_EXTERNAL_MAXDEPTH, 2, 2, SWT.BORDER, 0, 9, 1)
+				.addModifyListener(e -> updateSemantics(true));
 
-					@Override
-					public void modifyText(ModifyEvent e) {
-						adjustSemanticSelection(delta.getBoolean(Editor.EDITOR_SEMANTIC_EXTERNAL_ENABLE));
-					}
-				});
+		addCheckBox(stdComp, "Enable live watch & reload for external stylesheets",
+				Editor.EDITOR_SEMANTIC_EXTERNAL_SENTINELS, 2, 4);
 
-		adjustSemanticSelection(delta.getBoolean(Editor.EDITOR_SEMANTIC_EXTERNAL_ENABLE));
+		stdEn.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				boolean en = stdEn.getSelection();
+				enableControls(stdComp, en);
+				boolean ex = extEn.getSelection();
+				enableControls(extComp, en && ex);
+				updateSemantics(ex);
+			}
+		});
+		extEn.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				boolean ex = extEn.getSelection();
+				enableControls(extComp, ex);
+				updateSemantics(ex);
+			}
+		});
+
+		initSemantics();
 		return comp;
 	}
 
-	private void adjustSemanticSelection(boolean external) {
-		String choice = delta.getString(Editor.EDITOR_SEMANTIC_FILE);
-		File f = new File(choice);
-		choice = f.getName();
-		enableControls(smtComp, external);
+	private void initSemantics() {
+		boolean en = delta.getBoolean(Editor.EDITOR_SEMANTIC_ENABLED);
+		boolean ex = delta.getBoolean(Editor.EDITOR_SEMANTIC_EXTERNAL_ENABLE);
+		String exname = delta.getString(Editor.EDITOR_SEMANTIC_EXTERNAL_DIR);
+		ex = ex && !exname.isEmpty();
+		delta.setValue(Editor.EDITOR_SEMANTIC_EXTERNAL_ENABLE, ex);
+		enableControls(stdComp, en);
+		enableControls(extComp, en && ex);
+		updateSemantics(ex);
+	}
 
-		updateCombo(smtCombo, choices(external, true));
+	private void updateSemantics(boolean ex) {
+		String pathname = delta.getString(Editor.EDITOR_SEMANTIC_FILE);
+		File f = new File(pathname);
+		String filename = f.getName();
+		updateCombo(smtCombo, choices(ex, true));
 
-		int idx = smtCombo.indexOf(choice);
+		int idx = smtCombo.indexOf(filename);
 		if (idx < 0) idx = 0;
 		smtCombo.select(idx);
 	}
 
 	protected Composite createPreviewStylesGroup(Composite parent) {
-		Composite comp = SWTFactory.createGroupComposite(parent, 3, 2, "Html Preview/Export Styles");
+		Composite comp = SWTFactory.createGroupComposite(parent, 3, 2, "Preview & Export Styles");
 		prvCombo = addLabeledCombo(comp, "Select", Prefs.EDITOR_PREVIEW_FILE);
 
-		addVerticalSpace(comp, 1, 3);
-		addCheckBox(comp, "External stylesheets", Prefs.EDITOR_PREVIEW_EXTERNAL_ENABLE, 2, 0)
-				.addSelectionListener(new SelectionAdapter() {
+		addSpace(comp, 1, 3);
+		prvEx = addCheckBox(comp, "External stylesheets", Prefs.EDITOR_PREVIEW_EXTERNAL_ENABLE, 2, 4);
+		prvEx.addSelectionListener(new SelectionAdapter() {
 
-					@Override
-					public void widgetSelected(SelectionEvent e) {
-						adjustPreviewSelection(((Button) e.widget).getSelection());
-					}
-				});
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				boolean ex = prvEx.getSelection();
+				enableControls(prvComp, ex);
+				updatePreview(ex);
+			}
+		});
 
 		prvComp = SWTFactory.createComposite(comp, 2, 2, 4);
 		addDirectoryField(prvComp, Prefs.EDITOR_PREVIEW_EXTERNAL_DIR, 2, 2, "Directory", 50,
-				new DirectorypathValidator(null, true)).addModifyListener(new ModifyListener() {
+				new DirectorypathValidator(null, true)).addModifyListener(e -> updatePreview(true));
+		addLabeledSpinner(prvComp, "Max depth", Prefs.EDITOR_PREVIEW_MAXDEPTH, 2, 2, SWT.BORDER, 0, 9, 1)
+				.addModifyListener(e -> updatePreview(true));
 
-					@Override
-					public void modifyText(ModifyEvent e) {
-						adjustPreviewSelection(delta.getBoolean(Prefs.EDITOR_PREVIEW_EXTERNAL_ENABLE));
-					}
-				});
-
-		adjustPreviewSelection(delta.getBoolean(Prefs.EDITOR_PREVIEW_EXTERNAL_ENABLE));
+		initPreview();
 		return comp;
 	}
 
-	private void adjustPreviewSelection(boolean external) {
+	private void initPreview() {
+		boolean ex = delta.getBoolean(Prefs.EDITOR_PREVIEW_EXTERNAL_ENABLE);
+		String exname = delta.getString(Prefs.EDITOR_PREVIEW_EXTERNAL_DIR);
+		ex = ex && !exname.isEmpty();
+		delta.setValue(Prefs.EDITOR_PREVIEW_EXTERNAL_ENABLE, ex);
+		enableControls(prvComp, ex);
+		updatePreview(ex);
+	}
+
+	private void updatePreview(boolean ex) {
 		String choice = delta.getString(Prefs.EDITOR_PREVIEW_FILE);
 		File f = new File(choice);
 		choice = f.getName();
-		enableControls(prvComp, external);
 
-		updateCombo(prvCombo, choices(external, false));
+		updateCombo(prvCombo, choices(ex, false));
+
 		int idx = prvCombo.indexOf(choice);
 		if (idx < 0) idx = 0;
 		prvCombo.select(idx);
@@ -150,7 +186,11 @@ public class StylesConfigBlock extends AbstractConfigBlock {
 
 	private void enableControls(Composite comp, boolean enable) {
 		for (Control control : comp.getChildren()) {
-			if (control instanceof Composite) {
+			if (control instanceof Combo) {
+				((Combo) control).setEnabled(enable);
+			} else if (control instanceof Spinner) {
+				((Spinner) control).setEnabled(enable);
+			} else if (control instanceof Composite) {
 				enableControls((Composite) control, enable);
 			} else {
 				control.setEnabled(enable);
@@ -159,14 +199,15 @@ public class StylesConfigBlock extends AbstractConfigBlock {
 	}
 
 	private Map<String, Object> choices(boolean external, boolean semantic) {
-		Map<String, Object> choices = new LinkedHashMap<>();
+		// key=display name; value=pathname URI string
+		Map<String, Object> nameMap = new LinkedHashMap<>();
 
 		File file = null;
 		if (external) {
 			String key = Prefs.EDITOR_PREVIEW_EXTERNAL_DIR;
 			if (semantic) key = Editor.EDITOR_SEMANTIC_EXTERNAL_DIR;
 			String pathname = delta.getString(key);
-			if (pathname.isEmpty()) return choices;
+			if (pathname.isEmpty()) return nameMap;
 
 			file = new File(pathname);
 
@@ -174,23 +215,23 @@ public class StylesConfigBlock extends AbstractConfigBlock {
 			String key = Prefs.EDITOR_PREVIEW_INTERNAL_DIR;
 			if (semantic) key = Editor.EDITOR_SEMANTIC_INTERNAL_DIR;
 			String pathname = delta.getString(key);
-			if (pathname.isEmpty()) return choices;
+			if (pathname.isEmpty()) return nameMap;
 
 			try {
 				file = new File(new URI(pathname));
 			} catch (URISyntaxException e) {
 				Log.error(this, "Invalid URI: " + pathname);
-				return choices;
+				return nameMap;
 			}
 		}
 
-		if (!file.isDirectory()) return choices;
+		if (!file.isDirectory()) return nameMap;
 
 		for (String filename : file.list()) {
 			if (filename.endsWith(Editor.DOT_CSS) || filename.endsWith(Editor.DOT_MIN_CSS)) {
-				choices.put(filename, file.toURI().resolve(filename).toString());
+				nameMap.put(filename, file.toURI().resolve(filename).toString());
 			}
 		}
-		return choices;
+		return nameMap;
 	}
 }

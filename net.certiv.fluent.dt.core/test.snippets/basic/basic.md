@@ -24,6 +24,15 @@ $$
 
 ## Graphviz test
 
+digraph X1{
+    a->b 
+    b->c
+    a->c
+    d->c
+    e->c
+    e->a
+}
+
 ~~~ dot
 
 digraph X1{
