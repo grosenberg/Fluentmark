@@ -1,6 +1,6 @@
 # FluentMark
 
-A full-featured Eclipse-based Markdown editing environment.
+A full-featured Markdown editing environment for Eclipse.
 
 ## Features 
 
@@ -78,6 +78,7 @@ BlackFriday converter ---
   The `blackfriday-tool` executable can then be selected on the BlackFriday Converter preference page.
   
 
+## Use
 
 ### Keys
 
@@ -92,8 +93,50 @@ BlackFriday converter ---
 |Ctrl-Shift-f    |Format - full page or selected text              |
 |Ctrl-Shift-Alt-f|Format - with unwrapped text                     |
 
+### Table Editor
+
+`Double-click` on an existing table to open the table editor. While in the editor, `double-click` a cell to edit 
+text. `Tab` and arrow keys will navigate between cells. `Return` to end cell editing.
+
+
+
+## Support
+
+Open an [issue on Github](https://github.com/grosenberg/fluentmark/issues). Provide as much information as possible
+
+- a minimal Markdown document that demonstrates the issue 
+- OS name and version version 
+- the error message encountered 
+
+## Resources
+
+1. Markdown Syntax
+    - [Pandoc's Markdown Documentation](https://pandoc.org/MANUAL.html#pandocs-markdown)
+    - [CommonMark Spec 0.29](https://spec.commonmark.org/0.29/)
+1. MathJax TeX Commands 
+    - [TeX Syntax Documentation](https://www.onemathematicalcat.org/MathJaxDocumentation/TeXSyntax.htm)
+1. PlantUML Language
+  	- [Language Specification](https://plantuml.com/sitemap-language-specification)
+1. Graphviz 'Dot' Language 
+	  - [Dot Man Page](http://www.graphviz.org/pdf/dot.1.pdf)
+1. LaTex Templates for Pandoc PDF generation:
+	  - [LaTex Templates](https://github.com/topics/latex-template "Latex Templates") on Github.
+
+## License
+
+EPL v1
+
 
 --- 
+
+## Spans and Blocks
+
+### HTML
+
+Raw HTML can be used both in-line and as left margin blocks delimited by `blank` lines.
+
+
+---
 
 ### In-line Math 
 
@@ -112,7 +155,7 @@ An inline math $1+2\neq3$! example.
  
 ---
 
-### Math Block
+### Math Blocks
 
 Simple math blocks are delimited using double `$`, *i.e.*, `$$`, marks at the left margin. The starting 
 delimiter *must* follow a blank line and the ending delimiter *must* lead a blank line.
@@ -161,39 +204,4 @@ renders to
 \end{equation}
 
 ---
-
-### HTML
-
-Raw HTML can be used both in-line and as left margin blocks delimited by `blank` lines.
-
-### Table Editor
-
-`Double-click` on an existing table to open the table editor. While in the editor, `double-click` a cell to edit 
-text. `Tab` and arrow keys will navigate between cells. `Return` to end cell editing.
-
-## Support
-
-Open an [issue on Github](https://github.com/grosenberg/fluentmark/issues). Provide as much information as possible
-
-- a minimal Markdown document that demonstrates the issue 
-- OS name and version version 
-- the error message encountered 
-
-## Resources
-
-1. Markdown Syntax
-    - [Pandoc's Markdown Documentation](https://pandoc.org/MANUAL.html#pandocs-markdown)
-    - [CommonMark Spec 0.29](https://spec.commonmark.org/0.29/)
-1. MathJax TeX Commands 
-    - [TeX Syntax Documentation](https://www.onemathematicalcat.org/MathJaxDocumentation/TeXSyntax.htm)
-1. PlantUML Language
-  	- [Language Specification](https://plantuml.com/sitemap-language-specification)
-1. Graphviz 'Dot' Language 
-	  - [Dot Man Page](http://www.graphviz.org/pdf/dot.1.pdf)
-1. LaTex Templates for Pandoc PDF generation:
-	  - [LaTex Templates](https://github.com/topics/latex-template "Latex Templates") on Github.
-
-## License
-
-EPL v1
 
