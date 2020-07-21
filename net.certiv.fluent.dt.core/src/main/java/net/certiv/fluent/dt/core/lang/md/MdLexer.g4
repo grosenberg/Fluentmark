@@ -10,8 +10,6 @@ tokens {
 	RBOLD,
 	RITALIC,
 	RSTRIKE,
-	RSPAN,
-	RDSPAN,
 	RDQUOTE,
 	RSQUOTE
 }
@@ -21,25 +19,9 @@ tokens {
 	import  net.certiv.fluent.dt.core.lang.md.MdLexerBase;
 }
 
-COMMENT : Comment ; 
+// ----------------------------------------------------------------------
 
-URL
-	: LAngle Url RAngle
-	| Url
-	;
-
-LSTYLE : LBrace { style() }? -> pushMode(Style) ;
-
-// link related elements
-IMAGE	 : Bang LBrack		  ;
-LBRACK	 : LBrack			  ;
-
-LNK_SEP  : RBrack Spc? LParen ;
-LNK_REF	 : RBrack Spc? LBrack ;
-LNK_DEF	 : RBrack Spc? Colon  ;
-
-RBRACK	 : RBrack			  ;
-RPAREN	 : RParen			  ;
+COMMENT	: Comment ; 
 
 // code blocks
 CODE_BEG : Tics   { bob() }? -> pushMode(CodeTics)	;
@@ -48,140 +30,189 @@ CODE_TLD : Tildes { bob() }? -> type(CODE_BEG), pushMode(CodeTildes) ;
 // other blocks
 YAML_BLOCK : YamlBlock { bob() }? ;
 HTML_BLOCK : HtmlBlock { bob() }? ;
+DOT_BLOCK  : DotHead  Hws* ( Vws Hws* )?   DotBody  { bob() }? ;
+MATH_BLOCK : MathMark ( EscSeq | ~[\\] )*? MathMark { bob() }? ;
+TEX_BLOCK  : TexBeg   ( EscSeq | ~[\\] )*? TexEnd   { bob() }? ;
+UML_BLOCK  : UmlBeg   ( EscSeq | ~[\\] )*? UmlEnd   { bob() }? ;
 
-DOT_BLOCK  : DotHead  Hws* ( Vws Hws* )?  DotBody  { bob() }? ;
+// spans
+MATHS	: MathSpan { notDigit() }? ;
+SPAN	: Span ;
 
-MATH_BLOCK : MathMark ( EscSeq | ~[\\] )* MathMark { bob() }? ;
-TEX_BLOCK  : TexBeg   ( EscSeq | ~[\\] )* TexEnd   { bob() }? ;
-UML_BLOCK  : UmlBeg   ( EscSeq | ~[\\] )* UmlEnd   { bob() }? ;
-
-// special inline strings
-
-SPAN
-	: Tic2 ( EscSeq | ~[`\r\n\f\\] | SSPAN )*? ( Tic2 | EOF )
-	| SSPAN
-	;
-	
-SSPAN
-	: Tic  ( EscSeq | ~[`\r\n\f\\] )*? ( Tic  | EOF )
-	;
-
+// inline elements
+LSTYLE	: LBrace { style() }? -> pushMode(Style) ;
+URL		: Url	  ;
+URLTAG	: UrlTag  ;
+HTML	: HtmlTag ;
+TEX		: TexRaw  ;
 UNICODE	: Unicode ;
 ENTITY	: Entity  ;
-TEX		: TexRaw  ;
-HTML	: HtmlTag ;
 
-MATH_SPAN : MathSpan { notDigit() }? ;
+// links
+IMAGE	: Bang LBrack 	{ link() }?	-> pushMode(Link) ;
+FNOTE	: LBrack Caret	{ link() }? -> pushMode(Link) ;
+LINK	: LBrack 		{ link() }? -> pushMode(Link) ;
 
 // tables
-TABLE_DEF : Pipe? ColDef ( Pipe ColDef )+ Pipe? { bol() }? ;
-PIPE : Pipe	;
+TABLE : { bol() }? Pipe? ColDef ( Pipe ColDef )+ Pipe? ;
+PIPE  : Pipe ;
 
-// hrule
-HRULE : HRule { bob() }? ;
-
-// headers
+// headings
 HASHES : Hash+  { bob() }? ;
-DASHES : Dashes { bob() }? ;
-EQUALS : Equals { bob() }? ;
+DASHES : Dashes { hdr() }? ;
+EQUALS : Equals { hdr() }? ;
 
-COLON  : Colon { bol() }? ;
+HRULE  : HRule  { bob() }? ;
+
+// definition list
+COLON  : Colon { hdr() }? ;
 
 // list marks
-UNORDERED_MARK	: [*+-] TaskMark? Sps { bol() }? ;
-NUMBER_MARK 	: (Digit+ Dot | Hash Dot ) TaskMark? Sps { bol() }? ;
-PAREN_MARK		: LParen? Alphanum+ RParen TaskMark? Sps { bol() }? ;
-UALPHA_MARK 	: UAlpha+ Dot TaskMark? Sps { bol() }? ;
-LALPHA_MARK		: LAlpha+ Dot TaskMark? Sps { bol() }? ;
+BULLET_MARK	: { list() }? [*+-] TaskMark? Hws+ ;
+NUMBER_MARK : { list() }? (Digit+ Dot | Hash Dot ) TaskMark? Hws+ ;
+PAREN_MARK	: { list() }? LParen? Alphanum+ RParen TaskMark? Hws+ ;
+UALPHA_MARK : { list() }? UAlpha Dot TaskMark? Hws+ ;
+LALPHA_MARK	: { list() }? LAlpha Dot TaskMark? Hws+ ;
 
 // attributes
-LBOLD	: '**' | '__' ;
-LITALIC	: '*'  | '_'  ;
-LSTRIKE	: '~~'		  ;
-LSPAN	: '`'		  ;
-LDSPAN	: '``'		  ;
-LDQUOTE	: '"'		  ;
-LSQUOTE	: '\''		  ;
+LBOLD	: Bold   ;
+LITALIC	: Italic ;
+LSTRIKE	: Strike ;
+LDQUOTE	: Quote	 ;
+LSQUOTE	: Mark	 ;
+
+BLOCKQUOTE	: { bol() }? BlockQuote	-> channel(HIDDEN) ;
+LINE_DENT  	: { bol() }? Dent 		-> channel(HIDDEN) ;
 
 LINE_BLANK : Vws ( Hws* Vws )+ ;
-LINE_BREAK : Spc Spc Vws  ;
+LINE_BREAK : Sp Sp Vws  ;
 
-LINE_QUOTE : BlockQuote { bol() }? ;
-LINE_DENT  : Dent { bol() }? ;
-
-VWS	: Vws -> channel(HIDDEN) ;
+VWS	: Vws ;
 HWS	: Hws -> channel(HIDDEN) ;
 
-CHAR : ( Char | EscChar ) { more(WORD); } ;
-ERR	 : . ;
+CHAR : EscChar | Char { more(WORD); } ;
+
+// ----------------------------------------------------------------------
 
 mode Header;
 	HASH	 : Hash+ ;
-	LSTYLE_h : LBrace { style() }? -> type(LSTYLE), pushMode(Style) ;
-
-	HWS_h  : Hws -> type(HWS), channel(HIDDEN) ;
-	CHAR_h : ( Char | EscChar ) { more(WORD); } ;
+	STYLE_h  : LBrace { style() }? -> type(LSTYLE), pushMode(Style) ;
+	HWS_h    : Hws -> type(HWS), channel(HIDDEN) ;
+	CHAR_h   : ( EscChar | Char ) { more(WORD); } ;
 
 mode Style;
 	RSTYLE : RBrace -> popMode ;
-	CLASS : Dot	  ;
-	ID	  : Hash  ;
-	EQ	  : Equal ;
-	QUOTE : Quote ;
-	MARK  : Mark  ;
+	CLASS  : Dot   ;
+	ID	   : Hash  ;
+	EQ	   : Equal ;
+	DASH   : Dash  ;
+	DQUOTE : Quote ;
+	SQUOTE : Mark  ;
 	HWS_s  : Hws -> type(HWS), channel(HIDDEN) ;
-	CHAR_s : ( Char | EscChar ) { more(WORD); } ;
+	CHAR_s : ( EscChar | Char ) { more(WORD); } ;
 
 mode CodeTics;
 	CODE_END : Vws BlockQuote? Tics -> popMode	;
-	LSTYLE_b : LBrace { style() }? -> type(LSTYLE), pushMode(Style) ;
-
-	VWS_b  : Vws -> type(VWS) ;
-	HWS_b  : Hws -> type(HWS), channel(HIDDEN) ;
-	CHAR_b : ( Char | EscChar ) { more(WORD); } ;
+	LSTYLE_c : LBrace { style() }? -> type(LSTYLE), pushMode(Style) ;
+	VWS_c	 : Vws	-> type(VWS) ;
+	HWS_c	 : Hws	-> type(HWS), channel(HIDDEN) ;
+	CHR_c	 : ( Char | EscChar ) { more(WORD); } ;
 
 mode CodeTildes;
 	TILDES_t : Vws BlockQuote? Tildes -> type(CODE_END), popMode ;
 	LSTYLE_t : LBrace { style() }? -> type(LSTYLE), pushMode(Style) ;
+	VWS_t	 : Vws	-> type(VWS) ;
+	HWS_t	 : Hws	-> type(HWS), channel(HIDDEN) ;
+	CHR_t	 : ( Char | EscChar ) { more(WORD); } ;
 
-	VWS_t : Vws	-> type(VWS) ;
-	HWS_t : Hws	-> type(HWS), channel(HIDDEN) ;
-	CHR_t : ( Char | EscChar ) { more(WORD); } ;
+mode Link ;
+	IMAGE_l	: Bang LBrack -> type(IMAGE), pushMode(Link) ;
+	LINK_l	: LBrack	  -> type(LINK),  pushMode(Link) ;
+
+	LNK_SEP : RBrack Sp? LParen -> mode(Link_Std) ; // [...](...)
+	LNK_REF	: RBrack Sp? LBrack -> mode(Link_Ref) ; // [...][...]
+	LNK_DEF	: RBrack Sp? Colon  -> popMode ;		// [...]:...
+	RBRACK	: RBrack 			-> popMode ;		// [...]
+
+	URL_l	: Url 	  -> type(URL)  ;
+	URLT_l	: UrlTag  -> type(URLTAG) ;
+	SPAN_l	: Span	  -> type(SPAN) ;
+	HTML_l	: HtmlTag -> type(HTML) ;
+	TEX_l	: TexRaw  -> type(TEX)	;
+	UCODE_l	: Unicode -> type(UNICODE) ;
+	ENTY_l	: Entity  -> type(ENTITY) ;
+
+	LBLD_l	: Bold 	  -> type(LBOLD) ;
+	LITC_l	: Italic  -> type(LITALIC) ;
+	LSTR_l	: Strike  -> type(LSTRIKE) ;
+	LDQT_l	: Quote	  -> type(LDQUOTE) ;
+	LSQT_l	: Mark	  -> type(LSQUOTE) ;
+
+	VWS_l	: Vws -> type(VWS), channel(HIDDEN) ;
+	HWS_l	: Hws -> type(HWS), channel(HIDDEN) ;
+	CHR_l   : ( EscChar | Char ) { more(WORD); } ;
+
+// [...](...)
+mode Link_Std ;
+	RPAREN	: RParen -> popMode ;
+
+	URL_d	: Url	-> type(URL) ;
+	DQT_d	: Quote	-> type(DQUOTE) ;
+	SQT_d	: Mark	-> type(SQUOTE) ;
+	
+	VWS_d	: Vws -> type(VWS), channel(HIDDEN) ;
+	HWS_d	: Hws -> type(HWS), channel(HIDDEN) ;
+	CHR_d   : ( EscChar | Char ) { more(WORD); } ;
+
+// [...][...]
+mode Link_Ref ;
+	RB_r	: RBrack -> type(RBRACK), popMode ;
+	
+	VWS_r	: Vws -> type(VWS), channel(HIDDEN) ;
+	HWS_r	: Hws -> type(HWS), channel(HIDDEN) ;
+	CHR_r   : ( EscChar | Char ) { more(WORD); } ;
+
+// ----------------------------------------------------------------------
+
+fragment TaskMark	: Sp1_3 LBrack [ a-zA-Z0-9_]? RBrack Hws+ ;
+fragment BlockQuote	: Sp0_3 ( RAngle Sp? )* RAngle ;
+fragment Dent  
+	: Sp Sp Sp Sp 
+	| Tab Sp Sp 
+	| Sp Sp Tab 
+	| Tab Tab 
+	;
+
+fragment Span
+	: Tic2 ( EscSeq | ~[\r\n\f\\] )*? Tic2
+	| Tic  ( EscSeq | ~[`\r\n\f\\] )*? Tic
+	;
 
 // ------------------------
 
-fragment BlockQuote	: Spx ( RAngle Spc? )* RAngle Spc Hws* ;
-fragment TaskMark	: Sps LBrack [ a-zA-Z0-9_]? RBrack	   ;
-
-// ------------------------
-
+fragment UrlTag : LAngle Url RAngle	;
 fragment Url
-	: UrlScheme UrlHost UrlPath?
-	| UrlHost UrlPath?
+	: UrlScheme? UrlHost UrlPath?
 	| UrlPath
+	| UrlFrag
 	;
 
-fragment UrlScheme : Letter ( Alphanum | [.+-] )+ '://' ;
-fragment UrlHost
-	: UrlUser ( UrlName | UrlIp ) UrlPort?
-	|		  ( UrlName | UrlIp	) UrlPort?
-	;
+fragment UrlScheme	: Letter   ( Alphanum | [.+-] )+ '://'  ;
+fragment UrlHost	: UrlUser? ( UrlName | UrlIp ) UrlPort? ;
 
-fragment UrlPath : UrlSegment+ UrlQuery? UrlFrag? ;
-
-fragment UrlSegment	: [./]+ ( [%+._-] | Alphanum )* ;
-
+fragment UrlPath	: UrlSegment+ UrlQuery? UrlFrag? ;
+fragment UrlSegment	: '.'* '/' ( [%+._-] | Alphanum )* ;
 fragment UrlQuery	: Question ( [%+=&;._-] | Alphanum )+  ;
-fragment UrlFrag	: Hash ( [%+._-] | Alphanum )+ ;
+fragment UrlFrag	: Hash ( [%+._-] | Alphanum )+ UrlSegment* ;
+
+fragment UrlUser 	: ~[:@/ \t\r\n\f\\]+ Colon ~[:@/ \t\r\n\f\\]+ At ;
 fragment UrlName	: UrlTerm ( Dot UrlTerm )+	;
+fragment UrlTerm	: Letter ( Alphanum | [_-] )* ;
 fragment UrlIp
-	: Digit+		   ( Dot Digit+ )+
+	: Digit+ ( Dot Digit+ )+
 	| LBrack HexDigit+ ( Colon HexDigit+ )+ RBrack
 	;
-
-fragment UrlUser : ~[:@/ \t\r\n\f\\]+ Colon ~[:@/ \t\r\n\f\\]+ At ;
 fragment UrlPort : Colon Digit+	;
-fragment UrlTerm : Letter ( Alphanum | [_-] )* ;
 
 // ------------------------
 
@@ -200,7 +231,9 @@ fragment Stars	: '**' '*'+ ;
 fragment Unders	: '__' '_'+	;
 fragment Tics	: '``' '`'+ ;
 fragment Tildes	: '~~' '~'+	;
-
+fragment Bold	: '**' | '__' ;
+fragment Italic	: '*'  | '_'  ;
+fragment Strike : '~~' ;
 
 fragment MathMark : '$$'						;
 fragment MathSpan : Dollar NotWs NotVws* Dollar	;
@@ -238,22 +271,20 @@ fragment YamlBlock : YamlBeg ( YamlKey ( YamlVal )* )+ YamlEnd ;
 
 fragment YamlBeg : Dashes ( Hws* Vws )+	;
 fragment YamlKey : Char+ Colon .*? ( Hws* Vws )+ ;
-fragment YamlVal : ( ( '  ' | '\t' )+ | '- ' ) .*? ( Hws* Vws )+ ;
+fragment YamlVal : ( ( Sp Sp | Tab )+ | '- ' ) .*? ( Hws* Vws )+ ;
 fragment YamlEnd : ( Dashes | Dots ) Hws* Vws ;
 
 fragment Comment : '<!--' .*? '-->' ;
 
 // edge specific delimiters
 fragment Delimiters : [*_~`"] ;
+fragment Tab : '\t' ;
 fragment Vws : '\r'? '\n' ;
-fragment Hws : Spc+ | '\t' ;
+fragment Hws : Sp | Tab ;
 
-fragment Dent : Spc Spc Spc Spc+ | '\t'+ ;
-
-fragment Spx : (Spc (Spc Spc? )? )?  ;
-fragment Sps : Spc ( Spc Spc?	  )? ;
-
-fragment Spc : ' ' ;
+fragment Sp    : ' '  ;
+fragment Sp1_3 : Sp ( Sp Sp? )? ;
+fragment Sp0_3 : Sp1_3? ;
 
 fragment TexBeg : Esc 'begin' ( BBrack | BBrace )* ;
 fragment TexEnd : Esc 'end'	  ( BBrack | BBrace )* ;

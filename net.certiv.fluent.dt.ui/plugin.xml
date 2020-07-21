@@ -61,6 +61,14 @@
          <adapter type="org.eclipse.core.resources.IWorkspaceRoot"/>
       </factory>
    </extension>
+  <extension
+        point="org.eclipse.ui.console.consoleFactories">
+     <consoleFactory
+           class="net.certiv.fluent.dt.ui.console.FluentConsoleFactory"
+           icon="icons/obj16/console_view.png"
+           label="Fluentmark Console">
+     </consoleFactory>
+  </extension>
 
   <extension
          point="org.eclipse.ui.contexts">

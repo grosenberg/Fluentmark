@@ -1,13 +1,6 @@
-# Lists
-
-*  unordered
--  unordered
-+  unordered
-1. ordered
-
-Real List
+## List
 
 - first level
 - second level
-	- indented
-	- next
+	- indented text
+	- next entry

@@ -19,7 +19,7 @@ import org.eclipse.jface.text.rules.RuleBasedPartitionScanner;
 import org.eclipse.jface.text.rules.Token;
 
 import net.certiv.fluent.dt.ui.editor.text.IScannerExt;
-import net.certiv.fluent.dt.ui.editor.text.rules.DotCodeRule;
+import net.certiv.fluent.dt.ui.editor.text.rules.DotRawRule;
 import net.certiv.fluent.dt.ui.editor.text.rules.FrontMatterRule;
 import net.certiv.fluent.dt.ui.editor.text.rules.HtmlCodeRule;
 import net.certiv.fluent.dt.ui.editor.text.rules.IndentedCodeRule;
@@ -42,9 +42,8 @@ public class PartitionScanner extends RuleBasedPartitionScanner implements IScan
 		rules.add(new FrontMatterRule("---", "---", matter, '\\'));
 		rules.add(new MultiLineRule("<!--", "-->", comment, '\\', true));
 		rules.add(new MultiLineRule("$$", "$$", mathblock, '\\', true));
-		// rules.add(new MatchRule("\\$\\S", "\\S\\$\\D", mathblock, '\\', true, true));
 		rules.add(new HtmlCodeRule(htmlblock));
-		rules.add(new DotCodeRule(dotblock));
+		rules.add(new DotRawRule(dotblock));
 		rules.add(new MultiLineRule("@startuml", "@enduml", umlblock, '\\', true));
 		rules.add(new MultiLineRule("@startdot", "@enddot", dotblock, '\\', true));
 		rules.add(new MultiLineRule("~~~", "~~~", codeblock, '\\', true));

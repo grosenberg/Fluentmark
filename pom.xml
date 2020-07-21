@@ -22,7 +22,7 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
 		<tycho.version>1.7.0</tycho.version>
-		<eclipse-repo.url>http://download.eclipse.org/releases/2020-03</eclipse-repo.url>
+		<eclipse-repo.url>http://download.eclipse.org/releases/2020-06</eclipse-repo.url>
 		<certiv-repo.url>file:/D:/DevFiles/Eclipse/Update</certiv-repo.url>
 	</properties>
 

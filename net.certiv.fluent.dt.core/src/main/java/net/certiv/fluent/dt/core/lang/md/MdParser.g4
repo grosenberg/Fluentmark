@@ -4,20 +4,18 @@ options {
 	tokenVocab = MdLexer ;
 }
 
-@header { 
+@header {
 	package net.certiv.fluent.dt.core.lang.md.gen;
 }
 
 page
-	:	( yamlBlock	| htmlBlock | dotBlock  |  mathBlock
-		| texBlock	| umlBlock	| codeBlock
-		| header	| hrule
-		| table	    | list
-		| paragraph | definition
-		| lnBlank	| lnBreak
-		| comment	| err
-		)*
-	EOF
+	: ( yamlBlock	| htmlBlock | dotBlock  | mathBlock
+	  | texBlock	| umlBlock	| codeBlock	| comment
+	  | header	| hrule     | paragraph
+	  | table		| list		| definition
+	  | lnBlank	| lnBreak	| VWS
+	  )*
+	  EOF
 	;
 
 // ==== Blocks ============
@@ -30,146 +28,132 @@ texBlock  : TEX_BLOCK  ;
 umlBlock  : UML_BLOCK  ;
 
 codeBlock
-	: CODE_BEG lang=WORD? style? VWS+ ( WORD | VWS )* CODE_END
+	: CODE_BEG lang=WORD? style? VWS
+		( WORD | VWS )* 
+	  CODE_END
 	;
 
-// ==== Headers ============
+style
+	: LSTYLE 
+		( DASH
+		| CLASS WORD
+		| ID WORD
+		| WORD EQ 
+			( SQUOTE WORD SQUOTE 
+			| DQUOTE WORD DQUOTE
+			| WORD 
+			)
+		)+ 
+	  RSTYLE
+	;
+
+// ==== Headings ===========
 
 header
 	: HASHES line HASH* style?
-	| line ( EQUALS | DASHES )
+	| line style? nl ( EQUALS | DASHES )
 	;
 
-hrule
-	: HRULE style?
-	;
+hrule : HRULE style? ;
 
 // ==== Tables ============
 
-table 
-	: tableRow* TABLE_DEF style? tableRow*
+table
+	: ( tableRow nl )*
+	  TABLE style? nl
+	  ( tableRow nl )*
+	  tableRow
 	;
 
 tableRow
 	: PIPE? ( line? PIPE )+ line? PIPE?
 	;
 
+
 // ==== Lists ============
 
 list
-	: listItem+
+	: listItem
+	  ( nl listItem )* 
 	;
 
-listItem
-	: listMark ( line lnBreak? )*
+listItem 
+	: mark=( BULLET_MARK	
+		   | NUMBER_MARK | PAREN_MARK		
+		   | UALPHA_MARK | LALPHA_MARK 
+		   ) 
+	  lines
 	;
 
-listMark
-	: mark=UNORDERED_MARK
-	| mark=NUMBER_MARK
-	| mark=PAREN_MARK
-	| mark=UALPHA_MARK
-	| mark=LALPHA_MARK
+definition
+	: line nl
+	  defineItem
+	  ( nl defineItem )* 
+	;
+
+defineItem
+	: COLON lines
 	;
 
 // ==== Links ============
 
+// [...](... alt?)
+// [...][ref]
+// [ref]: url alt?
+// [...]
 link
-	: linkStd style?
-	| linkRef style?
-	| linkDef style?
+	: lnkDef line LNK_SEP url? alt? RPAREN style? 
+	| lnkDef line LNK_REF word* RBRACK style?
+	| lnkRef word* LNK_DEF ( VWS | LINE_BREAK )? url (( VWS | LINE_BREAK )? alt )? 
+	| lnkDef line RBRACK style?
 	;
 
-// [text](url altText) 
-// [text](text altText)
-linkStd
-	: kind subject LNK_SEP target altText? RPAREN 
+lnkDef : ( IMAGE | FNOTE | LINK ) ;
+lnkRef : LINK ;
+
+url
+	: URLTAG
+	| URL
 	;
 
-// [text][url]
-// [text][text]
-// [text][]
-// [text]
-linkRef
-	: kind subject LNK_REF linkText? RBRACK
-	| kind subject RBRACK
-	;
-
-// [text]: url altText
-linkDef
-	: LBRACK linkText LNK_DEF target altText? 
-	;
-
-kind
-	: IMAGE 
-	| LBRACK 
-	;
-
-subject
-	: linkStd
-	| linkRef
-	| target
-	;
-		
-altText : LDQUOTE text RDQUOTE ;
-
-target
-	: URL
-	| linkText
-	;
-
-linkText : linkWord+ ;
-
-linkWord
-	: attrLeft* 
-	  w= ( WORD		| TEX | URL
-		 | SPAN 	| MATH_SPAN
-		 | UNICODE	| ENTITY
-		 | HTML 
-		 )
-	  attrRight*
+alt
+	: DQUOTE  ( word | SQUOTE )* DQUOTE 
+	| SQUOTE  ( word | DQUOTE )* SQUOTE
+	| LDQUOTE line? RDQUOTE
+	| LSQUOTE line? RSQUOTE
 	;
 
 // ==== Text ============
 
 paragraph
-	: line ( lnBreak line )*
+	: lines
 	;
 
-definition
-	: line ( COLON line ( lnBreak line )* )+
+lines
+	: line (nl line )*
 	;
 
-line 
-	: ( text | link )+ 
+line
+	: ( word | link )+ 
 	;
-
-text : word+ ;
 
 word
 	: attrLeft* 
-	  w= ( WORD		| TEX | URL
-		 | SPAN 	| MATH_SPAN
-		 | UNICODE	| ENTITY
-		 | HTML		| RPAREN 
-		 )
+	  w=( WORD | ENTITY | UNICODE
+	  	| URL  | URLTAG 
+	  	| SPAN | MATHS 
+	  	| HTML | TEX
+		)
 	  attrRight*
 	;
 
-style
-	: LSTYLE 
-		( CLASS WORD
-		| ID WORD
-		| WORD EQ ( QUOTE? WORD QUOTE? | MARK? WORD MARK? )
-		)+ 
-	  RSTYLE
-	;
+nl	: LINE_BREAK | VWS ;
+nl2	: LINE_BREAK | LINE_BREAK | VWS ;
 
-attrLeft  : LBOLD | LITALIC | LSTRIKE | LSPAN | LDSPAN | LDQUOTE | LSQUOTE ;
-attrRight : RBOLD | RITALIC | RSTRIKE | RSPAN | RDSPAN | RDQUOTE | RSQUOTE ;
+attrLeft  : LBOLD | LITALIC | LSTRIKE | LDQUOTE | LSQUOTE ;
+attrRight : RBOLD | RITALIC | RSTRIKE | RDQUOTE | RSQUOTE ;
 
 comment : COMMENT ;
+
 lnBlank : LINE_BLANK ;
 lnBreak : LINE_BREAK ;
-
-err : ERR+ ; 

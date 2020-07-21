@@ -49,30 +49,29 @@ public abstract class StructureBuilder extends Processor {
 		}
 	}
 
-	private final LinkedList<Header> headers = new LinkedList<>();
-	/** key=token type; value=attributes of left context */
-	private final HashMap<Integer, Mark> attributes = new HashMap<>();
-
-	private ModelBuilder builder;
-	private String name = ModelBuilder.UNKNOWN;
-	private boolean startList = false;
-	private int listDents = -1;
-
-	class Header {
+	class Level {
 
 		Statement stmt;
 		int level;
 
-		public Header(Statement stmt, int level) {
+		public Level(Statement stmt, int level) {
 			this.stmt = stmt;
 			this.level = level;
 		}
 
 		@Override
 		public String toString() {
-			return "Header: " + level;
+			return "Level: " + level;
 		}
 	}
+
+	/** key=token type; value=attributes of left context */
+	private final HashMap<Integer, Mark> attributes = new HashMap<>();
+	private final LinkedList<Level> hdrLevels = new LinkedList<>();
+	private final LinkedList<Level> lstLevels = new LinkedList<>();
+
+	private ModelBuilder builder;
+	private String name = ModelBuilder.UNKNOWN;
 
 	public StructureBuilder(ParseTree tree) {
 		super(tree);
@@ -91,7 +90,7 @@ public abstract class StructureBuilder extends Processor {
 		PageContext ctx = (PageContext) lastPathNode();
 		Specialization data = new Specialization(SpecializationType.Page, rulename(ctx), ctx, name);
 		ModuleStmt module = builder.module(ctx, name, data);
-		headers.push(new Header(module, 0)); // header 0 is the root
+		hdrLevels.push(new Level(module, 0)); // header 0 is the root
 	}
 
 	public void doHeader() {
@@ -101,11 +100,11 @@ public abstract class StructureBuilder extends Processor {
 		int level = calc(ctx);
 		data.setHeaderLevel(level);
 
-		Statement parent = getEnclosingParent(level);
+		Statement parent = getEnclosingHdrParent(level);
 		builder.toParent(parent);
 		Statement stmt = builder.statement(ModelType.SPAN, ctx, ctx, data);
 		builder.pushParent(stmt);
-		headers.push(new Header(stmt, level));
+		hdrLevels.push(new Level(stmt, level));
 	}
 
 	private int calc(HeaderContext ctx) {
@@ -123,13 +122,13 @@ public abstract class StructureBuilder extends Processor {
 	 *   ## second
 	 * </pre>
 	 */
-	private Statement getEnclosingParent(int level) {
+	private Statement getEnclosingHdrParent(int level) {
 		if (level < 1) level = 1;
 		if (level > 6) level = 6;
-		while (headers.peek().level >= level) {
-			headers.pop();
+		while (hdrLevels.peek().level >= level) {
+			hdrLevels.pop();
 		}
-		return headers.peek().stmt;
+		return hdrLevels.peek().stmt;
 	}
 
 	public void doStatement(SpecializationType type) {
@@ -162,7 +161,7 @@ public abstract class StructureBuilder extends Processor {
 			case MdLexer.SPAN:
 				type = SpecializationType.CodeSpan;
 				break;
-			case MdLexer.MATH_SPAN:
+			case MdLexer.MATHS:
 				type = SpecializationType.MathSpan;
 				break;
 			default:
@@ -209,10 +208,6 @@ public abstract class StructureBuilder extends Processor {
 				return MdLexer.LDQUOTE;
 			case MdLexer.RSQUOTE:
 				return MdLexer.LSQUOTE;
-			case MdLexer.RDSPAN:
-				return MdLexer.LDSPAN;
-			case MdLexer.RSPAN:
-				return MdLexer.LSPAN;
 
 			default:
 				return Token.INVALID_TYPE;
@@ -233,12 +228,7 @@ public abstract class StructureBuilder extends Processor {
 			case MdLexer.RSTRIKE:
 				return SpecializationType.Strike;
 
-			case MdLexer.LSPAN:
-			case MdLexer.RSPAN:
-				return SpecializationType.Span;
-
-			case MdLexer.LDSPAN:
-			case MdLexer.RDSPAN:
+			case MdLexer.SPAN:
 				return SpecializationType.Span;
 
 			case MdLexer.LDQUOTE:
@@ -256,8 +246,8 @@ public abstract class StructureBuilder extends Processor {
 
 	public void doList() {
 		ListContext ctx = (ListContext) lastPathNode();
-		MdToken mark = (MdToken) ((ListItemContext) ctx.getChild(0)).listMark().mark;
-		SpecializationType type = mark.getType() == MdLexer.UNORDERED_MARK ? SpecializationType.ListUnordered
+		MdToken mark = (MdToken) ((ListItemContext) ctx.getChild(0)).mark;
+		SpecializationType type = mark.getType() == MdLexer.BULLET_MARK ? SpecializationType.ListUnordered
 				: SpecializationType.ListOrdered;
 
 		Specialization data = new Specialization(type, rulename(ctx), ctx, type.name);
@@ -265,36 +255,42 @@ public abstract class StructureBuilder extends Processor {
 		data.setDents(mark.getDents());
 		data.begList();
 
-		startList = true;
+		Statement list = builder.statement(ModelType.TYPE, ctx, ctx, data);
+		builder.pushParent(list);
 
-		Statement stmt = builder.statement(ModelType.TYPE, ctx, ctx, data);
-		builder.pushParent(stmt);
+		lstLevels.clear();
+		lstLevels.push(new Level(list, -1)); // level -1 is the list root
 	}
 
 	public void doListItem() {
 		ListItemContext ctx = (ListItemContext) lastPathNode();
-		MdToken mark = (MdToken) ctx.listMark().mark;
+		MdToken mark = (MdToken) ctx.mark;
 		Specialization data = new Specialization(SpecializationType.ListItem, rulename(ctx), ctx, mark.getText());
+
 		int dents = mark.getDents();
 		data.setDents(dents);
 
-		SpecializationType lt = SpecializationType.ListUnordered;
-		Statement parent = builder.peekParent();
-		if (parent.hasData()) {
-			lt = ((Specialization) parent.getData()).listType;
-		}
-		data.setListType(lt);
+		Statement list = getEnclosingList(dents);
+		builder.toParent(list);
 
-		if (startList) {
-			listDents = dents;
-			startList = false;
-		} else {
-			if (listDents < dents) data.begList();
-			if (listDents > dents) data.endList();
-			listDents = dents;
+		SpecializationType type = SpecializationType.ListUnordered;
+		if (list.hasData()) {
+			type = ((Specialization) list.getData()).listType;
 		}
+		data.setListType(type);
 
-		builder.statement(ModelType.TYPE, ctx, mark, data);
+		Statement stmt = builder.statement(ModelType.TYPE, ctx, mark, data);
+		builder.pushParent(stmt);
+		lstLevels.push(new Level(stmt, dents));
+	}
+
+	private Statement getEnclosingList(int level) {
+		if (level < 0) level = 0;
+		if (level > 6) level = 6;
+		while (lstLevels.peek().level >= level) {
+			lstLevels.pop();
+		}
+		return lstLevels.peek().stmt;
 	}
 
 	// public void doTable() {

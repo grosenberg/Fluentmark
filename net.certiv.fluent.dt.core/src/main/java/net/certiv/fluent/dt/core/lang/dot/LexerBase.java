@@ -33,7 +33,7 @@ public abstract class LexerBase extends Lexer {
 			for (char ch = 0; ch != IntStream.EOF && idx >= 0; idx--) {
 				ch = data.charAt(idx - 1);
 				if (!Character.isWhitespace(ch)) return false;
-				if (ch == Chars.EOL) {
+				if (ch == Chars.NL) {
 					cnt--;
 					if (cnt == 0) return true;
 				}

@@ -1,7 +1,9 @@
-# FluentMark
+## Table
 
 |A   |  B  |C    |
 |:---|:---:|:----|
 |one | two |three|
+|x   |  y  |z    |
 
-**Here's some bold text** and *here's some italic text*. `This is inline code`.
+More text.
+

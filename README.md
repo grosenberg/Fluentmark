@@ -6,7 +6,7 @@ A full-featured Eclipse-based Markdown editing environment.
 
 + Choice of Markdown converter
     - [Pandoc](https://pandoc.org) (preferred)
-    - Commonmark ([Flexmark](https://github.com/vsch/flexmark-java))
+    - Commonmark ([Flexmark](https://github.com/vsch/flexmark-java) implementation)
     - [BlackFriday](https://github.com/russross/blackfriday)
 + Real-time preview
     - reactively rendered using [Vue.js](https://vuejs.org/)
@@ -16,7 +16,8 @@ A full-featured Eclipse-based Markdown editing environment.
         + multiple built-in stylesheets
         + local custom/user defined stylesheets
 + Export to HTML and PDF
-  	- PDF export uses Pandoc with custom/user defined latex page templates
+  	- PDF export uses Pandoc
+  	- supports user-specified latex templates
  
 + Diagram rendering
     - Graph diagrams using the [Graphviz DOT](http://www.graphviz.org/) language
@@ -31,16 +32,16 @@ A full-featured Eclipse-based Markdown editing environment.
 
 <figure>
 <figcaption>1. Dot Graph</figcaption>
-<img src="http://www.certiv.net/updates/net.certiv.fluentmark.site/ScreenShot.png">
+<img src="./doc/ScreenShot.png">
 </figure>
 
 <figure>
 <figcaption>2. Sequence Diagram</figcaption>
-<img src="http://www.certiv.net/updates/net.certiv.fluentmark.site/ScreenShot1.png">
+<img src="./doc/ScreenShot1.png">
 </figure>
 
 
-## Installation & Use
+## Installation & Configuration
 
 Requires Eclipse 2020-06 & JDK 1.8+.
 
@@ -75,6 +76,8 @@ BlackFriday converter ---
 - Install the customized [blackfriday-tool](https://github.com/grosenberg/blackfriday-tool) from GitHub. 
   A Windows 64-bit compiled executable is available for download: [blackfriday-tool.zip](http://www.certiv.net/updates/net.certiv.fluentmark.site/blackfriday-tool.zip). 
   The `blackfriday-tool` executable can then be selected on the BlackFriday Converter preference page.
+  
+
 
 ### Keys
 
@@ -90,16 +93,43 @@ BlackFriday converter ---
 |Ctrl-Shift-Alt-f|Format - with unwrapped text                      |
 
 
-### Math
+--- 
+
+### In-line Math 
 
 In-line Math uses single `$` open/close delimiters. Can be embedded in other markdown features.
 
-The opening `$` _must_ have a non-space character immediately right.  The closing `$` _must_ have a non-space 
-character immediately left and _must_ be followed immediately by a non-digit or white 
-space. This is an inline math $1+2\neq3$! example.
+The opening `$` _must_ have a non-space character immediately right.  The closing `$` _must_ have a 
+non-whitespace character immediately left and _must_ be followed immediately by a non-digit or whitespace. 
+
+```
+An inline math $1+2\neq3$! example.
+```
+
+renders to
+
+An inline math $1+2\neq3$! example.
  
-Simple math blocks are delimited using double `$`, *i.e.*, `$$`, marks at the left margin. The open delimiter 
-must follow a blank line and the close delimiter must lead a blank line.
+---
+
+### Math Block
+
+Simple math blocks are delimited using double `$`, *i.e.*, `$$`, marks at the left margin. The starting 
+delimiter *must* follow a blank line and the ending delimiter *must* lead a blank line.
+
+~~~ latex
+<<blank line>>
+$$
+ u(x) =
+  \begin{cases}
+   \exp{x} & \text{if } x \geq 0 \\
+   1       & \text{if } x < 0
+  \end{cases}
+$$
+<<blank line>>
+~~~
+
+renders to
 
 $$
  u(x) =
@@ -109,14 +139,28 @@ $$
   \end{cases}
 $$
 
-### Latex
+---
 
-Raw LaTex is also supported. Implement in left margin blocks delimited by `blank` lines. Recognized by the presence 
-of the standard Latex `\begin` and `\end` keywords. 
+### LaTex Block
 
+Delimited by the Latex standard **`\begin{...}`** and **`\end{...}`** keywords. These keywords *must* both be 
+left-margin aligned. The block *must* be separated from all other content by blank lines. 
+
+~~~ latex
+<<blank line>>
 \begin{equation} 
- f(x)=(x+a)(x+b)
+	f(x)=(x+a)(x+b)
 \end{equation}
+<<blank line>>
+~~~
+
+renders to
+
+\begin{equation}
+  f(x)=(x+a)(x+b)
+\end{equation}
+
+---
 
 ### HTML
 
@@ -138,17 +182,16 @@ Open an [issue on Github](https://github.com/grosenberg/fluentmark/issues). Prov
 ## Resources
 
 1. Markdown Syntax
-    - [Pandoc's Markdown](https://pandoc.org/MANUAL.html#pandocs-markdown)
-    - [GitHub Flavored Markdown](https://github.github.com/gfm/)
-    - [Daring Fireball Markdown](https://daringfireball.net/projects/markdown/syntax)
-1. TEX Commands available in [MathJax](https://www.onemathematicalcat.org/MathJaxDocumentation/TeXSyntax.htm)
-1. PlantUML [Language Specification](https://plantuml.com/sitemap-language-specification)
-1. Dot Language [Man Page](http://www.graphviz.org/pdf/dot.1.pdf)
-1. Pandoc Latex Templates (for PDF generation):
-    - [Starter](https://github.com/jez/pandoc-starter) Templates
-    - [Letter](https://github.com/aaronwolen/pandoc-letter) Template
-    - [Notes](https://github.com/Wandmalfarbe/pandoc-latex-template) Oriented Template
-    - [Miscellaneous](https://github.com/lauritzsh/pandoc-markdown-template) Templates
+    - [Pandoc's Markdown Documentation](https://pandoc.org/MANUAL.html#pandocs-markdown)
+    - [CommonMark Spec 0.29](https://spec.commonmark.org/0.29/)
+1. MathJax TeX Commands 
+    - [TeX Syntax Documentation](https://www.onemathematicalcat.org/MathJaxDocumentation/TeXSyntax.htm)
+1. PlantUML Language
+  	- [Language Specification](https://plantuml.com/sitemap-language-specification)
+1. Graphviz 'Dot' Language 
+	  - [Dot Man Page](http://www.graphviz.org/pdf/dot.1.pdf)
+1. LaTex Templates for Pandoc PDF generation:
+	  - [LaTex Templates](https://github.com/topics/latex-template "Latex Templates") on Github.
 
 ## License
 

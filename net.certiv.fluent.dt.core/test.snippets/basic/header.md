@@ -1,10 +1,7 @@
-
 # First Section
 
-System. 
+System.
 
+Second Section
+==============
 
-
-# Second Section
-
-More.

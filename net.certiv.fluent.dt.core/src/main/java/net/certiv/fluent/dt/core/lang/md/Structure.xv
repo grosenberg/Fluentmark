@@ -29,6 +29,7 @@ structure
 	| yamlBlock
 	| htmlBlock
 	| codeBlock
+	| dotBlock
 	| mathBlock
 	| texBlock
 	| umlBlock
@@ -38,11 +39,13 @@ page		: /page		 	{ doModule(); } ;
 
 header		: //header		{ doHeader(); } ;
 hrule		: //hrule		{ doType(HRule); } ;
+
 comment		: //comment		{ doType(Comment); } ;
 
 yamlBlock	: //yamlBlock	{ doType(YamlBlock); } ;
 htmlBlock	: //htmlBlock	{ doType(HtmlBlock); } ;
 codeBlock	: //codeBlock	{ doType(CodeBlock); } ;
+dotBlock	: //dotBlock	{ doType(DotBlock); } ;
 mathBlock	: //mathBlock	{ doType(MathBlock); } ;
 texBlock	: //texBlock	{ doType(TexBlock) ; } ;
 umlBlock	: //umlBlock	{ doType(UmlBlock) ; } ;
@@ -55,13 +58,13 @@ paragraph	: //paragraph
 				{ onExit:  endBlock(); }
 			;
 
-word		: //freeWord	{ doWord() ; } ;
-attrL		: //attrLeft	{ doAttrL() ; } ;
-attrR		: //attrRight	{ doAttrR() ; } ;
-
 list		: //list
 				{ onEntry: doList(); }
 				{ onExit:  endBlock(); }
 			;
 
 listItem	: //listItem	{ doListItem(); } ;
+
+attrL		: //attrLeft	{ doAttrL() ; } ;
+word		: //word		{ doWord()  ; } ;
+attrR		: //attrRight	{ doAttrR() ; } ;

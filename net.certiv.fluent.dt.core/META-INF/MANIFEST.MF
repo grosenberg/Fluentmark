@@ -8,6 +8,7 @@ Bundle-ClassPath: .
 Bundle-Activator: net.certiv.fluent.dt.core.FluentCore
 Bundle-Vendor: Certiv Analytics
 Export-Package: net.certiv.fluent.dt.core,
+ net.certiv.fluent.dt.core.console,
  net.certiv.fluent.dt.core.formatter,
  net.certiv.fluent.dt.core.lang,
  net.certiv.fluent.dt.core.lang.dot,
@@ -22,7 +23,7 @@ Require-Bundle: net.certiv.dsl.core;bundle-version="0.6.0",
  net.certiv.dsl.lib;bundle-version="0.6.0",
  net.certiv.dsl.ui;bundle-version="0.6.0",
  net.certiv.spellchecker,
- net.certiv.tools;bundle-version="1.0.7",
+ net.certiv.tools;bundle-version="1.1.0",
  org.eclipse.core.resources;bundle-version="3.10.1",
  org.eclipse.core.runtime;bundle-version="3.11.1",
  org.eclipse.text;bundle-version="3.5.400",

@@ -105,7 +105,7 @@ public class FluentOutlineLabelProvider extends OutlineLabelProvider {
 	private String summary(String text) {
 		String src = text;
 		try {
-			src = element.getSource().trim();
+			src = stmt.getSource().trim();
 			int dot = src.indexOf(Strings.EOL);
 			if (dot > -1) {
 				src = src.substring(0, dot);
@@ -152,8 +152,8 @@ public class FluentOutlineLabelProvider extends OutlineLabelProvider {
 						break;
 
 					case ListItem:
-						if (element.hasData()) {
-							Specialization data = (Specialization) element.getData();
+						if (stmt.hasData()) {
+							Specialization data = (Specialization) stmt.getData();
 							if (data.listType == SpecializationType.ListUnordered) {
 								desc = mgr.getDescriptor(mgr.IMG_OBJ_UNORDERED_ITEM);
 							} else {

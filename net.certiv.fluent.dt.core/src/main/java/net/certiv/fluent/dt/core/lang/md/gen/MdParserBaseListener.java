@@ -1,5 +1,5 @@
-// Generated from D:/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.core/src/main/java/net/certiv/fluent/dt/core/lang/md/MdParser.g4 by ANTLR 4.8
- 
+// Generated from D:/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.core/src/main/java/net/certiv/fluent/dt/core/lang/mdx/MdParser.g4 by ANTLR 4.8
+
 	package net.certiv.fluent.dt.core.lang.md.gen;
 
 
@@ -114,6 +114,18 @@ public class MdParserBaseListener implements MdParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterStyle(MdParser.StyleContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitStyle(MdParser.StyleContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterHeader(MdParser.HeaderContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -186,13 +198,25 @@ public class MdParserBaseListener implements MdParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterListMark(MdParser.ListMarkContext ctx) { }
+	@Override public void enterDefinition(MdParser.DefinitionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitListMark(MdParser.ListMarkContext ctx) { }
+	@Override public void exitDefinition(MdParser.DefinitionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterDefineItem(MdParser.DefineItemContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDefineItem(MdParser.DefineItemContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -210,109 +234,49 @@ public class MdParserBaseListener implements MdParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterLinkStd(MdParser.LinkStdContext ctx) { }
+	@Override public void enterLnkDef(MdParser.LnkDefContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitLinkStd(MdParser.LinkStdContext ctx) { }
+	@Override public void exitLnkDef(MdParser.LnkDefContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterLinkRef(MdParser.LinkRefContext ctx) { }
+	@Override public void enterLnkRef(MdParser.LnkRefContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitLinkRef(MdParser.LinkRefContext ctx) { }
+	@Override public void exitLnkRef(MdParser.LnkRefContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterLinkDef(MdParser.LinkDefContext ctx) { }
+	@Override public void enterUrl(MdParser.UrlContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitLinkDef(MdParser.LinkDefContext ctx) { }
+	@Override public void exitUrl(MdParser.UrlContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterKind(MdParser.KindContext ctx) { }
+	@Override public void enterAlt(MdParser.AltContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitKind(MdParser.KindContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterSubject(MdParser.SubjectContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitSubject(MdParser.SubjectContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterAltText(MdParser.AltTextContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitAltText(MdParser.AltTextContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterTarget(MdParser.TargetContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitTarget(MdParser.TargetContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterLinkText(MdParser.LinkTextContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitLinkText(MdParser.LinkTextContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterLinkWord(MdParser.LinkWordContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitLinkWord(MdParser.LinkWordContext ctx) { }
+	@Override public void exitAlt(MdParser.AltContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -330,13 +294,13 @@ public class MdParserBaseListener implements MdParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDefinition(MdParser.DefinitionContext ctx) { }
+	@Override public void enterLines(MdParser.LinesContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitDefinition(MdParser.DefinitionContext ctx) { }
+	@Override public void exitLines(MdParser.LinesContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -354,18 +318,6 @@ public class MdParserBaseListener implements MdParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterText(MdParser.TextContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitText(MdParser.TextContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterWord(MdParser.WordContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -378,13 +330,25 @@ public class MdParserBaseListener implements MdParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterStyle(MdParser.StyleContext ctx) { }
+	@Override public void enterNl(MdParser.NlContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitStyle(MdParser.StyleContext ctx) { }
+	@Override public void exitNl(MdParser.NlContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterNl2(MdParser.Nl2Context ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitNl2(MdParser.Nl2Context ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -445,18 +409,6 @@ public class MdParserBaseListener implements MdParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitLnBreak(MdParser.LnBreakContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterErr(MdParser.ErrContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitErr(MdParser.ErrContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

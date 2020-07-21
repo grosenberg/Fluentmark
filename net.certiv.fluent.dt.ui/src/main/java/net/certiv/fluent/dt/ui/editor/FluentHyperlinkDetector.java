@@ -14,4 +14,9 @@ public class FluentHyperlinkDetector extends DslHyperlinkDetector {
 	public DslModel getDslModel() {
 		return FluentCore.getDefault().getDslModel();
 	}
+
+	@Override
+	protected boolean isDslLikeFilename(String name) {
+		return FluentCore.getDefault().getLangManager().isDslLikeFilename(name);
+	}
 }

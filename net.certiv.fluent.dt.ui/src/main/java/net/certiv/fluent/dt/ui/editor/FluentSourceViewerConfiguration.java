@@ -61,8 +61,6 @@ public class FluentSourceViewerConfiguration extends DslSourceViewerConfiguratio
 	private ScannerMath mathScanner;
 	private ScannerHtml htmlScanner;
 	private ScannerComment commentScanner;
-	// private ScannerMarkup markupScanner;
-
 	private MdSematicAnalyzer markupAnalyzer;
 
 	public FluentSourceViewerConfiguration(DslColorRegistry reg, IPrefsManager store, DslEditor editor,
@@ -89,6 +87,8 @@ public class FluentSourceViewerConfiguration extends DslSourceViewerConfiguratio
 		IPrefsManager store = getPrefStore();
 		StylesManager mgr = getDslUI().getStylesManager();
 
+		markupAnalyzer = new MdSematicAnalyzer(getDslUI());
+
 		yamlScanner = new ScannerFrontMatter(store, mgr);
 		codeScanner = new ScannerCode(store, mgr);
 		dotScanner = new ScannerDot(store, mgr);
@@ -96,7 +96,6 @@ public class FluentSourceViewerConfiguration extends DslSourceViewerConfiguratio
 		mathScanner = new ScannerMath(store, mgr);
 		htmlScanner = new ScannerHtml(store, mgr);
 		commentScanner = new ScannerComment(store, mgr);
-		markupAnalyzer = new MdSematicAnalyzer(getDslUI());
 	}
 
 	@Override
@@ -149,6 +148,8 @@ public class FluentSourceViewerConfiguration extends DslSourceViewerConfiguratio
 		PresentationReconciler reconciler = new PresentationReconciler(getDslUI());
 		reconciler.setDocumentPartitioning(getConfiguredDocumentPartitioning(viewer));
 
+		buildRepairer(getEditor(), viewer, reconciler, markupAnalyzer, IDocument.DEFAULT_CONTENT_TYPE);
+
 		buildRepairer(reconciler, yamlScanner, Partitions.YAMLBLOCK);
 		buildRepairer(reconciler, commentScanner, Partitions.COMMENT);
 		buildRepairer(reconciler, codeScanner, Partitions.CODEBLOCK);
@@ -157,15 +158,12 @@ public class FluentSourceViewerConfiguration extends DslSourceViewerConfiguratio
 		buildRepairer(reconciler, mathScanner, Partitions.MATHBLOCK);
 		buildRepairer(reconciler, htmlScanner, Partitions.HTMLBLOCK);
 
-		buildRepairer(getEditor(), viewer, reconciler, markupAnalyzer, IDocument.DEFAULT_CONTENT_TYPE);
-
 		return reconciler;
 	}
 
 	@Override
 	public void handlePropertyChangeEvent(PropertyChangeEvent event) {
-		// if (markupScanner.affectsBehavior(event))
-		// markupScanner.adaptToPreferenceChange(event);
+		if (markupAnalyzer.affectsBehavior(event)) markupAnalyzer.adaptToPreferenceChange(event);
 		if (codeScanner.affectsBehavior(event)) codeScanner.adaptToPreferenceChange(event);
 		if (dotScanner.affectsBehavior(event)) dotScanner.adaptToPreferenceChange(event);
 		if (umlScanner.affectsBehavior(event)) umlScanner.adaptToPreferenceChange(event);
@@ -177,14 +175,14 @@ public class FluentSourceViewerConfiguration extends DslSourceViewerConfiguratio
 
 	@Override
 	public boolean affectsTextPresentation(PropertyChangeEvent event) {
-		return codeScanner.affectsBehavior(event) //
+		return markupAnalyzer.affectsBehavior(event) //
+				|| codeScanner.affectsBehavior(event) //
 				|| dotScanner.affectsBehavior(event) //
 				|| umlScanner.affectsBehavior(event) //
 				|| mathScanner.affectsBehavior(event) //
 				|| htmlScanner.affectsBehavior(event) //
 				|| commentScanner.affectsBehavior(event) //
 				|| yamlScanner.affectsBehavior(event);
-		// markupScanner.affectsBehavior(event) //
 	}
 
 	@Override

@@ -2,13 +2,13 @@ package net.certiv.fluent.dt.core.lang.md;
 
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.Lexer;
 
 import net.certiv.dsl.core.DslCore;
 import net.certiv.dsl.core.model.builder.ModelBuilder;
 import net.certiv.dsl.core.parser.DslErrorListener;
 import net.certiv.dsl.core.parser.DslParseRecord;
 import net.certiv.dsl.core.parser.DslSourceParser;
+import net.certiv.dsl.core.parser.Origin;
 import net.certiv.fluent.dt.core.FluentCore;
 import net.certiv.fluent.dt.core.lang.md.gen.MdLexer;
 import net.certiv.fluent.dt.core.lang.md.gen.MdParser;
@@ -35,14 +35,15 @@ public class MdSourceParser extends DslSourceParser {
 
 	@Override
 	public Throwable parse() {
-		DslErrorListener auditor = getErrorListener();
+		DslErrorListener errCollector = getErrorListener();
 		try {
 			record.setCharStream(CharStreams.fromString(getContent(), record.unit.getFile().getName()));
-			Lexer lexer = new MdLexer(record.getCharStream());
+			MdLexer lexer = new MdLexer(record.getCharStream());
 			lexer.setTokenFactory(TokenFactory);
 			lexer.removeErrorListeners();
-			lexer.addErrorListener(auditor);
+			lexer.addErrorListener(errCollector);
 			record.setTokenStream(new CommonTokenStream(lexer));
+			record.getTokenStream().fill(); // force stream update
 
 			MdParser parser = new MdParser(record.getTokenStream());
 			parser.setTokenFactory(TokenFactory);
@@ -54,7 +55,7 @@ public class MdSourceParser extends DslSourceParser {
 			return null;
 
 		} catch (Exception | Error e) {
-			auditor.generalError(ERR_ANALYSIS, e);
+			errCollector.generalError(Origin.GENERAL, ERR_ANALYSIS, e);
 			return e;
 		}
 	}
@@ -71,7 +72,7 @@ public class MdSourceParser extends DslSourceParser {
 			return null;
 
 		} catch (Exception | Error e) {
-			getErrorListener().generalError(ERR_ANALYSIS, e);
+			getErrorListener().generalError(Origin.ANALYSIS, ERR_ANALYSIS, e);
 			return e;
 		}
 	}

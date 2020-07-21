@@ -27,9 +27,9 @@ import net.certiv.dsl.core.util.Strings;
  * <ol>
  * <li>Adds structured-NLP flags
  * <ol>
- * <li><b>_atBOF</b> : {@code true} until the first time <b>_bol</b> becomes {@code false}
- * <li><b>_bol</b> : {@code true} when the lexer hits column-0 and until the first token
- * not within a line-prefix filter set is emitted
+ * <li><b>_atBOF</b> : {@code true} until <b>_bol</b> first becomes {@code false}
+ * <li><b>_bol</b> : {@code true} from column-0 up to the first character not within a
+ * line-prefix filter set
  * <li><b>_bob</b> : {@code true} once a defined Vws token series is encountered and until
  * the first token not within a block-prefix filter set is emitted
  * <li><b>_hitEOF</b> : {@code true} once an EOF condition is hit
@@ -49,22 +49,23 @@ import net.certiv.dsl.core.util.Strings;
 public abstract class LexerNlp extends Lexer {
 
 	/** Token type that marks a new block start. */
-	protected int blkDef = Token.INVALID_TYPE;
+	protected int blockType = Token.INVALID_TYPE;
 	/** Token types to ignore at the beginning of a new line. */
-	protected final Set<Integer> lnPreTypes = new HashSet<>();
+	protected final Set<Integer> preLineTypes = new HashSet<>();
 	/** Token types to ignore at the beginning of a new block. */
-	protected final Set<Integer> blkPreTypes = new HashSet<>();
+	protected final Set<Integer> preBlockTypes = new HashSet<>();
 
-	// flags for 'beginning of' state
+	// flags & data for 'beginning of' state
 	protected boolean _atBOF = true;	// beginning of file
 	protected boolean _atNL = true;		// new line
-	protected boolean _atLnBeg = true;	// beginning of line
-	protected boolean _atBlkBeg = true;	// beginning of block
+	// protected int _lnStartCharIndex; // start offset of current line
+	protected boolean _begLine = true;	// beginning of line
+	protected boolean _begBlock = true;	// beginning of block
 
-	// flags for managing parameterized more mode
+	// flags & data for 'parameterized more' mode
 	protected boolean _pmore;		// parameterized more mode flag
 	protected int _ptype;			// parameterized more token type
-	protected int _pStartCharIndex;	// state after last match
+	protected int _pStartCharIndex;	// offset after last match
 	protected int _pStartCharPositionInLine;
 	protected int _pStartLine;
 	protected int _pChannel;
@@ -77,7 +78,7 @@ public abstract class LexerNlp extends Lexer {
 	private int eofType = Token.INVALID_TYPE;
 	private String eofText = Strings.EMPTY;
 
-	// queue of tokens pending emit
+	// tokens pending emit
 	protected final ArrayDeque<Token> _queue = new ArrayDeque<>();
 
 	public LexerNlp(CharStream input) {
@@ -99,15 +100,15 @@ public abstract class LexerNlp extends Lexer {
 	}
 
 	public void setLnBegPrefixes(Integer... ttypes) {
-		lnPreTypes.addAll(Arrays.asList(ttypes));
+		preLineTypes.addAll(Arrays.asList(ttypes));
 	}
 
 	public void setBlockBeg(int ttype) {
-		blkDef = ttype;
+		blockType = ttype;
 	}
 
 	public void setBlkBegPrefixes(Integer... ttypes) {
-		blkPreTypes.addAll(Arrays.asList(ttypes));
+		preBlockTypes.addAll(Arrays.asList(ttypes));
 	}
 
 	/** Returns {@code true} while at beginning of file. */
@@ -120,14 +121,19 @@ public abstract class LexerNlp extends Lexer {
 		return _atNL;
 	}
 
+	// /** Returns the start offset of the current line. */
+	// public int lnOffset() {
+	// return _lnStartCharIndex;
+	// }
+
 	/** Returns {@code true} while at beginning of a line. */
 	public boolean bol() {
-		return _atLnBeg;
+		return _begLine;
 	}
 
 	/** Returns {@code true} while at beginning of block. */
 	public boolean bob() {
-		return _atBlkBeg;
+		return _begBlock;
 	}
 
 	/** Returns {@code true} if at the end of file. */
@@ -164,10 +170,8 @@ public abstract class LexerNlp extends Lexer {
 	@Override
 	public void emit(Token token) {
 		int type = token.getType();
-		if (_atNL) _atLnBeg = true;
-		if (_atLnBeg && !lnPreTypes.contains(type)) _atBOF = _atLnBeg = false;
-		if (blkDef == type) _atBlkBeg = true;
-		if (_atBlkBeg && !blkPreTypes.contains(type)) _atBlkBeg = false;
+		if (blockType == type) _begBlock = true;
+		if (_begBlock && !preBlockTypes.contains(type)) _begBlock = false;
 		super.emit(token);
 	}
 
@@ -199,16 +203,17 @@ public abstract class LexerNlp extends Lexer {
 							.getCharPositionInLine();
 					_tokenStartLine = _pStartLine = getInterpreter().getLine();
 					_atNL = _tokenStartCharPositionInLine == 0;
+					if (_atNL) {
+						_begLine = true;
+						// _lnStartCharIndex = _tokenStartCharIndex;
+					}
 
 					do {
 						_type = Token.INVALID_TYPE;
 						int ttype;
 						try {
-							// Log.debug(this, "Look ahead %s", la());
 							ttype = getInterpreter().match(_input, _mode);
-							// Log.debug(this, "...matched %s", createMatched());
 						} catch (LexerNoViableAltException e) {
-							// Log.debug(this, "... not matched: %s", e.getMessage());
 							notifyListeners(e); // report error
 							recover(e);
 							ttype = SKIP;
@@ -216,6 +221,10 @@ public abstract class LexerNlp extends Lexer {
 
 						if (_input.LA(1) == IntStream.EOF) _hitEOF = true;
 						if (_type == Token.INVALID_TYPE) _type = ttype;
+						if (_begLine && !preLineTypes.contains(_type)) {
+							_atBOF = _begLine = false;
+						}
+
 						if (_type == SKIP && !_pmore) continue outer;
 						if (_type == MORE && _pmore) {
 							_pStartCharIndex = _input.index();
@@ -283,6 +292,7 @@ public abstract class LexerNlp extends Lexer {
 		_queue.add(token);
 	}
 
+	/** Debug. */
 	protected String la(int cnt) {
 		cnt = Math.max(1, cnt);
 		Interval la = Interval.of(_tokenStartCharIndex, Math.min(_tokenStartCharIndex + cnt, _input.size() - 1));

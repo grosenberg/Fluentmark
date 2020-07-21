@@ -8,8 +8,6 @@ package net.certiv.fluent.dt.ui.editor.convert;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.text.BadLocationException;
@@ -29,9 +27,6 @@ import net.certiv.fluent.dt.core.preferences.Prefs;
 import net.certiv.fluent.dt.ui.editor.Partitions;
 
 public class Converter {
-
-	private static final Pattern DOTBEG = Pattern.compile("(~~~+|```+)\\h*dot[ \t\r\n]", Pattern.DOTALL);
-	private static final Pattern DOTEND = Pattern.compile("(~~~+|```+)[ \t\r\n]", Pattern.DOTALL);
 
 	private IPreferenceStore store;
 
@@ -145,7 +140,6 @@ public class Converter {
 					break;
 				case Partitions.DOTBLOCK:
 					if (store.getBoolean(Prefs.EDITOR_DOTMODE_ENABLED)) {
-						text = filter(text, DOTBEG, DOTEND);
 						text = DotGen.runDot(text);
 					}
 					break;
@@ -160,23 +154,5 @@ public class Converter {
 			parts.add(text);
 		}
 		return String.join(Strings.SPACE, parts);
-	}
-
-	private String filter(String text, Pattern beg, Pattern end) {
-		String result = text;
-		if (beg != null) {
-			result = beg.matcher(result).replaceFirst(Strings.EMPTY);
-		}
-		if (end != null) {
-			Matcher m = end.matcher(result);
-			int idx = -1;
-			while (m.find()) {
-				idx = m.start();
-			}
-			if (idx > -1) {
-				result = result.substring(0, idx);
-			}
-		}
-		return result;
 	}
 }

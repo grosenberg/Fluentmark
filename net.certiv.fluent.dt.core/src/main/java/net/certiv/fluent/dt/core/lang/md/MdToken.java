@@ -20,6 +20,7 @@ public class MdToken extends CommonToken implements IDslToken {
 	private int dents;
 
 	private boolean quoted;
+	private boolean inList;
 
 	public MdToken(int type, String text, int tabWidth) {
 		super(type, text);
@@ -31,12 +32,8 @@ public class MdToken extends CommonToken implements IDslToken {
 		this.tabWidth = tabWidth;
 	}
 
-	public boolean isQuoted() {
-		return quoted;
-	}
-
-	public void setQuoted(boolean quoted) {
-		this.quoted = quoted;
+	public int lastLine() {
+		return getLine() + Strings.countLines(getText());
 	}
 
 	@Override
@@ -48,50 +45,35 @@ public class MdToken extends CommonToken implements IDslToken {
 		_mode = mode;
 	}
 
-	public boolean isListMark() {
-		switch (type) {
-			case MdLexer.UNORDERED_MARK:
-			case MdLexer.NUMBER_MARK:
-			case MdLexer.PAREN_MARK:
-			case MdLexer.UALPHA_MARK:
-			case MdLexer.LALPHA_MARK:
-				return true;
-		}
-		return false;
+	public boolean inList() {
+		return inList;
 	}
 
-	public void setHit(boolean bof, boolean bol) {
-		this.bof = bof;
-		this.bol = bol;
-		if (bof || bol) calcDents();
-	}
-
-	public boolean isBof() {
-		return bof;
-	}
-
-	public void setBof(boolean bof) {
-		this.bof = bof;
-		if (bof) calcDents();
-	}
-
-	public boolean isBol() {
-		return bol;
-	}
-
-	public void setBol(boolean bol) {
-		this.bol = bol;
-		if (bol) calcDents();
+	public void setListMark() {
+		inList = true;
 	}
 
 	public int getDents() {
 		return dents;
 	}
 
-	private void calcDents() {
+	public int calcDents() {
 		int begOffset = start - charPositionInLine;
-		String prefix = source.b.getText(Interval.of(begOffset, start));
-		dents = Strings.measureIndentLength(prefix, tabWidth);
+		if (begOffset == start) {
+			dents = 0;
+		} else {
+			String prefix = source.b.getText(Interval.of(begOffset, start - 1));
+			dents = Strings.computeIndentUnits(prefix, tabWidth);
+		}
+		return dents;
+	}
+
+	public boolean isQuoted() {
+		return quoted;
+	}
+
+	public void setQuoted(boolean quoted) {
+		this.quoted = quoted;
 	}
 
 	@Override

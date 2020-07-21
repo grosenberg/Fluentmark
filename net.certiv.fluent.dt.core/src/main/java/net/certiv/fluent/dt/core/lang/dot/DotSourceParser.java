@@ -16,6 +16,7 @@ import net.certiv.dsl.core.parser.DslErrorListener;
 import net.certiv.dsl.core.parser.DslErrorStrategy;
 import net.certiv.dsl.core.parser.DslParseRecord;
 import net.certiv.dsl.core.parser.DslSourceParser;
+import net.certiv.dsl.core.parser.Origin;
 import net.certiv.fluent.dt.core.FluentCore;
 import net.certiv.fluent.dt.core.lang.dot.gen.DotLexer;
 import net.certiv.fluent.dt.core.lang.dot.gen.DotParser;
@@ -67,7 +68,7 @@ public class DotSourceParser extends DslSourceParser {
 			return null;
 
 		} catch (Exception | Error e) {
-			auditor.generalError(ERR_PARSER, e);
+			auditor.generalError(Origin.GENERAL, ERR_PARSER, e);
 			return e;
 		}
 	}
@@ -79,7 +80,7 @@ public class DotSourceParser extends DslSourceParser {
 			return null;
 
 		} catch (Exception | Error e) {
-			getErrorListener().generalError(ERR_VALIDATE, e);
+			getErrorListener().generalError(Origin.ANALYSIS, ERR_VALIDATE, e);
 			return e;
 		}
 	}
