@@ -81,16 +81,16 @@ BlackFriday converter ---
 
 ### Keys
 
-|Key             |Function                                          |
-|:---------------|:-------------------------------------------------|
-|Ctrl-Space      |Opens the template assist popup                   |
-|Ctrl-1          |Spell check quick correct                         |
-|Ctrl-b          |Toggles **bold** of selected text                 |
-|Ctrl-i          |Toggles _italics_ of selected text                |
-|Ctrl-/          |Toggles Markdown-style commenting of selected text|
-|Ctrl-Shift-/    |Toggles HTML-style commenting of selected text    |
-|Ctrl-Shift-f    |Format - full page or selected text               |
-|Ctrl-Shift-Alt-f|Format - with unwrapped text                      |
+|Key             |Function                                         |
+|:---------------|:------------------------------------------------|
+|Ctrl-Space      |Open quick assist popup                          |
+|Ctrl-1          |Spellcheck quick correct                         |
+|Ctrl-b          |Toggle **bold** of selected text                 |
+|Ctrl-i          |Toggle _italics_ of selected text                |
+|Ctrl-/          |Toggle Markdown-style commenting of selected text|
+|Ctrl-Shift-/    |Toggle HTML-style commenting of selected text    |
+|Ctrl-Shift-f    |Format - full page or selected text              |
+|Ctrl-Shift-Alt-f|Format - with unwrapped text                     |
 
 
 --- 

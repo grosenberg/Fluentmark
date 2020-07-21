@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2016 - 2017 Certiv Analytics and others.
+ * Copyright (c) 2016 - 2020 Certiv Analytics and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -38,13 +38,13 @@ public class TableModel {
 		public Row(int numCols) {
 			data = new String[numCols];
 			for (int idx = 0; idx < data.length; idx++) {
-				data[idx] = "";
+				data[idx] = Strings.EMPTY;
 			}
 		}
 
 		@Override
 		public String toString() {
-			return num + " [" + String.join(",", data) + "]";
+			return num + " [" + String.join(Strings.COMMA, data) + "]";
 		}
 	}
 
@@ -97,7 +97,7 @@ public class TableModel {
 			if (row.row == formatRow) {
 				row.data = ArrayUtils.insert(target, row.data, ":---");
 			} else {
-				row.data = ArrayUtils.insert(target, row.data, "");
+				row.data = ArrayUtils.insert(target, row.data, Strings.EMPTY);
 			}
 		}
 		headers = rows.get(0).data;
@@ -159,19 +159,20 @@ public class TableModel {
 
 	public String build() {
 		calcColWidths();
+		StringBuilder sb = new StringBuilder();
 		try {
-			StringBuilder sb = new StringBuilder();
 			for (int idx = 0; idx < rows.size(); idx++) {
+				boolean last = idx == rows.size() - 1;
 				if (idx == formatRow) {
-					addFormatRow(sb, rows.get(idx));
-					continue;
+					addFormatRow(sb, rows.get(idx), last);
+				} else {
+					addDataRow(sb, rows.get(idx), last);
 				}
-				addDataRow(sb, rows.get(idx));
 			}
-			return sb.toString();
 		} catch (BadLocationException e) {
 			return null;
 		}
+		return sb.toString();
 	}
 
 	private void calcColWidths() {
@@ -185,28 +186,30 @@ public class TableModel {
 		}
 	}
 
-	private void addFormatRow(StringBuilder sb, Row row) throws BadLocationException {
-		sb.append("|");
+	private void addFormatRow(StringBuilder sb, Row row, boolean last) throws BadLocationException {
+		sb.append(Strings.PIPE);
 		for (int col = 0; col < numCols; col++) {
-			if (aligns[col] == SWT.LEFT || aligns[col] == SWT.CENTER) sb.append(":");
+			if (aligns[col] == SWT.LEFT || aligns[col] == SWT.CENTER) sb.append(Strings.COLON);
 
 			int min = aligns[col] == SWT.CENTER ? 5 : 4;
 			sb.append("---");
 			sb.append(Strings.dup(colWidths[col] - min, "-"));
 
-			if (aligns[col] == SWT.RIGHT || aligns[col] == SWT.CENTER) sb.append(":");
-			sb.append("|");
+			if (aligns[col] == SWT.RIGHT || aligns[col] == SWT.CENTER) sb.append(Strings.COLON);
+			sb.append(Strings.PIPE);
 		}
-		String existing = TextUtils.getText(stmt.getCodeUnit().getDocument(), row.num);
-		int mark = existing.lastIndexOf("|");
-		if (mark < existing.length() - 1) {
-			sb.append(existing.substring(mark + 1));
+
+		// add any text following the table row
+		String txt = TextUtils.getText(stmt.getCodeUnit().getDocument(), row.num - 1);
+		int dot = txt.lastIndexOf(Strings.PIPE);
+		if (dot < txt.length() - 1) {
+			sb.append(Strings.trimRight(txt.substring(dot + 1)));
 		}
-		sb.append(delim);
+		if (!last) sb.append(delim);
 	}
 
-	private void addDataRow(StringBuilder sb, Row row) throws BadLocationException {
-		sb.append("|");
+	private void addDataRow(StringBuilder sb, Row row, boolean last) throws BadLocationException {
+		sb.append(Strings.PIPE);
 		for (int col = 0; col < numCols; col++) {
 			int colWidth = colWidths[col];
 			int padLeft = 0;
@@ -221,14 +224,16 @@ public class TableModel {
 			sb.append(Strings.dup(padLeft, Strings.SPACE));
 			sb.append(row.data[col]);
 			sb.append(Strings.dup(padRight, Strings.SPACE));
-			sb.append("|");
+			sb.append(Strings.PIPE);
 		}
-		String existing = TextUtils.getText(stmt.getCodeUnit().getDocument(), row.num);
-		int mark = existing.lastIndexOf("|");
-		if (mark < existing.length() - 1) {
-			sb.append(existing.substring(mark + 1));
+
+		// add any text following the table row
+		String txt = TextUtils.getText(stmt.getCodeUnit().getDocument(), row.num - 1);
+		int dot = txt.lastIndexOf(Strings.PIPE);
+		if (dot < txt.length() - 1) {
+			sb.append(Strings.trimRight(txt.substring(dot + 1)));
 		}
-		sb.append(delim);
+		if (!last) sb.append(delim);
 	}
 
 	private String[] parseRow(String text) {
