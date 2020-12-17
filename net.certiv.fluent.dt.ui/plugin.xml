@@ -287,6 +287,12 @@
             id="net.certiv.fluent.dt.ui.preferences.page.TemplatesPage"
             name="Templates">
       </page>
+      <page
+            category="net.certiv.fluent.dt.ui.preferences.page.GeneralPage"
+            class="net.certiv.fluent.dt.ui.preferences.page.SpellerPage"
+            id="net.certiv.fluent.dt.ui.preferences.page.SpellerPage"
+            name="Spelling">
+      </page>
    </extension>
 
   <extension

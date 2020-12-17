@@ -33,7 +33,7 @@
    <extension
          point="org.eclipse.core.runtime.preferences">
       <initializer
-            class="net.certiv.fluent.dt.core.preferences.PrefsInit">
+            class="net.certiv.fluent.dt.core.preferences.PrefsInitializer">
       </initializer>
    </extension>
 

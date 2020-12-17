@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 import org.apache.commons.text.StringEscapeUtils;
-
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -30,13 +29,12 @@ import net.certiv.fluent.dt.ui.editor.convert.Kind;
 
 public class ViewJob extends Job {
 
+	private static final String _HEAD = "</head>";
+
 	private static final String Render = "Fluent.set('%s');";
 
 	private enum State {
-		NONE,
-		LOAD,
-		READY,
-		TYPESET;
+		NONE, LOAD, READY, TYPESET;
 	}
 
 	private ProgressListener watcher = new ProgressAdapter() {
@@ -87,11 +85,11 @@ public class ViewJob extends Job {
 		}
 		browser.addProgressListener(watcher);
 		timer = System.nanoTime();
-		String pluginId = FluentUI.getDefault().getPluginId();
-		String script = FileUtils.fromBundle(pluginId, Editor.HTML + "/firebug.html") + Strings.EOL;
 		String content = editor.getHtml(Kind.VIEW);
 		if (firebug) {
-			content = content.replaceFirst("</head>", script + "</head>");
+			String pluginId = FluentUI.getDefault().getPluginId();
+			String script = FileUtils.fromBundle(pluginId, Editor.HTML + "/firebug.html") + Strings.EOL;
+			content = content.replaceFirst(_HEAD, script + _HEAD);
 		}
 		browser.setText(content);
 		return true;
@@ -120,7 +118,7 @@ public class ViewJob extends Job {
 		timer = System.nanoTime();
 
 		String html = editor.getHtml(Kind.UPDATE);
-		if (html.isEmpty()) return Status.CANCEL_STATUS;
+		if (html.trim().isEmpty()) return Status.CANCEL_STATUS;
 
 		if (mathjax) state = State.READY;
 

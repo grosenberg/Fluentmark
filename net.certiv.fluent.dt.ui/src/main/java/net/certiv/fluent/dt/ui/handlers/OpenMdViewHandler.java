@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2016 - 2017 Certiv Analytics and others.
+ * Copyright (c) 2016 - 2020 Certiv Analytics and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -27,9 +27,9 @@ public class OpenMdViewHandler extends AbstractHandler {
 	public Object execute(final ExecutionEvent event) throws ExecutionException {
 		try {
 			IWorkbenchPage activePage = HandlerUtil.getActiveWorkbenchWindow(event).getActivePage();
-			IViewPart mdView = activePage.showView(FluentPreview.ID);
-			if (mdView instanceof FluentPreview) {
-				FluentPreview preview = (FluentPreview) mdView;
+			IViewPart view = activePage.showView(FluentPreview.ID);
+			if (view instanceof FluentPreview) {
+				FluentPreview preview = (FluentPreview) view;
 				activePage.activate(preview);
 			}
 		} catch (PartInitException e) {

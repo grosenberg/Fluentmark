@@ -20,6 +20,7 @@ public class Prefs extends PrefsSpelling {
 	public static final String EDITOR_SECTION_NUMBERS = "{DSL_ID}" + ".SectionNumbers";
 
 	public static final String EDITOR_MD_CONVERTER = "{DSL_ID}" + ".converterSelection";
+	public static final String EDITOR_MD_ENGINE = "{DSL_ID}" + ".engineSelection";
 
 	public static final String FORMATTER_ENABLED = "{DSL_ID}" + ".formattingEnabled";
 	public static final String FORMATTER_WRAP_COLUMN = "{DSL_ID}" + ".formattingCol";

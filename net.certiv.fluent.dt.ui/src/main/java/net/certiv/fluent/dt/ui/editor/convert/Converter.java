@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2016 - 2017 Certiv Analytics and others. All rights reserved.
+ * Copyright (c) 2016 - 2020 Certiv Analytics and others. All rights reserved.
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v1.0 which accompanies this distribution,
  * and is available at http://www.eclipse.org/legal/epl-v10.html
@@ -28,6 +28,10 @@ import net.certiv.fluent.dt.ui.editor.Partitions;
 
 public class Converter {
 
+	private static final String PANDOC_MISSING = "Pandoc executable not set in preferences.";
+	private static final String BLACKFRIDAY_MISSING = "Black Friday executable not set in preferences.";
+	private static final String EXTERNAL_MISSING = "External markdown converter command not set in preferences.";
+
 	private IPreferenceStore store;
 
 	public Converter() {
@@ -47,6 +51,7 @@ public class Converter {
 	public String convert(String basepath, IDocument doc, ITypedRegion[] regions) {
 		String text;
 		switch (store.getString(Prefs.EDITOR_MD_CONVERTER)) {
+			default:
 			case Prefs.KEY_PANDOC:
 				text = getText(doc, regions, true);
 				return usePandoc(basepath, text);
@@ -63,24 +68,24 @@ public class Converter {
 				text = getText(doc, regions, true);
 				return useExternal(basepath, text);
 		}
-		return Strings.EMPTY;
 	}
 
 	private String usePandoc(String basepath, String text) {
 		String cmd = store.getString(Prefs.EDITOR_PANDOC_PROGRAM);
-		if (cmd.trim().isEmpty()) return Strings.EMPTY;
+		if (cmd.trim().isEmpty()) return PANDOC_MISSING;
 
 		List<String> args = new ArrayList<>();
 		args.add(cmd);
-		args.add("--no-highlight"); // use highlightjs instead
+		args.add("--no-highlight"); // using highlightjs instead
 		if (store.getBoolean(Prefs.EDITOR_PANDOC_ADDTOC)) args.add("--toc");
 		if (store.getBoolean(Prefs.EDITOR_PANDOC_MATHJAX)) args.add("--mathjax");
-		if (!store.getBoolean(Prefs.EDITOR_PANDOC_SMART)) {
-			args.add("-f");
-			args.add("markdown-smart");
-		} else {
-			args.add("--ascii");
-		}
+		// TODO: check doc to fix or remove
+		// if (!store.getBoolean(Prefs.EDITOR_PANDOC_SMART)) {
+		// args.add("-f");
+		// args.add("markdown-smart");
+		// } else {
+		// args.add("--ascii");
+		// }
 		return Cmd.process(args.toArray(new String[args.size()]), basepath, text);
 	}
 
@@ -97,7 +102,7 @@ public class Converter {
 
 	private String useBlackFriday(String basepath, String text) {
 		String cmd = store.getString(Prefs.EDITOR_BLACKFRIDAY_PROGRAM);
-		if (cmd.trim().isEmpty()) return Strings.EMPTY;
+		if (cmd.trim().isEmpty()) return BLACKFRIDAY_MISSING;
 
 		List<String> args = new ArrayList<>();
 		args.add(cmd);
@@ -114,9 +119,7 @@ public class Converter {
 
 	private String useExternal(String basepath, String text) {
 		String cmd = store.getString(Prefs.EDITOR_EXTERNAL_COMMAND);
-		if (cmd.trim().isEmpty()) {
-			return "Specify an external markdown converter command in preferences.";
-		}
+		if (cmd.trim().isEmpty()) return EXTERNAL_MISSING;
 
 		String[] args = Cmd.parse(cmd);
 		if (args.length > 0) {
@@ -153,6 +156,6 @@ public class Converter {
 			}
 			parts.add(text);
 		}
-		return String.join(Strings.SPACE, parts);
+		return String.join(Strings.EMPTY, parts);
 	}
 }

@@ -1,34 +1,19 @@
 package net.certiv.fluent.dt.ui.wizards;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-
-import org.eclipse.core.resources.IContainer;
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IWorkspaceRoot;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.resource.ImageDescriptor;
 
 import net.certiv.dsl.core.DslCore;
-import net.certiv.dsl.core.util.CoreUtil;
 import net.certiv.dsl.ui.DslImageManager;
 import net.certiv.dsl.ui.DslUI;
-import net.certiv.dsl.ui.wizards.DslBaseWizard;
+import net.certiv.dsl.ui.wizard.DslFileWizard;
 import net.certiv.fluent.dt.core.FluentCore;
 import net.certiv.fluent.dt.ui.FluentUI;
 
 /** Create a new resource in the indicated container. */
-public class FluentNewWizard extends DslBaseWizard {
+public class FluentNewWizard extends DslFileWizard {
 
-	private FmNewWizardPage page;
+	private FluentNewWizardPage page;
 
-	/**
-	 * Constructor for FmNewWizard.
-	 */
 	public FluentNewWizard() {
 		super("FluentNewWizard");
 	}
@@ -55,45 +40,10 @@ public class FluentNewWizard extends DslBaseWizard {
 	}
 
 	@Override
-	public void addPages() {
-		page = new FmNewWizardPage(this, getSelection());
-		page.setTitle("File");
-		page.setDescription("Create new Fm file");
-		addPage(page);
-	}
-
-	@Override
-	protected void finishPage(IProgressMonitor monitor) throws InterruptedException, CoreException {
-		final String filename = page.getFileName();
-		final IPath containerPath = page.getContainerFullPath();
-
-		monitor.beginTask("Creating " + filename, 2);
-		IWorkspaceRoot root = CoreUtil.getWorkspaceRoot();
-		IContainer container = (IContainer) root.findMember(containerPath);
-		if (!container.exists() || !(container instanceof IContainer)) {
-			throwCoreException("Container '" + filename + "' does not exist.");
-			return;
+	protected FluentNewWizardPage getMainPage() {
+		if (page == null) {
+			page = new FluentNewWizardPage(this, getSelection());
 		}
-
-		final IFile file = container.getFile(new Path(filename));
-		try {
-			InputStream stream = openContentStream();
-			if (file.exists()) {
-				file.setContents(stream, true, true, monitor);
-			} else {
-				file.create(stream, true, monitor);
-			}
-			stream.close();
-		} catch (IOException e) {}
-		monitor.worked(1);
-
-		monitor.setTaskName("Opening file for editing...");
-		openEditor(file);
-		monitor.worked(1);
-	}
-
-	private InputStream openContentStream() {
-		String contents = "# FluentMark";
-		return new ByteArrayInputStream(contents.getBytes());
+		return page;
 	}
 }

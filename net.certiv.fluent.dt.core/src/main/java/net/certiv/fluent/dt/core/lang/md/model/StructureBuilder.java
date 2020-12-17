@@ -169,7 +169,7 @@ public abstract class StructureBuilder extends Processor {
 		}
 
 		Specialization data = new Specialization(type, rulename(ctx), ctx, name);
-		builder.field(ctx, ctx, ModelType.LITERAL, data);
+		builder.field(ModelType.LITERAL, ctx, ctx, data);
 	}
 
 	public void doAttrL() {
@@ -188,7 +188,7 @@ public abstract class StructureBuilder extends Processor {
 			MdToken endAttr = (MdToken) node.getSymbol();
 			Mark mark = attributes.get(leftEquiv(endAttr.getType()));
 			if (mark != null) {
-				builder.field(mark.ctx, mark.begToken, endAttr, mark.data.name, ModelType.SPAN, mark.data);
+				builder.field(ModelType.SPAN, mark.ctx, mark.begToken, endAttr, mark.data.name, mark.data);
 				attributes.remove(mark.type);
 			}
 		}

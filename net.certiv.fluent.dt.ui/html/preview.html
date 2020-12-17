@@ -11,8 +11,8 @@
 			%styles%
 		</style>
 
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
-		<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+		<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/styles/default.min.css">
+		<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/highlight.min.js"></script>
 
 		<script type="x-mathjax-config">
 			MathJax.Hub.Config({
@@ -30,11 +30,20 @@
 			});
 			MathJax.Hub.Register.StartupHook("End", typeset);
 		</script>
-		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+		<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  		<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 		
-		<script type="text/javascript" src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
-		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.min.js"></script>
+		<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
 		
+		<!-- 
+		<script src="https://cdn.jsdelivr.net/npm/socket.io-client/dist/socket.io.slim.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/vue-socket.io-extended"></script>
+		<script>
+			var socket = io('%socket%');
+			Vue.use(VueSocketIOExt, socket);
+		</script>
+		-->
+
 	</head>
 
 	<body>

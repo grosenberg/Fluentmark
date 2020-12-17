@@ -2,6 +2,7 @@ package net.certiv.fluent.dt.core.preferences;
 
 import java.util.Locale;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.ui.texteditor.spelling.SpellingService;
 
@@ -13,7 +14,7 @@ import net.certiv.fluent.dt.core.FluentCore;
 import net.certiv.spellchecker.SpellCheckEngine;
 
 /** Initializer for the preferences unique to this plugin. */
-public class PrefsInit extends DslPrefsInit {
+public class PrefsInitializer extends DslPrefsInit {
 
 	private static final RGB DEF_DEFAULT = new RGB(0, 0, 0);
 	private static final RGB DEF_COMMENT = new RGB(128, 0, 0);
@@ -53,7 +54,10 @@ public class PrefsInit extends DslPrefsInit {
 		setBool(Prefs.EDITOR_TASK_TAGS, true);
 		setString(Prefs.EDITOR_TASK_TAGS_DEFINED, "TODO,FIXME,NOTE");
 
+		// converters
+
 		setString(Prefs.EDITOR_MD_CONVERTER, Prefs.KEY_PANDOC);
+		setString(Prefs.EDITOR_MD_ENGINE, String.valueOf(SWT.CHROMIUM));
 
 		setBool(Prefs.EDITOR_UMLMODE_ENABLED, false);
 		setBool(Prefs.EDITOR_DOTMODE_ENABLED, false);
@@ -97,7 +101,7 @@ public class PrefsInit extends DslPrefsInit {
 		setString(Prefs.EDITOR_PREVIEW_EXTERNAL_DIR, Strings.EMPTY);
 		setInt(Prefs.EDITOR_PREVIEW_MAXDEPTH, 2);
 
-		String semanticDir = resourceDir(BUNDLE_ID, Editor.SEMANTIC);
+		String semanticDir = resourceDir(BUNDLE_ID, Editor.SEMANTIC_DIR);
 		setString(Editor.EDITOR_SEMANTIC_INTERNAL_DIR, semanticDir);
 		setString(Editor.EDITOR_SEMANTIC_FILE, semanticDir + Editor.DEFAULT_CSS);
 

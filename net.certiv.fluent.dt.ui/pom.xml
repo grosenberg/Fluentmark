@@ -9,7 +9,7 @@
 	<parent>
 		<groupId>net.certiv</groupId>
 		<artifactId>net.certiv.fluent.dt</artifactId>
-		<version>1.5.0-SNAPSHOT</version>
+		<version>1.6.0-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>net.certiv.fluent.dt.ui</artifactId>
@@ -18,10 +18,9 @@
 	<description>Fluentmark UI</description>
 
 	<properties>
-		<flexmark.version>0.61.4</flexmark.version>
-		<plantuml.version>1.2020.6</plantuml.version>
+		<flexmark.version>0.62.2</flexmark.version>
+		<plantuml.version>1.2020.19</plantuml.version>
 	</properties>
-
 
 	<dependencies>
 
@@ -616,7 +615,6 @@
 
 							<outputDirectory>${project.basedir}/lib</outputDirectory>
 							<stripVersion>false</stripVersion>
-							<overWriteRelease>true</overWriteRelease>
 							<overWriteSnapshots>true</overWriteSnapshots>
 						</configuration>
 					</execution>

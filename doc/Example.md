@@ -8,8 +8,6 @@ CODEBUFF uses a k-Nearest Neighbor (`kNN`) machine learning model. Exemplars, de
 from a corpus of well-formatted documents, form the basis of the model. Codebuff works 
 well for the __limited__ purpose of testing.   
 
-~~~ dot
-
 digraph M1{ 
 	node[shape=box width=1.1]
 	parser[label="Document\nParser"]
@@ -29,7 +27,6 @@ digraph M1{
     output->parser[color=green constraint=false label="Update Model"]
 }
 
-~~~
 
 The AI classifier function compares an unknown context vector `X`,
 corresponding to a search exemplar, to the `Xj` from all `N` exemplars to find

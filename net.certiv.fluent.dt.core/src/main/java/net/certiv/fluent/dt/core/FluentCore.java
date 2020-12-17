@@ -1,11 +1,12 @@
 package net.certiv.fluent.dt.core;
 
+import org.apache.logging.log4j.Level;
+
 import org.osgi.framework.BundleContext;
 
 import net.certiv.dsl.core.DslCore;
 import net.certiv.dsl.core.lang.LanguageManager;
 import net.certiv.dsl.core.log.Log;
-import net.certiv.dsl.core.log.Log.LogLevel;
 import net.certiv.fluent.dt.core.lang.FluentLangManager;
 
 public class FluentCore extends DslCore {
@@ -16,7 +17,7 @@ public class FluentCore extends DslCore {
 
 	public FluentCore() {
 		super();
-		Log.defLevel(LogLevel.Info);
+		Log.defLevel(Level.INFO);
 	}
 
 	public static FluentCore getDefault() {
