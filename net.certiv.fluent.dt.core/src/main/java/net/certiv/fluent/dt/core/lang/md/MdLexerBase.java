@@ -11,11 +11,11 @@ import java.util.regex.Pattern;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Token;
 
-import net.certiv.dsl.core.util.Chars;
-import net.certiv.dsl.core.util.Strings;
-import net.certiv.dsl.core.util.stores.Extent;
-import net.certiv.dsl.core.util.stores.NearMap;
-import net.certiv.dsl.core.util.stores.TreeList;
+import net.certiv.common.stores.Extent;
+import net.certiv.common.stores.NearMap;
+import net.certiv.common.stores.TreeList;
+import net.certiv.common.util.Chars;
+import net.certiv.common.util.Strings;
 import net.certiv.fluent.dt.core.lang.LexerNlp;
 
 public abstract class MdLexerBase extends LexerNlp {

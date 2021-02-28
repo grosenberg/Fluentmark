@@ -6,8 +6,9 @@ import org.antlr.v4.runtime.TokenSource;
 import org.antlr.v4.runtime.misc.Interval;
 import org.antlr.v4.runtime.misc.Pair;
 
+import net.certiv.common.util.Strings;
 import net.certiv.dsl.core.parser.IDslToken;
-import net.certiv.dsl.core.util.Strings;
+import net.certiv.dsl.core.util.Indent;
 import net.certiv.fluent.dt.core.lang.md.gen.MdLexer;
 
 public class MdToken extends CommonToken implements IDslToken {
@@ -27,7 +28,8 @@ public class MdToken extends CommonToken implements IDslToken {
 		this.tabWidth = tabWidth;
 	}
 
-	public MdToken(Pair<TokenSource, CharStream> source, int type, int channel, int start, int stop, int tabWidth) {
+	public MdToken(Pair<TokenSource, CharStream> source, int type, int channel, int start, int stop,
+			int tabWidth) {
 		super(source, type, channel, start, stop);
 		this.tabWidth = tabWidth;
 	}
@@ -63,7 +65,7 @@ public class MdToken extends CommonToken implements IDslToken {
 			dents = 0;
 		} else {
 			String prefix = source.b.getText(Interval.of(begOffset, start - 1));
-			dents = Strings.computeIndentUnits(prefix, tabWidth);
+			dents = Indent.computeIndentUnits(prefix, tabWidth);
 		}
 		return dents;
 	}

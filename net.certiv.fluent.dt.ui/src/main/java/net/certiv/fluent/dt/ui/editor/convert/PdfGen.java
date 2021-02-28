@@ -29,11 +29,10 @@ import org.eclipse.text.edits.MultiTextEdit;
 import org.eclipse.text.edits.ReplaceEdit;
 import org.eclipse.text.edits.TextEdit;
 
-import net.sourceforge.plantuml.FileFormat;
-import net.sourceforge.plantuml.FileFormatOption;
-import net.sourceforge.plantuml.SourceStringReader;
-
-import net.certiv.dsl.core.log.Log;
+import net.certiv.common.exec.Cmd;
+import net.certiv.common.log.Log;
+import net.certiv.common.util.FileUtils;
+import net.certiv.common.util.Strings;
 import net.certiv.dsl.core.model.ICodeUnit;
 import net.certiv.dsl.core.model.IStatement;
 import net.certiv.dsl.core.model.IStatementVisitor;
@@ -41,15 +40,15 @@ import net.certiv.dsl.core.model.ModelType;
 import net.certiv.dsl.core.model.Statement;
 import net.certiv.dsl.core.model.builder.SourceRange;
 import net.certiv.dsl.core.preferences.PrefsManager;
-import net.certiv.dsl.core.util.FileUtils;
-import net.certiv.dsl.core.util.Strings;
-import net.certiv.dsl.core.util.TextUtils;
-import net.certiv.dsl.core.util.exec.Cmd;
+import net.certiv.dsl.core.util.TextUtil;
 import net.certiv.dsl.ui.DslUI;
 import net.certiv.fluent.dt.core.FluentCore;
 import net.certiv.fluent.dt.core.lang.md.model.SpecializationType;
 import net.certiv.fluent.dt.core.model.SpecUtil;
 import net.certiv.fluent.dt.core.preferences.Prefs;
+import net.sourceforge.plantuml.FileFormat;
+import net.sourceforge.plantuml.FileFormatOption;
+import net.sourceforge.plantuml.SourceStringReader;
 
 public class PdfGen {
 
@@ -240,14 +239,14 @@ public class PdfGen {
 
 		try {
 			while (endLine > begLine) {
-				String text = TextUtils.getText(doc, endLine);
+				String text = TextUtil.getText(doc, endLine);
 				if (!text.trim().isEmpty() && !text.startsWith("~~~") && !text.startsWith("```")) {
 					break;
 				}
 				endLine--;
 			}
 			if (begLine >= endLine) return null;
-			return TextUtils.getSourceRange(doc, begLine, endLine, true);
+			return TextUtil.getSourceRange(doc, begLine, endLine, true);
 
 		} catch (BadLocationException e) {
 			return null;
@@ -298,14 +297,15 @@ public class PdfGen {
 		try {
 			return doc.get(range.getOffset(), range.getLength());
 		} catch (BadLocationException e) {
-			Log.error(PdfGen.class, String.format("Failed extracting text at %s (%s)", range, e.getMessage()));
+			Log.error(PdfGen.class,
+					String.format("Failed extracting text at %s (%s)", range, e.getMessage()));
 			return null;
 		}
 	}
 
 	private static File getTmpFolder() throws IOException {
 		try {
-			return FileUtils.createFolder("mk_" + FileUtils.nextRandom());
+			return FileUtils.createTmpFolder("mk_" + FileUtils.nextRandom());
 		} catch (IOException e) {
 			String msg = String.format("Failed creating tmp folder (%s)", e.getMessage());
 			throw new IOException(msg);
@@ -314,7 +314,7 @@ public class PdfGen {
 
 	private static File createTmpFile(File dir, String ext) {
 		try {
-			return FileUtils.createFile("fluent_", "." + ext, dir);
+			return FileUtils.createTmpFile("fluent_", "." + ext, dir);
 		} catch (IOException e) {
 			Log.error(PdfGen.class, String.format("Failed creating tmp file (%s)", e.getMessage()));
 			return null;

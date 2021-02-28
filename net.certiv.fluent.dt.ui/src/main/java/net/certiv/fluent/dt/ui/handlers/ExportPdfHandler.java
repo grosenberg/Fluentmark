@@ -7,7 +7,7 @@
  ******************************************************************************/
 package net.certiv.fluent.dt.ui.handlers;
 
-import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -19,7 +19,7 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.handlers.HandlerUtil;
 
 import net.certiv.dsl.core.model.ICodeUnit;
-import net.certiv.dsl.core.util.FileUtils;
+import net.certiv.dsl.core.util.Resources;
 import net.certiv.fluent.dt.ui.FluentUI;
 import net.certiv.fluent.dt.ui.editor.FluentEditor;
 import net.certiv.fluent.dt.ui.editor.convert.PdfGen;
@@ -57,10 +57,10 @@ public class ExportPdfHandler extends AbstractHandler {
 					PdfGen.save(unit, template, destination);
 
 					IPath location = FluentUI.getDefault().getStateLocation();
-					LinkedHashMap<String, String> map = FileUtils.getTemplateMap(location);
+					Map<String, String> map = Resources.getTemplateMap(location);
 					map.put(file.getFullPath().toString(), template); // by WS relative file pathname
 					map.put(file.getName(), template); // by file filename
-					FileUtils.putTemplateMap(location, map);
+					Resources.putTemplateMap(location, map);
 				}
 			}
 		}

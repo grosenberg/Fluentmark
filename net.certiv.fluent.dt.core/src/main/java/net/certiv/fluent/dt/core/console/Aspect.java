@@ -1,8 +1,8 @@
 package net.certiv.fluent.dt.core.console;
 
+import net.certiv.common.util.Strings;
 import net.certiv.dsl.core.console.CS;
 import net.certiv.dsl.core.console.IAspect;
-import net.certiv.dsl.core.util.Strings;
 
 public enum Aspect implements IAspect {
 

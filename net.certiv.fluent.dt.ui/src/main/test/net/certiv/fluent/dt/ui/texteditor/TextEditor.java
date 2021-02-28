@@ -13,8 +13,8 @@
  *******************************************************************************/
 package net.certiv.fluent.dt.ui.texteditor;
 
-import static org.eclipse.swt.events.MenuListener.*;
-import static org.eclipse.swt.events.SelectionListener.*;
+import static org.eclipse.swt.events.MenuListener.menuShownAdapter;
+import static org.eclipse.swt.events.SelectionListener.widgetSelectedAdapter;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;

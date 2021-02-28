@@ -17,8 +17,8 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
+import net.certiv.common.log.Log;
 import net.certiv.dsl.core.color.DslColorRegistry;
-import net.certiv.dsl.core.log.Log;
 import net.certiv.dsl.core.preferences.PrefsDeltaManager;
 import net.certiv.dsl.core.preferences.consts.Editor;
 import net.certiv.dsl.ui.preferences.bind.DirectorypathValidator;

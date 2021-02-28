@@ -4,7 +4,7 @@ import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.IntStream;
 import org.antlr.v4.runtime.Lexer;
 
-import net.certiv.dsl.core.util.Chars;
+import net.certiv.common.util.Chars;
 
 public abstract class LexerBase extends Lexer {
 

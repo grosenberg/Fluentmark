@@ -1,11 +1,10 @@
 package net.certiv.fluent.dt.ui;
 
 import org.apache.logging.log4j.Level;
-
 import org.osgi.framework.BundleContext;
 
+import net.certiv.common.log.Log;
 import net.certiv.dsl.core.DslCore;
-import net.certiv.dsl.core.log.Log;
 import net.certiv.dsl.ui.DslUI;
 import net.certiv.dsl.ui.editor.text.DslTextTools;
 import net.certiv.dsl.ui.templates.CompletionManager;

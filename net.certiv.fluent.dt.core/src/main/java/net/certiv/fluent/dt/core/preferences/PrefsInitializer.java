@@ -6,10 +6,10 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.ui.texteditor.spelling.SpellingService;
 
+import net.certiv.common.util.Strings;
 import net.certiv.dsl.core.DslCore;
 import net.certiv.dsl.core.preferences.DslPrefsInit;
 import net.certiv.dsl.core.preferences.consts.Editor;
-import net.certiv.dsl.core.util.Strings;
 import net.certiv.fluent.dt.core.FluentCore;
 import net.certiv.spellchecker.SpellCheckEngine;
 

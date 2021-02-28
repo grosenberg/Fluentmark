@@ -1,10 +1,9 @@
 package net.certiv.fluent.dt.ui;
 
+import org.eclipse.jface.resource.ImageRegistry;
 import org.osgi.framework.Bundle;
 
-import org.eclipse.jface.resource.ImageRegistry;
-
-import net.certiv.dsl.core.util.Chars;
+import net.certiv.common.util.Chars;
 import net.certiv.dsl.ui.DslImageManager;
 
 /** Bundle of all images used by the Fluentmark plugin. */

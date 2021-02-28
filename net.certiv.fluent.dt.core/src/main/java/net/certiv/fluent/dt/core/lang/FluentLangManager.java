@@ -3,12 +3,12 @@ package net.certiv.fluent.dt.core.lang;
 import java.util.Arrays;
 import java.util.List;
 
+import net.certiv.common.util.Strings;
 import net.certiv.dsl.core.DslCore;
 import net.certiv.dsl.core.lang.LanguageManager;
 import net.certiv.dsl.core.lang.RootEntry;
 import net.certiv.dsl.core.model.ICodeUnit;
 import net.certiv.dsl.core.parser.DslSourceParser;
-import net.certiv.dsl.core.util.Strings;
 import net.certiv.fluent.dt.core.lang.dot.DotSourceParser;
 import net.certiv.fluent.dt.core.lang.md.MdSourceParser;
 

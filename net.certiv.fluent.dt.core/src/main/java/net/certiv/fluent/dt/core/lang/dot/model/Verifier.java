@@ -2,13 +2,12 @@ package net.certiv.fluent.dt.core.lang.dot.model;
 
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
-
 import org.eclipse.core.resources.IMarker;
 
-import net.certiv.dsl.core.log.Log;
+import net.certiv.common.log.Log;
+import net.certiv.common.util.Strings;
 import net.certiv.dsl.core.parser.problems.DslProblem;
 import net.certiv.dsl.core.parser.problems.ProblemCollector;
-import net.certiv.dsl.core.util.Strings;
 import net.certiv.fluent.dt.core.lang.dot.DotSourceParser;
 import net.certiv.fluent.dt.core.lang.dot.gen.DotLexer;
 import net.certiv.fluent.dt.core.lang.dot.gen.DotParser.AttrListContext;

@@ -4,9 +4,9 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.swt.graphics.Image;
 
-import net.certiv.dsl.core.log.Log;
-import net.certiv.dsl.core.util.Chars;
-import net.certiv.dsl.core.util.Strings;
+import net.certiv.common.log.Log;
+import net.certiv.common.util.Chars;
+import net.certiv.common.util.Strings;
 import net.certiv.dsl.ui.editor.outline.OutlineLabelProvider;
 import net.certiv.fluent.dt.core.lang.md.model.Specialization;
 import net.certiv.fluent.dt.core.lang.md.model.SpecializationType;

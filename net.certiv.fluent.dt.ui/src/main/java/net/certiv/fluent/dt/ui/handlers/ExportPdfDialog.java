@@ -1,6 +1,6 @@
 package net.certiv.fluent.dt.ui.handlers;
 
-import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IPath;
@@ -20,7 +20,7 @@ import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-import net.certiv.dsl.core.util.FileUtils;
+import net.certiv.dsl.core.util.Resources;
 import net.certiv.dsl.ui.util.SWTFactory;
 import net.certiv.fluent.dt.core.FluentCore;
 import net.certiv.fluent.dt.core.preferences.Prefs;
@@ -100,8 +100,7 @@ public class ExportPdfDialog extends MessageDialog {
 		IPath location = FluentUI.getDefault().getStateLocation();
 
 		// key=document[pathname|name]; value=template pathname
-		LinkedHashMap<String, String> map = FileUtils.getTemplateMap(location);
-
+		Map<String, String> map = Resources.getTemplateMap(location);
 		String pathname = map.get(source.getFullPath().toString()); // by WS relative source file pathname
 		if (invalid(pathname)) pathname = map.get(source.getName()); // by source filename
 		return invalid(pathname) ? Default : pathname;

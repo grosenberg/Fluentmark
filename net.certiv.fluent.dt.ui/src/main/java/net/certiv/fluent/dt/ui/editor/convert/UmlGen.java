@@ -13,16 +13,15 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.certiv.common.log.Log;
+import net.certiv.common.util.Strings;
+import net.certiv.dsl.core.preferences.PrefsManager;
+import net.certiv.fluent.dt.core.FluentCore;
+import net.certiv.fluent.dt.core.preferences.Prefs;
 import net.sourceforge.plantuml.FileFormat;
 import net.sourceforge.plantuml.FileFormatOption;
 import net.sourceforge.plantuml.SourceStringReader;
 import net.sourceforge.plantuml.cucadiagram.dot.GraphvizUtils;
-
-import net.certiv.dsl.core.log.Log;
-import net.certiv.dsl.core.preferences.PrefsManager;
-import net.certiv.dsl.core.util.Strings;
-import net.certiv.fluent.dt.core.FluentCore;
-import net.certiv.fluent.dt.core.preferences.Prefs;
 
 public class UmlGen {
 

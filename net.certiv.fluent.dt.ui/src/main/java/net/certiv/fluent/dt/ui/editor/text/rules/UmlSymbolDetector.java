@@ -9,7 +9,7 @@ package net.certiv.fluent.dt.ui.editor.text.rules;
 
 import org.eclipse.jface.text.rules.IWordDetector;
 
-import net.certiv.dsl.core.util.Chars;
+import net.certiv.common.util.Chars;
 
 public class UmlSymbolDetector implements IWordDetector {
 

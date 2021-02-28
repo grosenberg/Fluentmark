@@ -20,8 +20,8 @@ import com.vladsch.flexmark.parser.ParserEmulationProfile;
 import com.vladsch.flexmark.util.data.MutableDataHolder;
 import com.vladsch.flexmark.util.data.MutableDataSet;
 
-import net.certiv.dsl.core.util.Strings;
-import net.certiv.dsl.core.util.exec.Cmd;
+import net.certiv.common.exec.Cmd;
+import net.certiv.common.util.Strings;
 import net.certiv.fluent.dt.core.FluentCore;
 import net.certiv.fluent.dt.core.preferences.Prefs;
 import net.certiv.fluent.dt.ui.editor.Partitions;

@@ -1,6 +1,7 @@
 package net.certiv.fluent.dt.ui.preferences.tabs;
 
-import static net.certiv.fluent.dt.core.preferences.Prefs.*;
+import static net.certiv.fluent.dt.core.preferences.Prefs.EDITOR_FLEXMARK_MATHJAX;
+import static net.certiv.fluent.dt.core.preferences.Prefs.EDITOR_FLEXMARK_PROFILE;
 
 import org.eclipse.swt.widgets.Composite;
 

@@ -1,6 +1,10 @@
 package net.certiv.fluent.dt.ui.preferences.tabs;
 
-import static net.certiv.fluent.dt.core.preferences.Prefs.*;
+import static net.certiv.fluent.dt.core.preferences.Prefs.EDITOR_BLACKFRIDAY_ADDTOC;
+import static net.certiv.fluent.dt.core.preferences.Prefs.EDITOR_BLACKFRIDAY_PROGRAM;
+import static net.certiv.fluent.dt.core.preferences.Prefs.EDITOR_BLACKFRIDAY_SMART;
+import static net.certiv.fluent.dt.core.preferences.Prefs.EDITOR_MD_CONVERTER;
+import static net.certiv.fluent.dt.core.preferences.Prefs.KEY_BLACKFRIDAY;
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;

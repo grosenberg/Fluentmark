@@ -6,8 +6,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 
-import org.osgi.framework.Bundle;
-
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
@@ -24,10 +22,13 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.ITypedRegion;
 import org.eclipse.jface.text.TextUtilities;
 import org.eclipse.ui.IPathEditorInput;
+import org.osgi.framework.Bundle;
 
-import net.certiv.dsl.core.log.Log;
-import net.certiv.dsl.core.util.FileUtils;
-import net.certiv.dsl.core.util.Strings;
+import net.certiv.common.log.Log;
+import net.certiv.common.util.FileUtils;
+import net.certiv.common.util.Strings;
+import net.certiv.dsl.core.preferences.consts.Editor;
+import net.certiv.dsl.core.util.Resources;
 import net.certiv.fluent.dt.core.FluentCore;
 import net.certiv.fluent.dt.core.preferences.Prefs;
 import net.certiv.fluent.dt.ui.FluentUI;
@@ -81,10 +82,10 @@ public class HtmlGen {
 		switch (kind) {
 			case EXPORT:
 				sb.append("<html><head>" + Strings.EOL);
-				sb.append(FileUtils.fromBundle(pluginId, "html/meta.html") + Strings.EOL);
-				sb.append(FileUtils.fromBundle(pluginId, "html/highlight.html") + Strings.EOL);
+				sb.append(Resources.fromBundle(pluginId, "html/meta.html") + Strings.EOL);
+				sb.append(Resources.fromBundle(pluginId, "html/highlight.html") + Strings.EOL);
 				if (editor.useMathJax()) {
-					sb.append(FileUtils.fromBundle(pluginId, "html/mathjax.html") + Strings.EOL);
+					sb.append(Resources.fromBundle(pluginId, "html/mathjax.html") + Strings.EOL);
 				}
 				sb.append("<style media=\"screen\" type=\"text/css\">" + Strings.EOL);
 				sb.append(getStyle(pathname) + Strings.EOL);
@@ -102,7 +103,7 @@ public class HtmlGen {
 				break;
 
 			case VIEW:
-				String preview = FileUtils.fromBundle(pluginId, "html/preview.html");
+				String preview = Resources.fromBundle(pluginId, "html/preview.html");
 				preview = preview.replaceFirst("%path%", base);
 				sb.append(preview.replaceFirst("%styles%", getStyle(pathname)));
 				break;
@@ -145,7 +146,7 @@ public class HtmlGen {
 	private URL findStyle(IPath path) throws Exception {
 		// 1) look for a file having the same name as the input file, beginning in the
 		// current directory, parent directories, and the current project directory.
-		IPath style = path.removeFileExtension().addFileExtension(Prefs.CSS);
+		IPath style = path.removeFileExtension().addFileExtension(Editor.CSS);
 		URL pathUrl = find(style);
 		if (pathUrl != null) return pathUrl;
 
@@ -161,7 +162,7 @@ public class HtmlGen {
 		String customCss = store.getString(Prefs.EDITOR_PREVIEW_EXTERNAL_DIR);
 		if (!customCss.isEmpty()) {
 			File file = new File(customCss);
-			if (file.isFile() && file.getName().endsWith(Prefs.DOT_CSS)) {
+			if (file.isFile() && file.getName().endsWith(Editor.DOT_CSS)) {
 				return toURL(file);
 			}
 		}
@@ -171,7 +172,7 @@ public class HtmlGen {
 		String builtinCss = store.getString(Prefs.EDITOR_PREVIEW_INTERNAL_DIR);
 		if (!builtinCss.isEmpty()) {
 			try {
-				URI uri = new URI(builtinCss.replace(Prefs.DOT_CSS, Prefs.DOT_MIN_CSS));
+				URI uri = new URI(builtinCss.replace(Editor.DOT_CSS, Editor.DOT_MIN_CSS));
 				URL url = FileLocator.toFileURL(uri.toURL());
 				File file = URIUtil.toFile(URIUtil.toURI(url));
 				if (file.isFile()) return url;

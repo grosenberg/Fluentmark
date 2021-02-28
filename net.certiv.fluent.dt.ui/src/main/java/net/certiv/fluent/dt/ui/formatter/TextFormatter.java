@@ -11,7 +11,7 @@ import java.text.BreakIterator;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.certiv.dsl.core.util.Strings;
+import net.certiv.common.util.Strings;
 
 public class TextFormatter {
 

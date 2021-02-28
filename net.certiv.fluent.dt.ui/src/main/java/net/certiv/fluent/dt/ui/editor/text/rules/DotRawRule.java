@@ -16,8 +16,8 @@ import org.eclipse.jface.text.rules.IPredicateRule;
 import org.eclipse.jface.text.rules.IToken;
 import org.eclipse.jface.text.rules.Token;
 
-import net.certiv.dsl.core.log.Log;
-import net.certiv.dsl.core.util.Chars;
+import net.certiv.common.log.Log;
+import net.certiv.common.util.Chars;
 import net.certiv.fluent.dt.ui.editor.PartitionScanner;
 
 public class DotRawRule implements IPredicateRule {

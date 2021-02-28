@@ -11,15 +11,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.ArrayUtils;
-
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.swt.SWT;
 
+import net.certiv.common.util.Strings;
 import net.certiv.dsl.core.model.ICodeUnit;
 import net.certiv.dsl.core.model.IStatement;
 import net.certiv.dsl.core.model.Statement;
-import net.certiv.dsl.core.util.Strings;
-import net.certiv.dsl.core.util.TextUtils;
+import net.certiv.dsl.core.util.TextUtil;
 
 public class TableModel {
 
@@ -69,7 +68,7 @@ public class TableModel {
 
 		try {
 			for (int lnum = this.stmt.getStartLine(), row = 0; lnum <= this.stmt.getEndLine(); lnum++) {
-				String text = TextUtils.getText(unit.getDocument(), lnum - 1);
+				String text = TextUtil.getText(unit.getDocument(), lnum - 1);
 				String[] cols = parseRow(text.substring(1));
 				if (text.trim().contains("---")) {
 					formatRow = row;
@@ -200,7 +199,7 @@ public class TableModel {
 		}
 
 		// add any text following the table row
-		String txt = TextUtils.getText(stmt.getCodeUnit().getDocument(), row.num - 1);
+		String txt = TextUtil.getText(stmt.getCodeUnit().getDocument(), row.num - 1);
 		int dot = txt.lastIndexOf(Strings.PIPE);
 		if (dot < txt.length() - 1) {
 			sb.append(Strings.trimRight(txt.substring(dot + 1)));
@@ -228,7 +227,7 @@ public class TableModel {
 		}
 
 		// add any text following the table row
-		String txt = TextUtils.getText(stmt.getCodeUnit().getDocument(), row.num - 1);
+		String txt = TextUtil.getText(stmt.getCodeUnit().getDocument(), row.num - 1);
 		int dot = txt.lastIndexOf(Strings.PIPE);
 		if (dot < txt.length() - 1) {
 			sb.append(Strings.trimRight(txt.substring(dot + 1)));

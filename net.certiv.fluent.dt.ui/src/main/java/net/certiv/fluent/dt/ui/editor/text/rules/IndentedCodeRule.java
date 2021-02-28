@@ -13,10 +13,10 @@ import org.eclipse.jface.text.rules.IPredicateRule;
 import org.eclipse.jface.text.rules.IToken;
 import org.eclipse.jface.text.rules.Token;
 
-import net.certiv.dsl.core.log.Log;
+import net.certiv.common.log.Log;
+import net.certiv.dsl.core.preferences.consts.Editor;
 import net.certiv.dsl.core.util.Indent;
 import net.certiv.fluent.dt.core.FluentCore;
-import net.certiv.fluent.dt.core.preferences.Prefs;
 import net.certiv.fluent.dt.ui.editor.PartitionScanner;
 
 public class IndentedCodeRule implements IPredicateRule {
@@ -52,7 +52,7 @@ public class IndentedCodeRule implements IPredicateRule {
 				if (p == '\n') col = 0;
 			}
 			if (col == 0) {
-				tabWidth = FluentCore.getDefault().getPrefsManager().getInt(Prefs.EDITOR_TAB_WIDTH);
+				tabWidth = FluentCore.getDefault().getPrefsManager().getInt(Editor.EDITOR_TAB_WIDTH);
 				if (tabWidth < 2) tabWidth = 4;
 				line = 0;
 				while (evaluateLine(scanner)) {

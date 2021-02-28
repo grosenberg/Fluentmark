@@ -19,7 +19,7 @@ import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.atn.LexerATNSimulator;
 import org.antlr.v4.runtime.misc.Interval;
 
-import net.certiv.dsl.core.util.Strings;
+import net.certiv.common.util.Strings;
 
 /**
  * Modifies the {@code emit} related methods to implement new structured NLP supporting

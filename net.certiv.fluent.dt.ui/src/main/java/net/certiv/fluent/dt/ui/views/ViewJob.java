@@ -17,10 +17,10 @@ import org.eclipse.swt.browser.ProgressListener;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IPathEditorInput;
 
-import net.certiv.dsl.core.log.Log;
+import net.certiv.common.log.Log;
+import net.certiv.common.util.Strings;
 import net.certiv.dsl.core.preferences.consts.Editor;
-import net.certiv.dsl.core.util.FileUtils;
-import net.certiv.dsl.core.util.Strings;
+import net.certiv.dsl.core.util.Resources;
 import net.certiv.fluent.dt.core.FluentCore;
 import net.certiv.fluent.dt.core.preferences.Prefs;
 import net.certiv.fluent.dt.ui.FluentUI;
@@ -88,7 +88,7 @@ public class ViewJob extends Job {
 		String content = editor.getHtml(Kind.VIEW);
 		if (firebug) {
 			String pluginId = FluentUI.getDefault().getPluginId();
-			String script = FileUtils.fromBundle(pluginId, Editor.HTML + "/firebug.html") + Strings.EOL;
+			String script = Resources.fromBundle(pluginId, Editor.HTML + "/firebug.html") + Strings.EOL;
 			content = content.replaceFirst(_HEAD, script + _HEAD);
 		}
 		browser.setText(content);

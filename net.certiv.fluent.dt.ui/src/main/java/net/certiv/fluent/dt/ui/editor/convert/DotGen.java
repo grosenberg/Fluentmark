@@ -10,10 +10,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.certiv.dsl.core.log.Log;
+import net.certiv.common.exec.Cmd;
+import net.certiv.common.log.Log;
+import net.certiv.common.util.Strings;
 import net.certiv.dsl.core.preferences.PrefsManager;
-import net.certiv.dsl.core.util.Strings;
-import net.certiv.dsl.core.util.exec.Cmd;
 import net.certiv.fluent.dt.core.FluentCore;
 import net.certiv.fluent.dt.core.preferences.Prefs;
 

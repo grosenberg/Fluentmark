@@ -1,6 +1,8 @@
 package net.certiv.fluent.dt.ui.preferences.tabs;
 
-import static net.certiv.fluent.dt.core.preferences.Prefs.*;
+import static net.certiv.fluent.dt.core.preferences.Prefs.EDITOR_EXTERNAL_COMMAND;
+import static net.certiv.fluent.dt.core.preferences.Prefs.EDITOR_MD_CONVERTER;
+import static net.certiv.fluent.dt.core.preferences.Prefs.KEY_EXTERNAL;
 
 import org.eclipse.swt.widgets.Composite;
 

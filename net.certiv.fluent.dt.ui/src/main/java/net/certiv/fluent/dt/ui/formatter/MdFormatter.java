@@ -11,19 +11,19 @@ import org.eclipse.text.edits.ReplaceEdit;
 import org.eclipse.text.edits.TextEdit;
 import org.eclipse.ui.IEditorPart;
 
+import net.certiv.common.log.Log;
+import net.certiv.common.util.Chars;
+import net.certiv.common.util.Strings;
 import net.certiv.dsl.core.DslCore;
 import net.certiv.dsl.core.formatter.BaseCodeFormatter;
-import net.certiv.dsl.core.log.Log;
 import net.certiv.dsl.core.model.CodeUnit;
 import net.certiv.dsl.core.model.IStatement;
 import net.certiv.dsl.core.model.ModelException;
 import net.certiv.dsl.core.model.builder.SourceRange;
 import net.certiv.dsl.core.preferences.IPrefsManager;
 import net.certiv.dsl.core.preferences.consts.Editor;
-import net.certiv.dsl.core.util.Chars;
 import net.certiv.dsl.core.util.CoreUtil;
 import net.certiv.dsl.core.util.Indent;
-import net.certiv.dsl.core.util.Strings;
 import net.certiv.fluent.dt.core.FluentCore;
 import net.certiv.fluent.dt.core.lang.md.model.SpecializationType;
 import net.certiv.fluent.dt.core.model.SpecUtil;
@@ -47,8 +47,8 @@ public class MdFormatter extends BaseCodeFormatter {
 	}
 
 	@Override
-	public TextEdit format(int kind, String content, int offset, int length, int indentLevel, String lineSeparator,
-			IPrefsManager store) {
+	public TextEdit format(int kind, String content, int offset, int length, int indentLevel,
+			String lineSeparator, IPrefsManager store) {
 
 		setPrefsManager(store);
 		checkCanceled();
@@ -162,7 +162,8 @@ public class MdFormatter extends BaseCodeFormatter {
 			String content = listItem.getSource();
 			int indent = Indent.measureIndentInTabs(content, tabWidth);
 			int markWidth = listMarkWidth(content);
-			content = TextFormatter.wrap(content, cols, delim, tabWidth * indent, (tabWidth * indent) + markWidth);
+			content = TextFormatter.wrap(content, cols, delim, tabWidth * indent,
+					(tabWidth * indent) + markWidth);
 
 			edit.addChild(new ReplaceEdit(offset, len, content));
 		} catch (MalformedTreeException | BadLocationException e) {

@@ -6,8 +6,9 @@ import org.antlr.v4.runtime.TokenSource;
 import org.antlr.v4.runtime.misc.Interval;
 import org.antlr.v4.runtime.misc.Pair;
 
+import net.certiv.common.util.Strings;
 import net.certiv.dsl.core.parser.IDslToken;
-import net.certiv.dsl.core.util.Strings;
+import net.certiv.dsl.core.util.Indent;
 import net.certiv.fluent.dt.core.lang.dot.gen.DotLexer;
 
 public class DotToken extends CommonToken implements IDslToken {
@@ -24,7 +25,8 @@ public class DotToken extends CommonToken implements IDslToken {
 		this.tabWidth = tabWidth;
 	}
 
-	public DotToken(Pair<TokenSource, CharStream> source, int type, int channel, int start, int stop, int tabWidth) {
+	public DotToken(Pair<TokenSource, CharStream> source, int type, int channel, int start, int stop,
+			int tabWidth) {
 		super(source, type, channel, start, stop);
 		this.tabWidth = tabWidth;
 	}
@@ -69,7 +71,7 @@ public class DotToken extends CommonToken implements IDslToken {
 	private void calcDents() {
 		int begOffset = start - charPositionInLine;
 		String prefix = source.b.getText(Interval.of(begOffset, start));
-		dents = Strings.measureIndentLength(prefix, tabWidth);
+		dents = Indent.measureIndentLength(prefix, tabWidth);
 	}
 
 	@Override
