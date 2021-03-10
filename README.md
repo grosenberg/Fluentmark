@@ -30,22 +30,26 @@ A full-featured Markdown editing environment for Eclipse.
 
 ## Screenshots
 
-<figure>
-<figcaption>1. Dot Graph</figcaption>
-<img src="./doc/ScreenShot.png">
-</figure>
+<figure> <figcaption>1. Dot Graph</figcaption> <img src="./doc/ScreenShot.png"> </figure>
 
-<figure>
-<figcaption>2. Sequence Diagram</figcaption>
-<img src="./doc/ScreenShot1.png">
+<figure> <figcaption>2. Sequence Diagram</figcaption> <img src="./doc/ScreenShot1.png"> 
 </figure>
 
 
 ## Installation & Configuration
 
-Requires Eclipse 2020-06 & JDK 1.8+.
+Requires 
 
-Install from the Certiv Tools update site: [www.certiv.net/updates](http://www.certiv.net/updates/).
+- Eclipse 2020-12
+- JDK 11+
+- Chromium widget 
+	- only requred for live preview using the embedded Chrome browser
+	- requires the Cef feature (repo 'http://dl.maketechnology.io/chromium-cef/rls/repository') 
+	- requires the SWT-Chromium libraries (repo 'http://dl.maketechnology.io/chromium-swt/rls/repository') 
+
+Install the Fluentmark plugin from the Certiv Tools update site: www.certiv.net/updates.
+
+
 
 Preferences ---
 
@@ -53,8 +57,8 @@ Preferences ---
 
 Pandoc converter ---
 
-- Install [Pandoc](https://pandoc.org). The `pandoc` executable can then be selected from the local filesystem 
-  on the Pandoc Converter preference page.
+- Install [Pandoc](https://pandoc.org). The `pandoc` executable can then be selected 
+  from the local filesystem on the Pandoc Converter preference page.
 
 PDF export ---
 
@@ -62,20 +66,21 @@ PDF export ---
 
 DOT graphics ---
 
-- Install [Graphviz](http://www.graphviz.org/download.php). The `dot` executable can then be selected 
-  on the Converter preference page.
+- Install [Graphviz](http://www.graphviz.org/download.php). The `dot` executable 
+  can then be selected on the Converter preference page.
 
 UML and other diagrams ---
 
-- The basic PlantUml jar is built-in. Diagrams other than sequence diagrams require DOT graphics. If 
-  `Graphviz` is installed in a non-default directory, set the `GRAPHVIZ_DOT` environment variable to 
-  the actual installation directory.
+- The basic PlantUml jar is built-in. Diagrams other than sequence diagrams require 
+  DOT graphics. If `Graphviz` is installed in a non-default directory, set the `GRAPHVIZ_DOT` 
+  environment variable to the actual installation directory.
 
 BlackFriday converter ---
 
-- Install the customized [blackfriday-tool](https://github.com/grosenberg/blackfriday-tool) from GitHub. 
-  A Windows 64-bit compiled executable is available for download: [blackfriday-tool.zip](http://www.certiv.net/updates/net.certiv.fluentmark.site/blackfriday-tool.zip). 
-  The `blackfriday-tool` executable can then be selected on the BlackFriday Converter preference page.
+- Install the customized [blackfriday-tool](https://github.com/grosenberg/blackfriday-tool) 
+  from GitHub. A Windows 64-bit compiled executable is available for download: [blackfriday-tool.zip](http://www.certiv.net/updates/net.certiv.fluentmark.site/blackfriday-tool.zip). 
+  The `blackfriday-tool` executable can then be selected on the BlackFriday Converter 
+  preference page.
   
 
 ## Use
@@ -95,14 +100,16 @@ BlackFriday converter ---
 
 ### Table Editor
 
-`Double-click` on an existing table to open the table editor. While in the editor, `double-click` a cell to edit 
-text. `Tab` and arrow keys will navigate between cells. `Return` to end cell editing.
+`Double-click` on an existing table to open the table editor. While in the editor, 
+`double-click` a cell to edit text. `Tab` and arrow keys will navigate between cells. 
+`Return` to end cell editing.
 
 
 
 ## Support
 
-Open an [issue on Github](https://github.com/grosenberg/fluentmark/issues). Provide as much information as possible
+Open an [issue on Github](https://github.com/grosenberg/fluentmark/issues). Provide 
+as much information as possible
 
 - a minimal Markdown document that demonstrates the issue 
 - OS name and version version 
@@ -133,17 +140,20 @@ EPL v1
 
 ### HTML
 
-Raw HTML can be used both in-line and as left margin blocks delimited by `blank` lines.
+Raw HTML can be used both in-line and as left margin blocks delimited by `blank` 
+lines.
 
 
 ---
 
 ### In-line Math 
 
-In-line Math uses single `$` open/close delimiters. Can be embedded in other markdown features.
+In-line Math uses single `$` open/close delimiters. Can be embedded in other markdown 
+features.
 
-The opening `$` _must_ have a non-space character immediately right.  The closing `$` _must_ have a 
-non-whitespace character immediately left and _must_ be followed immediately by a non-digit or whitespace. 
+The opening `$` _must_ have a non-space character immediately right.  The closing 
+`$` _must_ have a non-whitespace character immediately left and _must_ be followed 
+immediately by a non-digit or whitespace. 
 
 ```
 An inline math $1+2\neq3$! example.
@@ -157,8 +167,9 @@ An inline math $1+2\neq3$! example.
 
 ### Math Blocks
 
-Simple math blocks are delimited using double `$`, *i.e.*, `$$`, marks at the left margin. The starting 
-delimiter *must* follow a blank line and the ending delimiter *must* lead a blank line.
+Simple math blocks are delimited using double `$`, *i.e.*, `$$`, marks at the left 
+margin. The starting delimiter *must* follow a blank line and the ending delimiter 
+*must* lead a blank line.
 
 ~~~ latex
 <<blank line>>
@@ -186,8 +197,9 @@ $$
 
 ### LaTex Block
 
-Delimited by the Latex standard **`\begin{...}`** and **`\end{...}`** keywords. These keywords *must* both be 
-left-margin aligned. The block *must* be separated from all other content by blank lines. 
+Delimited by the Latex standard **`\begin{...}`** and **`\end{...}`** keywords. These 
+keywords *must* both be left-margin aligned. The block *must* be separated from all 
+other content by blank lines. 
 
 ~~~ latex
 <<blank line>>

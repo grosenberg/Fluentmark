@@ -28,8 +28,8 @@ public class EditorConfigBlock extends DefaultEditorConfigBlock {
 		keys.add(Operation.OUTLINE_OPEN_LEVELS);
 
 		keys.add(Prefs.VIEW_UPDATE_DELAY);
-		keys.add(Prefs.EDITOR_HTML_OPEN);
-		keys.add(Prefs.EDITOR_PDF_OPEN);
+		keys.add(Prefs.VIEW_HTML_OPEN);
+		keys.add(Prefs.VIEW_PDF_OPEN);
 
 		keys.add(Prefs.FORMATTER_ENABLED);
 		keys.add(Prefs.FORMATTER_WRAP_COLUMN);
@@ -48,7 +48,7 @@ public class EditorConfigBlock extends DefaultEditorConfigBlock {
 		createTabsGroup(parent);
 		createOutlineGroup(parent);
 		createFormattingGroup(parent);
-		createPreviewGroup(parent);
+		// createPreviewGroup(parent);
 	}
 
 	private void appendSettings(Composite composite) {
@@ -62,10 +62,12 @@ public class EditorConfigBlock extends DefaultEditorConfigBlock {
 		SWTFactory.createLabel(composite, "(set to '0' to disable formatter wrapping)", SWT.BEGINNING);
 	}
 
-	private void createPreviewGroup(Composite parent) {
-		Composite comp = SWTFactory.createGroupComposite(parent, 3, 2, "Preview");
-		addTextField(comp, "Preview update rate (ms) ", Prefs.VIEW_UPDATE_DELAY, 6, 0, FType.INTEGER);
-		addCheckBox(comp, "Open HTML file after creation", Prefs.EDITOR_HTML_OPEN, 2, 0);
-		addCheckBox(comp, "Open PDF file after creation", Prefs.EDITOR_PDF_OPEN, 2, 0);
-	}
+	// private void createPreviewGroup(Composite parent) {
+	// Composite comp = SWTFactory.createGroupComposite(parent, 3, 2, "Preview");
+	// addTextField(comp, "Preview update rate (ms) ", Prefs.VIEW_UPDATE_DELAY, 6,
+	// 0, FType.INTEGER);
+	// addCheckBox(comp, "Open HTML file after creation", Prefs.VIEW_HTML_OPEN, 2,
+	// 0);
+	// addCheckBox(comp, "Open PDF file after creation", Prefs.VIEW_PDF_OPEN, 2, 0);
+	// }
 }

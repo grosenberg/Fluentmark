@@ -75,3 +75,10 @@ Require-Bundle: net.certiv.fluent.dt.core;bundle-version="0.2.0",
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
 Eclipse-RegisterBuddy: net.certiv.dsl.lib
+Export-Package: com.vladsch.flexmark.html,
+ com.vladsch.flexmark.parser,
+ com.vladsch.flexmark.util.data,
+ net.certiv.fluent.dt.ui,
+ net.certiv.fluent.dt.ui.editor,
+ net.sourceforge.plantuml,
+ net.sourceforge.plantuml.cucadiagram.dot

@@ -14,7 +14,7 @@ import net.certiv.fluent.dt.ui.editor.FluentTextTools;
 
 public class FluentUI extends DslUI {
 
-	public static final String PLUGIN_ID = "net.certiv.fluent.dt.ui";
+	public static final String PLUGIN_ID = "net.certiv.fluent.dt.ui"; //$NON-NLS-1$
 
 	private static FluentUI plugin;
 

@@ -1,0 +1,303 @@
+/* https://github.com/simonlc/Markdown-CSS/blob/master/markdown.css */
+//colors
+$black: black;
+$mountain_mist: #999;
+$tundora: #444;
+$romance: #fefefe;
+$cobalt: #0645ad;
+$navy_blue: #0b0080;
+$blue_ribbon: #06e;
+$web_orange: #faa700;
+$yellow_30: rgba(255, 255, 0, 0.3);
+$woodsmoke: #111;
+$storm_dust: #666666;
+$gallery: #eee;
+$silver_chalice: #aaa;
+$pale_canary: #ff9;
+$yellow: #ff0;
+
+//fonts
+$font_0: Georgia;
+$font_1: Palatino;
+$font_2: Palatino Linotype;
+$font_3: Times;
+$font_4: Times New Roman;
+$font_5: serif;
+$font_6: monospace;
+
+//@extend-elements
+//original selectors
+//h1, h2, h3, h4, h5, h6
+%extend_1 {
+  font-weight: normal;
+  color: $woodsmoke;
+  line-height: 1em;
+}
+
+//original selectors
+//pre, code, kbd, samp
+%extend_2 {
+  color: $black;
+  font-family: $font_6, $font_6;
+  _font-family: 'courier new', monospace;
+  font-size: 0.98em;
+}
+
+//original selectors
+//sub, sup
+%extend_3 {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+
+html {
+  font-size: 100%;
+  overflow-y: scroll;
+}
+body {
+  color: $tundora;
+  font-family: $font_0, $font_1, $font_2, $font_3, $font_4, $font_5;
+  font-size: 12px;
+  line-height: 1.5em;
+  padding: 1em;
+  margin: auto;
+  max-width: 42em;
+  background: $romance;
+}
+a {
+  color: $cobalt;
+  text-decoration: none;
+  &:visited {
+    color: $navy_blue;
+  }
+  &:hover {
+    color: $blue_ribbon;
+    outline: 0;
+  }
+  &:active {
+    color: $web_orange;
+    outline: 0;
+  }
+  &:focus {
+    outline: thin dotted;
+  }
+}
+::-moz-selection {
+  background: $yellow_30;
+  color: $black;
+}
+::selection {
+  background: $yellow_30;
+  color: $black;
+}
+a::-moz-selection {
+  background: $yellow_30;
+  color: $cobalt;
+}
+a::selection {
+  background: $yellow_30;
+  color: $cobalt;
+}
+p {
+  margin: 1em 0;
+}
+img {
+  max-width: 100%;
+  border: 0;
+  vertical-align: middle;
+}
+h1 {
+  @extend %extend_1;
+  font-size: 2.5em;
+}
+h2 {
+  @extend %extend_1;
+  font-size: 2em;
+}
+h3 {
+  @extend %extend_1;
+  font-size: 1.5em;
+}
+h4 {
+  @extend %extend_1;
+  font-weight: bold;
+  font-size: 1.2em;
+}
+h5 {
+  @extend %extend_1;
+  font-weight: bold;
+  font-size: 1em;
+}
+h6 {
+  @extend %extend_1;
+  font-weight: bold;
+  font-size: 0.9em;
+}
+blockquote {
+  color: $storm_dust;
+  margin: 0;
+  padding-left: 3em;
+  border-left: 0.5em $gallery solid;
+}
+hr {
+  display: block;
+  height: 2px;
+  border: 0;
+  border-top: 1px solid $silver_chalice;
+  border-bottom: 1px solid $gallery;
+  margin: 1em 0;
+  padding: 0;
+}
+pre {
+  @extend %extend_2;
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+code {
+  @extend %extend_2;
+}
+kbd {
+  @extend %extend_2;
+}
+samp {
+  @extend %extend_2;
+}
+b {
+  font-weight: bold;
+}
+strong {
+  font-weight: bold;
+}
+dfn {
+  font-style: italic;
+}
+ins {
+  background: $pale_canary;
+  color: $black;
+  text-decoration: none;
+}
+mark {
+  background: $yellow;
+  color: $black;
+  font-style: italic;
+  font-weight: bold;
+}
+sub {
+  @extend %extend_3;
+  bottom: -0.25em;
+}
+sup {
+  @extend %extend_3;
+  top: -0.5em;
+}
+ul {
+  margin: 1em 0;
+  padding: 0 0 0 2em;
+}
+ol {
+  margin: 1em 0;
+  padding: 0 0 0 2em;
+}
+dd {
+  margin: 0 0 0 2em;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+td {
+  vertical-align: top;
+}
+@media only screen and(min-width: 480px) {
+  body {
+    font-size: 14px;
+  }
+}
+@media only screen and(min-width: 768px) {
+  body {
+    font-size: 16px;
+  }
+}
+@media print {
+  * {
+    background: transparent !important;
+    color: $black !important;
+    filter: none !important;
+  }
+  body {
+    font-size: 12pt;
+    max-width: 100%;
+  }
+  a {
+    text-decoration: underline;
+    &:visited {
+      text-decoration: underline;
+    }
+  }
+  hr {
+    height: 1px;
+    border: 0;
+    border-bottom: 1px solid $black;
+  }
+  pre {
+    border: 1px solid $mountain_mist;
+    padding-right: 1em;
+    page-break-inside: avoid;
+  }
+  blockquote {
+    border: 1px solid $mountain_mist;
+    padding-right: 1em;
+    page-break-inside: avoid;
+  }
+  tr {
+    page-break-inside: avoid;
+  }
+  img {
+    page-break-inside: avoid;
+    max-width: 100% !important;
+  }
+  @page {
+    :left {
+      margin: 15mm 20mm 15mm 10mm;
+    }
+    :right {
+      margin: 15mm 10mm 15mm 20mm;
+    }
+  }
+  p {
+    orphans: 3;
+    widows: 3;
+  }
+  h2 {
+    orphans: 3;
+    widows: 3;
+    page-break-after: avoid;
+  }
+  h3 {
+    orphans: 3;
+    widows: 3;
+    page-break-after: avoid;
+  }
+  a[href]:after {
+    content: "(" attr(href) ")";
+  }
+  abbr[title]:after {
+    content: "(" attr(title) ")";
+  }
+  .ir a:after {
+    content: "";
+  }
+  a[href^="javascript:"]:after {
+    content: "";
+  }
+  a[href^="#"]:after {
+    content: "";
+  }
+}
+li p:last-child {
+  margin: 0;
+}

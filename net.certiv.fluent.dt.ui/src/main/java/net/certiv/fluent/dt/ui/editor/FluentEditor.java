@@ -16,9 +16,6 @@ import net.certiv.dsl.ui.editor.text.DslWordFinder;
 import net.certiv.dsl.ui.editor.text.folding.IFoldingStructureProvider;
 import net.certiv.fluent.dt.core.FluentCore;
 import net.certiv.fluent.dt.ui.FluentUI;
-import net.certiv.fluent.dt.ui.editor.convert.Converter;
-import net.certiv.fluent.dt.ui.editor.convert.HtmlGen;
-import net.certiv.fluent.dt.ui.editor.convert.Kind;
 import net.certiv.fluent.dt.ui.editor.folding.FmFoldingStructureProvider;
 import net.certiv.fluent.dt.ui.editor.outline.FluentOutlinePage;
 
@@ -28,7 +25,8 @@ public class FluentEditor extends DslEditor {
 	public static final String EDITOR_CONTEXT = "#FluentEditorContext";
 	public static final String RULER_CONTEXT = "#FluentRulerContext";
 
-	private static final String[] EDITOR_KEY_SCOPE = new String[] { "net.certiv.fluent.dt.ui.fluentEditorScope" };
+	private static final String[] EDITOR_KEY_SCOPE = new String[] {
+			"net.certiv.fluent.dt.ui.fluentEditorScope" };
 	private static final String MARK_OCCURRENCES_ANNOTATION_TYPE = "net.certiv.fluent.dt.ui.occurrences";
 
 	private final DslWordFinder finder = new DslWordFinder();
@@ -36,9 +34,6 @@ public class FluentEditor extends DslEditor {
 			Partitions.PARTITIONING);
 
 	private IFoldingStructureProvider foldingProvider;
-
-	private Converter converter;
-	private HtmlGen htmlGen;
 
 	public FluentEditor() {
 		super();
@@ -70,8 +65,6 @@ public class FluentEditor extends DslEditor {
 		setEditorContextMenuId(EDITOR_CONTEXT);
 		setRulerContextMenuId(RULER_CONTEXT);
 
-		converter = new Converter();
-		htmlGen = new HtmlGen(this, converter);
 	}
 
 	@Override
@@ -128,14 +121,5 @@ public class FluentEditor extends DslEditor {
 			doc.set(text + Strings.EOL);
 		}
 		return this;
-	}
-
-	/** Returns the Html content. */
-	public String getHtml(Kind kind) {
-		return htmlGen.getHtml(kind);
-	}
-
-	public boolean useMathJax() {
-		return converter.useMathJax();
 	}
 }

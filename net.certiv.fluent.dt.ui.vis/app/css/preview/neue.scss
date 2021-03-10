@@ -1,0 +1,527 @@
+//colors
+$guardsman_red: #c00;
+$black: #000;
+$gallery: #eee;
+$tapa: #777;
+$mercury: #e7e7e7;
+$alto: #ddd;
+$white: #fff;
+$celeste: #ccc;
+$desert_storm: #f8f8f8;
+$mine_shaft: #333;
+$black_4: rgba(0, 0, 0, 0.04);
+$black_haze: #f7f7f7;
+
+//@extend-elements
+//original selectors
+//h1, h2, h3, h4, h5, h6
+%extend_1 {
+  position: relative;
+  margin-top: 1em;
+  margin-bottom: 16px;
+  font-weight: bold;
+  line-height: 1.4;
+}
+
+//original selectors
+//h1 .octicon-link, h2 .octicon-link, h3 .octicon-link, h4 .octicon-link, h5 .octicon-link, h6 .octicon-link
+%extend_2 {
+  display: none;
+  color: $black;
+  vertical-align: middle;
+}
+
+//original selectors
+//h1:hover .anchor, h2:hover .anchor, h3:hover .anchor, h4:hover .anchor, h5:hover .anchor, h6:hover .anchor
+%extend_3 {
+  padding-left: 8px;
+  margin-left: -30px;
+  line-height: 1;
+  text-decoration: none;
+}
+
+//original selectors
+//code, tt
+%extend_4 {
+  padding: 0;
+  padding-top: 0.2em;
+  padding-bottom: 0.2em;
+  margin: 0;
+  font-size: 85%;
+  background-color: $black_4;
+    border-radius: 3px;
+}
+
+//original selectors
+//.highlight pre, pre
+%extend_5 {
+  padding: 16px;
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: $black_haze;
+    border-radius: 3px;
+}
+
+//original selectors
+//pre code, pre tt
+%extend_6 {
+  display: inline;
+  max-width: initial;
+  padding: 0;
+  margin: 0;
+  overflow: initial;
+  line-height: inherit;
+  word-wrap: normal;
+  background-color: transparent;
+  border: 0;
+}
+
+//original selectors
+//.csv-data td, .csv-data th
+%extend_7 {
+  padding: 5px;
+  overflow: hidden;
+  font-size: 12px;
+  line-height: 1;
+  text-align: left;
+  white-space: nowrap;
+}
+
+
+body {
+  overflow: hidden;
+  font-family: Helvetica Neue, Helvetica, Segoe UI, Arial, freesans, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  word-wrap: break-word;
+  > * {
+    &:first-child {
+      margin-top: 0 !important;
+    }
+    &:last-child {
+      margin-bottom: 0 !important;
+    }
+  }
+}
+.absent {
+  color: $guardsman_red;
+}
+.anchor {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  display: block;
+  padding-right: 6px;
+  padding-left: 30px;
+  margin-left: -30px;
+  &:focus {
+    outline: none;
+  }
+}
+h1 {
+  @extend %extend_1;
+  padding-bottom: 0.3em;
+  font-size: 2.25em;
+  line-height: 1.2;
+  border-bottom: 1px solid $gallery;
+  .octicon-link {
+    @extend %extend_2;
+  }
+  tt {
+    font-size: inherit;
+  }
+  code {
+    font-size: inherit;
+  }
+  &:hover .anchor {
+    @extend %extend_3;
+    .octicon-link {
+      display: inline-block;
+    }
+  }
+}
+h2 {
+  @extend %extend_1;
+  padding-bottom: 0.3em;
+  font-size: 1.75em;
+  line-height: 1.225;
+  border-bottom: 1px solid $gallery;
+  .octicon-link {
+    @extend %extend_2;
+  }
+  tt {
+    font-size: inherit;
+  }
+  code {
+    font-size: inherit;
+  }
+  &:hover .anchor {
+    @extend %extend_3;
+    .octicon-link {
+      display: inline-block;
+    }
+  }
+}
+h3 {
+  @extend %extend_1;
+  font-size: 1.5em;
+  line-height: 1.43;
+  .octicon-link {
+    @extend %extend_2;
+  }
+  tt {
+    font-size: inherit;
+  }
+  code {
+    font-size: inherit;
+  }
+  &:hover .anchor {
+    @extend %extend_3;
+    .octicon-link {
+      display: inline-block;
+    }
+  }
+}
+h4 {
+  @extend %extend_1;
+  font-size: 1.25em;
+  .octicon-link {
+    @extend %extend_2;
+  }
+  tt {
+    font-size: inherit;
+  }
+  code {
+    font-size: inherit;
+  }
+  &:hover .anchor {
+    @extend %extend_3;
+    .octicon-link {
+      display: inline-block;
+    }
+  }
+}
+h5 {
+  @extend %extend_1;
+  font-size: 1em;
+  .octicon-link {
+    @extend %extend_2;
+  }
+  tt {
+    font-size: inherit;
+  }
+  code {
+    font-size: inherit;
+  }
+  &:hover .anchor {
+    @extend %extend_3;
+    .octicon-link {
+      display: inline-block;
+    }
+  }
+}
+h6 {
+  @extend %extend_1;
+  font-size: 1em;
+  color: $tapa;
+  .octicon-link {
+    @extend %extend_2;
+  }
+  tt {
+    font-size: inherit;
+  }
+  code {
+    font-size: inherit;
+  }
+  &:hover .anchor {
+    @extend %extend_3;
+    .octicon-link {
+      display: inline-block;
+    }
+  }
+}
+p {
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+blockquote {
+  margin-top: 0;
+  margin-bottom: 16px;
+  padding: 0 15px;
+  color: $tapa;
+  border-left: 4px solid $alto;
+  > {
+    :first-child {
+      margin-top: 0;
+    }
+    :last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+ul {
+  margin-top: 0;
+  margin-bottom: 16px;
+  padding-left: 2em;
+  &.no-list {
+    padding: 0;
+    list-style-type: none;
+  }
+  ul {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+  ol {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+ol {
+  margin-top: 0;
+  margin-bottom: 16px;
+  padding-left: 2em;
+  &.no-list {
+    padding: 0;
+    list-style-type: none;
+  }
+  ol {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+  ul {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+dl {
+  margin-top: 0;
+  margin-bottom: 16px;
+  padding: 0;
+  dt {
+    padding: 0;
+    margin-top: 16px;
+    font-size: 1em;
+    font-style: italic;
+    font-weight: bold;
+  }
+  dd {
+    padding: 0 16px;
+    margin-bottom: 16px;
+  }
+}
+table {
+  margin-top: 0;
+  margin-bottom: 16px;
+  display: block;
+  width: 100%;
+  overflow: auto;
+  //Instead of the line below you could use @include word-break($value)
+  word-break: normal;
+  //Instead of the line below you could use @include word-break($value)
+  word-break: keep-all;
+  th {
+    font-weight: bold;
+    padding: 6px 13px;
+    border: 1px solid $alto;
+  }
+  td {
+    padding: 6px 13px;
+    border: 1px solid $alto;
+  }
+  tr {
+    background-color: $white;
+    border-top: 1px solid $celeste;
+    &:nth-child(2n) {
+      background-color: $desert_storm;
+    }
+  }
+}
+pre {
+  margin-top: 0;
+  margin-bottom: 16px;
+  @extend %extend_5;
+  word-wrap: normal;
+  > code {
+    padding: 0;
+    margin: 0;
+    font-size: 100%;
+    //Instead of the line below you could use @include word-break($value)
+    word-break: normal;
+    white-space: pre;
+    background: transparent;
+    border: 0;
+  }
+  code {
+    @extend %extend_6;
+    &:before {
+      content: normal;
+    }
+    &:after {
+      content: normal;
+    }
+  }
+  tt {
+    @extend %extend_6;
+    &:before {
+      content: normal;
+    }
+    &:after {
+      content: normal;
+    }
+  }
+}
+hr {
+  height: 4px;
+  padding: 0;
+  margin: 16px 0;
+  background-color: $mercury;
+  border: 0 none;
+}
+img {
+  max-width: 100%;
+  //Instead of the line below you could use @include box-sizing($bs)
+  box-sizing: border-box;
+}
+span {
+  &.frame {
+    display: block;
+    overflow: hidden;
+    > span {
+      display: block;
+      float: left;
+      width: auto;
+      padding: 7px;
+      margin: 13px 0 0;
+      overflow: hidden;
+      border: 1px solid $alto;
+    }
+    span {
+      img {
+        display: block;
+        float: left;
+      }
+      span {
+        display: block;
+        padding: 5px 0 0;
+        clear: both;
+        color: $mine_shaft;
+      }
+    }
+  }
+  &.align-center {
+    display: block;
+    overflow: hidden;
+    clear: both;
+    > span {
+      display: block;
+      margin: 13px auto 0;
+      overflow: hidden;
+      text-align: center;
+    }
+    span img {
+      margin: 0 auto;
+      text-align: center;
+    }
+  }
+  &.align-right {
+    display: block;
+    overflow: hidden;
+    clear: both;
+    > span {
+      display: block;
+      margin: 13px 0 0;
+      overflow: hidden;
+      text-align: right;
+    }
+    span img {
+      margin: 0;
+      text-align: right;
+    }
+  }
+  &.float-left {
+    display: block;
+    float: left;
+    margin-right: 13px;
+    overflow: hidden;
+    span {
+      margin: 13px 0 0;
+    }
+  }
+  &.float-right {
+    display: block;
+    float: right;
+    margin-left: 13px;
+    overflow: hidden;
+    > span {
+      display: block;
+      margin: 13px auto 0;
+      overflow: hidden;
+      text-align: right;
+    }
+  }
+}
+code {
+  @extend %extend_4;
+  &:before {
+    letter-spacing: -0.2em;
+    content: "\00a0";
+  }
+  &:after {
+    letter-spacing: -0.2em;
+    content: "\00a0";
+  }
+  br {
+    display: none;
+  }
+}
+tt {
+  @extend %extend_4;
+  &:before {
+    letter-spacing: -0.2em;
+    content: "\00a0";
+  }
+  &:after {
+    letter-spacing: -0.2em;
+    content: "\00a0";
+  }
+  br {
+    display: none;
+  }
+}
+.highlight {
+  margin-bottom: 16px;
+  pre {
+    @extend %extend_5;
+    margin-bottom: 0;
+    //Instead of the line below you could use @include word-break($value)
+    word-break: normal;
+  }
+}
+.csv-data {
+  td {
+    @extend %extend_7;
+  }
+  th {
+    @extend %extend_7;
+    font-weight: bold;
+    background: $desert_storm;
+    border-top: 0;
+  }
+  .blob-line-num {
+    padding: 10px 8px 9px;
+    text-align: right;
+    background: $white;
+    border: 0;
+  }
+  tr {
+    border-top: 0;
+  }
+}
+li > p {
+  margin-top: 16px;
+}
+del code {
+  text-decoration: inherit;
+}

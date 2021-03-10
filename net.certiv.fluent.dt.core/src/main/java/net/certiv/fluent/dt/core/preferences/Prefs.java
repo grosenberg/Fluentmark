@@ -107,8 +107,8 @@ public class Prefs extends PrefsSpelling {
 	public static final String EDITOR_PREVIEW_EXTERNAL_ENABLE = "{DSL_ID}" + ".previewExtEnable";
 	public static final String EDITOR_PREVIEW_MAXDEPTH = "{DSL_ID}" + ".previewExtMaxDepth";
 
-	public static final String EDITOR_HTML_OPEN = "{DSL_ID}" + ".htmlOpen";
-	public static final String EDITOR_PDF_OPEN = "{DSL_ID}" + ".pdfOpen";
+	public static final String VIEW_HTML_OPEN = "{DSL_ID}" + ".htmlOpen";
+	public static final String VIEW_PDF_OPEN = "{DSL_ID}" + ".pdfOpen";
 
 	public static final String SPELLING_ENABLED = "{DSL_ID}" + ".spellingEnabled";
 	public static final String SPELLING_ENGINE = SpellingService.PREFERENCE_SPELLING_ENGINE;
@@ -125,4 +125,8 @@ public class Prefs extends PrefsSpelling {
 	public static final String FOLDING_MATHBLOCKS = "{DSL_ID}" + ".foldingMathblocks";
 
 	public static final String VIEW_UPDATE_DELAY = "{DSL_ID}" + ".viewUpdateDelay";
+	public static final String VIEW_SRVR_NAME = "{DSL_ID}" + ".viewSrvrName";
+	public static final String VIEW_SRVR_PORT = "{DSL_ID}" + ".viewSrvrPort";
+	public static final String VIEW_WS_PATH = "{DSL_ID}" + ".viewSrvrPath";
+	public static final String VIEW_CLNT_APPL = "{DSL_ID}" + ".viewClntApplication";
 }

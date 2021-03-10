@@ -57,7 +57,7 @@ public class PrefsInitializer extends DslPrefsInit {
 		// converters
 
 		setString(Prefs.EDITOR_MD_CONVERTER, Prefs.KEY_PANDOC);
-		setString(Prefs.EDITOR_MD_ENGINE, String.valueOf(SWT.CHROMIUM));
+		setString(Prefs.EDITOR_MD_ENGINE, String.valueOf(SWT.NONE));
 
 		setBool(Prefs.EDITOR_UMLMODE_ENABLED, false);
 		setBool(Prefs.EDITOR_DOTMODE_ENABLED, false);
@@ -84,8 +84,8 @@ public class PrefsInitializer extends DslPrefsInit {
 		setBool(Prefs.FORMATTER_ENABLED, true);
 		setBool(Prefs.FORMATTER_UNWRAP, false);
 
-		setBool(Prefs.EDITOR_HTML_OPEN, false);
-		setBool(Prefs.EDITOR_PDF_OPEN, true);
+		setBool(Prefs.VIEW_HTML_OPEN, false);
+		setBool(Prefs.VIEW_PDF_OPEN, true);
 
 		setBool(Prefs.EDITOR_GITHUB_SYNTAX, true);
 		setBool(Prefs.EDITOR_MULTIMARKDOWN_METADATA, true);
@@ -150,7 +150,13 @@ public class PrefsInitializer extends DslPrefsInit {
 		setRGB(Prefs.EDITOR_MATH_SYMBOL_COLOR, DEF_SYMBOL);
 		setRGB(Prefs.EDITOR_MATH_COMMENT_COLOR, DEF_COMMENT);
 
+		// live view
+
 		setInt(Prefs.VIEW_UPDATE_DELAY, 1000);
+		setString(Prefs.VIEW_SRVR_NAME, "127.0.0.1");
+		setInt(Prefs.VIEW_SRVR_PORT, 9025);
+		setString(Prefs.VIEW_WS_PATH, "/app");
+		setString(Prefs.VIEW_CLNT_APPL, "html/liveview.html");
 
 		// spelling
 

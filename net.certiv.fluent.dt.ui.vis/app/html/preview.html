@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset='utf-8'>
+		<meta http-equiv='x-ua-compatible' content='IE=edge'/>
+		<meta name="viewport" content="width=device-width,initial-scale=1.0">
+		<title>Fluentmark Live View</title>
+
+		<base href="%path%"/>
+		<style media="screen" type="text/css">
+			%styles%
+		</style>
+
+		<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/styles/default.min.css">
+		<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/highlight.min.js"></script>
+
+		<script type="x-mathjax-config">
+			MathJax.Hub.Config({
+				messageStyle: "none",
+				positionToHash: true,
+				showMathMenu: true,
+    			tex2jax: {
+      				inlineMath: [ ['$','$'], ['\\(','\\)'] ],
+      				displayMath: [ ['$$','$$'], ['\\[','\\]'] ],
+      				processEscapes: true
+    			},
+				TeX: {
+					equationNumbers: {autoNumber: "AMS"}
+				},
+			});
+			MathJax.Hub.Register.StartupHook("End", typeset);
+		</script>
+		<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  		<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+		<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
+
+		<script src="https://cdn.jsdelivr.net/npm/@jleskovar/vue-native-websocket@2.0.5/dist/build.min.js"></script>
+		<script>
+			import VueNativeSock from 'vue-native-websocket'
+			<!-- 'ws://localhost:9090' -->
+			Vue.use(VueNativeSock, '%socket%', {
+				  reconnection: true,
+				  reconnectionAttempts: 5,
+				  reconnectionDelay: 2000,
+			})
+		</script>
+	</head>
+
+	<body>
+		<span id="app" v-html="contents"></span>
+
+ 		<script type="text/javascript">
+			window.Preview = new Vue({
+				el: '#app',
+				data: {
+					contents: 'Ready...',
+				},
+				mounted: function() {
+					this.refresh();
+				},
+				updated: function() {
+					this.refresh();
+				},
+				sockets: {
+					connect() {
+					    console.log('socket connected')
+					},
+					disconnect() {
+					    console.log('socket disconnected')
+					},
+					onmessage(source) {
+					    console.log('client received message')
+						this.contents = source;
+					},
+					onopen() {
+					    console.log('socket opened')
+					},
+					onclose() {
+					    console.log('socket closed')
+					},
+					onerror() {
+					    console.log('socket error')
+					}
+				},
+				methods: {
+					refresh: function() {
+						this.$nextTick(function() {
+							var blocks = this.$el.querySelectorAll('pre code');
+							for (var idx = 0; idx < blocks.length; idx++) {
+								hljs.highlightBlock(blocks[idx]);
+							}
+							MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+						});
+					},
+					check: function() {
+						alert('Check: ' + this.contents);
+					},
+					clear: function() {
+						this.contents = 'Cleared...';
+					},
+					set: function(source) {
+						this.contents = source;
+					},
+				},
+			});
+		</script>
+	</body>
+</html>

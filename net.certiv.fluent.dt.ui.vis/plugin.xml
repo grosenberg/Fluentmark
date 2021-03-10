@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.commands">
+     <command
+            categoryId="net.certiv.fluent.dt.ui.commands"
+            description="Open FluentMark Live View"
+            id="net.certiv.fluent.dt.ui.vis.openLive"
+            name="Open Live View">
+      </command>
+      <command
+            categoryId="net.certiv.fluent.dt.ui.commands"
+            description="Export as Html"
+            id="net.certiv.fluent.dt.ui.vis.exportHtml"
+            name="Export HTML">
+      </command>
+      <command
+            categoryId="net.certiv.fluent.dt.ui.commands"
+            description="Export as PDF"
+            id="net.certiv.fluent.dt.ui.vis.exportPdf"
+            name="Export PDF">
+      </command>
+    </extension>
+   
+   <extension
+         point="org.eclipse.ui.handlers">
+         <handler
+            class="net.certiv.fluent.dt.ui.vis.handlers.OpenLiveHandler"
+            commandId="net.certiv.fluent.dt.ui.vis.openLive">
+         <activeWhen>
+            <reference
+                  definitionId="net.certiv.fluent.dt.ui.context.definition">
+            </reference>
+         </activeWhen>
+         <enabledWhen>
+            <reference
+                  definitionId="net.certiv.fluent.dt.ui.context.definition">
+            </reference>
+         </enabledWhen>
+      </handler>
+      
+      <handler
+            class="net.certiv.fluent.dt.ui.vis.handlers.ExportHtmlHandler"
+            commandId="net.certiv.fluent.dt.ui.vis.exportHtml">
+         <activeWhen>
+            <reference
+                  definitionId="net.certiv.fluent.dt.ui.context.definition">
+            </reference>
+         </activeWhen>
+         <enabledWhen>
+            <reference
+                  definitionId="net.certiv.fluent.dt.ui.context.definition">
+            </reference>
+         </enabledWhen>
+      </handler>
+     
+      <handler
+            class="net.certiv.fluent.dt.ui.vis.handlers.ExportPdfHandler"
+            commandId="net.certiv.fluent.dt.ui.vis.exportPdf">
+         <activeWhen>
+            <reference
+                  definitionId="net.certiv.fluent.dt.ui.context.definition">
+            </reference>
+         </activeWhen>
+         <enabledWhen>
+            <reference
+                  definitionId="net.certiv.fluent.dt.ui.context.definition">
+            </reference>
+         </enabledWhen>
+      </handler>
+
+   </extension>
+   
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
+                <toolbar
+               id="net.certiv.fluent.dt.FluentEditor">
+            <command
+                  commandId="net.certiv.fluent.dt.ui.vis.openLive"
+                  icon="icons/obj16/fluentmark_doc.png"
+                  label="Open Live View"
+                  style="push"
+                  tooltip="Open FluentMark Viewer">
+               <visibleWhen
+                     checkEnabled="false">
+                  <reference
+                        definitionId="net.certiv.fluent.dt.ui.context.definition">
+                  </reference>
+               </visibleWhen>
+            </command>
+            <command
+                  commandId="net.certiv.fluent.dt.ui.vis.exportHtml"
+                  icon="icons/obj16/htmlexport.png"
+                  label="Export HTML"
+                  style="push"
+                  tooltip="Export as HTML">
+               <visibleWhen
+                     checkEnabled="false">
+                  <reference
+                       definitionId="net.certiv.fluent.dt.ui.context.definition">
+                  </reference>
+               </visibleWhen>
+            </command>
+            <command
+                  commandId="net.certiv.fluent.dt.ui.vis.exportPdf"
+                  icon="icons/obj16/pdf.png"
+                  label="Export Pdf"
+                  style="push"
+                  tooltip="Export as PDF">
+               <visibleWhen
+                     checkEnabled="false">
+                  <reference
+                       definitionId="net.certiv.fluent.dt.ui.context.definition">
+                  </reference>
+               </visibleWhen>
+            </command>
+         </toolbar>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            category="net.certiv.fluent.dt.ui.preferences.page.GeneralPage"
+            class="net.certiv.fluent.dt.ui.vis.preferences.page.LiveviewPage"
+            id="net.certiv.fluent.dt.ui.vis.preferences.page.LiveviewPage"
+            name="Live View">
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.ui.propertyPages">
+      <page
+            id="net.certiv.fluent.dt.ui.vis.properties.samplePropertyPage"
+            name="Preview Page"
+            class="net.certiv.fluent.dt.ui.vis.properties.PreviewPropertyPage"
+            nameFilter="*.*">
+         <enabledWhen>
+            <instanceof
+                  value="org.eclipse.core.resources.IFile">
+            </instanceof>
+         </enabledWhen>
+      </page>
+   </extension>
+
+</plugin>
