@@ -1,0 +1,25 @@
+{
+  "name": "liveview",
+  "version": "0.4.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
+  },
+  "dependencies": {
+    "highlight.js": "^10.6.0",
+    "vue": "^3.0.5",
+    "vue-native-websocket": "^2.0.14",
+    "vue-native-websocket-vue3": "^3.1.0",
+    "vuex": "^4.0.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^1.1.5",
+    "@vue/compiler-sfc": "^3.0.5",
+    "eslint": "^7.22.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-vue": "^7.7.0",
+    "prettier-eslint": "^12.0.0",
+    "vite": "^2.0.5"
+  }
+}

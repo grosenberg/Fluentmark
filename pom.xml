@@ -48,7 +48,7 @@
 	<modules>
 		<module>net.certiv.fluent.dt.core</module>
 		<module>net.certiv.fluent.dt.ui</module>
-		<module>net.certiv.fluent.dt.ui.vis</module> 
+		<module>net.certiv.fluent.dt.vis</module>
 		<module>net.certiv.fluent.dt.feature</module>
 		<module>net.certiv.fluent.dt.site</module>
 	</modules>

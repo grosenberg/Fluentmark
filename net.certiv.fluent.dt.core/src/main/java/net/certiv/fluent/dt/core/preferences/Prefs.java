@@ -124,9 +124,19 @@ public class Prefs extends PrefsSpelling {
 	public static final String FOLDING_UMLBLOCKS = "{DSL_ID}" + ".foldingUmlblocks";
 	public static final String FOLDING_MATHBLOCKS = "{DSL_ID}" + ".foldingMathblocks";
 
+	/** Data source: internal debounce delay */
 	public static final String VIEW_UPDATE_DELAY = "{DSL_ID}" + ".viewUpdateDelay";
-	public static final String VIEW_SRVR_NAME = "{DSL_ID}" + ".viewSrvrName";
-	public static final String VIEW_SRVR_PORT = "{DSL_ID}" + ".viewSrvrPort";
-	public static final String VIEW_WS_PATH = "{DSL_ID}" + ".viewSrvrPath";
-	public static final String VIEW_CLNT_APPL = "{DSL_ID}" + ".viewClntApplication";
+
+	/** Embedded server hostname */
+	public static final String VIEW_HOST_NAME = "{DSL_ID}" + ".viewHostname";
+	/** Embedded server hostname */
+	public static final String VIEW_HOST_PORT = "{DSL_ID}" + ".viewHostport";
+
+	/** Server: websocket context pathname */
+	public static final String VIEW_WS_CONTEXT = "{DSL_ID}" + ".viewWsCtxPath";
+
+	/** Client: static resource base dir (relative to a tmp folder) */
+	public static final String VIEW_CLNT_BASE = "{DSL_ID}" + ".viewClntBase";
+	/** Client: index page name */
+	public static final String VIEW_CLNT_APPL = "{DSL_ID}" + ".viewClntAppl";
 }

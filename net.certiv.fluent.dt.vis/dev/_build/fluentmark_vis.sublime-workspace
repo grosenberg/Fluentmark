@@ -1,0 +1,620 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"ge",
+				"getters"
+			],
+			[
+				"handle",
+				"handleResponse"
+			],
+			[
+				"tmp",
+				"tmpTexts"
+			],
+			[
+				"z",
+				"zoomHandler"
+			],
+			[
+				"sele",
+				"selectAll"
+			],
+			[
+				"st",
+				"stringify"
+			],
+			[
+				"ran",
+				"rangeY"
+			],
+			[
+				"im",
+				"bgImgEn"
+			],
+			[
+				"sbi",
+				"setSbImage"
+			],
+			[
+				"sbim",
+				"sbImageEn"
+			],
+			[
+				"getco",
+				"getSbColor"
+			],
+			[
+				"setS",
+				"setSbImageEnable"
+			],
+			[
+				"sb",
+				"sbColors"
+			],
+			[
+				"is",
+				"isSbImageEnabled"
+			],
+			[
+				"gra",
+				"graph_network"
+			],
+			[
+				"side",
+				"sidebar"
+			],
+			[
+				"REq",
+				"REQUEST"
+			],
+			[
+				"rep",
+				"REPLY"
+			],
+			[
+				"Ref",
+				"REFRESH"
+			],
+			[
+				"getsb",
+				"getSbImage"
+			],
+			[
+				"get",
+				"getBgColor"
+			],
+			[
+				"en",
+				"enBgImage"
+			],
+			[
+				"Li",
+				"License"
+			],
+			[
+				"bg",
+				"bgImage"
+			],
+			[
+				"ans",
+				"answers"
+			],
+			[
+				"repo",
+				"responses"
+			],
+			[
+				"resp",
+				"responses"
+			],
+			[
+				"refr",
+				"refreshButton"
+			],
+			[
+				"ws",
+				"wsSupport"
+			],
+			[
+				"sup",
+				"superClass"
+			],
+			[
+				"sty",
+				"stylesheet"
+			]
+		]
+	},
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"list",
+				"Package Control: List Packages"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				"remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"inst",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: ",
+				"Package Control: Remove Package"
+			],
+			[
+				"install ",
+				"Package Control: Install Package"
+			],
+			[
+				"view",
+				"View: Toggle Menu"
+			],
+			[
+				"ins",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: in",
+				"Package Control: Install Package"
+			],
+			[
+				"",
+				"CleanCSS: Clean current file"
+			],
+			[
+				"Package Control: insta",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: instal",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: install",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/liveview/src/App.vue",
+		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/liveview/src/view/Liveview.vue",
+		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/liveview/package.json",
+		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/liveview/.prettierrc",
+		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/_build/run_lint_fix.bat",
+		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/liveview/src/store/index.js",
+		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/liveview/src/Liveview.vue",
+		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/liveview/.eslintrc.js",
+		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/liveview/.eslintrc.js_old",
+		"/C/Users/Gbr/AppData/Roaming/Sublime Text 3/Packages/HTML-CSS-JS Prettify/.jsbeautifyrc.defaults.json",
+		"/C/Users/Gbr/AppData/Roaming/Sublime Text 3/Packages/User/.jsbeautifyrc",
+		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/_build/run_build.bat",
+		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/_build/run_zip.bat",
+		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/xx/liveview/src/components/HelloWorld.vue",
+		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/liveview/src/components/Liveview.vue",
+		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/xx/liveview/src/main.js",
+		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/liveview/src/components/HelloWorld.vue",
+		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/xx/liveview/src/App.vue",
+		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/_build/dev.npm_run_build.bat",
+		"/C/Users/Gbr/AppData/Local/Temp/liveview/app/index.html",
+		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.ui/attic/html/preview.html",
+		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/app/html/liveview.html",
+		"/C/Users/Gbr/AppData/Local/Temp/7zO451A6BEC/jcg1.txt",
+		"/C/Users/Gbr/AppData/Local/Temp/7zO451AA02C/EmbeddedJettyResourceHandlerMain.java",
+		"/C/Users/Gbr/AppData/Local/Temp/app/html/liveview-0904.html",
+		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.ui/attic/preview2.html",
+		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.ui/attic/preview/index.html",
+		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/liveview/src/lib/websocket.js",
+		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/liveview/src/store/wsPlugin.js",
+		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/liveview/src/main.js",
+		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/_build/dev.npm_lint_fix.bat",
+		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/_build/dev.cme_open.bat",
+		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/liveview/src/lib/msghandler.js",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow.parent/net.certiv.nflow/dev/src/components/d3/TreeDiagram.vue",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow.parent/net.certiv.nflow/dev/src/components/Memo.vue",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow.parent/net.certiv.nflow/dev/src/components/MemoChart.vue",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow.parent/net.certiv.nflow/dev/src/pages/Graphs.vue",
+		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/liveview/src/store/websocket.js",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow.parent/net.certiv.nflow/dev/src/pages/Dashboard.vue",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/dev/_build/dev.npm_run_build.bat",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/dev/package.json",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/dev/_build/dev.npm_lint_fix.bat",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/dev/_build/dev.npm_run_dev.bat",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/dev/_build/dev.npm_run.bat",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/dev/src/components/d3/lib/libTreeDiagram.js",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/dev/src/components/d3/FlexTreeDiagram.vue",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/dev/src/components/d3/lib/libFlexTreeDiagram.js",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/components/d3/lib/libNetDiagram.js",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/pages/Graphs.vue",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/components/d3/TreeDiagram.vue",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/components/d3/lib/libFlexTreeDiagram.js",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/components/d3/lib/utils.js",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/components/d3/lib/libTreeDiagram.js",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/components/d3/lib/flexTreeDemo.js",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/components/d3/lib/tmp.js",
+		"/C/Users/Gbr/AppData/Local/Temp/7zO85DCC6B1/viewer.js",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/components/d3/NetDiagram.vue",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/components/d3/grakn/index.js",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/components/d3/d3-exp/multiV5.js",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/components/d3/d3-exp/multi.js",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/components/d3/grakn/contextMenu.js",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/components/d3/d3-exp/curvedLines.js",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/components/d3/lib/curvy.js",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/components/d3/grakn/bundle.js",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/components/d3/grakn/README.md",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/components/d3/lib/labelOrbit.js",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/components/d3/lib/highlighting.js",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/components/d3/lib/multi.js",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/components/d3/lib/dep.js",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/components/d3/lib/useNetDiagramX.js",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/components/d3/d3-net-example.vue",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/components/d3/sunburst.vue",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/components/d3/tree.vue",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/components/d3/lib/TreeData.js",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/components/d3/D3Net.vue",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/pages/Tables.vue",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/components/d3/lib/useNetDiagram.js",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/components/d3/lib/useDiagram.js",
+		"/C/Users/Gbr/AppData/Local/Temp/miserables.json",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/components/d3/d3_net_utils.js",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/components/d3/d3_net_data.js",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/plugins/globalComponents.js",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/components/Memo.vue",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/components/d3/netView.vue",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/components/d3/diagram.vue",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/components/d3/lib/nodeInfoDisplayer.vue",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/layout/NfSidebar.vue",
+		"/D/Down Load/code.scss",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/.prettierrc",
+		"/D/Down Load/code.css",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/components/d3/Diagram.vue",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/pages/Dashboard.vue",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/pages/Settings.vue",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/plugins/nflow-app.js",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev3/.eslintrc.js",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev3/package.json",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev3/src/views/Home.vue",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev3/.prettierrc",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev3/src/main.js",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev3/src/router/index.js",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev3/src/components/HelloWorld.vue",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev3/.gitignore",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev3/src/store/index.js",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev3/ (2).gitignore",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/webpack.config.js",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/components/d3/NetView.vue",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/components/d3/lib/zoomOnClick.js",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/components/d3/lib/useDebounce.js",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/components/d3/lib/icon.js",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/components/d3/lib/highlightOnHover.js",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/components/d3/lib/colorSchemes.js",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/store/modules/sidebar.js",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/components/d3/Tree.vue",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/components/MemoChart.vue",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/components/d3/Debounce.vue",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/layout/NfAppbar.vue",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/main.js",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/store/index.js",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/components/d3/lib/useAutoComplete.js",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/lib/websocket.js",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/layout/NfApp.vue",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/layout/NfFooter.vue",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/layout/NfSidebar2.vue",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/attic/vue/lib/sidebar.js",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/services/SbUtil.js",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/services/sbStore.js",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/store/modules/wscomms.js",
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/App.vue"
+	],
+	"find":
+	{
+		"height": 37.0
+	},
+	"find_in_files":
+	{
+		"height": 104.0,
+		"where_history":
+		[
+			"",
+			"D:\\DevFiles\\Eclipse\\Tools\\NFlow\\net.certiv.nflow\\net.certiv.nflow.ui\\src\\main",
+			"<open folders>",
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": true,
+		"find_history":
+		[
+			"code",
+			"envl",
+			"Kind",
+			"main.config.globalProperties.$socket",
+			"response",
+			"kind",
+			"content_holder",
+			"main",
+			"graph_network",
+			"Vue",
+			"\"",
+			"ws",
+			"tmpTexts",
+			"def_",
+			"def",
+			"prefix",
+			"printObj",
+			"b",
+			"elem",
+			"properties",
+			"printObjKeys",
+			"printKeys",
+			"nodes",
+			"treemap",
+			"e",
+			"diagonal",
+			"projection",
+			"Element",
+			"svg",
+			", hasChildren: false ",
+			", hasChildren: true ",
+			"Level",
+			"-",
+			"tag",
+			"size",
+			"finite",
+			"onClick",
+			"onDrag",
+			"dragging",
+			"click",
+			"dragged",
+			"dragstart",
+			"click",
+			"headings",
+			"headingid",
+			"tpad",
+			"textPadding",
+			"headingbbox",
+			"shape",
+			"\n  // setup the text, headings, without descriptions, to start for each node\n  var headings = node",
+			"circle",
+			"type",
+			"vis",
+			"text",
+			"name",
+			"updateCaption",
+			"updateCaption()",
+			"g",
+			"net",
+			"graph",
+			"dst",
+			"src",
+			"tid",
+			"source",
+			"sid",
+			"node",
+			"nodes",
+			"edges",
+			"nodes",
+			"data",
+			"selectLink",
+			"createParent",
+			"selection",
+			"resetOptions",
+			"screenShotDone",
+			"buttonClass",
+			"setTool",
+			"setShowMenu",
+			"linkCb",
+			"actions",
+			"onData",
+			"diagramEl",
+			"elem",
+			"resizeDiagram",
+			"redrawDiagram",
+			"drawDiagram",
+			"resizeDiagram",
+			"diagramEl",
+			"this.$el",
+			"showing",
+			"color",
+			"payload",
+			"val",
+			"Sb",
+			"sbImages",
+			"sbImage",
+			"e",
+			"sbImageEn",
+			"log",
+			"sbColors",
+			"ovlColor",
+			"sbColor",
+			"SbUtil",
+			"sbStore",
+			"Store",
+			"SidebarStore",
+			"UserService",
+			"_state",
+			"SidebarService",
+			"instance",
+			"state",
+			"sbShowing",
+			"props",
+			"showing",
+			"sbColor",
+			"sbImage",
+			"bg",
+			"Bg",
+			"dst",
+			"src",
+			"target",
+			"source",
+			"less",
+			" ></",
+			"Bg",
+			"bg",
+			"pages",
+			"base-material-card"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": true,
+		"regex": false,
+		"replace_history":
+		[
+			"app",
+			"content_holder",
+			"'",
+			"",
+			"_",
+			"context.refs.el",
+			"",
+			"sb",
+			"Sb",
+			"dst",
+			"src",
+			"Sb",
+			"sb",
+			"views",
+			"nf-memo",
+			"isSbShowing",
+			"Sb",
+			"sb",
+			"\"auto\"",
+			"\"12\"",
+			"bg_0",
+			"closeSidebar",
+			"",
+			"nflow/",
+			""
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"incremental_find":
+	{
+		"height": 27.0
+	},
+	"input":
+	{
+		"height": 40.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"replace":
+	{
+		"height": 66.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"",
+				".log"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"settings":
+	{
+	},
+	"show_minimap": false,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 318.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

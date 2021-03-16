@@ -27,7 +27,6 @@ public class EditorConfigBlock extends DefaultEditorConfigBlock {
 		keys.add(Prefs.EDITOR_WORD_WRAP);
 		keys.add(Operation.OUTLINE_OPEN_LEVELS);
 
-		keys.add(Prefs.VIEW_UPDATE_DELAY);
 		keys.add(Prefs.VIEW_HTML_OPEN);
 		keys.add(Prefs.VIEW_PDF_OPEN);
 
