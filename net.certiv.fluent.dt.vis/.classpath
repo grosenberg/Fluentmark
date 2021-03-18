@@ -21,8 +21,6 @@
 	<classpathentry exported="true" kind="lib" path="lib/websocket-common-9.4.38.v20210224.jar" sourcepath="C:/Users/Gbr/.m2/repository/org/eclipse/jetty/websocket/websocket-common/9.4.38.v20210224/websocket-common-9.4.38.v20210224-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/websocket-server-9.4.38.v20210224.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/websocket-servlet-9.4.38.v20210224.jar"/>
-	<classpathentry kind="lib" path="lib/eclipse-collections-10.4.0.jar" sourcepath="C:/Users/Gbr/.m2/repository/org/eclipse/collections/eclipse-collections/10.4.0/eclipse-collections-10.4.0-sources.jar"/>
-	<classpathentry kind="lib" path="lib/eclipse-collections-api-10.4.0.jar" sourcepath="C:/Users/Gbr/.m2/repository/org/eclipse/collections/eclipse-collections-api/10.4.0/eclipse-collections-api-10.4.0-sources.jar"/>
 	<classpathentry kind="src" path="src/main/java"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

@@ -6,6 +6,11 @@
 	</projects>
 	<buildSpec>
 		<buildCommand>
+			<name>net.certiv.xvisitor.dt.core.builder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
 			<name>net.certiv.antlr.dt.core.builder</name>
 			<arguments>
 			</arguments>
@@ -36,5 +41,6 @@
 		<nature>org.eclipse.pde.PluginNature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 		<nature>net.certiv.antlr.dt.core.nature</nature>
+		<nature>net.certiv.xvisitor.dt.core.nature</nature>
 	</natures>
 </projectDescription>

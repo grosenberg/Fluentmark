@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.collections.impl.bimap.mutable.HashBiMap;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.servlet.DefaultServlet;
@@ -37,6 +36,7 @@ import com.google.gson.Gson;
 import net.certiv.common.log.Log;
 import net.certiv.common.stores.Holder;
 import net.certiv.common.util.Strings;
+import net.certiv.common.util.Time;
 import net.certiv.dsl.core.preferences.PrefsManager;
 import net.certiv.dsl.core.util.CoreUtil;
 import net.certiv.dsl.core.util.eclipse.PartAdaptor;
@@ -63,16 +63,16 @@ public class LiveServer {
 
 	private static final String ErrMsgSend = "WS send message failed: %s";
 
-	// key=session; value=editor input filename
-	private final HashBiMap<Session, String> sessions = new HashBiMap<>();
-
+	private final SessionMap sessions = new SessionMap();
 	private final Gson gson = new Gson();
 	private final Monitor monitor = new Monitor();
 
+	private final PrefsManager mgr;
 	private Server srvr;
 
 	public LiveServer() {
 		super();
+		mgr = FluentVis.getDefault().getPrefsManager();
 	}
 
 	public void start() {
@@ -84,7 +84,6 @@ public class LiveServer {
 			stop();
 		}
 
-		PrefsManager mgr = FluentVis.getDefault().getPrefsManager();
 		String host = mgr.getString(Prefs.VIEW_HOST_NAME);
 		int port = mgr.getInt(Prefs.VIEW_HOST_PORT);
 		String path = mgr.getString(Prefs.VIEW_WS_CONTEXT);
@@ -123,7 +122,7 @@ public class LiveServer {
 			Log.info(this, InfoServer, host, port, path);
 
 			// begin listening for update triggers
-			FluentVis.getDefault().getPrefsManager().addPropertyChangeListener(monitor);
+			mgr.addPropertyChangeListener(monitor);
 			CoreUtil.getActivePage().addPartListener(monitor);
 
 		} catch (Exception e) {
@@ -136,7 +135,7 @@ public class LiveServer {
 	public final void stop() {
 		if (srvr != null && srvr.isRunning()) {
 			// stop listening for update triggers
-			FluentVis.getDefault().getPrefsManager().removePropertyChangeListener(monitor);
+			mgr.removePropertyChangeListener(monitor);
 			IWorkbenchPage page = CoreUtil.getActivePage();
 			if (page != null) page.removePartListener(monitor);
 			try {
@@ -152,6 +151,18 @@ public class LiveServer {
 		return srvr.isRunning();
 	}
 
+	public boolean isConnected(Session session) {
+		return sessions.isConnected(session);
+	}
+
+	public boolean isConnected(String target) {
+		return sessions.isConnected(target);
+	}
+
+	public String getTarget(Session session) {
+		return sessions.get(session);
+	}
+
 	/** Called on initial session connection. */
 	public void connect(Session session) {
 		IEditorPart ed = CoreUtil.getActiveEditor();
@@ -159,53 +170,33 @@ public class LiveServer {
 			FluentEditor editor = (FluentEditor) ed;
 			String target = editor.getInputDslElement().getPackageName();
 			sessions.put(session, target);
+			monitor.beginTracking(editor);
+			Time.sleep(mgr.getInt(Prefs.VIEW_UPDATE_DELAY) / 1000);
 			update(editor);
 			Log.debug(this, "Connect '%s' -> %s", target, session.getRemoteAddress());
 		}
 	}
 
 	public void disconnect(Session session) {
-		Log.debug(this, "Disconnected %s", session);
+		Log.debug(this, "Disconnected %s", session.getRemoteAddress());
 		sessions.remove(session);
-	}
-
-	public String getTarget(Session session) {
-		return sessions.get(session);
-	}
-
-	public boolean isKnownClient(String target) {
-		return sessions.containsValue(target);
-	}
-
-	public boolean isClientConnected(Session session) {
-		return sessions.containsKey(session);
-	}
-
-	public boolean isClientConnected(String target) {
-		if (sessions.containsValue(target)) {
-			Session session = sessions.flip().get(target).getOnly();
-			return session.isOpen();
-		}
-		return false;
-	}
-
-	public Session getSession(String target) {
-		if (!sessions.containsValue(target)) return null;
-		return sessions.flip().get(target).getOnly();
 	}
 
 	/**
 	 * Respond to a client-originated refresh request, identified by the envelope
 	 * target, by sending an update message to refresh the content.
-	 * <p>
-	 * Untested
 	 */
 	public void update(MsgEnvl envl) {
 		for (IEditorReference ref : CoreUtil.getActivePage().getEditorReferences()) {
-			if (FluentEditor.EDITOR_ID.equals(ref.getId()) && envl.target.equals(ref.getName())) {
+			if (FluentEditor.EDITOR_ID.equals(ref.getId())) {
 				FluentEditor editor = (FluentEditor) ref.getEditor(false);
-				if (editor != null) update(editor);
-				break;
+				if (editor != null) {
+					String pkgname = editor.getInputDslElement().getPackageName();
+					if (envl.target.equals(pkgname)) {
+						update(editor);
+						break;
+					}
+				}
 			}
 		}
 	}
@@ -241,10 +232,15 @@ public class LiveServer {
 			});
 
 			String target = editor.getInputDslElement().getCodeUnit().getPackageName();
-			HtmlGen gen = new HtmlGen(editor, FluentVis.getDefault().getConverter());
-			String content = gen.getHtml(Kind.UPDATE);
-			Message msg = Message.request(target, content, line.value, total.value);
-			send(MsgEnvl.UPDATE, msg);
+			if (sessions.isConnected(target)) {
+				HtmlGen gen = new HtmlGen(editor, FluentVis.getDefault().getConverter());
+				String content = gen.getHtml(Kind.UPDATE);
+				Message msg = Message.request(target, content, line.value, total.value);
+				send(MsgEnvl.UPDATE, msg);
+
+			} else {
+				monitor.endTracking(editor); // web page was closed
+			}
 
 		} catch (Exception e) {
 			Log.error(this, "Content update failed: %s", e.getMessage());
@@ -256,16 +252,16 @@ public class LiveServer {
 	}
 
 	public void send(MsgEnvl envl) {
-		if (srvr.isRunning() && isClientConnected(envl.target)) {
-			Session session = getSession(envl.target);
+		if (srvr.isRunning()) {
 			try {
-				session.getRemote().sendString(gson.toJson(envl));
+				sessions.get(envl.target).getRemote().sendString(gson.toJson(envl));
 			} catch (Exception ex) {
 				Log.error(this, ErrMsgSend, ex.getMessage());
 			}
 		}
 	}
 
+	/** used to interpose the {@link MsgHandler} */
 	private class LiveServlet extends WebSocketServlet {
 
 		private LiveServer srvr;
@@ -299,17 +295,22 @@ public class LiveServer {
 
 		private final Map<FluentEditor, Trigger> triggers = new HashMap<>();
 
-		@Override
-		public void partActivated(IWorkbenchPart part) { // opened
-			if (srvr != null && part instanceof FluentEditor) {
-				FluentEditor editor = (FluentEditor) part;
-				Trigger trigger = triggers.get(editor);
-				if (trigger == null) {
-					trigger = new Trigger(editor);
-					triggers.put(editor, trigger);
-				}
-				editor.getViewer().addTextListener(trigger);
-				Log.debug(this, "Part activating %s", editor.getEditorInput().getName());
+		public void beginTracking(FluentEditor editor) {
+			Trigger trigger = triggers.get(editor);
+			if (trigger == null) {
+				trigger = new Trigger(editor);
+				triggers.put(editor, trigger);
+			}
+			editor.getViewer().addTextListener(trigger);
+			Log.debug(this, "Tracking %s", editor.getEditorInput().getName());
+		}
+
+		public void endTracking(FluentEditor editor) {
+			Trigger trigger = triggers.get(editor);
+			if (trigger != null) {
+				editor.getViewer().removeTextListener(trigger);
+				triggers.remove(editor);
+				Log.debug(this, "Untracking %s", editor.getEditorInput().getName());
 			}
 		}
 
@@ -317,9 +318,7 @@ public class LiveServer {
 		public void partClosed(IWorkbenchPart part) { // closed
 			if (srvr != null && part instanceof FluentEditor) {
 				FluentEditor editor = (FluentEditor) part;
-				Trigger trigger = triggers.get(editor);
-				if (trigger != null) editor.getViewer().removeTextListener(trigger);
-				Log.debug(this, "Part closing %s", editor.getEditorInput().getName());
+				endTracking(editor);
 			}
 		}
 

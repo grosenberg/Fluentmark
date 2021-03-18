@@ -70,6 +70,7 @@ export const store = createStore({
 
   actions: {
     refresh({state}) {
+      console.log('Sending refresh request for "%s"', state.envl.target);
       const e = Object.assign({}, Envl);
       e.code = Kind.REQUEST;
       e.request = Request.REFRESH;
@@ -94,7 +95,6 @@ export const store = createStore({
 
   mutations: {
     SOCKET_ONMESSAGE(state, message) {
-      console.log('Ws message received', message);
       state.envl.code = message.code;
       state.envl.request = message.request;
       state.envl.target = message.target;

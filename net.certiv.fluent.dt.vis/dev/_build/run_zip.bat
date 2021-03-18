@@ -8,4 +8,5 @@ set SrcDir=%PrjDir%\dev\liveview\dist
 set OutZip=%PrjDir%\liveview\client.zip
 
 cd /d %SrcDir%
+del %OutZip%
 %Zip% a %OutZip%

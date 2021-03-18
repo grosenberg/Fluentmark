@@ -19,6 +19,7 @@ public class MsgHandler extends WebSocketAdapter {
 	private static final String ReAuthRcv = "WS re-auth: '%s' -> '%s' at %s";
 	private static final String HeloRcv = "WS hello: '%s' says '%s'";
 
+	private static final String RefreshRcv = "WS refresh: '%s' at %s";
 	private static final String UpdateRcv = "WS update: '%s' at %s";
 	private static final String HBRcv = "WS heartbeat %s";
 
@@ -43,7 +44,6 @@ public class MsgHandler extends WebSocketAdapter {
 
 	@Override
 	public void onWebSocketText(String msg) {
-		Log.debug(this, "WS message: " + msg);
 		MsgEnvl envl;
 		try {
 			envl = gson.fromJson(msg, MsgEnvl.class);
@@ -76,7 +76,7 @@ public class MsgHandler extends WebSocketAdapter {
 					break;
 
 				case MsgEnvl.REFRESH:
-					Log.warn(this, WarnRcv, "request not yet implemented", envl.request);
+					Log.warn(this, RefreshRcv, envl.target, session.getRemoteAddress());
 					srvr.send(MsgEnvl.ack(envl));
 					srvr.update(envl);
 					break;
@@ -99,13 +99,13 @@ public class MsgHandler extends WebSocketAdapter {
 
 	private boolean chkSession(Session session, MsgEnvl envl) {
 		if (envl.request != MsgEnvl.AUTH) {
-			return srvr.isClientConnected(session);
+			return srvr.isConnected(session);
 		}
 
 		if (Strings.empty(envl.target)) {
 			session.close(401, "Invalid target.");
 
-		} else if (!srvr.isKnownClient(envl.target)) {
+		} else if (!srvr.isConnected(envl.target)) {
 			session.close(401, "Unknown target.");
 
 		} else {
