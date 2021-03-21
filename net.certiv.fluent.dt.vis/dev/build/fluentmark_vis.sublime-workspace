@@ -4,6 +4,14 @@
 		"selected_items":
 		[
 			[
+				"tex",
+				"Textarea"
+			],
+			[
+				"markdown",
+				"markdown-body"
+			],
+			[
 				"ge",
 				"getters"
 			],
@@ -217,8 +225,17 @@
 	},
 	"file_history":
 	[
-		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/liveview/src/assets/markdown-body/config/mixins/typography.scss",
+		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/liveview/index.html",
+		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/liveview/.jshintrc",
+		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/liveview/.eslintrc.js",
+		"/C/Users/Gbr/AppData/Roaming/Sublime Text 3/Packages/User/.jsbeautifyrc",
+		"/C/Users/Gbr/AppData/Roaming/Sublime Text 3/Packages/HTML-CSS-JS Prettify/.jsbeautifyrc.defaults.json",
+		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/liveview/.prettierrc",
 		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/liveview/src/main.js",
+		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/app/html/liveview.html",
+		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/liveview/src/view/Liveview.vue",
+		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/liveview/src/App.vue",
+		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/liveview/src/assets/markdown-body/config/mixins/typography.scss",
 		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/liveview/dist/assets/vendor.95c4f81f.js",
 		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/liveview/src/assets/liveview/index.scss",
 		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/liveview/src/assets/liveview/markdown/code.scss",
@@ -233,24 +250,16 @@
 		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/liveview/package.json",
 		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/liveview/postcss.config.js",
 		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/liveview/dist/assets/index.6152ab06.css",
-		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/liveview/src/view/Liveview.vue",
 		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/liveview/vite.config.js",
 		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/liveview/dist/assets/index.f0cb63f5.css",
 		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/liveview/src/assets/liveview/markdown/headings.scss",
 		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/liveview/src/assets/liveview/markdown/images.scss",
 		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/liveview/tailwind.config.js",
-		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/liveview/index.html",
 		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/liveview/src/index.css",
-		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/liveview/src/App.vue",
 		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/liveview/src/store/index.js",
 		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/liveview/src/assets/layout/layout.scss",
 		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/liveview/src/assets/layout/_overrides.scss",
 		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/liveview/src/assets/layout/_variables.scss",
-		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/liveview/.jshintrc",
-		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/liveview/.eslintrc.js",
-		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/liveview/.prettierrc",
-		"/C/Users/Gbr/AppData/Roaming/Sublime Text 3/Packages/HTML-CSS-JS Prettify/.jsbeautifyrc.defaults.json",
-		"/C/Users/Gbr/AppData/Roaming/Sublime Text 3/Packages/User/.jsbeautifyrc",
 		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/_build/run_lint_fix.bat",
 		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/liveview/src/Liveview.vue",
 		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/liveview/.eslintrc.js_old",
@@ -264,7 +273,6 @@
 		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/_build/dev.npm_run_build.bat",
 		"/C/Users/Gbr/AppData/Local/Temp/liveview/app/index.html",
 		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.ui/attic/html/preview.html",
-		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/app/html/liveview.html",
 		"/C/Users/Gbr/AppData/Local/Temp/7zO451A6BEC/jcg1.txt",
 		"/C/Users/Gbr/AppData/Local/Temp/7zO451AA02C/EmbeddedJettyResourceHandlerMain.java",
 		"/C/Users/Gbr/AppData/Local/Temp/app/html/liveview-0904.html",
@@ -363,9 +371,16 @@
 	},
 	"find_state":
 	{
-		"case_sensitive": true,
+		"case_sensitive": false,
 		"find_history":
 		[
+			"rawhtml",
+			"srchtml",
+			"srchtmlx",
+			"srchtml",
+			"formattedhtml",
+			"'.'",
+			"'.",
 			"code",
 			"envl",
 			"Kind",
@@ -486,14 +501,7 @@
 			"Bg",
 			"dst",
 			"src",
-			"target",
-			"source",
-			"less",
-			" ></",
-			"Bg",
-			"bg",
-			"pages",
-			"base-material-card"
+			"target"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -501,6 +509,11 @@
 		"regex": false,
 		"replace_history":
 		[
+			"rawHtml",
+			"srcHtml",
+			"srcHtmlx",
+			"srcHtml",
+			"srchtml",
 			"app",
 			"content_holder",
 			"'",

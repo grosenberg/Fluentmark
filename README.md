@@ -40,20 +40,15 @@ A full-featured Markdown editing environment for Eclipse.
 
 Requires 
 
-- Eclipse 2020-12
+- Eclipse 2021-03
 - JDK 11+
-- Chromium widget 
-	- only requred for live preview using the embedded Chrome browser
-	- requires the Cef feature (repo 'http://dl.maketechnology.io/chromium-cef/rls/repository') 
-	- requires the SWT-Chromium libraries (repo 'http://dl.maketechnology.io/chromium-swt/rls/repository') 
-
-Install the Fluentmark plugin from the Certiv Tools update site: www.certiv.net/updates.
+- Certiv Tools update site at `https://www.certiv.net/updates`
 
 
 
 Preferences ---
 
-- `Window`&rarr;`Certiv Tools`&rarr;`FluentMark`
+- `Window` &rarr; `Certiv Tools` &rarr; `FluentMark`
 
 Pandoc converter ---
 

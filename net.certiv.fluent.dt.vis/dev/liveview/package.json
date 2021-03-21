@@ -13,6 +13,7 @@
     "primeicons": "^4.1.0",
     "primevue": "^3.3.5",
     "vue": "^3.0.5",
+    "vue-highlight.js": "^4.0.1-beta",
     "vue-native-websocket-vue3": "^3.1.0",
     "vuex": "^4.0.0"
   },

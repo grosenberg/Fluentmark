@@ -13,7 +13,7 @@ import net.certiv.dsl.ui.DslUI;
 import net.certiv.dsl.ui.preferences.blocks.IPreferenceConfigBlock;
 import net.certiv.dsl.ui.preferences.pages.AbstractPreferencePage;
 import net.certiv.fluent.dt.core.FluentCore;
-import net.certiv.fluent.dt.ui.FluentUI;
+import net.certiv.fluent.dt.vis.FluentVis;
 import net.certiv.fluent.dt.vis.preferences.blocks.LiveviewConfigBlock;
 
 public class LiveviewPage extends AbstractPreferencePage {
@@ -24,7 +24,7 @@ public class LiveviewPage extends AbstractPreferencePage {
 
 	@Override
 	public DslUI getDslUI() {
-		return FluentUI.getDefault();
+		return FluentVis.getDefault();
 	}
 
 	@Override
@@ -38,7 +38,5 @@ public class LiveviewPage extends AbstractPreferencePage {
 	}
 
 	@Override
-	protected void setDescription() {
-		// setDescription("Live View");
-	}
+	protected void setDescription() {}
 }

@@ -78,7 +78,7 @@ public class HtmlGen {
 		return build(kind, convert(basepath), basepath, pathname);
 	}
 
-	private String build(Kind kind, String content, String base, IPath pathname) {
+	private String build(Kind kind, String content, String basepath, IPath pathname) {
 		TextStringBuilder sb = new TextStringBuilder();
 		switch (kind) {
 			case EXPORT:
@@ -104,14 +104,16 @@ public class HtmlGen {
 				break;
 
 			case VIEW:
+				// not used
 				String preview = Resources.fromBundle(FluentVis.ID, "app/html/liveview.html");
-				preview = preview.replaceFirst("%path%", base);
+				preview = preview.replaceFirst("%path%", basepath);
 				preview = preview.replaceFirst("%styles%", getStyle(pathname));
 				preview = preview.replaceFirst("%socket%", getSocket());
 				sb.appendln(preview);
 				break;
 
 			case UPDATE:
+				// body content for WS transfer
 				sb.appendln(content);
 				break;
 		}

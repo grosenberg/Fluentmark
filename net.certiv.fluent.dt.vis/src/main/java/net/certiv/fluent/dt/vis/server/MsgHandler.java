@@ -76,7 +76,7 @@ public class MsgHandler extends WebSocketAdapter {
 					break;
 
 				case MsgEnvl.REFRESH:
-					Log.warn(this, RefreshRcv, envl.target, session.getRemoteAddress());
+					Log.info(this, RefreshRcv, envl.target, session.getRemoteAddress());
 					srvr.send(MsgEnvl.ack(envl));
 					srvr.update(envl);
 					break;

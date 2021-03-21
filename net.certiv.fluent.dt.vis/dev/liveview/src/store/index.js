@@ -76,6 +76,7 @@ export const store = createStore({
       e.request = Request.REFRESH;
       e.target = state.envl.target;
       e.msg = Object.assign({}, Msg);
+      e.msg.target = state.envl.target;
       e.timestamp = Date.now();
       state.socket.ws.send(JSON.stringify(e));
     },

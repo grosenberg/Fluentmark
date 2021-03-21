@@ -2,6 +2,10 @@ package net.certiv.fluent.dt.vis.preferences.blocks;
 
 import java.util.List;
 
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
@@ -11,6 +15,7 @@ import net.certiv.dsl.ui.preferences.blocks.AbstractConfigBlock;
 import net.certiv.dsl.ui.preferences.pages.IDslPreferencePage;
 import net.certiv.dsl.ui.util.SWTFactory;
 import net.certiv.fluent.dt.core.preferences.Prefs;
+import net.certiv.fluent.dt.vis.FluentVis;
 
 public class LiveviewConfigBlock extends AbstractConfigBlock {
 
@@ -24,6 +29,7 @@ public class LiveviewConfigBlock extends AbstractConfigBlock {
 		keys.add(Prefs.VIEW_HOST_NAME);
 		keys.add(Prefs.VIEW_HOST_PORT);
 		keys.add(Prefs.VIEW_WS_CONTEXT);
+
 		keys.add(Prefs.VIEW_CLNT_BASE);
 		keys.add(Prefs.VIEW_CLNT_APPL);
 
@@ -45,13 +51,27 @@ public class LiveviewConfigBlock extends AbstractConfigBlock {
 	}
 
 	protected Composite createServerGroup(Composite parent) {
-		Composite comp = SWTFactory.createGroupComposite(parent, 3, 2, "Live View Server");
-		addTextField(comp, "Server host name", Prefs.VIEW_HOST_NAME, 6, 24, FType.STRING);
-		addTextField(comp, "Server host port", Prefs.VIEW_HOST_PORT, 6, 0, FType.INTEGER);
-		addTextField(comp, "Websocket context", Prefs.VIEW_WS_CONTEXT, 6, 40, FType.STRING);
-		addTextField(comp, "Client resource path", Prefs.VIEW_CLNT_BASE, 6, 0, FType.INTEGER);
-		addTextField(comp, "Client page", Prefs.VIEW_CLNT_APPL, 6, 0, FType.STRING);
+		Composite comp = SWTFactory.createGroupComposite(parent, 3, 2, "Liveview Server");
+		addTextField(comp, "Server host name", Prefs.VIEW_HOST_NAME, 16, 0).setEditable(false);
+		addTextField(comp, "Server host port", Prefs.VIEW_HOST_PORT, 16, 0, FType.INTEGER).setEditable(false);
+		addTextField(comp, "Websocket context", Prefs.VIEW_WS_CONTEXT, 16, 0).setEditable(false);
+		addTextField(comp, "Client resource path", Prefs.VIEW_CLNT_BASE, 16, 0).setEditable(false);
+		addTextField(comp, "Client page", Prefs.VIEW_CLNT_APPL, 16, 0).setEditable(false);
+		addButton(comp, "Stop server");
 		return comp;
+	}
+
+	private void addButton(Composite comp, String label) {
+		Button push = SWTFactory.createPushButton(comp, label);
+		push.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL));
+
+		push.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				FluentVis.getDefault().stopLiveServer();
+			}
+		});
 	}
 
 	protected Composite createActionGroup(Composite parent) {

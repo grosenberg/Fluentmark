@@ -37,6 +37,7 @@ import net.certiv.common.log.Log;
 import net.certiv.common.stores.Holder;
 import net.certiv.common.util.Strings;
 import net.certiv.common.util.Time;
+import net.certiv.dsl.core.model.ICodeUnit;
 import net.certiv.dsl.core.preferences.PrefsManager;
 import net.certiv.dsl.core.util.CoreUtil;
 import net.certiv.dsl.core.util.eclipse.PartAdaptor;
@@ -46,6 +47,7 @@ import net.certiv.fluent.dt.ui.editor.FluentEditor;
 import net.certiv.fluent.dt.vis.FluentVis;
 import net.certiv.fluent.dt.vis.convert.HtmlGen;
 import net.certiv.fluent.dt.vis.convert.Kind;
+import net.certiv.fluent.dt.vis.util.LiveUtil;
 
 public class LiveServer {
 
@@ -57,9 +59,9 @@ public class LiveServer {
 
 	private static final String ErrBase = "Client server: invalid static resource path '%s'.";
 
-	private static final String ErrServer = "UI server failure: %s";
-	private static final String WarnServer = "UI server already running.";
-	private static final String InfoServer = "UI server '%s:%s%s'";
+	private static final String ErrServer = "Liveserver failure: %s";
+	private static final String WarnServer = "Liveserver already running.";
+	private static final String InfoServer = "Liveserver '%s:%s/%s'";
 
 	private static final String ErrMsgSend = "WS send message failed: %s";
 
@@ -67,12 +69,12 @@ public class LiveServer {
 	private final Gson gson = new Gson();
 	private final Monitor monitor = new Monitor();
 
-	private final PrefsManager mgr;
+	private PrefsManager mgr;
 	private Server srvr;
+	private File resBase;
 
 	public LiveServer() {
 		super();
-		mgr = FluentVis.getDefault().getPrefsManager();
 	}
 
 	public void start() {
@@ -84,9 +86,10 @@ public class LiveServer {
 			stop();
 		}
 
+		mgr = FluentVis.getDefault().getPrefsManager();
 		String host = mgr.getString(Prefs.VIEW_HOST_NAME);
 		int port = mgr.getInt(Prefs.VIEW_HOST_PORT);
-		String path = mgr.getString(Prefs.VIEW_WS_CONTEXT);
+		String context = mgr.getString(Prefs.VIEW_WS_CONTEXT);
 
 		try {
 			srvr = new Server();
@@ -97,9 +100,9 @@ public class LiveServer {
 			conn.setPort(port);
 			srvr.addConnector(conn);
 
-			File resourceBase = LiveUtil.extractClient();
-			if (resourceBase == null || !resourceBase.isDirectory()) {
-				Log.error(this, ErrBase, resourceBase);
+			resBase = LiveUtil.extractClient();
+			if (resBase == null || !resBase.isDirectory()) {
+				Log.error(this, ErrBase, resBase);
 				return;
 			}
 
@@ -107,11 +110,11 @@ public class LiveServer {
 
 			ServletContextHandler ctx = new ServletContextHandler(
 					ServletContextHandler.SESSIONS | ServletContextHandler.NO_SECURITY);
-			ctx.addServlet(new ServletHolder(new LiveServlet(this)), Strings.SLASH + path);
+			ctx.addServlet(new ServletHolder(new LiveServlet(this)), Strings.SLASH + context);
 
-			// ---- serve static files from "/liveview/app" to "/"
+			// ---- serve static files from "<tmp>/liveview/app..." to "/"
 
-			ctx.setResourceBase(resourceBase.getPath());
+			ctx.setResourceBase(resBase.getPath());
 			ctx.setContextPath(Strings.SLASH);
 			ctx.addServlet(DefaultServlet.class, Strings.SLASH);
 
@@ -119,7 +122,7 @@ public class LiveServer {
 
 			srvr.setHandler(ctx);
 			srvr.start();
-			Log.info(this, InfoServer, host, port, path);
+			Log.info(this, InfoServer, host, port, context);
 
 			// begin listening for update triggers
 			mgr.addPropertyChangeListener(monitor);
@@ -133,7 +136,7 @@ public class LiveServer {
 	}
 
 	public final void stop() {
-		if (srvr != null && srvr.isRunning()) {
+		if (srvr != null) {
 			// stop listening for update triggers
 			mgr.removePropertyChangeListener(monitor);
 			IWorkbenchPage page = CoreUtil.getActivePage();
@@ -144,11 +147,26 @@ public class LiveServer {
 				Log.error(this, ErrServer, e.getMessage());
 			}
 			srvr = null;
+			resBase = null;
 		}
 	}
 
 	public boolean isRunning() {
+		if (srvr == null) return false;
 		return srvr.isRunning();
+	}
+
+	public boolean isStopped() {
+		if (srvr == null) return true;
+		return srvr.isStopped();
+	}
+
+	public File getResourceBase() {
+		return resBase;
+	}
+
+	public void createSessionEntry(String target, FluentEditor editor, File base) {
+		sessions.createEntry(target, editor, base);
 	}
 
 	public boolean isConnected(Session session) {
@@ -169,11 +187,15 @@ public class LiveServer {
 		if (ed instanceof FluentEditor) {
 			FluentEditor editor = (FluentEditor) ed;
 			String target = editor.getInputDslElement().getPackageName();
-			sessions.put(session, target);
-			monitor.beginTracking(editor);
-			Time.sleep(mgr.getInt(Prefs.VIEW_UPDATE_DELAY) / 1000);
-			update(editor);
-			Log.debug(this, "Connect '%s' -> %s", target, session.getRemoteAddress());
+			if (sessions.put(session, target)) {
+				monitor.beginTracking(editor);
+				Time.sleep(mgr.getInt(Prefs.VIEW_UPDATE_DELAY) / 1000);
+				update(editor);
+				Log.debug(this, "Connect '%s' -> %s", target, session.getRemoteAddress());
+
+			} else {
+				Log.error(this, "Bad connect '%s' -> %s", target, session.getRemoteAddress());
+			}
 		}
 	}
 
@@ -231,10 +253,15 @@ public class LiveServer {
 				}
 			});
 
-			String target = editor.getInputDslElement().getCodeUnit().getPackageName();
+			ICodeUnit unit = editor.getInputDslElement().getCodeUnit();
+			String target = unit.getPackageName();
 			if (sessions.isConnected(target)) {
 				HtmlGen gen = new HtmlGen(editor, FluentVis.getDefault().getConverter());
 				String content = gen.getHtml(Kind.UPDATE);
+
+				File loc = unit.getResource().getParent().getLocation().toFile();
+				LiveUtil.rebaseImages(content, loc, resBase);
+
 				Message msg = Message.request(target, content, line.value, total.value);
 				send(MsgEnvl.UPDATE, msg);
 
@@ -334,6 +361,8 @@ public class LiveServer {
 		}
 	}
 
+	// See net.certiv.antlr.dt.vis.parse.TargetBuilder for keystroke run length
+	// limiter
 	class Trigger implements ITextListener {
 
 		private FluentEditor editor;

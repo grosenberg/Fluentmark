@@ -150,16 +150,15 @@ public class PrefsInitializer extends DslPrefsInit {
 		setRGB(Prefs.EDITOR_MATH_SYMBOL_COLOR, DEF_SYMBOL);
 		setRGB(Prefs.EDITOR_MATH_COMMENT_COLOR, DEF_COMMENT);
 
-		// live view
-
-		setInt(Prefs.VIEW_UPDATE_DELAY, 1000);
+		// liveview
 
 		setString(Prefs.VIEW_HOST_NAME, "127.0.0.1");
 		setInt(Prefs.VIEW_HOST_PORT, 9025);
-
 		setString(Prefs.VIEW_WS_CONTEXT, "liveview");
 		setString(Prefs.VIEW_CLNT_BASE, "app");
 		setString(Prefs.VIEW_CLNT_APPL, "index.html");
+
+		setInt(Prefs.VIEW_UPDATE_DELAY, 1000);
 
 		// spelling
 

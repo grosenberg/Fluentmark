@@ -2,11 +2,15 @@
 <html lang="en">
 
 <head>
-	<meta charset="UTF-8" />
+	<meta charset="utf-8" />
 	<link rel="icon" href="/fluentmark_doc.ico" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 	<title>Fluentmark Live View</title>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.13.5/beautify.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.13.5/beautify-css.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.13.5/beautify-html.min.js"></script>
 
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.6.0/styles/default.min.css">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.6.0/highlight.min.js"></script>
@@ -19,11 +23,16 @@
 	  				return MathJax.startup.defaultPageReady();
 				}
   			},
+  			options: {
+    			ignoreHtmlClass: 'code',
+    			processHtmlClass: 'math'
+	  		},
 			tex: {
 				inlineMath: [['$', '$'], ['\\(', '\\)']],
 				displayMath: [['$$','$$'], ['\\[','\\]']],
 				processEscapes: true,
 				processEnvironments: true,
+				tags: 'ams',
 			},
 			svg: {
 				fontCache: 'global'
