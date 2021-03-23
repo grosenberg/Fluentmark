@@ -1,20 +1,25 @@
-
-<script type=text/x-mathjax-config>
-			MathJax.Hub.Config({
-				messageStyle: "none",
-				positionToHash: true,
-				showMathMenu: true,
-  				tex2jax: {
-      				inlineMath: [ ['$','$'], ['\\(','\\)'] ],
-      				displayMath: [ ['$$','$$'], ['\\[','\\]'] ],
-					processEscapes: true,
-  				},
-				TeX: {
-					equationNumbers: {
-						autoNumber: "AMS"
+		<script type="x-mathjax-config">
+			window.MathJax = {
+				startup: {
+					pageReady: () => {
+	  					return MathJax.startup.defaultPageReady();
 					}
+	  			},
+  				options: {
+    				ignoreHtmlClass: 'code',
+    				processHtmlClass: 'math'
+	  			},
+				tex: {
+					inlineMath: [['$', '$'], ['\\(', '\\)']],
+					displayMath: [['$$','$$'], ['\\[','\\]']],
+					processEscapes: true,
+					processEnvironments: true,
+					tags: 'ams',
 				},
-			});
+				svg: {
+					fontCache: 'global'
+				}
+			};
 		</script>
-<script type="text/javascript" async
-	src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+		<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+

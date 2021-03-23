@@ -356,7 +356,7 @@
 	],
 	"find":
 	{
-		"height": 37.0
+		"height": 27.0
 	},
 	"find_in_files":
 	{
@@ -584,7 +584,7 @@
 	"pinned_build_system": "",
 	"replace":
 	{
-		"height": 66.0
+		"height": 50.0
 	},
 	"save_all_on_build": true,
 	"select_file":

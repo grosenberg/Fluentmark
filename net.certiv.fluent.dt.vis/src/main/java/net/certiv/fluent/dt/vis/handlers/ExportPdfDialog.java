@@ -49,6 +49,18 @@ public class ExportPdfDialog extends MessageDialog {
 	protected Control createCustomArea(Composite parent) {
 		Composite comp = SWTFactory.createComposite(parent, 1, 3);
 
+		// destination ----------------------
+
+		SWTFactory.createLabel(comp, "Save to:", 1);
+
+		txtSave = SWTFactory.createText(comp, 1);
+		txtSave.addModifyListener(e -> handler.setDestination(txtSave.getText()));
+		IPath path = source.getLocation().removeFileExtension().addFileExtension("pdf");
+		txtSave.setText(path.toString());
+
+		Button bSave = SWTFactory.makeButton(comp, "Browse", 1);
+		bSave.addSelectionListener(saveListener);
+
 		// Template select ------------------------------
 
 		SWTFactory.createLabel(comp, "Template:", 1);
@@ -63,18 +75,6 @@ public class ExportPdfDialog extends MessageDialog {
 
 		Button bTmpl = SWTFactory.makeButton(comp, "Browse", 1);
 		bTmpl.addSelectionListener(tmplListener);
-
-		// Save destination select ----------------------
-
-		SWTFactory.createLabel(comp, "Save to:", 1);
-
-		txtSave = SWTFactory.createText(comp, 1);
-		txtSave.addModifyListener(e -> handler.setDestination(txtSave.getText()));
-		IPath path = source.getLocation().removeFileExtension().addFileExtension("pdf");
-		txtSave.setText(path.toString());
-
-		Button bSave = SWTFactory.makeButton(comp, "Browse", 1);
-		bSave.addSelectionListener(saveListener);
 
 		// Options --------------------------------------
 

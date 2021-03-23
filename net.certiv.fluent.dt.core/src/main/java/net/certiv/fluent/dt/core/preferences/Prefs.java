@@ -133,10 +133,10 @@ public class Prefs extends PrefsSpelling {
 	public static final String VIEW_HOST_PORT = "{DSL_ID}" + ".viewHostport";
 
 	/** Server: websocket context pathname */
-	public static final String VIEW_WS_CONTEXT = "{DSL_ID}" + ".viewWsCtxPath";
+	public static final String VIEW_WS_CONTEXT = "{DSL_ID}" + ".viewWsContext";
 
 	/** Client: static resource base dir (relative to a tmp folder) */
-	public static final String VIEW_CLNT_BASE = "{DSL_ID}" + ".viewClntBase";
+	public static final String VIEW_CLNT_BASE = "{DSL_ID}" + ".viewClientBase";
 	/** Client: index page name */
-	public static final String VIEW_CLNT_APPL = "{DSL_ID}" + ".viewClntAppl";
+	public static final String VIEW_CLNT_APPL = "{DSL_ID}" + ".viewClientAppl";
 }

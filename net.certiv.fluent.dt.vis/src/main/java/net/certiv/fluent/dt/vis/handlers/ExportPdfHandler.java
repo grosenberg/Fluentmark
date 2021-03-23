@@ -14,6 +14,7 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.handlers.HandlerUtil;
@@ -53,7 +54,7 @@ public class ExportPdfHandler extends AbstractHandler {
 				IFile file = unit.getFile();
 
 				ExportPdfDialog dialog = new ExportPdfDialog(shell, this, file);
-				if (dialog.open() == 0) { // 0: generate; 1: cancel; -1: close
+				if (dialog.open() == Window.OK) { // 0: generate; 1: cancel; -1: close
 					PdfGen.save(unit, template, destination);
 
 					IPath location = FluentUI.getDefault().getStateLocation();

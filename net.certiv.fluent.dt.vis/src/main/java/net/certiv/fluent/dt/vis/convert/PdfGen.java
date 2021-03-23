@@ -10,14 +10,15 @@ import java.awt.Desktop;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -59,14 +60,15 @@ public class PdfGen {
 	};
 
 	// TODO: support caption and label?
-	// "\\caption{%s}" + Strings.EOL + //
-	// "\\label{%s}" + Strings.EOL + //
-	private static final String GRAPHIC = "\\begin{figure}[htp]" + Strings.EOL +  //
-			"\\begin{center}" + Strings.EOL + //
-			"\\graphicspath{{%s}}" + Strings.EOL + //
-			"\\includegraphics[width=0.8\\textwidth]{%s}" + Strings.EOL + //
-			"\\end{center}" + Strings.EOL + //
-			"\\end{figure}" + Strings.EOL;
+	// "\\caption{%s}\n"
+	// "\\label{%s}\n"
+	private static final String GRAPHIC = "" //
+			+ "\\begin{figure}[htp]\n" //
+			+ "  \\begin{center}\n" //
+			+ "    \\graphicspath{{%s}}\n" //
+			+ "    \\includegraphics[width=0.8\\textwidth]{%s}\n" //
+			+ "  \\end{center}\n" //
+			+ "\\end{figure}\n";
 
 	private PdfGen() {}
 
@@ -74,72 +76,63 @@ public class PdfGen {
 	 * Generate and Save PDF_OPS
 	 *
 	 * @param base the working directory
-	 * @param doc the source document
-	 * @param model contains the dot code blocks
 	 * @param template the latex template
 	 * @param pathname the output pathname
 	 */
 	public static void save(ICodeUnit unit, String template, String pathname) {
-		final String basepath = unit.getLocation().removeLastSegments(1).addTrailingSeparator().toString();
-		Document doc = new Document(unit.getDocument().get());
+		final File loc = unit.getResource().getParent().getLocation().toFile();
 
 		Job job = new Job("Generating Pdf") {
 
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
-
-				// generate images to 'dir' and patch document
-				File dir = null;
 				try {
-					try {
-						dir = buildGraphs(unit, doc);
-					} catch (IOException e) {
-						return makeStatus(IStatus.ERROR, e.getMessage());
-					}
+					File out = new File(pathname);
+					if (out.isFile()) out.delete();
+
+					// generate images and patch document
+					File dir = createPdfTmpFolder(loc);
+					Document doc = buildGraphs(dir, unit);
 
 					// send document to pandoc to convert & save
-					File out = new File(pathname);
 					String content = doc.get();
-					String err = convert(basepath, template, content, out);
-
-					cleanup(dir);
-					if (!err.isEmpty()) {
-						return makeStatus(IStatus.ERROR, "Error: " + err);
-					}
+					String err = convert(loc, template, content, out);
+					if (!err.isEmpty()) Log.error(this, "Error generating Pdf %s\n%s", pathname, err);
 
 					// open the converted document
-					PrefsManager store = FluentCore.getDefault().getPrefsManager();
-					if (store.getBoolean(Prefs.VIEW_PDF_OPEN)) {
-						if (Desktop.isDesktopSupported()) {
-							try {
-								Desktop.getDesktop().open(out);
-							} catch (Exception e) {
-								String msg = String.format("Cannot open %s (%s)", pathname, e.getMessage());
-								return makeStatus(IStatus.ERROR, msg);
+					if (out.isFile()) {
+						PrefsManager store = FluentCore.getDefault().getPrefsManager();
+						if (store.getBoolean(Prefs.VIEW_PDF_OPEN)) {
+							if (Desktop.isDesktopSupported()) {
+								try {
+									Desktop.getDesktop().open(out);
+								} catch (Exception e) {
+									Log.error(this, "Cannot open Pdf %s: %s", pathname, e.getMessage());
+								}
 							}
 						}
 					}
 
-					return makeStatus(IStatus.OK, "");
-
-				} finally {
-					cleanup(dir);
+				} catch (Exception e) {
+					Log.error(this, "Error generating Pdf %s: %s", pathname, e.getMessage());
 				}
+
+				return Status.OK_STATUS;
 			}
 		};
 
-		job.setPriority(Job.LONG);
+		job.setPriority(Job.BUILD);
+		job.setSystem(true);
 		job.schedule();
 	}
 
-	protected static File buildGraphs(ICodeUnit unit, Document doc) throws IOException {
-		File dir = getTmpFolder();
-
-		// evaluate parts representing dot and uml code blocks
-		// build latex 'graphics include' blocks
+	// evaluate parts representing dot and uml code blocks
+	// build latex 'graphics include' blocks
+	private static Document buildGraphs(File dir, ICodeUnit unit) throws IOException {
+		unit.lock();
+		Document doc = new Document(unit.getDocument().get());
 		MultiTextEdit edit = new MultiTextEdit();
 
-		unit.lock();
 		try {
 			unit.getModuleStatement().decend(new IStatementVisitor() {
 
@@ -155,31 +148,31 @@ public class PdfGen {
 								SourceRange subRange = calcDotRange(doc, range);
 								if (subRange == null) break;
 
-								File tmpfile = createTmpFile(dir, "pdf");
-								if (tmpfile == null) break;
+								File dot = createTmpFile(dir, "pdf");
+								if (dot == null) break;
 
 								String text = extractText(doc, subRange);
 								if (text == null) break;
 
 								// convert to pdf
-								boolean ok = dot2pdf(tmpfile, text);
+								boolean ok = dot2pdf(dot, text);
 
 								// splice in latex blocks to include the pdf
-								if (ok) edit.addChild(splice(unit, doc, range, tmpfile));
+								if (ok) edit.addChild(splice(unit, doc, range, dot));
 								break;
 
 							case UmlBlock:
-								tmpfile = createTmpFile(dir, "eps");
-								if (tmpfile == null) break;
+								File uml = createTmpFile(dir, "eps");
+								if (uml == null) break;
 
 								text = extractText(doc, range);
 								if (text == null) break;
 
-								// convert to pdf
-								ok = uml2pdf(tmpfile, text);
+								// convert to eps
+								ok = uml2eps(uml, text);
 
 								// splice in latex blocks to include the pdf
-								if (ok) edit.addChild(splice(unit, doc, range, tmpfile));
+								if (ok) edit.addChild(splice(unit, doc, range, uml));
 								break;
 
 							default:
@@ -198,10 +191,13 @@ public class PdfGen {
 		} finally {
 			unit.unlock();
 		}
-		return dir;
+		return doc;
 	}
 
-	protected static String convert(String base, String template, String content, File out) {
+	// Note: to specify multiple filters, provide multiple
+	// instances of "--filter xxxx" on the command line.
+	// The filters will be applied in sequence.
+	protected static String convert(File loc, String template, String content, File out) {
 		IPreferenceStore store = FluentCore.getDefault().getPrefsManager();
 		List<String> ops = new ArrayList<>();
 
@@ -211,7 +207,7 @@ public class PdfGen {
 		ops.add(cmd);
 		ops.addAll(Arrays.asList(PDF_OPS));
 
-		ops.add("--pdf-engine=xelatex");
+		ops.add("--pdf-engine=pdflatex");
 		if (!template.isEmpty()) ops.add("--template=" + template);
 		if (store.getBoolean(Prefs.EDITOR_PANDOC_ADDTOC)) ops.add("--table-of-contents");
 
@@ -219,14 +215,7 @@ public class PdfGen {
 		ops.add(out.getPath());
 
 		String[] args = ops.toArray(new String[ops.size()]);
-		return Cmd.process(args, base, content);
-	}
-
-	// clean up temporary files
-	protected static void cleanup(File dir) {
-		try {
-			FileUtils.deleteFolder(dir);
-		} catch (IOException e) {}
+		return Cmd.process(args, loc.getAbsolutePath(), content);
 	}
 
 	protected static IStatus makeStatus(int type, String msg) {
@@ -234,19 +223,17 @@ public class PdfGen {
 	}
 
 	private static SourceRange calcDotRange(IDocument doc, SourceRange clipRange) {
-		int begLine = clipRange.getBegLine() + 1;
-		int endLine = clipRange.getEndLine() - 1;
+		int beg = clipRange.begLine;
+		int end = clipRange.endLine;
 
 		try {
-			while (endLine > begLine) {
-				String text = TextUtil.getText(doc, endLine);
-				if (!text.trim().isEmpty() && !text.startsWith("~~~") && !text.startsWith("```")) {
-					break;
-				}
-				endLine--;
-			}
-			if (begLine >= endLine) return null;
-			return TextUtil.getSourceRange(doc, begLine, endLine, true);
+			String text = TextUtil.getText(doc, beg);
+			if (text.startsWith("~~~") || text.startsWith("```")) beg++;
+
+			text = TextUtil.getText(doc, end);
+			if (text.startsWith("~~~") || text.startsWith("```")) end--;
+
+			return TextUtil.getSourceRange(doc, beg, end, true);
 
 		} catch (BadLocationException e) {
 			return null;
@@ -267,29 +254,34 @@ public class PdfGen {
 		return true;
 	}
 
-	private static boolean uml2pdf(File file, String text) {
+	private static boolean uml2eps(File file, String text) {
 		try (ByteArrayOutputStream os = new ByteArrayOutputStream()) {
 			SourceStringReader reader = new SourceStringReader(text);
 			reader.outputImage(os, new FileFormatOption(FileFormat.EPS));
-			String result = new String(os.toByteArray(), Charset.forName("UTF-8"));
+			String result = new String(os.toByteArray(), Strings.UTF_8);
 			FileUtils.write(file, result);
 			return true;
+
 		} catch (IOException e) {
-			Log.error(PdfGen.class, "Uml exception on" + Strings.EOL + text, e);
+			Log.error(PdfGen.class, "Uml exception (%s)\n%s", e.getMessage(), text);
 		}
 		return false;
 	}
 
-	private static TextEdit splice(ICodeUnit unit, IDocument doc, SourceRange range, File tmpfile) {
-		String dir = tmpfile.getParent().replace("\\", "/") + "/";
-		String name = tmpfile.getName();
+	private static TextEdit splice(ICodeUnit unit, IDocument doc, SourceRange range, File file) {
+		IPath loc = unit.getResource().getParent().getLocation();
+		IPath src = new Path(file.getPath());
+		src = src.makeRelativeTo(loc);
+
+		String dir = src.removeLastSegments(1).toString();
+		String name = src.lastSegment();
 
 		String delim = Strings.EOL;
 		try {
 			delim = doc.getLineDelimiter(range.getBegLine());
 		} catch (BadLocationException e) {}
-		String figure = GRAPHIC.replaceAll("\\R", delim);
-		String latex = String.format(figure, dir, name);
+		String latex = GRAPHIC.replaceAll("\\R", delim);
+		latex = String.format(latex, dir, name);
 		return new ReplaceEdit(range.getOffset(), range.getLength(), latex);
 	}
 
@@ -297,24 +289,36 @@ public class PdfGen {
 		try {
 			return doc.get(range.getOffset(), range.getLength());
 		} catch (BadLocationException e) {
-			Log.error(PdfGen.class,
-					String.format("Failed extracting text at %s (%s)", range, e.getMessage()));
+			Log.error(PdfGen.class, "Failed extracting text at %s (%s)", range, e.getMessage());
 			return null;
 		}
 	}
 
-	private static File getTmpFolder() throws IOException {
-		try {
-			return FileUtils.createTmpFolder("mk_" + FileUtils.nextRandom());
-		} catch (IOException e) {
-			String msg = String.format("Failed creating tmp folder (%s)", e.getMessage());
-			throw new IOException(msg);
-		}
+	// create "./pdf-XXXX"
+	private static File createPdfTmpFolder(File dir) throws IOException {
+		int num = FileUtils.nextRandom(999);
+		String dirname = String.format("pdf-%04d", num);
+
+		File root = FileUtils.createTmpFolder(dir, dirname);
+		FileUtils.deleteTmpFolderOnExit(root);
+		return root;
+
 	}
+
+	// // create "tmp/liveview/pdf-XXXX"
+	// private static File createPdfTmpFolder() throws IOException {
+	// PrefsManager mgr = FluentVis.getDefault().getPrefsManager();
+	// String wctx = mgr.getString(Prefs.VIEW_WS_CONTEXT);
+	//
+	// int num = FileUtils.nextRandom(999);
+	// File root = FileUtils.createTmpFolder(wctx);
+	// FileUtils.deleteTmpFolderOnExit(root);
+	// return FileUtils.createTmpFolder(String.format("%s/pdf-%04d", wctx, num));
+	// }
 
 	private static File createTmpFile(File dir, String ext) {
 		try {
-			return FileUtils.createTmpFile("fluent_", "." + ext, dir);
+			return FileUtils.createTmpFile("fluent", Strings.DOT + ext, dir);
 		} catch (IOException e) {
 			Log.error(PdfGen.class, String.format("Failed creating tmp file (%s)", e.getMessage()));
 			return null;

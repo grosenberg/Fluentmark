@@ -2,16 +2,21 @@ package net.certiv.fluent.dt.vis.util;
 
 import java.awt.Desktop;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.SystemUtils;
 import org.eclipse.core.runtime.Path;
 
@@ -30,20 +35,68 @@ public class LiveUtil {
 	private static final String ErrRes = "Invalid static resource for '%s' (%s).";
 	private static final String ErrZip = "Failed to copy client '%s' -> '%s'.";
 
-	// private static final String BASE_DEF = "<base href='.' />";
-	// private static final String BASE_ACT = "<base href='%s' />";
-
 	private static final String HTTPS = "http://%s:%s/%s";
-	// private static final String WS_DEF = "ws://localhost:9025/liveview";
-	// private static final String WS_ACT = "ws://%s:%s/%s";
+	private static final String DATA64 = "data:image/%s;base64,%s";
 
-	private static final String IMG_TAG1 = "<img\\s.*?src\\s*=\\s*'(.*?)'.*?>";
-	private static final String IMG_TAG2 = "<img\\s.*?src\\s*=\\s*\"(.*?)\".*?>";
+	private static final String IMG_TAG1 = "(<img\\s.*?src\\s*=\\s*')(.*?)('.*?>)";
+	private static final String IMG_TAG2 = "(<img\\s.*?src\\s*=\\s*\")(.*?)(\".*?>)";
 
 	private static final Pattern IMG_P1 = Pattern.compile(IMG_TAG1, Pattern.DOTALL);
 	private static final Pattern IMG_P2 = Pattern.compile(IMG_TAG2, Pattern.DOTALL);
 
 	private LiveUtil() {}
+
+	/**
+	 * Incorporate images identified by relative paths within the given Html content
+	 * as base64 encoded data. The relative paths are evaluated as relative to the
+	 * given loc directory.
+	 *
+	 * @param content html content
+	 * @param loc source directory
+	 */
+	public static String encodeImages(String content, File loc) {
+		String results = content;
+		for (Pattern pat : Arrays.asList(IMG_P1, IMG_P2)) {
+			StringBuilder sb = new StringBuilder();
+			Matcher m = pat.matcher(results);
+			while (m.find()) {
+				String beg = m.group(1);
+				String ref = m.group(2);
+				String end = m.group(3);
+
+				Path imgpath = new Path(ref);
+				if (!imgpath.isAbsolute()) {
+					File img = new File(loc, ref);
+					try {
+						img = img.getCanonicalFile();
+						if (img.isFile()) {
+							String ext = FilenameUtils.getExtension(img.getName());
+							try (InputStream is = new FileInputStream(img)) {
+								byte[] bytes = IOUtils.toByteArray(is);
+								String data = Base64.getEncoder().encodeToString(bytes);
+								data = String.format(DATA64, ext, data);
+								m.appendReplacement(sb, beg + data + end);
+							}
+
+						} else {
+							sb.append(m.group(0));
+							Log.error(LiveUtil.class, "Image '%s' does not exist.", img);
+						}
+
+					} catch (IOException e) {
+						sb.append(m.group(0));
+						Log.error(LiveUtil.class, "Image encode failed '%s': %s", img, e.getMessage());
+					}
+
+				} else {
+					sb.append(m.group(0));
+				}
+			}
+			m.appendTail(sb);
+			results = sb.toString();
+		}
+		return results;
+	}
 
 	/**
 	 * Copy images identified by relative paths within the given content from under
@@ -57,7 +110,7 @@ public class LiveUtil {
 		for (Pattern pat : Arrays.asList(IMG_P1, IMG_P2)) {
 			Matcher m = pat.matcher(content);
 			while (m.find()) {
-				String ref = m.group(1);
+				String ref = m.group(2);
 				Path imgpath = new Path(ref);
 				if (!imgpath.isAbsolute()) {
 					File img = new File(loc, ref);

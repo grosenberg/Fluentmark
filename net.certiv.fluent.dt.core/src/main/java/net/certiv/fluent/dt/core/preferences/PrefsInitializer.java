@@ -156,6 +156,7 @@ public class PrefsInitializer extends DslPrefsInit {
 		setInt(Prefs.VIEW_HOST_PORT, 9025);
 		setString(Prefs.VIEW_WS_CONTEXT, "liveview");
 		setString(Prefs.VIEW_CLNT_BASE, "app");
+
 		setString(Prefs.VIEW_CLNT_APPL, "index.html");
 
 		setInt(Prefs.VIEW_UPDATE_DELAY, 1000);

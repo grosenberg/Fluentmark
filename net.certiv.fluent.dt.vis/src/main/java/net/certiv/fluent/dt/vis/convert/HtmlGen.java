@@ -28,7 +28,6 @@ import org.osgi.framework.Bundle;
 import net.certiv.common.log.Log;
 import net.certiv.common.util.FileUtils;
 import net.certiv.common.util.Strings;
-import net.certiv.dsl.core.preferences.PrefsManager;
 import net.certiv.dsl.core.preferences.consts.Editor;
 import net.certiv.dsl.core.util.Resources;
 import net.certiv.fluent.dt.core.FluentCore;
@@ -37,22 +36,8 @@ import net.certiv.fluent.dt.ui.FluentUI;
 import net.certiv.fluent.dt.ui.editor.FluentEditor;
 import net.certiv.fluent.dt.ui.editor.Partitions;
 import net.certiv.fluent.dt.vis.FluentVis;
+import net.certiv.fluent.dt.vis.util.LiveUtil;
 
-/**
- * Generate Html files for:
- * <ul>
- * <li>View
- * <ul>
- * <li>Base html to be loaded to the browser
- * <li>Body to be updated to the base
- * </ul>
- * <li>Export
- * <ul>
- * <li>Full, self contanied Html document
- * <li>Minimal Html document
- * </ul>
- * </ul>
- */
 public class HtmlGen {
 
 	private FluentEditor editor;
@@ -64,23 +49,30 @@ public class HtmlGen {
 	}
 
 	/**
-	 * Gets the current document content with a header as determined by item.
+	 * Returns the current document content with a header as determined by
+	 * {@code kind}.
 	 *
-	 * @param item defines the intended use of the HTML: for export, for the
+	 * @param kind defines the intended use of the HTML: for export, for the
 	 *            embedded view, or minimal.
 	 */
 	public String getHtml(Kind kind) {
 		IPathEditorInput input = (IPathEditorInput) editor.getEditorInput();
 		if (input == null) return Strings.EMPTY;
 
+		IPath loc = editor.getInputDslElement().getResource().getParent().getLocation();
+		String basepath = loc.addTrailingSeparator().toString();
 		IPath pathname = input.getPath();
-		String basepath = pathname.removeLastSegments(1).addTrailingSeparator().toString();
-		return build(kind, convert(basepath), basepath, pathname);
+		// TODO: restructure/reduce parameters
+		return build(kind, gather(basepath), loc, basepath, pathname);
 	}
 
-	private String build(Kind kind, String content, String basepath, IPath pathname) {
+	private String build(Kind kind, String content, IPath loc, String basepath, IPath pathname) {
 		TextStringBuilder sb = new TextStringBuilder();
 		switch (kind) {
+			case UPDATE:
+				sb.appendln(content); // body content for WS transfer
+				break;
+
 			case EXPORT:
 				sb.appendln("<html><head>");
 				sb.appendln(Resources.fromBundle(FluentVis.ID, "app/html/meta.html"));
@@ -88,11 +80,11 @@ public class HtmlGen {
 				if (converter.useMathJax()) {
 					sb.appendln(Resources.fromBundle(FluentVis.ID, "app/html/mathjax.html"));
 				}
-				sb.appendln("<style media=\"screen\" type=\"text/css\">");
+				sb.appendln("<style media='screen' type='text/css'>");
 				sb.appendln(getStyle(pathname));
 				sb.appendln("</style>");
 				sb.appendln("</head><body>");
-				sb.appendln(content);
+				sb.appendln(LiveUtil.encodeImages(content, loc.toFile()));
 				sb.appendln("</body></html>");
 				break;
 
@@ -102,34 +94,12 @@ public class HtmlGen {
 				sb.appendln(content);
 				sb.appendln("</body></html>");
 				break;
-
-			case VIEW:
-				// not used
-				String preview = Resources.fromBundle(FluentVis.ID, "app/html/liveview.html");
-				preview = preview.replaceFirst("%path%", basepath);
-				preview = preview.replaceFirst("%styles%", getStyle(pathname));
-				preview = preview.replaceFirst("%socket%", getSocket());
-				sb.appendln(preview);
-				break;
-
-			case UPDATE:
-				// body content for WS transfer
-				sb.appendln(content);
-				break;
 		}
 
 		return sb.toString();
 	}
 
-	private String getSocket() {
-		PrefsManager mgr = editor.getPrefsMgr();
-		String host = mgr.getString(Prefs.VIEW_HOST_NAME);
-		int port = mgr.getInt(Prefs.VIEW_HOST_PORT);
-		String path = mgr.getString(Prefs.VIEW_WS_CONTEXT);
-		return String.format("ws://%s:%s/%s", host, port, path);
-	}
-
-	private String convert(String basepath) {
+	private String gather(String basepath) {
 		IDocument doc = editor.getDocument();
 		int beg = 0;
 		int len = doc.getLength();
