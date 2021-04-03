@@ -140,15 +140,20 @@ public abstract class StructureBuilder extends Processor {
 
 	public void doType(SpecializationType type) {
 		ParserRuleContext ctx = (ParserRuleContext) lastPathNode();
-		if (type == SpecializationType.CodeBlock) {
-			Token lang = ((CodeBlockContext) ctx).lang;
-			if (lang != null) {
-				if (SpecUtil.DOT.equalsIgnoreCase(lang.getText())) {
-					type = SpecializationType.DotBlock;
-				} else if (SpecUtil.UML.equalsIgnoreCase(lang.getText())) {
-					type = SpecializationType.UmlBlock;
+		switch (type) {
+			case CodeBlock:
+				Token lang = ((CodeBlockContext) ctx).lang;
+				if (lang != null) {
+					if (SpecUtil.DOT.equalsIgnoreCase(lang.getText())) {
+						type = SpecializationType.DotBlock;
+					} else if (SpecUtil.UML.equalsIgnoreCase(lang.getText())) {
+						type = SpecializationType.UmlBlock;
+					}
 				}
-			}
+				break;
+
+			default:
+				break;
 		}
 		Specialization data = new Specialization(type, rulename(ctx), ctx, name);
 		builder.statement(ModelType.TYPE, ctx, ctx, data);
@@ -265,7 +270,8 @@ public abstract class StructureBuilder extends Processor {
 	public void doListItem() {
 		ListItemContext ctx = (ListItemContext) lastPathNode();
 		MdToken mark = (MdToken) ctx.mark;
-		Specialization data = new Specialization(SpecializationType.ListItem, rulename(ctx), ctx, mark.getText());
+		Specialization data = new Specialization(SpecializationType.ListItem, rulename(ctx), ctx,
+				mark.getText());
 
 		int dents = mark.getDents();
 		data.setDents(dents);

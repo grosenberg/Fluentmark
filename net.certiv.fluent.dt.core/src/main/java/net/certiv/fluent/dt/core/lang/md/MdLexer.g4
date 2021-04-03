@@ -27,9 +27,12 @@ COMMENT	: Comment ;
 CODE_BEG : Tics   { bob() }? -> pushMode(CodeTics)	;
 CODE_TLD : Tildes { bob() }? -> type(CODE_BEG), pushMode(CodeTildes) ;
 
+// html blocks
+HTML_BLOCK_BEG : HtmlBlockBeg ;
+HTML_BLOCK_END : HtmlBlockEnd ;
+
 // other blocks
 YAML_BLOCK : YamlBlock { bob() }? ;
-HTML_BLOCK : HtmlBlock { bob() }? ;
 DOT_BLOCK  : DotHead  Hws* ( Vws Hws* )?   DotBody  { bob() }? ;
 MATH_BLOCK : MathMark ( EscSeq | ~[\\] )*? MathMark { bob() }? ;
 TEX_BLOCK  : TexBeg   ( EscSeq | ~[\\] )*? TexEnd   { bob() }? ;
@@ -235,7 +238,7 @@ fragment Bold	: '**' | '__' ;
 fragment Italic	: '*'  | '_'  ;
 fragment Strike : '~~' ;
 
-fragment MathMark : '$$'						;
+fragment MathMark : '$$' ;
 fragment MathSpan : Dollar NotWs NotVws* Dollar	;
 
 fragment NotWs	: ( EscSeq | ~[ \t\r\n\f\\] ) ;
@@ -244,16 +247,47 @@ fragment NotVws	: ( EscSeq | ~[\r\n\f\\]	) ;
 fragment ColDef : Colon? Dashes Colon? ;
 
 // HTML
-fragment HtmlBlock : Html+ ;
-fragment Html
-	: OpenTag ( Html | EscSeq | ~'<' )+ CloseTag
-	| AutoTag
-	;
+// fragment HtmlBlock : AutoTag* HtmlStmt Html? ; 
+// fragment Html : ( HtmlStmt | AutoTag )+ ;
+// fragment HtmlStmt : OpenTag ( HtmlStmt | OpenTag | AutoTag | EscSeq | ~'<' ) CloseTag ;
 
 fragment HtmlTag  : OpenTag | CloseTag | AutoTag ;
-fragment OpenTag  : LAngle Letter+ RAngle		 ;
-fragment CloseTag : LAngle Slash Letter+ RAngle	 ;
-fragment AutoTag  : LAngle Letter+ Slash RAngle  ;
+fragment HtmlBlockBeg : LAngle BlockName (HWS+ Attr)*? HWS* RAngle ;
+fragment HtmlBlockEnd : LAngle Slash BlockName HWS* RAngle ;
+
+fragment AutoTag  : LAngle Slash? AutoName (HWS+ Attr)*? HWS* Slash? RAngle ;
+fragment OpenTag  : LAngle Letter+ (HWS+ Attr)*? HWS* RAngle ;
+fragment CloseTag : LAngle Slash Letter+ HWS* RAngle ;
+
+fragment Attr
+	: Letter+ HWS* 
+	  ( Equal HWS* 
+	  	( Quote .*? Quote
+	  	| Mark .*? Mark
+	  	| [0-9a-zA-Z_./+,?=:;#-]+
+	  	| Hash HexDigit+
+	  	| Digit+ Percent?
+	  	)
+	  )?
+	;
+	
+fragment AutoName
+	: 'p' | 'dt' | 'dd' | 'li' | 'br' | 'hr' | 'wbr'
+	| 'th' | 'tbody' | 'tr' | 'td' | 'tfoot' | 'colgroup' | 'col'
+	| 'html' | 'head' | 'body' | 'meta' | 'base' | 'link'
+	| 'option' | 'thead' | 'img' | 'input' | 'area'
+	| 'embed' | 'param'| 'source' | 'track'
+	;
+
+
+fragment BlockName
+	: 'div' | 'ul' | 'ol' | 'pre' | 'dd' | 'dl' | 'dt' 
+	| 'blockquote' | 'figcaption' | 'figure' | 'table' | 'tfoot' 
+	| 'address' | 'article' | 'aside' | 'footer' | 'form' 
+	| 'header' | 'main' | 'nav' | 'section' | 'button' 
+	| 'fieldset' | 'optgroup' | 'select'
+	| 'canvas'  | 'video' | 'noscript' 
+	;
 
 // DOT
 fragment DotHead  : ( 'strict' Hws+ )? 'di'? 'graph' Hws+ DotID ;

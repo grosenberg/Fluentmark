@@ -3,12 +3,14 @@ package net.certiv.fluent.dt.core.lang.md;
 import static net.certiv.fluent.dt.core.lang.md.gen.MdLexer.*;
 
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Token;
 
 import net.certiv.common.stores.Extent;
@@ -74,6 +76,8 @@ public abstract class MdLexerBase extends LexerNlp {
 	private final TreeList<Integer, Token> pipes = new TreeList<>();
 	private final Map<Integer, Span> tables = new LinkedHashMap<>();
 
+	private final LinkedList<String> htmlBlocks = new LinkedList<>();
+
 	private String data;
 	private boolean lfin;
 	private MdToken lastBlank;
@@ -133,6 +137,7 @@ public abstract class MdLexerBase extends LexerNlp {
 		switch (token.getType()) {
 			case LINE_BLANK:
 				lastBlank = token;
+				htmlBlocks.clear();
 				break;
 
 			case BULLET_MARK:
@@ -155,11 +160,26 @@ public abstract class MdLexerBase extends LexerNlp {
 				tables.put(token.getLine(), new Span(token.getLine()));
 				break;
 
+			case HTML_BLOCK_BEG:
+				if (!htmlBlocks.isEmpty()) token.setType(HTML);
+				htmlBlocks.push(blockName(token));
+				break;
+			case HTML_BLOCK_END:
+				String tagname = blockName(token);
+				while (!htmlBlocks.isEmpty()) {
+					if (tagname.equals(htmlBlocks.peek())) break;
+					htmlBlocks.pop();
+				}
+				htmlBlocks.pop();
+				if (!htmlBlocks.isEmpty()) token.setType(HTML);
+				break;
+
 			case EOF:
 				if (!history.isEmpty()) {
 					expandTables();
 					associateAttrs();
 					history.clear();
+					htmlBlocks.clear();
 				}
 				break;
 			default:
@@ -168,6 +188,14 @@ public abstract class MdLexerBase extends LexerNlp {
 			history.add(token.getLine(), token);
 		}
 		super.emit(token);
+	}
+
+	private static Pattern TN = Pattern.compile("</?(\\w+).*?>");
+
+	private String blockName(MdToken token) {
+		Matcher m = TN.matcher(token.getText());
+		if (!m.find()) throw new RecognitionException(this, getInputStream(), null);
+		return m.group(1);
 	}
 
 	private void expandTables() {

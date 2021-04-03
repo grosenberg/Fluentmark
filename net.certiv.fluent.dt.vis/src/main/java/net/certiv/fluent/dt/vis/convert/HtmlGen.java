@@ -26,7 +26,7 @@ import org.eclipse.ui.IPathEditorInput;
 import org.osgi.framework.Bundle;
 
 import net.certiv.common.log.Log;
-import net.certiv.common.util.FileUtils;
+import net.certiv.common.util.FsUtil;
 import net.certiv.common.util.Strings;
 import net.certiv.dsl.core.preferences.consts.Editor;
 import net.certiv.dsl.core.util.Resources;
@@ -119,7 +119,7 @@ public class HtmlGen {
 	private String getStyle(IPath path) {
 		try {
 			URL url = findStyle(path);
-			return FileUtils.readFromStream(url.openStream());
+			return FsUtil.readFromStream(url.openStream());
 		} catch (Exception e) {
 			Log.error(this, "Failed reading stylesheet", e);
 		}

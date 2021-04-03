@@ -24,6 +24,10 @@ A full-featured Markdown editing environment for Eclipse.
 + Stylesheet controlled editor presentation
 + Outline view with drag-and-drop support
 
+## Use
+
+[Use Details](https://github.com/grosenberg/Fluentmark/blob/master/doc/Use.md)
+
 ## Screenshot
 
 <figure>

@@ -32,7 +32,7 @@ import org.eclipse.text.edits.TextEdit;
 
 import net.certiv.common.exec.Cmd;
 import net.certiv.common.log.Log;
-import net.certiv.common.util.FileUtils;
+import net.certiv.common.util.FsUtil;
 import net.certiv.common.util.Strings;
 import net.certiv.dsl.core.model.ICodeUnit;
 import net.certiv.dsl.core.model.IStatement;
@@ -47,6 +47,7 @@ import net.certiv.fluent.dt.core.FluentCore;
 import net.certiv.fluent.dt.core.lang.md.model.SpecializationType;
 import net.certiv.fluent.dt.core.model.SpecUtil;
 import net.certiv.fluent.dt.core.preferences.Prefs;
+import net.certiv.fluent.dt.vis.FluentVis;
 import net.sourceforge.plantuml.FileFormat;
 import net.sourceforge.plantuml.FileFormatOption;
 import net.sourceforge.plantuml.SourceStringReader;
@@ -91,7 +92,7 @@ public class PdfGen {
 					if (out.isFile()) out.delete();
 
 					// generate images and patch document
-					File dir = createPdfTmpFolder(loc);
+					File dir = createPdfTmpFolder(/* loc */);
 					Document doc = buildGraphs(dir, unit);
 
 					// send document to pandoc to convert & save
@@ -208,6 +209,7 @@ public class PdfGen {
 		ops.addAll(Arrays.asList(PDF_OPS));
 
 		ops.add("--pdf-engine=pdflatex");
+		ops.add("--pdf-engine-opt=--shell-escape");
 		if (!template.isEmpty()) ops.add("--template=" + template);
 		if (store.getBoolean(Prefs.EDITOR_PANDOC_ADDTOC)) ops.add("--table-of-contents");
 
@@ -259,7 +261,7 @@ public class PdfGen {
 			SourceStringReader reader = new SourceStringReader(text);
 			reader.outputImage(os, new FileFormatOption(FileFormat.EPS));
 			String result = new String(os.toByteArray(), Strings.UTF_8);
-			FileUtils.write(file, result);
+			FsUtil.write(file, result);
 			return true;
 
 		} catch (IOException e) {
@@ -294,34 +296,34 @@ public class PdfGen {
 		}
 	}
 
-	// create "./pdf-XXXX"
-	private static File createPdfTmpFolder(File dir) throws IOException {
-		int num = FileUtils.nextRandom(999);
-		String dirname = String.format("pdf-%04d", num);
+	// create "tmp/liveview/pdf-XXXX"
+	private static File createPdfTmpFolder() throws IOException {
+		PrefsManager mgr = FluentVis.getDefault().getPrefsManager();
+		String wctx = mgr.getString(Prefs.VIEW_WS_CONTEXT);
 
-		File root = FileUtils.createTmpFolder(dir, dirname);
-		FileUtils.deleteTmpFolderOnExit(root);
-		return root;
-
+		int num = FsUtil.nextRandom(999);
+		File root = FsUtil.createTmpFolder(wctx);
+		FsUtil.deleteTmpFolderOnExit(root);
+		return FsUtil.createTmpFolder(String.format("%s/pdf-%04d", wctx, num));
 	}
-
-	// // create "tmp/liveview/pdf-XXXX"
-	// private static File createPdfTmpFolder() throws IOException {
-	// PrefsManager mgr = FluentVis.getDefault().getPrefsManager();
-	// String wctx = mgr.getString(Prefs.VIEW_WS_CONTEXT);
-	//
-	// int num = FileUtils.nextRandom(999);
-	// File root = FileUtils.createTmpFolder(wctx);
-	// FileUtils.deleteTmpFolderOnExit(root);
-	// return FileUtils.createTmpFolder(String.format("%s/pdf-%04d", wctx, num));
-	// }
 
 	private static File createTmpFile(File dir, String ext) {
 		try {
-			return FileUtils.createTmpFile("fluent", Strings.DOT + ext, dir);
+			return FsUtil.createTmpFile("fluent", Strings.DOT + ext, dir);
 		} catch (IOException e) {
 			Log.error(PdfGen.class, String.format("Failed creating tmp file (%s)", e.getMessage()));
 			return null;
 		}
 	}
+
+	// // create "./pdf-XXXX"
+	// private static File createPdfTmpFolder(File dir) throws IOException {
+	// int num = FileUtils.nextRandom(999);
+	// String dirname = String.format("pdf-%04d", num);
+	//
+	// File root = FileUtils.createTmpFolder(dir, dirname);
+	// FileUtils.deleteTmpFolderOnExit(root);
+	// return root;
+	// }
+
 }

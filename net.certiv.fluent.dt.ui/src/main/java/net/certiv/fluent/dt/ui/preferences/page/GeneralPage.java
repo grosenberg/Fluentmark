@@ -7,7 +7,6 @@ import static net.certiv.fluent.dt.core.preferences.Prefs.KEY_PANDOC;
 
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.util.PropertyChangeEvent;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IWorkbench;
@@ -36,15 +35,8 @@ public class GeneralPage extends AbstractFieldEditorPreferencePage {
 			{ "External", KEY_EXTERNAL }, //
 	};
 
-	private static final String[][] engines = new String[][] { //
-			{ "IE", String.valueOf(SWT.NONE) }, //
-			{ "Chromium", String.valueOf(SWT.CHROMIUM) }, //
-			{ "Webkit", String.valueOf(SWT.WEBKIT) }, //
-	};
-
 	private ComboSelectFieldEditor converter;
 	private ConvertersConfigBlock block;
-	private ComboSelectFieldEditor engine;
 
 	public GeneralPage() {
 		super(GRID);
@@ -74,19 +66,6 @@ public class GeneralPage extends AbstractFieldEditorPreferencePage {
 			default:
 				store.setToDefault(Prefs.EDITOR_MD_CONVERTER);
 		}
-
-		int engine = -1;
-		try {
-			engine = Integer.valueOf(store.getString(Prefs.EDITOR_MD_ENGINE));
-		} catch (NumberFormatException e) {}
-		switch (engine) {
-			case SWT.NONE:
-			case SWT.CHROMIUM:
-			case SWT.WEBKIT:
-				break;
-			default:
-				store.setToDefault(Prefs.EDITOR_MD_ENGINE);
-		}
 	}
 
 	@Override
@@ -104,13 +83,11 @@ public class GeneralPage extends AbstractFieldEditorPreferencePage {
 		Composite base = SWTFactory.createGroupComposite(parent, 2, 3, "Markdown");
 		converter = new ComboSelectFieldEditor(Prefs.EDITOR_MD_CONVERTER, "Converter:", converters, base);
 		addField(converter);
-		engine = new ComboSelectFieldEditor(Prefs.EDITOR_MD_ENGINE, "Preview engine:", engines, base);
-		addField(engine);
 	}
 
 	@Override
-	protected IPreferenceConfigBlock createConfigurationBlock(AbstractFieldEditorPreferencePage page, Composite parent,
-			PrefsDeltaManager delta, FormToolkit formkit, DslColorRegistry reg) {
+	protected IPreferenceConfigBlock createConfigurationBlock(AbstractFieldEditorPreferencePage page,
+			Composite parent, PrefsDeltaManager delta, FormToolkit formkit, DslColorRegistry reg) {
 		block = new ConvertersConfigBlock(this, delta, formkit, reg);
 		return block;
 	}

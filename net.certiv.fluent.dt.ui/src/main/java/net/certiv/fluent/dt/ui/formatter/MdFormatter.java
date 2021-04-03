@@ -109,6 +109,8 @@ public class MdFormatter extends BaseCodeFormatter {
 			case Table:
 				formatTable(stmt, edit, delim);
 				break;
+			case HtmlBlock:
+				break;
 			default:
 				break;
 		}

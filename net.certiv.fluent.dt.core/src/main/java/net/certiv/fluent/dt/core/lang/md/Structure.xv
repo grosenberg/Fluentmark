@@ -42,8 +42,9 @@ hrule		: //hrule		{ doType(HRule); } ;
 
 comment		: //comment		{ doType(Comment); } ;
 
+htmlBlock	: //htmlBlockBeg	{ doType(HtmlBlock); } ;
+
 yamlBlock	: //yamlBlock	{ doType(YamlBlock); } ;
-htmlBlock	: //htmlBlock	{ doType(HtmlBlock); } ;
 codeBlock	: //codeBlock	{ doType(CodeBlock); } ;
 dotBlock	: //dotBlock	{ doType(DotBlock); } ;
 mathBlock	: //mathBlock	{ doType(MathBlock); } ;

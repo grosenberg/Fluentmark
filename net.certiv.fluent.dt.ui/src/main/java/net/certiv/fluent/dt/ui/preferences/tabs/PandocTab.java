@@ -25,9 +25,9 @@ public class PandocTab extends AbstractTab {
 	@Override
 	protected void createControls(Composite comp) {
 		Composite bools = SWTFactory.createGroupComposite(comp, 3, 1, "Options");
+		block.addCheckBox(bools, "Enable Mathjax rendering", EDITOR_PANDOC_MATHJAX, 0);
 		block.addCheckBox(bools, "Use smart typography", EDITOR_PANDOC_SMART, 0);
 		block.addCheckBox(bools, "Add table of contents", EDITOR_PANDOC_ADDTOC, 0);
-		block.addCheckBox(bools, "Enable Mathjax rendering", EDITOR_PANDOC_MATHJAX, 0);
 
 		Composite loc = SWTFactory.createGroupComposite(comp, 3, 3, "Locations");
 		pgmText = block.addProgramField(loc, EDITOR_PANDOC_PROGRAM, 0, 3, "Program", 0, validFilePath);

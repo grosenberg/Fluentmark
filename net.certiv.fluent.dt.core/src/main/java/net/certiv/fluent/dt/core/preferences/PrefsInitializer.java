@@ -2,7 +2,6 @@ package net.certiv.fluent.dt.core.preferences;
 
 import java.util.Locale;
 
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.ui.texteditor.spelling.SpellingService;
 
@@ -57,7 +56,6 @@ public class PrefsInitializer extends DslPrefsInit {
 		// converters
 
 		setString(Prefs.EDITOR_MD_CONVERTER, Prefs.KEY_PANDOC);
-		setString(Prefs.EDITOR_MD_ENGINE, String.valueOf(SWT.NONE));
 
 		setBool(Prefs.EDITOR_UMLMODE_ENABLED, false);
 		setBool(Prefs.EDITOR_DOTMODE_ENABLED, false);
@@ -91,6 +89,8 @@ public class PrefsInitializer extends DslPrefsInit {
 		setBool(Prefs.EDITOR_MULTIMARKDOWN_METADATA, true);
 
 		// stylesheets
+
+		setBool(Editor.EDITOR_SEMANTIC_ENABLED, false);
 
 		String BUNDLE_ID = "net.certiv.fluent.dt.ui";
 		String previewDir = resourceDir(BUNDLE_ID, Prefs.PREVIEW);

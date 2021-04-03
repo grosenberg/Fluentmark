@@ -1,4 +1,4 @@
-// Generated from D:/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.core/src/main/java/net/certiv/fluent/dt/core/lang/mdx/MdParser.g4 by ANTLR 4.8
+// Generated from D:/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.core/src/main/java/net/certiv/fluent/dt/core/lang/md/MdParser.g4 by ANTLR 4.9.2
 
 	package net.certiv.fluent.dt.core.lang.md.gen;
 
@@ -25,12 +25,6 @@ public interface MdParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitYamlBlock(MdParser.YamlBlockContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link MdParser#htmlBlock}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitHtmlBlock(MdParser.HtmlBlockContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link MdParser#dotBlock}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -54,6 +48,12 @@ public interface MdParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitUmlBlock(MdParser.UmlBlockContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link MdParser#htmlBlock}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitHtmlBlock(MdParser.HtmlBlockContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link MdParser#codeBlock}.
 	 * @param ctx the parse tree

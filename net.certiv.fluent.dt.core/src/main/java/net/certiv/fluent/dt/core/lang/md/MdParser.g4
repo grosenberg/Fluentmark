@@ -9,10 +9,10 @@ options {
 }
 
 page
-	: ( yamlBlock	| htmlBlock | dotBlock  | mathBlock
+	: ( yamlBlock	| dotBlock  | mathBlock | htmlBlock
 	  | texBlock	| umlBlock	| codeBlock	| comment
 	  | header	| hrule     | paragraph
-	  | table		| list		| definition
+	  | table	| list		| definition
 	  | lnBlank	| lnBreak	| VWS
 	  )*
 	  EOF
@@ -21,11 +21,16 @@ page
 // ==== Blocks ============
 
 yamlBlock : YAML_BLOCK ;
-htmlBlock : HTML_BLOCK ; 
 dotBlock  : DOT_BLOCK  ; 
 mathBlock : MATH_BLOCK ;
-texBlock  : TEX_BLOCK  ; 
+texBlock  : TEX_BLOCK  ;
 umlBlock  : UML_BLOCK  ;
+
+htmlBlock 
+	: HTML_BLOCK_BEG 
+		( COMMENT | line | nl )*
+	  HTML_BLOCK_END 
+	;
 
 codeBlock
 	: CODE_BEG lang=WORD? style? VWS

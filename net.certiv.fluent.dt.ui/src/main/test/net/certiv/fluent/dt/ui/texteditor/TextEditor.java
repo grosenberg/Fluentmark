@@ -85,8 +85,8 @@ public class TextEditor {
 	ToolItem boldControl, italicControl, leftAlignmentItem, centerAlignmentItem, rightAlignmentItem,
 			justifyAlignmentItem, blockSelectionItem;
 	Combo fontNameControl, fontSizeControl;
-	MenuItem underlineSingleItem, underlineDoubleItem, underlineErrorItem, underlineSquiggleItem, borderSolidItem,
-			borderDashItem, borderDotItem;
+	MenuItem underlineSingleItem, underlineDoubleItem, underlineErrorItem, underlineSquiggleItem,
+			borderSolidItem, borderDashItem, borderDotItem;
 
 	boolean insert = true;
 	StyleRange[] selectedRanges;
@@ -96,10 +96,10 @@ public class TextEditor {
 	String link;
 
 	// Resources
-	Image iBold, iItalic, iUnderline, iStrikeout, iLeftAlignment, iRightAlignment, iCenterAlignment, iJustifyAlignment,
-			iCopy, iCut, iLink;
-	Image iPaste, iSpacing, iIndent, iTextForeground, iTextBackground, iBaselineUp, iBaselineDown, iBulletList,
-			iNumberedList, iBlockSelection, iBorderStyle;
+	Image iBold, iItalic, iUnderline, iStrikeout, iLeftAlignment, iRightAlignment, iCenterAlignment,
+			iJustifyAlignment, iCopy, iCut, iLink;
+	Image iPaste, iSpacing, iIndent, iTextForeground, iTextBackground, iBaselineUp, iBaselineDown,
+			iBulletList, iNumberedList, iBlockSelection, iBorderStyle;
 	Font font, textFont;
 	Color textForeground, textBackground, strikeoutColor, underlineColor, borderColor;
 
@@ -166,7 +166,8 @@ public class TextEditor {
 	}
 
 	/*
-	 * Default constructor is needed so that example launcher can create an instance.
+	 * Default constructor is needed so that example launcher can create an
+	 * instance.
 	 */
 	public TextEditor() {}
 
@@ -395,14 +396,14 @@ public class TextEditor {
 
 		MenuItem leftToRightItem = new MenuItem(editOrientationMenu, SWT.RADIO);
 		leftToRightItem.setText(getResourceString("LeftToRight_menuitem")); //$NON-NLS-1$
-		leftToRightItem
-				.addSelectionListener(widgetSelectedAdapter(event -> styledText.setOrientation(SWT.LEFT_TO_RIGHT)));
+		leftToRightItem.addSelectionListener(
+				widgetSelectedAdapter(event -> styledText.setOrientation(SWT.LEFT_TO_RIGHT)));
 		leftToRightItem.setSelection(true);
 
 		MenuItem rightToLeftItem = new MenuItem(editOrientationMenu, SWT.RADIO);
 		rightToLeftItem.setText(getResourceString("RightToLeft_menuitem")); //$NON-NLS-1$
-		rightToLeftItem
-				.addSelectionListener(widgetSelectedAdapter(event -> styledText.setOrientation(SWT.RIGHT_TO_LEFT)));
+		rightToLeftItem.addSelectionListener(
+				widgetSelectedAdapter(event -> styledText.setOrientation(SWT.RIGHT_TO_LEFT)));
 
 		new MenuItem(editMenu, SWT.SEPARATOR);
 		MenuItem insertObjectItem = new MenuItem(editMenu, SWT.CASCADE);
@@ -564,9 +565,12 @@ public class TextEditor {
 					disposeResource(underlineColor);
 					underlineColor = new Color(display, newRgb);
 				}
-				if (underlineSingleItem.getSelection()) setStyle(UNDERLINE_SINGLE);
-				else if (underlineDoubleItem.getSelection()) setStyle(UNDERLINE_DOUBLE);
-				else if (underlineErrorItem.getSelection()) setStyle(UNDERLINE_ERROR);
+				if (underlineSingleItem.getSelection())
+					setStyle(UNDERLINE_SINGLE);
+				else if (underlineDoubleItem.getSelection())
+					setStyle(UNDERLINE_DOUBLE);
+				else if (underlineErrorItem.getSelection())
+					setStyle(UNDERLINE_ERROR);
 				else if (underlineSquiggleItem.getSelection()) setStyle(UNDERLINE_SQUIGGLE);
 			}
 		}));
@@ -581,9 +585,12 @@ public class TextEditor {
 				underlineMenu.setLocation(display.map(underlineControl.getParent(), null, pt));
 				underlineMenu.setVisible(true);
 			} else {
-				if (underlineSingleItem.getSelection()) setStyle(UNDERLINE_SINGLE);
-				else if (underlineDoubleItem.getSelection()) setStyle(UNDERLINE_DOUBLE);
-				else if (underlineErrorItem.getSelection()) setStyle(UNDERLINE_ERROR);
+				if (underlineSingleItem.getSelection())
+					setStyle(UNDERLINE_SINGLE);
+				else if (underlineDoubleItem.getSelection())
+					setStyle(UNDERLINE_DOUBLE);
+				else if (underlineErrorItem.getSelection())
+					setStyle(UNDERLINE_ERROR);
 				else if (underlineSquiggleItem.getSelection()) setStyle(UNDERLINE_SQUIGGLE);
 			}
 		}));
@@ -644,8 +651,10 @@ public class TextEditor {
 					disposeResource(borderColor);
 					borderColor = new Color(display, newRgb);
 				}
-				if (borderDashItem.getSelection()) setStyle(BORDER_DASH);
-				else if (borderDotItem.getSelection()) setStyle(BORDER_DOT);
+				if (borderDashItem.getSelection())
+					setStyle(BORDER_DASH);
+				else if (borderDotItem.getSelection())
+					setStyle(BORDER_DOT);
 				else if (borderSolidItem.getSelection()) setStyle(BORDER_SOLID);
 			}
 		}));
@@ -660,8 +669,10 @@ public class TextEditor {
 				borderMenu.setLocation(display.map(borderControl.getParent(), null, pt));
 				borderMenu.setVisible(true);
 			} else {
-				if (borderDashItem.getSelection()) setStyle(BORDER_DASH);
-				else if (borderDotItem.getSelection()) setStyle(BORDER_DOT);
+				if (borderDashItem.getSelection())
+					setStyle(BORDER_DASH);
+				else if (borderDotItem.getSelection())
+					setStyle(BORDER_DOT);
 				else if (borderSolidItem.getSelection()) setStyle(BORDER_SOLID);
 			}
 		}));
@@ -805,7 +816,8 @@ public class TextEditor {
 			Point selection = styledText.getSelection();
 			int lineStart = styledText.getLineAtOffset(selection.x);
 			int lineEnd = styledText.getLineAtOffset(selection.y);
-			styledText.setLineJustify(lineStart, lineEnd - lineStart + 1, justifyAlignmentItem.getSelection());
+			styledText.setLineJustify(lineStart, lineEnd - lineStart + 1,
+					justifyAlignmentItem.getSelection());
 		}));
 		justifyAlignmentItem.setEnabled(false);
 
@@ -817,8 +829,8 @@ public class TextEditor {
 		ToolItem numberedListItem = new ToolItem(alignmentToolBar, SWT.PUSH);
 		numberedListItem.setImage(iNumberedList);
 		numberedListItem.setToolTipText(getResourceString("NumberedList")); //$NON-NLS-1$
-		numberedListItem
-				.addSelectionListener(widgetSelectedAdapter(event -> setBullet(ST.BULLET_NUMBER | ST.BULLET_TEXT)));
+		numberedListItem.addSelectionListener(
+				widgetSelectedAdapter(event -> setBullet(ST.BULLET_NUMBER | ST.BULLET_TEXT)));
 
 		coolItem = new CoolItem(coolBar, SWT.NONE);
 		coolItem.setControl(alignmentToolBar);
@@ -849,8 +861,8 @@ public class TextEditor {
 		composite.setLayout(new GridLayout(1, false));
 		Button mouseNavigator = new Button(composite, SWT.CHECK);
 		mouseNavigator.setText(getResourceString("MouseNav"));
-		mouseNavigator.addSelectionListener(
-				widgetSelectedAdapter(event -> styledText.setMouseNavigatorEnabled(mouseNavigator.getSelection())));
+		mouseNavigator.addSelectionListener(widgetSelectedAdapter(
+				event -> styledText.setMouseNavigatorEnabled(mouseNavigator.getSelection())));
 		coolItem = new CoolItem(coolBar, SWT.NONE);
 		coolItem.setControl(composite);
 
@@ -871,14 +883,16 @@ public class TextEditor {
 	void disposeRanges(StyleRange[] ranges) {
 		StyleRange[] allRanges = styledText.getStyleRanges(0, styledText.getCharCount(), false);
 		for (StyleRange rangeToDispose : ranges) {
-			boolean disposeFg = true, disposeBg = true, disposeStrike = true, disposeUnder = true, disposeBorder = true,
-					disposeFont = true;
+			boolean disposeFg = true, disposeBg = true, disposeStrike = true, disposeUnder = true,
+					disposeBorder = true, disposeFont = true;
 			for (StyleRange range : allRanges) {
 				if (disposeFont && rangeToDispose.font == range.font) disposeFont = false;
 				if (disposeFg && rangeToDispose.foreground == range.foreground) disposeFg = false;
 				if (disposeBg && rangeToDispose.background == range.background) disposeBg = false;
-				if (disposeStrike && rangeToDispose.strikeoutColor == range.strikeoutColor) disposeStrike = false;
-				if (disposeUnder && rangeToDispose.underlineColor == range.underlineColor) disposeUnder = false;
+				if (disposeStrike && rangeToDispose.strikeoutColor == range.strikeoutColor)
+					disposeStrike = false;
+				if (disposeUnder && rangeToDispose.underlineColor == range.underlineColor)
+					disposeUnder = false;
 				if (disposeBorder && rangeToDispose.borderColor == range.borderColor) disposeBorder = false;
 			}
 			if (disposeFont && rangeToDispose.font != textFont && rangeToDispose.font != null)
@@ -893,7 +907,8 @@ public class TextEditor {
 			if (disposeUnder && rangeToDispose.underlineColor != underlineColor
 					&& rangeToDispose.underlineColor != null)
 				rangeToDispose.underlineColor.dispose();
-			if (disposeBorder && rangeToDispose.borderColor != borderColor && rangeToDispose.borderColor != null)
+			if (disposeBorder && rangeToDispose.borderColor != borderColor
+					&& rangeToDispose.borderColor != null)
 				rangeToDispose.borderColor.dispose();
 
 			Object data = rangeToDispose.data;
@@ -1476,14 +1491,16 @@ public class TextEditor {
 			if ((style & UNDERLINE) != 0) {
 				if ((style & UNDERLINE_LINK) != 0) {
 					if (link != null && link.length() > 0) {
-						mergedRange.underline = !range.underline || range.underlineStyle != newRange.underlineStyle
+						mergedRange.underline = !range.underline
+								|| range.underlineStyle != newRange.underlineStyle
 								|| range.data != newRange.data;
 					} else {
 						mergedRange.underline = false;
 					}
 					mergedRange.underlineColor = null;
 				} else {
-					mergedRange.underline = !range.underline || range.underlineStyle != newRange.underlineStyle
+					mergedRange.underline = !range.underline
+							|| range.underlineStyle != newRange.underlineStyle
 							|| range.underlineColor != newRange.underlineColor;
 					mergedRange.underlineColor = mergedRange.underline ? newRange.underlineColor : null;
 				}

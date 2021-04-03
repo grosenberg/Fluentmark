@@ -21,7 +21,7 @@ import org.apache.commons.lang3.SystemUtils;
 import org.eclipse.core.runtime.Path;
 
 import net.certiv.common.log.Log;
-import net.certiv.common.util.FileUtils;
+import net.certiv.common.util.FsUtil;
 import net.certiv.common.util.Strings;
 import net.certiv.dsl.core.preferences.PrefsManager;
 import net.certiv.dsl.core.util.Resources;
@@ -155,8 +155,8 @@ public class LiveUtil {
 
 		try {
 			// create "tmp/liveview"
-			File root = FileUtils.createTmpFolder(wctx);
-			FileUtils.deleteTmpFolderOnExit(root);
+			File root = FsUtil.createTmpFolder(wctx);
+			FsUtil.deleteTmpFolderOnExit(root);
 
 			// copy "<bundle>/liveview/client.zip" to "tmp/liveview/client.zip"
 			File zip = Resources.fromBundle(FluentVis.ID, CLIENT_ZIP, root);
@@ -186,12 +186,12 @@ public class LiveUtil {
 	public static File prepUniqueAppl(File base, String appl) {
 		try {
 			File tmpl = new File(base, appl);
-			String content = FileUtils.readToString(tmpl);
+			String content = FsUtil.readToString(tmpl);
 			// content = content.replace(BASE_DEF, String.format(BASE_ACT, loc));
 			// content = content.replace(WS_DEF, String.format(WS_ACT, host, port, cntx));
 
 			File page = new File(base, ran(appl));
-			FileUtils.write(page, content);
+			FsUtil.write(page, content);
 			return page;
 
 		} catch (Exception e) {
@@ -206,7 +206,7 @@ public class LiveUtil {
 
 	// create unique appl name
 	private static String ran(String appl) {
-		int num = FileUtils.nextRandom(999);
+		int num = FsUtil.nextRandom(999);
 		return appl.replace(Strings.DOT, String.format("-%04d.", num));
 	}
 

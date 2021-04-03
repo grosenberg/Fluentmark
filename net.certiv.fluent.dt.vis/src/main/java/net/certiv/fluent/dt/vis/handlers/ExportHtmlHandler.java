@@ -24,7 +24,7 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.handlers.HandlerUtil;
 
-import net.certiv.common.util.FileUtils;
+import net.certiv.common.util.FsUtil;
 import net.certiv.dsl.ui.DslUI;
 import net.certiv.fluent.dt.core.FluentCore;
 import net.certiv.fluent.dt.core.preferences.Prefs;
@@ -57,7 +57,7 @@ public class ExportHtmlHandler extends AbstractHandler {
 			if (pathname != null) {
 				HtmlGen gen = new HtmlGen(editor, FluentVis.getDefault().getConverter());
 				String content = gen.getHtml(Kind.EXPORT);
-				FileUtils.write(new File(pathname), content);
+				FsUtil.write(new File(pathname), content);
 			}
 
 			if (FluentCore.getDefault().getPrefsManager().getBoolean(Prefs.VIEW_HTML_OPEN)) {
