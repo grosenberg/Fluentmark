@@ -45,20 +45,20 @@ public class StructureVisitor extends StructureBuilder {
 
 	public static final String[] ruleNames = {
 		"page", "yamlBlock", "dotBlock", "mathBlock", "texBlock", "umlBlock", 
-		"htmlBlockBeg", "htmlBlockEnd", "codeBlock", "style", "header", "hrule", 
-		"table", "tableRow", "list", "listItem", "definition", "defineItem", "link", 
-		"lnkDef", "lnkRef", "url", "alt", "paragraph", "lines", "line", "word", 
-		"nl", "nl2", "attrLeft", "attrRight", "comment", "lnBlank", "lnBreak"
+		"htmlBlock", "codeBlock", "style", "header", "hrule", "table", "tableRow", 
+		"list", "listItem", "definition", "defineItem", "link", "lnkDef", "lnkRef", 
+		"url", "alt", "paragraph", "lines", "line", "word", "nl", "nl2", "attrLeft", 
+		"attrRight", "comment", "lnBlank", "lnBreak"
 	};
 
 	public static final int
 		page = 1000, yamlBlock = 1001, dotBlock = 1002, mathBlock = 1003, texBlock = 1004, 
-		umlBlock = 1005, htmlBlockBeg = 1006, htmlBlockEnd = 1007, codeBlock = 1008, 
-		style = 1009, header = 1010, hrule = 1011, table = 1012, tableRow = 1013, 
-		list = 1014, listItem = 1015, definition = 1016, defineItem = 1017, link = 1018, 
-		lnkDef = 1019, lnkRef = 1020, url = 1021, alt = 1022, paragraph = 1023, 
-		lines = 1024, line = 1025, word = 1026, nl = 1027, nl2 = 1028, attrLeft = 1029, 
-		attrRight = 1030, comment = 1031, lnBlank = 1032, lnBreak = 1033;
+		umlBlock = 1005, htmlBlock = 1006, codeBlock = 1007, style = 1008, header = 1009, 
+		hrule = 1010, table = 1011, tableRow = 1012, list = 1013, listItem = 1014, 
+		definition = 1015, defineItem = 1016, link = 1017, lnkDef = 1018, lnkRef = 1019, 
+		url = 1020, alt = 1021, paragraph = 1022, lines = 1023, line = 1024, word = 1025, 
+		nl = 1026, nl2 = 1027, attrLeft = 1028, attrRight = 1029, comment = 1030, 
+		lnBlank = 1031, lnBreak = 1032;
 
 	public StructureVisitor(ParseTree tree) {
 		super(tree);
@@ -108,43 +108,43 @@ public class StructureVisitor extends StructureBuilder {
 					completePathSpec(); 
 
 					createPathSpec("header");
-						addElement(EType.Rule, true, false, "header", 10); 
+						addElement(EType.Rule, true, false, "header", 9); 
 					completePathSpec(); 
 
 					createPathSpec("hrule");
-						addElement(EType.Rule, true, false, "hrule", 11); 
+						addElement(EType.Rule, true, false, "hrule", 10); 
 					completePathSpec(); 
 
 					createPathSpec("paragraph");
-						addElement(EType.Rule, true, false, "paragraph", 23); 
+						addElement(EType.Rule, true, false, "paragraph", 22); 
 					completePathSpec(); 
 
 					createPathSpec("table");
-						addElement(EType.Rule, true, false, "table", 12); 
+						addElement(EType.Rule, true, false, "table", 11); 
 					completePathSpec(); 
 
 					createPathSpec("definition");
-						addElement(EType.Rule, true, false, "definition", 16); 
+						addElement(EType.Rule, true, false, "definition", 15); 
 					completePathSpec(); 
 
 					createPathSpec("list");
-						addElement(EType.Rule, true, false, "list", 14); 
+						addElement(EType.Rule, true, false, "list", 13); 
 					completePathSpec(); 
 
 					createPathSpec("word");
-						addElement(EType.Rule, true, false, "word", 26); 
+						addElement(EType.Rule, true, false, "word", 25); 
 					completePathSpec(); 
 
 					createPathSpec("attrL");
-						addElement(EType.Rule, true, false, "attrLeft", 29); 
+						addElement(EType.Rule, true, false, "attrLeft", 28); 
 					completePathSpec(); 
 
 					createPathSpec("attrR");
-						addElement(EType.Rule, true, false, "attrRight", 30); 
+						addElement(EType.Rule, true, false, "attrRight", 29); 
 					completePathSpec(); 
 
 					createPathSpec("comment");
-						addElement(EType.Rule, true, false, "comment", 31); 
+						addElement(EType.Rule, true, false, "comment", 30); 
 					completePathSpec(); 
 
 					createPathSpec("yamlBlock");
@@ -152,11 +152,11 @@ public class StructureVisitor extends StructureBuilder {
 					completePathSpec(); 
 
 					createPathSpec("htmlBlock");
-						addElement(EType.Rule, true, false, "htmlBlockBeg", 6); 
+						addElement(EType.Rule, true, false, "htmlBlock", 6); 
 					completePathSpec(); 
 
 					createPathSpec("codeBlock");
-						addElement(EType.Rule, true, false, "codeBlock", 8); 
+						addElement(EType.Rule, true, false, "codeBlock", 7); 
 					completePathSpec(); 
 
 					createPathSpec("dotBlock");
@@ -176,7 +176,7 @@ public class StructureVisitor extends StructureBuilder {
 					completePathSpec(); 
 
 					createPathSpec("listItem");
-						addElement(EType.Rule, true, false, "listItem", 15); 
+						addElement(EType.Rule, true, false, "listItem", 14); 
 					completePathSpec(); 
 	}
 

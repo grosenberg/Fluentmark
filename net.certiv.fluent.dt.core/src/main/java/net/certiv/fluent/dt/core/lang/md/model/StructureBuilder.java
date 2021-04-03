@@ -178,7 +178,8 @@ public abstract class StructureBuilder extends Processor {
 	}
 
 	public void doAttrL() {
-		AttrLeftContext ctx = (AttrLeftContext) lastPathNode();
+		ParseTree last = lastPathNode();
+		AttrLeftContext ctx = (AttrLeftContext) last;
 		for (ParseTree child : ctx.children) {
 			TerminalNode node = (TerminalNode) child;
 			MdToken begAttr = (MdToken) node.getSymbol();
