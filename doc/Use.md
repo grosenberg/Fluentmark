@@ -4,6 +4,7 @@ A full-featured Markdown editing environment for Eclipse.
 
 ### Use
 
+- [Toolbar](#toolbar)
 - [Keys](#keys)
 - [Table Editor](#table-editor)
 - [HTML Spans and Blocks](#html-spans-and-blocks)
@@ -14,6 +15,19 @@ A full-featured Markdown editing environment for Eclipse.
 - [LaTex Blocks](#latex-blocks)
 
 ----
+
+## Toolbar
+
+<figure> 
+	<img src="Toolbar.png" > 
+</figure>
+
+When a Fluentmark editor is active, the Eclipse toolbar is populated with buttons to
+
+- open a Live view of the current editor contents
+- export a standalone HTML page rendered from the current editor contents
+- save a PDF rendered from the current editor contents  
+
 
 ## Keys
 
@@ -99,7 +113,7 @@ further delimited by `blank` lines.
 
 ```
 
-## In-line Math Statements
+## In-line Math 
 
 In-line Math uses single `$` open/close delimiters. Can be embedded in other markdown 
 features.

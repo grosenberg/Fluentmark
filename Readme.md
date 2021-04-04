@@ -26,12 +26,14 @@ A full-featured Markdown editing environment for Eclipse.
 
 ## Use
 
-[Use Details](https://github.com/grosenberg/Fluentmark/blob/master/doc/Use.md)
+[How to Use](https://github.com/grosenberg/Fluentmark/blob/master/doc/Use.md)
 
 ## Screenshot
 
 <figure>
-  <img src="./doc/ScreenShot.png">
+	<a href="https://github.com/grosenberg/Fluentmark/blob/master/doc/ScreenShot.png" target="_blank">
+		<img src="./doc/ScreenShot.png" width=600>
+	</a>
   <figcaption>Graph presentation using Graphviz Dot (old version)</figcaption>
 </figure>
 
