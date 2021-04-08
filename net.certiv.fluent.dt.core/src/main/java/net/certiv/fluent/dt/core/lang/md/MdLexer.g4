@@ -93,7 +93,7 @@ LINE_BREAK : Sp Sp Vws  ;
 VWS	: Vws ;
 HWS	: Hws -> channel(HIDDEN) ;
 
-CHAR : EscChar | Char { more(WORD); } ;
+CHAR : ( EscChar | Char ) { more(WORD); } ;
 
 // ----------------------------------------------------------------------
 

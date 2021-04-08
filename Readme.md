@@ -32,7 +32,7 @@ A full-featured Markdown editing environment for Eclipse.
 
 <figure>
 	<a href="https://github.com/grosenberg/Fluentmark/blob/master/doc/ScreenShot.png" target="_blank">
-		<img src="./doc/ScreenShot.png" width=600>
+		<img src="./doc/ScreenShot.png" alt="screen shot" width=600>
 	</a>
   <figcaption>Graph presentation using Graphviz Dot (old version)</figcaption>
 </figure>
