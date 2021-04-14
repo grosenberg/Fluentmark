@@ -36,7 +36,7 @@ public class LiveviewConfigBlock extends AbstractConfigBlock {
 		keys.add(Prefs.VIEW_HTML_OPEN);
 		keys.add(Prefs.VIEW_PDF_OPEN);
 
-		keys.add(Prefs.VIEW_UPDATE_DELAY);
+		// keys.add(Prefs.VIEW_UPDATE_DELAY);
 
 		return keys;
 	}
@@ -46,7 +46,7 @@ public class LiveviewConfigBlock extends AbstractConfigBlock {
 		Composite contents = super.createContents(parent);
 		createServerGroup(contents);
 		createActionGroup(contents);
-		createUpdateGroup(contents);
+		// createUpdateGroup(contents);
 		return contents;
 	}
 
@@ -81,9 +81,11 @@ public class LiveviewConfigBlock extends AbstractConfigBlock {
 		return comp;
 	}
 
-	protected Composite createUpdateGroup(Composite parent) {
-		Composite comp = SWTFactory.createGroupComposite(parent, 3, 2, "Update Controls");
-		addTextField(comp, "Update delay (ms) ", Prefs.VIEW_UPDATE_DELAY, 6, 0, FType.INTEGER);
-		return comp;
-	}
+	// protected Composite createUpdateGroup(Composite parent) {
+	// Composite comp = SWTFactory.createGroupComposite(parent, 3, 2, "Update
+	// Controls");
+	// addTextField(comp, "Update delay (ms) ", Prefs.VIEW_UPDATE_DELAY, 6, 0,
+	// FType.INTEGER);
+	// return comp;
+	// }
 }

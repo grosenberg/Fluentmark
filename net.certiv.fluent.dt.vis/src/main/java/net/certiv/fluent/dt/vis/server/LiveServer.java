@@ -4,6 +4,10 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.servlet.DefaultServlet;
@@ -361,20 +365,35 @@ public class LiveServer {
 		}
 	}
 
-	// See net.certiv.antlr.dt.vis.parse.TargetBuilder for keystroke run length
-	// limiter
 	class Trigger implements ITextListener {
 
-		private FluentEditor editor;
+		private final FluentEditor editor;
+		private final String name;
+		private final TriggerJob job;
 
 		public Trigger(FluentEditor editor) {
 			this.editor = editor;
+			name = editor.getEditorInput().getName();
+			job = new TriggerJob(name);
+			job.setPriority(Job.DECORATE);
 		}
 
 		@Override
 		public void textChanged(TextEvent evt) { // on editor content change
-			Log.debug(this, "Text change on %s", editor.getEditorInput().getName());
-			update(editor);
+			job.schedule();
+		}
+
+		class TriggerJob extends Job {
+
+			public TriggerJob(String name) {
+				super("TriggerJob - " + name);
+			}
+
+			@Override
+			public IStatus run(IProgressMonitor monitor) {
+				update(editor);
+				return Status.OK_STATUS;
+			}
 		}
 	}
 }
