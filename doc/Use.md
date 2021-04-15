@@ -6,6 +6,7 @@ A full-featured Markdown editing environment for Eclipse.
 
 - [Toolbar](#toolbar)
 - [Keys](#keys)
+- [Semantic Styles](https://github.com/grosenberg/Fluentmark/blob/master/doc/EditorCss.md)
 - [Table Editor](#table-editor)
 - [HTML Spans and Blocks](#html-spans-and-blocks)
 - [Graphviz Dot Blocks](#graphviz-dot-blocks)

@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Fluent Core
 Automatic-Module-Name: net.certiv.fluent.dt.core
 Bundle-SymbolicName: net.certiv.fluent.dt.core;singleton:=true
-Bundle-Version: 1.6.2.qualifier
+Bundle-Version: 1.6.3.qualifier
 Bundle-ClassPath: .
 Bundle-Activator: net.certiv.fluent.dt.core.FluentCore
 Bundle-Vendor: Certiv Analytics

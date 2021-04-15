@@ -33,7 +33,7 @@ A full-featured Markdown editing environment for Eclipse.
 <figure>
 	<a href="https://github.com/grosenberg/Fluentmark/blob/master/doc/ScreenShot.png" target="_blank">
 		<img src="./doc/ScreenShot.png" alt="screen shot" width=600>
-	</a>
+	</a><p>
   <figcaption>Graph presentation using Graphviz Dot (old version)</figcaption>
 </figure>
 
@@ -63,7 +63,7 @@ Requirements for Html and Pdf export
 
 Eclipse Preference pages ---
 
-- `Window` -> `Certiv Tools` -> `FluentMark`
+> `Window` -> `Certiv Tools` -> `FluentMark`
 
 To use the Pandoc converter, select the `pandoc` executable from the local filesystem 
 on the Pandoc Converter tab. 
@@ -94,9 +94,10 @@ as much information as possible
     - [Pandoc's Markdown Documentation](https://pandoc.org/MANUAL.html#pandocs-markdown)
     - [CommonMark Spec 0.29](https://spec.commonmark.org/0.29/)
 1. [TeX Syntax Documentation](https://www.onemathematicalcat.org/MathJaxDocumentation/TeXSyntax.htm)
+    - [Templates](https://github.com/topics/latex-template "Latex Templates") for PDF generation
 1. [PlantUML Language Specification](https://plantuml.com/sitemap-language-specification)
+    - [C4 Model for Software Architecture Diagrams](https://github.com/plantuml-stdlib/C4-PlantUML)
 1. [Graphviz 'Dot' Language](http://www.graphviz.org/pdf/dot.1.pdf)
-1. [LaTex Templates](https://github.com/topics/latex-template "Latex Templates") for Pandoc PDF generation on Github.
 
 ## License
 

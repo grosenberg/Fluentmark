@@ -1,6 +1,7 @@
 package net.certiv.fluent.dt.vis.util;
 
 import java.awt.Desktop;
+import java.awt.Desktop.Action;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -227,7 +228,7 @@ public class LiveUtil {
 	public static Exception openBrowser(URL url) {
 		if (url == null) return new OperationCanceledException("Invalid browser URL: null.");
 
-		if (Desktop.isDesktopSupported()) {
+		if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Action.BROWSE)) {
 			try {
 				Desktop.getDesktop().browse(url.toURI());
 			} catch (IOException | URISyntaxException e) {
@@ -236,7 +237,14 @@ public class LiveUtil {
 
 		} else {
 			Runtime runtime = Runtime.getRuntime();
-			if (SystemUtils.IS_OS_LINUX) {
+			if (SystemUtils.IS_OS_WINDOWS) {
+				try {
+					runtime.exec(new String[] { "rundll32", "url.dll,FileProtocolHandler", url.toString() });
+				} catch (IOException e) {
+					return new OperationCanceledException("Windows browser open failed.", e);
+				}
+
+			} else if (SystemUtils.IS_OS_LINUX || SystemUtils.IS_OS_UNIX) {
 				try {
 					runtime.exec("xdg-open " + url.toString());
 				} catch (IOException e) {

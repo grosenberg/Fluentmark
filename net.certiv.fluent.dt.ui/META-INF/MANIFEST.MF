@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Fluent UI
 Automatic-Module-Name: net.certiv.fluent.dt.ui
 Bundle-SymbolicName: net.certiv.fluent.dt.ui;singleton:=true
-Bundle-Version: 1.6.2.qualifier
+Bundle-Version: 1.6.3.qualifier
 Bundle-ClassPath: .,
  lib/flexmark-0.62.2.jar,
  lib/flexmark-ext-abbreviation-0.62.2.jar,
@@ -55,7 +55,7 @@ Bundle-ClassPath: .,
 Bundle-Activator: net.certiv.fluent.dt.ui.FluentUI
 Bundle-Vendor: Certiv Analytics
 Bundle-Localization: plugin
-Require-Bundle: net.certiv.fluent.dt.core;bundle-version="1.6.2",
+Require-Bundle: net.certiv.fluent.dt.core;bundle-version="1.6.3",
  net.certiv.spellchecker;bundle-version="3.4.0",
  net.certiv.dsl.core;bundle-version="0.21.0",
  net.certiv.dsl.ui;bundle-version="0.21.0",
