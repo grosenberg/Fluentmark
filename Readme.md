@@ -1,4 +1,4 @@
-<img src="./doc/Logo110x80.png">
+<img src="./doc/Logo110x80.png" alt="Logo"> 
 
 # FluentMark
 
@@ -96,8 +96,12 @@ as much information as possible
 1. [TeX Syntax Documentation](https://www.onemathematicalcat.org/MathJaxDocumentation/TeXSyntax.htm)
     - [Templates](https://github.com/topics/latex-template "Latex Templates") for PDF generation
 1. [PlantUML Language Specification](https://plantuml.com/sitemap-language-specification)
+    - [Ashley’s PlantUML Documentation](https://plantuml-documentation.readthedocs.io/en/latest/index.html)
     - [C4 Model for Software Architecture Diagrams](https://github.com/plantuml-stdlib/C4-PlantUML)
-1. [Graphviz 'Dot' Language](http://www.graphviz.org/pdf/dot.1.pdf)
+1. [Graphviz Documentation](https://www.graphviz.org/documentation/)
+    - [Arrow Shapes](https://www.graphviz.org/doc/info/arrows.html)
+    - [Node Shapes](https://graphviz.org/doc/info/shapes.html)
+    - [Dot Manpage](http://www.graphviz.org/pdf/dot.1.pdf)
 
 ## License
 

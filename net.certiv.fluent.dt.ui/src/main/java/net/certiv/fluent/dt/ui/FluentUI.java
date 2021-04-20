@@ -1,6 +1,5 @@
 package net.certiv.fluent.dt.ui;
 
-import org.apache.logging.log4j.Level;
 import org.osgi.framework.BundleContext;
 
 import net.certiv.common.log.Log;
@@ -24,7 +23,7 @@ public class FluentUI extends DslUI {
 
 	public FluentUI() {
 		super();
-		Log.defLevel(Level.DEBUG);
+		Log.info(this, "Plugin '%s' starting.", getBundle().getSymbolicName());
 	}
 
 	public static FluentUI getDefault() {

@@ -84,8 +84,8 @@ public class StylesConfigBlock extends AbstractConfigBlock {
 
 		addDirectoryField(extComp, Editor.EDITOR_SEMANTIC_EXTERNAL_DIR, 2, 2, "Directory", 50,
 				new DirectorypathValidator(null, true)).addModifyListener(e -> updateSemantics(true));
-		addLabeledSpinner(extComp, "Max depth", Editor.EDITOR_SEMANTIC_EXTERNAL_MAXDEPTH, 2, 2, SWT.BORDER, 0, 9, 1)
-				.addModifyListener(e -> updateSemantics(true));
+		addLabeledSpinner(extComp, "Max depth", Editor.EDITOR_SEMANTIC_EXTERNAL_MAXDEPTH, 2, 2, SWT.BORDER, 0,
+				9, 1).addModifyListener(e -> updateSemantics(true));
 
 		addCheckBox(stdComp, "Enable live watch & reload for external stylesheets",
 				Editor.EDITOR_SEMANTIC_EXTERNAL_SENTINELS, 2, 4);
@@ -121,9 +121,9 @@ public class StylesConfigBlock extends AbstractConfigBlock {
 		String exname = delta.getString(Editor.EDITOR_SEMANTIC_EXTERNAL_DIR);
 		ex = ex && !exname.isEmpty();
 		delta.setValue(Editor.EDITOR_SEMANTIC_EXTERNAL_ENABLE, ex);
+		updateSemantics(ex);
 		enableControls(stdComp, en);
 		enableControls(extComp, en && ex);
-		updateSemantics(ex);
 	}
 
 	private void updateSemantics(boolean ex) {

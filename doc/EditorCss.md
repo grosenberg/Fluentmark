@@ -15,6 +15,15 @@ must live under a single, accessible directory on the local filesystem.
 
 The `live watch reload` of the external stylesheet directory is experimental and 
 should only be enabled when developing and testing external stylesheets.
+
+## Styles Spy
+
+The helper plugin `Dsl Styles Spy` provides an Editor context spy for revealing the styled 
+text state at the current cursor location.
+
+Invoke the `Dsl Styles Spy` using 
+
+> Alt + Shift + F3
  
 
 ## Defined CSS attributes

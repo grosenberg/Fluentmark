@@ -57,7 +57,8 @@ public class OpenLiveHandler extends AbstractHandler {
 
 					if (!vis.isLiveServerRunning()) {
 						Log.error(this, ErrStart);
-						return null;
+						MessageDialog.openError(shell, "Fluentmark Live View", ErrStart);
+						return Status.CANCEL_STATUS;
 					}
 
 					String addr = vis.prepUniqueAppl((FluentEditor) part);
