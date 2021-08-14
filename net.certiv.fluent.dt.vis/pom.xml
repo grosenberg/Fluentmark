@@ -8,7 +8,7 @@
 	<parent>
 		<groupId>net.certiv</groupId>
 		<artifactId>net.certiv.fluent.dt</artifactId>
-		<version>1.6.4-SNAPSHOT</version>
+		<version>1.6.5-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>net.certiv.fluent.dt.vis</artifactId>

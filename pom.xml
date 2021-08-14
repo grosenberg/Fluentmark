@@ -8,7 +8,7 @@
 
 	<groupId>net.certiv</groupId>
 	<artifactId>net.certiv.fluent.dt</artifactId>
-	<version>1.6.4-SNAPSHOT</version>
+	<version>1.6.5-SNAPSHOT</version>
 
 	<name>FluentMark :: parent</name>
 	<description>FluentMark parent</description>
@@ -22,7 +22,7 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>11</java.version>
 		<tycho.version>2.0.0</tycho.version>
-		<eclipse-repo.url>http://download.eclipse.org/releases/2021-03</eclipse-repo.url>
+		<eclipse-repo.url>http://download.eclipse.org/releases/2021-06</eclipse-repo.url>
 		<certiv-repo.url>file:/D:/DevFiles/Eclipse/Tools/Dsl/net.certiv.dsl/net.certiv.dsl.site/target/repository</certiv-repo.url>
 		<spellcheck.url>file:/D:/DevFiles/Eclipse/Tools/Dsl/net.certiv.spellchecker/site/target/repository</spellcheck.url>
 	</properties>

@@ -2,7 +2,7 @@
 <feature
       id="net.certiv.fluent.dt.feature"
       label="FluentMark Editor"
-      version="1.6.4.qualifier"
+      version="1.6.5.qualifier"
       provider-name="Certiv Analytics">
 
    <description>

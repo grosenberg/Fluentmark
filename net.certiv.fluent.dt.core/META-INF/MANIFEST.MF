@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Fluent Core
 Automatic-Module-Name: net.certiv.fluent.dt.core
 Bundle-SymbolicName: net.certiv.fluent.dt.core;singleton:=true
-Bundle-Version: 1.6.4.qualifier
+Bundle-Version: 1.6.5.qualifier
 Bundle-ClassPath: .
 Bundle-Activator: net.certiv.fluent.dt.core.FluentCore
 Bundle-Vendor: Certiv Analytics
@@ -19,9 +19,9 @@ Export-Package: net.certiv.fluent.dt.core,
  net.certiv.fluent.dt.core.lang.md.model,
  net.certiv.fluent.dt.core.model,
  net.certiv.fluent.dt.core.preferences
-Require-Bundle: net.certiv.dsl.core;bundle-version="0.21.1",
- net.certiv.dsl.lib;bundle-version="0.21.1",
- net.certiv.dsl.ui;bundle-version="0.21.1",
+Require-Bundle: net.certiv.dsl.core;bundle-version="0.21.2",
+ net.certiv.dsl.lib;bundle-version="0.21.2",
+ net.certiv.dsl.ui;bundle-version="0.21.2",
  net.certiv.spellchecker;bundle-version="3.4.0",
  org.eclipse.core.resources;bundle-version="3.14.0",
  org.eclipse.core.runtime;bundle-version="3.20.100",
