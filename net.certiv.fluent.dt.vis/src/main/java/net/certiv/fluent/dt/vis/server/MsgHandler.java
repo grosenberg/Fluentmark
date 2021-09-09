@@ -28,9 +28,7 @@ public class MsgHandler extends WebSocketAdapter {
 	private LiveServer srvr;
 
 	/** Created by {@link LiveServer$LiveServlet}. */
-	public MsgHandler() {
-		super();
-	}
+	public MsgHandler() {}
 
 	public void initialize(LiveServer srvr) {
 		this.srvr = srvr;

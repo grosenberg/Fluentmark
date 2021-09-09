@@ -31,7 +31,6 @@ public class FluentVis extends DslUI {
 	private final Converter converter = new Converter();
 
 	public FluentVis() {
-		super();
 		Log.defLevel(Level.DEBUG);
 	}
 
