@@ -35,7 +35,7 @@ public class FluentLangManager extends LanguageManager {
 	}
 
 	@Override
-	public String getDefaultLanguageId() {
+	public String getLanguageId() {
 		return MD;
 	}
 
@@ -74,7 +74,7 @@ public class FluentLangManager extends LanguageManager {
 	}
 
 	@Override
-	public boolean useNativeSourceRoots() {
+	public boolean useIntrinsicSourceRoots() {
 		return false;
 	}
 }
