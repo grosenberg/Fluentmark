@@ -1,6 +1,6 @@
 package net.certiv.fluent.dt.vis.server;
 
-import net.certiv.common.util.FsUtil;
+import net.certiv.common.util.Maths;
 
 public class Message {
 
@@ -28,7 +28,7 @@ public class Message {
 	 * @return a new message
 	 */
 	public static Message request(String target, String content, int line, int total) {
-		return new Message(FsUtil.nextRandom(), target, content, line, total);
+		return new Message(Maths.nextRandom(), target, content, line, total);
 	}
 
 	/**

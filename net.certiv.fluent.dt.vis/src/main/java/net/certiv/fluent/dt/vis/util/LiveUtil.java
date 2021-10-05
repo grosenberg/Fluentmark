@@ -23,6 +23,7 @@ import org.eclipse.core.runtime.Path;
 
 import net.certiv.common.log.Log;
 import net.certiv.common.util.FsUtil;
+import net.certiv.common.util.Maths;
 import net.certiv.common.util.Strings;
 import net.certiv.dsl.core.preferences.PrefsManager;
 import net.certiv.dsl.core.util.Resources;
@@ -207,7 +208,7 @@ public class LiveUtil {
 
 	// create unique appl name
 	private static String ran(String appl) {
-		int num = FsUtil.nextRandom(999);
+		int num = Maths.nextRandom(999);
 		return appl.replace(Strings.DOT, String.format("-%04d.", num));
 	}
 

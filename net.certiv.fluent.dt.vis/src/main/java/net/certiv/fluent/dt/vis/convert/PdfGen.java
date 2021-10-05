@@ -33,6 +33,7 @@ import org.eclipse.text.edits.TextEdit;
 import net.certiv.common.exec.Cmd;
 import net.certiv.common.log.Log;
 import net.certiv.common.util.FsUtil;
+import net.certiv.common.util.Maths;
 import net.certiv.common.util.Strings;
 import net.certiv.dsl.core.model.ICodeUnit;
 import net.certiv.dsl.core.model.IStatement;
@@ -54,9 +55,9 @@ import net.sourceforge.plantuml.SourceStringReader;
 
 public class PdfGen {
 
-	private static final String[] DOT2PDF = new String[] { "", "-Tpdf", "-o", "" };
+	private static final String[] DOT2PDF = { "", "-Tpdf", "-o", "" };
 
-	private static final String[] PDF_OPS = new String[] { //
+	private static final String[] PDF_OPS = { //
 			"--standalone", "--variable", "graphics", "-f", "markdown", "-t", "latex" //
 	};
 
@@ -301,7 +302,7 @@ public class PdfGen {
 		PrefsManager mgr = FluentVis.getDefault().getPrefsManager();
 		String wctx = mgr.getString(Prefs.VIEW_WS_CONTEXT);
 
-		int num = FsUtil.nextRandom(999);
+		int num = Maths.nextRandom(999);
 		File root = FsUtil.createTmpFolder(wctx);
 		FsUtil.deleteTmpFolderOnExit(root);
 		return FsUtil.createTmpFolder(String.format("%s/pdf-%04d", wctx, num));
@@ -315,15 +316,4 @@ public class PdfGen {
 			return null;
 		}
 	}
-
-	// // create "./pdf-XXXX"
-	// private static File createPdfTmpFolder(File dir) throws IOException {
-	// int num = FileUtils.nextRandom(999);
-	// String dirname = String.format("pdf-%04d", num);
-	//
-	// File root = FileUtils.createTmpFolder(dir, dirname);
-	// FileUtils.deleteTmpFolderOnExit(root);
-	// return root;
-	// }
-
 }
