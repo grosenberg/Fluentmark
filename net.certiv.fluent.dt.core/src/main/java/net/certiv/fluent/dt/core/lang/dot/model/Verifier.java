@@ -4,6 +4,10 @@ import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.eclipse.core.resources.IMarker;
 
+import net.certiv.common.dot.Dictionary;
+import net.certiv.common.dot.Dictionary.Entry;
+import net.certiv.common.dot.DotAttr;
+import net.certiv.common.dot.DotColors;
 import net.certiv.common.log.Log;
 import net.certiv.common.util.Strings;
 import net.certiv.dsl.core.parser.problems.DslProblem;
@@ -13,19 +17,17 @@ import net.certiv.fluent.dt.core.lang.dot.gen.DotLexer;
 import net.certiv.fluent.dt.core.lang.dot.gen.DotParser.AttrListContext;
 import net.certiv.fluent.dt.core.lang.dot.gen.DotParser.AttributeContext;
 import net.certiv.fluent.dt.core.lang.dot.gen.DotParserBaseListener;
-import net.certiv.fluent.dt.core.lang.dot.model.AttrMap.Props;
 
 public class Verifier {
 
 	public static final Verifier INST = new Verifier();
-	private static final ContextVisitor visitor = INST.new ContextVisitor();
+	private static final ContextVisitor Visitor = INST.new ContextVisitor();
 
 	private DotSourceParser parser;
 	private ProblemCollector collector;
 
 	private enum Kind {
-		SEMANTIC,
-		ATTRIBUTE;
+		SEMANTIC, ATTRIBUTE;
 	}
 
 	/**
@@ -35,7 +37,7 @@ public class Verifier {
 	public void check(DotSourceParser parser, ProblemCollector collector) {
 		this.parser = parser;
 		this.collector = collector;
-		ParseTreeWalker.DEFAULT.walk(visitor, parser.getRecord().getTree());
+		ParseTreeWalker.DEFAULT.walk(Visitor, parser.getRecord().getTree());
 	}
 
 	private void reportProblem(int severity, Kind kind, Token token, String cause) {
@@ -50,8 +52,8 @@ public class Verifier {
 		public void enterAttrList(AttrListContext ctx) {
 			for (AttributeContext attribute : ctx.attribute()) {
 				String id = attribute.id().getText();
-				Props props = AttrMap.get(id);
-				if (props.name.equals(DotAttr.INVALID)) {
+				Entry entry = Dictionary.lookup(id);
+				if (entry.attr().equals(DotAttr.INVALID)) {
 					String cause = "Invalid name '" + id + "' at %s:%s";
 					reportProblem(IMarker.SEVERITY_ERROR, Kind.ATTRIBUTE, attribute.id().name, cause);
 					continue;
@@ -60,9 +62,9 @@ public class Verifier {
 				Token token = attribute.value().getStart();
 				String value = attribute.value().getText();
 				String cause = null;
-				switch (props.type) {
+				switch (entry.type()) {
 					case LIST:
-						if (!AttrMap.in(props.values, Strings.deQuote(value))) {
+						if (!entry.values().contains(Strings.deQuote(value))) {
 							cause = "Invalid value '" + value + "' at %s:%s";
 						}
 						break;
