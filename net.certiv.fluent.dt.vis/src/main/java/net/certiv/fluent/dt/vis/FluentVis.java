@@ -2,10 +2,10 @@ package net.certiv.fluent.dt.vis;
 
 import java.io.File;
 
-import org.apache.logging.log4j.Level;
 import org.eclipse.ui.PlatformUI;
 import org.osgi.framework.BundleContext;
 
+import net.certiv.common.log.Level;
 import net.certiv.common.log.Log;
 import net.certiv.dsl.core.DslCore;
 import net.certiv.dsl.core.preferences.PrefsManager;
@@ -31,6 +31,7 @@ public class FluentVis extends DslUI {
 	private final Converter converter = new Converter();
 
 	public FluentVis() {
+		super();
 		Log.defLevel(Level.DEBUG);
 	}
 
@@ -74,15 +75,15 @@ public class FluentVis extends DslUI {
 	/** Start, or restart, the Live server. */
 	public void startLiveServer() {
 		PlatformUI.getWorkbench().getDisplay().asyncExec(() -> {
-			Log.debug(this, "Liveserver starting...");
+			Log.debug("Liveserver starting...");
 			srvr.start();
-			Log.debug(this, "Liveserver started.");
+			Log.debug("Liveserver started.");
 		});
 	}
 
 	public void stopLiveServer() {
 		srvr.stop();
-		Log.debug(this, "Server stopped: %s", srvr.isStopped());
+		Log.debug("Server stopped: %s", srvr.isStopped());
 	}
 
 	public boolean isLiveServerRunning() {
@@ -93,9 +94,12 @@ public class FluentVis extends DslUI {
 		return srvr.isStopped();
 	}
 
+	public LiveServer getLiveServer() {
+		return srvr;
+	}
+
 	/**
-	 * Return the effective Web page address representing the content of the given
-	 * editor.
+	 * Return the effective Web page address representing the content of the given editor.
 	 * <p>
 	 * The server, on startup, will create a fresh copy of the client application.
 	 *
@@ -105,8 +109,7 @@ public class FluentVis extends DslUI {
 	 * {tmp}/liveview/app/assets/...
 	 * </pre>
 	 *
-	 * On opening a new live view page, the handler will create a new, unique index
-	 * page.
+	 * On opening a new live view page, the handler will create a new, unique index page.
 	 *
 	 * <pre>
 	 * {tmp}/liveview/app/indexXXXX.html
@@ -126,6 +129,7 @@ public class FluentVis extends DslUI {
 		String target = editor.getInputDslElement().getPackageName();
 		srvr.createSessionEntry(target, editor, base);
 
+		Log.debug("Prepared app @%s [%s::%s]", addr, target, base);
 		return addr;
 	}
 

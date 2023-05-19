@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 	<packaging>pom</packaging>
 
 	<groupId>net.certiv</groupId>
 	<artifactId>net.certiv.fluent.dt</artifactId>
-	<version>1.6.5-SNAPSHOT</version>
+	<version>1.8.0-SNAPSHOT</version>
 
 	<name>FluentMark :: parent</name>
 	<description>FluentMark parent</description>
@@ -20,28 +20,53 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<java.version>11</java.version>
-		<tycho.version>2.0.0</tycho.version>
-		<eclipse-repo.url>http://download.eclipse.org/releases/2021-09</eclipse-repo.url>
-		<certiv-repo.url>file:/D:/DevFiles/Eclipse/Tools/Dsl/net.certiv.dsl/net.certiv.dsl.site/target/repository</certiv-repo.url>
-		<spellcheck.url>file:/D:/DevFiles/Eclipse/Tools/Dsl/net.certiv.spellchecker/site/target/repository</spellcheck.url>
+		<jdk.version>11</jdk.version>
+		<maven.compiler.source>${jdk.version}</maven.compiler.source>
+		<maven.compiler.target>${jdk.version}</maven.compiler.target>
+		<tycho.version>3.0.4</tycho.version>
+
+		<eclipse.latest>http://download.eclipse.org/releases/latest</eclipse.latest>
+
+		<local.root>file:/D:/DevFiles/Eclipse</local.root>
+		<certiv.root>${local.root}/Tools/Certiv</certiv.root>
+		<dsl.root>${local.root}/Tools/Dsl</dsl.root>
+
+		<eclipse.latest>http://download.eclipse.org/releases/latest</eclipse.latest>
+
+		<local.root>file:/D:/DevFiles/Eclipse</local.root>
+		<certiv.root>${local.root}/Tools/Certiv</certiv.root>
+		<dsl.root>${local.root}/Tools/Dsl</dsl.root>
+
+		<tools.repo>${certiv.root}/net.certiv.tools.parent/net.certiv.tools.site/target/repository</tools.repo>
+		<dsl.repo>${dsl.root}/net.certiv.dsl/net.certiv.dsl.site/target/repository</dsl.repo>
+		<spell.repo>${dsl.root}/net.certiv.spellchecker/site/target/repository</spell.repo>
+		
+		<jetty.version>11.0.15</jetty.version>
+		<log4j.ver>2.20.0</log4j.ver>
+		<plantuml.version>1.2023.7</plantuml.version>
+
 	</properties>
 
 	<repositories>
 		<repository>
 			<id>eclipse</id>
 			<layout>p2</layout>
-			<url>${eclipse-repo.url}</url>
+			<url>${eclipse.latest}</url>
 		</repository>
 		<repository>
-			<id>certiv</id>
+			<id>tools</id>
 			<layout>p2</layout>
-			<url>${certiv-repo.url}</url>
+			<url>${tools.repo}</url>
 		</repository>
 		<repository>
-			<id>spellcheck</id>
+			<id>dsl</id>
 			<layout>p2</layout>
-			<url>${spellcheck.url}</url>
+			<url>${dsl.repo}</url>
+		</repository>
+		<repository>
+			<id>speller</id>
+			<layout>p2</layout>
+			<url>${spell.repo}</url>
 		</repository>
 	</repositories>
 
@@ -61,40 +86,6 @@
 				<artifactId>tycho-maven-plugin</artifactId>
 				<version>${tycho.version}</version>
 				<extensions>true</extensions>
-				<configuration>
-					<encoding>UTF-8</encoding>
-					<source>${java.version}</source>
-					<target>${java.version}</target>
-				</configuration>
-			</plugin>
-
-			<plugin>
-				<groupId>org.eclipse.tycho</groupId>
-				<artifactId>target-platform-configuration</artifactId>
-				<version>${tycho.version}</version>
-				<configuration>
-					<includePackedArtifacts>true</includePackedArtifacts>
-					<dependency-resolution>
-						<optionalDependencies>require</optionalDependencies>
-					</dependency-resolution>
-					<environments>
-						<environment>
-							<os>linux</os>
-							<ws>gtk</ws>
-							<arch>x86_64</arch>
-						</environment>
-						<environment>
-							<os>win32</os>
-							<ws>win32</ws>
-							<arch>x86_64</arch>
-						</environment>
-						<environment>
-							<os>macosx</os>
-							<ws>cocoa</ws>
-							<arch>x86_64</arch>
-						</environment>
-					</environments>
-				</configuration>
 			</plugin>
 
 			<plugin>
@@ -111,6 +102,49 @@
 
 			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-source-plugin</artifactId>
+				<version>${tycho.version}</version>
+				<executions>
+					<execution>
+						<id>plugin-source</id>
+						<goals>
+							<goal>plugin-source</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>target-platform-configuration</artifactId>
+				<version>${tycho.version}</version>
+				<configuration>
+					<includePackedArtifacts>true</includePackedArtifacts>
+					<dependency-resolution>
+						<optionalDependencies>require</optionalDependencies>
+					</dependency-resolution>
+					<environments>
+						<environment>
+							<os>win32</os>
+							<ws>win32</ws>
+							<arch>x86_64</arch>
+						</environment>
+						<environment>
+							<os>linux</os>
+							<ws>gtk</ws>
+							<arch>x86_64</arch>
+						</environment>
+						<environment>
+							<os>macosx</os>
+							<ws>cocoa</ws>
+							<arch>x86_64</arch>
+						</environment>
+					</environments>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>tycho-packaging-plugin</artifactId>
 				<version>${tycho.version}</version>
 				<configuration>
@@ -119,22 +153,17 @@
 						<addMavenDescriptor>false</addMavenDescriptor>
 					</archive>
 				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<id>package-feature</id>
+						<configuration>
+							<finalName>${project.artifactId}-${unqualifiedVersion}.${buildQualifier}</finalName>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
+
 		</plugins>
 	</build>
-
-	<profiles>
-		<profile>
-			<id>macosx</id>
-			<activation>
-				<os>
-					<family>mac</family>
-				</os>
-			</activation>
-			<properties>
-				<tycho.test.platformArgs>-XstartOnFirstThread</tycho.test.platformArgs>
-			</properties>
-		</profile>
-	</profiles>
-
 </project>

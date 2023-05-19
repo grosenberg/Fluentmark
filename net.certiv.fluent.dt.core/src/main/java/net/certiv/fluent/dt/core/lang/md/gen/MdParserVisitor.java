@@ -1,8 +1,7 @@
-// Generated from D:/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.core/src/main/java/net/certiv/fluent/dt/core/lang/md/MdParser.g4 by ANTLR 4.9.2
+// Generated from D:/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.core/src/main/java/net/certiv/fluent/dt/core/lang/md/MdParser.g4 by ANTLR 4.12.0
 
 	package net.certiv.fluent.dt.core.lang.md.gen;
-
-import org.antlr.v4.runtime.tree.ParseTreeVisitor;
+	import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
 /**
  * This interface defines a complete generic visitor for a parse tree produced
@@ -156,6 +155,12 @@ public interface MdParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitLines(MdParser.LinesContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link MdParser#note}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNote(MdParser.NoteContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link MdParser#line}.
 	 * @param ctx the parse tree

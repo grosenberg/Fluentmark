@@ -220,7 +220,7 @@ public class StylesConfigBlock extends AbstractConfigBlock {
 			try {
 				file = new File(new URI(pathname));
 			} catch (URISyntaxException e) {
-				Log.error(this, "Invalid URI: " + pathname);
+				Log.error( "Invalid URI: " + pathname);
 				return nameMap;
 			}
 		}

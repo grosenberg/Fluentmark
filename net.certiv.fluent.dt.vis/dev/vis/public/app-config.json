@@ -1,0 +1,6 @@
+{
+  "description": "Config for Fluentmark App",
+  "title": "Fluentmark",
+  "copyright": "2023",
+  "wsConnectUrl": "ws://127.0.0.1:9025/liveview"
+}

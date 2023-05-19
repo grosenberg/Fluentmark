@@ -51,14 +51,14 @@ public class UmlGen {
 			reader.outputImage(os, new FileFormatOption(FileFormat.SVG));
 			value = new String(os.toByteArray(), Charset.forName("UTF-8"));
 		} catch (IOException e) {
-			Log.error(UmlGen.class, "Uml exception on" + Strings.EOL + data, e);
+			Log.error("Uml exception on" + Strings.EOL + data, e);
 		}
 
 		// update cache if valid value
 		if (value != null && !value.trim().isEmpty()) {
 			umlCache.put(key, value);
 		} else {
-			Log.error(UmlGen.class, "Uml created no output for" + Strings.EOL + data);
+			Log.error("Uml created no output for" + Strings.EOL + data);
 		}
 
 		return value;

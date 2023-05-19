@@ -6,9 +6,9 @@ A machine learning based system for performing language-agnostic source code for
 
 CODEBUFF uses a k-Nearest Neighbor (`kNN`) machine learning model. Exemplars, derived 
 from a corpus of well-formatted documents, form the basis of the model. Codebuff works 
-well for the __limited__ purpose of testing.   
-
-digraph M1{ 
+well for the __limited__ purpose of testing.
+ 
+digraph M1 {
 	node[shape=box width=1.1]
 	parser[label="Document\nParser"]
 	source[label="Source\nDocumment"]
@@ -21,7 +21,7 @@ digraph M1{
 	parser->module[color=blue label="Search\nExemplars\n\n"]
 	parser->corpus[color=green label="Training    \nExemplars"]
 	source->parser[color=blue constraint=false]
-	module->format[label="Formatting  \nCmds         " ]
+	module->format[label="Formatting  \nCmds             " ]
 	source->format
 	format->output
     output->parser[color=green constraint=false label="Update Model"]
@@ -72,10 +72,15 @@ features are used to capture the relative location of line breaks and
 - each exemplar is defined for a real token by
 	- fixed set of structural features
 	- corpus source document 
-	- formatting directives: ws and horz positioning 
+	- formatting directives: ws and horizontal positioning 
 - individual exemplars are directly comparable; they have no context
 - comparison of exemplars is based on real token type and structural feature sets
 - exemplars are compare invariant
+
+
+|a   |b   |
+|:---|:---|
+|one |two |
 
 ---
 

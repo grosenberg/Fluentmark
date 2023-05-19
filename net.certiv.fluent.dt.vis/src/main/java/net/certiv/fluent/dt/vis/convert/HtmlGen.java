@@ -42,18 +42,19 @@ public class HtmlGen {
 
 	private FluentEditor editor;
 	private Converter converter;
+	private int linenum;
 
-	public HtmlGen(FluentEditor editor, Converter converter) {
+	public HtmlGen(FluentEditor editor, Converter converter, int linenum) {
 		this.editor = editor;
 		this.converter = converter;
+		this.linenum = linenum;
 	}
 
 	/**
-	 * Returns the current document content with a header as determined by
-	 * {@code kind}.
+	 * Returns the current document content with a header as determined by {@code kind}.
 	 *
-	 * @param kind defines the intended use of the HTML: for export, for the
-	 *            embedded view, or minimal.
+	 * @param kind defines the intended use of the HTML: for export, for the embedded
+	 *             view, or minimal.
 	 */
 	public String getHtml(Kind kind) {
 		IPathEditorInput input = (IPathEditorInput) editor.getEditorInput();
@@ -108,11 +109,11 @@ public class HtmlGen {
 		try {
 			regions = TextUtilities.computePartitioning(doc, Partitions.PARTITIONING, beg, len, false);
 		} catch (BadLocationException e) {
-			Log.error(this, "Failed to compute partition at %s", beg);
+			Log.error("Failed to compute partition at %s", beg);
 			return Strings.EMPTY;
 		}
 
-		return converter.convert(basepath, doc, regions);
+		return converter.convert(basepath, doc, regions, linenum);
 	}
 
 	// path is the searchable base for the style to use; returns the content
@@ -121,7 +122,7 @@ public class HtmlGen {
 			URL url = findStyle(path);
 			return FsUtil.readFromStream(url.openStream());
 		} catch (Exception e) {
-			Log.error(this, "Failed reading stylesheet", e);
+			Log.error("Failed reading stylesheet", e);
 		}
 		return Strings.EMPTY;
 	}

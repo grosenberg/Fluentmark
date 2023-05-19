@@ -49,6 +49,7 @@ public class Prefs extends PrefsSpelling {
 	public static final String EDITOR_DOTMODE_ENABLED = "{DSL_ID}" + ".dotMode";
 	public static final String EDITOR_DOT_PROGRAM = "{DSL_ID}" + ".dotProgram";
 	public static final String EDITOR_UMLMODE_ENABLED = "{DSL_ID}" + ".umlMode";
+	public static final String EDITOR_CODEBLOCK_CONVERT_ENABLED = "{DSL_ID}" + ".codeblockMode";
 
 	public static final String EDITOR_DEFAULT_COLOR = "{DSL_ID}" + ".defaultColor";
 	public static final String EDITOR_FRONTMATTER_COLOR = "{DSL_ID}" + ".frontMatterColor";
@@ -138,4 +139,6 @@ public class Prefs extends PrefsSpelling {
 	public static final String VIEW_CLNT_BASE = "{DSL_ID}" + ".viewClientBase";
 	/** Client: index page name */
 	public static final String VIEW_CLNT_APPL = "{DSL_ID}" + ".viewClientAppl";
+	/** Client: allow anonymous websocket connections */
+	public static final String VIEW_WS_DEBUG = "{DSL_ID}" + ".viewDebugWsClient";
 }

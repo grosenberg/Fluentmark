@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry exported="true" kind="lib" path="lib/log4j-api-2.20.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/log4j-core-2.20.0.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-11">
 		<attributes>
 			<attribute name="module" value="true"/>
@@ -7,20 +9,21 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
-	<classpathentry exported="true" kind="lib" path="lib/commons-io-2.8.0.jar" sourcepath="C:/Users/Gbr/.m2/repository/commons-io/commons-io/2.8.0/commons-io-2.8.0-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/gson-2.8.6.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/javax.servlet-api-3.1.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/jetty-http-9.4.38.v20210224.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/jetty-io-9.4.38.v20210224.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/jetty-security-9.4.38.v20210224.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/jetty-server-9.4.38.v20210224.jar" sourcepath="C:/Users/Gbr/.m2/repository/org/eclipse/jetty/jetty-server/9.4.38.v20210224/jetty-server-9.4.38.v20210224-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/jetty-servlet-9.4.38.v20210224.jar" sourcepath="C:/Users/Gbr/.m2/repository/org/eclipse/jetty/jetty-servlet/9.4.38.v20210224/jetty-servlet-9.4.38.v20210224-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/jetty-util-9.4.38.v20210224.jar" sourcepath="C:/Users/Gbr/.m2/repository/org/eclipse/jetty/jetty-util/9.4.38.v20210224/jetty-util-9.4.38.v20210224-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/jetty-util-ajax-9.4.38.v20210224.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/websocket-api-9.4.38.v20210224.jar" sourcepath="C:/Users/Gbr/.m2/repository/org/eclipse/jetty/websocket/websocket-api/9.4.38.v20210224/websocket-api-9.4.38.v20210224-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/websocket-common-9.4.38.v20210224.jar" sourcepath="C:/Users/Gbr/.m2/repository/org/eclipse/jetty/websocket/websocket-common/9.4.38.v20210224/websocket-common-9.4.38.v20210224-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/websocket-server-9.4.38.v20210224.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/websocket-servlet-9.4.38.v20210224.jar"/>
-	<classpathentry kind="src" path="src/main/java"/>
+	<classpathentry kind="src" path="src/main/java/"/>
+	<classpathentry exported="true" kind="lib" path="lib/jetty-http-11.0.15.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jetty-io-11.0.15.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jetty-jakarta-servlet-api-5.0.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jetty-security-11.0.15.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jetty-server-11.0.15.jar" sourcepath="C:/Users/gbr/.m2/repository/org/eclipse/jetty/jetty-server/11.0.15/jetty-server-11.0.15-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jetty-servlet-11.0.15.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jetty-util-11.0.15.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jetty-util-ajax-11.0.15.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/log4j-slf4j2-impl-2.19.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/slf4j-api-2.0.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/websocket-core-common-11.0.15.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/websocket-core-server-11.0.15.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/websocket-jetty-api-11.0.15.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/websocket-jetty-common-11.0.15.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/websocket-jetty-server-11.0.15.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

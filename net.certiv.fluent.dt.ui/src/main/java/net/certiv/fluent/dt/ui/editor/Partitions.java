@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2016 - 2018 Certiv Analytics and others.
+ * Copyright (c) 2016 - 2023 Certiv Analytics and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -24,8 +24,10 @@ public class Partitions {
 	public static final String MATHBLOCK = "__mathblock";
 
 	/** Partition type groups by similar treatment */
-	public static final String[] SPECIAL_TYPES = new String[] { COMMENT, YAMLBLOCK, CODEBLOCK, HTMLBLOCK, DOTBLOCK,
-			UMLBLOCK, MATHBLOCK };
+	public static final String[] SPECIAL_TYPES = new String[] { //
+			COMMENT, YAMLBLOCK, CODEBLOCK, HTMLBLOCK, //
+			DOTBLOCK, UMLBLOCK, MATHBLOCK //
+	};
 	public static final String[] STRING_AND_COMMENT_TYPES = new String[] { COMMENT };
 	public static final String[] COMMENT_TYPES = new String[] { COMMENT };
 	public static final String[] STRING_TYPES = new String[] {};

@@ -4,7 +4,7 @@ import java.util.Date;
 
 import net.certiv.common.util.Strings;
 
-/** Message envelope. */
+/** Message envelope: contains and characterizes an included Message. */
 public class MsgEnvl {
 
 	// ------------------------------------------
@@ -24,13 +24,38 @@ public class MsgEnvl {
 	/** Client<->Server: hello?. */
 	public static final int HELO = 12;
 
-	/** Client->Server: client wants a refresh; e.g., pull an 'update', etc. */
+	/** Client -> Server: client initiated request for server 'update'. */
 	public static final int REFRESH = 20;
-	/** Server->Client: server data-push to 'update' client. */
+	/** Server -> Client: server push to 'update' client. */
 	public static final int UPDATE = 22;
 
 	/** Client->Server: client heartbeat check. */
 	public static final int HEARTBEAT = 200;
+
+	public static String name(int code) {
+		switch (code) {
+			case NACK:
+				return "Nack";
+			case ACK:
+				return "Ack";
+			case REQUEST:
+				return "Request";
+			case REPLY:
+				return "Reply";
+			case AUTH:
+				return "Auth";
+			case HELO:
+				return "Hello";
+			case UPDATE:
+				return "Update";
+			case REFRESH:
+				return "Refresh";
+			case HEARTBEAT:
+				return "Heartbeat";
+			default:
+				return "Unknown";
+		}
+	}
 
 	// ------------------------------------------
 
@@ -86,9 +111,9 @@ public class MsgEnvl {
 	/**
 	 * Prepare a message envelope for the given message.
 	 *
-	 * @param kind the communication kind
+	 * @param kind    the communication kind
 	 * @param request the communication request op
-	 * @param msg the message to deliver
+	 * @param msg     the message to deliver
 	 */
 	private MsgEnvl(int kind, int request, Message msg) {
 		this.code = kind;
@@ -97,6 +122,16 @@ public class MsgEnvl {
 		this.status = Strings.EMPTY;
 
 		target = msg.target;
-		timestamp = (new Date()).getTime();
+		timestamp = now();
+	}
+
+	// to match the Javascript value
+	private long now() {
+		return (new Date()).getTime();
+	}
+
+	@Override
+	public String toString() {
+		return String.format("%s/%s [%s]", name(code), name(request), target);
 	}
 }

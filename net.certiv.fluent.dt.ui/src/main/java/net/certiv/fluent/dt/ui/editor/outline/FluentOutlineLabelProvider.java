@@ -111,7 +111,7 @@ public class FluentOutlineLabelProvider extends OutlineLabelProvider {
 				src = src.substring(0, dot);
 			}
 		} catch (BadLocationException e) {
-			Log.error(this, e.getMessage(), e);
+			Log.error( e.getMessage(), e);
 		}
 		return Strings.ellipsize(src, 32);
 	}

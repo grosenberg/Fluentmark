@@ -1,11 +1,13 @@
 parser grammar MdParser ;
 
 options {
+	superClass = MdParserBase ;
 	tokenVocab = MdLexer ;
 }
 
 @header {
 	package net.certiv.fluent.dt.core.lang.md.gen;
+	import net.certiv.fluent.dt.core.lang.md.MdParserBase;
 }
 
 page
@@ -110,7 +112,8 @@ link
 	: lnkDef line LNK_SEP url? alt? RPAREN style? 
 	| lnkDef line LNK_REF word* RBRACK style?
 	| lnkRef word* LNK_DEF ( VWS | LINE_BREAK )? url (( VWS | LINE_BREAK )? alt )? 
-	| lnkDef line RBRACK style?
+	| FNOTE  word LNK_DEF note style?
+	| lnkDef line RBRACK style? 
 	;
 
 lnkDef : ( IMAGE | FNOTE | LINK ) ;
@@ -136,6 +139,10 @@ paragraph
 
 lines
 	: line (nl line )*
+	;
+
+note
+	: line (nl {twoSpaces()}? line)*
 	;
 
 line

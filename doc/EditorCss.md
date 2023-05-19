@@ -3,6 +3,10 @@
 Semantic text presentation styling within the Fluentmark editor is implemented by 
 the application of a CSS stylesheet.
 
+Note: this is an experimental feature.
+
+## Use
+
 The preference controls are located at
 
 > `Window` -> `Certiv Tools` -> `FluentMark` -> `Stylesheets`
@@ -21,9 +25,9 @@ should only be enabled when developing and testing external stylesheets.
 The helper plugin `Dsl Styles Spy` provides an Editor context spy for revealing the styled 
 text state at the current cursor location.
 
-Invoke the `Dsl Styles Spy` using 
+Invoke the `Dsl Styles Spy` using:
 
-> Alt + Shift + F3
+> `Alt` + `Shift` + `F3`
  
 
 ## Defined CSS attributes

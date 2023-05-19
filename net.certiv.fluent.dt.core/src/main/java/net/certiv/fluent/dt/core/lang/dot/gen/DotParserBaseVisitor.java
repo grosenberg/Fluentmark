@@ -1,4 +1,4 @@
-// Generated from D:/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.core/src/main/java/net/certiv/fluent/dt/core/lang/dot/DotParser.g4 by ANTLR 4.8
+// Generated from D:/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.core/src/main/java/net/certiv/fluent/dt/core/lang/dot/DotParser.g4 by ANTLR 4.12.0
 
 	package net.certiv.fluent.dt.core.lang.dot.gen;
 
@@ -12,6 +12,7 @@ import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
  * @param <T> The return type of the visit operation. Use {@link Void} for
  * operations with no return type.
  */
+@SuppressWarnings("CheckReturnValue")
 public class DotParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements DotParserVisitor<T> {
 	/**
 	 * {@inheritDoc}

@@ -18,7 +18,6 @@ import net.certiv.dsl.ui.preferences.blocks.AbstractConfigBlock;
 import net.certiv.dsl.ui.preferences.pages.IDslPreferencePage;
 import net.certiv.dsl.ui.preferences.tabs.AbstractTab;
 import net.certiv.dsl.ui.util.SWTFactory;
-import net.certiv.fluent.dt.core.preferences.Prefs;
 import net.certiv.fluent.dt.ui.preferences.tabs.BlackFridayTab;
 import net.certiv.fluent.dt.ui.preferences.tabs.ExternalTab;
 import net.certiv.fluent.dt.ui.preferences.tabs.FlexmarkTab;
@@ -40,30 +39,31 @@ public class ConvertersConfigBlock extends AbstractConfigBlock {
 	@Override
 	protected List<String> createDeltaMatchKeys(List<String> keys) {
 
-		keys.add(Prefs.KEY_PANDOC);
-		keys.add(Prefs.EDITOR_PANDOC_PROGRAM);
-		keys.add(Prefs.EDITOR_PANDOC_TEMPLATES);
-		keys.add(Prefs.EDITOR_PANDOC_TEMPLATE);
-		keys.add(Prefs.EDITOR_PANDOC_ADDTOC);
-		keys.add(Prefs.EDITOR_PANDOC_SMART);
-		keys.add(Prefs.EDITOR_PANDOC_MATHJAX);
+		keys.add(KEY_PANDOC);
+		keys.add(EDITOR_PANDOC_PROGRAM);
+		keys.add(EDITOR_PANDOC_TEMPLATES);
+		keys.add(EDITOR_PANDOC_TEMPLATE);
+		keys.add(EDITOR_PANDOC_ADDTOC);
+		keys.add(EDITOR_PANDOC_SMART);
+		keys.add(EDITOR_PANDOC_MATHJAX);
 
-		keys.add(Prefs.KEY_FLEXMARK);
-		keys.add(Prefs.EDITOR_FLEXMARK_PROFILE);
-		keys.add(Prefs.EDITOR_FLEXMARK_MATHJAX);
+		keys.add(KEY_FLEXMARK);
+		keys.add(EDITOR_FLEXMARK_PROFILE);
+		keys.add(EDITOR_FLEXMARK_MATHJAX);
 
-		keys.add(Prefs.KEY_BLACKFRIDAY);
-		keys.add(Prefs.EDITOR_BLACKFRIDAY_PROGRAM);
-		keys.add(Prefs.EDITOR_BLACKFRIDAY_ADDTOC);
-		keys.add(Prefs.EDITOR_BLACKFRIDAY_SMART);
+		keys.add(KEY_BLACKFRIDAY);
+		keys.add(EDITOR_BLACKFRIDAY_PROGRAM);
+		keys.add(EDITOR_BLACKFRIDAY_ADDTOC);
+		keys.add(EDITOR_BLACKFRIDAY_SMART);
 
-		keys.add(Prefs.KEY_EXTERNAL);
-		keys.add(Prefs.EDITOR_EXTERNAL_COMMAND);
+		keys.add(KEY_EXTERNAL);
+		keys.add(EDITOR_EXTERNAL_COMMAND);
 
-		keys.add(Prefs.KEY_GRAPHS);
-		keys.add(Prefs.EDITOR_DOTMODE_ENABLED);
-		keys.add(Prefs.EDITOR_UMLMODE_ENABLED);
-		keys.add(Prefs.EDITOR_DOT_PROGRAM);
+		keys.add(KEY_GRAPHS);
+		keys.add(EDITOR_DOTMODE_ENABLED);
+		keys.add(EDITOR_UMLMODE_ENABLED);
+		keys.add(EDITOR_DOT_PROGRAM);
+		keys.add(EDITOR_CODEBLOCK_CONVERT_ENABLED);
 
 		return keys;
 	}
@@ -84,6 +84,9 @@ public class ConvertersConfigBlock extends AbstractConfigBlock {
 		addCheckBox(graphs, "Enable Graphviz generator", EDITOR_DOTMODE_ENABLED, 3, 4);
 
 		addProgramField(graphs, EDITOR_DOT_PROGRAM, 4, 3, "Dot executable", 0, AbstractTab.validFilePath);
+
+		addCheckBox(graphs, "Enable diagram generation from code blocks", EDITOR_CODEBLOCK_CONVERT_ENABLED, 3,
+				4);
 
 		SWTFactory.createVerticalSpacer(contents, 1);
 

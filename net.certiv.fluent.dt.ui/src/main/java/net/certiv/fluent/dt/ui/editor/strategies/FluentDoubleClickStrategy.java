@@ -48,14 +48,20 @@ public class FluentDoubleClickStrategy extends DefaultTextDoubleClickStrategy {
 		unit = editor.getInputDslElement();
 		try {
 			stmt = unit.getElementAtOffset(offset);
-			switch (SpecUtil.getSpecializedType(stmt)) {
-				case Table:
-					runTableEditor();
-					return;
+			if (stmt != null) {
+				switch (SpecUtil.getSpecializedType(stmt)) {
+					case Table:
+						runTableEditor();
+						return;
 
-				default:
+					default:
+				}
+			} else {
+				Log.debug("[DoubleClick] Table statement not found at offset %s", offset);
 			}
-		} catch (ModelException e) {}
+		} catch (ModelException e) {
+			Log.error(e, "Table double click @%s", offset);
+		}
 		super.doubleClicked(viewer);
 	}
 
@@ -74,7 +80,7 @@ public class FluentDoubleClickStrategy extends DefaultTextDoubleClickStrategy {
 					try {
 						edit.apply(editor.getDocument());
 					} catch (MalformedTreeException | BadLocationException e) {
-						Log.error(this, "Failed to insert new table in stmt " + stmt + " (" + e.getMessage() + ")");
+						Log.error("Failed to insert new table in stmt " + stmt + " (" + e.getMessage() + ")");
 						return Status.CANCEL_STATUS;
 					}
 				}

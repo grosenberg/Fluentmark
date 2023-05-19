@@ -49,12 +49,12 @@ public class LiveUtil {
 	private LiveUtil() {}
 
 	/**
-	 * Incorporate images identified by relative paths within the given Html content
-	 * as base64 encoded data. The relative paths are evaluated as relative to the
-	 * given loc directory.
+	 * Incorporate images identified by relative paths within the given Html content as
+	 * base64 encoded data. The relative paths are evaluated as relative to the given loc
+	 * directory.
 	 *
 	 * @param content html content
-	 * @param loc source directory
+	 * @param loc     source directory
 	 */
 	public static String encodeImages(String content, File loc) {
 		String results = content;
@@ -82,12 +82,12 @@ public class LiveUtil {
 
 						} else {
 							sb.append(m.group(0));
-							Log.error(LiveUtil.class, "Image '%s' does not exist.", img);
+							Log.error("Image '%s' does not exist.", img);
 						}
 
 					} catch (IOException e) {
 						sb.append(m.group(0));
-						Log.error(LiveUtil.class, "Image encode failed '%s': %s", img, e.getMessage());
+						Log.error("Image encode failed '%s': %s", img, e.getMessage());
 					}
 
 				} else {
@@ -101,12 +101,12 @@ public class LiveUtil {
 	}
 
 	/**
-	 * Copy images identified by relative paths within the given content from under
-	 * the given loc directory to under the given base directory.
+	 * Copy images identified by relative paths within the given content from under the
+	 * given loc directory to under the given base directory.
 	 *
 	 * @param content html content
-	 * @param loc source directory
-	 * @param base destination directory
+	 * @param loc     source directory
+	 * @param base    destination directory
 	 */
 	public static void rebaseImages(String content, File loc, File base) {
 		for (Pattern pat : Arrays.asList(IMG_P1, IMG_P2)) {
@@ -120,18 +120,18 @@ public class LiveUtil {
 					try {
 						img = img.getCanonicalFile();
 						if (!img.isFile()) {
-							Log.error(LiveUtil.class, "Image '%s' does not exist.", img);
+							Log.error("Image '%s' does not exist.", img);
 							continue;
 						}
 
 						dst = dst.getCanonicalFile();
 						dst.getParentFile().mkdirs();
-						if (dst.isFile()) Log.warn(LiveUtil.class, "Replacing image '%s'", dst);
+						if (dst.isFile()) Log.warn("Replacing image '%s'", dst);
 
 						Files.copy(img.toPath(), dst.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
 					} catch (IOException e) {
-						Log.error(LiveUtil.class, "Image copy failed '%s' -> '%s'", img, dst);
+						Log.error("Image copy failed '%s' -> '%s'", img, dst);
 					}
 				}
 			}
@@ -139,42 +139,41 @@ public class LiveUtil {
 	}
 
 	/**
-	 * Extract the client application from the client.zip.
-	 * <p>
-	 * extracts "<bundle>/liveview/client.zip" to "tmp/liveview/client.zip"
-	 * <p>
-	 * extracts "tmp/liveview/client.zip" to "tmp/liveview/app..."
-	 * <p>
-	 * returns the File for "tmp/liveview/app" or {@code null}
+	 * Extract the client application from the client.zip:
+	 * <ol>
+	 * <li>extracts "<bundle>/liveview/client.zip" to "tmp/<ws_context>/client.zip"
+	 * <li>extracts "tmp/<ws_context>/client.zip" to "tmp/<ws_context>/app..."
+	 * <li>returns the File for "tmp/<ws_context>/app" or {@code null}
+	 * </ol>
 	 *
+	 * @param mgr the preference manager instance
 	 * @return the File of the static resource directory or {@code null}
 	 */
-	public static File extractClient() {
-		PrefsManager mgr = FluentVis.getDefault().getPrefsManager();
+	public static File extractClient(PrefsManager mgr) {
 		String wctx = mgr.getString(Prefs.VIEW_WS_CONTEXT);
 		String base = mgr.getString(Prefs.VIEW_CLNT_BASE);
 		String appl = mgr.getString(Prefs.VIEW_CLNT_APPL);
 
 		try {
-			// create "tmp/liveview"
+			// create "tmp/<ws_context>"
 			File root = FsUtil.createTmpFolder(wctx);
 			FsUtil.deleteTmpFolderOnExit(root);
 
-			// copy "<bundle>/liveview/client.zip" to "tmp/liveview/client.zip"
+			// copy "<bundle>/<ws_context>/client.zip" to "tmp/liveview/client.zip"
 			File zip = Resources.fromBundle(FluentVis.ID, CLIENT_ZIP, root);
 			if (zip == null) throw new IllegalArgumentException(String.format(ErrZip, CLIENT_ZIP, root));
 
-			// extract "tmp/liveview/client.zip" to "tmp/liveview/app..."
+			// extract "tmp/<ws_context>/client.zip" to "tmp/<ws_context>/app..."
 			File dst = new File(root, base);
 			Resources.expandZip(zip, dst);
 
-			// verify existance of "tmp/liveview/app/index.html"
+			// verify existance of "tmp/<ws_context>/app/index.html"
 			File file = new File(dst, appl);
 			if (!file.isFile()) throw new IOException(String.format("Failed to create '%s/%s'", dst, appl));
 			return dst;
 
 		} catch (Exception e) {
-			Log.error(LiveUtil.class, ErrRes, wctx, e.getMessage());
+			Log.error(ErrRes, wctx, e.getMessage());
 			return null;
 		}
 	}
@@ -183,6 +182,7 @@ public class LiveUtil {
 	 * Returns the web address of a unique instance of the client application.
 	 *
 	 * @param base dir containing the default client application
+	 * @param appl application name: index.html
 	 * @return web address of the unique client application instance
 	 */
 	public static File prepUniqueAppl(File base, String appl) {
@@ -197,7 +197,7 @@ public class LiveUtil {
 			return page;
 
 		} catch (Exception e) {
-			Log.error(LiveUtil.class, "Failed creating unique %s: %s", appl, e.getMessage());
+			Log.error("Failed creating unique %s: %s", appl, e.getMessage());
 			return null;
 		}
 	}
@@ -222,18 +222,18 @@ public class LiveUtil {
 			URL target = new URL(url);
 			return openBrowser(target);
 		} catch (MalformedURLException e) {
-			return new OperationCanceledException(String.format("Bad server URL '%'.", url), e);
+			return new BrowserException(String.format("Bad server URL '%'.", url), e);
 		}
 	}
 
 	public static Exception openBrowser(URL url) {
-		if (url == null) return new OperationCanceledException("Invalid browser URL: null.");
+		if (url == null) return new BrowserException("Invalid browser URL: null.");
 
 		if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Action.BROWSE)) {
 			try {
 				Desktop.getDesktop().browse(url.toURI());
 			} catch (IOException | URISyntaxException e) {
-				return new OperationCanceledException("Desktop browser open failed.", e);
+				return new BrowserException("Desktop browser open failed.", e);
 			}
 
 		} else {
@@ -242,21 +242,21 @@ public class LiveUtil {
 				try {
 					runtime.exec(new String[] { "rundll32", "url.dll,FileProtocolHandler", url.toString() });
 				} catch (IOException e) {
-					return new OperationCanceledException("Windows browser open failed.", e);
+					return new BrowserException("Windows browser open failed.", e);
 				}
 
 			} else if (SystemUtils.IS_OS_LINUX || SystemUtils.IS_OS_UNIX) {
 				try {
 					runtime.exec("xdg-open " + url.toString());
 				} catch (IOException e) {
-					return new OperationCanceledException("Linux browser open failed.", e);
+					return new BrowserException("Linux browser open failed.", e);
 				}
 
 			} else if (SystemUtils.IS_OS_MAC) {
 				try {
 					runtime.exec("open " + url.toString());
 				} catch (IOException e) {
-					return new OperationCanceledException("Mac browser open failed.", e);
+					return new BrowserException("Mac browser open failed.", e);
 				}
 
 			} else {

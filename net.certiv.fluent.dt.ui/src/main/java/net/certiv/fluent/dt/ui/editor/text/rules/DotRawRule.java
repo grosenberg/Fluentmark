@@ -25,7 +25,7 @@ public class DotRawRule implements IPredicateRule {
 	// strict digraph M3 {
 	private static final String Pre = "[ \t>]*";
 	private static final String Graph = "(strict\\h+)?(di)?graph\\h+";
-	private static final String Name = "([a-zA-Z]\\w*|\"\\w+\")\\h*";
+	private static final String Name = "([a-zA-Z]\\w*|\".+?\")\\h*";
 	private static final String Paren = "(\\v\\h*)?\\{";
 	private static final Pattern DotBeg = Pattern.compile(Pre + Graph + Name + Paren);
 
@@ -58,7 +58,7 @@ public class DotRawRule implements IPredicateRule {
 					return getSuccessToken();
 				}
 			} catch (BadLocationException e) {
-				Log.error(this, "DotRawRule", e);
+				Log.error( "DotRawRule", e);
 			}
 		}
 

@@ -51,12 +51,12 @@ public class OpenLiveHandler extends AbstractHandler {
 					for (int cnt = 0; cnt < 10; cnt++) {
 						if (vis.isLiveServerRunning()) break;
 
-						Log.debug(this, "Waiting (%s)...", cnt);
+						Log.debug( "Waiting (%s)...", cnt);
 						Time.sleep(100, TimeUnit.MILLISECONDS);
 					}
 
 					if (!vis.isLiveServerRunning()) {
-						Log.error(this, ErrStart);
+						Log.error( ErrStart);
 						MessageDialog.openError(shell, "Fluentmark Live View", ErrStart);
 						return Status.CANCEL_STATUS;
 					}
@@ -66,10 +66,10 @@ public class OpenLiveHandler extends AbstractHandler {
 					// open client browser at https://host:port/indexXXXX.html
 					Exception e = LiveUtil.openBrowser(addr);
 					if (e == null) {
-						Log.debug(this, MsgOpen, addr);
+						Log.debug( MsgOpen, addr);
 
 					} else {
-						Log.error(this, ErrOpen, e.getMessage());
+						Log.error( ErrOpen, e.getMessage());
 						String msg = String.format(ErrMsg, FluentVis.ID, e.getMessage());
 						MessageDialog.openError(shell, "Fluentmark Live View", msg);
 					}

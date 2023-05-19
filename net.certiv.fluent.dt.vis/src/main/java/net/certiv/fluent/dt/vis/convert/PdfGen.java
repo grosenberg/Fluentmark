@@ -77,7 +77,7 @@ public class PdfGen {
 	/**
 	 * Generate and Save PDF_OPS
 	 *
-	 * @param base the working directory
+	 * @param base     the working directory
 	 * @param template the latex template
 	 * @param pathname the output pathname
 	 */
@@ -99,7 +99,7 @@ public class PdfGen {
 					// send document to pandoc to convert & save
 					String content = doc.get();
 					String err = convert(loc, template, content, out);
-					if (!err.isEmpty()) Log.error(this, "Error generating Pdf %s\n%s", pathname, err);
+					if (!err.isEmpty()) Log.error("Error generating Pdf %s\n%s", pathname, err);
 
 					// open the converted document
 					if (out.isFile()) {
@@ -109,14 +109,14 @@ public class PdfGen {
 								try {
 									Desktop.getDesktop().open(out);
 								} catch (Exception e) {
-									Log.error(this, "Cannot open Pdf %s: %s", pathname, e.getMessage());
+									Log.error("Cannot open Pdf %s: %s", pathname, e.getMessage());
 								}
 							}
 						}
 					}
 
 				} catch (Exception e) {
-					Log.error(this, "Error generating Pdf %s: %s", pathname, e.getMessage());
+					Log.error("Error generating Pdf %s: %s", pathname, e.getMessage());
 				}
 
 				return Status.OK_STATUS;
@@ -266,7 +266,7 @@ public class PdfGen {
 			return true;
 
 		} catch (IOException e) {
-			Log.error(PdfGen.class, "Uml exception (%s)\n%s", e.getMessage(), text);
+			Log.error("Uml exception (%s)\n%s", e.getMessage(), text);
 		}
 		return false;
 	}
@@ -292,7 +292,7 @@ public class PdfGen {
 		try {
 			return doc.get(range.getOffset(), range.getLength());
 		} catch (BadLocationException e) {
-			Log.error(PdfGen.class, "Failed extracting text at %s (%s)", range, e.getMessage());
+			Log.error("Failed extracting text at %s (%s)", range, e.getMessage());
 			return null;
 		}
 	}
@@ -312,7 +312,7 @@ public class PdfGen {
 		try {
 			return FsUtil.createTmpFile("fluent", Strings.DOT + ext, dir);
 		} catch (IOException e) {
-			Log.error(PdfGen.class, String.format("Failed creating tmp file (%s)", e.getMessage()));
+			Log.error(String.format("Failed creating tmp file (%s)", e.getMessage()));
 			return null;
 		}
 	}

@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.eclipse.jetty.websocket.api.Session;
 
+import net.certiv.common.log.Log;
 import net.certiv.fluent.dt.ui.editor.FluentEditor;
 
 public class SessionMap {
@@ -15,8 +16,10 @@ public class SessionMap {
 		private Session session;		// ws session ident
 		private String target;			// ws callback ident
 
-		@SuppressWarnings("unused") private FluentEditor editor;	// original content source
-		@SuppressWarnings("unused") private File base;				// page content source
+		@SuppressWarnings("unused")
+		private FluentEditor editor;	// original content source
+		@SuppressWarnings("unused")
+		private File base;				// page content source
 
 		public Entry(FluentEditor editor, String target, File base) {
 			this.editor = editor;
@@ -25,9 +28,16 @@ public class SessionMap {
 		}
 	}
 
-	// key=session; value=editor input filename
+	// key=[session|target]; value=session entry
 	private final Map<Object, Entry> sessions = new HashMap<>();
 
+	/**
+	 * Called on initial construction of the client.
+	 * <p>
+	 * If a mapping to {@code target} exists, a valid client has been defined. If the
+	 * corresponding {@code Entry} contains a non-null session, a corresponding session
+	 * mapping should exist, marking the session/entry as connected.
+	 */
 	public void createEntry(String target, FluentEditor editor, File base) {
 		Entry entry = new Entry(editor, target, base);
 		Entry prior = sessions.get(target);
@@ -36,42 +46,49 @@ public class SessionMap {
 			sessions.remove(prior.target);
 		}
 		sessions.put(target, entry);
+		Log.debug("Created entry: %s", target);
 	}
 
 	public boolean isConnected(Session session) {
-		if (!sessions.containsKey(session)) return false;
-		return session.isOpen();
+		return sessions.containsKey(session) && session.isOpen();
 	}
 
 	public boolean isConnected(String target) {
-		if (sessions.containsKey(target)) {
-			Entry entry = sessions.get(target);
-			return entry.session != null && entry.session.isOpen();
-		}
-		return false;
-	}
-
-	public String get(Session session) {
-		Entry entry = sessions.get(session);
-		if (entry == null) return null;
-		return entry.target;
-	}
-
-	public Session get(String target) {
 		Entry entry = sessions.get(target);
-		if (entry == null) return null;
-		return entry.session;
+		return entry != null && isConnected(entry.session);
 	}
 
-	public boolean put(Session session, String target) {
+	public boolean has(Session session) {
+		return sessions.get(session) != null;
+	}
+
+	public Entry getConnected(Session session) {
+		return sessions.get(session);
+	}
+
+	public String getConnectedTarget(Session session) {
+		Entry entry = sessions.get(session);
+		return entry != null ? entry.target : null;
+	}
+
+	public Session getActiveSession(String target) {
+		Entry entry = sessions.get(target);
+		return entry != null ? entry.session : null;
+	}
+
+	/** Called on websocket connect/open message. */
+	public boolean reconnect(Session session, String target) {
 		Entry entry = sessions.get(target);
 		if (entry == null) return false;
+
+		if (entry.session != null) sessions.remove(entry.session);
 		entry.session = session;
 		sessions.put(session, entry);
 		return true;
 	}
 
-	public void remove(Session session) {
+	/** Called on websocket disconnect/close message. */
+	public void disconnect(Session session) {
 		if (sessions.containsKey(session)) {
 			Entry entry = sessions.get(session);
 			sessions.remove(entry.session);
@@ -79,7 +96,7 @@ public class SessionMap {
 		}
 	}
 
-	public void remove(String target) {
+	public void terminate(String target) {
 		if (sessions.containsKey(target)) {
 			Entry entry = sessions.get(target);
 			sessions.remove(entry.session);

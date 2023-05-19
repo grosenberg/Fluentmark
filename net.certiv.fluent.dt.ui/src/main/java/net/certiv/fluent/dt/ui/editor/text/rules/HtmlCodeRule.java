@@ -51,7 +51,7 @@ public class HtmlCodeRule implements IPredicateRule {
 				}
 			}
 		} catch (BadLocationException e) {
-			Log.error(this, "HtmlCodeRule", e);
+			Log.error( "HtmlCodeRule", e);
 		}
 		return Token.UNDEFINED;
 	}

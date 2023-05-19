@@ -269,6 +269,28 @@ public abstract class MdLexerBase extends LexerNlp {
 		return lastBlank.lastLine() + 1 == getLine();
 	}
 
+	/**
+	 * Incomplete & unused
+	 * <p>
+	 * Definition list colon:
+	 *
+	 * <pre>
+	 * <<blank line>>
+	 * Term being defined
+	 * : definition
+	 * : definition (optional)
+	 * : ...
+	 * </pre>
+	 *
+	 * 1) must be in column 1 <br>
+	 * 2) must follow a single line term that is being defined
+	 *
+	 * @return
+	 */
+	protected boolean defListColon() {
+		return nl() && hdr();
+	}
+
 	protected boolean list() {
 		if (_begBlock) return true;
 		return _begLine && lastBlank.inList();
@@ -310,7 +332,7 @@ public abstract class MdLexerBase extends LexerNlp {
 	private boolean check(Pattern pat) {
 		Matcher m = pat.matcher(line(_pStartCharIndex));
 		boolean found = m.lookingAt();
-		// Log.debug(this, String.format("Cond %s '%s'", found, line));
+		// Log.debug( String.format("Cond %s '%s'", found, line));
 		return found;
 	}
 

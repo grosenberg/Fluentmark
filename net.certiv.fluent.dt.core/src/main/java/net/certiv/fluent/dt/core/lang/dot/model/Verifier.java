@@ -42,7 +42,7 @@ public class Verifier {
 
 	private void reportProblem(int severity, Kind kind, Token token, String cause) {
 		DslProblem problem = parser.createProblem(severity, cause, token);
-		Log.error(this, problem.toString());
+		Log.error( problem.toString());
 		collector.accept(problem);
 	}
 

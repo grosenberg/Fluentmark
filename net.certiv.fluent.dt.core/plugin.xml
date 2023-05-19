@@ -9,7 +9,7 @@
             describer="net.certiv.fluent.dt.core.FluentContentDescriber"
             file-extensions="md, dot, mkd, mdown"
             id="net.certiv.fluent.dt.core.contentType"
-            name="Fluentmark content "
+            name="Fluentmark Markdown"
             priority="high">
       </content-type>
    </extension>

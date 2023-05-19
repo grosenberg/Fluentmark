@@ -1,6 +1,8 @@
 package net.certiv.fluent.dt.vis.server;
 
 import java.io.File;
+import java.nio.file.Path;
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,15 +12,17 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
-import org.eclipse.jetty.servlet.DefaultServlet;
+import org.eclipse.jetty.server.handler.ContextHandler;
+import org.eclipse.jetty.server.handler.ContextHandlerCollection;
+import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import org.eclipse.jetty.util.resource.PathResource;
+import org.eclipse.jetty.websocket.api.RemoteEndpoint;
 import org.eclipse.jetty.websocket.api.Session;
-import org.eclipse.jetty.websocket.servlet.ServletUpgradeRequest;
-import org.eclipse.jetty.websocket.servlet.ServletUpgradeResponse;
-import org.eclipse.jetty.websocket.servlet.WebSocketCreator;
-import org.eclipse.jetty.websocket.servlet.WebSocketServlet;
-import org.eclipse.jetty.websocket.servlet.WebSocketServletFactory;
+import org.eclipse.jetty.websocket.server.JettyWebSocketServlet;
+import org.eclipse.jetty.websocket.server.JettyWebSocketServletFactory;
+import org.eclipse.jetty.websocket.server.config.JettyWebSocketServletContainerInitializer;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.ITextListener;
@@ -37,6 +41,8 @@ import org.eclipse.ui.texteditor.IDocumentProvider;
 
 import com.google.gson.Gson;
 
+import jakarta.servlet.Servlet;
+import net.certiv.common.log.Level;
 import net.certiv.common.log.Log;
 import net.certiv.common.stores.Holder;
 import net.certiv.common.util.Strings;
@@ -74,17 +80,17 @@ public class LiveServer {
 	private final Monitor monitor = new Monitor();
 
 	private PrefsManager mgr;
-	private Server srvr;
-	private File resBase;
+	private Server server;
+	private File resbase;
 
 	public LiveServer() {
-		super();
+		Log.setLevel(Level.DEBUG);
 	}
 
 	public void start() {
-		if (srvr != null) {
-			if (srvr.isRunning()) {
-				Log.warn(this, WarnServer);
+		if (server != null) {
+			if (server.isRunning()) {
+				Log.warn(WarnServer);
 				return;
 			}
 			stop();
@@ -93,40 +99,76 @@ public class LiveServer {
 		mgr = FluentVis.getDefault().getPrefsManager();
 		String host = mgr.getString(Prefs.VIEW_HOST_NAME);
 		int port = mgr.getInt(Prefs.VIEW_HOST_PORT);
-		String context = mgr.getString(Prefs.VIEW_WS_CONTEXT);
+		String wspath = mgr.getString(Prefs.VIEW_WS_CONTEXT);
+		wspath = wspath.startsWith(Strings.SLASH) ? wspath : Strings.SLASH + wspath;
 
+		resbase = LiveUtil.extractClient(mgr);
+		if (resbase != null && resbase.isDirectory()) {
+			start(host, port, resbase.toPath(), wspath);
+
+		} else {
+			Log.error(ErrBase, resbase);
+		}
+	}
+
+	/**
+	 * Start a server with the given parameters.
+	 * <p>
+	 * The {@code basepath} is typically set to {@code "/app"}; default is {@code blank}.
+	 * <p>
+	 * The {@code resBase} plus {@code wspath} gives the full path to a websocket
+	 * resource.
+	 *
+	 * @param host    connection host name
+	 * @param port    connection host port
+	 * @param respath abs resource base path for connection resources
+	 * @param wspath  relative path for connection resources
+	 */
+	private void start(String host, int port, Path respath, String wspath) {
 		try {
-			srvr = new Server();
-			srvr.setStopAtShutdown(true);
+			server = new Server();
+			// server.setDumpAfterStart(true);
+			server.setStopAtShutdown(true);
 
-			ServerConnector conn = new ServerConnector(srvr);
+			ServerConnector conn = new ServerConnector(server);
 			conn.setHost(host);
 			conn.setPort(port);
-			srvr.addConnector(conn);
+			server.addConnector(conn);
 
-			resBase = LiveUtil.extractClient();
-			if (resBase == null || !resBase.isDirectory()) {
-				Log.error(this, ErrBase, resBase);
-				return;
-			}
+			ContextHandlerCollection handlers = new ContextHandlerCollection();
 
-			// ---- serve websocket sessions on "/liveview"
+			// ---- serve static files from "<tmp>/<ws_context>/app/*" to "/"
+
+			ResourceHandler rhx = new ResourceHandler();
+			rhx.setDirectoriesListed(false);
+			rhx.setBaseResource(new PathResource(respath));
+
+			ContextHandler chx = new ContextHandler(Strings.SLASH);
+			chx.setHandler(rhx);
+			chx.clearAliasChecks();
+			chx.setAllowNullPathInfo(true);
+
+			handlers.addHandler(chx);
+
+			// ---- serve websocket sessions on "/<ws_context>"
 
 			ServletContextHandler ctx = new ServletContextHandler(
 					ServletContextHandler.SESSIONS | ServletContextHandler.NO_SECURITY);
-			ctx.addServlet(new ServletHolder(new LiveServlet(this)), Strings.SLASH + context);
-
-			// ---- serve static files from "<tmp>/liveview/app..." to "/"
-
-			ctx.setResourceBase(resBase.getPath());
+			ctx.setLogger(new Slf4jBridge(getClass()));
 			ctx.setContextPath(Strings.SLASH);
-			ctx.addServlet(DefaultServlet.class, Strings.SLASH);
+
+			Servlet servlet = createWsServlet(this);
+			ctx.addServlet(new ServletHolder(servlet), wspath);
+			JettyWebSocketServletContainerInitializer.configure(ctx, null);
+			handlers.addHandler(ctx);
 
 			// ----
 
-			srvr.setHandler(ctx);
-			srvr.start();
-			Log.info(this, InfoServer, host, port, context);
+			server.setHandler(handlers);
+			server.start();
+
+			Log.info(InfoServer, host, port, wspath);
+			Log.info("WS server dump: %s", server.dumpSelf());
 
 			// begin listening for update triggers
 			mgr.addPropertyChangeListener(monitor);
@@ -134,43 +176,59 @@ public class LiveServer {
 
 		} catch (Exception e) {
 			stop();
-			Log.error(this, e, ErrServer, e.getMessage());
+			Log.error(e, ErrServer, e.getMessage());
 			throw new RuntimeException(e);
 		}
 	}
 
-	public final void stop() {
-		if (srvr != null) {
+	/** Initialize the {@link MsgHandler} */
+	private Servlet createWsServlet(LiveServer server) {
+		return new JettyWebSocketServlet() {
+
+			@Override
+			protected void configure(JettyWebSocketServletFactory factory) {
+				factory.register(MsgHandler.class);
+				factory.setIdleTimeout(Duration.ofSeconds(100));
+				factory.setMaxTextMessageSize(65535);
+			}
+		};
+	}
+
+	public void stop() {
+		if (server != null && server.isRunning()) {
+
 			// stop listening for update triggers
 			mgr.removePropertyChangeListener(monitor);
 			IWorkbenchPage page = CoreUtil.getActivePage();
 			if (page != null) page.removePartListener(monitor);
+
 			try {
-				srvr.stop();
+				server.stop();
 			} catch (Exception e) {
-				Log.error(this, ErrServer, e.getMessage());
+				Log.error(ErrServer, e.getMessage());
 			}
-			srvr = null;
-			resBase = null;
+
+			resbase = null;
+			server = null;
 		}
 	}
 
-	public boolean isRunning() {
-		if (srvr == null) return false;
-		return srvr.isRunning();
-	}
-
-	public boolean isStopped() {
-		if (srvr == null) return true;
-		return srvr.isStopped();
+	public void createSessionEntry(String source, FluentEditor editor, File base) {
+		sessions.createEntry(source, editor, base);
 	}
 
 	public File getResourceBase() {
-		return resBase;
+		return resbase;
 	}
 
-	public void createSessionEntry(String target, FluentEditor editor, File base) {
-		sessions.createEntry(target, editor, base);
+	public boolean isRunning() {
+		if (server == null) return false;
+		return server.isRunning();
+	}
+
+	public boolean isStopped() {
+		if (server == null) return true;
+		return server.isStopped();
 	}
 
 	public boolean isConnected(Session session) {
@@ -182,7 +240,7 @@ public class LiveServer {
 	}
 
 	public String getTarget(Session session) {
-		return sessions.get(session);
+		return sessions.getConnectedTarget(session);
 	}
 
 	/** Called on initial session connection. */
@@ -191,26 +249,35 @@ public class LiveServer {
 		if (ed instanceof FluentEditor) {
 			FluentEditor editor = (FluentEditor) ed;
 			String target = editor.getInputDslElement().getPackageName();
-			if (sessions.put(session, target)) {
+
+			if (mgr.getBoolean(Prefs.VIEW_WS_DEBUG) && !sessions.has(session)) {
+				createSessionEntry(target, editor, null);
+				Log.debug("[DEBUG] Defined '%s' -> %s", target, session.getRemoteAddress());
+			}
+
+			if (sessions.reconnect(session, target)) {
 				monitor.beginTracking(editor);
 				Time.sleep(mgr.getInt(Prefs.VIEW_UPDATE_DELAY) / 1000);
 				update(editor);
-				Log.debug(this, "Connect '%s' -> %s", target, session.getRemoteAddress());
+				Log.debug("Connect source '%s' -> %s", target, session.getRemoteAddress());
 
 			} else {
-				Log.error(this, "Bad connect '%s' -> %s", target, session.getRemoteAddress());
+				Log.error("Bad connect '%s' -> %s", target, session.getRemoteAddress());
 			}
 		}
 	}
 
 	public void disconnect(Session session) {
-		Log.debug(this, "Disconnected %s", session.getRemoteAddress());
-		sessions.remove(session);
+		String source = getTarget(session);
+		sessions.disconnect(session);
+		Log.debug("Disconnected %s -> %s", source != null ? source : "", session.getRemoteAddress());
 	}
 
 	/**
-	 * Respond to a client-originated refresh request, identified by the envelope
-	 * target, by sending an update message to refresh the content.
+	 * Respond to a client-originated UPDATE or REFRESH message. Requires the
+	 * corresponding editor, identified by the envelope target, to be open. Uses that
+	 * editor to originate a responsive UPDATE message to update the client display
+	 * content.
 	 */
 	public void update(MsgEnvl envl) {
 		for (IEditorReference ref : CoreUtil.getActivePage().getEditorReferences()) {
@@ -237,8 +304,8 @@ public class LiveServer {
 	 *
 	 * @param editor
 	 */
-	public void update(FluentEditor editor) {
-		if (srvr == null) return;
+	private void update(FluentEditor editor) {
+		if (server == null) return;
 		try {
 			IDocumentProvider provider = editor.getDocumentProvider();
 			IDocument doc = provider.getDocument(editor.getEditorInput());
@@ -253,18 +320,18 @@ public class LiveServer {
 					line.value = doc.getLineOfOffset(sel.getOffset());
 					total.value = doc.getNumberOfLines();
 				} catch (BadLocationException e) {
-					Log.warn(this, "Failed to determine line number of change: %s", e.getMessage());
+					Log.warn("Failed to determine line number of change: %s", e.getMessage());
 				}
 			});
 
 			ICodeUnit unit = editor.getInputDslElement().getCodeUnit();
 			String target = unit.getPackageName();
 			if (sessions.isConnected(target)) {
-				HtmlGen gen = new HtmlGen(editor, FluentVis.getDefault().getConverter());
+				HtmlGen gen = new HtmlGen(editor, FluentVis.getDefault().getConverter(), line.value);
 				String content = gen.getHtml(Kind.UPDATE);
 
 				File loc = unit.getResource().getParent().getLocation().toFile();
-				LiveUtil.rebaseImages(content, loc, resBase);
+				LiveUtil.rebaseImages(content, loc, resbase);
 
 				Message msg = Message.request(target, content, line.value, total.value);
 				send(MsgEnvl.UPDATE, msg);
@@ -274,7 +341,7 @@ public class LiveServer {
 			}
 
 		} catch (Exception e) {
-			Log.error(this, "Content update failed: %s", e.getMessage());
+			Log.error("Content update failed: %s", e.getMessage());
 		}
 	}
 
@@ -283,46 +350,18 @@ public class LiveServer {
 	}
 
 	public void send(MsgEnvl envl) {
-		if (srvr.isRunning()) {
+		if (server.isRunning()) {
 			try {
-				sessions.get(envl.target).getRemote().sendString(gson.toJson(envl));
+				Session session = sessions.getActiveSession(envl.target);// .getRemote().sendString(gson.toJson(envl));
+				RemoteEndpoint remote = session.getRemote();
+				remote.sendString(gson.toJson(envl));
 			} catch (Exception ex) {
-				Log.error(this, ErrMsgSend, ex.getMessage());
+				Log.error(ErrMsgSend, ex.getMessage());
 			}
 		}
 	}
 
-	/** used to interpose the {@link MsgHandler} */
-	private class LiveServlet extends WebSocketServlet {
-
-		private LiveServer srvr;
-
-		public LiveServlet(LiveServer srvr) {
-			this.srvr = srvr;
-		}
-
-		@Override
-		public void configure(WebSocketServletFactory factory) {
-			factory.register(MsgHandler.class);
-
-			// default creator
-			final WebSocketCreator creator = factory.getCreator();
-			// specialized creator
-			factory.setCreator(new WebSocketCreator() {
-
-				@Override
-				public Object createWebSocket(ServletUpgradeRequest req, ServletUpgradeResponse resp) {
-					Object ws = creator.createWebSocket(req, resp);
-					if (ws instanceof MsgHandler) {
-						((MsgHandler) ws).initialize(srvr);
-					}
-					return ws;
-				}
-			});
-		}
-	}
-
-	class Monitor implements PartAdaptor, IPropertyChangeListener {
+	private class Monitor implements PartAdaptor, IPropertyChangeListener {
 
 		private final Map<FluentEditor, Trigger> triggers = new HashMap<>();
 
@@ -333,7 +372,7 @@ public class LiveServer {
 				triggers.put(editor, trigger);
 			}
 			editor.getViewer().addTextListener(trigger);
-			Log.debug(this, "Tracking %s", editor.getEditorInput().getName());
+			Log.debug("Tracking %s", editor.getEditorInput().getName());
 		}
 
 		public void endTracking(FluentEditor editor) {
@@ -341,13 +380,13 @@ public class LiveServer {
 			if (trigger != null) {
 				editor.getViewer().removeTextListener(trigger);
 				triggers.remove(editor);
-				Log.debug(this, "Untracking %s", editor.getEditorInput().getName());
+				Log.debug("Untracking %s", editor.getEditorInput().getName());
 			}
 		}
 
 		@Override
 		public void partClosed(IWorkbenchPart part) { // closed
-			if (srvr != null && part instanceof FluentEditor) {
+			if (server != null && part instanceof FluentEditor) {
 				FluentEditor editor = (FluentEditor) part;
 				endTracking(editor);
 			}
@@ -355,17 +394,17 @@ public class LiveServer {
 
 		@Override
 		public void propertyChange(PropertyChangeEvent evt) { // on property store change
-			if (srvr != null) {
+			if (server != null) {
 				PrefsManager mgr = FluentCore.getDefault().getPrefsManager();
 				if (mgr.keyMatch(evt.getProperty(), Properties)) {
 					// updateAll();
-					Log.debug(this, "Property change %s", evt.getProperty());
+					Log.debug("Property change %s", evt.getProperty());
 				}
 			}
 		}
 	}
 
-	class Trigger implements ITextListener {
+	private class Trigger implements ITextListener {
 
 		private final FluentEditor editor;
 		private final String name;
@@ -379,11 +418,11 @@ public class LiveServer {
 		}
 
 		@Override
-		public void textChanged(TextEvent evt) { // on editor content change
-			job.schedule();
+		public void textChanged(TextEvent event) {
+			job.schedule();	// on editor content change
 		}
 
-		class TriggerJob extends Job {
+		private class TriggerJob extends Job {
 
 			public TriggerJob(String name) {
 				super("TriggerJob - " + name);
@@ -391,7 +430,7 @@ public class LiveServer {
 
 			@Override
 			public IStatus run(IProgressMonitor monitor) {
-				update(editor);
+				update(editor); // send UPDATE notifying of source change
 				return Status.OK_STATUS;
 			}
 		}

@@ -23,7 +23,7 @@ public class FluentUI extends DslUI {
 
 	public FluentUI() {
 		super();
-		Log.info(this, "Plugin '%s' starting.", getBundle().getSymbolicName());
+		Log.info("Plugin '%s' starting.", getBundle().getSymbolicName());
 	}
 
 	public static FluentUI getDefault() {

@@ -6,8 +6,10 @@ import org.eclipse.jetty.websocket.api.WebSocketAdapter;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
+import net.certiv.common.log.Level;
 import net.certiv.common.log.Log;
 import net.certiv.common.util.Strings;
+import net.certiv.fluent.dt.vis.FluentVis;
 
 /** Responsible for parsing received data. */
 public class MsgHandler extends WebSocketAdapter {
@@ -19,8 +21,8 @@ public class MsgHandler extends WebSocketAdapter {
 	private static final String ReAuthRcv = "WS re-auth: '%s' -> '%s' at %s";
 	private static final String HeloRcv = "WS hello: '%s' says '%s'";
 
-	private static final String RefreshRcv = "WS refresh: '%s' at %s";
-	private static final String UpdateRcv = "WS update: '%s' at %s";
+	private static final String RefreshRcv = "WS %s: '%s' at %s";
+	private static final String UpdateRcv = "WS %s: '%s' at %s";
 	private static final String HBRcv = "WS heartbeat %s";
 
 	private final Gson gson = new Gson();
@@ -28,68 +30,95 @@ public class MsgHandler extends WebSocketAdapter {
 	private LiveServer srvr;
 
 	/** Created by {@link LiveServer$LiveServlet}. */
-	public MsgHandler() {}
+	public MsgHandler() {
+		super();
+		Log.setLevel(Level.DEBUG);
+	}
 
 	public void initialize(LiveServer srvr) {
 		this.srvr = srvr;
 	}
 
+	/**
+	 * Inbound websocket connection established.
+	 *
+	 * @param session the connection defining session
+	 */
 	@Override
 	public void onWebSocketConnect(Session session) {
 		super.onWebSocketConnect(session);
+		if (srvr == null) {
+			FluentVis vis = FluentVis.getDefault();
+			srvr = vis.getLiveServer();
+			Log.debug("Websocket connected: initialized message handler.");
+		}
 		srvr.connect(session);
 	}
 
+	/**
+	 * Inbound message processor.
+	 *
+	 * <pre>
+	 * on client sent [AUTH] -> server sends [ACK]
+	 * on client sent [HELO] -> server sends [ACK]
+	 * on client sent [REFRESH] -> server sends [ACK] then sends [UPDATE]
+	 * on client sent [UPDATE] -> server sends [UPDATE]
+	 * on client sent [HEARTBEAT] -> server logs event
+	 * </pre>
+	 *
+	 * @param txt text representing a received message
+	 */
 	@Override
-	public void onWebSocketText(String msg) {
+	public void onWebSocketText(String txt) {
 		MsgEnvl envl;
 		try {
-			envl = gson.fromJson(msg, MsgEnvl.class);
+			envl = gson.fromJson(txt, MsgEnvl.class);
 			if (envl == null) {
-				Log.warn(this, WarnRcv, "envelope is empty.", "null");
+				Log.warn(WarnRcv, "envelope is empty.", "null");
 				return;
 			}
 		} catch (JsonSyntaxException e) {
-			Log.error(this, ErrSyntax, e.getMessage());
+			Log.error(ErrSyntax, e.getMessage());
 			return;
 		}
 
 		Session session = getSession();
 		if (chkSession(session, envl)) {
+			String name = MsgEnvl.name(envl.request);
 			switch (envl.request) {
 				case MsgEnvl.AUTH:
 					String target = srvr.getTarget(session);
 					if (target == null) {
-						Log.error(this, AuthRcv, envl.target, session.getRemoteAddress());
+						Log.error(AuthRcv, envl.target, session.getRemoteAddress());
 
 					} else if (!target.equals(envl.target)) {
-						Log.info(this, ReAuthRcv, target, envl.target, session.getRemoteAddress());
+						Log.info(ReAuthRcv, target, envl.target, session.getRemoteAddress());
 					}
 					srvr.send(MsgEnvl.ack(envl));
 					break;
 
 				case MsgEnvl.HELO:
-					Log.info(this, HeloRcv, envl.target, envl.msg.content);
+					Log.info(HeloRcv, envl.target, envl.msg.content);
 					srvr.send(MsgEnvl.ack(envl));
 					break;
 
 				case MsgEnvl.REFRESH:
-					Log.info(this, RefreshRcv, envl.target, session.getRemoteAddress());
+					Log.info(RefreshRcv, name, envl.target, session.getRemoteAddress());
 					srvr.send(MsgEnvl.ack(envl));
 					srvr.update(envl);
 					break;
 
 				case MsgEnvl.UPDATE:
-					Log.info(this, UpdateRcv, envl.target, session.getRemoteAddress());
+					Log.info(UpdateRcv, name, envl.target, session.getRemoteAddress());
 					srvr.update(envl);
 					break;
 
 				case MsgEnvl.HEARTBEAT:
-					Log.info(this, HBRcv, session.getRemoteAddress());
+					Log.info(HBRcv, session.getRemoteAddress());
 					break;
 
 				default:
-					Log.warn(this, WarnRcv, "has unknown request code", envl.request);
+					Log.warn(WarnRcv, "has unknown request code", envl.request);
 					srvr.send(MsgEnvl.nack(envl, "Unknown request"));
 			}
 		}
@@ -97,6 +126,10 @@ public class MsgHandler extends WebSocketAdapter {
 
 	private boolean chkSession(Session session, MsgEnvl envl) {
 		if (envl.request != MsgEnvl.AUTH) {
+			boolean ok = srvr.isConnected(session);
+			if (!ok) {
+				onWebSocketConnect(session);
+			}
 			return srvr.isConnected(session);
 		}
 
@@ -114,18 +147,21 @@ public class MsgHandler extends WebSocketAdapter {
 
 	@Override
 	public void onWebSocketClose(int statusCode, String reason) {
-		Log.debug(this, "WS disconnect: code=%s reason=%s", statusCode, reason);
+		Log.debug("WS disconnect: code=%s reason=%s", statusCode, reason);
 		srvr.disconnect(getSession());
 		super.onWebSocketClose(statusCode, reason);
 	}
 
 	@Override
 	public void onWebSocketBinary(byte[] payload, int offset, int len) {
-		Log.warn(this, "WS binary received");
+		Log.warn("WS binary received");
 	}
 
 	@Override
 	public void onWebSocketError(Throwable cause) {
-		Log.error(this, "WS error: %s", cause.getMessage());
+		String msg = cause.getMessage();
+		if (!msg.equals("Connection Idle Timeout")) {
+			Log.error(cause, "WS error: %s", msg);
+		}
 	}
 }

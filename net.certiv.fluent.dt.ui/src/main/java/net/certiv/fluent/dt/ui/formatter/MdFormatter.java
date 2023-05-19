@@ -81,13 +81,13 @@ public class MdFormatter extends BaseCodeFormatter {
 
 					// complete and return the edits
 					long currentTime = System.currentTimeMillis() - startTime;
-					Log.info(this, "Formatting pass (" + currentTime + "ms)");
+					Log.info( "Formatting pass (" + currentTime + "ms)");
 					return edits;
 				}
 			}
 
 		} catch (ModelException e) {
-			Log.error(this, e.getLocalizedMessage());
+			Log.error( e.getLocalizedMessage());
 		} finally {
 			getDslCore().FormatterLock.unlock();
 		}
@@ -144,7 +144,7 @@ public class MdFormatter extends BaseCodeFormatter {
 
 			edit.addChild(new ReplaceEdit(offset, len, content));
 		} catch (MalformedTreeException | BadLocationException e) {
-			Log.error(this, e.getMessage(), e);
+			Log.error( e.getMessage(), e);
 		}
 	}
 
@@ -169,7 +169,7 @@ public class MdFormatter extends BaseCodeFormatter {
 
 			edit.addChild(new ReplaceEdit(offset, len, content));
 		} catch (MalformedTreeException | BadLocationException e) {
-			Log.error(this, e.getMessage(), e);
+			Log.error( e.getMessage(), e);
 		}
 	}
 

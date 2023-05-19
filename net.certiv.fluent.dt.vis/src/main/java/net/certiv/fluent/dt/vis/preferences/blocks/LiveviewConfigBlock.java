@@ -36,8 +36,6 @@ public class LiveviewConfigBlock extends AbstractConfigBlock {
 		keys.add(Prefs.VIEW_HTML_OPEN);
 		keys.add(Prefs.VIEW_PDF_OPEN);
 
-		// keys.add(Prefs.VIEW_UPDATE_DELAY);
-
 		return keys;
 	}
 
@@ -57,6 +55,8 @@ public class LiveviewConfigBlock extends AbstractConfigBlock {
 		addTextField(comp, "Websocket context", Prefs.VIEW_WS_CONTEXT, 16, 0).setEditable(false);
 		addTextField(comp, "Client resource path", Prefs.VIEW_CLNT_BASE, 16, 0).setEditable(false);
 		addTextField(comp, "Client page", Prefs.VIEW_CLNT_APPL, 16, 0).setEditable(false);
+		addSpace(comp, 3);
+		// addCheckBox(comp, "Debug: allow anon connects", Prefs.VIEW_WS_DEBUG, 2, 0);
 		addButton(comp, "Stop server");
 		return comp;
 	}

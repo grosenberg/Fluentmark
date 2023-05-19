@@ -26,7 +26,11 @@ A full-featured Markdown editing environment for Eclipse.
 
 ## Use
 
-[How to Use](https://github.com/grosenberg/Fluentmark/blob/master/doc/Use.md)
+Details on [how to use](https://github.com/grosenberg/Fluentmark/blob/master/doc/Use.md) 
+Fluentmark. 
+
+Details on the [Semantic Styling](https://github.com/grosenberg/Fluentmark/blob/master/doc/EditorCss.md) 
+feature.
 
 ## Screenshot
 
@@ -34,7 +38,7 @@ A full-featured Markdown editing environment for Eclipse.
 	<a href="https://github.com/grosenberg/Fluentmark/blob/master/doc/ScreenShot.png" target="_blank">
 		<img src="./doc/ScreenShot.png" alt="screen shot" width=600>
 	</a><p>
-  <figcaption>Graph presentation using Graphviz Dot (old version)</figcaption>
+  <figcaption>Graph presentation using Graphviz Dot</figcaption>
 </figure>
 
 
@@ -43,20 +47,14 @@ A full-featured Markdown editing environment for Eclipse.
 Installation:
 
 Certiv Tools update site: `https://www.certiv.net/updates`
-
+ 
 Requirements
 
 - Eclipse 2021-03
 - JDK 11+
-
-Requirements for Dot and PlantUml language blocks
-
-- [Graphviz](http://www.graphviz.org/download.php). 
-
-
-Requirements for Html and Pdf export
-
-- [Pandoc](https://pandoc.org) and a _LaTeX_ processor (Pandoc recommends [*MikTeX*](https://miktex.org/)).
+- [Graphviz](http://www.graphviz.org/download.php) for Dot and PlantUml language blocks 
+- [Pandoc](https://pandoc.org) and a _LaTeX_ processor (like [*MikTeX*](https://miktex.org/)) 
+for Html and Pdf export
 
 
 ## Configuration
@@ -68,8 +66,8 @@ Eclipse Preference pages ---
 To use the Pandoc converter, select the `pandoc` executable from the local filesystem 
 on the Pandoc Converter tab. 
 
-To use Graphviz Dot, select the `dot` executable on the Fluentmark preference page.  
-If `Graphviz` is installed in a non-default directory, PlantUML requres that the 
+To use Graphviz Dot, select the `dot` executable on the Fluentmark preference page. Note, 
+if `Graphviz` is installed in a non-default directory, PlantUML requres that the 
 `GRAPHVIZ_DOT` environment variable be set to the actual installation directory.
 
 To use the BlackFriday converter, install the customized 
@@ -82,11 +80,11 @@ The `blackfriday-tool` executable can then be selected on the BlackFriday Conver
 ## Support
 
 Open an [issue on Github](https://github.com/grosenberg/fluentmark/issues). Provide 
-as much information as possible
+as much information as possible:
 
-- a minimal Markdown document that demonstrates the issue 
-- OS name and version version 
-- the error message encountered 
+- a minimal Markdown document that demonstrates the issue(s)
+- the error message(s) encountered 
+- OS, Eclipse and JDK versions
 
 ## Resources
 

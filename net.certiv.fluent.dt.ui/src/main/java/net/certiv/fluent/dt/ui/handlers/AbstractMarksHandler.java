@@ -119,7 +119,7 @@ public abstract class AbstractMarksHandler extends AbstractHandler {
 			undoMgr.endCompoundChange();
 			setCursorOffset(beg + markSpec[0].length());
 		} catch (MalformedTreeException | BadLocationException e) {
-			Log.error(this, "Failure applying mark" + e.getMessage());
+			Log.error( "Failure applying mark" + e.getMessage());
 		}
 	}
 
@@ -173,7 +173,7 @@ public abstract class AbstractMarksHandler extends AbstractHandler {
 			edit.apply(doc);
 			undoMgr.endCompoundChange();
 		} catch (MalformedTreeException | BadLocationException e) {
-			Log.error(this, "Failure removing mark" + e.getMessage());
+			Log.error( "Failure removing mark" + e.getMessage());
 		}
 	}
 }

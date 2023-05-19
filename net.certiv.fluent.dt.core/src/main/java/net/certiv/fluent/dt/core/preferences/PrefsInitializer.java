@@ -60,6 +60,7 @@ public class PrefsInitializer extends DslPrefsInit {
 		setBool(Prefs.EDITOR_UMLMODE_ENABLED, false);
 		setBool(Prefs.EDITOR_DOTMODE_ENABLED, false);
 		setString(Prefs.EDITOR_DOT_PROGRAM, Strings.EMPTY);
+		setBool(Prefs.EDITOR_CODEBLOCK_CONVERT_ENABLED, true);
 
 		setString(Prefs.EDITOR_FLEXMARK_PROFILE, "GITHUB_DOC");
 		setBool(Prefs.EDITOR_FLEXMARK_MATHJAX, true);
@@ -69,7 +70,7 @@ public class PrefsInitializer extends DslPrefsInit {
 		setString(Prefs.EDITOR_BLACKFRIDAY_PROGRAM, Strings.EMPTY);
 
 		setBool(Prefs.EDITOR_PANDOC_ADDTOC, false);
-		setBool(Prefs.EDITOR_PANDOC_MATHJAX, false);
+		setBool(Prefs.EDITOR_PANDOC_MATHJAX, true);
 		setBool(Prefs.EDITOR_PANDOC_SMART, true);
 		setString(Prefs.EDITOR_PANDOC_PROGRAM, Strings.EMPTY);
 		setString(Prefs.EDITOR_PANDOC_TEMPLATES, Strings.EMPTY);
@@ -160,6 +161,8 @@ public class PrefsInitializer extends DslPrefsInit {
 		setString(Prefs.VIEW_CLNT_APPL, "index.html");
 
 		setInt(Prefs.VIEW_UPDATE_DELAY, 1000);
+
+		setBool(Prefs.VIEW_WS_DEBUG, false);
 
 		// spelling
 

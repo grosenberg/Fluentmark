@@ -55,7 +55,7 @@ public class ExportHtmlHandler extends AbstractHandler {
 
 			String pathname = dialog.open();
 			if (pathname != null) {
-				HtmlGen gen = new HtmlGen(editor, FluentVis.getDefault().getConverter());
+				HtmlGen gen = new HtmlGen(editor, FluentVis.getDefault().getConverter(), 0);
 				String content = gen.getHtml(Kind.EXPORT);
 				FsUtil.write(new File(pathname), content);
 			}

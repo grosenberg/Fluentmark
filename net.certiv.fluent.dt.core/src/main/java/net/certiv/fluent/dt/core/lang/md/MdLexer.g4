@@ -21,7 +21,7 @@ tokens {
 
 // ----------------------------------------------------------------------
 
-COMMENT	: Comment ; 
+COMMENT	: Comment ;
 
 // code blocks
 CODE_BEG : Tics   { bob() }? -> pushMode(CodeTics)	;
@@ -129,8 +129,8 @@ mode CodeTildes;
 	CHR_t	 : ( Char | EscChar ) { more(WORD); } ;
 
 mode Link ;
-	IMAGE_l	: Bang LBrack -> type(IMAGE), pushMode(Link) ;
-	LINK_l	: LBrack	  -> type(LINK),  pushMode(Link) ;
+	IMAGE_l	: Bang LBrack  -> type(IMAGE), pushMode(Link) ;
+	LINK_l	: LBrack	   -> type(LINK),  pushMode(Link) ;
 
 	LNK_SEP : RBrack Sp? LParen -> mode(Link_Std) ; // [...](...)
 	LNK_REF	: RBrack Sp? LBrack -> mode(Link_Ref) ; // [...][...]

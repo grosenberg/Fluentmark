@@ -20,7 +20,7 @@ A full-featured Markdown editing environment for Eclipse.
 ## Toolbar
 
 <figure> 
-	<img src="Toolbar.png" > 
+	<img src="./Toolbar.png" > 
 </figure>
 
 When a Fluentmark editor is active, the Eclipse toolbar is populated with buttons to
@@ -80,13 +80,18 @@ An <b>inline span</b> and a left-aligned block:
 
 ```
 
-## Graphviz Dot Blocks
+## Graphs
 
-A Graphviz Dot Block is recognized by the _`digraph`_ keyword and continues to the end of the 
+Fluentmark can recognize Graphviz Dot and PlantUml graph descriptions either natively 
+or within delimited code blocks with appropriate language names 
+
+### Native
+
+A native Graphviz Dot Block is recognized by the _`digraph`_ keyword and continues to the end of the 
 balanced `{` ... `}` body.  The first and last lines _must_ be left-margin aligned and 
 further delimited by `blank` lines.
 
-``` dot 
+```
 <<blank line>>
 digraph X1 {
     a-> b -> c -> a 
@@ -95,9 +100,7 @@ digraph X1 {
 
 ```
 
-## PlantUML Blocks
-
-A PlantUML Block is recognized by the _`@startXXX`_ and _`@endXXX`_ keywords (where 
+A native PlantUML Block is recognized by the _`@startXXX`_ and _`@endXXX`_ keywords (where 
 `XXX` is typically `uml`). These keyword lines _must_ be left-margin aligned and 
 further delimited by `blank` lines.
 
@@ -113,6 +116,33 @@ further delimited by `blank` lines.
 <<blank line>>
 
 ```
+
+### Code block delimited
+
+Place the graph description -- same as above, though without the blank line restriction 
+-- within standard code block delimiters.
+
+```
+\``` dot
+digraph X1 {
+    a-> b -> c -> a 
+}
+\```
+```
+
+```  
+\``` uml
+@startuml
+    Alice -> Bob  : Authentication Request
+    Bob --> Alice : Authentication Response
+
+    Alice ->   Bob : Second authentication Request
+    Alice <--o Bob : Second authentication Response
+@enduml 
+\```
+```
+
+
 
 ## In-line Math 
 

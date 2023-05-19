@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2016 - 2017 Certiv Analytics and others. All rights reserved. This program and the
+ * Copyright (c) 2016 - 2023 Certiv Analytics and others. All rights reserved. This program and the
  * accompanying materials are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
@@ -31,7 +31,7 @@ public class DotGen {
 	public static String runDot(String data) {
 		PrefsManager store = FluentCore.getDefault().getPrefsManager();
 		String cmd = store.getString(Prefs.EDITOR_DOT_PROGRAM);
-		if (data.trim().isEmpty() || cmd.trim().isEmpty()) return "";
+		if (data.isBlank() || cmd.isBlank()) return Strings.EMPTY;
 
 		// return cached value, if present
 		int key = data.hashCode();
@@ -52,7 +52,7 @@ public class DotGen {
 		if (value != null && !value.trim().isEmpty()) {
 			dotCache.put(key, value);
 		} else {
-			Log.error(DotGen.class, "Dot created no output for" + Strings.EOL + data);
+			Log.error("Dot created no output for" + Strings.EOL + data);
 		}
 
 		return value;

@@ -1,9 +1,7 @@
-// Generated from D:/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.core/src/main/java/net/certiv/fluent/dt/core/lang/md/MdParser.g4 by ANTLR 4.9.2
+// Generated from D:/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.core/src/main/java/net/certiv/fluent/dt/core/lang/md/MdParser.g4 by ANTLR 4.12.0
 
 	package net.certiv.fluent.dt.core.lang.md.gen;
-
-
-import org.antlr.v4.runtime.ParserRuleContext;
+	import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
@@ -12,6 +10,7 @@ import org.antlr.v4.runtime.tree.TerminalNode;
  * which can be extended to create a listener which only needs to handle a subset
  * of the available methods.
  */
+@SuppressWarnings("CheckReturnValue")
 public class MdParserBaseListener implements MdParserListener {
 	/**
 	 * {@inheritDoc}
@@ -301,6 +300,18 @@ public class MdParserBaseListener implements MdParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitLines(MdParser.LinesContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterNote(MdParser.NoteContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitNote(MdParser.NoteContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

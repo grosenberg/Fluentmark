@@ -87,7 +87,7 @@ public class ToggleHiddenCommentHandler extends AbstractHandler {
 			if ((begCmt && !endCmt) || (!begCmt && endCmt)) return LAPD;
 			return NONE;
 		} catch (BadLocationException e) {
-			Log.error(this, "Bad comment partitioning " + e.getMessage());
+			Log.error( "Bad comment partitioning " + e.getMessage());
 			return UNKN;
 		}
 	}
@@ -103,7 +103,7 @@ public class ToggleHiddenCommentHandler extends AbstractHandler {
 			edit.apply(doc);
 			undoMgr.endCompoundChange();
 		} catch (MalformedTreeException | BadLocationException e) {
-			Log.error(this, "Failure creating comment " + e.getMessage());
+			Log.error( "Failure creating comment " + e.getMessage());
 		}
 	}
 
@@ -126,7 +126,7 @@ public class ToggleHiddenCommentHandler extends AbstractHandler {
 			edit.apply(doc);
 			undoMgr.endCompoundChange();
 		} catch (MalformedTreeException | BadLocationException e) {
-			Log.error(this, "Failure removing comment " + e.getMessage());
+			Log.error( "Failure removing comment " + e.getMessage());
 		}
 	}
 

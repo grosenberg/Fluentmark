@@ -41,7 +41,7 @@ public class DotCodeRule implements IPredicateRule {
 					return getSuccessToken();
 				}
 			} catch (BadLocationException e) {
-				Log.error(this, "DotCodeRule", e);
+				Log.error( "DotCodeRule", e);
 			}
 		}
 

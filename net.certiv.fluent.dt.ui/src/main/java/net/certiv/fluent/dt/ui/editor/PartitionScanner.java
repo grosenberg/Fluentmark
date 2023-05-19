@@ -23,6 +23,7 @@ import net.certiv.fluent.dt.ui.editor.text.rules.DotRawRule;
 import net.certiv.fluent.dt.ui.editor.text.rules.FrontMatterRule;
 import net.certiv.fluent.dt.ui.editor.text.rules.HtmlCodeRule;
 import net.certiv.fluent.dt.ui.editor.text.rules.IndentedCodeRule;
+import net.certiv.fluent.dt.ui.editor.text.rules.MathRawRule;
 
 public class PartitionScanner extends RuleBasedPartitionScanner implements IScannerExt {
 
@@ -44,6 +45,7 @@ public class PartitionScanner extends RuleBasedPartitionScanner implements IScan
 		rules.add(new MultiLineRule("$$", "$$", mathblock, '\\', true));
 		rules.add(new HtmlCodeRule(htmlblock));
 		rules.add(new DotRawRule(dotblock));
+		rules.add(new MathRawRule(mathblock));
 		rules.add(new MultiLineRule("@startuml", "@enduml", umlblock, '\\', true));
 		rules.add(new MultiLineRule("@startdot", "@enddot", dotblock, '\\', true));
 		rules.add(new MultiLineRule("~~~", "~~~", codeblock, '\\', true));

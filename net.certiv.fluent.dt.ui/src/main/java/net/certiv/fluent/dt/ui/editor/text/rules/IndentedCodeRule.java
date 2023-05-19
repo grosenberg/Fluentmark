@@ -33,7 +33,7 @@ public class IndentedCodeRule implements IPredicateRule {
 	// called from the partition scanner
 	@Override
 	public IToken evaluate(ICharacterScanner scanner, boolean resume) {
-		if (resume) Log.error(this, "Resuming");
+		if (resume) Log.error( "Resuming");
 		return evaluate(scanner);
 	}
 

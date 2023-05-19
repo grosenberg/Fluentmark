@@ -1,8 +1,10 @@
 package net.certiv.fluent.dt.vis.server;
 
-import net.certiv.common.util.Maths;
+import net.certiv.common.stores.Counter;
 
 public class Message {
+
+	private static final Counter Ref = new Counter();
 
 	/** An internal message reference. */
 	public final long ref;
@@ -18,24 +20,24 @@ public class Message {
 	// ------------------------------------------
 
 	/**
-	 * Returns a new message with the given values.
+	 * Create a new UPDATE message with the given values.
 	 *
-	 * @param ref a message reference
-	 * @param target the message target
+	 * @param ref     a message reference
+	 * @param target  the message target
 	 * @param content the message content
-	 * @param line line number of content change
-	 * @param total total number lines in content
+	 * @param line    line number of content change
+	 * @param total   total number lines in content
 	 * @return a new message
 	 */
 	public static Message request(String target, String content, int line, int total) {
-		return new Message(Maths.nextRandom(), target, content, line, total);
+		return new Message(Ref.getAndIncrement(), target, content, line, total);
 	}
 
 	/**
 	 * Returns a new message with the given values.
 	 *
-	 * @param ref a message reference
-	 * @param target the message target
+	 * @param ref     a message reference
+	 * @param target  the message target
 	 * @param content the message content
 	 * @return a new message
 	 */
@@ -54,8 +56,8 @@ public class Message {
 	}
 
 	/**
-	 * Returns a new reply message initialized from the given message and content.
-	 * Source and target names are reversed as is appropriate of a reply.
+	 * Returns a new reply message initialized from the given message and content. Source
+	 * and target names are reversed as is appropriate of a reply.
 	 *
 	 * @param content the message content
 	 * @return a new message
