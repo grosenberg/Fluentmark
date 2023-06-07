@@ -352,7 +352,7 @@ public class LiveServer {
 	public void send(MsgEnvl envl) {
 		if (server.isRunning()) {
 			try {
-				Session session = sessions.getActiveSession(envl.target);// .getRemote().sendString(gson.toJson(envl));
+				Session session = sessions.getActiveSession(envl.target);
 				RemoteEndpoint remote = session.getRemote();
 				remote.sendString(gson.toJson(envl));
 			} catch (Exception ex) {

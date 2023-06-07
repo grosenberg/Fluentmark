@@ -25,6 +25,7 @@ export type MsgBody = {
   ref: number;
   target: string;
   content: string;
+  code: string;
   line: number;
   total: number;
 };
@@ -60,6 +61,7 @@ export const Msg: MsgBody = {
   ref: 0,
   target: '',
   content: '',
+  code: '',
   line: -1,
   total: -1,
 };

@@ -32,12 +32,12 @@
   const contentModel = computed({
     get() {
       const code = wsStore.envl.msg.content;
-      console.log('Loading code "%s"', code.length > 24 ? code.substring(0, 19) + ' ...' : code);
+      console.log('Fetching code "%s"', code.length > 24 ? code.substring(0, 19) + ' ...' : code);
       detect(code);
       return format(code);
     },
     set(newValue) {
-      console.log('Content set...');
+      console.log('Setting code "%s"', newValue.length > 24 ? newValue.substring(0, 19) + ' ...' : newValue);
     },
   });
 

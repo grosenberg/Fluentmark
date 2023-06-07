@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Fluent UI
 Automatic-Module-Name: net.certiv.fluent.dt.ui
 Bundle-SymbolicName: net.certiv.fluent.dt.ui;singleton:=true
-Bundle-Version: 1.8.0.qualifier
+Bundle-Version: 1.8.1.qualifier
 Bundle-ClassPath: .,
  lib/plantuml-1.2022.4.jar,
  lib/flexmark-0.64.0.jar,
@@ -55,7 +55,7 @@ Bundle-ClassPath: .,
 Bundle-Activator: net.certiv.fluent.dt.ui.FluentUI
 Bundle-Vendor: Certiv Analytics
 Bundle-Localization: plugin
-Require-Bundle: net.certiv.fluent.dt.core;bundle-version="1.8.0",
+Require-Bundle: net.certiv.fluent.dt.core;bundle-version="1.8.1",
  net.certiv.spellchecker;bundle-version="3.4.2",
  net.certiv.dsl.core;bundle-version="0.30.0",
  net.certiv.dsl.ui;bundle-version="0.30.0",

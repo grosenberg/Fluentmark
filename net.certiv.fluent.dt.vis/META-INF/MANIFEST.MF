@@ -6,13 +6,13 @@ Bundle-Vendor: Cetiv Analytics
 Bundle-ManifestVersion: 2
 Bundle-Name: Fluent Vis
 Bundle-SymbolicName: net.certiv.fluent.dt.vis;singleton:=true
-Bundle-Version: 1.8.0.qualifier
+Bundle-Version: 1.8.1.qualifier
 Bundle-Activator: net.certiv.fluent.dt.vis.FluentVis
 Require-Bundle: net.certiv.dsl.core;bundle-version="0.30.0",
  net.certiv.dsl.lib;bundle-version="0.30.0",
  net.certiv.dsl.ui;bundle-version="0.30.0",
- net.certiv.fluent.dt.core;bundle-version="1.8.0",
- net.certiv.fluent.dt.ui;bundle-version="1.8.0",
+ net.certiv.fluent.dt.core;bundle-version="1.8.1",
+ net.certiv.fluent.dt.ui;bundle-version="1.8.1",
  org.eclipse.core.resources;bundle-version="3.18.100",
  org.eclipse.core.runtime;bundle-version="3.26.100",
  org.eclipse.jface.text;bundle-version="3.22.0",

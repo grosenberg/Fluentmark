@@ -29,7 +29,6 @@ import net.certiv.dsl.core.preferences.PrefsManager;
 import net.certiv.dsl.core.util.Resources;
 import net.certiv.fluent.dt.core.preferences.Prefs;
 import net.certiv.fluent.dt.vis.FluentVis;
-import net.certiv.fluent.dt.vis.ex.OperationCanceledException;
 
 public class LiveUtil {
 
@@ -260,7 +259,7 @@ public class LiveUtil {
 				}
 
 			} else {
-				return new OperationCanceledException("Unknown system type: browser open failed.");
+				return new BrowserException("Unknown system type: browser open failed.");
 			}
 		}
 		return null;

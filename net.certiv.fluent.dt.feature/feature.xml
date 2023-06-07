@@ -2,7 +2,7 @@
 <feature
       id="net.certiv.fluent.dt.feature"
       label="FluentMark Editor"
-      version="1.8.0.qualifier"
+      version="1.8.1.qualifier"
       provider-name="Certiv Analytics">
 
    <description>
@@ -32,7 +32,7 @@
       <import plugin="org.eclipse.ui" version="3.201.200" match="greaterOrEqual"/>
       <import plugin="org.eclipse.ui.workbench.texteditor" version="3.16.600" match="greaterOrEqual"/>
       <import plugin="com.google.guava" version="30.1.0" match="greaterOrEqual"/>
-      <import plugin="net.certiv.fluent.dt.core" version="1.8.0" match="greaterOrEqual"/>
+      <import plugin="net.certiv.fluent.dt.core" version="1.8.1" match="greaterOrEqual"/>
       <import plugin="org.eclipse.jface.text" version="3.22.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.search" version="3.14.300" match="greaterOrEqual"/>
       <import plugin="org.eclipse.ui.editors" version="3.14.400" match="greaterOrEqual"/>
@@ -41,7 +41,7 @@
       <import plugin="org.eclipse.core.variables" version="3.5.100" match="greaterOrEqual"/>
       <import plugin="org.eclipse.debug.ui" version="3.17.100" match="greaterOrEqual"/>
       <import plugin="org.eclipse.ui.console" version="3.11.400" match="greaterOrEqual"/>
-      <import plugin="net.certiv.fluent.dt.ui" version="1.8.0" match="greaterOrEqual"/>
+      <import plugin="net.certiv.fluent.dt.ui" version="1.8.1" match="greaterOrEqual"/>
       <import plugin="org.eclipse.ui.workbench" version="3.127.0" match="greaterOrEqual"/>
       <import plugin="org.apache.commons.io" version="2.8.0" match="greaterOrEqual"/>
       <import feature="net.certiv.dsl.feature" version="0.30.0.qualifier"/>

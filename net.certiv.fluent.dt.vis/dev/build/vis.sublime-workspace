@@ -143,327 +143,6 @@
 	},
 	"buffers":
 	[
-		{
-			"file": "/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/vis/src/views/Liveview.vue",
-			"settings":
-			{
-				"buffer_size": 4857,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			},
-			"undo_stack":
-			[
-				[
-					3,
-					5,
-					"right_delete",
-					null,
-					"BQAAAPYAAAAAAAAA9gAAAAAAAAABAAAAL/YAAAAAAAAA9gAAAAAAAAABAAAAQ/YAAAAAAAAA9gAAAAAAAAABAAAAb/YAAAAAAAAA9gAAAAAAAAABAAAAZPYAAAAAAAAA9gAAAAAAAAABAAAAZQ",
-					"AQAAAAAAAAABAAAA9gAAAAAAAAD2AAAAAAAAAAAAAAAAAPC/"
-				]
-			]
-		},
-		{
-			"file": "/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/vis/src/plugins/index.ts",
-			"settings":
-			{
-				"buffer_size": 1931,
-				"line_ending": "Unix"
-			},
-			"undo_stack":
-			[
-				[
-					5,
-					1,
-					"insert",
-					{
-						"characters": "\n"
-					},
-					"AgAAAMAEAAAAAAAAwQQAAAAAAAAAAAAAwQQAAAAAAADHBAAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAwAQAAAAAAADABAAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					6,
-					1,
-					"insert",
-					{
-						"characters": "cocnsole"
-					},
-					"CAAAAMcEAAAAAAAAyAQAAAAAAAAAAAAAyAQAAAAAAADJBAAAAAAAAAAAAADJBAAAAAAAAMoEAAAAAAAAAAAAAMoEAAAAAAAAywQAAAAAAAAAAAAAywQAAAAAAADMBAAAAAAAAAAAAADMBAAAAAAAAM0EAAAAAAAAAAAAAM0EAAAAAAAAzgQAAAAAAAAAAAAAzgQAAAAAAADPBAAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAxwQAAAAAAADHBAAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					7,
-					6,
-					"left_delete",
-					null,
-					"BgAAAM4EAAAAAAAAzgQAAAAAAAABAAAAZc0EAAAAAAAAzQQAAAAAAAABAAAAbMwEAAAAAAAAzAQAAAAAAAABAAAAb8sEAAAAAAAAywQAAAAAAAABAAAAc8oEAAAAAAAAygQAAAAAAAABAAAAbskEAAAAAAAAyQQAAAAAAAABAAAAYw",
-					"AQAAAAAAAAABAAAAzwQAAAAAAADPBAAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					8,
-					1,
-					"insert",
-					{
-						"characters": "nsole"
-					},
-					"BQAAAMkEAAAAAAAAygQAAAAAAAAAAAAAygQAAAAAAADLBAAAAAAAAAAAAADLBAAAAAAAAMwEAAAAAAAAAAAAAMwEAAAAAAAAzQQAAAAAAAAAAAAAzQQAAAAAAADOBAAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAyQQAAAAAAADJBAAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					9,
-					1,
-					"insert",
-					{
-						"characters": ".l"
-					},
-					"AgAAAM4EAAAAAAAAzwQAAAAAAAAAAAAAzwQAAAAAAADQBAAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAzgQAAAAAAADOBAAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					10,
-					1,
-					"insert_completion",
-					{
-						"completion": "log",
-						"format": "text",
-						"keep_prefix": false,
-						"must_insert": false,
-						"trigger": "log"
-					},
-					"AgAAAM8EAAAAAAAAzwQAAAAAAAABAAAAbM8EAAAAAAAA0gQAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAA0AQAAAAAAADQBAAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					11,
-					1,
-					"insert_snippet",
-					{
-						"contents": "($0)"
-					},
-					"AQAAANIEAAAAAAAA1AQAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAA0gQAAAAAAADSBAAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					12,
-					1,
-					"insert_snippet",
-					{
-						"contents": "\"$0\""
-					},
-					"AQAAANMEAAAAAAAA1QQAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAA0wQAAAAAAADTBAAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					13,
-					1,
-					"insert",
-					{
-						"characters": "Set"
-					},
-					"AwAAANQEAAAAAAAA1QQAAAAAAAAAAAAA1QQAAAAAAADWBAAAAAAAAAAAAADWBAAAAAAAANcEAAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAA1AQAAAAAAADUBAAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					14,
-					1,
-					"insert",
-					{
-						"characters": " docu"
-					},
-					"BQAAANcEAAAAAAAA2AQAAAAAAAAAAAAA2AQAAAAAAADZBAAAAAAAAAAAAADZBAAAAAAAANoEAAAAAAAAAAAAANoEAAAAAAAA2wQAAAAAAAAAAAAA2wQAAAAAAADcBAAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAA1wQAAAAAAADXBAAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					15,
-					1,
-					"insert_completion",
-					{
-						"completion": "document",
-						"format": "text",
-						"keep_prefix": false,
-						"must_insert": false,
-						"trigger": "document"
-					},
-					"AgAAANgEAAAAAAAA2AQAAAAAAAAEAAAAZG9jddgEAAAAAAAA4AQAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAA3AQAAAAAAADcBAAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					16,
-					1,
-					"insert",
-					{
-						"characters": " title"
-					},
-					"BgAAAOAEAAAAAAAA4QQAAAAAAAAAAAAA4QQAAAAAAADiBAAAAAAAAAAAAADiBAAAAAAAAOMEAAAAAAAAAAAAAOMEAAAAAAAA5AQAAAAAAAAAAAAA5AQAAAAAAADlBAAAAAAAAAAAAADlBAAAAAAAAOYEAAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAA4AQAAAAAAADgBAAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					17,
-					1,
-					"insert",
-					{
-						"characters": " "
-					},
-					"AQAAAOYEAAAAAAAA5wQAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAA5gQAAAAAAADmBAAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					18,
-					1,
-					"left_delete",
-					null,
-					"AQAAAOYEAAAAAAAA5gQAAAAAAAABAAAAIA",
-					"AQAAAAAAAAABAAAA5wQAAAAAAADnBAAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					19,
-					1,
-					"insert",
-					{
-						"characters": ":"
-					},
-					"AQAAAOYEAAAAAAAA5wQAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAA5gQAAAAAAADmBAAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					20,
-					1,
-					"insert",
-					{
-						"characters": " %s"
-					},
-					"AwAAAOcEAAAAAAAA6AQAAAAAAAAAAAAA6AQAAAAAAADpBAAAAAAAAAAAAADpBAAAAAAAAOoEAAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAA5wQAAAAAAADnBAAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					22,
-					1,
-					"insert",
-					{
-						"characters": " "
-					},
-					"AQAAAOsEAAAAAAAA7AQAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAA6wQAAAAAAADrBAAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					23,
-					1,
-					"left_delete",
-					null,
-					"AQAAAOsEAAAAAAAA6wQAAAAAAAABAAAAIA",
-					"AQAAAAAAAAABAAAA7AQAAAAAAADsBAAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					24,
-					1,
-					"insert",
-					{
-						"characters": ","
-					},
-					"AQAAAOsEAAAAAAAA7AQAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAA6wQAAAAAAADrBAAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					25,
-					1,
-					"insert",
-					{
-						"characters": " do"
-					},
-					"AwAAAOwEAAAAAAAA7QQAAAAAAAAAAAAA7QQAAAAAAADuBAAAAAAAAAAAAADuBAAAAAAAAO8EAAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAA7AQAAAAAAADsBAAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					26,
-					1,
-					"insert_completion",
-					{
-						"completion": "document",
-						"format": "text",
-						"keep_prefix": false,
-						"must_insert": false,
-						"trigger": "document"
-					},
-					"AgAAAO0EAAAAAAAA7QQAAAAAAAACAAAAZG/tBAAAAAAAAPUEAAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAA7wQAAAAAAADvBAAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					27,
-					1,
-					"insert",
-					{
-						"characters": ".tit"
-					},
-					"BAAAAPUEAAAAAAAA9gQAAAAAAAAAAAAA9gQAAAAAAAD3BAAAAAAAAAAAAAD3BAAAAAAAAPgEAAAAAAAAAAAAAPgEAAAAAAAA+QQAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAA9QQAAAAAAAD1BAAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					28,
-					1,
-					"insert_completion",
-					{
-						"completion": "title",
-						"format": "text",
-						"keep_prefix": false,
-						"must_insert": false,
-						"trigger": "title"
-					},
-					"AgAAAPYEAAAAAAAA9gQAAAAAAAADAAAAdGl09gQAAAAAAAD7BAAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAA+QQAAAAAAAD5BAAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					35,
-					1,
-					"insert",
-					{
-						"characters": " "
-					},
-					"AQAAAPwEAAAAAAAA/QQAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAA/AQAAAAAAAD8BAAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					36,
-					1,
-					"trim_trailing_white_space",
-					null,
-					"AQAAAPwEAAAAAAAA/AQAAAAAAAABAAAAIA",
-					"AQAAAAAAAAABAAAA/QQAAAAAAAD9BAAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					38,
-					1,
-					"revert",
-					null,
-					"AgAAAAAAAAAAAAAAAAAAAAAAAACMBwAAaW1wb3J0IHZ1ZXRpZnkgZnJvbSAnLi92dWV0aWZ5JzsKaW1wb3J0IHBpbmlhIGZyb20gJy4uL3N0b3JlJzsKaW1wb3J0IHJvdXRlciBmcm9tICcuLi9yb3V0ZXInOwppbXBvcnQgeyBsb2FkRm9udHMgfSBmcm9tICcuL3dlYmZvbnRsb2FkZXInOwppbXBvcnQgeyB1c2VBcHBTdG9yZSB9IGZyb20gJy4uL3N0b3JlL2FwcCc7CmltcG9ydCB7IHVzZVNvY2tldFN0b3JlIH0gZnJvbSAnLi4vc3RvcmUvc29ja2V0JzsKaW1wb3J0IFZ1ZU5hdGl2ZVNvY2sgZnJvbSAndnVlLW5hdGl2ZS13ZWJzb2NrZXQtdnVlMyc7CgppbXBvcnQgJ2hpZ2hsaWdodC5qcy9zdHlsZXMvc3RhY2tvdmVyZmxvdy1saWdodC5jc3MnOwppbXBvcnQgaGxqc0NvbW1vbiBmcm9tICdoaWdobGlnaHQuanMvbGliL2NvbW1vbic7CmltcG9ydCB7IGxvYWRDb25maWcgfSBmcm9tICdAL3BsdWdpbnMvbG9hZENvbmZpZyc7CgppbXBvcnQgdHlwZSB7IEFwcCB9IGZyb20gJ3Z1ZSc7CgovLyBjYWxsZWQgZnJvbSBgQC9tYWluLmpzYApleHBvcnQgZnVuY3Rpb24gcmVnaXN0ZXJQbHVnaW5zKGFwcDogQXBwKSB7CiAgbG9hZEZvbnRzKCk7CiAgYXBwLnVzZSh2dWV0aWZ5KTsKICBhcHAudXNlKHJvdXRlcik7CiAgYXBwLnVzZShwaW5pYSk7CgogIC8vIC0tLS0gaW5pdGlhbGl6ZSB0aGUgc3RvcmUgZGVmYXVsdCB2YWx1ZXMgLS0tLQogIGNvbnN0IGNvbmZpZyA9IGxvYWRDb25maWcoKTsKCiAgY29uc3Qgc3RvcmUgPSB1c2VBcHBTdG9yZSgpOwogIHN0b3JlLnNldFRpdGxlKGNvbmZpZy50aXRsZSk7CiAgc3RvcmUuc2V0Q29weXJpZ2h0KGNvbmZpZy5jb3B5cmlnaHQpOwogIHN0b3JlLnNldFdzQ29ubmVjdFVybChjb25maWcud3NDb25uZWN0VXJsKTsKICBjb25zb2xlLmxvZygnQ29uZmlndXJhdGlvbiBpbml0aWFsaXplZDogIiVzICVzOiAlcyIuJywgc3RvcmUudGl0bGUsIHN0b3JlLmNvcHlyaWdodCwgc3RvcmUud3NDb25uZWN0VXJsKTsKCiAgLy8gLS0tLSBpbml0aWFsaXplIHRoZSByb3V0ZXI6IHNldCBwYWdlIHRpdGxlIGZyb20gcm91dGUgbWV0YSAtLS0tCiAgcm91dGVyLmFmdGVyRWFjaCgodG8pID0+IHsKICAgIGNvbnN0IHN0b3JlID0gdXNlQXBwU3RvcmUoKTsKICAgIGNvbnN0IHRpdGxlID0gc3RvcmUudGl0bGU7CiAgICBpZiAodG8ubWV0YSAmJiB0by5tZXRhLnRpdGxlKSB7CiAgICAgIGRvY3VtZW50LnRpdGxlID0gYCR7dGl0bGV9IC0tICR7dG8ubWV0YS50aXRsZX1gOwogICAgICBjb25zb2xlLmxvZygiU2V0IGRvY3VtZW50IHRpdGxlOiAlcyIsIGRvY3VtZW50LnRpdGxlKQogICAgfSBlbHNlIHsKICAgICAgZG9jdW1lbnQudGl0bGUgPSB0aXRsZTsKICAgIH0KICB9KTsKCiAgLy8gLS0tLSBpbml0aWFsaXplIHdlYnNvY2tldCBjb21tdW5pY2F0aW9ucyAtLS0tCiAgY29uc3Qgd3NVcmwgPSBzdG9yZS5nZXRXc0Nvbm5lY3RVcmw7CiAgY29uc29sZS5sb2coJ1N0YXJ0aW5nIHRoZSBXUyBjbGllbnQgb24gJXMnLCB3c1VybCk7CiAgYXBwLnVzZShWdWVOYXRpdmVTb2NrLCB3c1VybCwgewogICAgc3RvcmU6IHVzZVNvY2tldFN0b3JlKCksCiAgICBmb3JtYXQ6ICcnLAogICAgcmVjb25uZWN0aW9uOiB0cnVlLAogICAgcmVjb25uZWN0aW9uQXR0ZW1wdHM6IDMwLAogICAgcmVjb25uZWN0aW9uRGVsYXk6IDIwMDAsCiAgfSk7CgogIC8vIC0tLS0gaW5pdGlhbGl6ZSBoaWdobGlnaHQuanMgLS0tLQogIGhsanNDb21tb24uY29uZmlndXJlKHsKICAgIGNsYXNzUHJlZml4OiAnJywKICAgIGlnbm9yZVVuZXNjYXBlZEhUTUw6IHRydWUsCiAgfSk7CiAgaGxqc0NvbW1vbi5oaWdobGlnaHRBdXRvKCc8aDE+SGlnaGxpZ2h0LmpzIGhhcyBiZWVuIHJlZ2lzdGVyZWQgc3VjY2Vzc2Z1bGx5ITwvaDE+JykudmFsdWU7CiAgLy8gY29uc29sZS5sb2coJ0tub3duIGxhbmd1YWdlczogJXMnLCBobGpzQ29tbW9uLmxpc3RMYW5ndWFnZXMoKSk7Cn0KAAAAAAAAAACNBwAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAA/AQAAAAAAAD8BAAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					43,
-					1,
-					"cut",
-					null,
-					"AQAAAMEEAAAAAAAAwQQAAAAAAAA9AAAAICAgICAgY29uc29sZS5sb2coJ1NldCBkb2N1bWVudCB0aXRsZTogJXMnLCBkb2N1bWVudC50aXRsZSk7Cg",
-					"AQAAAAAAAAABAAAAwQQAAAAAAAD+BAAAAAAAAAAAAAAAAAAA"
-				],
-				[
-					45,
-					1,
-					"paste",
-					null,
-					"AQAAAPIEAAAAAAAALwUAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAA8gQAAAAAAADyBAAAAAAAAAAAAAAAAAAA"
-				],
-				[
-					48,
-					1,
-					"revert",
-					null,
-					"AgAAAAAAAAAAAAAAAAAAAAAAAACNBwAAaW1wb3J0IHZ1ZXRpZnkgZnJvbSAnLi92dWV0aWZ5JzsKaW1wb3J0IHBpbmlhIGZyb20gJy4uL3N0b3JlJzsKaW1wb3J0IHJvdXRlciBmcm9tICcuLi9yb3V0ZXInOwppbXBvcnQgeyBsb2FkRm9udHMgfSBmcm9tICcuL3dlYmZvbnRsb2FkZXInOwppbXBvcnQgeyB1c2VBcHBTdG9yZSB9IGZyb20gJy4uL3N0b3JlL2FwcCc7CmltcG9ydCB7IHVzZVNvY2tldFN0b3JlIH0gZnJvbSAnLi4vc3RvcmUvc29ja2V0JzsKaW1wb3J0IFZ1ZU5hdGl2ZVNvY2sgZnJvbSAndnVlLW5hdGl2ZS13ZWJzb2NrZXQtdnVlMyc7CgppbXBvcnQgJ2hpZ2hsaWdodC5qcy9zdHlsZXMvc3RhY2tvdmVyZmxvdy1saWdodC5jc3MnOwppbXBvcnQgaGxqc0NvbW1vbiBmcm9tICdoaWdobGlnaHQuanMvbGliL2NvbW1vbic7CmltcG9ydCB7IGxvYWRDb25maWcgfSBmcm9tICdAL3BsdWdpbnMvbG9hZENvbmZpZyc7CgppbXBvcnQgdHlwZSB7IEFwcCB9IGZyb20gJ3Z1ZSc7CgovLyBjYWxsZWQgZnJvbSBgQC9tYWluLmpzYApleHBvcnQgZnVuY3Rpb24gcmVnaXN0ZXJQbHVnaW5zKGFwcDogQXBwKSB7CiAgbG9hZEZvbnRzKCk7CiAgYXBwLnVzZSh2dWV0aWZ5KTsKICBhcHAudXNlKHJvdXRlcik7CiAgYXBwLnVzZShwaW5pYSk7CgogIC8vIC0tLS0gaW5pdGlhbGl6ZSB0aGUgc3RvcmUgZGVmYXVsdCB2YWx1ZXMgLS0tLQogIGNvbnN0IGNvbmZpZyA9IGxvYWRDb25maWcoKTsKCiAgY29uc3Qgc3RvcmUgPSB1c2VBcHBTdG9yZSgpOwogIHN0b3JlLnNldFRpdGxlKGNvbmZpZy50aXRsZSk7CiAgc3RvcmUuc2V0Q29weXJpZ2h0KGNvbmZpZy5jb3B5cmlnaHQpOwogIHN0b3JlLnNldFdzQ29ubmVjdFVybChjb25maWcud3NDb25uZWN0VXJsKTsKICBjb25zb2xlLmxvZygnQ29uZmlndXJhdGlvbiBpbml0aWFsaXplZDogIiVzICVzOiAlcyIuJywgc3RvcmUudGl0bGUsIHN0b3JlLmNvcHlyaWdodCwgc3RvcmUud3NDb25uZWN0VXJsKTsKCiAgLy8gLS0tLSBpbml0aWFsaXplIHRoZSByb3V0ZXI6IHNldCBwYWdlIHRpdGxlIGZyb20gcm91dGUgbWV0YSAtLS0tCiAgcm91dGVyLmFmdGVyRWFjaCgodG8pID0+IHsKICAgIGNvbnN0IHN0b3JlID0gdXNlQXBwU3RvcmUoKTsKICAgIGNvbnN0IHRpdGxlID0gc3RvcmUudGl0bGU7CiAgICBpZiAodG8ubWV0YSAmJiB0by5tZXRhLnRpdGxlKSB7CiAgICAgIGRvY3VtZW50LnRpdGxlID0gYCR7dGl0bGV9IC0tICR7dG8ubWV0YS50aXRsZX1gOwogICAgfSBlbHNlIHsKICAgICAgZG9jdW1lbnQudGl0bGUgPSB0aXRsZTsKICAgIH0KICAgICAgY29uc29sZS5sb2coJ1NldCBkb2N1bWVudCB0aXRsZTogJXMnLCBkb2N1bWVudC50aXRsZSk7CiAgfSk7CgogIC8vIC0tLS0gaW5pdGlhbGl6ZSB3ZWJzb2NrZXQgY29tbXVuaWNhdGlvbnMgLS0tLQogIGNvbnN0IHdzVXJsID0gc3RvcmUuZ2V0V3NDb25uZWN0VXJsOwogIGNvbnNvbGUubG9nKCdTdGFydGluZyB0aGUgV1MgY2xpZW50IG9uICVzJywgd3NVcmwpOwogIGFwcC51c2UoVnVlTmF0aXZlU29jaywgd3NVcmwsIHsKICAgIHN0b3JlOiB1c2VTb2NrZXRTdG9yZSgpLAogICAgZm9ybWF0OiAnJywKICAgIHJlY29ubmVjdGlvbjogdHJ1ZSwKICAgIHJlY29ubmVjdGlvbkF0dGVtcHRzOiAzMCwKICAgIHJlY29ubmVjdGlvbkRlbGF5OiAyMDAwLAogIH0pOwoKICAvLyAtLS0tIGluaXRpYWxpemUgaGlnaGxpZ2h0LmpzIC0tLS0KICBobGpzQ29tbW9uLmNvbmZpZ3VyZSh7CiAgICBjbGFzc1ByZWZpeDogJycsCiAgICBpZ25vcmVVbmVzY2FwZWRIVE1MOiB0cnVlLAogIH0pOwogIGhsanNDb21tb24uaGlnaGxpZ2h0QXV0bygnPGgxPkhpZ2hsaWdodC5qcyBoYXMgYmVlbiByZWdpc3RlcmVkIHN1Y2Nlc3NmdWxseSE8L2gxPicpLnZhbHVlOwogIC8vIGNvbnNvbGUubG9nKCdLbm93biBsYW5ndWFnZXM6ICVzJywgaGxqc0NvbW1vbi5saXN0TGFuZ3VhZ2VzKCkpOwp9CgAAAAAAAAAAiwcAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAALwUAAAAAAAAvBQAAAAAAAAAAAAAAAPC/"
-				]
-			]
-		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -554,27 +233,24 @@
 	"expanded_folders":
 	[
 		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev",
-		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/vis",
-		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/vis/public",
-		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/vis/src",
-		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/vis/src/components",
-		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/vis/src/plugins",
-		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/vis/src/router",
-		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/vis/src/store",
-		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/vis/src/views"
+		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/vis"
 	],
 	"file_history":
 	[
+		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/.gitignore",
+		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/build/run_build.bat",
+		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/build/run_dev.bat",
+		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/vis/package.json",
+		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/vis/src/views/Liveview.vue",
+		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/vis/src/plugins/index.ts",
 		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/vis/public/app-config.json",
 		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/vis/src/router/index.ts",
 		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/build/Readme.md",
-		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/vis/src/views/Liveview.vue",
 		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/vis/src/components/LiveArea.vue",
 		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/vis/src/plugins/mathjax.ts",
 		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/vis/src/plugins/scrollTo.ts",
 		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/vis/src/components/CodeArea.vue",
 		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/vis/src/plugins/vuetify.ts",
-		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/vis/package.json",
 		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/vis/src/styles/test.css",
 		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/vis/src/styles/test.scss",
 		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/build/run_sass.bat",
@@ -595,17 +271,14 @@
 		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/vis/src/styles/settings.scss",
 		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/vis/src/main.ts",
 		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/vis/src/store/socket.ts",
-		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/vis/src/plugins/index.ts",
 		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev - ver 1/liveview/src/App.vue",
 		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/vis/src/store/types/WsTypes.ts",
 		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev - ver 1/liveview/src/store/index.js",
 		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev - ver 1/liveview/src/view/Liveview.vue",
-		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/build/run_build.bat",
 		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/build/run_term.bat",
 		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/build/run_test.bat",
 		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/build/run_lint.bat",
 		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/build/run_fmt.bat",
-		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/build/run_dev.bat",
 		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev - ver 1/build/run_dev.bat",
 		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/liveview/src/view/Liveview.vue",
 		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/liveview/src/store/index.js",
@@ -691,8 +364,7 @@
 		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/components/d3/lib/libFlexTreeDiagram.js",
 		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/components/d3/lib/utils.js",
 		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/components/d3/lib/libTreeDiagram.js",
-		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/components/d3/lib/flexTreeDemo.js",
-		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/components/d3/lib/tmp.js"
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/components/d3/lib/flexTreeDemo.js"
 	],
 	"find":
 	{
@@ -897,69 +569,6 @@
 		{
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/vis/src/views/Liveview.vue",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 4857,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								246,
-								246
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Vue Syntax Highlight/Vue Component.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 2142.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"stack_multiselect": false,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/vis/src/plugins/index.ts",
-					"selected": true,
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1931,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1327,
-								1327
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/TypeScript.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 315.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"stack_multiselect": false,
-					"type": "text"
-				}
 			]
 		}
 	],
