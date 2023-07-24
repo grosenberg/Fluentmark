@@ -24,6 +24,7 @@ import net.certiv.common.log.Log;
 import net.certiv.dsl.core.model.ICodeUnit;
 import net.certiv.dsl.core.model.IStatement;
 import net.certiv.dsl.core.model.ModelException;
+import net.certiv.dsl.core.model.Statement;
 import net.certiv.dsl.core.model.builder.SourceRange;
 import net.certiv.fluent.dt.core.model.SpecUtil;
 import net.certiv.fluent.dt.ui.editor.FluentEditor;
@@ -51,7 +52,7 @@ public class FluentDoubleClickStrategy extends DefaultTextDoubleClickStrategy {
 			if (stmt != null) {
 				switch (SpecUtil.getSpecializedType(stmt)) {
 					case Table:
-						runTableEditor();
+						runTableEditor((Statement) stmt);
 						return;
 
 					default:
@@ -65,7 +66,7 @@ public class FluentDoubleClickStrategy extends DefaultTextDoubleClickStrategy {
 		super.doubleClicked(viewer);
 	}
 
-	private void runTableEditor() {
+	private void runTableEditor(Statement stmt) {
 		UIJob job = new UIJob("Table editor") {
 
 			@Override

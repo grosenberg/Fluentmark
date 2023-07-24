@@ -1,0 +1,38 @@
+---- horz_rules -------------------------
+---- Tree ----
+page
+  lineBlank
+    [LINE_BLANK] 
+  header
+    line
+      word
+        [WORD] Horizontal
+      word
+        [WORD] Rules
+    nl
+      [VWS] ␍␊
+    [SETEXT] ----------------
+  lineBlank
+    [LINE_BLANK] ␍␊␍␊
+  paragraph
+    line
+      word
+        [WORD] Text
+      word
+        [WORD] 1.
+  lineBlank
+    [LINE_BLANK] ␍␊␍␊
+  hrule
+    [HRULE] ---
+  lineBlank
+    [LINE_BLANK] ␍␊␍␊
+  hrule
+    [HRULE] ****
+  lineBlank
+    [LINE_BLANK] ␍␊␍␊
+  hrule
+    [HRULE] ___
+  [VWS] ␍␊
+  lineBlank
+    [LINE_BLANK] 
+  [EOF] <EOF>

@@ -7,6 +7,22 @@ options {
 tokens {
 	WORD,
 
+	CODE_BEG,
+	CODE_END,
+	CODE_TYPE,
+	CODE_LINE,
+	CODE_DENT,
+	CODE_BLANK,
+
+	QUOTE_BLANK,
+	QUOTE_DENT,
+
+	LBOLD,
+	LITALIC,
+	LSTRIKE,
+	LDQUOTE,
+	LSQUOTE,
+
 	RBOLD,
 	RITALIC,
 	RSTRIKE,
@@ -24,7 +40,7 @@ tokens {
 COMMENT	: Comment ;
 
 // code blocks
-CODE_BEG : Tics   { bob() }? -> pushMode(CodeTics)	;
+CODE_TIC : Tics   { bob() }? -> type(CODE_BEG), pushMode(CodeTics)	;
 CODE_TLD : Tildes { bob() }? -> type(CODE_BEG), pushMode(CodeTildes) ;
 
 // html blocks
@@ -51,44 +67,50 @@ TEX		: TexRaw  ;
 UNICODE	: Unicode ;
 ENTITY	: Entity  ;
 
-// links
-IMAGE	: Bang LBrack 	{ link() }?	-> pushMode(Link) ;
-FNOTE	: LBrack Caret	{ link() }? -> pushMode(Link) ;
-LINK	: LBrack 		{ link() }? -> pushMode(Link) ;
-
-// tables
-TABLE : { bol() }? Pipe? ColDef ( Pipe ColDef )+ Pipe? ;
-PIPE  : Pipe ;
-
 // headings
 HASHES : Hash+  { bob() }? ;
-DASHES : Dashes { hdr() }? ;
-EQUALS : Equals { hdr() }? ;
+SETEXT : SeText { hdr() }? ;
 
-HRULE  : HRule  { bob() }? ;
+// horizontal rule
+HRULE  : HRule  { hrule() }? ;
 
 // definition list
-COLON  : Colon { hdr() }? ;
+DEFINE : Colon { define() }? ;
+
+// tables
+TABLE_DEF : TblDef { bol() }? ;
+PIPE  	  : Pipe ;
 
 // list marks
-BULLET_MARK	: { list() }? [*+-] TaskMark? Hws+ ;
-NUMBER_MARK : { list() }? (Digit+ Dot | Hash Dot ) TaskMark? Hws+ ;
-PAREN_MARK	: { list() }? LParen? Alphanum+ RParen TaskMark? Hws+ ;
-UALPHA_MARK : { list() }? UAlpha Dot TaskMark? Hws+ ;
-LALPHA_MARK	: { list() }? LAlpha Dot TaskMark? Hws+ ;
+BULLET_MARK	: [*+-] { isListMark() }? ;
+NUMBER_MARK : Alphanum ( Dot | RParen ) { isListMark() }? ;
+TASK_MARK	: TaskMark { isTaskMark() }? ;
 
-// attributes
-LBOLD	: Bold   ;
-LITALIC	: Italic ;
-LSTRIKE	: Strike ;
-LDQUOTE	: Quote	 ;
-LSQUOTE	: Mark	 ;
+// links
+LNK_IMG	: Bang LBrack  ;	// ![...](...)
+LNK_FN	: LBrack Caret ;	// [^...](...)
+LNK_SEP : RBrack LParen ;	// [...](...)
+LNK_REF	: RBrack LBrack ;	// [...][...]
+LNK_DEF	: RBrack Colon  ;	// [...]:...
+LBRACK	: LBrack ;
+RBRACK	: RBrack ;
+LPAREN	: LParen ;
+RPAREN	: RParen ; 
 
-BLOCKQUOTE	: { bol() }? BlockQuote	-> channel(HIDDEN) ;
-LINE_DENT  	: { bol() }? Dent 		-> channel(HIDDEN) ;
+// possible attributes
+BOLD	: Bold   { attr() }? ;
+ITALIC	: Italic { attr() }? ;
+STRIKE	: Strike { attr() }? ;
+DQUOTE	: Quote	 { attr() }? ;
+SQUOTE	: Mark	 { attr() }? ;
 
 LINE_BLANK : Vws ( Hws* Vws )+ ;
 LINE_BREAK : Sp Sp Vws  ;
+
+LINE_DENT
+	: BlockQuote { dents() }?
+	| Hws+ 	 	 { dents() }? 
+	;
 
 VWS	: Vws ;
 HWS	: Hws -> channel(HIDDEN) ;
@@ -97,89 +119,44 @@ CHAR : ( EscChar | Char ) { more(WORD); } ;
 
 // ----------------------------------------------------------------------
 
-mode Header;
-	HASH	 : Hash+ ;
-	STYLE_h  : LBrace { style() }? -> type(LSTYLE), pushMode(Style) ;
-	HWS_h    : Hws -> type(HWS), channel(HIDDEN) ;
-	CHAR_h   : ( EscChar | Char ) { more(WORD); } ;
-
 mode Style;
-	RSTYLE : RBrace -> popMode ;
-	CLASS  : Dot   ;
-	ID	   : Hash  ;
-	EQ	   : Equal ;
-	DASH   : Dash  ;
-	DQUOTE : Quote ;
-	SQUOTE : Mark  ;
-	HWS_s  : Hws -> type(HWS), channel(HIDDEN) ;
-	CHAR_s : ( EscChar | Char ) { more(WORD); } ;
+	RSTYLE   : RBrace -> popMode ;
+	CLASS    : Dot   ;
+	ID	     : Hash  ;
+	EQ	     : Equal ;
+	DASH     : Dash  ;
+	DQUOTE_s : Quote -> type(DQUOTE) ;
+	SQUOTE_s : Mark  -> type(SQUOTE) ;
+	HWS_s    : Hws -> type(HWS), channel(HIDDEN) ;
+	CHAR_s   : ( EscChar | Char ) { more(WORD); } ;
 
 mode CodeTics;
-	CODE_END : Vws BlockQuote? Tics -> popMode	;
-	LSTYLE_c : LBrace { style() }? -> type(LSTYLE), pushMode(Style) ;
-	VWS_c	 : Vws	-> type(VWS) ;
-	HWS_c	 : Hws	-> type(HWS), channel(HIDDEN) ;
-	CHR_c	 : ( Char | EscChar ) { more(WORD); } ;
+	LST_c	: LBrace { style() }? -> type(LSTYLE), pushMode(Style) ;
+	VWS_c	: Vws	-> type(VWS), pushMode(TicsBody) ;
+	HWS_c	: Hws	-> type(HWS), channel(HIDDEN) ;
+	TYP_c	: ( Char | EscChar ) { more(CODE_TYPE); } ;
+
+mode TicsBody;
+	END_cb   : { bol() }? Tics { popMode2(CODE_END); } ;
+	VWS_cb	 : Vws	-> type(VWS) ;
+	CHR_cb	 : ( Char | Hws | EscChar ) { more(CODE_LINE); } ;
 
 mode CodeTildes;
-	TILDES_t : Vws BlockQuote? Tildes -> type(CODE_END), popMode ;
-	LSTYLE_t : LBrace { style() }? -> type(LSTYLE), pushMode(Style) ;
-	VWS_t	 : Vws	-> type(VWS) ;
-	HWS_t	 : Hws	-> type(HWS), channel(HIDDEN) ;
-	CHR_t	 : ( Char | EscChar ) { more(WORD); } ;
+	LST_d	: LBrace { style() }? -> type(LSTYLE), pushMode(Style) ;
+	VWS_d	: Vws	-> type(VWS), pushMode(TildesBody) ;
+	HWS_d	: Hws	-> type(HWS), channel(HIDDEN) ;
+	TYP_d	: ( Char | EscChar ) { more(CODE_TYPE); } ;
 
-mode Link ;
-	IMAGE_l	: Bang LBrack  -> type(IMAGE), pushMode(Link) ;
-	LINK_l	: LBrack	   -> type(LINK),  pushMode(Link) ;
-
-	LNK_SEP : RBrack Sp? LParen -> mode(Link_Std) ; // [...](...)
-	LNK_REF	: RBrack Sp? LBrack -> mode(Link_Ref) ; // [...][...]
-	LNK_DEF	: RBrack Sp? Colon  -> popMode ;		// [...]:...
-	RBRACK	: RBrack 			-> popMode ;		// [...]
-
-	URL_l	: Url 	  -> type(URL)  ;
-	URLT_l	: UrlTag  -> type(URLTAG) ;
-	SPAN_l	: Span	  -> type(SPAN) ;
-	HTML_l	: HtmlTag -> type(HTML) ;
-	TEX_l	: TexRaw  -> type(TEX)	;
-	UCODE_l	: Unicode -> type(UNICODE) ;
-	ENTY_l	: Entity  -> type(ENTITY) ;
-
-	LBLD_l	: Bold 	  -> type(LBOLD) ;
-	LITC_l	: Italic  -> type(LITALIC) ;
-	LSTR_l	: Strike  -> type(LSTRIKE) ;
-	LDQT_l	: Quote	  -> type(LDQUOTE) ;
-	LSQT_l	: Mark	  -> type(LSQUOTE) ;
-
-	VWS_l	: Vws -> type(VWS), channel(HIDDEN) ;
-	HWS_l	: Hws -> type(HWS), channel(HIDDEN) ;
-	CHR_l   : ( EscChar | Char ) { more(WORD); } ;
-
-// [...](...)
-mode Link_Std ;
-	RPAREN	: RParen -> popMode ;
-
-	URL_d	: Url	-> type(URL) ;
-	DQT_d	: Quote	-> type(DQUOTE) ;
-	SQT_d	: Mark	-> type(SQUOTE) ;
-	
-	VWS_d	: Vws -> type(VWS), channel(HIDDEN) ;
-	HWS_d	: Hws -> type(HWS), channel(HIDDEN) ;
-	CHR_d   : ( EscChar | Char ) { more(WORD); } ;
-
-// [...][...]
-mode Link_Ref ;
-	RB_r	: RBrack -> type(RBRACK), popMode ;
-	
-	VWS_r	: Vws -> type(VWS), channel(HIDDEN) ;
-	HWS_r	: Hws -> type(HWS), channel(HIDDEN) ;
-	CHR_r   : ( EscChar | Char ) { more(WORD); } ;
+mode TildesBody;
+	END_db	: { bol() }? Tildes { popMode2(CODE_END); } ;
+	VWS_db	: Vws	-> type(VWS) ;
+	CHR_db	: ( Char | Hws | EscChar ) { more(CODE_LINE); } ;
 
 // ----------------------------------------------------------------------
 
-fragment TaskMark	: Sp1_3 LBrack [ a-zA-Z0-9_]? RBrack Hws+ ;
+fragment TaskMark	: LBrack ( [ _] | Alphanum | Unicode )? RBrack ;
 fragment BlockQuote	: Sp0_3 ( RAngle Sp? )* RAngle ;
-fragment Dent  
+fragment LineDent  
 	: Sp Sp Sp Sp 
 	| Tab Sp Sp 
 	| Sp Sp Tab 
@@ -220,11 +197,16 @@ fragment UrlPort : Colon Digit+	;
 // ------------------------
 
 fragment HRule
-	: '--' '-'+
-	| '- -' ' -'+
-	| '**' '*'+
-	| '* *' ' *'+
-	| '__' '_'+
+	: '-' Hws* '-' (Hws* '-')+   
+	| '*' Hws* '*' (Hws* '*')+   
+	| '_' Hws* '_' (Hws* '_')+   
+	;
+
+
+
+fragment SeText 
+	: '-' '-'+
+	| '=' '='+ 	
 	;
 
 fragment Dashes	: '--' '-'+	;
@@ -232,8 +214,10 @@ fragment Dots	: '..' '.'+ ;
 fragment Equals	: '==' '='+	;
 fragment Stars	: '**' '*'+ ;
 fragment Unders	: '__' '_'+	;
+
 fragment Tics	: '``' '`'+ ;
 fragment Tildes	: '~~' '~'+	;
+
 fragment Bold	: '**' | '__' ;
 fragment Italic	: '*'  | '_'  ;
 fragment Strike : '~~' ;
@@ -244,6 +228,10 @@ fragment MathSpan : Dollar NotWs NotVws* Dollar	;
 fragment NotWs	: ( EscSeq | ~[ \t\r\n\f\\] ) ;
 fragment NotVws	: ( EscSeq | ~[\r\n\f\\]	) ;
 
+fragment TblDef : 	Sp0_3 ( Pipe HWS* )? ColDef HWS* Pipe 
+					( HWS* ColDef HWS* Pipe )* 
+					HWS* ColDef HWS* Pipe?
+				;
 fragment ColDef : Colon? Dashes Colon? ;
 
 // HTML
@@ -370,7 +358,7 @@ fragment BBrack : LBrack ( EscSeq | ~[\]\r\n\\] )* RBrack ;
 
 fragment EscSeq
 	:	Esc
-		( [btnfr"'\\]	// Standard escaped character set such as tab, newline, etc.
+		( [btnfr"'\\]	// Standard escaped character set
 		| UnicodeEsc	// Unicode escape sequence
 		| .				// Other escaped character
 		| EOF			// Incomplete at EOF

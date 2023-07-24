@@ -1,0 +1,139 @@
+---- table1 -------------------------
+---- Tree ----
+page
+  lineBlank
+    [LINE_BLANK] 
+  header
+    [HASHES] ##
+    line
+      word
+        [WORD] Table
+      word
+        [WORD] 1
+  lineBlank
+    [LINE_BLANK] ␍␊␍␊
+  table
+    tableRow
+      [PIPE] |
+      line
+        word
+          [WORD] Method
+        word
+          [PIPE] |
+        word
+          [WORD] Type
+        word
+          [PIPE] |
+        word
+          [WORD] Comment
+      [PIPE] |
+    nl
+      [VWS] ␍␊
+    [TABLE_DEF] |:---|:---:|:----|
+    nl
+      [VWS] ␍␊
+    tableRow
+      [PIPE] |
+      line
+        word
+          [WORD] destinationAccess
+        word
+          [PIPE] |
+        word
+          [WORD] Enum
+        word
+          [PIPE] |
+        word
+          [WORD] Either
+        word
+          [SPAN] `Dciq`
+        word
+          [WORD] ,
+        word
+          [SPAN] `Deot`
+        word
+          [WORD] ,
+        word
+          [WORD] or
+        word
+          [WORD] None.
+      [PIPE] |
+    nl
+      [VWS] ␍␊
+    tableRow
+      [PIPE] |
+      line
+        word
+          [WORD] replyToQueue
+        word
+          [PIPE] |
+        word
+          [WORD] Name
+        word
+          [LBRACK] [
+        word
+          [RBRACK] ]
+        word
+          [PIPE] |
+        word
+          [WORD] List
+        word
+          [WORD] of
+        word
+          [SPAN] `replyToQueue`
+        word
+          [LPAREN] (
+        word
+          [WORD] =
+        word
+          [SPAN] `dcrq`
+        word
+          [RPAREN] )
+      [PIPE] |
+    nl
+      [VWS] ␍␊
+    tableRow
+      [PIPE] |
+      line
+        word
+          [WORD] validFrom
+        word
+          [PIPE] |
+        word
+          [WORD] Timestamp
+        word
+          [PIPE] |
+        word
+          [WORD] Date
+        word
+          [WORD] and
+        word
+          [WORD] time:
+        word
+          [WORD] valid.
+      [PIPE] |
+    nl
+      [VWS] ␍␊
+    tableRow
+      [PIPE] |
+      line
+        word
+          [WORD] expiresAt
+        word
+          [PIPE] |
+        word
+          [WORD] Timestamp
+        word
+          [PIPE] |
+        word
+          [WORD] Date
+        word
+          [WORD] and
+        word
+          [WORD] time:
+        word
+          [WORD] expires.
+      [PIPE] |
+  lineBlank
+    [LINE_BLANK] 
+  [EOF] <EOF>

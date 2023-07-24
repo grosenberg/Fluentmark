@@ -120,23 +120,17 @@ public interface MdParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitLink(MdParser.LinkContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link MdParser#lnkDef}.
+	 * Visit a parse tree produced by {@link MdParser#imgLink}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitLnkDef(MdParser.LnkDefContext ctx);
+	T visitImgLink(MdParser.ImgLinkContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link MdParser#lnkRef}.
+	 * Visit a parse tree produced by {@link MdParser#fnLink}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitLnkRef(MdParser.LnkRefContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link MdParser#url}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitUrl(MdParser.UrlContext ctx);
+	T visitFnLink(MdParser.FnLinkContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link MdParser#alt}.
 	 * @param ctx the parse tree
@@ -144,23 +138,17 @@ public interface MdParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitAlt(MdParser.AltContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link MdParser#url}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitUrl(MdParser.UrlContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link MdParser#paragraph}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitParagraph(MdParser.ParagraphContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link MdParser#lines}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitLines(MdParser.LinesContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link MdParser#note}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitNote(MdParser.NoteContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link MdParser#line}.
 	 * @param ctx the parse tree
@@ -174,17 +162,23 @@ public interface MdParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitWord(MdParser.WordContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link MdParser#l_line}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitL_line(MdParser.L_lineContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link MdParser#l_word}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitL_word(MdParser.L_wordContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link MdParser#nl}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitNl(MdParser.NlContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link MdParser#nl2}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitNl2(MdParser.Nl2Context ctx);
 	/**
 	 * Visit a parse tree produced by {@link MdParser#attrLeft}.
 	 * @param ctx the parse tree
@@ -204,15 +198,27 @@ public interface MdParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitComment(MdParser.CommentContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link MdParser#lnBlank}.
+	 * Visit a parse tree produced by {@link MdParser#lineBlank}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitLnBlank(MdParser.LnBlankContext ctx);
+	T visitLineBlank(MdParser.LineBlankContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link MdParser#lnBreak}.
+	 * Visit a parse tree produced by {@link MdParser#codeBlank}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitLnBreak(MdParser.LnBreakContext ctx);
+	T visitCodeBlank(MdParser.CodeBlankContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link MdParser#quoteBlank}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitQuoteBlank(MdParser.QuoteBlankContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link MdParser#lineBreak}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLineBreak(MdParser.LineBreakContext ctx);
 }

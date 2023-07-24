@@ -1,0 +1,276 @@
+|---- link_all -----------------------------------------------------------------------|
+| Num  | Token              | Text                          | Line  | Pos  | Channel  |
+|------|--------------------|-------------------------------|-------|------|----------|
+|    0 | LINE_BLANK (60)    |                               |     1 |    0 |          |
+|    1 | HASHES (37)        | #                             |     2 |    0 |          |
+|    2 | HWS (64)           | ␣                             |     2 |    1 | HIDDEN   |
+|    3 | WORD (1)           | Links                         |     2 |    2 |          |
+|    4 | LINE_BLANK (60)    | ␍␊␍␊                          |     4 |    7 |          |
+|    5 | WORD (1)           | An                            |     4 |    0 |          |
+|    6 | HWS (64)           | ␣                             |     4 |    2 | HIDDEN   |
+|    7 | LBRACK (51)        | [                             |     4 |    3 |          |
+|    8 | WORD (1)           | auto-link                     |     4 |    4 |          |
+|    9 | LNK_SEP (48)       | ](                            |     4 |   13 |          |
+|   10 | URL (31)           | #auto                         |     4 |   15 |          |
+|   11 | RPAREN (54)        | )                             |     4 |   20 |          |
+|   12 | HWS (64)           | ␣                             |     4 |   21 | HIDDEN   |
+|   13 | WORD (1)           | style                         |     4 |   22 |          |
+|   14 | HWS (64)           | ␣                             |     4 |   27 | HIDDEN   |
+|   15 | WORD (1)           | link                          |     4 |   28 |          |
+|   16 | LINE_BLANK (60)    | ␍␊␍␊                          |     6 |   32 |          |
+|   17 | WORD (1)           | The                           |     6 |    0 |          |
+|   18 | HWS (64)           | ␣                             |     6 |    3 | HIDDEN   |
+|   19 | LBRACK (51)        | [                             |     6 |    4 |          |
+|   20 | WORD (1)           | AI                            |     6 |    5 |          |
+|   21 | HWS (64)           | ␣                             |     6 |    7 | HIDDEN   |
+|   22 | WORD (1)           | classifier                    |     6 |    8 |          |
+|   23 | LNK_SEP (48)       | ](                            |     6 |   18 |          |
+|   24 | URL (31)           | https://www.certiv.net        |     6 |   20 |          |
+|   25 | RPAREN (54)        | )                             |     6 |   42 |          |
+|   26 | HWS (64)           | ␣                             |     6 |   43 | HIDDEN   |
+|   27 | WORD (1)           | function                      |     6 |   44 |          |
+|   28 | HWS (64)           | ␣                             |     6 |   52 | HIDDEN   |
+|   29 | WORD (1)           | compares                      |     6 |   53 |          |
+|   30 | HWS (64)           | ␣                             |     6 |   61 | HIDDEN   |
+|   31 | VWS (63)           | ␍␊                            |     7 |   62 |          |
+|   32 | WORD (1)           | an                            |     7 |    0 |          |
+|   33 | HWS (64)           | ␣                             |     7 |    2 | HIDDEN   |
+|   34 | WORD (1)           | unknown                       |     7 |    3 |          |
+|   35 | HWS (64)           | ␣                             |     7 |   10 | HIDDEN   |
+|   36 | WORD (1)           | context                       |     7 |   11 |          |
+|   37 | HWS (64)           | ␣                             |     7 |   18 | HIDDEN   |
+|   38 | WORD (1)           | vector                        |     7 |   19 |          |
+|   39 | HWS (64)           | ␣                             |     7 |   25 | HIDDEN   |
+|   40 | SPAN (29)          | `X`                           |     7 |   26 |          |
+|   41 | WORD (1)           | .                             |     7 |   29 |          |
+|   42 | HWS (64)           | ␣                             |     7 |   30 | HIDDEN   |
+|   43 | LINE_BLANK (60)    | ␍␊␍␊                          |     9 |   31 |          |
+|   44 | WORD (1)           | or                            |     9 |    0 |          |
+|   45 | HWS (64)           | ␣                             |     9 |    2 | HIDDEN   |
+|   46 | LBRACK (51)        | [                             |     9 |    3 |          |
+|   47 | URL (31)           | https://www.certiv.net        |     9 |    4 |          |
+|   48 | LNK_SEP (48)       | ](                            |     9 |   26 |          |
+|   49 | URL (31)           | https://www.certiv.net        |     9 |   28 |          |
+|   50 | RPAREN (54)        | )                             |     9 |   50 |          |
+|   51 | HWS (64)           | ␣                             |     9 |   51 | HIDDEN   |
+|   52 | LINE_BLANK (60)    | ␍␊␍␊                          |    11 |   52 |          |
+|   53 | LBRACK (51)        | [                             |    11 |    0 |          |
+|   54 | WORD (1)           | inline-style                  |    11 |    1 |          |
+|   55 | HWS (64)           | ␣                             |    11 |   13 | HIDDEN   |
+|   56 | WORD (1)           | link                          |    11 |   14 |          |
+|   57 | LNK_SEP (48)       | ](                            |    11 |   18 |          |
+|   58 | URL (31)           | https://www.google.com        |    11 |   20 |          |
+|   59 | RPAREN (54)        | )                             |    11 |   42 |          |
+|   60 | LINE_BLANK (60)    | ␍␊␍␊                          |    13 |   43 |          |
+|   61 | WORD (1)           | a                             |    13 |    0 |          |
+|   62 | HWS (64)           | ␣                             |    13 |    1 | HIDDEN   |
+|   63 | LBRACK (51)        | [                             |    13 |    2 |          |
+|   64 | WORD (1)           | inline-style                  |    13 |    3 |          |
+|   65 | HWS (64)           | ␣                             |    13 |   15 | HIDDEN   |
+|   66 | WORD (1)           | link                          |    13 |   16 |          |
+|   67 | HWS (64)           | ␣                             |    13 |   20 | HIDDEN   |
+|   68 | WORD (1)           | with                          |    13 |   21 |          |
+|   69 | HWS (64)           | ␣                             |    13 |   25 | HIDDEN   |
+|   70 | WORD (1)           | title                         |    13 |   26 |          |
+|   71 | LNK_SEP (48)       | ](                            |    13 |   31 |          |
+|   72 | URL (31)           | https://www.google.com        |    13 |   33 |          |
+|   73 | HWS (64)           | ␣                             |    13 |   55 | HIDDEN   |
+|   74 | LDQUOTE (13)       | "                             |    13 |   56 |          |
+|   75 | WORD (1)           | Google                        |    13 |   57 |          |
+|   76 | WORD (1)           | '                             |    13 |   63 |          |
+|   77 | WORD (1)           | s                             |    13 |   64 |          |
+|   78 | HWS (64)           | ␣                             |    13 |   65 | HIDDEN   |
+|   79 | WORD (1)           | Homepage                      |    13 |   66 |          |
+|   80 | RDQUOTE (18)       | "                             |    13 |   74 |          |
+|   81 | RPAREN (54)        | )                             |    13 |   75 |          |
+|   82 | LINE_BLANK (60)    | ␍␊␍␊                          |    15 |   76 |          |
+|   83 | LBRACK (51)        | [                             |    15 |    0 |          |
+|   84 | WORD (1)           | reference-style               |    15 |    1 |          |
+|   85 | HWS (64)           | ␣                             |    15 |   16 | HIDDEN   |
+|   86 | WORD (1)           | link                          |    15 |   17 |          |
+|   87 | LNK_REF (49)       | ][                            |    15 |   21 |          |
+|   88 | WORD (1)           | Arbitrary                     |    15 |   23 |          |
+|   89 | HWS (64)           | ␣                             |    15 |   32 | HIDDEN   |
+|   90 | WORD (1)           | case-insensitive              |    15 |   33 |          |
+|   91 | HWS (64)           | ␣                             |    15 |   49 | HIDDEN   |
+|   92 | WORD (1)           | reference                     |    15 |   50 |          |
+|   93 | HWS (64)           | ␣                             |    15 |   59 | HIDDEN   |
+|   94 | WORD (1)           | text                          |    15 |   60 |          |
+|   95 | RBRACK (52)        | ]                             |    15 |   64 |          |
+|   96 | LINE_BLANK (60)    | ␍␊␍␊                          |    17 |   65 |          |
+|   97 | LBRACK (51)        | [                             |    17 |    0 |          |
+|   98 | WORD (1)           | relative                      |    17 |    1 |          |
+|   99 | HWS (64)           | ␣                             |    17 |    9 | HIDDEN   |
+|  100 | WORD (1)           | reference                     |    17 |   10 |          |
+|  101 | HWS (64)           | ␣                             |    17 |   19 | HIDDEN   |
+|  102 | WORD (1)           | to                            |    17 |   20 |          |
+|  103 | HWS (64)           | ␣                             |    17 |   22 | HIDDEN   |
+|  104 | WORD (1)           | a                             |    17 |   23 |          |
+|  105 | HWS (64)           | ␣                             |    17 |   24 | HIDDEN   |
+|  106 | WORD (1)           | repository                    |    17 |   25 |          |
+|  107 | HWS (64)           | ␣                             |    17 |   35 | HIDDEN   |
+|  108 | WORD (1)           | file                          |    17 |   36 |          |
+|  109 | LNK_SEP (48)       | ](                            |    17 |   40 |          |
+|  110 | URL (31)           | ../blob/master/LICENSE        |    17 |   42 |          |
+|  111 | RPAREN (54)        | )                             |    17 |   64 |          |
+|  112 | LINE_BLANK (60)    | ␍␊␍␊                          |    19 |   65 |          |
+|  113 | LBRACK (51)        | [                             |    19 |    0 |          |
+|  114 | WORD (1)           | You                           |    19 |    1 |          |
+|  115 | HWS (64)           | ␣                             |    19 |    4 | HIDDEN   |
+|  116 | WORD (1)           | can                           |    19 |    5 |          |
+|  117 | HWS (64)           | ␣                             |    19 |    8 | HIDDEN   |
+|  118 | WORD (1)           | use                           |    19 |    9 |          |
+|  119 | HWS (64)           | ␣                             |    19 |   12 | HIDDEN   |
+|  120 | WORD (1)           | numbers                       |    19 |   13 |          |
+|  121 | HWS (64)           | ␣                             |    19 |   20 | HIDDEN   |
+|  122 | WORD (1)           | for                           |    19 |   21 |          |
+|  123 | HWS (64)           | ␣                             |    19 |   24 | HIDDEN   |
+|  124 | WORD (1)           | reference-style               |    19 |   25 |          |
+|  125 | HWS (64)           | ␣                             |    19 |   40 | HIDDEN   |
+|  126 | WORD (1)           | link                          |    19 |   41 |          |
+|  127 | HWS (64)           | ␣                             |    19 |   45 | HIDDEN   |
+|  128 | WORD (1)           | definitions                   |    19 |   46 |          |
+|  129 | LNK_REF (49)       | ][                            |    19 |   57 |          |
+|  130 | WORD (1)           | 1                             |    19 |   59 |          |
+|  131 | RBRACK (52)        | ]                             |    19 |   60 |          |
+|  132 | LINE_BLANK (60)    | ␍␊␍␊                          |    21 |   61 |          |
+|  133 | WORD (1)           | Or                            |    21 |    0 |          |
+|  134 | HWS (64)           | ␣                             |    21 |    2 | HIDDEN   |
+|  135 | WORD (1)           | leave                         |    21 |    3 |          |
+|  136 | HWS (64)           | ␣                             |    21 |    8 | HIDDEN   |
+|  137 | WORD (1)           | it                            |    21 |    9 |          |
+|  138 | HWS (64)           | ␣                             |    21 |   11 | HIDDEN   |
+|  139 | WORD (1)           | empty                         |    21 |   12 |          |
+|  140 | HWS (64)           | ␣                             |    21 |   17 | HIDDEN   |
+|  141 | WORD (1)           | and                           |    21 |   18 |          |
+|  142 | HWS (64)           | ␣                             |    21 |   21 | HIDDEN   |
+|  143 | WORD (1)           | use                           |    21 |   22 |          |
+|  144 | HWS (64)           | ␣                             |    21 |   25 | HIDDEN   |
+|  145 | WORD (1)           | the                           |    21 |   26 |          |
+|  146 | HWS (64)           | ␣                             |    21 |   29 | HIDDEN   |
+|  147 | LBRACK (51)        | [                             |    21 |   30 |          |
+|  148 | WORD (1)           | link                          |    21 |   31 |          |
+|  149 | HWS (64)           | ␣                             |    21 |   35 | HIDDEN   |
+|  150 | WORD (1)           | text                          |    21 |   36 |          |
+|  151 | HWS (64)           | ␣                             |    21 |   40 | HIDDEN   |
+|  152 | WORD (1)           | itself                        |    21 |   41 |          |
+|  153 | RBRACK (52)        | ]                             |    21 |   47 |          |
+|  154 | WORD (1)           | .                             |    21 |   48 |          |
+|  155 | LINE_BLANK (60)    | ␍␊␍␊                          |    23 |   49 |          |
+|  156 | LNK_FN (47)        | [^                            |    23 |    0 |          |
+|  157 | WORD (1)           | 1                             |    23 |    2 |          |
+|  158 | LNK_DEF (50)       | ]:                            |    23 |    3 |          |
+|  159 | HWS (64)           | ␣                             |    23 |    5 | HIDDEN   |
+|  160 | WORD (1)           | Some                          |    23 |    6 |          |
+|  161 | HWS (64)           | ␣                             |    23 |   10 | HIDDEN   |
+|  162 | WORD (1)           | footnote                      |    23 |   11 |          |
+|  163 | HWS (64)           | ␣                             |    23 |   19 | HIDDEN   |
+|  164 | WORD (1)           | text.                         |    23 |   20 |          |
+|  165 | LINE_BLANK (60)    | ␍␊␍␊                          |    25 |   25 |          |
+|  166 | WORD (1)           | URLs                          |    25 |    0 |          |
+|  167 | HWS (64)           | ␣                             |    25 |    4 | HIDDEN   |
+|  168 | WORD (1)           | and                           |    25 |    5 |          |
+|  169 | HWS (64)           | ␣                             |    25 |    8 | HIDDEN   |
+|  170 | WORD (1)           | URLs                          |    25 |    9 |          |
+|  171 | HWS (64)           | ␣                             |    25 |   13 | HIDDEN   |
+|  172 | WORD (1)           | in                            |    25 |   14 |          |
+|  173 | HWS (64)           | ␣                             |    25 |   16 | HIDDEN   |
+|  174 | WORD (1)           | angle                         |    25 |   17 |          |
+|  175 | HWS (64)           | ␣                             |    25 |   22 | HIDDEN   |
+|  176 | WORD (1)           | brackets                      |    25 |   23 |          |
+|  177 | HWS (64)           | ␣                             |    25 |   31 | HIDDEN   |
+|  178 | WORD (1)           | will                          |    25 |   32 |          |
+|  179 | HWS (64)           | ␣                             |    25 |   36 | HIDDEN   |
+|  180 | WORD (1)           | automatically                 |    25 |   37 |          |
+|  181 | HWS (64)           | ␣                             |    25 |   50 | HIDDEN   |
+|  182 | WORD (1)           | get                           |    25 |   51 |          |
+|  183 | HWS (64)           | ␣                             |    25 |   54 | HIDDEN   |
+|  184 | WORD (1)           | turned                        |    25 |   55 |          |
+|  185 | HWS (64)           | ␣                             |    25 |   61 | HIDDEN   |
+|  186 | WORD (1)           | into                          |    25 |   62 |          |
+|  187 | HWS (64)           | ␣                             |    25 |   66 | HIDDEN   |
+|  188 | WORD (1)           | links.                        |    25 |   67 |          |
+|  189 | HWS (64)           | ␣                             |    25 |   73 | HIDDEN   |
+|  190 | VWS (63)           | ␍␊                            |    26 |   74 |          |
+|  191 | URL (31)           | http://www.example.com        |    26 |    0 |          |
+|  192 | HWS (64)           | ␣                             |    26 |   22 | HIDDEN   |
+|  193 | WORD (1)           | or                            |    26 |   23 |          |
+|  194 | HWS (64)           | ␣                             |    26 |   25 | HIDDEN   |
+|  195 | URLTAG (32)        | <http://www.example.com>      |    26 |   26 |          |
+|  196 | HWS (64)           | ␣                             |    26 |   50 | HIDDEN   |
+|  197 | WORD (1)           | and                           |    26 |   51 |          |
+|  198 | HWS (64)           | ␣                             |    26 |   54 | HIDDEN   |
+|  199 | WORD (1)           | sometimes                     |    26 |   55 |          |
+|  200 | HWS (64)           | ␣                             |    26 |   64 | HIDDEN   |
+|  201 | VWS (63)           | ␍␊                            |    27 |   65 |          |
+|  202 | URL (31)           | example.com                   |    27 |    0 |          |
+|  203 | HWS (64)           | ␣                             |    27 |   11 | HIDDEN   |
+|  204 | LPAREN (53)        | (                             |    27 |   12 |          |
+|  205 | WORD (1)           | but                           |    27 |   13 |          |
+|  206 | HWS (64)           | ␣                             |    27 |   16 | HIDDEN   |
+|  207 | WORD (1)           | not                           |    27 |   17 |          |
+|  208 | HWS (64)           | ␣                             |    27 |   20 | HIDDEN   |
+|  209 | WORD (1)           | on                            |    27 |   21 |          |
+|  210 | HWS (64)           | ␣                             |    27 |   23 | HIDDEN   |
+|  211 | WORD (1)           | Github,                       |    27 |   24 |          |
+|  212 | HWS (64)           | ␣                             |    27 |   31 | HIDDEN   |
+|  213 | WORD (1)           | for                           |    27 |   32 |          |
+|  214 | HWS (64)           | ␣                             |    27 |   35 | HIDDEN   |
+|  215 | WORD (1)           | example                       |    27 |   36 |          |
+|  216 | RPAREN (54)        | )                             |    27 |   43 |          |
+|  217 | WORD (1)           | .                             |    27 |   44 |          |
+|  218 | LINE_BLANK (60)    | ␍␊␍␊                          |    29 |   45 |          |
+|  219 | WORD (1)           | Some                          |    29 |    0 |          |
+|  220 | HWS (64)           | ␣                             |    29 |    4 | HIDDEN   |
+|  221 | WORD (1)           | text                          |    29 |    5 |          |
+|  222 | HWS (64)           | ␣                             |    29 |    9 | HIDDEN   |
+|  223 | WORD (1)           | to                            |    29 |   10 |          |
+|  224 | HWS (64)           | ␣                             |    29 |   12 | HIDDEN   |
+|  225 | WORD (1)           | show                          |    29 |   13 |          |
+|  226 | HWS (64)           | ␣                             |    29 |   17 | HIDDEN   |
+|  227 | WORD (1)           | that                          |    29 |   18 |          |
+|  228 | HWS (64)           | ␣                             |    29 |   22 | HIDDEN   |
+|  229 | WORD (1)           | the                           |    29 |   23 |          |
+|  230 | HWS (64)           | ␣                             |    29 |   26 | HIDDEN   |
+|  231 | WORD (1)           | reference                     |    29 |   27 |          |
+|  232 | HWS (64)           | ␣                             |    29 |   36 | HIDDEN   |
+|  233 | WORD (1)           | links                         |    29 |   37 |          |
+|  234 | HWS (64)           | ␣                             |    29 |   42 | HIDDEN   |
+|  235 | WORD (1)           | can                           |    29 |   43 |          |
+|  236 | HWS (64)           | ␣                             |    29 |   46 | HIDDEN   |
+|  237 | WORD (1)           | follow                        |    29 |   47 |          |
+|  238 | HWS (64)           | ␣                             |    29 |   53 | HIDDEN   |
+|  239 | WORD (1)           | later.                        |    29 |   54 |          |
+|  240 | LINE_BLANK (60)    | ␍␊␍␊                          |    31 |   60 |          |
+|  241 | LBRACK (51)        | [                             |    31 |    0 |          |
+|  242 | WORD (1)           | arbitrary                     |    31 |    1 |          |
+|  243 | HWS (64)           | ␣                             |    31 |   10 | HIDDEN   |
+|  244 | WORD (1)           | case-insensitive              |    31 |   11 |          |
+|  245 | HWS (64)           | ␣                             |    31 |   27 | HIDDEN   |
+|  246 | WORD (1)           | reference                     |    31 |   28 |          |
+|  247 | HWS (64)           | ␣                             |    31 |   37 | HIDDEN   |
+|  248 | WORD (1)           | text                          |    31 |   38 |          |
+|  249 | LNK_DEF (50)       | ]:                            |    31 |   42 |          |
+|  250 | HWS (64)           | ␣                             |    31 |   44 | HIDDEN   |
+|  251 | URL (31)           | https://www.mozilla.org       |    31 |   45 |          |
+|  252 | VWS (63)           | ␍␊                            |    32 |   68 |          |
+|  253 | LBRACK (51)        | [                             |    32 |    0 |          |
+|  254 | WORD (1)           | 1                             |    32 |    1 |          |
+|  255 | LNK_DEF (50)       | ]:                            |    32 |    2 |          |
+|  256 | HWS (64)           | ␣                             |    32 |    4 | HIDDEN   |
+|  257 | URL (31)           | http://slashdot.org           |    32 |    5 |          |
+|  258 | VWS (63)           | ␍␊                            |    33 |   24 |          |
+|  259 | LBRACK (51)        | [                             |    33 |    0 |          |
+|  260 | WORD (1)           | link                          |    33 |    1 |          |
+|  261 | HWS (64)           | ␣                             |    33 |    5 | HIDDEN   |
+|  262 | WORD (1)           | text                          |    33 |    6 |          |
+|  263 | HWS (64)           | ␣                             |    33 |   10 | HIDDEN   |
+|  264 | WORD (1)           | itself                        |    33 |   11 |          |
+|  265 | LNK_DEF (50)       | ]:                            |    33 |   17 |          |
+|  266 | HWS (64)           | ␣                             |    33 |   19 | HIDDEN   |
+|  267 | URL (31)           | http://www.reddit.com         |    33 |   20 |          |
+|  268 | VWS (63)           | ␍␊                            |    34 |   41 |          |
+|  269 | LINE_BLANK (60)    |                               |    33 |    0 |          |
+|  270 | EOF (-1)           | <EOF>                         |    34 |    0 |          |
+|------|--------------------|-------------------------------|-------|------|----------|
+

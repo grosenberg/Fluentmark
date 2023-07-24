@@ -1,0 +1,120 @@
+---- link_footnote -------------------------
+---- Tree ----
+page
+  lineBlank
+    [LINE_BLANK] 
+  paragraph
+    line
+      word
+        [WORD] Here
+      word
+        [WORD] '
+      word
+        [WORD] s
+      word
+        [WORD] a
+      word
+        [WORD] footnote
+      fnLink
+        [LNK_FN] [^
+        l_line
+          l_word
+            [WORD] 1
+        [RBRACK] ]
+      word
+        [WORD] .
+      word
+        [WORD] Long
+      word
+        [WORD] footnote
+      fnLink
+        [LNK_FN] [^
+        l_line
+          l_word
+            [WORD] 2
+        [RBRACK] ]
+      word
+        [WORD] .
+  lineBlank
+    [LINE_BLANK] ␍␊␍␊
+  paragraph
+    line
+      fnLink
+        [LNK_FN] [^
+        l_word
+          [WORD] 1
+        [LNK_DEF] ]:
+        l_line
+          l_word
+            [WORD] Simple
+          l_word
+            [WORD] footnote
+          l_word
+            [WORD] text.
+  lineBlank
+    [LINE_BLANK] ␍␊␍␊
+  paragraph
+    line
+      fnLink
+        [LNK_FN] [^
+        l_word
+          [WORD] 2
+        [LNK_DEF] ]:
+        l_line
+          l_word
+            [WORD] Multiple
+          l_word
+            [WORD] lines
+          l_word
+            [WORD] of
+          l_word
+            [WORD] text
+          l_word
+            [WORD] in
+          l_word
+            [WORD] the
+          l_word
+            [WORD] footnote.
+        nl
+          [VWS] ␍␊
+        l_line
+          l_word
+            [WORD] Each
+          l_word
+            [WORD] line
+          l_word
+            [WORD] is
+          l_word
+            [WORD] joined
+          l_word
+            [WORD] by
+          l_word
+            [WORD] two
+          l_word
+            [WORD] spaces.
+        nl
+          [VWS] ␍␊
+        l_line
+          l_word
+            [WORD] Third
+          l_word
+            [WORD] line
+          l_word
+            [WORD] in
+          l_word
+            [WORD] the
+          l_word
+            [WORD] note.
+  lineBlank
+    [LINE_BLANK] ␍␊␣␣␍␊
+  paragraph
+    line
+      word
+        [WORD] Next
+      word
+        [WORD] paragraph.
+  lineBlank
+    [LINE_BLANK] ␍␊␍␊
+  lineBlank
+    [LINE_BLANK] 
+  [EOF] <EOF>

@@ -2,22 +2,21 @@ package net.certiv.fluent.dt.core.lang.md;
 
 import static net.certiv.fluent.dt.core.lang.md.gen.MdLexer.*;
 
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Token;
+import org.antlr.v4.runtime.misc.Interval;
+import org.apache.commons.lang3.StringUtils;
 
-import net.certiv.common.stores.Extent;
-import net.certiv.common.stores.NearMap;
+import net.certiv.common.log.Log;
 import net.certiv.common.stores.TreeList;
 import net.certiv.common.util.Chars;
 import net.certiv.common.util.Strings;
+import net.certiv.common.util.TxtUtil;
 import net.certiv.fluent.dt.core.lang.LexerNlp;
 
 public abstract class MdLexerBase extends LexerNlp {
@@ -32,11 +31,11 @@ public abstract class MdLexerBase extends LexerNlp {
 
 	// { .class #id word="valid" }
 	private static final Pattern Style = Pattern.compile("" //
-			+ "\\{" + SPC 		//
-			+ "(" + CLASS_ID	//
-			+ "|" + KEY_VALUE 	//
-			+ ")+" 				//
-			+ "\\}" 			//
+			+ "\\{" + SPC 		// optional space
+			+ "(" + CLASS_ID	// .class or #id
+			+ "|" + KEY_VALUE 	// key/value pair
+			+ ")+" 				// multi
+			+ "\\}" 			// optional space
 	);
 
 	private static final String SelfLink = "" //
@@ -50,6 +49,53 @@ public abstract class MdLexerBase extends LexerNlp {
 	private static final Pattern SELF_LINK = Pattern.compile(SelfLink);
 	private static final Pattern FULL_LINK = Pattern.compile(FullLink);
 	private static final Pattern REF_LINK = Pattern.compile(RefLink);
+
+	private static final Pattern PAT_HDR = Pattern.compile("" //
+			+ "[ ]{0,3}" //
+			+ "(-{2,}" //
+			+ "|={2,}" //
+			+ ")\\h*" //
+	);
+	private static final Pattern PAT_HRULE = Pattern.compile("" //
+			+ "[ ]{0,3}" //
+			+ "(\\-\\h*\\-(\\h*\\-)+" //
+			+ "|\\*\\h*\\*(\\h*\\*)+" //
+			+ "|\\_\\h*\\_(\\h*\\_)+" //
+			+ ")\\h*(\\{.*?\\}\\h*)?" //
+	);
+
+	private static final String QUOTED_MARK = "[ ]{0,3}>([ ]?>)*";
+	private static final Pattern PAT_QUOTED = Pattern.compile(QUOTED_MARK);
+
+	private static final String LIST_MARK = "" //
+			+ "([ ]{0,3}>([ ]?>)*)?\\h*"  //
+			+ "([*+-]" //
+			+ "|[0-9a-zA-Z][.)]" //
+			+ ") " //
+	;
+
+	private static final String LIST_TASK_MARK = LIST_MARK + "\\[[0-9a-zA-Z ]\\] ";//
+
+	private static final Pattern PAT_LIST = Pattern.compile(LIST_MARK);
+	private static final Pattern PAT_LIST_TASK = Pattern.compile(LIST_TASK_MARK);
+
+	private static final String DEF_TERM = "[ ]{0,2}(\\w+(\\.\\w+)*(\\h+\\w+(\\.\\w+)*)*)+\\h*\\R";
+	private static final String DEF_MARK = "^[ ]{0,2}[:]"; // only supports ':'
+
+	private static final Pattern DEFINE_LIST = Pattern.compile("" //
+			+ "(?m)" // multiline
+			+ DEF_TERM //
+			+ "(" + DEF_MARK + ".*?)*" //
+			+ DEF_MARK  //
+	);
+
+	private static final Pattern EDGE = Pattern.compile("" //
+			+ "[*_~'\"]*" //
+			+ "(\\s" //
+			+ "|[!#$%&()+,-./:;<=>?@[\\\\]^`{|}]" //
+			+ "|$" //
+			+ ")"//
+	);
 
 	class Span {
 		int beg;
@@ -65,17 +111,8 @@ public abstract class MdLexerBase extends LexerNlp {
 		}
 	}
 
-	private static final Pattern PUNCT = Pattern.compile("(\\p{Punct}+)");
-	private final NearMap<Extent<Integer>> lEdges = new NearMap<>();
-	private final NearMap<Extent<Integer>> rEdges = new NearMap<>();
-
 	// key=line num; value=line tokens
 	private final TreeList<Integer, Token> history = new TreeList<>();
-
-	// key=line num; value=pipe tokens
-	private final TreeList<Integer, Token> pipes = new TreeList<>();
-	private final Map<Integer, Span> tables = new LinkedHashMap<>();
-
 	private final LinkedList<String> htmlBlocks = new LinkedList<>();
 
 	private String data;
@@ -85,50 +122,18 @@ public abstract class MdLexerBase extends LexerNlp {
 	public MdLexerBase(CharStream input) {
 		super(input);
 		data = input.toString();
-		defineExtents();
 
 		setBofToken(LINE_BLANK, Strings.EMPTY);
 		setEofToken(LINE_BLANK, Strings.EMPTY);
 
-		setLnBegPrefixes(HWS, BLOCKQUOTE, LINE_DENT);
-
 		setBlockBeg(LINE_BLANK);
-		setBlkBegPrefixes(LINE_BLANK, VWS, HWS, BLOCKQUOTE, LINE_DENT);
+		setBlkBegPrefixes(LINE_BLANK, LINE_BREAK, VWS, HWS, LINE_DENT, CODE_DENT, QUOTE_DENT);
+		setLnBegPrefixes(HWS, LINE_DENT, CODE_DENT, QUOTE_DENT);
 	}
 
-	private void defineExtents() {
-		Matcher m = PUNCT.matcher(data);
-		int len = data.length();
-		boolean lWs;
-		boolean lCh;
-		boolean rWs;
-		boolean rCh;
-
-		while (m.find()) {
-			int beg = m.start(1);
-			int end = m.end(1);
-
-			if (beg > 0) {
-				int ch = data.charAt(beg - 1);
-				lWs = Character.isWhitespace(ch);
-				lCh = Character.isLetterOrDigit(ch);
-			} else {
-				lWs = true;
-				lCh = false;
-			}
-
-			if (end < len) {
-				int ch = data.charAt(end);
-				rWs = Character.isWhitespace(ch);
-				rCh = Character.isLetterOrDigit(ch);
-			} else {
-				rWs = true;
-				rCh = false;
-			}
-
-			if (lWs && rCh) lEdges.put(beg, new Extent<>(beg, end));
-			if (lCh && rWs) rEdges.put(beg, new Extent<>(beg, end));
-		}
+	@Override
+	public MdToken getToken() {
+		return (MdToken) super.getToken();
 	}
 
 	@Override
@@ -142,22 +147,13 @@ public abstract class MdLexerBase extends LexerNlp {
 
 			case BULLET_MARK:
 			case NUMBER_MARK:
-			case PAREN_MARK:
-			case LALPHA_MARK:
-			case UALPHA_MARK:
 				token.calcDents();
 				if (_begBlock) {
 					lastBlank.setListMark();
 				} else if (!lastBlank.inList()) {
+					Log.debug("Unmarking %s", token);
 					token.setType(WORD);
 				}
-				break;
-
-			case PIPE:
-				pipes.put(token.getLine(), token);
-				break;
-			case TABLE:
-				tables.put(token.getLine(), new Span(token.getLine()));
 				break;
 
 			case HTML_BLOCK_BEG:
@@ -176,21 +172,23 @@ public abstract class MdLexerBase extends LexerNlp {
 
 			case EOF:
 				if (!history.isEmpty()) {
-					expandTables();
-					associateAttrs();
 					history.clear();
 					htmlBlocks.clear();
 				}
 				break;
 			default:
 		}
+
 		if (token.getChannel() == Token.DEFAULT_CHANNEL) {
 			history.add(token.getLine(), token);
 		}
+
+		// Log.debug("Emit: %s %s", //
+		// getVocabulary().getDisplayName(token.getType()), token);
 		super.emit(token);
 	}
 
-	private static Pattern TN = Pattern.compile("</?(\\w+).*?>");
+	private static final Pattern TN = Pattern.compile("</?(\\w+).*?>");
 
 	private String blockName(MdToken token) {
 		Matcher m = TN.matcher(token.getText());
@@ -198,102 +196,134 @@ public abstract class MdLexerBase extends LexerNlp {
 		return m.group(1);
 	}
 
-	private void expandTables() {
-		if (!tables.isEmpty() && !pipes.isEmpty()) {
-			int beg = pipes.firstKey();
-			int end = pipes.lastKey();
-			for (Entry<Integer, Span> table : tables.entrySet()) {
-				expandTable(table.getKey(), table.getValue(), beg, end, -1);
-				expandTable(table.getKey(), table.getValue(), beg, end, +1);
-			}
-		}
-		for (Token token : pipes.values()) {
-			((MdToken) token).setType(WORD);
-		}
-	}
-
-	private void expandTable(int tdx, Span span, int beg, int end, int inc) {
-		for (int idx = tdx + inc; idx >= beg && idx <= end; idx += inc) {
-			if (!pipes.containsKey(idx)) break;
-			if (inc < 0) {
-				span.beg = idx;
-			} else {
-				span.end = idx;
-			}
-			pipes.remove(idx);
-		}
-	}
-
-	// word attributes: make left/right association
-	private void associateAttrs() {
-		for (Token token : history.values()) {
-			switch (token.getType()) {
-				case LBOLD:
-					adjAttr(token, LBOLD, RBOLD, WORD);
-					break;
-
-				case LITALIC:
-					adjAttr(token, LITALIC, RITALIC, WORD);
-					break;
-
-				case LSTRIKE:
-					adjAttr(token, LSTRIKE, RSTRIKE, WORD);
-					break;
-
-				case LDQUOTE:
-					adjAttr(token, LDQUOTE, RDQUOTE, WORD);
-					break;
-
-				case LSQUOTE:
-					adjAttr(token, LSQUOTE, RSQUOTE, WORD);
-					break;
-
-				default:
-			}
-		}
-	}
-
-	private void adjAttr(Token token, int left, int right, int norm) {
-		int idx = token.getStartIndex();
-		if (lEdges.contains(idx)) {
-			((MdToken) token).setType(left);
-		} else if (rEdges.contains(idx)) {
-			((MdToken) token).setType(right);
-		} else {
-			((MdToken) token).setType(norm);
-		}
+	/** Sets the current token type and performs a double mode pop. */
+	protected int popMode2(int ttype) {
+		setType(ttype);
+		popMode();
+		return popMode();
 	}
 
 	// setext-style header
 	protected boolean hdr() {
-		return lastBlank.lastLine() + 1 == getLine();
+		return lastBlank.lastLine() + 1 == getLine() && check(PAT_HDR, true);
+	}
+
+	protected boolean hrule() {
+		return !hdr() && check(PAT_HRULE, true);
 	}
 
 	/**
-	 * Incomplete & unused
+	 * Nominally, every line is left-aligned: starts in col [0,3].
 	 * <p>
-	 * Definition list colon:
-	 *
-	 * <pre>
-	 * <<blank line>>
-	 * Term being defined
-	 * : definition
-	 * : definition (optional)
-	 * : ...
-	 * </pre>
-	 *
-	 * 1) must be in column 1 <br>
-	 * 2) must follow a single line term that is being defined
-	 *
-	 * @return
+	 * List items are indented at multiples of the tab width; default of 2 spaces.
+	 * Paragraphs within lists are nominally indented aligned to their list item.
+	 * <p>
+	 * Block quotes are marked by RANGLE (sp? RANGLE)* sp?. The quote is marked on at at
+	 * least the first line.
+	 * <p>
+	 * Un-fenced code blocks follow a LINE_BLANK with all lines indented at [4,].
 	 */
-	protected boolean defListColon() {
-		return nl() && hdr();
+	protected boolean dents() {
+		if (!bol()) return false; // treat as plain HWS -> HIDDEN
+
+		if (bob()) {
+			if (!isListMark() && !quote()) { // adjust by side-effect!
+				String ws = currentMatched();
+				int cnt = TxtUtil.measureIndentInSpaces(ws, lastBlank.tabWidth());
+				if (cnt >= 4) {
+					lastBlank.setCodeBlock();
+					setType(CODE_DENT);
+				}
+			}
+		}
+
+		if (lastBlank.inList()) {
+			setChannel(HIDDEN); // emit as hidden LINE_DENT
+			return true;
+		}
+
+		if (lastBlank.inCodeBlock()) {
+			setChannel(HIDDEN); // emit as hidden CODE_DENT
+			setType(CODE_DENT);
+			return true;
+		}
+
+		if (lastBlank.inQuoteBlock()) {
+			setChannel(HIDDEN); // emit as hidden QUOTE_DENT
+			setType(QUOTE_DENT);
+			return true;
+		}
+
+		return false;
 	}
 
-	protected boolean list() {
-		if (_begBlock) return true;
-		return _begLine && lastBlank.inList();
+	/**
+	 * Returns {@code true} if lexer is currently within the scope of a list.
+	 *
+	 * <pre>
+	 * LINE_BLANK
+	 * List intro:
+	 * - first element
+	 *   - nested paragraph element
+	 *
+	 *   - next nested element continues list
+	 *
+	 * List done.
+	 * </pre>
+	 *
+	 * A list starts immediatly with:
+	 * <ul>
+	 * <li>new line token & list mark token sequence
+	 * <li>blank line token, possible line begin tokens, & list mark token sequence
+	 * </ul>
+	 * Local emit sets the last seen LINE_BLANK token to the list type. The current list
+	 * continues until the next blank line token.
+	 */
+	protected boolean isListMark() {
+		if (!bol() || !check(PAT_LIST, true)) return false;
+		if (!lastBlank.inList()) lastBlank.setListMark();
+		return true;
+	}
+
+	protected boolean isTaskMark() {
+		return check(PAT_LIST_TASK, true);
+	}
+
+	private boolean quote() {
+		if (!bol() || !check(PAT_QUOTED, true)) return false;
+		if (!lastBlank.inQuoteBlock()) lastBlank.setQuoteBlock();
+		return true;
+	}
+
+	/**
+	 * Returns {@code true} if lexer is currently within the scope of a list.
+	 *
+	 * <pre>
+	 * LINE_BLANK
+	 * Term
+	 * : multi-paragraph definition
+	 * LINE_BLANK
+	 * </pre>
+	 *
+	 * A list starts immediatly with:
+	 * <ul>
+	 * <li>new line token & list mark token sequence
+	 * <li>blank line token, possible line begin tokens, & list mark token sequence
+	 * </ul>
+	 * Local emit sets the last seen LINE_BLANK token to the list type. The current list
+	 * continues until the next blank line token.
+	 */
+	protected boolean define() {
+		if (!bol() || !inDefineList()) return false;
+		if (!lastBlank.inDefineList()) lastBlank.setDefineList();
+		return true;
+	}
+
+	private boolean inDefineList() {
+		int beg = lastBlank.getStopIndex() + 1;
+		int end = _pStartCharIndex;
+		String txt = getInputStream().getText(Interval.of(beg, end));
+		return DEFINE_LIST.matcher(txt).lookingAt();
 	}
 
 	protected boolean notDigit() {
@@ -304,9 +334,66 @@ public abstract class MdLexerBase extends LexerNlp {
 		return _input.LA(1) != Chars.TIC;
 	}
 
+	protected boolean attr() {
+		boolean lft = attrLeftEdge();
+		boolean rgt = attrRightEdge();
+
+		if (lft && rgt || !lft && !rgt) { // alone or mid
+			if (isListMark() || hrule()) return false;
+			setType(WORD);
+			return true;
+		}
+
+		String attr = currentMatched();
+		switch (attr) {
+			case "**":
+			case "__":
+				setType(lft ? LBOLD : RBOLD);
+				return true;
+
+			case "*":
+			case "_":
+				setType(lft ? LITALIC : RITALIC);
+				return true;
+
+			case "~~":
+				setType(lft ? LSTRIKE : RSTRIKE);
+				return true;
+
+			case "\"":
+				setType(lft ? LDQUOTE : RDQUOTE);
+				return true;
+
+			case "'":
+				setType(lft ? LSQUOTE : RSQUOTE);
+				return true;
+
+			default:
+				return true;
+		}
+	}
+
+	private boolean attrLeftEdge() {
+		String line = linePrefix(_pStartCharIndex + currentMatched().length());
+		boolean lf = EDGE.matcher(StringUtils.reverse(line)).lookingAt();
+		// Log.debug("Left_Edge[%b] %s <%s:%s:%s> %s", //
+		// lf, currentMatched(), _pStartLine, _pStartCharPositionInLine, _pStartCharIndex,
+		// Strings.encode(line));
+		return lf;
+	}
+
+	private boolean attrRightEdge() {
+		String line = lineSuffix(_pStartCharIndex);
+		boolean rt = EDGE.matcher(line).lookingAt();
+		// Log.debug("RightEdge[%b] %s <%s:%s:%s> %s", //
+		// rt, currentMatched(), _pStartLine, _pStartCharPositionInLine, _pStartCharIndex,
+		// Strings.encode(line));
+		return rt;
+	}
+
 	protected boolean link() {
 		boolean found = false;
-		String line = line(_pStartCharIndex);
+		String line = lineSuffix(_pStartCharIndex);
 		if (FULL_LINK.matcher(line).lookingAt()) {
 			lfin = false;
 			found = true;
@@ -326,18 +413,37 @@ public abstract class MdLexerBase extends LexerNlp {
 	}
 
 	protected boolean style() {
-		return check(Style);
+		return check(Style, false);
 	}
 
-	private boolean check(Pattern pat) {
-		Matcher m = pat.matcher(line(_pStartCharIndex));
-		boolean found = m.lookingAt();
-		// Log.debug( String.format("Cond %s '%s'", found, line));
-		return found;
+	/**
+	 * @param pat   pattern to check
+	 * @param whole {@code true} to check against whole line, otherwise from the current
+	 *              token start position
+	 */
+	private boolean check(Pattern pat, boolean whole) {
+		String line = whole ? line(_pStartCharIndex) : lineSuffix(_pStartCharIndex);
+		// Log.debug("Checking line (%s) at %s: %s", //
+		// whole ? "whole" : "suffix", _pStartCharIndex, Strings.encode(line));
+		Matcher m = pat.matcher(line);
+		return m.lookingAt();
 	}
 
-	private String line(int from) {
-		int dot = data.indexOf(Chars.NL, from);
-		return dot > 0 ? data.substring(from, dot - 1) : data.substring(from);
+	/** Returns the entire current line for the given pos. */
+	private String line(int pos) {
+		return linePrefix(pos) + lineSuffix(pos);
+	}
+
+	/** Returns the current line suffix: {@code [pos,eol)}. */
+	private String lineSuffix(int pos) {
+		int end = data.indexOf(Chars.NL, pos);
+		return end > 0 ? data.substring(pos, end - 1) : data.substring(pos);
+	}
+
+	/** Returns the current line prefix: {@code [0,pos)}. */
+	private String linePrefix(int pos) {
+		int beg = data.lastIndexOf(Chars.NL, pos);
+		beg = beg > 0 ? beg + 1 : 0;
+		return data.substring(beg, pos);
 	}
 }

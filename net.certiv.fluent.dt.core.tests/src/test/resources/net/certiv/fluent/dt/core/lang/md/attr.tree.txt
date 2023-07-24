@@ -1,0 +1,53 @@
+---- attr -------------------------
+---- Tree ----
+page
+  lineBlank
+    [LINE_BLANK] 
+  header
+    [HASHES] #
+    line
+      word
+        [WORD] FluentMark
+  lineBlank
+    [LINE_BLANK] ␍␊␍␊
+  paragraph
+    line
+      word
+        attrLeft
+          [LBOLD] **
+        [WORD] Here
+      word
+        [WORD] '
+      word
+        [WORD] s
+      word
+        [WORD] bold
+        attrRight
+          [RBOLD] **
+      word
+        [WORD] and
+      word
+        [WORD] then
+      word
+        attrLeft
+          [LITALIC] *
+        [WORD] italic
+        attrRight
+          [RITALIC] *
+      word
+        [WORD] .
+  lineBlank
+    [LINE_BLANK] ␍␊␍␊
+  paragraph
+    line
+      word
+        [WORD] This
+      word
+        [WORD] is
+      word
+        [SPAN] `inline␣code`
+      word
+        [WORD] .
+      word
+        [WORD] Done.
+  [EOF] <EOF>

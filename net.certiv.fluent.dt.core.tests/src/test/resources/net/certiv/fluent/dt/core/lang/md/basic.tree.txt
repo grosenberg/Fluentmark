@@ -1,0 +1,124 @@
+---- basic -------------------------
+---- Tree ----
+page
+  lineBlank
+    [LINE_BLANK] 
+  header
+    [HASHES] ##
+    line
+      word
+        [WORD] PlantUML
+      word
+        [WORD] test
+  lineBlank
+    [LINE_BLANK] ␍␊␍␊
+  umlBlock
+    [UML_BLOCK] @startuml␍␊␣␣␣␣Alice␣->␣Bob␣␣:␣Authentication␣Request␍␊␣␣␣␣Bob␣-->␣Alice␣:␣Authentication␣Response␍␊␍␊␣␣␣␣Alice␣->␣␣␣Bob␣:␣Second␣authentication␣Request␍␊␣␣␣␣Alice␣<--o␣Bob␣:␣Second␣authentication␣Response␍␊@enduml
+  lineBlank
+    [LINE_BLANK] ␍␊␍␊
+  header
+    [HASHES] ##
+    line
+      word
+        [WORD] LaTeX
+      word
+        [WORD] math
+      word
+        [WORD] test
+  lineBlank
+    [LINE_BLANK] ␍␊␍␊
+  header
+    [HASHES] ###
+    line
+      word
+        [WORD] Inline
+  lineBlank
+    [LINE_BLANK] ␍␊␉␉␍␊
+  paragraph
+    line
+      word
+        [WORD] This
+      word
+        [WORD] is
+      word
+        [WORD] math
+      word
+        [MATHS] $1+2\neq3$
+      word
+        [WORD] !
+      word
+        [WORD] as
+      word
+        [WORD] part
+      word
+        [WORD] of
+      word
+        [WORD] a
+      word
+        [WORD] paragraph.
+  lineBlank
+    [LINE_BLANK] ␍␊␍␊
+  header
+    [HASHES] ###
+    line
+      word
+        [WORD] Block
+      word
+        [WORD] LaTeX
+      word
+        [WORD] math
+      word
+        [WORD] test
+  lineBlank
+    [LINE_BLANK] ␍␊␍␊
+  mathBlock
+    [MATH_BLOCK] $$␍␊␣␣x␣=␣a_0␣+␣\cfrac{1}{a_1␍␊␣␣␣␣␣␣␣␣␣␣+␣\cfrac{1}{a_2␍␊␣␣␣␣␣␣␣␣␣␣+␣\cfrac{1}{a_3␣+␣\cfrac{1}{a_4}␣}␣}␣}␍␊$$
+  lineBlank
+    [LINE_BLANK] ␍␊␍␊
+  header
+    [HASHES] ##
+    line
+      word
+        [WORD] Graphviz
+      word
+        [WORD] test
+  lineBlank
+    [LINE_BLANK] ␍␊␍␊
+  dotBlock
+    [DOT_BLOCK] digraph␣X1{␍␊␣␣␣␣a->b␣␍␊␣␣␣␣b->c␍␊␣␣␣␣a->c␍␊␣␣␣␣d->c␍␊␣␣␣␣e->c␍␊␣␣␣␣e->a␍␊}
+  lineBlank
+    [LINE_BLANK] ␍␊␍␊
+  codeBlock
+    [CODE_BEG] ~~~
+    [CODE_TYPE] dot
+    [VWS] ␍␊
+    [VWS] ␍␊
+    [CODE_LINE] digraph␣X1{
+    [VWS] ␍␊
+    [CODE_LINE] ␣␣␣␣a->b␣
+    [VWS] ␍␊
+    [CODE_LINE] ␣␣␣␣b->c
+    [VWS] ␍␊
+    [CODE_LINE] ␣␣␣␣a->c
+    [VWS] ␍␊
+    [CODE_LINE] ␣␣␣␣d->c
+    [VWS] ␍␊
+    [CODE_LINE] ␣␣␣␣e->c
+    [VWS] ␍␊
+    [CODE_LINE] ␣␣␣␣e->a
+    [VWS] ␍␊
+    [CODE_LINE] }
+    [VWS] ␍␊
+    [VWS] ␍␊
+    [CODE_END] ~~~
+  lineBlank
+    [LINE_BLANK] ␍␊␍␊
+  paragraph
+    line
+      word
+        [WORD] More
+  lineBlank
+    [LINE_BLANK] ␍␊␍␊
+  lineBlank
+    [LINE_BLANK] 
+  [EOF] <EOF>

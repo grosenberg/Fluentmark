@@ -1,0 +1,54 @@
+---- link_def -------------------------
+---- Tree ----
+page
+  lineBlank
+    [LINE_BLANK] 
+  paragraph
+    line
+      link
+        [LBRACK] [
+        l_word
+          [WORD] reference
+        l_word
+          [WORD] text
+        [LNK_DEF] ]:
+        url
+          [URL] https://www.mozilla.org
+    nl
+      [VWS] ␍␊
+    line
+      link
+        [LBRACK] [
+        l_word
+          [WORD] 1
+        [LNK_DEF] ]:
+        url
+          [URL] http://slashdot.org
+    nl
+      [VWS] ␍␊
+    line
+      link
+        [LBRACK] [
+        l_word
+          [WORD] link
+        l_word
+          [WORD] text
+        l_word
+          [WORD] itself
+        [LNK_DEF] ]:
+        url
+          [URL] http://www.reddit.com
+    nl
+      [VWS] ␍␊
+    line
+      link
+        [LBRACK] [
+        l_word
+          [WORD] src
+        [LNK_DEF] ]:
+        url
+          [URL] /projects/markdown/syntax.text
+  [VWS] ␍␊
+  lineBlank
+    [LINE_BLANK] 
+  [EOF] <EOF>

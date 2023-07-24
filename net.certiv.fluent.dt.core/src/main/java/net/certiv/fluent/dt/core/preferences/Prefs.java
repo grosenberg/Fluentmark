@@ -14,16 +14,18 @@ public class Prefs extends PrefsSpelling {
 	// preference store keys
 
 	public static final String EDITOR_SHOW_SEGMENTS = "{DSL_ID}" + ".ShowSegments";
-	public static final String EDITOR_WORD_WRAP = "{DSL_ID}" + ".WordWrap";
+	public static final String EDITOR_SOFT_WRAP = "{DSL_ID}" + ".softWrap";
+
 	public static final String EDITOR_TASK_TAGS = "{DSL_ID}" + ".TaskTagsOn";
 	public static final String EDITOR_TASK_TAGS_DEFINED = "{DSL_ID}" + ".TaskTags";
 	public static final String EDITOR_SECTION_NUMBERS = "{DSL_ID}" + ".SectionNumbers";
 
 	public static final String EDITOR_MD_CONVERTER = "{DSL_ID}" + ".converterSelection";
 
-	public static final String FORMATTER_ENABLED = "{DSL_ID}" + ".formattingEnabled";
-	public static final String FORMATTER_WRAP_COLUMN = "{DSL_ID}" + ".formattingCol";
-	public static final String FORMATTER_UNWRAP = "{DSL_ID}" + ".formattingUnwrap";
+	public static final String FORMATTER_ENABLED = "{DSL_ID}" + ".formatEnabled";
+	public static final String FORMATTER_ON_SAVE = "{DSL_ID}" + ".formatOnSave";
+
+	public static final String EDITOR_SHOW_TOOLBAR = "{DSL_ID}" + ".showEditorToolbar";
 
 	public static final String KEY_BLACKFRIDAY = "{DSL_ID}" + ".blackFriday";
 	public static final String EDITOR_BLACKFRIDAY_PROGRAM = "{DSL_ID}" + ".blackFridayProgram";

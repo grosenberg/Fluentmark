@@ -12,13 +12,13 @@ import org.eclipse.text.edits.TextEdit;
 import org.eclipse.ui.IEditorPart;
 
 import net.certiv.common.log.Log;
-import net.certiv.common.util.Chars;
 import net.certiv.common.util.Strings;
 import net.certiv.dsl.core.DslCore;
 import net.certiv.dsl.core.formatter.BaseCodeFormatter;
 import net.certiv.dsl.core.model.CodeUnit;
 import net.certiv.dsl.core.model.IStatement;
 import net.certiv.dsl.core.model.ModelException;
+import net.certiv.dsl.core.model.Statement;
 import net.certiv.dsl.core.model.builder.SourceRange;
 import net.certiv.dsl.core.preferences.IPrefsManager;
 import net.certiv.dsl.core.preferences.consts.Editor;
@@ -27,13 +27,11 @@ import net.certiv.dsl.core.util.Indent;
 import net.certiv.fluent.dt.core.FluentCore;
 import net.certiv.fluent.dt.core.lang.md.model.SpecializationType;
 import net.certiv.fluent.dt.core.model.SpecUtil;
-import net.certiv.fluent.dt.core.preferences.Prefs;
 import net.certiv.fluent.dt.ui.editor.FluentEditor;
 import net.certiv.fluent.dt.ui.editor.strategies.tables.TableModel;
 
 public class MdFormatter extends BaseCodeFormatter {
 
-	private int cols;
 	private int tabWidth;
 	private int docLength;
 
@@ -48,20 +46,15 @@ public class MdFormatter extends BaseCodeFormatter {
 
 	@Override
 	public TextEdit format(int kind, String content, int offset, int length, int indentLevel,
-			String lineSeparator, IPrefsManager store) {
+			String lineSeparator, IPrefsManager mgr) {
 
-		setPrefsManager(store);
+		setPrefsManager(mgr);
 		checkCanceled();
 		if (!getDslCore().FormatterLock.tryLock()) return null;
 
 		try {
 			long startTime = System.currentTimeMillis();
-			if (store.getBoolean(Prefs.FORMATTER_UNWRAP)) {
-				cols = 0;
-			} else {
-				cols = store.getInt(Prefs.FORMATTER_WRAP_COLUMN);
-			}
-			tabWidth = store.getInt(Editor.EDITOR_TAB_WIDTH);
+			tabWidth = mgr.getInt(Editor.EDITOR_TAB_WIDTH);
 
 			IEditorPart active = CoreUtil.getActiveEditor();
 			if (active instanceof FluentEditor) {
@@ -69,6 +62,7 @@ public class MdFormatter extends BaseCodeFormatter {
 				IDocument doc = editor.getDocument();
 				if (doc.get().equals(content)) {
 					CodeUnit unit = (CodeUnit) editor.getInputDslElement();
+
 					SourceRange target = new SourceRange(offset, length);
 					List<IStatement> stmts = unit.getElements(target);
 
@@ -76,18 +70,18 @@ public class MdFormatter extends BaseCodeFormatter {
 					String delim = TextUtilities.getDefaultLineDelimiter(doc);
 
 					for (IStatement stmt : stmts) {
-						format(stmt, edits, delim);
+						format((Statement) stmt, edits, delim);
 					}
 
 					// complete and return the edits
 					long currentTime = System.currentTimeMillis() - startTime;
-					Log.info( "Formatting pass (" + currentTime + "ms)");
+					Log.info("Formatting pass (" + currentTime + "ms)");
 					return edits;
 				}
 			}
 
 		} catch (ModelException e) {
-			Log.error( e.getLocalizedMessage());
+			Log.error(e.getLocalizedMessage());
 		} finally {
 			getDslCore().FormatterLock.unlock();
 		}
@@ -95,16 +89,16 @@ public class MdFormatter extends BaseCodeFormatter {
 		return null;
 	}
 
-	private void format(IStatement stmt, TextEdit edit, String delim) {
+	private void format(Statement stmt, TextEdit edit, String delim) {
 		switch (SpecUtil.getSpecializedType(stmt)) {
 			case Terminal:
 				formatBlank(stmt, edit, delim);
 				break;
 			case Paragraph:
-				formatText(stmt, edit, delim, cols);
+				formatPara(stmt, edit, delim);
 				break;
 			case ListUnordered:
-				formatList(stmt, edit, delim, cols, tabWidth);
+				formatList(stmt, edit, delim, tabWidth);
 				break;
 			case Table:
 				formatTable(stmt, edit, delim);
@@ -125,67 +119,64 @@ public class MdFormatter extends BaseCodeFormatter {
 		}
 	}
 
-	private void formatTable(IStatement stmt, TextEdit edit, String delim) {
-		TableModel table = new TableModel(delim);
-		table.load(stmt);
+	private void formatTable(Statement stmt, TextEdit edit, String delim) {
 		SourceRange range = stmt.getRange();
-		String content = table.build();
-		if (content != null) edit.addChild(new ReplaceEdit(range.getOffset(), range.getLength(), content));
+		int offset = range.getOffset();
+		int len = range.getLength();
+
+		try {
+			TableModel table = new TableModel(delim);
+			table.load(stmt);
+			String content = table.build();
+			if (content != null) {
+				edit.addChild(new ReplaceEdit(offset, len, content));
+			}
+
+		} catch (MalformedTreeException e) {
+			Log.error("Table @%s:%s [%s]", offset, offset + len, e.getMessage());
+		}
 	}
 
-	private void formatText(IStatement stmt, TextEdit edit, String delim, int cols) {
-		try {
-			SourceRange range = stmt.getRange();
-			int offset = range.getOffset();
-			int len = range.getLength();
+	private void formatPara(Statement stmt, TextEdit edit, String delim) {
+		if (stmt.getParent() != null) {
+			if (stmt.getParent().getSpecializedType() == SpecializationType.ListItem) {
+				return; // skip paragraph statements in lists
+			}
+		}
 
+		SourceRange range = stmt.getRange();
+		int offset = range.getOffset();
+		int len = range.getLength();
+
+		try {
 			String content = stmt.getSource();
-			content = TextFormatter.wrap(content, cols, delim);
+			content = TextFormatter.para(content, delim);
 
 			edit.addChild(new ReplaceEdit(offset, len, content));
+
 		} catch (MalformedTreeException | BadLocationException e) {
-			Log.error( e.getMessage(), e);
+			Log.error("Text @%s:%s [%s]", offset, offset + len, e.getMessage());
 		}
 	}
 
-	private void formatList(IStatement stmt, TextEdit edit, String delim, int cols, int tabWidth) {
-		for (IStatement listItem : SpecUtil.getChildren(stmt, SpecializationType.ListItem)) {
-			formatListItem(stmt, listItem, edit, delim, cols, tabWidth);
-		}
-	}
+	private void formatList(Statement stmt, TextEdit edit, String delim, int tabWidth) {
+		for (IStatement item : SpecUtil.getChildren(stmt, SpecializationType.ListItem)) {
 
-	private void formatListItem(IStatement stmt, IStatement listItem, TextEdit edit, String delim, int cols,
-			int tabWidth) {
-		try {
-			SourceRange range = listItem.getRange();
+			SourceRange range = item.getRange();
 			int offset = range.getOffset();
 			int len = range.getLength();
 
-			String content = listItem.getSource();
-			int indent = Indent.measureIndentInTabs(content, tabWidth);
-			int markWidth = listMarkWidth(content);
-			content = TextFormatter.wrap(content, cols, delim, tabWidth * indent,
-					(tabWidth * indent) + markWidth);
+			try {
+				String content = item.getSource();
+				int level = Indent.measureIndentInTabs(content, tabWidth);
+				int indent = level * tabWidth;
+				content = TextFormatter.list(content, indent, delim);
 
-			edit.addChild(new ReplaceEdit(offset, len, content));
-		} catch (MalformedTreeException | BadLocationException e) {
-			Log.error( e.getMessage(), e);
+				edit.addChild(new ReplaceEdit(offset, len, content));
+
+			} catch (MalformedTreeException | BadLocationException e) {
+				Log.error("List @%s:%s [%s]", offset, offset + len, e.getMessage());
+			}
 		}
-	}
-
-	private int listMarkWidth(String item) {
-		String line = item.trim();
-		char c = line.charAt(0);
-		switch (c) {
-			case Chars.DASH:
-			case Chars.PLUS:
-			case Chars.STAR:
-				return 2;
-
-			default:
-				int dot = line.indexOf(Chars.DOT);
-				if (dot > 0) return dot + 2;
-		}
-		return 0;
 	}
 }

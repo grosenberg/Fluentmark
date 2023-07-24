@@ -39,6 +39,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.ide.dialogs.EncodingFieldEditor;
 
+import net.certiv.antlr.runtime.xvisitor.util.Strings;
 import net.certiv.dsl.core.color.DslColorRegistry;
 import net.certiv.dsl.core.preferences.PrefsDeltaManager;
 import net.certiv.dsl.ui.dialogs.StatusUtil;
@@ -57,13 +58,9 @@ import net.certiv.spellchecker.preferences.PreferencesMessages;
 public class SpellingConfigBlock extends AbstractConfigBlock {
 
 	/** The value for no platform dictionary. */
-	private static final String VALUE_NO_LOCALE = ""; //$NON-NLS-1$
+	private static final String VALUE_NO_LOCALE = Strings.EMPTY;
 
 	private Composite options;
-	// private Composite dictionary;
-	// private Composite encoding;
-	// private Composite advanced;
-
 	private Text dictPath;
 	private Combo localeCombo;
 	private IStatus fFileStatus = new StatusInfo();
@@ -210,7 +207,8 @@ public class SpellingConfigBlock extends AbstractConfigBlock {
 		addCheckBox(options, "Ignore sentence capitalization", PrefsSpelling.SPELLING_IGNORE_SENTENCE, 2);
 		addCheckBox(options, "Ignore upper case words", PrefsSpelling.SPELLING_IGNORE_UPPER, 2);
 		addCheckBox(options, "Ignore single letters", PrefsSpelling.SPELLING_IGNORE_SINGLE_LETTERS, 2);
-		addCheckBox(options, "Ignore non-letters at word boundaries", PrefsSpelling.SPELLING_IGNORE_NON_LETTERS, 2);
+		addCheckBox(options, "Ignore non-letters at word boundaries",
+				PrefsSpelling.SPELLING_IGNORE_NON_LETTERS, 2);
 		addCheckBox(options, "Ignore internet addresses/URLs", PrefsSpelling.SPELLING_IGNORE_URLS, 2);
 		return options;
 	}
@@ -224,8 +222,8 @@ public class SpellingConfigBlock extends AbstractConfigBlock {
 		String label;
 		if (hasPlaformDictionaries) {
 			label = PreferencesMessages.SpellingPreferencePage_dictionary_label;
-			localeCombo = addLocaleBox(dictionary, label, PrefsSpelling.SPELLING_LOCALE, getDictionaryLabels(locales),
-					getDictionaryCodes(locales), 0);
+			localeCombo = addLocaleBox(dictionary, label, PrefsSpelling.SPELLING_LOCALE,
+					getDictionaryLabels(locales), getDictionaryCodes(locales), 0);
 			localeCombo.setEnabled(locales.size() > 0);
 			new Label(dictionary, SWT.NONE);
 		}
@@ -274,8 +272,10 @@ public class SpellingConfigBlock extends AbstractConfigBlock {
 
 	private Composite addAdvanced(Composite parent) {
 		Composite advanced = SWTFactory.makeGroup(parent, "Advanced", 2);
-		addTextField(advanced, "Proposal threshhold", PrefsSpelling.SPELLING_PROPOSAL_THRESHOLD, 20, 6, FType.INTEGER);
-		addTextField(advanced, "Problems threshhold", PrefsSpelling.SPELLING_PROBLEMS_THRESHOLD, 20, 6, FType.INTEGER);
+		addTextField(advanced, "Proposal threshhold", PrefsSpelling.SPELLING_PROPOSAL_THRESHOLD, 20, 6,
+				FType.INTEGER);
+		addTextField(advanced, "Problems threshhold", PrefsSpelling.SPELLING_PROBLEMS_THRESHOLD, 20, 6,
+				FType.INTEGER);
 		return advanced;
 	}
 
@@ -365,7 +365,7 @@ public class SpellingConfigBlock extends AbstractConfigBlock {
 	 * Creates the encoding field editor.
 	 *
 	 * @param composite the parent composite
-	 * @param string list with all controls
+	 * @param string    list with all controls
 	 */
 	private void encodingControl(Composite composite, String text) {
 
@@ -406,8 +406,8 @@ public class SpellingConfigBlock extends AbstractConfigBlock {
 				StatusInfo status = new StatusInfo();
 				if (newMessage != null) status.setError(newMessage);
 				fEncodingFieldEditorStatus = status;
-				context.statusChanged(StatusUtil
-						.getMostSevere(new IStatus[] { fThresholdStatus, fFileStatus, fEncodingFieldEditorStatus }));
+				context.statusChanged(StatusUtil.getMostSevere(
+						new IStatus[] { fThresholdStatus, fFileStatus, fEncodingFieldEditorStatus }));
 			}
 		};
 		encEditor.setPage(fakePage);
@@ -445,8 +445,7 @@ public class SpellingConfigBlock extends AbstractConfigBlock {
 	private void setEnabled(Control control, boolean enabled) {
 		if (control instanceof Composite) {
 			Control[] children = ((Composite) control).getChildren();
-			for (Control child : children)
-				setEnabled(child, enabled);
+			for (Control child : children) setEnabled(child, enabled);
 		}
 		control.setEnabled(enabled);
 	}
@@ -467,7 +466,8 @@ public class SpellingConfigBlock extends AbstractConfigBlock {
 				final File file = new File(path);
 				if (!file.exists() && (!file.isAbsolute() || !file.getParentFile().canWrite()))
 					status.setError(PreferencesMessages.SpellingPreferencePage_dictionary_error);
-				else if (file.exists() && (!file.isFile() || !file.isAbsolute() || !file.canRead() || !file.canWrite()))
+				else if (file.exists()
+						&& (!file.isFile() || !file.isAbsolute() || !file.canRead() || !file.canWrite()))
 					status.setError(PreferencesMessages.SpellingPreferencePage_dictionary_error);
 			}
 		} catch (CoreException e) {

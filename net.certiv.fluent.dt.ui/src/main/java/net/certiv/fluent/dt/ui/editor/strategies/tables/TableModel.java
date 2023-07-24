@@ -7,7 +7,7 @@
  ******************************************************************************/
 package net.certiv.fluent.dt.ui.editor.strategies.tables;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -16,71 +16,47 @@ import org.eclipse.swt.SWT;
 
 import net.certiv.common.util.Strings;
 import net.certiv.dsl.core.model.ICodeUnit;
-import net.certiv.dsl.core.model.IStatement;
 import net.certiv.dsl.core.model.Statement;
 import net.certiv.dsl.core.util.TextUtil;
 
 public class TableModel {
 
-	public static class Row {
-
-		int num; // doc line #
-		int row; // table row #
-		String[] data;
-
-		public Row(int num, int row, String[] data) {
-			this.num = num;
-			this.row = row;
-			this.data = data;
-		}
-
-		public Row(int numCols) {
-			data = new String[numCols];
-			for (int idx = 0; idx < data.length; idx++) {
-				data[idx] = Strings.EMPTY;
-			}
-		}
-
-		@Override
-		public String toString() {
-			return num + " [" + String.join(Strings.COMMA, data) + "]";
-		}
-	}
-
-	private Statement stmt;
 	private String delim;
 
-	List<Row> rows;
-	int formatRow = -1; // row in model
-	int numCols;
-	int[] aligns;
-	int[] colWidths;
-	String[] headers;
+	private Statement stmt;
+
+	private final LinkedList<Row> rows = new LinkedList<>();
+	private int[] aligns;
+	private int[] widths;
+
+	private int numCols = 0; 	// rows in model
+	private int defRowNum = -1; // key row in model
 
 	public TableModel(String delim) {
 		this.delim = delim;
-		rows = new ArrayList<>();
 	}
 
-	public boolean load(IStatement stmt) {
-		this.stmt = (Statement) stmt;
+	public boolean load(Statement stmt) {
+		this.stmt = stmt;
 		ICodeUnit unit = stmt.getCodeUnit();
 
 		try {
-			for (int lnum = this.stmt.getStartLine(), row = 0; lnum <= this.stmt.getEndLine(); lnum++) {
-				String text = TextUtil.getText(unit.getDocument(), lnum - 1);
-				String[] cols = parseRow(text.substring(1));
-				if (text.trim().contains("---")) {
-					formatRow = row;
-					aligns = getAligns(cols);
-					numCols = cols.length;
-				}
-				rows.add(new Row(lnum, row, cols));
-				row++;
+			int beg = stmt.getStartLine();
+			int end = stmt.getEndLine();
+
+			for (int line = beg, num = 0; line <= end; line++) {
+				String text = TextUtil.getText(unit.getDocument(), line - 1);
+				Row row = new Row(line, num, text);
+				rows.add(row);
+				numCols = Math.max(numCols, row.size());
+				if (row.isDefRow()) defRowNum = num;
+				num++;
 			}
+
 			if (rows.isEmpty()) return false;
 
-			headers = rows.get(0).data;
+			rows.forEach(r -> r.adjustColCount(numCols));
+			initAligns();
 			calcColWidths();
 			return true;
 
@@ -89,49 +65,73 @@ public class TableModel {
 		}
 	}
 
-	public void insertCol(int target) {
-		numCols++;
-		aligns = ArrayUtils.insert(target, aligns, SWT.LEFT);
-		for (Row row : rows) {
-			if (row.row == formatRow) {
-				row.data = ArrayUtils.insert(target, row.data, ":---");
-			} else {
-				row.data = ArrayUtils.insert(target, row.data, Strings.EMPTY);
+	private void initAligns() {
+		aligns = rows.get(defRowNum).row().stream() //
+				.mapToInt(c -> characterize(c)).toArray();
+	}
+
+	private void calcColWidths() {
+		widths = new int[numCols];
+		for (int col = 0; col < numCols; col++) {
+			widths[col] = aligns[col] == SWT.CENTER ? 5 : 4;
+			for (Row row : rows) {
+				if (row.isDefRow()) continue;
+				widths[col] = Math.max(widths[col], row.get(col).length());
 			}
 		}
-		headers = rows.get(0).data;
-		calcColWidths();
 	}
 
-	public void removeCol(int target) {
-		numCols--;
-		aligns = ArrayUtils.remove(aligns, target);
+	private int characterize(String col) {
+		col = col.trim();
+		if (col.matches("\\:---+\\:")) return SWT.CENTER;
+		if (col.matches("---+\\:")) return SWT.RIGHT;
+		return SWT.LEFT;
+	}
+
+	public void insertCol(int idx) {
+		numCols++;
+		aligns = ArrayUtils.insert(idx, aligns, SWT.LEFT);
 		for (Row row : rows) {
-			row.data = ArrayUtils.remove(row.data, target);
+			if (row.isDefRow()) {
+				row.insert(idx, ":---");
+			} else {
+				row.insert(idx, Strings.EMPTY);
+			}
 		}
-		headers = rows.get(0).data;
 		calcColWidths();
 	}
 
-	public void addRow(int target) {
-		if (target <= rows.size()) {
-			rows.add(target, new Row(numCols));
+	public void removeCol(int idx) {
+		numCols--;
+		aligns = ArrayUtils.remove(aligns, idx);
+		for (Row row : rows) {
+			row.remove(idx);
 		}
-		for (int idx = 0, num = stmt.getStartLine(); idx < rows.size(); idx++) {
-			rows.get(idx).row = idx;
-			rows.get(idx).num = num;
-			num++;
+		calcColWidths();
+	}
+
+	public void addRow(int at) {
+		if (at <= rows.size()) {
+			rows.add(at, new Row(numCols));
+		} else {
+			rows.add(new Row(numCols));
+		}
+		for (int num = 0, line = stmt.getStartLine(); num < rows.size(); num++) {
+			Row row = rows.get(num);
+			row.setLine(line);
+			row.setNum(num);
+			line++;
 		}
 	}
 
-	public void removeRow(int target) {
-		if (target > formatRow && target < rows.size()) {
-			rows.remove(target);
+	public void removeRow(int idx) {
+		if (idx > defRowNum && idx < rows.size()) {
+			rows.remove(idx);
 		}
 	}
 
-	public int getFormatRow() {
-		return formatRow;
+	public int getDefineRow() {
+		return defRowNum;
 	}
 
 	public int getNumCols() {
@@ -142,18 +142,34 @@ public class TableModel {
 		return aligns;
 	}
 
+	public int getAlign(int idx) {
+		return aligns[idx];
+	}
+
+	public void setAlign(int idx, int align) {
+		aligns[idx] = align;
+	}
+
+	public int width(int idx) {
+		return widths[idx];
+	}
+
+	public String getHeader(int idx) {
+		return rows.get(0).get(idx);
+	}
+
 	public List<Row> getRows() {
 		return rows;
 	}
 
 	public Object[] getElements() {
-		Row[] elements = new Row[rows.size() - 1];
+		Row[] elems = new Row[rows.size() - 1];
 		for (int idx = 0, cnt = 0; idx < rows.size(); idx++) {
-			if (idx == formatRow) continue;
-			elements[cnt] = rows.get(idx);
+			if (idx == defRowNum) continue;
+			elems[cnt] = rows.get(idx);
 			cnt++;
 		}
-		return elements;
+		return elems;
 	}
 
 	public String build() {
@@ -162,10 +178,10 @@ public class TableModel {
 		try {
 			for (int idx = 0; idx < rows.size(); idx++) {
 				boolean last = idx == rows.size() - 1;
-				if (idx == formatRow) {
-					addFormatRow(sb, rows.get(idx), last);
+				if (idx == defRowNum) {
+					bldDefRow(sb, rows.get(idx), last);
 				} else {
-					addDataRow(sb, rows.get(idx), last);
+					bldDataRow(sb, rows.get(idx), last);
 				}
 			}
 		} catch (BadLocationException e) {
@@ -174,89 +190,44 @@ public class TableModel {
 		return sb.toString();
 	}
 
-	private void calcColWidths() {
-		colWidths = new int[numCols];
-		for (int col = 0; col < numCols; col++) {
-			colWidths[col] = aligns[col] == SWT.CENTER ? 5 : 4;
-			for (Row row : rows) {
-				if (row.row == formatRow) continue;
-				colWidths[col] = Math.max(colWidths[col], row.data[col].length());
-			}
-		}
-	}
-
-	private void addFormatRow(StringBuilder sb, Row row, boolean last) throws BadLocationException {
+	private void bldDefRow(StringBuilder sb, Row row, boolean last) {
 		sb.append(Strings.PIPE);
-		for (int col = 0; col < numCols; col++) {
-			if (aligns[col] == SWT.LEFT || aligns[col] == SWT.CENTER) sb.append(Strings.COLON);
+		for (int idx = 0; idx < numCols; idx++) {
+			int align = aligns[idx];
+			if (align == SWT.LEFT || align == SWT.CENTER) sb.append(Strings.COLON);
 
-			int min = aligns[col] == SWT.CENTER ? 5 : 4;
+			int min = align == SWT.CENTER ? 5 : 4;
 			sb.append("---");
-			sb.append(Strings.dup(colWidths[col] - min, "-"));
+			sb.append(Strings.DASH.repeat(widths[idx] - min));
 
-			if (aligns[col] == SWT.RIGHT || aligns[col] == SWT.CENTER) sb.append(Strings.COLON);
+			if (align == SWT.RIGHT || align == SWT.CENTER) sb.append(Strings.COLON);
 			sb.append(Strings.PIPE);
 		}
-
-		// add any text following the table row
-		String txt = TextUtil.getText(stmt.getCodeUnit().getDocument(), row.num - 1);
-		int dot = txt.lastIndexOf(Strings.PIPE);
-		if (dot < txt.length() - 1) {
-			sb.append(Strings.trimRight(txt.substring(dot + 1)));
-		}
+		sb.append(row.style());
 		if (!last) sb.append(delim);
 	}
 
-	private void addDataRow(StringBuilder sb, Row row, boolean last) throws BadLocationException {
+	private void bldDataRow(StringBuilder sb, Row row, boolean last) throws BadLocationException {
 		sb.append(Strings.PIPE);
-		for (int col = 0; col < numCols; col++) {
-			int colWidth = colWidths[col];
+		for (int idx = 0; idx < numCols; idx++) {
+			String data = row.get(idx);
+			int len = data.length();
+
+			int colWidth = widths[idx];
 			int padLeft = 0;
-			int padRight = colWidth - row.data[col].length();
-			if (aligns[col] == SWT.CENTER) {
+			int padRight = colWidth - len;
+			if (aligns[idx] == SWT.CENTER) {
 				padLeft = padRight / 2;
 				padRight -= padLeft;
-			} else if (aligns[col] == SWT.RIGHT) {
+			} else if (aligns[idx] == SWT.RIGHT) {
 				padLeft = padRight;
 				padRight = 0;
 			}
-			sb.append(Strings.dup(padLeft, Strings.SPACE));
-			sb.append(row.data[col]);
-			sb.append(Strings.dup(padRight, Strings.SPACE));
+			sb.append(Strings.spaces(padLeft));
+			sb.append(data);
+			sb.append(Strings.spaces(padRight));
 			sb.append(Strings.PIPE);
 		}
-
-		// add any text following the table row
-		String txt = TextUtil.getText(stmt.getCodeUnit().getDocument(), row.num - 1);
-		int dot = txt.lastIndexOf(Strings.PIPE);
-		if (dot < txt.length() - 1) {
-			sb.append(Strings.trimRight(txt.substring(dot + 1)));
-		}
 		if (!last) sb.append(delim);
-	}
-
-	private String[] parseRow(String text) {
-		int end = text.lastIndexOf('|');
-		text = text.substring(0, end);
-		String[] cols = text.split("(?<!\\\\)\\|", -1);
-		for (int idx = 0; idx < cols.length; idx++) {
-			cols[idx] = cols[idx].trim();
-		}
-		return cols;
-	}
-
-	private int[] getAligns(String[] cols) {
-		int[] aligns = new int[cols.length];
-		for (int idx = 0; idx < cols.length; idx++) {
-			aligns[idx] = characterize(cols[idx]);
-		}
-		return aligns;
-	}
-
-	private int characterize(String col) {
-		col = col.trim();
-		if (col.matches("\\:---+\\:")) return SWT.CENTER;
-		if (col.matches("---+\\:")) return SWT.RIGHT;
-		return SWT.LEFT;
 	}
 }

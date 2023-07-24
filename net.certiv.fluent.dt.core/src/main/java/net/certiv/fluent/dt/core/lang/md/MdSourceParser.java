@@ -5,7 +5,6 @@ import org.antlr.v4.runtime.CommonTokenStream;
 
 import net.certiv.dsl.core.DslCore;
 import net.certiv.dsl.core.model.builder.ModelBuilder;
-import net.certiv.dsl.core.parser.DslErrorListener;
 import net.certiv.dsl.core.parser.DslParseRecord;
 import net.certiv.dsl.core.parser.DslSourceParser;
 import net.certiv.dsl.core.parser.Origin;
@@ -35,13 +34,12 @@ public class MdSourceParser extends DslSourceParser {
 
 	@Override
 	public Throwable parse() {
-		DslErrorListener errCollector = getErrorListener();
 		try {
 			record.setCharStream(CharStreams.fromString(getContent(), record.unit.getFile().getName()));
 			MdLexer lexer = new MdLexer(record.getCharStream());
 			lexer.setTokenFactory(TokenFactory);
 			lexer.removeErrorListeners();
-			lexer.addErrorListener(errCollector);
+			lexer.addErrorListener(getErrorListener());
 			record.setTokenStream(new CommonTokenStream(lexer));
 			record.getTokenStream().fill(); // force stream update
 
@@ -55,7 +53,7 @@ public class MdSourceParser extends DslSourceParser {
 			return null;
 
 		} catch (Exception | Error e) {
-			errCollector.generalError(Origin.GENERAL, ERR_ANALYSIS, e);
+			getErrorListener().generalError(Origin.GENERAL, ERR_ANALYSIS, e);
 			return e;
 		}
 	}

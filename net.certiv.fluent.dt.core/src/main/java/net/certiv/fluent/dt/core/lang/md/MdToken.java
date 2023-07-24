@@ -1,5 +1,10 @@
 package net.certiv.fluent.dt.core.lang.md;
 
+import static net.certiv.fluent.dt.core.lang.md.gen.MdLexer.BULLET_MARK;
+import static net.certiv.fluent.dt.core.lang.md.gen.MdLexer.NUMBER_MARK;
+
+import java.util.Set;
+
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonToken;
 import org.antlr.v4.runtime.TokenSource;
@@ -13,6 +18,8 @@ import net.certiv.fluent.dt.core.lang.md.gen.MdLexer;
 
 public class MdToken extends CommonToken implements IDslToken {
 
+	private static final Set<Integer> LIST_MARKS = Set.of(BULLET_MARK, NUMBER_MARK);
+
 	private int _mode;
 	private int tabWidth;
 
@@ -20,8 +27,10 @@ public class MdToken extends CommonToken implements IDslToken {
 	private boolean bol;
 	private int dents;
 
-	private boolean quoted;
+	private boolean inCodeBlock;
+	private boolean inQuoteBlock;
 	private boolean inList;
+	private boolean inDefineList;
 
 	public MdToken(int type, String text, int tabWidth) {
 		super(type, text);
@@ -47,12 +56,53 @@ public class MdToken extends CommonToken implements IDslToken {
 		_mode = mode;
 	}
 
+	public boolean isHidden() {
+		return channel == HIDDEN_CHANNEL;
+	}
+
+	public int tabWidth() {
+		return tabWidth;
+	}
+
+	public boolean inCodeBlock() {
+		return inCodeBlock;
+	}
+
+	/** Mark a LINE_BLANK as starting a code block. */
+	public void setCodeBlock() {
+		inCodeBlock = true;
+	}
+
+	public boolean inQuoteBlock() {
+		return inQuoteBlock;
+	}
+
+	/** Mark a LINE_BLANK as starting a Quote block. */
+	public void setQuoteBlock() {
+		inQuoteBlock = true;
+	}
+
 	public boolean inList() {
 		return inList;
 	}
 
+	/** Mark a LINE_BLANK as starting a list. */
 	public void setListMark() {
 		inList = true;
+	}
+
+	/** Returns {@code true} if this token is a list mark. */
+	public boolean isListMark() {
+		return LIST_MARKS.contains(type);
+	}
+
+	public boolean inDefineList() {
+		return inDefineList;
+	}
+
+	/** Returns {@code true} if this token is a definition list mark. */
+	public void setDefineList() {
+		this.inDefineList = true;
 	}
 
 	public int getDents() {
@@ -68,14 +118,6 @@ public class MdToken extends CommonToken implements IDslToken {
 			dents = Indent.computeIndentUnits(prefix, tabWidth);
 		}
 		return dents;
-	}
-
-	public boolean isQuoted() {
-		return quoted;
-	}
-
-	public void setQuoted(boolean quoted) {
-		this.quoted = quoted;
 	}
 
 	@Override

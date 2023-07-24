@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017 - 2019 Certiv Analytics. All rights reserved.
+ * Copyright (c) 2017 - 2023 Certiv Analytics. All rights reserved.
  * Use of this file is governed by the Eclipse Public License v1.0
  * that can be found in the LICENSE.txt file in the project root,
  * and is available at http://www.eclipse.org/legal/epl-v10.html
@@ -34,17 +34,17 @@ import net.certiv.common.util.Strings;
  * the first token not within a block-prefix filter set is emitted
  * <li><b>_hitEOF</b> : {@code true} once an EOF condition is hit
  * </ol>
- * <li>Adds a <b>parameterized more</b> action.
+ * <li>Adds a parameterized <b>more</b> action.
  * <ul>
- * <li>a <b>parameterized more</b> rule matched text accumulates into a synthetic token of
- * the type defined by the <b>parameterized more</b> action
+ * <li>matched text accumulates into a synthetic token of the type defined by the
+ * parameterized <b>more</b> action
  * <li>the synthetic token is emitted when any other non-skipped rule is matched
  * </ul>
- * <li>Retains the native <b>more</b> function.
+ * <li>Retains the native <b>more</b> action.
  * <ul>
- * <li>the <b>more</b> rule matched text accumulates into the first token, other than
- * skipped token text, matched by a non-<b>more</b> rule.
- * <li>while <b>more</b> mode is active, no BOL or DENT tokens will be emitted???
+ * <li>matched text accumulates into the first token, other than skipped token text,
+ * matched by a non-<b>more</b> rule.
+ * <li>while <b>more</b> mode is active, no BOL or DENT tokens will be emitted.
  */
 public abstract class LexerNlp extends Lexer {
 
@@ -58,7 +58,6 @@ public abstract class LexerNlp extends Lexer {
 	// flags & data for 'beginning of' state
 	protected boolean _atBOF = true;	// beginning of file
 	protected boolean _atNL = true;		// new line
-	// protected int _lnStartCharIndex; // start offset of current line
 	protected boolean _begLine = true;	// beginning of line
 	protected boolean _begBlock = true;	// beginning of block
 
@@ -78,77 +77,119 @@ public abstract class LexerNlp extends Lexer {
 	private int eofType = Token.INVALID_TYPE;
 	private String eofText = Strings.EMPTY;
 
-	// tokens pending emit
+	/** Tokens internally cached pending external emit */
 	protected final ArrayDeque<Token> _queue = new ArrayDeque<>();
 
 	public LexerNlp(CharStream input) {
 		super(input);
+		preBlockTypes.add(Token.EPSILON); // internal/never emitted
+		preLineTypes.add(Token.EPSILON);
 	}
 
-	/** Defines a token to be emitted once immediately at BOF. */
+	/**
+	 * Defines a single token to be emitted once immediately at BOF.
+	 *
+	 * @param ttype the token type
+	 * @param text  the token text content
+	 */
 	public void setBofToken(int ttype, String text) {
 		bofToken = true;
 		bofType = ttype;
 		bofText = text;
 	}
 
-	/** Defines a token to be emitted once immediately prior to an EOF. */
+	/**
+	 * Defines a token to be emitted once immediately prior to an EOF.
+	 *
+	 * @param ttype the token type
+	 * @param text  the token text content
+	 */
 	public void setEofToken(int ttype, String text) {
 		eofToken = true;
 		eofType = ttype;
 		eofText = text;
 	}
 
+	/**
+	 * Defines the token types to be ignored when determining when the significant text of
+	 * a line begins.
+	 *
+	 * @param ttypes token types to ignore
+	 * @see LexerNlp#bof()
+	 * @see LexerNlp#bol()
+	 */
 	public void setLnBegPrefixes(Integer... ttypes) {
 		preLineTypes.addAll(Arrays.asList(ttypes));
 	}
 
+	/**
+	 * Defines a single token that identifies the beginning of a block.
+	 *
+	 * @param ttype the token type
+	 */
 	public void setBlockBeg(int ttype) {
 		blockType = ttype;
 	}
 
+	/**
+	 * Defines the token types to be ignored when determining when the significant text of
+	 * a block begins.
+	 *
+	 * @param ttypes token types to ignore
+	 */
 	public void setBlkBegPrefixes(Integer... ttypes) {
 		preBlockTypes.addAll(Arrays.asList(ttypes));
 	}
 
-	/** Returns {@code true} while at beginning of file. */
+	/**
+	 * Returns {@code true} if the lexer is functionally at the beginning of file: until
+	 * the first non-line begin prefix token has been internally emitted.
+	 */
 	public boolean bof() {
 		return _atBOF;
 	}
 
-	/** Returns {@code true} if at start of a new line. */
+	/**
+	 * Returns {@code true} if the lexer is functionally at start of a new line: until the
+	 * first token of the line has been internally emitted.
+	 */
 	public boolean nl() {
 		return _atNL;
 	}
-
-	// /** Returns the start offset of the current line. */
-	// public int lnOffset() {
-	// return _lnStartCharIndex;
-	// }
 
 	/** Returns {@code true} while at beginning of a line. */
 	public boolean bol() {
 		return _begLine;
 	}
 
-	/** Returns {@code true} while at beginning of block. */
+	/**
+	 * Returns {@code true} while at beginning of block: until the first non-block begin
+	 * prefix token has been externally emitted.
+	 */
 	public boolean bob() {
 		return _begBlock;
 	}
 
-	/** Returns {@code true} if at the end of file. */
+	/** Returns {@code true} if the lexer has hit the end-of-file. */
 	public boolean eof() {
 		return _hitEOF;
 	}
 
-	/** Enables the conventional more mode. */
+	/**
+	 * Enables the conventional more mode.
+	 */
 	@Override
 	public void more() {
 		_type = MORE;
 		_pmore = false;
 	}
 
-	/** Enables the parameterized more mode with the given token type. */
+	/**
+	 * Enables the parameterized {@code more} mode to collect continuing text to a token
+	 * of the given type.
+	 *
+	 * @param a target token type
+	 */
 	public void more(int ttype) {
 		_type = MORE;
 		_pmore = true;
@@ -177,7 +218,8 @@ public abstract class LexerNlp extends Lexer {
 
 	@Override
 	public Token nextToken() {
-		if (_input == null) throw new IllegalStateException("'nextToken()' requires a non-null input stream.");
+		if (_input == null)
+			throw new IllegalStateException("'nextToken()' requires a non-null input stream.");
 
 		if (bofToken) {
 			queue(bofType, bofText);
@@ -205,7 +247,6 @@ public abstract class LexerNlp extends Lexer {
 					_atNL = _tokenStartCharPositionInLine == 0;
 					if (_atNL) {
 						_begLine = true;
-						// _lnStartCharIndex = _tokenStartCharIndex;
 					}
 
 					do {
@@ -223,6 +264,9 @@ public abstract class LexerNlp extends Lexer {
 						if (_type == Token.INVALID_TYPE) _type = ttype;
 						if (_begLine && !preLineTypes.contains(_type)) {
 							_atBOF = _begLine = false;
+							// Log.debug("Start of text @%s:%s : %s", _pStartLine,
+							// _pStartCharPositionInLine,
+							// getVocabulary().getDisplayName(_type));
 						}
 
 						if (_type == SKIP && !_pmore) continue outer;
@@ -287,16 +331,44 @@ public abstract class LexerNlp extends Lexer {
 	}
 
 	protected void queue(int ttype, String text) {
-		Token token = _factory.create(_tokenFactorySourcePair, ttype, text, Token.DEFAULT_CHANNEL, _input.index(),
-				_input.index() - 1, getLine(), getCharPositionInLine());
+		Token token = _factory.create(_tokenFactorySourcePair, ttype, text, Token.DEFAULT_CHANNEL,
+				_input.index(), _input.index() - 1, getLine(), getCharPositionInLine());
 		_queue.add(token);
 	}
 
-	/** Debug. */
+	/** Returns the current matched string pending internal emit */
+	protected String currentMatched() {
+		int end = getCharIndex() - 1;
+		// if (_pStartCharIndex == end) return Strings.EMPTY;
+		return _input.getText(Interval.of(_pStartCharIndex, end));
+	}
+
+	/**
+	 * Returns {@code true} if the next character in the input data stream is a space.
+	 */
+	protected boolean laWS() {
+		return Character.isSpaceChar(la(1).charAt(0));
+	}
+
+	/**
+	 * Returns {@code true} if the prior character in the input data stream is a space.
+	 */
+	protected boolean lbWS() {
+		return Character.isSpaceChar(la(-1).charAt(0));
+	}
+
 	protected String la(int cnt) {
-		cnt = Math.max(1, cnt);
-		Interval la = Interval.of(_tokenStartCharIndex, Math.min(_tokenStartCharIndex + cnt, _input.size() - 1));
-		String content = Strings.ellipsize(Strings.encode(_input.getText(la)), cnt);
+		if (cnt < 0) {
+			int beg = Math.min(0, _tokenStartCharIndex + cnt);
+			return _input.getText(Interval.of(beg, _tokenStartCharIndex));
+		}
+		int end = Math.min(_tokenStartCharIndex + cnt, _input.size() - 1);
+		return _input.getText(Interval.of(_tokenStartCharIndex, end));
+	}
+
+	/** Debug. */
+	protected String laDebug(int cnt) {
+		String content = Strings.ellipsize(Strings.encode(la(cnt)), Math.abs(cnt));
 		return String.format("@%s [%s:%s] (%s) %s", _tokenStartCharIndex, _tokenStartLine,
 				_tokenStartCharPositionInLine, _mode, content);
 	}

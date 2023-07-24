@@ -22,6 +22,7 @@ import net.certiv.dsl.core.DslCore;
 import net.certiv.dsl.core.color.DslColorRegistry;
 import net.certiv.dsl.core.preferences.IPrefsManager;
 import net.certiv.dsl.core.preferences.PrefsManager;
+import net.certiv.dsl.core.preferences.consts.Editor;
 import net.certiv.dsl.ui.DslImageManager;
 import net.certiv.dsl.ui.DslUI;
 import net.certiv.dsl.ui.editor.DslEditor;
@@ -39,13 +40,13 @@ import net.certiv.fluent.dt.ui.FluentUI;
 import net.certiv.fluent.dt.ui.editor.outline.FluentOutlineLabelProvider;
 import net.certiv.fluent.dt.ui.editor.semantic.MdSematicAnalyzer;
 import net.certiv.fluent.dt.ui.editor.strategies.FluentDoubleClickStrategy;
-import net.certiv.fluent.dt.ui.editor.strategies.LineWrapEditStrategy;
 import net.certiv.fluent.dt.ui.editor.strategies.SmartAutoEditStrategy;
 import net.certiv.fluent.dt.ui.editor.text.ScannerCode;
 import net.certiv.fluent.dt.ui.editor.text.ScannerComment;
 import net.certiv.fluent.dt.ui.editor.text.ScannerDot;
 import net.certiv.fluent.dt.ui.editor.text.ScannerFrontMatter;
 import net.certiv.fluent.dt.ui.editor.text.ScannerHtml;
+import net.certiv.fluent.dt.ui.editor.text.ScannerMarkup;
 import net.certiv.fluent.dt.ui.editor.text.ScannerMath;
 import net.certiv.fluent.dt.ui.editor.text.ScannerUml;
 import net.certiv.fluent.dt.ui.formatter.MdFormatter;
@@ -61,11 +62,21 @@ public class FluentSourceViewerConfiguration extends DslSourceViewerConfiguratio
 	private ScannerMath mathScanner;
 	private ScannerHtml htmlScanner;
 	private ScannerComment commentScanner;
+	private ScannerMarkup markupScanner;
+
 	private MdSematicAnalyzer markupAnalyzer;
+
+	private final String semanticEnabledKey;
+
+	private PresentationReconciler reconciler;
+
+	private ISourceViewer viewer;
 
 	public FluentSourceViewerConfiguration(DslColorRegistry reg, IPrefsManager store, DslEditor editor,
 			String partitioning) {
 		super(FluentCore.getDefault(), reg, store, editor, partitioning);
+
+		semanticEnabledKey = getPrefsMgr().bind(Editor.EDITOR_SEMANTIC_ENABLED);
 	}
 
 	@Override
@@ -88,6 +99,7 @@ public class FluentSourceViewerConfiguration extends DslSourceViewerConfiguratio
 		StylesManager mgr = getDslUI().getStylesManager();
 
 		markupAnalyzer = new MdSematicAnalyzer(getDslUI());
+		markupScanner = new ScannerMarkup(store, mgr);
 
 		yamlScanner = new ScannerFrontMatter(store, mgr);
 		codeScanner = new ScannerCode(store, mgr);
@@ -117,7 +129,8 @@ public class FluentSourceViewerConfiguration extends DslSourceViewerConfiguratio
 		DslUI ui = getDslUI();
 		DslImageManager mgr = ui.getImageManager();
 		Image img = mgr.get(mgr.IMG_OBJS_KEYWORD);
-		Set<Character> stops = new HashSet<>(Arrays.asList(LBRACE, LBRACE, LPAREN, COLON, COMMA, SEMI, PIPE, AT));
+		Set<Character> stops = new HashSet<>(
+				Arrays.asList(LBRACE, LBRACE, LPAREN, COLON, COMMA, SEMI, PIPE, AT));
 
 		ICompletionEngine dotWords = new KeywordEngine(img, stops, ScannerDot.keywords, ScannerDot.attribs);
 		ICompletionEngine umlWords = new KeywordEngine(img, stops, ScannerUml.keywords, ScannerUml.preprocs,
@@ -145,10 +158,11 @@ public class FluentSourceViewerConfiguration extends DslSourceViewerConfiguratio
 
 	@Override
 	public IPresentationReconciler getPresentationReconciler(ISourceViewer viewer) {
-		PresentationReconciler reconciler = new PresentationReconciler(getDslUI());
+		this.viewer = viewer;
+		reconciler = new PresentationReconciler(getDslUI());
 		reconciler.setDocumentPartitioning(getConfiguredDocumentPartitioning(viewer));
 
-		buildRepairer(getEditor(), viewer, reconciler, markupAnalyzer, IDocument.DEFAULT_CONTENT_TYPE);
+		setMarkupRepairer();
 
 		buildRepairer(reconciler, yamlScanner, Partitions.YAMLBLOCK);
 		buildRepairer(reconciler, commentScanner, Partitions.COMMENT);
@@ -163,7 +177,11 @@ public class FluentSourceViewerConfiguration extends DslSourceViewerConfiguratio
 
 	@Override
 	public void handlePropertyChangeEvent(PropertyChangeEvent event) {
+		if (event.getProperty().equals(semanticEnabledKey)) setMarkupRepairer();
+
 		if (markupAnalyzer.affectsBehavior(event)) markupAnalyzer.adaptToPreferenceChange(event);
+		if (markupScanner.affectsBehavior(event)) markupScanner.adaptToPreferenceChange(event);
+
 		if (codeScanner.affectsBehavior(event)) codeScanner.adaptToPreferenceChange(event);
 		if (dotScanner.affectsBehavior(event)) dotScanner.adaptToPreferenceChange(event);
 		if (umlScanner.affectsBehavior(event)) umlScanner.adaptToPreferenceChange(event);
@@ -173,9 +191,22 @@ public class FluentSourceViewerConfiguration extends DslSourceViewerConfiguratio
 		if (yamlScanner.affectsBehavior(event)) yamlScanner.adaptToPreferenceChange(event);
 	}
 
+	private void setMarkupRepairer() {
+		if (semanticEnabled()) {
+			buildRepairer(getEditor(), viewer, reconciler, markupAnalyzer, IDocument.DEFAULT_CONTENT_TYPE);
+		} else {
+			buildRepairer(reconciler, markupScanner, IDocument.DEFAULT_CONTENT_TYPE);
+		}
+	}
+
+	private boolean semanticEnabled() {
+		return getPrefsMgr().getBoolean(Editor.EDITOR_SEMANTIC_ENABLED);
+	}
+
 	@Override
 	public boolean affectsTextPresentation(PropertyChangeEvent event) {
-		return markupAnalyzer.affectsBehavior(event) //
+		return (semanticEnabled() ? markupAnalyzer.affectsBehavior(event)
+				: markupScanner.affectsBehavior(event)) //
 				|| codeScanner.affectsBehavior(event) //
 				|| dotScanner.affectsBehavior(event) //
 				|| umlScanner.affectsBehavior(event) //
@@ -191,8 +222,7 @@ public class FluentSourceViewerConfiguration extends DslSourceViewerConfiguratio
 		switch (contentType) {
 
 			case IDocument.DEFAULT_CONTENT_TYPE:
-				return new IAutoEditStrategy[] { new DefaultIndentLineAutoEditStrategy(),
-						new LineWrapEditStrategy(getEditor()) };
+				return new IAutoEditStrategy[] { new DefaultIndentLineAutoEditStrategy() };
 
 			case Partitions.COMMENT:
 			case Partitions.YAMLBLOCK:

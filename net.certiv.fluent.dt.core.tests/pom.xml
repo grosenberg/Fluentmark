@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>net.certiv</groupId>
+	<artifactId>fluent.dt.core.tests</artifactId>
+	<version>0.1.9</version>
+
+	<name>net.certiv :: common</name>
+	<description>Common utilities</description>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<jdk.ver>17</jdk.ver>
+		<maven.compiler.source>${jdk.ver}</maven.compiler.source>
+		<maven.compiler.target>${jdk.ver}</maven.compiler.target>
+
+		<certiv-common.ver>0.9.4</certiv-common.ver>
+
+		<antlr.ver>4.12.0</antlr.ver>
+		<st.ver>4.3.4</st.ver>
+
+		<comm-io.ver>2.11.0</comm-io.ver>
+		<comm-lang3.ver>3.12.0</comm-lang3.ver>
+		<comm-text.ver>1.10.0</comm-text.ver>
+
+		<diff.ver>4.12</diff.ver>
+		<log4j.ver>2.20.0</log4j.ver>
+
+		<gson.ver>2.10.1</gson.ver>
+		<jackson.ver>2.14.2</jackson.ver>
+		<microstream.ver>08.01.00-MS-GA</microstream.ver>
+
+		<junit.ver>5.9.2</junit.ver>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.antlr</groupId>
+			<artifactId>antlr4</artifactId>
+			<version>${antlr.ver}</version>
+		</dependency>
+
+		<!-- 
+
+		<dependency>
+			<groupId>net.certiv</groupId>
+			<artifactId>adept</artifactId>
+			<version>${adept.ver}</version>
+		</dependency>
+		<dependency>
+			<groupId>net.certiv</groupId>
+			<artifactId>xvisitor</artifactId>
+			<version>${xvisitor.ver}</version>
+		</dependency>
+
+-->
+
+		<dependency>
+			<groupId>net.certiv</groupId>
+			<artifactId>certiv-common</artifactId>
+			<version>${certiv-common.ver}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>${comm-lang3.ver}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-text</artifactId>
+			<version>${comm-text.ver}</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>${comm-io.ver}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>${gson.ver}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>one.microstream</groupId>
+			<artifactId>microstream-storage-embedded</artifactId>
+			<version>${microstream.ver}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.github.java-diff-utils</groupId>
+			<artifactId>java-diff-utils</artifactId>
+			<version>${diff.ver}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+			<version>${log4j.ver}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>${log4j.ver}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+			<version>${junit.ver}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>net.certiv</groupId>
+			<artifactId>net.certiv.fluent.dt.ui</artifactId>
+			<version>1.9.0-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.10.1</version>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>3.3.0</version>
+				<configuration>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>biz.aQute.bnd</groupId>
+				<artifactId>bnd-maven-plugin</artifactId>
+				<version>6.4.0</version>
+				<extensions>true</extensions>
+				<executions>
+					<execution>
+						<id>jar</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+						<configuration>
+							<bnd><![CDATA[
+								-noextraheaders: true
+								-noimportjava: true
+								-snapshot: SNAPSHOT
+                				-removeheaders: Private-Package
+                				-fixupmessages: The JAR is empty:
+								Export-Package: net.certiv.common.*
+								]]></bnd>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<!-- create src jar -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>3.2.1</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<!-- create javadoc jar -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>3.5.0</version>
+				<configuration>
+					<doclint>none</doclint>  <!-- Turnoff all checks -->
+					<failOnError>false</failOnError>
+					<quiet>true</quiet>
+				</configuration>
+				<executions>
+					<execution>
+						<id>attach-javadoc</id>
+						<goals>
+							<goal>javadoc</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.1.2</version>
+				<configuration>
+					<argLine>-Dfile.encoding=${project.build.sourceEncoding}</argLine>
+				</configuration>
+			</plugin>
+
+		</plugins>
+	</build>
+</project>

@@ -1,0 +1,87 @@
+---- list_multilevel -------------------------
+---- Tree ----
+page
+  lineBlank
+    [LINE_BLANK] 
+  list
+    listItem
+      [BULLET_MARK] -
+      paragraph
+        line
+          word
+            [WORD] first
+          word
+            [WORD] level
+    nl
+      [VWS] ␍␊
+    listItem
+      [BULLET_MARK] +
+      paragraph
+        line
+          word
+            [WORD] second
+          word
+            [WORD] level
+    nl
+      [VWS] ␍␊
+    listItem
+      [BULLET_MARK] *
+      paragraph
+        line
+          word
+            [WORD] third
+          word
+            [WORD] level
+    nl
+      [VWS] ␍␊
+    listItem
+      [BULLET_MARK] -
+      paragraph
+        line
+          word
+            [WORD] fourth
+          word
+            [WORD] level
+  lineBlank
+    [LINE_BLANK] ␍␊␍␊
+  list
+    listItem
+      [NUMBER_MARK] 1.
+      paragraph
+        line
+          word
+            [WORD] first
+          word
+            [WORD] level
+    nl
+      [VWS] ␍␊
+    listItem
+      [NUMBER_MARK] 2.
+      paragraph
+        line
+          word
+            [WORD] nested
+          word
+            [WORD] multiline
+        nl
+          [LINE_BREAK] ␣␣␍␊
+        line
+          word
+            [WORD] paragraph
+          word
+            [WORD] element
+  lineBlank
+    [LINE_BLANK] ␍␊␉␍␊
+  list
+    listItem
+      [NUMBER_MARK] 3)
+      paragraph
+        line
+          word
+            [WORD] next
+          word
+            [WORD] entry
+  [VWS] ␍␊
+  lineBlank
+    [LINE_BLANK] 
+  [EOF] <EOF>

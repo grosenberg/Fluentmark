@@ -25,22 +25,22 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.ToolBar;
 
-import net.certiv.dsl.core.model.IStatement;
+import net.certiv.dsl.core.model.Statement;
 
 public class TableDialog extends TableDialogActions {
 
-	private IStatement stmt;
+	private Statement stmt;
 	private int style;
 
 	/** Creates a new TableDialog with default SWT styles. */
-	public TableDialog(IStatement stmt) {
+	public TableDialog(Statement stmt) {
 		this(stmt, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER | SWT.FULL_SELECTION);
 	}
 
 	/** Creates a new TableDialog with the given style. */
-	public TableDialog(IStatement stmt, int style) {
-		super(Display.getCurrent().getActiveShell(), "Table Editor", null, null, MessageDialog.NONE, 1, "Apply",
-				"Cancel");
+	public TableDialog(Statement stmt, int style) {
+		super(Display.getCurrent().getActiveShell(), "Table Editor", null, null, MessageDialog.NONE, 1,
+				"Apply", "Cancel");
 
 		this.stmt = stmt;
 		this.style = style;
@@ -48,7 +48,7 @@ public class TableDialog extends TableDialogActions {
 	}
 
 	public String build() {
-		return tableModel.build();
+		return model.build();
 	}
 
 	@Override
@@ -78,7 +78,7 @@ public class TableDialog extends TableDialogActions {
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
 
-		cellMgr = new TableViewerFocusCellManager(viewer, new FocusCellOwnerDrawHighlighter(viewer));
+		focusMgr = new TableViewerFocusCellManager(viewer, new FocusCellOwnerDrawHighlighter(viewer));
 
 		ColumnViewerEditorActivationStrategy activator = new ColumnViewerEditorActivationStrategy(viewer) {
 
@@ -86,12 +86,13 @@ public class TableDialog extends TableDialogActions {
 			protected boolean isEditorActivationEvent(ColumnViewerEditorActivationEvent event) {
 				return event.eventType == ColumnViewerEditorActivationEvent.TRAVERSAL
 						|| event.eventType == ColumnViewerEditorActivationEvent.MOUSE_DOUBLE_CLICK_SELECTION
-						|| (event.eventType == ColumnViewerEditorActivationEvent.KEY_PRESSED && event.keyCode == SWT.CR)
+						|| (event.eventType == ColumnViewerEditorActivationEvent.KEY_PRESSED
+								&& event.keyCode == SWT.CR)
 						|| event.eventType == ColumnViewerEditorActivationEvent.PROGRAMMATIC;
 			}
 		};
 
-		TableViewerEditor.create(viewer, cellMgr, activator, features);
+		TableViewerEditor.create(viewer, focusMgr, activator, Features);
 
 		MenuManager mgr = new MenuManager();
 		mgr.add(new InsColBeforeAction());
@@ -103,15 +104,15 @@ public class TableDialog extends TableDialogActions {
 		mgr.add(new RmvRowAction());
 		viewer.getControl().setMenu(mgr.createContextMenu(viewer.getControl()));
 
-		tableModel = new TableModel(stmt.getCodeUnit().getDefaultLineDelimiter());
+		model = new TableModel(stmt.getCodeUnit().getDefaultLineDelimiter());
 		setInput(stmt);
 		return body;
 	}
 
-	private void setInput(IStatement stmt) {
-		if (tableModel.load(stmt)) {
+	private void setInput(Statement stmt) {
+		if (model.load(stmt)) {
 			createColumns();
-			TableContentProvider provider = new TableContentProvider(tableModel);
+			TableContentProvider provider = new TableContentProvider(model);
 			viewer.setContentProvider(provider);
 			viewer.setInput(stmt);
 		}

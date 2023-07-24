@@ -108,8 +108,8 @@ public abstract class StructureBuilder extends Processor {
 	}
 
 	private int calc(HeaderContext ctx) {
-		if (ctx.HASHES() != null) return ctx.HASHES().getText().length();
-		if (ctx.EQUALS() != null) return 1;
+		if (ctx.hdr != null) return ctx.hdr.getText().length();
+		if (ctx.SETEXT() != null) return 1;
 		return 2;
 	}
 

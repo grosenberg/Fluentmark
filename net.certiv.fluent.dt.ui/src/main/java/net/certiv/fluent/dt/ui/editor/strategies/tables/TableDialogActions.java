@@ -29,33 +29,32 @@ import org.eclipse.swt.widgets.TableItem;
 
 import net.certiv.fluent.dt.ui.FluentUI;
 import net.certiv.fluent.dt.ui.ImageManager;
-import net.certiv.fluent.dt.ui.editor.strategies.tables.TableModel.Row;
 
 public class TableDialogActions extends MessageDialog {
 
-	protected static final int features = ColumnViewerEditor.TABBING_HORIZONTAL
+	protected static final int Features = ColumnViewerEditor.TABBING_HORIZONTAL
 			| ColumnViewerEditor.TABBING_MOVE_TO_ROW_NEIGHBOR | ColumnViewerEditor.TABBING_VERTICAL
 			| ColumnViewerEditor.KEYBOARD_ACTIVATION;
 
-	protected ImageManager imgMgr;
+	protected ImageManager mgr;
 	protected TableViewer viewer;
 	protected Table table;
-	protected TableModel tableModel;
-	protected TableViewerFocusCellManager cellMgr;
+	protected TableModel model;
+	protected TableViewerFocusCellManager focusMgr;
 
 	public class AlignLeftAction extends Action {
 
 		public AlignLeftAction() {
 			super("Left Align");
-			setImageDescriptor(imgMgr.getDescriptor(imgMgr.IMG_OBJ_LEFT));
+			setImageDescriptor(mgr.getDescriptor(mgr.IMG_OBJ_LEFT));
 		}
 
 		@Override
 		public void run() {
-			ViewerCell cell = cellMgr.getFocusCell();
-			int target = cell != null ? cell.getColumnIndex() : 0;
-			target = target < 0 ? tableModel.numCols : target;
-			tableModel.aligns[target] = SWT.LEFT;
+			ViewerCell cell = focusMgr.getFocusCell();
+			int idx = cell != null ? cell.getColumnIndex() : 0;
+			idx = idx < 0 ? model.getNumCols() : idx;
+			model.setAlign(idx, SWT.LEFT);
 			recreateCols();
 		}
 	}
@@ -64,15 +63,15 @@ public class TableDialogActions extends MessageDialog {
 
 		public AlignCenterAction() {
 			super("Center Align");
-			setImageDescriptor(imgMgr.getDescriptor(imgMgr.IMG_OBJ_CENTER));
+			setImageDescriptor(mgr.getDescriptor(mgr.IMG_OBJ_CENTER));
 		}
 
 		@Override
 		public void run() {
-			ViewerCell cell = cellMgr.getFocusCell();
-			int target = cell != null ? cell.getColumnIndex() : 0;
-			target = target < 0 ? tableModel.numCols : target;
-			tableModel.aligns[target] = SWT.CENTER;
+			ViewerCell cell = focusMgr.getFocusCell();
+			int idx = cell != null ? cell.getColumnIndex() : 0;
+			idx = idx < 0 ? model.getNumCols() : idx;
+			model.setAlign(idx, SWT.CENTER);
 			recreateCols();
 		}
 	}
@@ -81,15 +80,15 @@ public class TableDialogActions extends MessageDialog {
 
 		public AlignRightAction() {
 			super("Right Align");
-			setImageDescriptor(imgMgr.getDescriptor(imgMgr.IMG_OBJ_RIGHT));
+			setImageDescriptor(mgr.getDescriptor(mgr.IMG_OBJ_RIGHT));
 		}
 
 		@Override
 		public void run() {
-			ViewerCell cell = cellMgr.getFocusCell();
-			int target = cell != null ? cell.getColumnIndex() : 0;
-			target = target < 0 ? tableModel.numCols : target;
-			tableModel.aligns[target] = SWT.RIGHT;
+			ViewerCell cell = focusMgr.getFocusCell();
+			int idx = cell != null ? cell.getColumnIndex() : 0;
+			idx = idx < 0 ? model.getNumCols() : idx;
+			model.setAlign(idx, SWT.RIGHT);
 			recreateCols();
 		}
 	}
@@ -98,15 +97,15 @@ public class TableDialogActions extends MessageDialog {
 
 		public InsColBeforeAction() {
 			super("Insert Column Before");
-			setImageDescriptor(imgMgr.getDescriptor(imgMgr.IMG_OBJ_COL_INS_BEF));
+			setImageDescriptor(mgr.getDescriptor(mgr.IMG_OBJ_COL_INS_BEF));
 		}
 
 		@Override
 		public void run() {
-			ViewerCell cell = cellMgr.getFocusCell();
+			ViewerCell cell = focusMgr.getFocusCell();
 			int target = cell != null ? cell.getColumnIndex() : 0;
-			target = target < 0 ? tableModel.numCols : target;
-			tableModel.insertCol(target);
+			target = target < 0 ? model.getNumCols() : target;
+			model.insertCol(target);
 			recreateCols();
 		}
 	}
@@ -115,15 +114,15 @@ public class TableDialogActions extends MessageDialog {
 
 		public InsColAfterAction() {
 			super("Insert Column After");
-			setImageDescriptor(imgMgr.getDescriptor(imgMgr.IMG_OBJ_COL_INS_AFT));
+			setImageDescriptor(mgr.getDescriptor(mgr.IMG_OBJ_COL_INS_AFT));
 		}
 
 		@Override
 		public void run() {
-			ViewerCell cell = cellMgr.getFocusCell();
+			ViewerCell cell = focusMgr.getFocusCell();
 			int target = cell != null ? cell.getColumnIndex() : 0;
-			target = target < 0 ? tableModel.numCols : target;
-			tableModel.insertCol(target + 1);
+			target = target < 0 ? model.getNumCols() : target;
+			model.insertCol(target + 1);
 			recreateCols();
 		}
 	}
@@ -132,15 +131,15 @@ public class TableDialogActions extends MessageDialog {
 
 		public RmvColAction() {
 			super("Delete Column");
-			setImageDescriptor(imgMgr.getDescriptor(imgMgr.IMG_OBJ_COL_DEL));
+			setImageDescriptor(mgr.getDescriptor(mgr.IMG_OBJ_COL_DEL));
 		}
 
 		@Override
 		public void run() {
-			ViewerCell cell = cellMgr.getFocusCell();
+			ViewerCell cell = focusMgr.getFocusCell();
 			int target = cell != null ? cell.getColumnIndex() : 0;
-			if (target < 0 || target >= tableModel.numCols) return;
-			tableModel.removeCol(target);
+			if (target < 0 || target >= model.getNumCols()) return;
+			model.removeCol(target);
 			recreateCols();
 		}
 	}
@@ -149,7 +148,7 @@ public class TableDialogActions extends MessageDialog {
 
 		public InsRowAboveAction() {
 			super("Insert Row Above");
-			setImageDescriptor(imgMgr.getDescriptor(imgMgr.IMG_OBJ_ROW_INS_ABV));
+			setImageDescriptor(mgr.getDescriptor(mgr.IMG_OBJ_ROW_INS_ABV));
 		}
 
 		@Override
@@ -159,7 +158,7 @@ public class TableDialogActions extends MessageDialog {
 			int target = table.indexOf(items[0]);
 			if (target < 1) return;
 
-			tableModel.addRow(target + 1);
+			model.addRow(target + 1);
 			viewer.refresh();
 		}
 	}
@@ -168,7 +167,7 @@ public class TableDialogActions extends MessageDialog {
 
 		public InsRowBelowAction() {
 			super("Insert Row Below");
-			setImageDescriptor(imgMgr.getDescriptor(imgMgr.IMG_OBJ_ROW_INS_BLW));
+			setImageDescriptor(mgr.getDescriptor(mgr.IMG_OBJ_ROW_INS_BLW));
 		}
 
 		@Override
@@ -178,7 +177,7 @@ public class TableDialogActions extends MessageDialog {
 			int target = table.indexOf(items[0]);
 			if (target < 1) return;
 
-			tableModel.addRow(target + 2);
+			model.addRow(target + 2);
 			viewer.refresh();
 		}
 	}
@@ -187,7 +186,7 @@ public class TableDialogActions extends MessageDialog {
 
 		public RmvRowAction() {
 			super("Delete Row");
-			setImageDescriptor(imgMgr.getDescriptor(imgMgr.IMG_OBJ_ROW_DEL));
+			setImageDescriptor(mgr.getDescriptor(mgr.IMG_OBJ_ROW_DEL));
 		}
 
 		@Override
@@ -197,7 +196,7 @@ public class TableDialogActions extends MessageDialog {
 			int target = table.indexOf(items[0]);
 			if (target < 1) return;
 
-			tableModel.removeRow(target + 1);
+			model.removeRow(target + 1);
 			viewer.refresh();
 		}
 	}
@@ -225,26 +224,26 @@ public class TableDialogActions extends MessageDialog {
 
 		@Override
 		protected Object getValue(Object element) {
-			return ((Row) element).data[idx];
+			return ((Row) element).get(idx);
 		}
 
 		@Override
 		protected void setValue(Object element, Object value) {
-			((Row) element).data[idx] = (String) value;
+			((Row) element).set(idx, (String) value);
 			viewer.refresh();
 		}
 	}
 
-	public TableDialogActions(Shell parentShell, String dialogTitle, Image dialogTitleImage, String dialogMessage,
-			int dialogImageType, int defaultIndex, String... dialogButtonLabels) {
+	public TableDialogActions(Shell parentShell, String dialogTitle, Image dialogTitleImage,
+			String dialogMessage, int dialogImageType, int defaultIndex, String... dialogButtonLabels) {
 		super(parentShell, dialogTitle, dialogTitleImage, dialogMessage, dialogImageType, defaultIndex,
 				dialogButtonLabels);
-		imgMgr = FluentUI.getDefault().getImageManager();
+		mgr = FluentUI.getDefault().getImageManager();
 	}
 
 	protected void createColumns() {
-		for (int idx = 0; idx < tableModel.numCols; idx++) {
-			int align = tableModel.aligns[idx];
+		for (int idx = 0; idx < model.getNumCols(); idx++) {
+			int align = model.getAlign(idx);
 			createColumn(idx, align);
 		}
 	}
@@ -259,7 +258,7 @@ public class TableDialogActions extends MessageDialog {
 			@Override
 			public String getText(Object element) {
 				if (element instanceof Row) {
-					return ((Row) element).data[col];
+					return ((Row) element).get(col);
 				}
 				return super.getText(element);
 			}
@@ -269,9 +268,9 @@ public class TableDialogActions extends MessageDialog {
 		column.setResizable(true);
 		column.setMoveable(true);
 
-		column.setText(tableModel.headers[idx]);
+		column.setText(model.getHeader(idx));
 
-		int width = convertWidthInCharsToPixels(tableModel.colWidths[idx]);
+		int width = convertWidthInCharsToPixels(model.width(idx));
 		width = Math.max(width, 50);
 		column.setWidth(width);
 	}

@@ -1,0 +1,26 @@
+---- link_rel -------------------------
+---- Tree ----
+page
+  lineBlank
+    [LINE_BLANK] 
+  paragraph
+    line
+      word
+        [WORD] A
+      link
+        [LBRACK] [
+        l_line
+          l_word
+            [WORD] relative
+          l_word
+            [WORD] reference
+        [LNK_SEP] ](
+        url
+          [URL] ../blob/master/LICENSE
+        [RPAREN] )
+      word
+        [WORD] link.
+  [VWS] ␍␊
+  lineBlank
+    [LINE_BLANK] 
+  [EOF] <EOF>

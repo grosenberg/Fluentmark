@@ -271,6 +271,12 @@
       </page>
       <page
             category="net.certiv.fluent.dt.ui.preferences.page.GeneralPage"
+            class="net.certiv.fluent.dt.ui.preferences.page.FormatterPage"
+            id="net.certiv.fluent.dt.ui.preferences.page.FormatterPage"
+            name="Formatter">
+      </page>
+      <page
+            category="net.certiv.fluent.dt.ui.preferences.page.GeneralPage"
             class="net.certiv.fluent.dt.ui.preferences.page.StylesPage"
             id="net.certiv.fluent.dt.ui.preferences.page.StylesPage"
             name="Stylesheets">
@@ -309,52 +315,56 @@
 
       <!--  win32:  M1=CTRL,    M2=SHIFT, M3=ALT, M4=-
             carbon: M1=COMMAND, M2=SHIFT, M3=ALT, M4=CTRL -->
-      <key
-            sequence="M1+M2+F"
-            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
-            contextId="net.certiv.fluent.dt.ui.fluentEditorScope"
-            commandId="net.certiv.fluent.dt.ui.edit.text.format"/>
-      <key
-            commandId="net.certiv.fluent.dt.visibleComment"
-            contextId="net.certiv.fluent.dt.ui.fluentEditorScope"
-            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
-            sequence="M1+M2+/">
-      </key>
-      <key
-            commandId="net.certiv.fluent.dt.hiddenComment"
-            contextId="net.certiv.fluent.dt.ui.fluentEditorScope"
-            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
-            sequence="M1+/">
-      </key>
-      <key
-            commandId="net.certiv.fluent.dt.ui.edit.text.unwrap"
-            contextId="net.certiv.fluent.dt.ui.fluentEditorScope"
-            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
-            sequence="M1+M2+M3+F">
-      </key>
-      <key
-            commandId="net.certiv.fluent.dt.bold"
-            contextId="net.certiv.fluent.dt.ui.fluentEditorScope"
-            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
-            sequence="M1+B">
-      </key>
-      <key
-            commandId="net.certiv.fluent.dt.italic"
-            contextId="net.certiv.fluent.dt.ui.fluentEditorScope"
-            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
-            sequence="M1+I">
-      </key>
-   <key
-          sequence="M2+M3+O"
-          commandId="net.certiv.fluent.dt.ui.edit.text.toggleMarkOccurrences"
-          contextId="net.certiv.fluent.dt.ui.fluentEditorScope"
-          schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"/>
-   <key
-          platform="carbon"
-          sequence="M1+M3+O"
-          commandId="net.certiv.fluent.dt.ui.edit.text.toggleMarkOccurrences"
-          contextId="net.certiv.fluent.dt.ui.fluentEditorScope"
-          schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"/>
+    <key
+        sequence="M1+M2+F"
+        schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+        contextId="net.certiv.fluent.dt.ui.fluentEditorScope"
+        commandId="net.certiv.fluent.dt.ui.edit.text.format"/>
+    <key
+        commandId="net.certiv.fluent.dt.visibleComment"
+        contextId="net.certiv.fluent.dt.ui.fluentEditorScope"
+        schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+        sequence="M1+M2+/" />
+    <key
+        commandId="net.certiv.fluent.dt.hiddenComment"
+        contextId="net.certiv.fluent.dt.ui.fluentEditorScope"
+        schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+        sequence="M1+/" />
+    <key
+        commandId="net.certiv.fluent.dt.bold"
+        contextId="net.certiv.fluent.dt.ui.fluentEditorScope"
+        schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+        sequence="M1+B" />
+    <key
+        commandId="net.certiv.fluent.dt.italic"
+        contextId="net.certiv.fluent.dt.ui.fluentEditorScope"
+        schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+        sequence="M1+I" />
+	<key
+        sequence="M2+M3+O"
+        commandId="net.certiv.fluent.dt.ui.edit.text.toggleMarkOccurrences"
+        contextId="net.certiv.fluent.dt.ui.fluentEditorScope"
+        schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"/>
+    <key
+        platform="carbon"
+        sequence="M1+M3+O"
+        commandId="net.certiv.fluent.dt.ui.edit.text.toggleMarkOccurrences"
+        contextId="net.certiv.fluent.dt.ui.fluentEditorScope"
+        schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"/>
+	<key
+        sequence="M2+M3+Y"
+        commandId="net.certiv.fluent.dt.ui.softwrap"
+        contextId="net.certiv.fluent.dt.ui.fluentEditorScope"
+        schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"/>
+	<!--
+	<key
+        commandId="net.certiv.fluent.dt.ui.edit.text.unwrap"
+        contextId="net.certiv.fluent.dt.ui.fluentEditorScope"
+        schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+        sequence="M1+M2+M3+F" />
+    -->
+
+
   </extension>
    
   <extension
@@ -373,15 +383,29 @@
       </command>
       <command
             categoryId="net.certiv.fluent.dt.ui.commands"
-            description="Unwrap text"
-            id="net.certiv.fluent.dt.ui.edit.text.unwrap"
-            name="Unwrap">
-      </command>
-      <command
-            categoryId="net.certiv.fluent.dt.ui.commands"
             description="Toggle occurrence marking"
             id="net.certiv.fluent.dt.ui.edit.text.toggleMarkOccurrences"
             name="Mark Occurrences">
+         <state
+               class="org.eclipse.ui.handlers.RegistryToggleState:false"
+               id="org.eclipse.ui.commands.toggleState">
+         </state>
+      </command>
+      <command
+            categoryId="net.certiv.fluent.dt.ui.commands"
+            description="Soft word wrap"
+            id="net.certiv.fluent.dt.ui.softwrap"
+            name="Soft Word Wrap">
+         <state
+               class="org.eclipse.ui.handlers.RegistryToggleState:false"
+               id="org.eclipse.ui.commands.toggleState">
+         </state>
+      </command>
+      <command
+            categoryId="net.certiv.fluent.dt.ui.commands"
+            description="Show Whitespace Characters"
+            id="net.certiv.fluent.dt.ui.whitespace"
+            name="Show whitespace">
          <state
                class="org.eclipse.ui.handlers.RegistryToggleState:false"
                id="org.eclipse.ui.commands.toggleState">
@@ -417,7 +441,14 @@
             description="Clean document problem markers"
             id="net.certiv.fluent.dt.ui.removeMarkersCommand"
             name="Clean Problems">
-      </command>   </extension>
+      </command>
+      <command
+            categoryId="net.certiv.fluent.dt.ui.commands"
+            description="Unwrap text"
+            id="net.certiv.fluent.dt.ui.edit.text.unwrap"
+            name="Unwrap">
+      </command>
+    </extension>
 
 <!--
   <extension
@@ -455,8 +486,19 @@
          </enabledWhen>
       </handler>
       <handler
-            class="net.certiv.fluent.dt.ui.handlers.UnwrapHandler"
-            commandId="net.certiv.fluent.dt.ui.edit.text.unwrap">
+            class="net.certiv.fluent.dt.ui.handlers.ToggleMarkingHandler"
+            commandId="net.certiv.fluent.dt.ui.edit.text.toggleMarkOccurrences">
+      	<activeWhen>
+        	<reference definitionId="net.certiv.fluent.dt.ui.context.definition" />
+      	</activeWhen>
+      	<enabledWhen>
+        	<reference definitionId="net.certiv.fluent.dt.ui.context.definition" />
+      	</enabledWhen>
+      </handler>
+
+      <handler
+            class="net.certiv.fluent.dt.ui.handlers.ToggleSoftWrapHandler"
+            commandId="net.certiv.fluent.dt.ui.softwrap">
          <activeWhen>
             <reference
                   definitionId="net.certiv.fluent.dt.ui.context.definition">
@@ -469,14 +511,18 @@
          </enabledWhen>
       </handler>
       <handler
-            class="net.certiv.fluent.dt.ui.handlers.ToggleMarkingHandler"
-            commandId="net.certiv.fluent.dt.ui.edit.text.toggleMarkOccurrences">
-      <activeWhen>
-        <reference definitionId="net.certiv.fluent.dt.ui.context.definition" />
-      </activeWhen>
-      <enabledWhen>
-        <reference definitionId="net.certiv.fluent.dt.ui.context.definition" />
-      </enabledWhen>
+            class="net.certiv.fluent.dt.ui.handlers.ToggleShowWhitespaceHandler"
+            commandId="net.certiv.fluent.dt.ui.whitespace">
+         <activeWhen>
+            <reference
+                  definitionId="net.certiv.fluent.dt.ui.context.definition">
+            </reference>
+         </activeWhen>
+         <enabledWhen>
+            <reference
+                  definitionId="net.certiv.fluent.dt.ui.context.definition">
+            </reference>
+         </enabledWhen>
       </handler>
       <handler
             class="net.certiv.fluent.dt.ui.handlers.ToggleVisibleCommentHandler"
@@ -538,6 +584,16 @@
       <handler
             class="net.certiv.dsl.ui.handlers.CleanGrammarHandler"
             commandId="net.certiv.fluent.dt.ui.removeMarkersCommand">
+         <activeWhen>
+            <reference
+                  definitionId="net.certiv.fluent.dt.ui.context.definition">
+            </reference>
+         </activeWhen>
+         <enabledWhen>
+            <reference
+                  definitionId="net.certiv.fluent.dt.ui.context.definition">
+            </reference>
+         </enabledWhen>
       </handler>
       
    </extension>
@@ -553,6 +609,30 @@
                   icon="icons/etool16/mark_occurrences.png"
                   style="toggle"
                   tooltip="Toggle Mark Occcurrences">
+              <visibleWhen
+                    checkEnabled="false">
+                 <reference
+                       definitionId="net.certiv.fluent.dt.ui.context.definition">
+                 </reference>
+              </visibleWhen>
+            </command>
+            <command
+                  commandId="net.certiv.fluent.dt.ui.softwrap"
+                  icon="icons/etool16/wordwrap.png"
+                  style="toggle"
+                  tooltip="Toggle Soft Word Wrap">
+              <visibleWhen
+                    checkEnabled="false">
+                 <reference
+                       definitionId="net.certiv.fluent.dt.ui.context.definition">
+                 </reference>
+              </visibleWhen>
+            </command>
+            <command
+                  commandId="net.certiv.fluent.dt.ui.whitespace"
+                  icon="icons/etool16/show_whitespace_chars.png"
+                  style="toggle"
+                  tooltip="Show Whitespace Characters">
               <visibleWhen
                     checkEnabled="false">
                  <reference
@@ -579,7 +659,6 @@
         </visibleWhen>
       </command>
     </menuContribution>
-
   </extension>
-  
+
 </plugin>

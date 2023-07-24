@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Fluent UI
 Automatic-Module-Name: net.certiv.fluent.dt.ui
 Bundle-SymbolicName: net.certiv.fluent.dt.ui;singleton:=true
-Bundle-Version: 1.8.1.qualifier
+Bundle-Version: 1.9.0.qualifier
 Bundle-ClassPath: .,
  lib/plantuml-1.2022.4.jar,
  lib/flexmark-0.64.0.jar,
@@ -55,11 +55,11 @@ Bundle-ClassPath: .,
 Bundle-Activator: net.certiv.fluent.dt.ui.FluentUI
 Bundle-Vendor: Certiv Analytics
 Bundle-Localization: plugin
-Require-Bundle: net.certiv.fluent.dt.core;bundle-version="1.8.1",
- net.certiv.spellchecker;bundle-version="3.4.2",
- net.certiv.dsl.core;bundle-version="0.30.0",
- net.certiv.dsl.ui;bundle-version="0.30.0",
- net.certiv.dsl.lib;bundle-version="0.30.0",
+Require-Bundle: net.certiv.fluent.dt.core;bundle-version="1.9.0",
+ net.certiv.spellchecker;bundle-version="4.3.0",
+ net.certiv.dsl.core;bundle-version="0.31.0",
+ net.certiv.dsl.ui;bundle-version="0.31.0",
+ net.certiv.dsl.lib;bundle-version="0.31.0",
  org.eclipse.core.resources;bundle-version="3.18.100",
  org.eclipse.core.runtime;bundle-version="3.26.100",
  org.eclipse.jface.text;bundle-version="3.22.0",
@@ -71,8 +71,9 @@ Require-Bundle: net.certiv.fluent.dt.core;bundle-version="1.8.1",
  org.eclipse.ui.workbench.texteditor;bundle-version="3.16.600",
  org.eclipse.core.variables;bundle-version="3.5.100",
  org.eclipse.debug.ui;bundle-version="3.17.100",
- org.eclipse.ui.console;bundle-version="3.11.400"
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+ org.eclipse.ui.console;bundle-version="3.11.400",
+ org.eclipse.text
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-ActivationPolicy: lazy
 Eclipse-RegisterBuddy: net.certiv.dsl.lib
 Export-Package: com.vladsch.flexmark.ast,
@@ -349,3 +350,4 @@ Export-Package: com.vladsch.flexmark.ast,
  net.sourceforge.plantuml.xmlsc,
  net.sourceforge.plantuml.yaml,
  net.sourceforge.plantuml.zopfli
+Import-Package: org.eclipse.jdt.ui.cleanup

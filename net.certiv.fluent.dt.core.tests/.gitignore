@@ -1,0 +1,6 @@
+.settings
+attic/
+bin/
+target/
+
+/**/resources/logs/

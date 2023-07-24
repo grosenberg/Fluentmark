@@ -1,0 +1,139 @@
+---- link_ref -------------------------
+---- Tree ----
+page
+  lineBlank
+    [LINE_BLANK] 
+  paragraph
+    line
+      link
+        [LBRACK] [
+        l_line
+          l_word
+            [WORD] subject
+        [LNK_REF] ][
+        l_line
+          l_word
+            [WORD] reference
+          l_word
+            [WORD] text
+        [RBRACK] ]
+    nl
+      [VWS] ␍␊
+    line
+      word
+        [WORD] Number
+      link
+        [LBRACK] [
+        l_line
+          l_word
+            [WORD] subject
+          l_word
+            [WORD] numbers
+        [LNK_REF] ][
+        l_line
+          l_word
+            [WORD] 1
+        [RBRACK] ]
+    nl
+      [VWS] ␍␊
+    line
+      word
+        [WORD] Check
+      link
+        [LBRACK] [
+        l_line
+          l_word
+            [WORD] see
+          l_word
+            [WORD] the
+          l_word
+            [WORD] source
+          l_word
+            [WORD] for
+          l_word
+            [WORD] it
+          l_word
+            [WORD] by
+          l_word
+            [WORD] adding
+          l_word
+            [WORD] '
+          l_word
+            [WORD] .text
+            attrRight
+              [RSQUOTE] '
+          l_word
+            [WORD] to
+          l_word
+            [WORD] the
+          l_word
+            [WORD] URL
+        [LNK_REF] ][
+        l_line
+          l_word
+            [WORD] src
+        [RBRACK] ]
+      word
+        [WORD] .
+    nl
+      [VWS] ␍␊
+    line
+      word
+        [WORD] Reference
+      word
+        [WORD] links
+      word
+        [WORD] follow
+      word
+        [WORD] later.
+  lineBlank
+    [LINE_BLANK] ␍␊␍␊
+  paragraph
+    line
+      link
+        [LBRACK] [
+        l_word
+          [WORD] reference
+        l_word
+          [WORD] text
+        [LNK_DEF] ]:
+        url
+          [URL] https://www.mozilla.org
+    nl
+      [VWS] ␍␊
+    line
+      link
+        [LBRACK] [
+        l_word
+          [WORD] 1
+        [LNK_DEF] ]:
+        url
+          [URL] http://slashdot.org
+    nl
+      [VWS] ␍␊
+    line
+      link
+        [LBRACK] [
+        l_word
+          [WORD] link
+        l_word
+          [WORD] text
+        l_word
+          [WORD] itself
+        [LNK_DEF] ]:
+        url
+          [URL] http://www.reddit.com
+    nl
+      [VWS] ␍␊
+    line
+      link
+        [LBRACK] [
+        l_word
+          [WORD] src
+        [LNK_DEF] ]:
+        url
+          [URL] /projects/markdown/syntax.text
+  [VWS] ␍␊
+  lineBlank
+    [LINE_BLANK] 
+  [EOF] <EOF>

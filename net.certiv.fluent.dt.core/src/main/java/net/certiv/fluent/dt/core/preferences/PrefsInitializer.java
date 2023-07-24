@@ -42,10 +42,15 @@ public class PrefsInitializer extends DslPrefsInit {
 		setBool(Editor.EDITOR_SMART_OPENING_BRACE, false);
 		setBool(Editor.EDITOR_SMART_SEMICOLON, false);
 
-		setBool(Prefs.EDITOR_WORD_WRAP, false);
 		setBool(Prefs.EDITOR_SHOW_SEGMENTS, false);
+
+		setBool(Prefs.EDITOR_SOFT_WRAP, false);
+
 		setBool(Prefs.FORMATTER_ENABLED, true);
-		setInt(Prefs.FORMATTER_WRAP_COLUMN, 80);
+		setBool(Prefs.FORMATTER_ON_SAVE, true);
+
+		// setBool(Prefs.FORMATTER_HARD_WRAP, false);
+		// setInt(Prefs.FORMATTER_WRAP_COLUMN, 80);
 
 		setBool(Prefs.EDITOR_OUTLINE_SHOW_BLANKLINES, false);
 		setBool(Prefs.EDITOR_OUTLINE_SYNC_ON_CURSOR_MOVE, true);
@@ -81,7 +86,7 @@ public class PrefsInitializer extends DslPrefsInit {
 		setBool(Prefs.EDITOR_SECTION_NUMBERS, true);
 
 		setBool(Prefs.FORMATTER_ENABLED, true);
-		setBool(Prefs.FORMATTER_UNWRAP, false);
+		setBool(Prefs.FORMATTER_ON_SAVE, false);
 
 		setBool(Prefs.VIEW_HTML_OPEN, false);
 		setBool(Prefs.VIEW_PDF_OPEN, true);

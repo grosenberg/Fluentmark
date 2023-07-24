@@ -18,19 +18,31 @@ A full-featured Markdown editing environment for Eclipse.
     - math presentation using [MathJax](https://www.mathjax.org/)
     - code highlighting using [highlightjs](https://highlightjs.org/)
 + Spell check with quick-assist correction processor
-+ Smart editing behaviors, including intelligent paragraph, list & blank line handling
-+ Table editor
+
++ Smart editing behaviors, including intelligent paragraph, list & blank line handling+ Table editor
 + Text, list and table formatter
-+ Stylesheet controlled editor presentation
++ Optional stylesheet controlled editor presentation
 + Outline view with drag-and-drop support
 
 ## Use
 
-Details on [how to use](https://github.com/grosenberg/Fluentmark/blob/master/doc/Use.md) 
-Fluentmark. 
+Main toolbar
 
-Details on the [Semantic Styling](https://github.com/grosenberg/Fluentmark/blob/master/doc/EditorCss.md) 
-feature.
+<img src="./doc/Toolbar1.png" alt="screen shot" width=150>
+
+<ol>
+<li>Mark occurrences 
+<li>Live view 
+<li>Export to HTML
+<li>Export to PDF
+<li>Show Whitespace Characters
+<li>Word Wrap (_aka_ Soft Line Wrap)
+</ol>
+
+
+Details on [how to use](https://github.com/grosenberg/Fluentmark/blob/master/doc/Use.md) Fluentmark. 
+
+Details on the [Semantic Styling](https://github.com/grosenberg/Fluentmark/blob/master/doc/EditorCss.md) feature.
 
 ## Screenshot
 
@@ -53,8 +65,7 @@ Requirements
 - Eclipse 2021-03
 - JDK 11+
 - [Graphviz](http://www.graphviz.org/download.php) for Dot and PlantUml language blocks 
-- [Pandoc](https://pandoc.org) and a _LaTeX_ processor (like [*MikTeX*](https://miktex.org/)) 
-for Html and Pdf export
+- [Pandoc](https://pandoc.org) and a _LaTeX_ processor (like [*MikTeX*](https://miktex.org/)) for Html and Pdf export
 
 
 ## Configuration
@@ -63,24 +74,16 @@ Eclipse Preference pages ---
 
 > `Window` -> `Certiv Tools` -> `FluentMark`
 
-To use the Pandoc converter, select the `pandoc` executable from the local filesystem 
-on the Pandoc Converter tab. 
+To use the Pandoc converter, select the `pandoc` executable from the local filesystem on the Pandoc Converter tab. 
 
-To use Graphviz Dot, select the `dot` executable on the Fluentmark preference page. Note, 
-if `Graphviz` is installed in a non-default directory, PlantUML requres that the 
-`GRAPHVIZ_DOT` environment variable be set to the actual installation directory.
+To use Graphviz Dot, select the `dot` executable on the Fluentmark preference page. Note, if `Graphviz` is installed in a non-default directory, PlantUML requres that the `GRAPHVIZ_DOT` environment variable be set to the actual installation directory.
 
-To use the BlackFriday converter, install the customized 
-[blackfriday-tool](https://github.com/grosenberg/blackfriday-tool) from GitHub. 
-A Windows 64-bit compiled executable is available for download
-[blackfriday-tool.zip](http://www.certiv.net/updates/net.certiv.fluentmark.site/blackfriday-tool.zip). 
-The `blackfriday-tool` executable can then be selected on the BlackFriday Converter tab.
+To use the BlackFriday converter, install the customized [blackfriday-tool](https://github.com/grosenberg/blackfriday-tool) from GitHub. A Windows 64-bit compiled executable is available for download [blackfriday-tool.zip](http://www.certiv.net/updates/net.certiv.fluentmark.site/blackfriday-tool.zip). The `blackfriday-tool` executable can then be selected on the BlackFriday Converter tab.
 
 
 ## Support
 
-Open an [issue on Github](https://github.com/grosenberg/fluentmark/issues). Provide 
-as much information as possible:
+Open an [issue on Github](https://github.com/grosenberg/fluentmark/issues). Provide as much information as possible:
 
 - a minimal Markdown document that demonstrates the issue(s)
 - the error message(s) encountered 

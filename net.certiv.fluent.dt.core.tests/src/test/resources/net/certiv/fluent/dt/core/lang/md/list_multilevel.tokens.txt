@@ -1,0 +1,61 @@
+|---- list_multilevel ----------------------------------------------------------------|
+| Num  | Token              | Text                          | Line  | Pos  | Channel  |
+|------|--------------------|-------------------------------|-------|------|----------|
+|    0 | LINE_BLANK (60)    |                               |     1 |    0 |          |
+|    1 | BULLET_MARK (43)   | -                             |     2 |    0 |          |
+|    2 | HWS (64)           | ␣                             |     2 |    1 | HIDDEN   |
+|    3 | WORD (1)           | first                         |     2 |    2 |          |
+|    4 | HWS (64)           | ␣                             |     2 |    7 | HIDDEN   |
+|    5 | WORD (1)           | level                         |     2 |    8 |          |
+|    6 | VWS (63)           | ␍␊                            |     3 |   13 |          |
+|    7 | LINE_DENT (62)     | ␉                             |     3 |    0 | HIDDEN   |
+|    8 | BULLET_MARK (43)   | +                             |     3 |    1 |          |
+|    9 | HWS (64)           | ␣                             |     3 |    2 | HIDDEN   |
+|   10 | WORD (1)           | second                        |     3 |    3 |          |
+|   11 | HWS (64)           | ␣                             |     3 |    9 | HIDDEN   |
+|   12 | WORD (1)           | level                         |     3 |   10 |          |
+|   13 | VWS (63)           | ␍␊                            |     4 |   15 |          |
+|   14 | LINE_DENT (62)     | ␉␉                            |     4 |    0 | HIDDEN   |
+|   15 | BULLET_MARK (43)   | *                             |     4 |    2 |          |
+|   16 | HWS (64)           | ␣                             |     4 |    3 | HIDDEN   |
+|   17 | WORD (1)           | third                         |     4 |    4 |          |
+|   18 | HWS (64)           | ␣                             |     4 |    9 | HIDDEN   |
+|   19 | WORD (1)           | level                         |     4 |   10 |          |
+|   20 | HWS (64)           | ␣                             |     4 |   15 | HIDDEN   |
+|   21 | VWS (63)           | ␍␊                            |     5 |   16 |          |
+|   22 | LINE_DENT (62)     | ␉␉␉                           |     5 |    0 | HIDDEN   |
+|   23 | BULLET_MARK (43)   | -                             |     5 |    3 |          |
+|   24 | HWS (64)           | ␣                             |     5 |    4 | HIDDEN   |
+|   25 | WORD (1)           | fourth                        |     5 |    5 |          |
+|   26 | HWS (64)           | ␣                             |     5 |   11 | HIDDEN   |
+|   27 | WORD (1)           | level                         |     5 |   12 |          |
+|   28 | LINE_BLANK (60)    | ␍␊␍␊                          |     7 |   17 |          |
+|   29 | NUMBER_MARK (44)   | 1.                            |     7 |    0 |          |
+|   30 | HWS (64)           | ␣                             |     7 |    2 | HIDDEN   |
+|   31 | WORD (1)           | first                         |     7 |    3 |          |
+|   32 | HWS (64)           | ␣                             |     7 |    8 | HIDDEN   |
+|   33 | WORD (1)           | level                         |     7 |    9 |          |
+|   34 | VWS (63)           | ␍␊                            |     8 |   14 |          |
+|   35 | LINE_DENT (62)     | ␉                             |     8 |    0 | HIDDEN   |
+|   36 | NUMBER_MARK (44)   | 2.                            |     8 |    1 |          |
+|   37 | HWS (64)           | ␣                             |     8 |    3 | HIDDEN   |
+|   38 | WORD (1)           | nested                        |     8 |    4 |          |
+|   39 | HWS (64)           | ␣                             |     8 |   10 | HIDDEN   |
+|   40 | WORD (1)           | multiline                     |     8 |   11 |          |
+|   41 | LINE_BREAK (61)    | ␣␣␍␊                          |     9 |   20 |          |
+|   42 | LINE_DENT (62)     | ␉␣␣␉␉                         |     9 |    0 | HIDDEN   |
+|   43 | WORD (1)           | paragraph                     |     9 |    5 |          |
+|   44 | LINE_DENT (62)     | ␣                             |     9 |   14 | HIDDEN   |
+|   45 | WORD (1)           | element                       |     9 |   15 |          |
+|   46 | LINE_BLANK (60)    | ␍␊␉␍␊                         |    11 |   22 |          |
+|   47 | LINE_DENT (62)     | ␉                             |    11 |    0 | HIDDEN   |
+|   48 | NUMBER_MARK (44)   | 3)                            |    11 |    1 |          |
+|   49 | HWS (64)           | ␣                             |    11 |    3 | HIDDEN   |
+|   50 | WORD (1)           | next                          |    11 |    4 |          |
+|   51 | HWS (64)           | ␣                             |    11 |    8 | HIDDEN   |
+|   52 | WORD (1)           | entry                         |    11 |    9 |          |
+|   53 | VWS (63)           | ␍␊                            |    12 |   14 |          |
+|   54 | LINE_BLANK (60)    |                               |    11 |    0 |          |
+|   55 | EOF (-1)           | <EOF>                         |    12 |    0 |          |
+|------|--------------------|-------------------------------|-------|------|----------|
+

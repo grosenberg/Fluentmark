@@ -13,9 +13,10 @@ options {
 page
 	: ( yamlBlock	| dotBlock  | mathBlock | htmlBlock
 	  | texBlock	| umlBlock	| codeBlock	| comment
-	  | header	| hrule     | paragraph
-	  | table	| list		| definition
-	  | lnBlank	| lnBreak	| VWS
+	  | header		| hrule     | table		| definition		
+	  | list		| paragraph	  
+	  | lineBlank	| codeBlank | quoteBlank	
+	  | lineBreak	| VWS
 	  )*
 	  EOF
 	;
@@ -35,8 +36,8 @@ htmlBlock
 	;
 
 codeBlock
-	: CODE_BEG lang=WORD? style? VWS
-		( WORD | VWS )* 
+	: CODE_BEG lang=CODE_TYPE? style? VWS
+		( CODE_LINE | VWS )* 
 	  CODE_END
 	;
 
@@ -48,7 +49,7 @@ style
 		| WORD EQ 
 			( SQUOTE WORD SQUOTE 
 			| DQUOTE WORD DQUOTE
-			| WORD 
+			| DASH? WORD
 			)
 		)+ 
 	  RSTYLE
@@ -57,8 +58,8 @@ style
 // ==== Headings ===========
 
 header
-	: HASHES line HASH* style?
-	| line style? nl ( EQUALS | DASHES )
+	: hdr=HASHES line HASHES? style?
+	| line style? nl SETEXT
 	;
 
 hrule : HRULE style? ;
@@ -67,7 +68,7 @@ hrule : HRULE style? ;
 
 table
 	: ( tableRow nl )*
-	  TABLE style? nl
+	  TABLE_DEF style? nl
 	  ( tableRow nl )*
 	  tableRow
 	;
@@ -85,43 +86,49 @@ list
 	;
 
 listItem 
-	: mark=( BULLET_MARK	
-		   | NUMBER_MARK | PAREN_MARK		
-		   | UALPHA_MARK | LALPHA_MARK 
-		   ) 
-	  lines
+	: mark=( BULLET_MARK | NUMBER_MARK ) TASK_MARK?
+	  paragraph 
 	;
 
 definition
-	: line nl
+	: line VWS
 	  defineItem
-	  ( nl defineItem )* 
+	  ( VWS defineItem )* 
 	;
 
 defineItem
-	: COLON lines
+	: DEFINE paragraph
 	;
 
 // ==== Links ============
 
-// [...](... alt?)
-// [...][ref]
-// [ref]: url alt?
-// [...]
 link
-	: lnkDef line LNK_SEP url? alt? RPAREN style? 
-	| lnkDef line LNK_REF word* RBRACK style?
-	| lnkRef word* LNK_DEF ( VWS | LINE_BREAK )? url (( VWS | LINE_BREAK )? alt )? 
-	| FNOTE  word LNK_DEF note style?
-	| lnkDef line RBRACK style? 
+	: LBRACK 
+		( l_word* LNK_DEF nl? url (nl? alt )?		// [def]: url alt
+		| l_line? LNK_SEP url? alt? RPAREN			// [...](url alt)
+		| l_line? LNK_REF l_line? RBRACK			// [...][word]
+		| l_line RBRACK								// [...]
+		)
+		style?
 	;
 
-lnkDef : ( IMAGE | FNOTE | LINK ) ;
-lnkRef : LINK ;
+imgLink
+	: LNK_IMG
+		( l_line LNK_SEP url? alt? RPAREN
+		| l_line LNK_REF l_line* RBRACK
+		| l_line RBRACK   
+		)
+		style?
+	;
 
-url
-	: URLTAG
-	| URL
+fnLink
+	: LNK_FN
+		( l_word LNK_DEF l_line ( nl { twoSpaces() }? l_line )* 
+		| l_line LNK_SEP url? alt? RPAREN 
+		| l_line LNK_REF l_line* RBRACK
+		| l_line RBRACK   
+		)
+		style?
 	;
 
 alt
@@ -131,41 +138,60 @@ alt
 	| LSQUOTE line? RSQUOTE
 	;
 
+url 
+	: URL 
+	| URLTAG 
+	;
+
 // ==== Text ============
 
+// top-level: a line group of multiple lines separated by single new lines
 paragraph
-	: lines
+	: line ( nl line )*
 	;
 
-lines
-	: line (nl line )*
-	;
-
-note
-	: line (nl {twoSpaces()}? line)*
-	;
-
+// internal: single line
 line
-	: ( word | link )+ 
+	: ( link | imgLink | fnLink | word )+
 	;
 
+// internal: general text word including []
 word
-	: attrLeft* 
-	  w=( WORD | ENTITY | UNICODE
-	  	| URL  | URLTAG 
-	  	| SPAN | MATHS 
-	  	| HTML | TEX
+	: attrLeft*
+	  w=( WORD   | ENTITY | UNICODE
+	  	| URL    | URLTAG | HTML 
+	  	| SPAN   | MATHS  | TEX 
+	  	| LPAREN | RPAREN | PIPE
+	  	| LBRACK | RBRACK  
+		)
+	  attrRight*
+	;
+
+// link internal: single line excluding non-link []
+l_line
+	: ( link | imgLink | fnLink | l_word )+
+	;
+
+// link internal: word excluding []
+l_word
+	: attrLeft*
+	  w=( WORD   | ENTITY | UNICODE
+	  	| URL    | URLTAG | HTML 
+	  	| SPAN   | MATHS  | TEX 
+	  	| LPAREN | RPAREN | PIPE
 		)
 	  attrRight*
 	;
 
 nl	: LINE_BREAK | VWS ;
-nl2	: LINE_BREAK | LINE_BREAK | VWS ;
 
 attrLeft  : LBOLD | LITALIC | LSTRIKE | LDQUOTE | LSQUOTE ;
 attrRight : RBOLD | RITALIC | RSTRIKE | RDQUOTE | RSQUOTE ;
 
 comment : COMMENT ;
 
-lnBlank : LINE_BLANK ;
-lnBreak : LINE_BREAK ;
+lineBlank  : LINE_BLANK ;
+codeBlank  : CODE_BLANK ;
+quoteBlank : QUOTE_BLANK ;
+
+lineBreak : LINE_BREAK ;

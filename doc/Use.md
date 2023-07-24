@@ -40,8 +40,8 @@ When a Fluentmark editor is active, the Eclipse toolbar is populated with button
 |Ctrl-i          |Toggle _italics_ of selected text                |
 |Ctrl-/          |Toggle Markdown-style commenting of selected text|
 |Ctrl-Shift-/    |Toggle HTML-style commenting of selected text    |
-|Ctrl-Shift-f    |Format - full page or selected text              |
-|Ctrl-Shift-Alt-f|Format - with unwrapped text                     |
+|Ctrl-Shift-F    |Format - full page or selected text              |
+|Alt-Shift-Y     |Toggle soft line wrap                            |
 
 
 ## Table Editor
@@ -55,8 +55,7 @@ To open the table editor pop-up, `double-click` an existing markdown table.
 	<figcaption>Table Editor</figcaption> 
 </figure>
 
-Within the editor, `double-click` a table cell to edit text. `Tab` and arrow keys 
-will navigate between cells. Press `Enter` to end cell editing.
+Within the editor, `double-click` a table cell to edit text. `Tab` and arrow keys will navigate between cells. Press `Enter` to end cell editing.
 
 
 ## HTML Spans and Blocks
@@ -65,8 +64,7 @@ Raw HTML can be used both <strong>in-line spans</strong> and blocks.
 
 Inline can appear anywhere in a line and span multiple lines. 
 
-The first and last lines of a HTML block _must_ be left-margin aligned and delimited 
-by `blank` lines.
+The first and last lines of a HTML block _must_ be left-margin aligned and delimited by `blank` lines.
 
 ```
 An <b>inline span</b> and a left-aligned block: 
@@ -82,14 +80,11 @@ An <b>inline span</b> and a left-aligned block:
 
 ## Graphs
 
-Fluentmark can recognize Graphviz Dot and PlantUml graph descriptions either natively 
-or within delimited code blocks with appropriate language names 
+Fluentmark can recognize Graphviz Dot and PlantUml graph descriptions either natively or within delimited code blocks with appropriate language names 
 
 ### Native
 
-A native Graphviz Dot Block is recognized by the _`digraph`_ keyword and continues to the end of the 
-balanced `{` ... `}` body.  The first and last lines _must_ be left-margin aligned and 
-further delimited by `blank` lines.
+A native Graphviz Dot Block is recognized by the _`digraph`_ keyword and continues to the end of the balanced `{` ... `}` body.  The first and last lines _must_ be left-margin aligned and further delimited by `blank` lines.
 
 ```
 <<blank line>>
@@ -100,9 +95,7 @@ digraph X1 {
 
 ```
 
-A native PlantUML Block is recognized by the _`@startXXX`_ and _`@endXXX`_ keywords (where 
-`XXX` is typically `uml`). These keyword lines _must_ be left-margin aligned and 
-further delimited by `blank` lines.
+A native PlantUML Block is recognized by the _`@startXXX`_ and _`@endXXX`_ keywords (where `XXX` is typically `uml`). These keyword lines _must_ be left-margin aligned and further delimited by `blank` lines.
 
 ```  
 <<blank line>>
@@ -119,8 +112,7 @@ further delimited by `blank` lines.
 
 ### Code block delimited
 
-Place the graph description -- same as above, though without the blank line restriction 
--- within standard code block delimiters.
+Place the graph description -- same as above, though without the blank line restriction -- within standard code block delimiters.
 
 ```
 \``` dot
@@ -146,12 +138,9 @@ digraph X1 {
 
 ## In-line Math 
 
-In-line Math uses single `$` open/close delimiters. Can be embedded in other markdown 
-features.
+In-line Math uses single `$` open/close delimiters. Can be embedded in other markdown features.
 
-The opening `$` _must_ have a non-space character immediately right.  The closing 
-`$` _must_ have a non-whitespace character immediately left and _must_ be followed 
-immediately by a non-digit or whitespace. 
+The opening `$` _must_ have a non-space character immediately right.  The closing `$` _must_ have a non-whitespace character immediately left and _must_ be followed immediately by a non-digit or whitespace. 
 
 ```
 An inline math $1+2\neq3$! example.
@@ -159,8 +148,7 @@ An inline math $1+2\neq3$! example.
  
 ## Math Blocks
 
-Math blocks are delimited using `$$` marks at the left margin. The starting delimiter _must_
-follow a blank line and the ending delimiter _must_ lead a blank line.
+Math blocks are delimited using `$$` marks at the left margin. The starting delimiter _must_ follow a blank line and the ending delimiter _must_ lead a blank line.
 
 ~~~ latex
 <<blank line>>
@@ -176,8 +164,7 @@ $$
 
 ## LaTex Blocks
 
-LaTex Block are delimited by the standard _`\begin{...}`_ and _`\end{...}`_ statements. Both statements _must_ 
-be left-margin aligned  and further delimited by leading and trailing blank lines.
+LaTex Block are delimited by the standard _`\begin{...}`_ and _`\end{...}`_ statements. Both statements _must_ be left-margin aligned  and further delimited by leading and trailing blank lines.
 
 ~~~ latex
 <<blank line>>
