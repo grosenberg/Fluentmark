@@ -64,9 +64,14 @@ public abstract class LexerNlp extends Lexer {
 	// flags & data for 'parameterized more' mode
 	protected boolean _pmore;		// parameterized more mode flag
 	protected int _ptype;			// parameterized more token type
-	protected int _pStartCharIndex;	// offset after last match
+
+	/** offset at start of current match */
+	protected int _pStartCharIndex;
+	/** offset in line at start of current match */
 	protected int _pStartCharPositionInLine;
+	/** line at start of current match */
 	protected int _pStartLine;
+	/** channel of current match */
 	protected int _pChannel;
 
 	// fields for synthetic BOF/preEOF tokens
@@ -339,7 +344,6 @@ public abstract class LexerNlp extends Lexer {
 	/** Returns the current matched string pending internal emit */
 	protected String currentMatched() {
 		int end = getCharIndex() - 1;
-		// if (_pStartCharIndex == end) return Strings.EMPTY;
 		return _input.getText(Interval.of(_pStartCharIndex, end));
 	}
 
@@ -347,22 +351,27 @@ public abstract class LexerNlp extends Lexer {
 	 * Returns {@code true} if the next character in the input data stream is a space.
 	 */
 	protected boolean laWS() {
-		return Character.isSpaceChar(la(1).charAt(0));
+		String la = la(1);
+		return la.isEmpty() || Character.isSpaceChar(la.charAt(0));
 	}
 
 	/**
 	 * Returns {@code true} if the prior character in the input data stream is a space.
 	 */
 	protected boolean lbWS() {
-		return Character.isSpaceChar(la(-1).charAt(0));
+		String la = la(-1);
+		return la.isEmpty() || Character.isSpaceChar(la.charAt(0));
 	}
 
 	protected String la(int cnt) {
 		if (cnt < 0) {
-			int beg = Math.min(0, _tokenStartCharIndex + cnt);
+			int beg = Math.max(0, _tokenStartCharIndex + cnt);
+			if (beg == _tokenStartCharIndex) return Strings.EMPTY;
 			return _input.getText(Interval.of(beg, _tokenStartCharIndex));
 		}
+
 		int end = Math.min(_tokenStartCharIndex + cnt, _input.size() - 1);
+		if (end == _tokenStartCharIndex) return Strings.EMPTY;
 		return _input.getText(Interval.of(_tokenStartCharIndex, end));
 	}
 

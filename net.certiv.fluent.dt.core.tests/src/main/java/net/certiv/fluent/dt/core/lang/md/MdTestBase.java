@@ -100,11 +100,12 @@ public class MdTestBase {
 	private Sheet buildSheet(String name, CommonTokenStream ts, boolean hidden) {
 		Sheet s = Sheet.of(name).width(80);
 		Sheet.Builder builder = s.builder();
-		builder.col().right().name("Num").fixed().width(4);
-		builder.col().name("Token").fixed().width(18);
+		builder.col().name("Num").right().fixed().width(4);
+		builder.col().name("Token").fixed().width(14);
+		builder.col().name("Type").right().fixed().width(5);
 		builder.col().name("Text");
-		builder.col().right().name("Line").fixed().width(5);
-		builder.col().right().name("Pos").fixed().width(4);
+		builder.col().name("Line").right().fixed().width(5);
+		builder.col().name("Pos").right().fixed().width(4);
 		builder.col().name("Channel").fixed().width(8);
 
 		for (Token t : ts.getTokens()) {
@@ -112,26 +113,26 @@ public class MdTestBase {
 			if (!hidden && token.isHidden()) continue;
 
 			String num = String.valueOf(token.getTokenIndex());
-			String tok = typeName(token.getType());
+			String tok = tokenName(token.getType());
+			String type = String.valueOf(token.getType());
 			String txt = Strings.encode(token.getText());
 
 			String line = String.valueOf(token.lastLine());
 			String pos = String.valueOf(token.getCharPositionInLine());
 			String chan = chanName(token.getChannel());
 
-			s.addRow(num, tok, txt, line, pos, chan);
+			s.addRow(num, tok, type, txt, line, pos, chan);
 		}
 
 		s.build();
 		return s;
 	}
 
-	public String typeName(int type) {
-		return String.format("%s (%s)", lexer.getVocabulary().getDisplayName(type), type);
+	public String tokenName(int type) {
+		return lexer.getVocabulary().getDisplayName(type);
 	}
 
 	public String chanName(int channel) {
 		return channel != 0 ? MdLexer.channelNames[channel] : Strings.EMPTY;
 	}
-
 }

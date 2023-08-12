@@ -28,17 +28,15 @@ A full-featured Markdown editing environment for Eclipse.
 
 Main toolbar
 
-<img src="./doc/Toolbar1.png" alt="screen shot" width=150>
+<img src="./doc/Toolbar.png" alt="toolbar">
 
-<ol>
-<li>Mark occurrences 
-<li>Live view 
-<li>Export to HTML
-<li>Export to PDF
-<li>Show Whitespace Characters
-<li>Word Wrap (_aka_ Soft Line Wrap)
-</ol>
-
+1. Mark Occurrences
+1. Feature Toolbar
+1. Soft Line Wrap
+1. Show Whitespace Characters
+1. Live View 
+1. Export to HTML
+1. Export to PDF
 
 Details on [how to use](https://github.com/grosenberg/Fluentmark/blob/master/doc/Use.md) Fluentmark. 
 

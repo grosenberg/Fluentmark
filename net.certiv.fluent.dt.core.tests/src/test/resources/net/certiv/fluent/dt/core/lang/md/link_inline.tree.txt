@@ -5,22 +5,17 @@ page
     [LINE_BLANK] 
   paragraph
     line
-      word
-        [WORD] Inline
-      word
-        [WORD] links:
-      word
+      [WORD] Inline
+      [WORD] links:
+      autoLink
         [URL] http://www.example.com
-      word
-        [WORD] and
-      word
+      [WORD] and
+      autoLink
         [URLTAG] <http://www.example.com>
-      word
-        [WORD] and
-      word
+      [WORD] and
+      autoLink
         [URL] example.com
-      word
-        [WORD] .
+      [WORD] .
   [VWS] ␍␊
   lineBlank
     [LINE_BLANK] 

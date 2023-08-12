@@ -38,8 +38,7 @@ public class LinkRule implements IRule {
 			} else if (c != sequence[i]) {
 				// rewind; do not unread the first character.
 				scanner.unread();
-				for (int j = i - 1; j > 0; j--)
-					scanner.unread();
+				for (int j = i - 1; j > 0; j--) scanner.unread();
 				return false;
 			}
 		}
@@ -58,7 +57,8 @@ public class LinkRule implements IRule {
 				return Token.UNDEFINED;
 			}
 
-			// + preventing NPE (Non-standard link should not be below as comment above suggests) by
+			// + preventing NPE (Non-standard link should not be below as comment above
+			// suggests) by
 			// Paul Verest
 			if (fDelimiters == null) {
 				scanner.unread();

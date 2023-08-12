@@ -5,21 +5,17 @@ page
     [LINE_BLANK] 
   paragraph
     line
-      word
-        [WORD] A
+      [WORD] A
       link
         [LBRACK] [
-        l_line
-          l_word
-            [WORD] relative
-          l_word
-            [WORD] reference
+        phrase
+          [WORD] relative
+          [WORD] reference
         [LNK_SEP] ](
         url
           [URL] ../blob/master/LICENSE
         [RPAREN] )
-      word
-        [WORD] link.
+      [WORD] link.
   [VWS] ␍␊
   lineBlank
     [LINE_BLANK] 

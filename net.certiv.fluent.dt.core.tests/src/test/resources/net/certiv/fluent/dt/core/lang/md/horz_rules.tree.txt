@@ -5,10 +5,8 @@ page
     [LINE_BLANK] 
   header
     line
-      word
-        [WORD] Horizontal
-      word
-        [WORD] Rules
+      [WORD] Horizontal
+      [WORD] Rules
     nl
       [VWS] ␍␊
     [SETEXT] ----------------
@@ -16,10 +14,8 @@ page
     [LINE_BLANK] ␍␊␍␊
   paragraph
     line
-      word
-        [WORD] Text
-      word
-        [WORD] 1.
+      [WORD] Text
+      [WORD] 1.
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   hrule

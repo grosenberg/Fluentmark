@@ -1,1 +1,1 @@
-Simple [home page](https://www.certiv.net) link. 
+Simple [home page](https://www.certiv.net "") link. 

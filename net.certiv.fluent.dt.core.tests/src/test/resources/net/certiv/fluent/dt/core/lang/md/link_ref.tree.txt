@@ -5,134 +5,97 @@ page
     [LINE_BLANK] 
   paragraph
     line
-      link
+      linkRef
         [LBRACK] [
-        l_line
-          l_word
-            [WORD] subject
+        phrase
+          [WORD] subject
         [LNK_REF] ][
-        l_line
-          l_word
-            [WORD] reference
-          l_word
-            [WORD] text
+        phrase
+          [WORD] reference
+          [WORD] text
         [RBRACK] ]
     nl
       [VWS] ␍␊
     line
-      word
-        [WORD] Number
-      link
+      [WORD] Number
+      linkRef
         [LBRACK] [
-        l_line
-          l_word
-            [WORD] subject
-          l_word
-            [WORD] numbers
+        phrase
+          [WORD] subject
+          [WORD] numbers
         [LNK_REF] ][
-        l_line
-          l_word
-            [WORD] 1
+        phrase
+          [WORD] 1
         [RBRACK] ]
     nl
       [VWS] ␍␊
     line
-      word
-        [WORD] Check
-      link
+      [WORD] Check
+      linkRef
         [LBRACK] [
-        l_line
-          l_word
-            [WORD] see
-          l_word
-            [WORD] the
-          l_word
-            [WORD] source
-          l_word
-            [WORD] for
-          l_word
-            [WORD] it
-          l_word
-            [WORD] by
-          l_word
-            [WORD] adding
-          l_word
-            [WORD] '
-          l_word
+        phrase
+          [WORD] see
+          [WORD] the
+          [WORD] source
+          [WORD] for
+          [WORD] it
+          [WORD] by
+          [WORD] adding
+          quote
+            [LSQUOTE] '
             [WORD] .text
-            attrRight
-              [RSQUOTE] '
-          l_word
-            [WORD] to
-          l_word
-            [WORD] the
-          l_word
-            [WORD] URL
+            [RSQUOTE] '
+          [WORD] to
+          [WORD] the
+          [WORD] URL
         [LNK_REF] ][
-        l_line
-          l_word
-            [WORD] src
+        phrase
+          [WORD] src
         [RBRACK] ]
-      word
-        [WORD] .
+      [WORD] .
     nl
       [VWS] ␍␊
     line
-      word
-        [WORD] Reference
-      word
-        [WORD] links
-      word
-        [WORD] follow
-      word
-        [WORD] later.
+      [WORD] Reference
+      [WORD] links
+      [WORD] follow
+      [WORD] later.
   lineBlank
     [LINE_BLANK] ␍␊␍␊
-  paragraph
-    line
-      link
-        [LBRACK] [
-        l_word
-          [WORD] reference
-        l_word
-          [WORD] text
-        [LNK_DEF] ]:
-        url
-          [URL] https://www.mozilla.org
-    nl
-      [VWS] ␍␊
-    line
-      link
-        [LBRACK] [
-        l_word
-          [WORD] 1
-        [LNK_DEF] ]:
-        url
-          [URL] http://slashdot.org
-    nl
-      [VWS] ␍␊
-    line
-      link
-        [LBRACK] [
-        l_word
-          [WORD] link
-        l_word
-          [WORD] text
-        l_word
-          [WORD] itself
-        [LNK_DEF] ]:
-        url
-          [URL] http://www.reddit.com
-    nl
-      [VWS] ␍␊
-    line
-      link
-        [LBRACK] [
-        l_word
-          [WORD] src
-        [LNK_DEF] ]:
-        url
-          [URL] /projects/markdown/syntax.text
+  refLinkDef
+    [LBRACK] [
+    phrase
+      [WORD] reference
+      [WORD] text
+    [LNK_DEF] ]:
+    url
+      [URL] https://www.mozilla.org
+  [VWS] ␍␊
+  refLinkDef
+    [LBRACK] [
+    phrase
+      [WORD] 1
+    [LNK_DEF] ]:
+    url
+      [URL] http://slashdot.org
+  [VWS] ␍␊
+  refLinkDef
+    [LBRACK] [
+    phrase
+      [WORD] link
+      [WORD] text
+      [WORD] itself
+    [LNK_DEF] ]:
+    url
+      [URL] http://www.reddit.com
+  [VWS] ␍␊
+  refLinkDef
+    [LBRACK] [
+    phrase
+      [WORD] src
+    [LNK_DEF] ]:
+    url
+      [URL] /projects/markdown/syntax.text
   [VWS] ␍␊
   lineBlank
     [LINE_BLANK] 

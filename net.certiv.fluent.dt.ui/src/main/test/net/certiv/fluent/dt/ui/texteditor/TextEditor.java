@@ -166,8 +166,7 @@ public class TextEditor {
 	}
 
 	/*
-	 * Default constructor is needed so that example launcher can create an
-	 * instance.
+	 * Default constructor is needed so that example launcher can create an instance.
 	 */
 	public TextEditor() {}
 
@@ -509,6 +508,7 @@ public class TextEditor {
 	void createToolBar() {
 		coolBar = new CoolBar(shell, SWT.FLAT);
 		ToolBar styleToolBar = new ToolBar(coolBar, SWT.FLAT);
+
 		boldControl = new ToolItem(styleToolBar, SWT.CHECK);
 		boldControl.setImage(iBold);
 		boldControl.setToolTipText(getResourceString("Bold")); //$NON-NLS-1$
@@ -565,12 +565,9 @@ public class TextEditor {
 					disposeResource(underlineColor);
 					underlineColor = new Color(display, newRgb);
 				}
-				if (underlineSingleItem.getSelection())
-					setStyle(UNDERLINE_SINGLE);
-				else if (underlineDoubleItem.getSelection())
-					setStyle(UNDERLINE_DOUBLE);
-				else if (underlineErrorItem.getSelection())
-					setStyle(UNDERLINE_ERROR);
+				if (underlineSingleItem.getSelection()) setStyle(UNDERLINE_SINGLE);
+				else if (underlineDoubleItem.getSelection()) setStyle(UNDERLINE_DOUBLE);
+				else if (underlineErrorItem.getSelection()) setStyle(UNDERLINE_ERROR);
 				else if (underlineSquiggleItem.getSelection()) setStyle(UNDERLINE_SQUIGGLE);
 			}
 		}));
@@ -585,12 +582,9 @@ public class TextEditor {
 				underlineMenu.setLocation(display.map(underlineControl.getParent(), null, pt));
 				underlineMenu.setVisible(true);
 			} else {
-				if (underlineSingleItem.getSelection())
-					setStyle(UNDERLINE_SINGLE);
-				else if (underlineDoubleItem.getSelection())
-					setStyle(UNDERLINE_DOUBLE);
-				else if (underlineErrorItem.getSelection())
-					setStyle(UNDERLINE_ERROR);
+				if (underlineSingleItem.getSelection()) setStyle(UNDERLINE_SINGLE);
+				else if (underlineDoubleItem.getSelection()) setStyle(UNDERLINE_DOUBLE);
+				else if (underlineErrorItem.getSelection()) setStyle(UNDERLINE_ERROR);
 				else if (underlineSquiggleItem.getSelection()) setStyle(UNDERLINE_SQUIGGLE);
 			}
 		}));
@@ -651,10 +645,8 @@ public class TextEditor {
 					disposeResource(borderColor);
 					borderColor = new Color(display, newRgb);
 				}
-				if (borderDashItem.getSelection())
-					setStyle(BORDER_DASH);
-				else if (borderDotItem.getSelection())
-					setStyle(BORDER_DOT);
+				if (borderDashItem.getSelection()) setStyle(BORDER_DASH);
+				else if (borderDotItem.getSelection()) setStyle(BORDER_DOT);
 				else if (borderSolidItem.getSelection()) setStyle(BORDER_SOLID);
 			}
 		}));
@@ -669,10 +661,8 @@ public class TextEditor {
 				borderMenu.setLocation(display.map(borderControl.getParent(), null, pt));
 				borderMenu.setVisible(true);
 			} else {
-				if (borderDashItem.getSelection())
-					setStyle(BORDER_DASH);
-				else if (borderDotItem.getSelection())
-					setStyle(BORDER_DOT);
+				if (borderDashItem.getSelection()) setStyle(BORDER_DASH);
+				else if (borderDotItem.getSelection()) setStyle(BORDER_DOT);
 				else if (borderSolidItem.getSelection()) setStyle(BORDER_SOLID);
 			}
 		}));
@@ -939,7 +929,8 @@ public class TextEditor {
 		FontData[] fontNames = display.getFontList(null, true);
 		String[] names = new String[fontNames.length];
 		int count = 0;
-		mainfor: for (FontData fontData : fontNames) {
+		mainfor:
+		for (FontData fontData : fontNames) {
 			String fontName = fontData.getName();
 			if (fontName.startsWith("@")) //$NON-NLS-1$
 				continue;

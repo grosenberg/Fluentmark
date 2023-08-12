@@ -6,8 +6,7 @@ page
   header
     [HASHES] ##
     line
-      word
-        [WORD] List
+      [WORD] List
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   list
@@ -15,48 +14,35 @@ page
       [BULLET_MARK] -
       paragraph
         line
-          word
-            [WORD] basic
-          word
-            [WORD] item.
+          [WORD] basic
+          [WORD] item.
     nl
       [VWS] ␍␊
     listItem
       [BULLET_MARK] -
       paragraph
         line
-          word
-            [WORD] second
-          word
-            [WORD] line.
-          word
-            [WORD] Multiple
-          word
-            [WORD] sentences.
+          [WORD] second
+          [WORD] line.
+          [WORD] Multiple
+          [WORD] sentences.
     nl
       [VWS] ␍␊
     listItem
       [BULLET_MARK] -
       paragraph
         line
-          word
-            [WORD] with
-          word
-            [LPAREN] (
-          word
-            [WORD] parenthetical
-          word
-            [RPAREN] )
-          word
-            [WORD] item.
+          [WORD] with
+          [LPAREN] (
+          [WORD] parenthetical
+          [RPAREN] )
+          [WORD] item.
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   paragraph
     line
-      word
-        [WORD] Intro
-      word
-        [WORD] text:
+      [WORD] Intro
+      [WORD] text:
   [VWS] ␍␊
   list
     listItem
@@ -64,10 +50,8 @@ page
       [TASK_MARK] [X]
       paragraph
         line
-          word
-            [WORD] indented
-          word
-            [WORD] text
+          [WORD] indented
+          [WORD] text
     nl
       [VWS] ␍␊
     listItem
@@ -75,10 +59,8 @@ page
       [TASK_MARK] [␣]
       paragraph
         line
-          word
-            [WORD] next
-          word
-            [WORD] entry
+          [WORD] next
+          [WORD] entry
   [VWS] ␍␊
   lineBlank
     [LINE_BLANK] 

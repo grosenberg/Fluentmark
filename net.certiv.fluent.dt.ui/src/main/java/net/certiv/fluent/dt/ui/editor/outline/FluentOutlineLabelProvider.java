@@ -1,5 +1,6 @@
 package net.certiv.fluent.dt.ui.editor.outline;
 
+import org.antlr.v4.runtime.misc.Interval;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.swt.graphics.Image;
@@ -8,8 +9,12 @@ import net.certiv.common.log.Log;
 import net.certiv.common.util.Chars;
 import net.certiv.common.util.Strings;
 import net.certiv.dsl.ui.editor.outline.OutlineLabelProvider;
+import net.certiv.fluent.dt.core.lang.md.gen.MdParser.FnLinkContext;
+import net.certiv.fluent.dt.core.lang.md.gen.MdParser.ImgLinkContext;
+import net.certiv.fluent.dt.core.lang.md.gen.MdParser.LinkContext;
+import net.certiv.fluent.dt.core.lang.md.gen.MdParser.PhraseContext;
 import net.certiv.fluent.dt.core.lang.md.model.Specialization;
-import net.certiv.fluent.dt.core.lang.md.model.SpecializationType;
+import net.certiv.fluent.dt.core.lang.md.model.SpecializedType;
 import net.certiv.fluent.dt.core.model.SpecUtil;
 import net.certiv.fluent.dt.ui.FluentUI;
 import net.certiv.fluent.dt.ui.ImageManager;
@@ -40,8 +45,9 @@ public class FluentOutlineLabelProvider extends OutlineLabelProvider {
 
 				Specialization data = (Specialization) getData();
 				String msg = Strings.EMPTY;
-				switch (data.specializationType) {
+				switch ((SpecializedType) data.getSpecializedType()) {
 					case Paragraph:
+					case Phrase:
 					case Setext:
 						return summary(text);
 
@@ -54,15 +60,24 @@ public class FluentOutlineLabelProvider extends OutlineLabelProvider {
 						return data.ruleName;
 
 					case ListOrdered:
+						return "Ordered List";
 					case ListUnordered:
-						return "List";
+						return "Unordered List";
 
 					case ListItem:
-						text = summary(text);
-						if (data.listType == SpecializationType.ListUnordered) {
-							text = text.replaceFirst("^[ +*-]*", Strings.EMPTY);
-						}
-						return text;
+						return summary(text);
+
+					case Link:
+						LinkContext lc = (LinkContext) data.stmtNode;
+						return textOf(lc.txt);
+
+					case Image:
+						ImgLinkContext ilc = (ImgLinkContext) data.stmtNode;
+						return textOf(ilc.txt);
+
+					case Footnote:
+						FnLinkContext flc = (FnLinkContext) data.stmtNode;
+						return textOf(flc.ref);
 
 					case CodeBlock:
 					case CodeBlockIndented:
@@ -74,8 +89,9 @@ public class FluentOutlineLabelProvider extends OutlineLabelProvider {
 								msg = msg.substring(0, dot).trim();
 							}
 						}
-						if (msg.isEmpty()) return data.specializationType.name;
-						return String.format("%s %s", Strings.titleCase(msg.trim()), data.specializationType.name);
+						if (msg.isEmpty()) return data.getSpecializedType().toString();
+						return String.format("%s %s", Strings.titleCase(msg.trim()),
+								data.getSpecializedType());
 
 					case Comment:
 					case HRule:
@@ -85,7 +101,7 @@ public class FluentOutlineLabelProvider extends OutlineLabelProvider {
 					case HtmlBlock:
 					case TexBlock:
 					case MathBlock:
-						return data.specializationType.name;
+						return data.getSpecializedType().toString();
 
 					default:
 						return data.name;
@@ -111,9 +127,18 @@ public class FluentOutlineLabelProvider extends OutlineLabelProvider {
 				src = src.substring(0, dot);
 			}
 		} catch (BadLocationException e) {
-			Log.error( e.getMessage(), e);
+			Log.error(e.getMessage(), e);
 		}
 		return Strings.ellipsize(src, 32);
+	}
+
+	private String textOf(PhraseContext phrase) {
+		if (phrase == null) return Strings.EMPTY;
+
+		int beg = phrase.start.getStartIndex();
+		int end = phrase.stop.getStopIndex();
+		String txt = phrase.start.getInputStream().getText(Interval.of(beg, end));
+		return Strings.ellipsize(txt, 32);
 	}
 
 	@Override
@@ -137,11 +162,16 @@ public class FluentOutlineLabelProvider extends OutlineLabelProvider {
 					case Header:
 						desc = mgr.getDescriptor(mgr.IMG_OBJ_HEADER);
 						break;
+					case HRule:
+						desc = mgr.getDescriptor(mgr.IMG_OBJ_HRULE);
+						break;
+
 					case Paragraph:
 						desc = mgr.getDescriptor(mgr.IMG_OBJ_TEXT);
 						break;
-					case HRule:
-						desc = mgr.getDescriptor(mgr.IMG_OBJ_HRULE);
+
+					case Phrase:
+						desc = mgr.getDescriptor(mgr.IMG_OBJ_TEXT);
 						break;
 
 					case ListOrdered:
@@ -154,7 +184,7 @@ public class FluentOutlineLabelProvider extends OutlineLabelProvider {
 					case ListItem:
 						if (stmt.hasData()) {
 							Specialization data = (Specialization) stmt.getData();
-							if (data.listType == SpecializationType.ListUnordered) {
+							if (data.getSpecializedType() == SpecializedType.ListUnordered) {
 								desc = mgr.getDescriptor(mgr.IMG_OBJ_UNORDERED_ITEM);
 							} else {
 								desc = mgr.getDescriptor(mgr.IMG_OBJ_ORDERED_ITEM);
@@ -164,12 +194,19 @@ public class FluentOutlineLabelProvider extends OutlineLabelProvider {
 						}
 						break;
 
+					case Link:
+					case Image:
+					case Footnote:
+						desc = mgr.getDescriptor(mgr.IMG_OBJ_LINK);
+						break;
+
 					case Table:
 						desc = mgr.getDescriptor(mgr.IMG_OBJ_TABLE);
 						break;
 					case TableRow:
 						desc = mgr.getDescriptor(mgr.IMG_OBJ_TABLE);
 						break;
+
 					case Quote:
 						desc = mgr.getDescriptor(mgr.IMG_OBJ_QUOTE);
 						break;
@@ -178,10 +215,10 @@ public class FluentOutlineLabelProvider extends OutlineLabelProvider {
 						break;
 
 					case CodeBlock:
-						desc = mgr.getDescriptor(mgr.IMG_OBJ_CODEBLOCK);
+						desc = mgr.getDescriptor(mgr.IMG_OBJ_CODE);
 						break;
 					case CodeBlockIndented:
-						desc = mgr.getDescriptor(mgr.IMG_OBJ_CODEBLOCK_INDENTED);
+						desc = mgr.getDescriptor(mgr.IMG_OBJ_CODE_INDENTED);
 						break;
 
 					case HtmlBlock:

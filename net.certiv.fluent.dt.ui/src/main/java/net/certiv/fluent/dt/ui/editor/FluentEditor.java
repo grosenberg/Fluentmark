@@ -27,11 +27,12 @@ import net.certiv.fluent.dt.core.preferences.Prefs;
 import net.certiv.fluent.dt.ui.FluentUI;
 import net.certiv.fluent.dt.ui.editor.folding.FmFoldingStructureProvider;
 import net.certiv.fluent.dt.ui.editor.outline.FluentOutlinePage;
-import net.certiv.fluent.dt.ui.editor.toolbar.EditorToolbar;
+import net.certiv.fluent.dt.ui.editor.toolbar.EditorFeaturebar;
 import net.certiv.fluent.dt.ui.editor.toolbar.FluentEditorToolbar;
 
 public class FluentEditor extends DslEditor {
 
+	private static final String ERR_DISPOSED = ". Editor not properly disposed.";
 	public static final String EDITOR_ID = "net.certiv.fluent.dt.ui.editor.FluentEditor";
 	public static final String EDITOR_CONTEXT = "#FluentEditorContext";
 	public static final String RULER_CONTEXT = "#FluentRulerContext";
@@ -44,7 +45,8 @@ public class FluentEditor extends DslEditor {
 			Partitions.PARTITIONING);
 
 	private IFoldingStructureProvider foldingProvider;
-	private EditorToolbar toolbar;
+
+	private FluentEditorToolbar toolbar;
 
 	public FluentEditor() {
 		super();
@@ -145,29 +147,10 @@ public class FluentEditor extends DslEditor {
 		return this;
 	}
 
-	// --------------------------------
-
-	@Override
-	public void createPartControl(Composite parent) {
-		super.createPartControl(parent);
-		toolbar = createEditorToolbar();
-
-	}
-
 	/**
-	 * Creates the toolbar to be used by this editor. Returns {@code null} if this editor
-	 * can not show a toolbar.
-	 *
-	 * @return the toolbar or {@code null}
+	 * @return the feature toolbar
 	 */
-	protected EditorToolbar createEditorToolbar() {
-		return new FluentEditorToolbar(this);
-	}
-
-	/**
-	 * @return the toolbar used by this viewer if any.
-	 */
-	public EditorToolbar getEditorToolbar() {
+	public EditorFeaturebar getEditorToolbar() {
 		return toolbar;
 	}
 
@@ -201,48 +184,38 @@ public class FluentEditor extends DslEditor {
 	}
 
 	/**
-	 * Makes the toolbar visible. Creates its content if this is the first time it is made
+	 * Makes the toolbar visible by making the interposer a visible layout participant and
+	 * forcing a layout update. Creates the toolbar content if first time being made
 	 * visible.
 	 */
 	private void showEditorToolbar() {
-		if (toolbar == null) return;
+		Composite comp = getInterposerComposite();
+		if (comp.isDisposed()) SWT.error(SWT.ERROR_WIDGET_DISPOSED, null, ERR_DISPOSED);
 
-		Composite tbComp = getInterposerComposite();
-		if (tbComp.isDisposed()) {
-			SWT.error(SWT.ERROR_WIDGET_DISPOSED, null, ". Editor not properly disposed.");
+		if (toolbar == null) {
+			toolbar = new FluentEditorToolbar(this);
+			toolbar.createFeaturebar(comp);
 		}
-		if (tbComp.getChildren().length == 0) {
-			toolbar.createContent(tbComp);
-		}
+		toolbar.update();
 
-		((GridData) tbComp.getLayoutData()).exclude = false;
-		tbComp.setVisible(true);
+		((GridData) comp.getLayoutData()).exclude = false;
+		comp.setVisible(true);
+		comp.getParent().layout(true, true);
 
-		DslSelection selection = (DslSelection) getSelectionProvider().getSelection();
-		if (selection == null) {
-			selection = new DslSelection(getDocument(), 0, 0);
-		}
-		setToolbarInput(selection);
-		tbComp.getParent().layout(true, true);
+		// DslSelection sel = (DslSelection) getSelectionProvider().getSelection();
+		// if (sel == null) {
+		// sel = new DslSelection(getDocument(), 0, 0);
+		// }
+		// setToolbarInput(sel);
 	}
 
 	/** Hides the toolbar. */
 	private void hideEditorToolbar() {
 		if (toolbar == null) return;
 
-		Composite tbComp = getInterposerComposite();
-		((GridData) tbComp.getLayoutData()).exclude = true;
-		tbComp.setVisible(false);
-		tbComp.getParent().layout(true, true);
-	}
-
-	/**
-	 * Sets the toolbar input.
-	 *
-	 * @param selection the toolbar input
-	 */
-	private void setToolbarInput(DslSelection selection) {
-		if (toolbar == null) return;
-		toolbar.setInput(selection);
+		Composite comp = getInterposerComposite();
+		((GridData) comp.getLayoutData()).exclude = true;
+		comp.setVisible(false);
+		comp.getParent().layout(true, true);
 	}
 }

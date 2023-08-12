@@ -5,21 +5,17 @@ page
     [LINE_BLANK] 
   paragraph
     line
-      word
-        [WORD] An
+      [WORD] An
       link
         [LBRACK] [
-        l_line
-          l_word
-            [WORD] auto-link
+        phrase
+          [WORD] auto-link
         [LNK_SEP] ](
         url
           [URL] #auto
         [RPAREN] )
-      word
-        [WORD] style
-      word
-        [WORD] link.
+      [WORD] style
+      [WORD] link.
   [VWS] ␍␊
   lineBlank
     [LINE_BLANK] 

@@ -5,10 +5,8 @@ page
     [LINE_BLANK] 
   paragraph
     line
-      word
-        [WORD] Code
-      word
-        [WORD] blocks.
+      [WORD] Code
+      [WORD] blocks.
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   codeBlock
@@ -65,8 +63,7 @@ page
     [LINE_BLANK] ␍␊␍␊
   paragraph
     line
-      word
-        [WORD] Done.
+      [WORD] Done.
   [VWS] ␍␊
   lineBlank
     [LINE_BLANK] 

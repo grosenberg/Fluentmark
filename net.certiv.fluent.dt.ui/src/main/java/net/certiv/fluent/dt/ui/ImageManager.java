@@ -25,17 +25,24 @@ public class ImageManager extends DslImageManager {
 	public final String IMG_OBJ_COMMENT = create(locBundle, OBJ, locPrefix + "comment.png"); //$NON-NLS-1$
 	public final String IMG_OBJ_DEFINITION = create(locBundle, OBJ, locPrefix + "definition.png"); //$NON-NLS-1$
 	public final String IMG_OBJ_YAMLBLOCK = create(locBundle, OBJ, locPrefix + "codeblock.png"); //$NON-NLS-1$
+
 	public final String IMG_OBJ_HEADER = create(locBundle, OBJ, locPrefix + "header.png"); //$NON-NLS-1$
 	public final String IMG_OBJ_HRULE = create(locBundle, OBJ, locPrefix + "hrule.png"); //$NON-NLS-1$
 	public final String IMG_OBJ_HTML = create(locBundle, OBJ, locPrefix + "html.png"); //$NON-NLS-1$
 
-	public final String IMG_OBJ_CODEBLOCK = create(locBundle, OBJ, locPrefix + "code.png"); //$NON-NLS-1$
-	public final String IMG_OBJ_CODEBLOCK_INDENTED = create(locBundle, OBJ, locPrefix + "code.png"); //$NON-NLS-1$
+	public final String IMG_OBJ_CODE = create(locBundle, OBJ, locPrefix + "code.png"); //$NON-NLS-1$
+	public final String IMG_OBJ_CODE_INDENTED = create(locBundle, OBJ, locPrefix + "code.png"); //$NON-NLS-1$
 
 	public final String IMG_OBJ_DOTBLOCK = create(locBundle, OBJ, locPrefix + "graph.png"); //$NON-NLS-1$
 	public final String IMG_OBJ_UMLBLOCK = create(locBundle, OBJ, locPrefix + "uml.png"); //$NON-NLS-1$
 	public final String IMG_OBJ_MATHBLOCK = create(locBundle, OBJ, locPrefix + "function.png"); //$NON-NLS-1$
 	public final String IMG_OBJ_TEXBLOCK = create(locBundle, OBJ, locPrefix + "tex.png"); //$NON-NLS-1$
+
+	public final String IMG_OBJ_BOLD = create(locBundle, OBJ, locPrefix + "bold.png"); //$NON-NLS-1$
+	public final String IMG_OBJ_ITALIC = create(locBundle, OBJ, locPrefix + "italic.png"); //$NON-NLS-1$
+	public final String IMG_OBJ_STRIKE = create(locBundle, OBJ, locPrefix + "strike.png"); //$NON-NLS-1$
+	public final String IMG_OBJ_UNDERLINE = create(locBundle, OBJ, locPrefix + "underline.png"); //$NON-NLS-1$
+	public final String IMG_OBJ_LINK = create(locBundle, OBJ, locPrefix + "link_obj.png"); //$NON-NLS-1$
 
 	public final String IMG_OBJ_LIST = create(locBundle, OBJ, locPrefix + "list.png"); //$NON-NLS-1$
 	public final String IMG_OBJ_LIST_ITEM = create(locBundle, OBJ, locPrefix + "listItem.png"); //$NON-NLS-1$
@@ -44,6 +51,7 @@ public class ImageManager extends DslImageManager {
 	public final String IMG_OBJ_ORDERED_LIST = create(locBundle, OBJ, locPrefix + "orderList.png"); //$NON-NLS-1$
 	public final String IMG_OBJ_ORDERED_ITEM = create(locBundle, OBJ, locPrefix + "orderItem.png"); //$NON-NLS-1$
 
+	public final String IMG_OBJ_CODE_BLOCK = create(locBundle, OBJ, locPrefix + "codeblock.png"); //$NON-NLS-1$
 	public final String IMG_OBJ_QUOTE = create(locBundle, OBJ, locPrefix + "quote.png"); //$NON-NLS-1$
 	public final String IMG_OBJ_REFERENCE = create(locBundle, OBJ, locPrefix + "url_link.png"); //$NON-NLS-1$
 	public final String IMG_OBJ_SUM = create(locBundle, OBJ, locPrefix + "sum.png"); //$NON-NLS-1$
@@ -60,7 +68,8 @@ public class ImageManager extends DslImageManager {
 	public final String IMG_OBJ_ROW_INS_ABV = create(locBundle, OBJ, locPrefix + "row_insert_above.png"); //$NON-NLS-1$
 	public final String IMG_OBJ_ROW_INS_BLW = create(locBundle, OBJ, locPrefix + "row_insert_below.png"); //$NON-NLS-1$
 
-	public final String IMG_OBJS_FIXABLE_PROBLEM = create(locBundle, OBJ, locPrefix + "quickfix_warning_obj.png"); //$NON-NLS-1$
+	public final String IMG_OBJS_FIXABLE_PROBLEM = create(locBundle, OBJ,
+			locPrefix + "quickfix_warning_obj.png"); //$NON-NLS-1$
 	public final String IMG_OBJS_FIXABLE_ERROR = create(locBundle, OBJ, locPrefix + "quickfix_error_obj.png"); //$NON-NLS-1$
 
 	protected ImageManager() {

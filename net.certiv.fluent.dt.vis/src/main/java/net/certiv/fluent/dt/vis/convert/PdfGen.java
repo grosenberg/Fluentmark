@@ -45,7 +45,7 @@ import net.certiv.dsl.core.preferences.PrefsManager;
 import net.certiv.dsl.core.util.TextUtil;
 import net.certiv.dsl.ui.DslUI;
 import net.certiv.fluent.dt.core.FluentCore;
-import net.certiv.fluent.dt.core.lang.md.model.SpecializationType;
+import net.certiv.fluent.dt.core.lang.md.model.SpecializedType;
 import net.certiv.fluent.dt.core.model.SpecUtil;
 import net.certiv.fluent.dt.core.preferences.Prefs;
 import net.certiv.fluent.dt.vis.FluentVis;
@@ -143,7 +143,7 @@ public class PdfGen {
 					if (element.getModelType() == ModelType.STATEMENT) {
 						Statement stmt = (Statement) element;
 						SourceRange range = stmt.getRange();
-						SpecializationType type = SpecUtil.getSpecializedType(stmt);
+						SpecializedType type = SpecUtil.getSpecializedType(stmt);
 
 						switch (type) {
 							case DotBlock:

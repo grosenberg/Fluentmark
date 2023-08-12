@@ -5,114 +5,75 @@ page
     [LINE_BLANK] 
   paragraph
     line
-      word
-        [WORD] Here
-      word
-        [WORD] '
-      word
-        [WORD] s
-      word
-        [WORD] a
-      word
-        [WORD] footnote
-      fnLink
+      [WORD] Here
+      [SQUOTE] '
+      [WORD] s
+      [WORD] a
+      [WORD] footnote
+      fnLinkRef
         [LNK_FN] [^
-        l_line
-          l_word
-            [WORD] 1
-        [RBRACK] ]
-      word
-        [WORD] .
-      word
-        [WORD] Long
-      word
-        [WORD] footnote
-      fnLink
-        [LNK_FN] [^
-        l_line
-          l_word
-            [WORD] 2
-        [RBRACK] ]
-      word
-        [WORD] .
-  lineBlank
-    [LINE_BLANK] ␍␊␍␊
-  paragraph
-    line
-      fnLink
-        [LNK_FN] [^
-        l_word
+        phrase
           [WORD] 1
-        [LNK_DEF] ]:
-        l_line
-          l_word
-            [WORD] Simple
-          l_word
-            [WORD] footnote
-          l_word
-            [WORD] text.
+        [RBRACK] ]
+      [WORD] .
+      [WORD] Long
+      [WORD] footnote
+      fnLinkRef
+        [LNK_FN] [^
+        phrase
+          [WORD] 2
+        [RBRACK] ]
+      [WORD] .
   lineBlank
     [LINE_BLANK] ␍␊␍␊
-  paragraph
+  fnLinkDef
+    [LNK_FN] [^
+    phrase
+      [WORD] 1
+    [LNK_DEF] ]:
     line
-      fnLink
-        [LNK_FN] [^
-        l_word
-          [WORD] 2
-        [LNK_DEF] ]:
-        l_line
-          l_word
-            [WORD] Multiple
-          l_word
-            [WORD] lines
-          l_word
-            [WORD] of
-          l_word
-            [WORD] text
-          l_word
-            [WORD] in
-          l_word
-            [WORD] the
-          l_word
-            [WORD] footnote.
-        nl
-          [VWS] ␍␊
-        l_line
-          l_word
-            [WORD] Each
-          l_word
-            [WORD] line
-          l_word
-            [WORD] is
-          l_word
-            [WORD] joined
-          l_word
-            [WORD] by
-          l_word
-            [WORD] two
-          l_word
-            [WORD] spaces.
-        nl
-          [VWS] ␍␊
-        l_line
-          l_word
-            [WORD] Third
-          l_word
-            [WORD] line
-          l_word
-            [WORD] in
-          l_word
-            [WORD] the
-          l_word
-            [WORD] note.
+      [WORD] Simple
+      [WORD] footnote
+      [WORD] text.
+  lineBlank
+    [LINE_BLANK] ␍␊␍␊
+  fnLinkDef
+    [LNK_FN] [^
+    phrase
+      [WORD] 2
+    [LNK_DEF] ]:
+    line
+      [WORD] Multiple
+      [WORD] lines
+      [WORD] of
+      [WORD] text
+      [WORD] in
+      [WORD] the
+      [WORD] footnote.
+    nl
+      [VWS] ␍␊
+    line
+      [WORD] Each
+      [WORD] line
+      [WORD] is
+      [WORD] joined
+      [WORD] by
+      [WORD] two
+      [WORD] spaces.
+    nl
+      [VWS] ␍␊
+    line
+      [WORD] Third
+      [WORD] line
+      [WORD] in
+      [WORD] the
+      [WORD] note.
   lineBlank
     [LINE_BLANK] ␍␊␣␣␍␊
   paragraph
     line
-      word
-        [WORD] Next
-      word
-        [WORD] paragraph.
+      [WORD] Next
+      [WORD] paragraph.
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   lineBlank

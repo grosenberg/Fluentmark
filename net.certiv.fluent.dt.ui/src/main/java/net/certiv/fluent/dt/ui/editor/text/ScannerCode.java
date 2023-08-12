@@ -47,7 +47,6 @@ public class ScannerCode extends DslRuleBasedScanner implements IScannerExt {
 		List<IRule> rules = new ArrayList<>();
 		rules.add(new MultiLineRule("```", "```", block, '\\', true));
 		rules.add(new MultiLineRule("~~~", "~~~", block, '\\', true));
-		// rules.add(new SingleLineRule("`", "`", code, '\\', true));
 		rules.add(new WhitespaceRule(new WhitespaceDetector()));
 		return rules;
 	}

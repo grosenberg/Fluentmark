@@ -7,7 +7,7 @@ import net.certiv.dsl.ui.css.dom.Selector;
 import net.certiv.dsl.ui.editor.semantic.SemanticAnalyzer;
 import net.certiv.fluent.dt.core.lang.FluentLangManager;
 import net.certiv.fluent.dt.core.lang.md.model.Specialization;
-import net.certiv.fluent.dt.core.lang.md.model.SpecializationType;
+import net.certiv.fluent.dt.core.lang.md.model.SpecializedType;
 
 public class MdSematicAnalyzer extends SemanticAnalyzer {
 
@@ -17,7 +17,7 @@ public class MdSematicAnalyzer extends SemanticAnalyzer {
 
 	@Override
 	protected boolean qualified(IStatement stmt) {
-		switch ((SpecializationType) stmt.getSpecializedType()) {
+		switch ((SpecializedType) stmt.getSpecializedType()) {
 			case Page:
 
 			case Paragraph:
@@ -65,7 +65,7 @@ public class MdSematicAnalyzer extends SemanticAnalyzer {
 			Segment seg = context.get(idx);
 			if (seg.hasData()) {
 				Specialization data = (Specialization) seg.getData();
-				SpecializationType type = (SpecializationType) data.getSpecializedType();
+				SpecializedType type = (SpecializedType) data.getSpecializedType();
 
 				switch (type) {
 					case Header:

@@ -2,6 +2,7 @@ package net.certiv.fluent.dt.core.lang.md.model;
 
 import org.antlr.v4.runtime.tree.ParseTree;
 
+import net.certiv.dsl.core.model.builder.ISpecSubType;
 import net.certiv.dsl.core.model.builder.ISpecializedType;
 import net.certiv.dsl.core.model.builder.ModelSpecialization;
 
@@ -11,45 +12,50 @@ public class Specialization extends ModelSpecialization {
 	public static final int GRAPH = 1 << 0;
 	public static final int DIGRAPH = 1 << 1;
 
-	public SpecializationType specializationType;
+	private SpecializedType type;	// item type
+	private SpecSubType subtype;		// sub type
 
 	public int hdrLevel;			// header level
 	public int dents;				// statement leading indents
 	public boolean begList;			// list item begins new (sub) list
 	public boolean endList;			// list item resumes last (sub) list
-	public SpecializationType listType;		// list item type
 
 	/** Represents a simple statement; name contains the display text. */
-	public Specialization(SpecializationType specializationType, String ruleName, ParseTree stmtNode, String name) {
-		this(specializationType, ruleName, stmtNode, name, null);
+	public Specialization(SpecializedType type, String ruleName, ParseTree stmtNode, String name) {
+		this(type, ruleName, stmtNode, name, null);
 	}
 
 	/** Represents some key/value pair-like statement. */
-	public Specialization(SpecializationType specializationType, String ruleName, ParseTree stmtNode, String name,
+	public Specialization(SpecializedType type, String ruleName, ParseTree stmtNode, String name,
 			ParseTree value) {
 
 		super(ruleName, stmtNode, name, value);
-		this.specializationType = specializationType;
+		this.type = type;
 	}
 
 	@Override
-	public ISpecializedType getSpecializedType() {
-		return specializationType;
+	public SpecializedType getSpecializedType() {
+		return type;
 	}
 
 	@Override
-	public void setSpecializedType(ISpecializedType specializedType) {
-		this.specializationType = (SpecializationType) specializedType;
+	public void setSpecializedType(ISpecializedType type) {
+		this.type = (SpecializedType) type;
+	}
+
+	@Override
+	public SpecSubType getSpecSubType() {
+		return subtype;
+	}
+
+	@Override
+	public void setSpecSubType(ISpecSubType subtype) {
+		this.subtype = (SpecSubType) subtype;
 	}
 
 	/** Header level. */
 	public void setHeaderLevel(int level) {
 		hdrLevel = level;
-	}
-
-	/** List type containing this list item. */
-	public void setListType(SpecializationType type) {
-		listType = type;
 	}
 
 	/** Indent level. */

@@ -8,40 +8,32 @@ page
       [BULLET_MARK] -
       paragraph
         line
-          word
-            [WORD] first
-          word
-            [WORD] level
+          [WORD] first
+          [WORD] level
     nl
       [VWS] ␍␊
     listItem
       [BULLET_MARK] +
       paragraph
         line
-          word
-            [WORD] second
-          word
-            [WORD] level
+          [WORD] second
+          [WORD] level
     nl
       [VWS] ␍␊
     listItem
       [BULLET_MARK] *
       paragraph
         line
-          word
-            [WORD] third
-          word
-            [WORD] level
+          [WORD] third
+          [WORD] level
     nl
       [VWS] ␍␊
     listItem
       [BULLET_MARK] -
       paragraph
         line
-          word
-            [WORD] fourth
-          word
-            [WORD] level
+          [WORD] fourth
+          [WORD] level
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   list
@@ -49,27 +41,21 @@ page
       [NUMBER_MARK] 1.
       paragraph
         line
-          word
-            [WORD] first
-          word
-            [WORD] level
+          [WORD] first
+          [WORD] level
     nl
       [VWS] ␍␊
     listItem
       [NUMBER_MARK] 2.
       paragraph
         line
-          word
-            [WORD] nested
-          word
-            [WORD] multiline
+          [WORD] nested
+          [WORD] multiline
         nl
           [LINE_BREAK] ␣␣␍␊
         line
-          word
-            [WORD] paragraph
-          word
-            [WORD] element
+          [WORD] paragraph
+          [WORD] element
   lineBlank
     [LINE_BLANK] ␍␊␉␍␊
   list
@@ -77,10 +63,8 @@ page
       [NUMBER_MARK] 3)
       paragraph
         line
-          word
-            [WORD] next
-          word
-            [WORD] entry
+          [WORD] next
+          [WORD] entry
   [VWS] ␍␊
   lineBlank
     [LINE_BLANK] 

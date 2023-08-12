@@ -368,7 +368,7 @@
   </extension>
    
   <extension
-         point="org.eclipse.ui.commands">
+        point="org.eclipse.ui.commands">
       <category
             name="Fluentmark"
             description="Fluentmark"
@@ -376,10 +376,20 @@
       </category>
 
       <command
-            name="Format text"
-            description="Format text"
+            name="Format"
+            description="Format"
             categoryId="net.certiv.fluent.dt.ui.commands"
             id="net.certiv.fluent.dt.ui.edit.text.format">
+      </command>
+      <command
+            categoryId="net.certiv.fluent.dt.ui.commands"
+            description="Toggle editor toolbar"
+            id="net.certiv.fluent.dt.ui.edit.toolbar"
+            name="Editor Toolbar">
+         <state
+               class="org.eclipse.ui.handlers.RegistryToggleState:false"
+               id="org.eclipse.ui.commands.toggleState">
+         </state>
       </command>
       <command
             categoryId="net.certiv.fluent.dt.ui.commands"
@@ -431,22 +441,45 @@
       </command>
       <command
             categoryId="net.certiv.fluent.dt.ui.commands"
-            defaultHandler="net.certiv.fluent.dt.ui.handlers.ItalicHandler"
             description="Italic"
             id="net.certiv.fluent.dt.italic"
             name="Italic">
       </command>
       <command
             categoryId="net.certiv.fluent.dt.ui.commands"
-            description="Clean document problem markers"
-            id="net.certiv.fluent.dt.ui.removeMarkersCommand"
-            name="Clean Problems">
+            description="Strike"
+            id="net.certiv.fluent.dt.strike"
+            name="Strike">
       </command>
       <command
             categoryId="net.certiv.fluent.dt.ui.commands"
-            description="Unwrap text"
-            id="net.certiv.fluent.dt.ui.edit.text.unwrap"
-            name="Unwrap">
+            description="Underline"
+            id="net.certiv.fluent.dt.underline"
+            name="Underline">
+      </command>
+      <command
+            categoryId="net.certiv.fluent.dt.ui.commands"
+            description="Links"
+            id="net.certiv.fluent.dt.links"
+            name="Links">
+      </command>
+      <command
+            categoryId="net.certiv.fluent.dt.ui.commands"
+            description="Code"
+            id="net.certiv.fluent.dt.code"
+            name="Code">
+      </command>
+      <command
+            categoryId="net.certiv.fluent.dt.ui.commands"
+            description="Table"
+            id="net.certiv.fluent.dt.table"
+            name="Table">
+      </command>
+      <command
+            categoryId="net.certiv.fluent.dt.ui.commands"
+            description="Remove Problem Markers"
+            id="net.certiv.fluent.dt.ui.removeMarkers"
+            name="Remove Problem Markers">
       </command>
     </extension>
 
@@ -485,6 +518,18 @@
             </reference>
          </enabledWhen>
       </handler>
+
+      <handler
+            class="net.certiv.fluent.dt.ui.handlers.ToggleEditorFeaturebarHandler"
+            commandId="net.certiv.fluent.dt.ui.edit.toolbar">
+      	<activeWhen>
+        	<reference definitionId="net.certiv.fluent.dt.ui.context.definition" />
+      	</activeWhen>
+      	<enabledWhen>
+        	<reference definitionId="net.certiv.fluent.dt.ui.context.definition" />
+      	</enabledWhen>
+      </handler>
+
       <handler
             class="net.certiv.fluent.dt.ui.handlers.ToggleMarkingHandler"
             commandId="net.certiv.fluent.dt.ui.edit.text.toggleMarkOccurrences">
@@ -566,7 +611,6 @@
             </reference>
          </enabledWhen>
       </handler>
-      
       <handler
             class="net.certiv.fluent.dt.ui.handlers.ItalicHandler"
             commandId="net.certiv.fluent.dt.italic">
@@ -582,8 +626,81 @@
          </enabledWhen>
       </handler>
       <handler
+            class="net.certiv.fluent.dt.ui.handlers.StrikeHandler"
+            commandId="net.certiv.fluent.dt.strike">
+         <activeWhen>
+            <reference
+                  definitionId="net.certiv.fluent.dt.ui.context.definition">
+            </reference>
+         </activeWhen>
+         <enabledWhen>
+            <reference
+                  definitionId="net.certiv.fluent.dt.ui.context.definition">
+            </reference>
+         </enabledWhen>
+      </handler>
+      <handler
+            class="net.certiv.fluent.dt.ui.handlers.UnderlineHandler"
+            commandId="net.certiv.fluent.dt.underline">
+         <activeWhen>
+            <reference
+                  definitionId="net.certiv.fluent.dt.ui.context.definition">
+            </reference>
+         </activeWhen>
+         <enabledWhen>
+            <reference
+                  definitionId="net.certiv.fluent.dt.ui.context.definition">
+            </reference>
+         </enabledWhen>
+      </handler>
+      <handler
+            class="net.certiv.fluent.dt.ui.handlers.LinksHandler"
+            commandId="net.certiv.fluent.dt.links">
+         <activeWhen>
+            <reference
+                  definitionId="net.certiv.fluent.dt.ui.context.definition">
+            </reference>
+         </activeWhen>
+         <enabledWhen>
+            <reference
+                  definitionId="net.certiv.fluent.dt.ui.context.definition">
+            </reference>
+         </enabledWhen>
+      </handler>
+      <handler
+            class="net.certiv.fluent.dt.ui.handlers.CodeHandler"
+            commandId="net.certiv.fluent.dt.code">
+         <activeWhen>
+            <reference
+                  definitionId="net.certiv.fluent.dt.ui.context.definition">
+            </reference>
+         </activeWhen>
+         <enabledWhen>
+            <reference
+                  definitionId="net.certiv.fluent.dt.ui.context.definition">
+            </reference>
+         </enabledWhen>
+      </handler>
+
+
+      <handler
+            class="net.certiv.fluent.dt.ui.handlers.TableHandler"
+            commandId="net.certiv.fluent.dt.table">
+         <activeWhen>
+            <reference
+                  definitionId="net.certiv.fluent.dt.ui.context.definition">
+            </reference>
+         </activeWhen>
+         <enabledWhen>
+            <reference
+                  definitionId="net.certiv.fluent.dt.ui.context.definition">
+            </reference>
+         </enabledWhen>
+      </handler>
+
+      <handler
             class="net.certiv.dsl.ui.handlers.CleanGrammarHandler"
-            commandId="net.certiv.fluent.dt.ui.removeMarkersCommand">
+            commandId="net.certiv.fluent.dt.ui.removeMarkers">
          <activeWhen>
             <reference
                   definitionId="net.certiv.fluent.dt.ui.context.definition">
@@ -609,6 +726,18 @@
                   icon="icons/etool16/mark_occurrences.png"
                   style="toggle"
                   tooltip="Toggle Mark Occcurrences">
+              <visibleWhen
+                    checkEnabled="false">
+                 <reference
+                       definitionId="net.certiv.fluent.dt.ui.context.definition">
+                 </reference>
+              </visibleWhen>
+            </command>
+            <command
+                  commandId="net.certiv.fluent.dt.ui.edit.toolbar"
+                  icon="icons/etool16/toolbar.png"
+                  style="toggle"
+                  tooltip="Toggle Editor Toolbar">
               <visibleWhen
                     checkEnabled="false">
                  <reference
@@ -647,10 +776,9 @@
   <extension point="org.eclipse.ui.menus">
     <menuContribution locationURI="popup:org.eclipse.ui.popup.any?after=additions">
       <command
-            commandId="net.certiv.fluent.dt.ui.removeMarkersCommand"
-            id="net.certiv.fluent.dt.ui.removeMarkersCommand"
-            style="push"
-            tooltip="Clean document problem markers">
+            commandId="net.certiv.fluent.dt.ui.removeMarkers"
+            id="net.certiv.fluent.dt.ui.removeMarkers"
+            tooltip="Remove Problem Markers">
         <visibleWhen>
           <or>
             <reference definitionId="net.certiv.fluent.dt.ui.context.definition" />

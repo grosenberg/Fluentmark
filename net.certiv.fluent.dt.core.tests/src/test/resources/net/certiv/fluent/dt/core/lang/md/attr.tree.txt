@@ -6,48 +6,54 @@ page
   header
     [HASHES] #
     line
-      word
-        [WORD] FluentMark
+      [WORD] FluentMark
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   paragraph
     line
-      word
-        attrLeft
-          [LBOLD] **
-        [WORD] Here
-      word
-        [WORD] '
-      word
-        [WORD] s
-      word
-        [WORD] bold
-        attrRight
-          [RBOLD] **
-      word
-        [WORD] and
-      word
-        [WORD] then
-      word
-        attrLeft
-          [LITALIC] *
-        [WORD] italic
-        attrRight
-          [RITALIC] *
-      word
-        [WORD] .
+      attrLeft
+        [LBOLD] **
+      [WORD] Here
+      [SQUOTE] '
+      [WORD] s
+      [WORD] bold
+      attrRight
+        [RBOLD] **
+      [WORD] and
+      [WORD] then
+      attrLeft
+        [LITALIC] *
+      [WORD] italic
+      attrRight
+        [RITALIC] *
+      [WORD] .
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   paragraph
     line
-      word
-        [WORD] This
-      word
-        [WORD] is
-      word
-        [SPAN] `inline␣code`
-      word
-        [WORD] .
-      word
-        [WORD] Done.
+      [WORD] Every
+      quote
+        [LDQUOTE] "
+        [WORD] good
+        attrLeft
+          [LITALIC] _
+        [WORD] boi
+        attrRight
+          [RITALIC] _
+        [WORD] deserves
+        [WORD] a
+        [LSQUOTE] '
+        [WORD] bone
+        [RSQUOTE] '
+        [RDQUOTE] "
+      [WORD] .
+  lineBlank
+    [LINE_BLANK] ␍␊␍␊
+  paragraph
+    line
+      [WORD] This
+      [WORD] is
+      [SPAN] `inline␣code`
+      [WORD] .
+      [WORD] Done.
   [EOF] <EOF>

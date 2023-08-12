@@ -25,7 +25,7 @@ import net.certiv.dsl.core.preferences.consts.Editor;
 import net.certiv.dsl.core.util.CoreUtil;
 import net.certiv.dsl.core.util.Indent;
 import net.certiv.fluent.dt.core.FluentCore;
-import net.certiv.fluent.dt.core.lang.md.model.SpecializationType;
+import net.certiv.fluent.dt.core.lang.md.model.SpecializedType;
 import net.certiv.fluent.dt.core.model.SpecUtil;
 import net.certiv.fluent.dt.ui.editor.FluentEditor;
 import net.certiv.fluent.dt.ui.editor.strategies.tables.TableModel;
@@ -139,7 +139,7 @@ public class MdFormatter extends BaseCodeFormatter {
 
 	private void formatPara(Statement stmt, TextEdit edit, String delim) {
 		if (stmt.getParent() != null) {
-			if (stmt.getParent().getSpecializedType() == SpecializationType.ListItem) {
+			if (stmt.getParent().getSpecializedType() == SpecializedType.ListItem) {
 				return; // skip paragraph statements in lists
 			}
 		}
@@ -160,7 +160,7 @@ public class MdFormatter extends BaseCodeFormatter {
 	}
 
 	private void formatList(Statement stmt, TextEdit edit, String delim, int tabWidth) {
-		for (IStatement item : SpecUtil.getChildren(stmt, SpecializationType.ListItem)) {
+		for (IStatement item : SpecUtil.getChildren(stmt, SpecializedType.ListItem)) {
 
 			SourceRange range = item.getRange();
 			int offset = range.getOffset();

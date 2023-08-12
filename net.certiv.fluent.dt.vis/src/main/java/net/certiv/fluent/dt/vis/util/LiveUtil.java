@@ -239,7 +239,7 @@ public class LiveUtil {
 			Runtime runtime = Runtime.getRuntime();
 			if (SystemUtils.IS_OS_WINDOWS) {
 				try {
-					runtime.exec(new String[] { "rundll32", "url.dll,FileProtocolHandler", url.toString() });
+					runtime.exec(new String[] { "rundll32", "uri.dll,FileProtocolHandler", url.toString() });
 				} catch (IOException e) {
 					return new BrowserException("Windows browser open failed.", e);
 				}

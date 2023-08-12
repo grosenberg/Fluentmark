@@ -5,35 +5,25 @@ page
     [LINE_BLANK] 
   paragraph
     line
-      word
-        [WORD] A
+      [WORD] A
       link
         [LBRACK] [
-        l_line
-          l_word
-            [WORD] inline-style
-          l_word
-            [WORD] with
-          l_word
-            [WORD] title
+        phrase
+          [WORD] inline-style
+          [WORD] with
+          [WORD] title
         [LNK_SEP] ](
         url
           [URL] https://www.google.com
-        alt
+        quote
           [LDQUOTE] "
-          line
-            word
-              [WORD] Google
-            word
-              [WORD] '
-            word
-              [WORD] s
-            word
-              [WORD] Homepage
+          [WORD] Google
+          [SQUOTE] '
+          [WORD] s
+          [WORD] Homepage
           [RDQUOTE] "
         [RPAREN] )
-      word
-        [WORD] link.
+      [WORD] link.
   [VWS] ␍␊
   lineBlank
     [LINE_BLANK] 

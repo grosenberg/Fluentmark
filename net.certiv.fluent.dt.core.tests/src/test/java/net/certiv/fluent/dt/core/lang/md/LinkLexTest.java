@@ -10,7 +10,7 @@ import net.certiv.common.util.FsUtil;
 
 class LinkLexTest extends MdTestBase {
 
-	static final boolean UPDATE = true;
+	static final boolean UPDATE = false;
 
 	@Test
 	void linkSimpleTest() {
@@ -47,6 +47,22 @@ class LinkLexTest extends MdTestBase {
 	@Test
 	void linkDefTest() {
 		String name = "link_def";
+		String src = name + ".md";
+		String tgt = name + ".tokens.txt";
+
+		CommonTokenStream ts = createMdTokenStream(src, true);
+		String tokens = render(name, ts);
+		if (required(tgt, UPDATE)) FsUtil.writeResource(getClass(), tgt, tokens);
+
+		String txt = FsUtil.loadResource(getClass(), tgt).value;
+		Differ.diff(name, txt, tokens).sdiff(true, 200).out();
+
+		assertEquals(txt, tokens);
+	}
+
+	@Test
+	void linkParaTest() {
+		String name = "link_para";
 		String src = name + ".md";
 		String tgt = name + ".tokens.txt";
 

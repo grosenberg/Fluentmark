@@ -6,96 +6,66 @@ page
   header
     [HASHES] #
     line
-      word
-        [WORD] h1
-      word
-        [WORD] Heading
-      word
-        [WORD] 8-
-      word
-        [RPAREN] )
+      [WORD] h1
+      [WORD] Heading
+      [WORD] 8-
+      [RPAREN] )
   [VWS] ␍␊
   paragraph
     line
-      word
-        [WORD] ##
-      word
-        [WORD] h2
-      word
-        [WORD] Heading
+      [WORD] ##
+      [WORD] h2
+      [WORD] Heading
     nl
       [VWS] ␍␊
     line
-      word
-        [WORD] ###
-      word
-        [WORD] h3
-      word
-        [WORD] Heading
+      [WORD] ###
+      [WORD] h3
+      [WORD] Heading
     nl
       [VWS] ␍␊
     line
-      word
-        [WORD] ####
-      word
-        [WORD] h4
-      word
-        [WORD] Heading
+      [WORD] ####
+      [WORD] h4
+      [WORD] Heading
     nl
       [VWS] ␍␊
     line
-      word
-        [WORD] #####
-      word
-        [WORD] h5
-      word
-        [WORD] Heading
+      [WORD] #####
+      [WORD] h5
+      [WORD] Heading
     nl
       [VWS] ␍␊
     line
-      word
-        [WORD] ######
-      word
-        [WORD] h6
-      word
-        [WORD] Heading
+      [WORD] ######
+      [WORD] h6
+      [WORD] Heading
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   paragraph
     line
-      word
-        [WORD] Alternatively,
-      word
-        [WORD] for
-      word
-        [WORD] H1
-      word
-        [WORD] and
-      word
-        [WORD] H2,
-      word
-        [WORD] an
-      word
-        [WORD] underline-ish
-      word
-        [WORD] style:
+      [WORD] Alternatively,
+      [WORD] for
+      [WORD] H1
+      [WORD] and
+      [WORD] H2,
+      [WORD] an
+      [WORD] underline-ish
+      [WORD] style:
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   paragraph
     line
-      word
-        [WORD] Alt-H1
+      [WORD] Alt-H1
     nl
       [VWS] ␍␊
     line
-      word
-        [WORD] ======
+      [WORD] ======
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   paragraph
     line
-      word
-        [WORD] Alt-H2
+      [WORD] Alt-H2
   [VWS] ␍␊
   hrule
     [HRULE] ------
@@ -108,186 +78,138 @@ page
   header
     [HASHES] #
     line
-      word
-        [WORD] Emphasis
+      [WORD] Emphasis
   lineBlank
     [LINE_BLANK] ␍␊␍␊␍␊
   paragraph
     line
-      word
-        [WORD] Emphasis,
-      word
-        [WORD] aka
-      word
-        [WORD] italics,
-      word
-        [WORD] with
-      word
-        attrLeft
-          [LITALIC] *
-        [WORD] asterisks
-        attrRight
-          [RITALIC] *
-      word
-        [WORD] or
-      word
-        attrLeft
-          [LITALIC] _
-        [WORD] underscores
-        attrRight
-          [RITALIC] _
-      word
-        [WORD] .
+      [WORD] Emphasis,
+      [WORD] aka
+      [WORD] italics,
+      [WORD] with
+      attrLeft
+        [LITALIC] *
+      [WORD] asterisks
+      attrRight
+        [RITALIC] *
+      [WORD] or
+      attrLeft
+        [LITALIC] _
+      [WORD] underscores
+      attrRight
+        [RITALIC] _
+      [WORD] .
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   paragraph
     line
-      word
-        [WORD] Strong
-      word
-        [WORD] emphasis,
-      word
-        [WORD] aka
-      word
-        [WORD] bold,
-      word
-        [WORD] with
-      word
-        attrLeft
-          [LBOLD] **
-        [WORD] asterisks
-        attrRight
-          [RBOLD] **
-      word
-        [WORD] or
-      word
-        attrLeft
-          [LBOLD] __
-        [WORD] underscores
-        attrRight
-          [RBOLD] __
-      word
-        [WORD] .
+      [WORD] Strong
+      [WORD] emphasis,
+      [WORD] aka
+      [WORD] bold,
+      [WORD] with
+      attrLeft
+        [LBOLD] **
+      [WORD] asterisks
+      attrRight
+        [RBOLD] **
+      [WORD] or
+      attrLeft
+        [LBOLD] __
+      [WORD] underscores
+      attrRight
+        [RBOLD] __
+      [WORD] .
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   paragraph
     line
-      word
-        [WORD] Combined
-      word
-        [WORD] emphasis
-      word
-        [WORD] with
-      word
-        attrLeft
-          [LBOLD] **
-        [WORD] asterisks
-      word
-        [WORD] and
-      word
-        attrLeft
-          [LITALIC] _
-        [WORD] underscores
-        attrRight
-          [RITALIC] _
-        attrRight
-          [RBOLD] **
-      word
-        [WORD] .
+      [WORD] Combined
+      [WORD] emphasis
+      [WORD] with
+      attrLeft
+        [LBOLD] **
+      [WORD] asterisks
+      [WORD] and
+      attrLeft
+        [LITALIC] _
+      [WORD] underscores
+      attrRight
+        [RITALIC] _
+      attrRight
+        [RBOLD] **
+      [WORD] .
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   paragraph
     line
-      word
-        [WORD] Strikethrough
-      word
-        [WORD] uses
-      word
-        [WORD] two
-      word
-        [WORD] tildes.
-      word
-        attrLeft
-          [LSTRIKE] ~~
-        [WORD] Scratch
-      word
-        [WORD] this.
-      word
-        [WORD] ~~
+      [WORD] Strikethrough
+      [WORD] uses
+      [WORD] two
+      [WORD] tildes.
+      attrLeft
+        [LSTRIKE] ~~
+      [WORD] Scratch
+      [WORD] this.
+      attrRight
+        [RSTRIKE] ~~
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   paragraph
     line
-      word
-        attrLeft
-          [LBOLD] **
-        [WORD] This
-      word
-        [WORD] is
-      word
-        [WORD] bold
-      word
-        [WORD] text
-        attrRight
-          [RBOLD] **
+      attrLeft
+        [LBOLD] **
+      [WORD] This
+      [WORD] is
+      [WORD] bold
+      [WORD] text
+      attrRight
+        [RBOLD] **
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   paragraph
     line
-      word
-        attrLeft
-          [LBOLD] __
-        [WORD] This
-      word
-        [WORD] is
-      word
-        [WORD] bold
-      word
-        [WORD] text
-        attrRight
-          [RBOLD] __
+      attrLeft
+        [LBOLD] __
+      [WORD] This
+      [WORD] is
+      [WORD] bold
+      [WORD] text
+      attrRight
+        [RBOLD] __
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   paragraph
     line
-      word
-        attrLeft
-          [LITALIC] *
-        [WORD] This
-      word
-        [WORD] is
-      word
-        [WORD] italic
-      word
-        [WORD] text
-        attrRight
-          [RITALIC] *
+      attrLeft
+        [LITALIC] *
+      [WORD] This
+      [WORD] is
+      [WORD] italic
+      [WORD] text
+      attrRight
+        [RITALIC] *
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   paragraph
     line
-      word
-        attrLeft
-          [LITALIC] _
-        [WORD] This
-      word
-        [WORD] is
-      word
-        [WORD] italic
-      word
-        [WORD] text
-        attrRight
-          [RITALIC] _
+      attrLeft
+        [LITALIC] _
+      [WORD] This
+      [WORD] is
+      [WORD] italic
+      [WORD] text
+      attrRight
+        [RITALIC] _
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   paragraph
     line
-      word
-        attrLeft
-          [LSTRIKE] ~~
-        [WORD] Strikethrough
-        attrRight
-          [RSTRIKE] ~~
+      attrLeft
+        [LSTRIKE] ~~
+      [WORD] Strikethrough
+      attrRight
+        [RSTRIKE] ~~
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   hrule
@@ -297,8 +219,7 @@ page
   header
     [HASHES] #
     line
-      word
-        [WORD] Lists
+      [WORD] Lists
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   list
@@ -306,268 +227,157 @@ page
       [NUMBER_MARK] 1.
       paragraph
         line
-          word
-            [WORD] First
-          word
-            [WORD] ordered
-          word
-            [WORD] list
-          word
-            [WORD] item
+          [WORD] First
+          [WORD] ordered
+          [WORD] list
+          [WORD] item
     nl
       [VWS] ␍␊
     listItem
       [NUMBER_MARK] 2.
       paragraph
         line
-          word
-            [WORD] Another
-          word
-            [WORD] item
+          [WORD] Another
+          [WORD] item
         nl
           [VWS] ␍␊
         line
-          word
-            [WORD] ⋅⋅
-            attrRight
-              [RITALIC] *
-          word
-            [WORD] Unordered
-          word
-            [WORD] sub-list.
+          [WORD] ⋅⋅
+          attrRight
+            [RITALIC] *
+          [WORD] Unordered
+          [WORD] sub-list.
     nl
       [VWS] ␍␊
     listItem
       [NUMBER_MARK] 1.
       paragraph
         line
-          word
-            [WORD] Actual
-          word
-            [WORD] numbers
-          word
-            [WORD] don
-          word
-            [WORD] '
-          word
-            [WORD] t
-          word
-            [WORD] matter,
-          word
-            [WORD] just
-          word
-            [WORD] that
-          word
-            [WORD] it
-          word
-            [WORD] '
-          word
-            [WORD] s
-          word
-            [WORD] a
-          word
-            [WORD] number
+          [WORD] Actual
+          [WORD] numbers
+          [WORD] don
+          [SQUOTE] '
+          [WORD] t
+          [WORD] matter,
+          [WORD] just
+          [WORD] that
+          [WORD] it
+          [SQUOTE] '
+          [WORD] s
+          [WORD] a
+          [WORD] number
         nl
           [VWS] ␍␊
         line
-          word
-            [WORD] ⋅⋅1.
-          word
-            [WORD] Ordered
-          word
-            [WORD] sub-list
+          [WORD] ⋅⋅1.
+          [WORD] Ordered
+          [WORD] sub-list
     nl
       [VWS] ␍␊
     listItem
       [NUMBER_MARK] 4.
       paragraph
         line
-          word
-            [WORD] And
-          word
-            [WORD] another
-          word
-            [WORD] item.
+          [WORD] And
+          [WORD] another
+          [WORD] item.
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   paragraph
     line
-      word
-        [WORD] ⋅⋅⋅You
-      word
-        [WORD] can
-      word
-        [WORD] have
-      word
-        [WORD] properly
-      word
-        [WORD] indented
-      word
-        [WORD] paragraphs
-      word
-        [WORD] within
-      word
-        [WORD] list
-      word
-        [WORD] items.
-      word
-        [WORD] Notice
-      word
-        [WORD] the
-      word
-        [WORD] blank
-      word
-        [WORD] line
-      word
-        [WORD] above,
-      word
-        [WORD] and
-      word
-        [WORD] the
-      word
-        [WORD] leading
-      word
-        [WORD] spaces
-      word
-        [LPAREN] (
-      word
-        [WORD] at
-      word
-        [WORD] least
-      word
-        [WORD] one,
-      word
-        [WORD] but
-      word
-        [WORD] we
-      word
-        [WORD] '
-      word
-        [WORD] ll
-      word
-        [WORD] use
-      word
-        [WORD] three
-      word
-        [WORD] here
-      word
-        [WORD] to
-      word
-        [WORD] also
-      word
-        [WORD] align
-      word
-        [WORD] the
-      word
-        [WORD] raw
-      word
-        [WORD] Markdown
-      word
-        [RPAREN] )
-      word
-        [WORD] .
+      [WORD] ⋅⋅⋅You
+      [WORD] can
+      [WORD] have
+      [WORD] properly
+      [WORD] indented
+      [WORD] paragraphs
+      [WORD] within
+      [WORD] list
+      [WORD] items.
+      [WORD] Notice
+      [WORD] the
+      [WORD] blank
+      [WORD] line
+      [WORD] above,
+      [WORD] and
+      [WORD] the
+      [WORD] leading
+      [WORD] spaces
+      [LPAREN] (
+      [WORD] at
+      [WORD] least
+      [WORD] one,
+      [WORD] but
+      [WORD] we
+      [SQUOTE] '
+      [WORD] ll
+      [WORD] use
+      [WORD] three
+      [WORD] here
+      [WORD] to
+      [WORD] also
+      [WORD] align
+      [WORD] the
+      [WORD] raw
+      [WORD] Markdown
+      [RPAREN] )
+      [WORD] .
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   paragraph
     line
-      word
-        [WORD] ⋅⋅⋅To
-      word
-        [WORD] have
-      word
-        [WORD] a
-      word
-        [WORD] line
-      word
-        [WORD] break
-      word
-        [WORD] without
-      word
-        [WORD] a
-      word
-        [WORD] paragraph,
-      word
-        [WORD] you
-      word
-        [WORD] will
-      word
-        [WORD] need
-      word
-        [WORD] to
-      word
-        [WORD] use
-      word
-        [WORD] two
-      word
-        [WORD] trailing
-      word
-        [WORD] spaces.⋅⋅
+      [WORD] ⋅⋅⋅To
+      [WORD] have
+      [WORD] a
+      [WORD] line
+      [WORD] break
+      [WORD] without
+      [WORD] a
+      [WORD] paragraph,
+      [WORD] you
+      [WORD] will
+      [WORD] need
+      [WORD] to
+      [WORD] use
+      [WORD] two
+      [WORD] trailing
+      [WORD] spaces.⋅⋅
     nl
       [VWS] ␍␊
     line
-      word
-        [WORD] ⋅⋅⋅Note
-      word
-        [WORD] that
-      word
-        [WORD] this
-      word
-        [WORD] line
-      word
-        [WORD] is
-      word
-        [WORD] separate,
-      word
-        [WORD] but
-      word
-        [WORD] within
-      word
-        [WORD] the
-      word
-        [WORD] same
-      word
-        [WORD] paragraph.⋅⋅
+      [WORD] ⋅⋅⋅Note
+      [WORD] that
+      [WORD] this
+      [WORD] line
+      [WORD] is
+      [WORD] separate,
+      [WORD] but
+      [WORD] within
+      [WORD] the
+      [WORD] same
+      [WORD] paragraph.⋅⋅
     nl
       [VWS] ␍␊
     line
-      word
-        [WORD] ⋅⋅⋅
-      word
-        [LPAREN] (
-      word
-        [WORD] This
-      word
-        [WORD] is
-      word
-        [WORD] contrary
-      word
-        [WORD] to
-      word
-        [WORD] the
-      word
-        [WORD] typical
-      word
-        [WORD] GFM
-      word
-        [WORD] line
-      word
-        [WORD] break
-      word
-        [WORD] behaviour,
-      word
-        [WORD] where
-      word
-        [WORD] trailing
-      word
-        [WORD] spaces
-      word
-        [WORD] are
-      word
-        [WORD] not
-      word
-        [WORD] required.
-      word
-        [RPAREN] )
+      [WORD] ⋅⋅⋅
+      [LPAREN] (
+      [WORD] This
+      [WORD] is
+      [WORD] contrary
+      [WORD] to
+      [WORD] the
+      [WORD] typical
+      [WORD] GFM
+      [WORD] line
+      [WORD] break
+      [WORD] behaviour,
+      [WORD] where
+      [WORD] trailing
+      [WORD] spaces
+      [WORD] are
+      [WORD] not
+      [WORD] required.
+      [RPAREN] )
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   list
@@ -575,36 +385,27 @@ page
       [BULLET_MARK] *
       paragraph
         line
-          word
-            [WORD] Unordered
-          word
-            [WORD] list
-          word
-            [WORD] can
-          word
-            [WORD] use
-          word
-            [WORD] asterisks
+          [WORD] Unordered
+          [WORD] list
+          [WORD] can
+          [WORD] use
+          [WORD] asterisks
     nl
       [VWS] ␍␊
     listItem
       [BULLET_MARK] -
       paragraph
         line
-          word
-            [WORD] Or
-          word
-            [WORD] minuses
+          [WORD] Or
+          [WORD] minuses
     nl
       [VWS] ␍␊
     listItem
       [BULLET_MARK] +
       paragraph
         line
-          word
-            [WORD] Or
-          word
-            [WORD] pluses
+          [WORD] Or
+          [WORD] pluses
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   list
@@ -612,120 +413,87 @@ page
       [NUMBER_MARK] 1.
       paragraph
         line
-          word
-            [WORD] Make
-          word
-            [WORD] my
-          word
-            [WORD] changes
+          [WORD] Make
+          [WORD] my
+          [WORD] changes
     nl
       [VWS] ␍␊
     listItem
       [NUMBER_MARK] 1.
       paragraph
         line
-          word
-            [WORD] Fix
-          word
-            [WORD] bug
+          [WORD] Fix
+          [WORD] bug
     nl
       [VWS] ␍␊
     listItem
       [NUMBER_MARK] 2.
       paragraph
         line
-          word
-            [WORD] Improve
-          word
-            [WORD] formatting
+          [WORD] Improve
+          [WORD] formatting
     nl
       [VWS] ␍␊
     listItem
       [BULLET_MARK] -
       paragraph
         line
-          word
-            [WORD] Make
-          word
-            [WORD] the
-          word
-            [WORD] headings
-          word
-            [WORD] bigger
+          [WORD] Make
+          [WORD] the
+          [WORD] headings
+          [WORD] bigger
     nl
       [VWS] ␍␊
     listItem
       [NUMBER_MARK] 2.
       paragraph
         line
-          word
-            [WORD] Push
-          word
-            [WORD] my
-          word
-            [WORD] commits
-          word
-            [WORD] to
-          word
-            [WORD] GitHub
+          [WORD] Push
+          [WORD] my
+          [WORD] commits
+          [WORD] to
+          [WORD] GitHub
     nl
       [VWS] ␍␊
     listItem
       [NUMBER_MARK] 3.
       paragraph
         line
-          word
-            [WORD] Open
-          word
-            [WORD] a
-          word
-            [WORD] pull
-          word
-            [WORD] request
+          [WORD] Open
+          [WORD] a
+          [WORD] pull
+          [WORD] request
     nl
       [VWS] ␍␊
     listItem
       [BULLET_MARK] *
       paragraph
         line
-          word
-            [WORD] Describe
-          word
-            [WORD] my
-          word
-            [WORD] changes
+          [WORD] Describe
+          [WORD] my
+          [WORD] changes
     nl
       [VWS] ␍␊
     listItem
       [BULLET_MARK] *
       paragraph
         line
-          word
-            [WORD] Mention
-          word
-            [WORD] all
-          word
-            [WORD] the
-          word
-            [WORD] members
-          word
-            [WORD] of
-          word
-            [WORD] my
-          word
-            [WORD] team
+          [WORD] Mention
+          [WORD] all
+          [WORD] the
+          [WORD] members
+          [WORD] of
+          [WORD] my
+          [WORD] team
     nl
       [VWS] ␍␊
     listItem
       [BULLET_MARK] *
       paragraph
         line
-          word
-            [WORD] Ask
-          word
-            [WORD] for
-          word
-            [WORD] feedback
+          [WORD] Ask
+          [WORD] for
+          [WORD] feedback
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   list
@@ -733,130 +501,86 @@ page
       [BULLET_MARK] +
       paragraph
         line
-          word
-            [WORD] Create
-          word
-            [WORD] a
-          word
-            [WORD] list
-          word
-            [WORD] by
-          word
-            [WORD] starting
-          word
-            [WORD] a
-          word
-            [WORD] line
-          word
-            [WORD] with
-          word
-            [SPAN] `+`
-          word
-            [WORD] ,
-          word
-            [SPAN] `-`
-          word
-            [WORD] ,
-          word
-            [WORD] or
-          word
-            [SPAN] `*`
+          [WORD] Create
+          [WORD] a
+          [WORD] list
+          [WORD] by
+          [WORD] starting
+          [WORD] a
+          [WORD] line
+          [WORD] with
+          [SPAN] `+`
+          [WORD] ,
+          [SPAN] `-`
+          [WORD] ,
+          [WORD] or
+          [SPAN] `*`
     nl
       [VWS] ␍␊
     listItem
       [BULLET_MARK] +
       paragraph
         line
-          word
-            [WORD] Sub-lists
-          word
-            [WORD] are
-          word
-            [WORD] made
-          word
-            [WORD] by
-          word
-            [WORD] indenting
-          word
-            [WORD] 2
-          word
-            [WORD] spaces:
+          [WORD] Sub-lists
+          [WORD] are
+          [WORD] made
+          [WORD] by
+          [WORD] indenting
+          [WORD] 2
+          [WORD] spaces:
     nl
       [VWS] ␍␊
     listItem
       [BULLET_MARK] -
       paragraph
         line
-          word
-            [WORD] Marker
-          word
-            [WORD] character
-          word
-            [WORD] change
-          word
-            [WORD] forces
-          word
-            [WORD] new
-          word
-            [WORD] list
-          word
-            [WORD] start:
+          [WORD] Marker
+          [WORD] character
+          [WORD] change
+          [WORD] forces
+          [WORD] new
+          [WORD] list
+          [WORD] start:
     nl
       [VWS] ␍␊
     listItem
       [BULLET_MARK] *
       paragraph
         line
-          word
-            [WORD] Ac
-          word
-            [WORD] tristique
-          word
-            [WORD] libero
-          word
-            [WORD] volutpat
-          word
-            [WORD] at
+          [WORD] Ac
+          [WORD] tristique
+          [WORD] libero
+          [WORD] volutpat
+          [WORD] at
     nl
       [VWS] ␍␊
     listItem
       [BULLET_MARK] +
       paragraph
         line
-          word
-            [WORD] Facilisis
-          word
-            [WORD] in
-          word
-            [WORD] pretium
-          word
-            [WORD] nisl
-          word
-            [WORD] aliquet
+          [WORD] Facilisis
+          [WORD] in
+          [WORD] pretium
+          [WORD] nisl
+          [WORD] aliquet
     nl
       [VWS] ␍␊
     listItem
       [BULLET_MARK] -
       paragraph
         line
-          word
-            [WORD] Nulla
-          word
-            [WORD] volutpat
-          word
-            [WORD] aliquam
-          word
-            [WORD] velit
+          [WORD] Nulla
+          [WORD] volutpat
+          [WORD] aliquam
+          [WORD] velit
     nl
       [VWS] ␍␊
     listItem
       [BULLET_MARK] +
       paragraph
         line
-          word
-            [WORD] Very
-          word
-            [WORD] easy!
+          [WORD] Very
+          [WORD] easy!
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   hrule
@@ -866,10 +590,8 @@ page
   header
     [HASHES] #
     line
-      word
-        [WORD] Task
-      word
-        [WORD] lists
+      [WORD] Task
+      [WORD] lists
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   list
@@ -878,12 +600,9 @@ page
       [TASK_MARK] [x]
       paragraph
         line
-          word
-            [WORD] Finish
-          word
-            [WORD] my
-          word
-            [WORD] changes
+          [WORD] Finish
+          [WORD] my
+          [WORD] changes
     nl
       [VWS] ␍␊
     listItem
@@ -891,16 +610,11 @@ page
       [TASK_MARK] [x]
       paragraph
         line
-          word
-            [WORD] Push
-          word
-            [WORD] my
-          word
-            [WORD] commits
-          word
-            [WORD] to
-          word
-            [WORD] GitHub
+          [WORD] Push
+          [WORD] my
+          [WORD] commits
+          [WORD] to
+          [WORD] GitHub
     nl
       [VWS] ␍␊
     listItem
@@ -908,14 +622,10 @@ page
       [TASK_MARK] [x]
       paragraph
         line
-          word
-            [WORD] Open
-          word
-            [WORD] a
-          word
-            [WORD] pull
-          word
-            [WORD] request
+          [WORD] Open
+          [WORD] a
+          [WORD] pull
+          [WORD] request
     nl
       [VWS] ␍␊
     listItem
@@ -923,39 +633,29 @@ page
       [TASK_MARK] [x]
       paragraph
         line
-          word
-            [WORD] @mentions,
-          word
+          [WORD] @mentions,
+          autoLink
             [URL] #refs
-          word
-            [WORD] ,
+          [WORD] ,
           link
             [LBRACK] [
-            l_line
-              l_word
-                [WORD] links
+            phrase
+              [WORD] links
             [LNK_SEP] ](
             [RPAREN] )
-          word
-            [WORD] ,
-          word
-            attrLeft
-              [LBOLD] **
-            [WORD] formatting
-            attrRight
-              [RBOLD] **
-          word
-            [WORD] ,
-          word
-            [WORD] and
-          word
-            [HTML] <del>
-          word
-            [WORD] tags
-          word
+          [WORD] ,
+          attrLeft
+            [LBOLD] **
+          [WORD] formatting
+          attrRight
+            [RBOLD] **
+          [WORD] ,
+          [WORD] and
+          [HTML] <del>
+          [WORD] tags
+          autoLink
             [URLTAG] </del>
-          word
-            [WORD] supported
+          [WORD] supported
     nl
       [VWS] ␍␊
     listItem
@@ -963,28 +663,17 @@ page
       [TASK_MARK] [x]
       paragraph
         line
-          word
-            [WORD] list
-          word
-            [WORD] syntax
-          word
-            [WORD] required
-          word
-            [LPAREN] (
-          word
-            [WORD] any
-          word
-            [WORD] unordered
-          word
-            [WORD] or
-          word
-            [WORD] ordered
-          word
-            [WORD] list
-          word
-            [WORD] supported
-          word
-            [RPAREN] )
+          [WORD] list
+          [WORD] syntax
+          [WORD] required
+          [LPAREN] (
+          [WORD] any
+          [WORD] unordered
+          [WORD] or
+          [WORD] ordered
+          [WORD] list
+          [WORD] supported
+          [RPAREN] )
     nl
       [VWS] ␍␊
     listItem
@@ -992,16 +681,11 @@ page
       [TASK_MARK] [x]
       paragraph
         line
-          word
-            [WORD] this
-          word
-            [WORD] is
-          word
-            [WORD] a
-          word
-            [WORD] complete
-          word
-            [WORD] item
+          [WORD] this
+          [WORD] is
+          [WORD] a
+          [WORD] complete
+          [WORD] item
     nl
       [VWS] ␍␊
     listItem
@@ -1009,16 +693,11 @@ page
       [TASK_MARK] [x]
       paragraph
         line
-          word
-            [WORD] this
-          word
-            [WORD] is
-          word
-            [WORD] an
-          word
-            [WORD] incomplete
-          word
-            [WORD] item
+          [WORD] this
+          [WORD] is
+          [WORD] an
+          [WORD] incomplete
+          [WORD] item
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   hrule
@@ -1028,72 +707,43 @@ page
   header
     [HASHES] #
     line
-      word
-        [WORD] Ignoring
-      word
-        [WORD] Markdown
-      word
-        [WORD] formatting
+      [WORD] Ignoring
+      [WORD] Markdown
+      [WORD] formatting
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   paragraph
     line
-      word
-        [WORD] You
-      word
-        [WORD] can
-      word
-        [WORD] tell
-      word
-        [WORD] GitHub
-      word
-        [WORD] to
-      word
-        [WORD] ignore
-      word
-        [LPAREN] (
-      word
-        [WORD] or
-      word
-        [WORD] escape
-      word
-        [RPAREN] )
-      word
-        [WORD] Markdown
-      word
-        [WORD] formatting
-      word
-        [WORD] by
-      word
-        [WORD] using
-      word
-        [WORD] \
-      word
-        [WORD] before
-      word
-        [WORD] the
-      word
-        [WORD] Markdown
-      word
-        [WORD] character.
+      [WORD] You
+      [WORD] can
+      [WORD] tell
+      [WORD] GitHub
+      [WORD] to
+      [WORD] ignore
+      [LPAREN] (
+      [WORD] or
+      [WORD] escape
+      [RPAREN] )
+      [WORD] Markdown
+      [WORD] formatting
+      [WORD] by
+      [WORD] using
+      [WORD] \
+      [WORD] before
+      [WORD] the
+      [WORD] Markdown
+      [WORD] character.
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   paragraph
     line
-      word
-        [WORD] Let
-      word
-        [WORD] '
-      word
-        [WORD] s
-      word
-        [WORD] rename
-      word
-        [WORD] \*our-new-project\*
-      word
-        [WORD] to
-      word
-        [WORD] \*our-old-project\*.
+      [WORD] Let
+      [SQUOTE] '
+      [WORD] s
+      [WORD] rename
+      [WORD] \*our-new-project\*
+      [WORD] to
+      [WORD] \*our-old-project\*.
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   hrule
@@ -1103,27 +753,20 @@ page
   header
     [HASHES] #
     line
-      word
-        [WORD] Links
+      [WORD] Links
   lineBlank
     [LINE_BLANK] ␍␊␍␊␍␊
   paragraph
     line
       link
         [LBRACK] [
-        l_line
-          l_word
-            [WORD] I
-          l_word
-            [WORD] '
-          l_word
-            [WORD] m
-          l_word
-            [WORD] an
-          l_word
-            [WORD] inline-style
-          l_word
-            [WORD] link
+        phrase
+          [WORD] I
+          [SQUOTE] '
+          [WORD] m
+          [WORD] an
+          [WORD] inline-style
+          [WORD] link
         [LNK_SEP] ](
         url
           [URL] https://www.google.com
@@ -1134,68 +777,45 @@ page
     line
       link
         [LBRACK] [
-        l_line
-          l_word
-            [WORD] I
-          l_word
-            [WORD] '
-          l_word
-            [WORD] m
-          l_word
-            [WORD] an
-          l_word
-            [WORD] inline-style
-          l_word
-            [WORD] link
-          l_word
-            [WORD] with
-          l_word
-            [WORD] title
+        phrase
+          [WORD] I
+          [SQUOTE] '
+          [WORD] m
+          [WORD] an
+          [WORD] inline-style
+          [WORD] link
+          [WORD] with
+          [WORD] title
         [LNK_SEP] ](
         url
           [URL] https://www.google.com
-        alt
+        quote
           [LDQUOTE] "
-          line
-            word
-              [WORD] Google
-            word
-              [WORD] '
-            word
-              [WORD] s
-            word
-              [WORD] Homepage
+          [WORD] Google
+          [SQUOTE] '
+          [WORD] s
+          [WORD] Homepage
           [RDQUOTE] "
         [RPAREN] )
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   paragraph
     line
-      link
+      linkRef
         [LBRACK] [
-        l_line
-          l_word
-            [WORD] I
-          l_word
-            [WORD] '
-          l_word
-            [WORD] m
-          l_word
-            [WORD] a
-          l_word
-            [WORD] reference-style
-          l_word
-            [WORD] link
+        phrase
+          [WORD] I
+          [SQUOTE] '
+          [WORD] m
+          [WORD] a
+          [WORD] reference-style
+          [WORD] link
         [LNK_REF] ][
-        l_line
-          l_word
-            [WORD] Arbitrary
-          l_word
-            [WORD] case-insensitive
-          l_word
-            [WORD] reference
-          l_word
-            [WORD] text
+        phrase
+          [WORD] Arbitrary
+          [WORD] case-insensitive
+          [WORD] reference
+          [WORD] text
         [RBRACK] ]
   lineBlank
     [LINE_BLANK] ␍␊␍␊
@@ -1203,27 +823,17 @@ page
     line
       link
         [LBRACK] [
-        l_line
-          l_word
-            [WORD] I
-          l_word
-            [WORD] '
-          l_word
-            [WORD] m
-          l_word
-            [WORD] a
-          l_word
-            [WORD] relative
-          l_word
-            [WORD] reference
-          l_word
-            [WORD] to
-          l_word
-            [WORD] a
-          l_word
-            [WORD] repository
-          l_word
-            [WORD] file
+        phrase
+          [WORD] I
+          [SQUOTE] '
+          [WORD] m
+          [WORD] a
+          [WORD] relative
+          [WORD] reference
+          [WORD] to
+          [WORD] a
+          [WORD] repository
+          [WORD] file
         [LNK_SEP] ](
         url
           [URL] ../blob/master/LICENSE
@@ -1232,191 +842,125 @@ page
     [LINE_BLANK] ␍␊␍␊
   paragraph
     line
-      link
+      linkRef
         [LBRACK] [
-        l_line
-          l_word
-            [WORD] You
-          l_word
-            [WORD] can
-          l_word
-            [WORD] use
-          l_word
-            [WORD] numbers
-          l_word
-            [WORD] for
-          l_word
-            [WORD] reference-style
-          l_word
-            [WORD] link
-          l_word
-            [WORD] definitions
-        [LNK_REF] ][
-        l_line
-          l_word
-            [WORD] 1
-        [RBRACK] ]
-  lineBlank
-    [LINE_BLANK] ␍␊␍␊
-  paragraph
-    line
-      word
-        [WORD] Or
-      word
-        [WORD] leave
-      word
-        [WORD] it
-      word
-        [WORD] empty
-      word
-        [WORD] and
-      word
-        [WORD] use
-      word
-        [WORD] the
-      link
-        [LBRACK] [
-        l_line
-          l_word
-            [WORD] link
-          l_word
-            [WORD] text
-          l_word
-            [WORD] itself
-        [RBRACK] ]
-      word
-        [WORD] .
-  lineBlank
-    [LINE_BLANK] ␍␊␍␊
-  paragraph
-    line
-      word
-        [WORD] URLs
-      word
-        [WORD] and
-      word
-        [WORD] URLs
-      word
-        [WORD] in
-      word
-        [WORD] angle
-      word
-        [WORD] brackets
-      word
-        [WORD] will
-      word
-        [WORD] automatically
-      word
-        [WORD] get
-      word
-        [WORD] turned
-      word
-        [WORD] into
-      word
-        [WORD] links.
-    nl
-      [VWS] ␍␊
-    line
-      word
-        [URL] http://www.example.com
-      word
-        [WORD] or
-      word
-        [URLTAG] <http://www.example.com>
-      word
-        [WORD] and
-      word
-        [WORD] sometimes
-    nl
-      [VWS] ␍␊
-    line
-      word
-        [URL] example.com
-      word
-        [LPAREN] (
-      word
-        [WORD] but
-      word
-        [WORD] not
-      word
-        [WORD] on
-      word
-        [WORD] Github,
-      word
-        [WORD] for
-      word
-        [WORD] example
-      word
-        [RPAREN] )
-      word
-        [WORD] .
-  lineBlank
-    [LINE_BLANK] ␍␊␍␊
-  paragraph
-    line
-      word
-        [WORD] Some
-      word
-        [WORD] text
-      word
-        [WORD] to
-      word
-        [WORD] show
-      word
-        [WORD] that
-      word
-        [WORD] the
-      word
-        [WORD] reference
-      word
-        [WORD] links
-      word
-        [WORD] can
-      word
-        [WORD] follow
-      word
-        [WORD] later.
-  lineBlank
-    [LINE_BLANK] ␍␊␍␊
-  paragraph
-    line
-      link
-        [LBRACK] [
-        l_word
-          [WORD] arbitrary
-        l_word
-          [WORD] case-insensitive
-        l_word
-          [WORD] reference
-        l_word
-          [WORD] text
-        [LNK_DEF] ]:
-        url
-          [URL] https://www.mozilla.org
-    nl
-      [VWS] ␍␊
-    line
-      link
-        [LBRACK] [
-        l_word
-          [WORD] 1
-        [LNK_DEF] ]:
-        url
-          [URL] http://slashdot.org
-    nl
-      [VWS] ␍␊
-    line
-      link
-        [LBRACK] [
-        l_word
+        phrase
+          [WORD] You
+          [WORD] can
+          [WORD] use
+          [WORD] numbers
+          [WORD] for
+          [WORD] reference-style
           [WORD] link
-        l_word
+          [WORD] definitions
+        [LNK_REF] ][
+        phrase
+          [WORD] 1
+        [RBRACK] ]
+  lineBlank
+    [LINE_BLANK] ␍␊␍␊
+  paragraph
+    line
+      [WORD] Or
+      [WORD] leave
+      [WORD] it
+      [WORD] empty
+      [WORD] and
+      [WORD] use
+      [WORD] the
+      linkRef
+        [LBRACK] [
+        phrase
+          [WORD] link
           [WORD] text
-        l_word
           [WORD] itself
-        [LNK_DEF] ]:
-        url
-          [URL] http://www.reddit.com
+        [RBRACK] ]
+      [WORD] .
+  lineBlank
+    [LINE_BLANK] ␍␊␍␊
+  paragraph
+    line
+      [WORD] URLs
+      [WORD] and
+      [WORD] URLs
+      [WORD] in
+      [WORD] angle
+      [WORD] brackets
+      [WORD] will
+      [WORD] automatically
+      [WORD] get
+      [WORD] turned
+      [WORD] into
+      [WORD] links.
+    nl
+      [VWS] ␍␊
+    line
+      autoLink
+        [URL] http://www.example.com
+      [WORD] or
+      autoLink
+        [URLTAG] <http://www.example.com>
+      [WORD] and
+      [WORD] sometimes
+    nl
+      [VWS] ␍␊
+    line
+      autoLink
+        [URL] example.com
+      [LPAREN] (
+      [WORD] but
+      [WORD] not
+      [WORD] on
+      [WORD] Github,
+      [WORD] for
+      [WORD] example
+      [RPAREN] )
+      [WORD] .
+  lineBlank
+    [LINE_BLANK] ␍␊␍␊
+  paragraph
+    line
+      [WORD] Some
+      [WORD] text
+      [WORD] to
+      [WORD] show
+      [WORD] that
+      [WORD] the
+      [WORD] reference
+      [WORD] links
+      [WORD] can
+      [WORD] follow
+      [WORD] later.
+  lineBlank
+    [LINE_BLANK] ␍␊␍␊
+  refLinkDef
+    [LBRACK] [
+    phrase
+      [WORD] arbitrary
+      [WORD] case-insensitive
+      [WORD] reference
+      [WORD] text
+    [LNK_DEF] ]:
+    url
+      [URL] https://www.mozilla.org
+  [VWS] ␍␊
+  refLinkDef
+    [LBRACK] [
+    phrase
+      [WORD] 1
+    [LNK_DEF] ]:
+    url
+      [URL] http://slashdot.org
+  [VWS] ␍␊
+  refLinkDef
+    [LBRACK] [
+    phrase
+      [WORD] link
+      [WORD] text
+      [WORD] itself
+    [LNK_DEF] ]:
+    url
+      [URL] http://www.reddit.com
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   hrule
@@ -1426,125 +970,90 @@ page
   header
     [HASHES] #
     line
-      word
-        [WORD] Images
+      [WORD] Images
   lineBlank
     [LINE_BLANK] ␍␊␍␊␍␊
   paragraph
     line
-      word
-        [WORD] Here
-      word
-        [WORD] '
-      word
-        [WORD] s
-      word
-        [WORD] our
-      word
-        [WORD] logo
-      word
-        [LPAREN] (
-      word
-        [WORD] hover
-      word
-        [WORD] to
-      word
-        [WORD] see
-      word
-        [WORD] the
-      word
-        [WORD] title
-      word
-        [WORD] text
-      word
-        [RPAREN] )
-      word
-        [WORD] :
+      [WORD] Here
+      [SQUOTE] '
+      [WORD] s
+      [WORD] our
+      [WORD] logo
+      [LPAREN] (
+      [WORD] hover
+      [WORD] to
+      [WORD] see
+      [WORD] the
+      [WORD] title
+      [WORD] text
+      [RPAREN] )
+      [WORD] :
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   paragraph
     line
-      word
-        [WORD] Inline-style:
+      [WORD] Inline-style:
     nl
       [VWS] ␍␊
     line
       imgLink
         [LNK_IMG] ![
-        l_line
-          l_word
-            [WORD] alt
-          l_word
-            [WORD] text
+        phrase
+          [WORD] alt
+          [WORD] text
         [LNK_SEP] ](
         url
           [URL] https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png
-        alt
+        quote
           [LDQUOTE] "
-          line
-            word
-              [WORD] Logo
-            word
-              [WORD] Title
-            word
-              [WORD] Text
-            word
-              [WORD] 1
+          [WORD] Logo
+          [WORD] Title
+          [WORD] Text
+          [WORD] 1
           [RDQUOTE] "
         [RPAREN] )
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   paragraph
     line
-      word
-        [WORD] Reference-style:
+      [WORD] Reference-style:
     nl
       [VWS] ␍␊
     line
-      imgLink
+      imgLinkRef
         [LNK_IMG] ![
-        l_line
-          l_word
-            [WORD] alt
-          l_word
-            [WORD] text
+        phrase
+          [WORD] alt
+          [WORD] text
         [LNK_REF] ][
-        l_line
-          l_word
-            [WORD] logo
+        phrase
+          [WORD] logo
         [RBRACK] ]
   lineBlank
     [LINE_BLANK] ␍␊␍␊
-  paragraph
-    line
-      link
-        [LBRACK] [
-        l_word
-          [WORD] logo
-        [LNK_DEF] ]:
-        url
-          [URL] https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png
-        alt
-          [LDQUOTE] "
-          line
-            word
-              [WORD] Logo
-            word
-              [WORD] Title
-            word
-              [WORD] Text
-            word
-              [WORD] 2
-          [RDQUOTE] "
+  refLinkDef
+    [LBRACK] [
+    phrase
+      [WORD] logo
+    [LNK_DEF] ]:
+    url
+      [URL] https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png
+    quote
+      [LDQUOTE] "
+      [WORD] Logo
+      [WORD] Title
+      [WORD] Text
+      [WORD] 2
+      [RDQUOTE] "
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   paragraph
     line
       imgLink
         [LNK_IMG] ![
-        l_line
-          l_word
-            [WORD] Minion
+        phrase
+          [WORD] Minion
         [LNK_SEP] ](
         url
           [URL] https://octodex.github.com/images/minion.png
@@ -1554,104 +1063,72 @@ page
     line
       imgLink
         [LNK_IMG] ![
-        l_line
-          l_word
-            [WORD] Stormtroopocat
+        phrase
+          [WORD] Stormtroopocat
         [LNK_SEP] ](
         url
           [URL] https://octodex.github.com/images/stormtroopocat.jpg
-        alt
+        quote
           [LDQUOTE] "
-          line
-            word
-              [WORD] The
-            word
-              [WORD] Stormtroopocat
+          [WORD] The
+          [WORD] Stormtroopocat
           [RDQUOTE] "
         [RPAREN] )
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   paragraph
     line
-      word
-        [WORD] Like
-      word
-        [WORD] links,
-      word
-        [WORD] Images
-      word
-        [WORD] also
-      word
-        [WORD] have
-      word
-        [WORD] a
-      word
-        [WORD] footnote
-      word
-        [WORD] style
-      word
-        [WORD] syntax
+      [WORD] Like
+      [WORD] links,
+      [WORD] Images
+      [WORD] also
+      [WORD] have
+      [WORD] a
+      [WORD] footnote
+      [WORD] style
+      [WORD] syntax
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   paragraph
     line
-      imgLink
+      imgLinkRef
         [LNK_IMG] ![
-        l_line
-          l_word
-            [WORD] Alt
-          l_word
-            [WORD] text
+        phrase
+          [WORD] Alt
+          [WORD] text
         [LNK_REF] ][
-        l_line
-          l_word
-            [WORD] id
+        phrase
+          [WORD] id
         [RBRACK] ]
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   paragraph
     line
-      word
-        [WORD] With
-      word
-        [WORD] a
-      word
-        [WORD] reference
-      word
-        [WORD] later
-      word
-        [WORD] in
-      word
-        [WORD] the
-      word
-        [WORD] document
-      word
-        [WORD] defining
-      word
-        [WORD] the
-      word
-        [WORD] URL
-      word
-        [WORD] location:
+      [WORD] With
+      [WORD] a
+      [WORD] reference
+      [WORD] later
+      [WORD] in
+      [WORD] the
+      [WORD] document
+      [WORD] defining
+      [WORD] the
+      [WORD] URL
+      [WORD] location:
   lineBlank
     [LINE_BLANK] ␍␊␍␊
-  paragraph
-    line
-      link
-        [LBRACK] [
-        l_word
-          [WORD] id
-        [LNK_DEF] ]:
-        url
-          [URL] https://octodex.github.com/images/dojocat.jpg
-        alt
-          [LDQUOTE] "
-          line
-            word
-              [WORD] The
-            word
-              [WORD] Dojocat
-          [RDQUOTE] "
+  refLinkDef
+    [LBRACK] [
+    phrase
+      [WORD] id
+    [LNK_DEF] ]:
+    url
+      [URL] https://octodex.github.com/images/dojocat.jpg
+    quote
+      [LDQUOTE] "
+      [WORD] The
+      [WORD] Dojocat
+      [RDQUOTE] "
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   hrule
@@ -1663,9 +1140,8 @@ page
     line
       link
         [LBRACK] [
-        l_line
-          l_word
-            [WORD] Footnotes
+        phrase
+          [WORD] Footnotes
         [LNK_SEP] ](
         url
           [URL] https://github.com/markdown-it/markdown-it-footnote
@@ -1674,124 +1150,89 @@ page
     [LINE_BLANK] ␍␊␍␊
   paragraph
     line
-      word
-        [WORD] Footnote
-      word
-        [WORD] 1
-      word
-        [WORD] link
-      fnLink
+      [WORD] Footnote
+      [WORD] 1
+      [WORD] link
+      fnLinkRef
         [LNK_FN] [^
-        l_line
-          l_word
-            [WORD] first
-        [RBRACK] ]
-      word
-        [WORD] .
-  lineBlank
-    [LINE_BLANK] ␍␊␍␊
-  paragraph
-    line
-      word
-        [WORD] Footnote
-      word
-        [WORD] 2
-      word
-        [WORD] link
-      fnLink
-        [LNK_FN] [^
-        l_line
-          l_word
-            [WORD] second
-        [RBRACK] ]
-      word
-        [WORD] .
-  lineBlank
-    [LINE_BLANK] ␍␊␍␊
-  paragraph
-    line
-      word
-        [WORD] Inline
-      word
-        [WORD] footnote^
-      link
-        [LBRACK] [
-        l_line
-          l_word
-            [WORD] Text
-          l_word
-            [WORD] of
-          l_word
-            [WORD] inline
-          l_word
-            [WORD] footnote
-        [RBRACK] ]
-      word
-        [WORD] definition.
-  lineBlank
-    [LINE_BLANK] ␍␊␍␊
-  paragraph
-    line
-      word
-        [WORD] Duplicated
-      word
-        [WORD] footnote
-      word
-        [WORD] reference
-      fnLink
-        [LNK_FN] [^
-        l_line
-          l_word
-            [WORD] second
-        [RBRACK] ]
-      word
-        [WORD] .
-  lineBlank
-    [LINE_BLANK] ␍␊␍␊
-  paragraph
-    line
-      fnLink
-        [LNK_FN] [^
-        l_word
+        phrase
           [WORD] first
-        [LNK_DEF] ]:
-        l_line
-          l_word
-            [WORD] Footnote
-          l_word
-            attrLeft
-              [LBOLD] **
-            [WORD] can
-          l_word
-            [WORD] have
-          l_word
-            [WORD] markup
-            attrRight
-              [RBOLD] **
+        [RBRACK] ]
+      [WORD] .
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   paragraph
     line
-      word
-        [WORD] and
-      word
-        [WORD] multiple
-      word
-        [WORD] paragraphs.
-  lineBlank
-    [LINE_BLANK] ␍␊␍␊
-  paragraph
-    line
-      fnLink
+      [WORD] Footnote
+      [WORD] 2
+      [WORD] link
+      fnLinkRef
         [LNK_FN] [^
-        l_word
+        phrase
           [WORD] second
-        [LNK_DEF] ]:
-        l_line
-          l_word
-            [WORD] Footnote
-          l_word
-            [WORD] text.
+        [RBRACK] ]
+      [WORD] .
+  lineBlank
+    [LINE_BLANK] ␍␊␍␊
+  paragraph
+    line
+      [WORD] Inline
+      [WORD] footnote^
+      linkRef
+        [LBRACK] [
+        phrase
+          [WORD] Text
+          [WORD] of
+          [WORD] inline
+          [WORD] footnote
+        [RBRACK] ]
+      [WORD] definition.
+  lineBlank
+    [LINE_BLANK] ␍␊␍␊
+  paragraph
+    line
+      [WORD] Duplicated
+      [WORD] footnote
+      [WORD] reference
+      fnLinkRef
+        [LNK_FN] [^
+        phrase
+          [WORD] second
+        [RBRACK] ]
+      [WORD] .
+  lineBlank
+    [LINE_BLANK] ␍␊␍␊
+  fnLinkDef
+    [LNK_FN] [^
+    phrase
+      [WORD] first
+    [LNK_DEF] ]:
+    line
+      [WORD] Footnote
+      attrLeft
+        [LBOLD] **
+      [WORD] can
+      [WORD] have
+      [WORD] markup
+      attrRight
+        [RBOLD] **
+  lineBlank
+    [LINE_BLANK] ␍␊␍␊
+  paragraph
+    line
+      [WORD] and
+      [WORD] multiple
+      [WORD] paragraphs.
+  lineBlank
+    [LINE_BLANK] ␍␊␍␊
+  fnLinkDef
+    [LNK_FN] [^
+    phrase
+      [WORD] second
+    [LNK_DEF] ]:
+    line
+      [WORD] Footnote
+      [WORD] text.
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   hrule
@@ -1799,44 +1240,30 @@ page
   [VWS] ␍␊
   paragraph
     line
-      word
-        [WORD] #
-      word
-        [WORD] Tables
+      [WORD] #
+      [WORD] Tables
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   paragraph
     line
-      word
-        [WORD] Colons
-      word
-        [WORD] can
-      word
-        [WORD] be
-      word
-        [WORD] used
-      word
-        [WORD] to
-      word
-        [WORD] align
-      word
-        [WORD] columns.
+      [WORD] Colons
+      [WORD] can
+      [WORD] be
+      [WORD] used
+      [WORD] to
+      [WORD] align
+      [WORD] columns.
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   table
     tableRow
       [PIPE] |
       line
-        word
-          [WORD] Tables
-        word
-          [PIPE] |
-        word
-          [WORD] Are
-        word
-          [PIPE] |
-        word
-          [WORD] Cool
+        [WORD] Tables
+        [PIPE] |
+        [WORD] Are
+        [PIPE] |
+        [WORD] Cool
       [PIPE] |
     nl
       [VWS] ␍␊
@@ -1846,164 +1273,100 @@ page
     tableRow
       [PIPE] |
       line
-        word
-          [WORD] col
-        word
-          [WORD] 3
-        word
-          [WORD] is
-        word
-          [PIPE] |
-        word
-          [WORD] right-aligned
-        word
-          [PIPE] |
-        word
-          [WORD] $1600
+        [WORD] col
+        [WORD] 3
+        [WORD] is
+        [PIPE] |
+        [WORD] right-aligned
+        [PIPE] |
+        [WORD] $1600
       [PIPE] |
     nl
       [VWS] ␍␊
     tableRow
       [PIPE] |
       line
-        word
-          [WORD] col
-        word
-          [WORD] 2
-        word
-          [WORD] is
-        word
-          [PIPE] |
-        word
-          [WORD] centered
-        word
-          [PIPE] |
-        word
-          [WORD] $12
+        [WORD] col
+        [WORD] 2
+        [WORD] is
+        [PIPE] |
+        [WORD] centered
+        [PIPE] |
+        [WORD] $12
       [PIPE] |
     nl
       [VWS] ␍␊
     tableRow
       [PIPE] |
       line
-        word
-          [WORD] zebra
-        word
-          [WORD] stripes
-        word
-          [PIPE] |
-        word
-          [WORD] are
-        word
-          [WORD] neat
-        word
-          [PIPE] |
-        word
-          [WORD] $1
+        [WORD] zebra
+        [WORD] stripes
+        [PIPE] |
+        [WORD] are
+        [WORD] neat
+        [PIPE] |
+        [WORD] $1
       [PIPE] |
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   paragraph
     line
-      word
-        [WORD] There
-      word
-        [WORD] must
-      word
-        [WORD] be
-      word
-        [WORD] at
-      word
-        [WORD] least
-      word
-        [WORD] 3
-      word
-        [WORD] dashes
-      word
-        [WORD] separating
-      word
-        [WORD] each
-      word
-        [WORD] header
-      word
-        [WORD] cell.
+      [WORD] There
+      [WORD] must
+      [WORD] be
+      [WORD] at
+      [WORD] least
+      [WORD] 3
+      [WORD] dashes
+      [WORD] separating
+      [WORD] each
+      [WORD] header
+      [WORD] cell.
     nl
       [VWS] ␍␊
     line
-      word
-        [WORD] The
-      word
-        [WORD] outer
-      word
-        [WORD] pipes
-      word
-        [LPAREN] (
-      word
-        [PIPE] |
-      word
-        [RPAREN] )
-      word
-        [WORD] are
-      word
-        [WORD] optional,
-      word
-        [WORD] and
-      word
-        [WORD] you
-      word
-        [WORD] don
-      word
-        [WORD] '
-      word
-        [WORD] t
-      word
-        [WORD] need
-      word
-        [WORD] to
-      word
-        [WORD] make
-      word
-        [WORD] the
+      [WORD] The
+      [WORD] outer
+      [WORD] pipes
+      [LPAREN] (
+      [PIPE] |
+      [RPAREN] )
+      [WORD] are
+      [WORD] optional,
+      [WORD] and
+      [WORD] you
+      [WORD] don
+      [SQUOTE] '
+      [WORD] t
+      [WORD] need
+      [WORD] to
+      [WORD] make
+      [WORD] the
     nl
       [VWS] ␍␊
     line
-      word
-        [WORD] raw
-      word
-        [WORD] Markdown
-      word
-        [WORD] line
-      word
-        [WORD] up
-      word
-        [WORD] prettily.
-      word
-        [WORD] You
-      word
-        [WORD] can
-      word
-        [WORD] also
-      word
-        [WORD] use
-      word
-        [WORD] inline
-      word
-        [WORD] Markdown.
+      [WORD] raw
+      [WORD] Markdown
+      [WORD] line
+      [WORD] up
+      [WORD] prettily.
+      [WORD] You
+      [WORD] can
+      [WORD] also
+      [WORD] use
+      [WORD] inline
+      [WORD] Markdown.
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   table
     tableRow
       line
-        word
-          [WORD] Markdown
-        word
-          [PIPE] |
-        word
-          [WORD] Less
+        [WORD] Markdown
+        [PIPE] |
+        [WORD] Less
       [PIPE] |
       line
-        word
-          [WORD] Pretty
+        [WORD] Pretty
     nl
       [VWS] ␍␊
     [TABLE_DEF] ---␣|␣---␣|␣---
@@ -2011,54 +1374,41 @@ page
       [VWS] ␍␊
     tableRow
       line
-        word
-          attrLeft
-            [LITALIC] *
-          [WORD] Still
-          attrRight
-            [RITALIC] *
-        word
-          [PIPE] |
-        word
-          [SPAN] `renders`
+        attrLeft
+          [LITALIC] *
+        [WORD] Still
+        attrRight
+          [RITALIC] *
+        [PIPE] |
+        [SPAN] `renders`
       [PIPE] |
       line
-        word
-          attrLeft
-            [LBOLD] **
-          [WORD] nicely
-          attrRight
-            [RBOLD] **
+        attrLeft
+          [LBOLD] **
+        [WORD] nicely
+        attrRight
+          [RBOLD] **
     nl
       [VWS] ␍␊
     tableRow
       line
-        word
-          [WORD] 1
-        word
-          [PIPE] |
-        word
-          [WORD] 2
+        [WORD] 1
+        [PIPE] |
+        [WORD] 2
       [PIPE] |
       line
-        word
-          [WORD] 3
+        [WORD] 3
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   table
     tableRow
       [PIPE] |
       line
-        word
-          [WORD] First
-        word
-          [WORD] Header
-        word
-          [PIPE] |
-        word
-          [WORD] Second
-        word
-          [WORD] Header
+        [WORD] First
+        [WORD] Header
+        [PIPE] |
+        [WORD] Second
+        [WORD] Header
       [PIPE] |
     nl
       [VWS] ␍␊
@@ -2068,32 +1418,22 @@ page
     tableRow
       [PIPE] |
       line
-        word
-          [WORD] Content
-        word
-          [WORD] Cell
-        word
-          [PIPE] |
-        word
-          [WORD] Content
-        word
-          [WORD] Cell
+        [WORD] Content
+        [WORD] Cell
+        [PIPE] |
+        [WORD] Content
+        [WORD] Cell
       [PIPE] |
     nl
       [VWS] ␍␊
     tableRow
       [PIPE] |
       line
-        word
-          [WORD] Content
-        word
-          [WORD] Cell
-        word
-          [PIPE] |
-        word
-          [WORD] Content
-        word
-          [WORD] Cell
+        [WORD] Content
+        [WORD] Cell
+        [PIPE] |
+        [WORD] Content
+        [WORD] Cell
       [PIPE] |
   lineBlank
     [LINE_BLANK] ␍␊␍␊
@@ -2101,12 +1441,9 @@ page
     tableRow
       [PIPE] |
       line
-        word
-          [WORD] Command
-        word
-          [PIPE] |
-        word
-          [WORD] Description
+        [WORD] Command
+        [PIPE] |
+        [WORD] Description
       [PIPE] |
     nl
       [VWS] ␍␊
@@ -2116,54 +1453,33 @@ page
     tableRow
       [PIPE] |
       line
-        word
-          [WORD] git
-        word
-          [WORD] status
-        word
-          [PIPE] |
-        word
-          [WORD] List
-        word
-          [WORD] all
-        word
-          [WORD] new
-        word
-          [WORD] or
-        word
-          [WORD] modified
-        word
-          [WORD] files
+        [WORD] git
+        [WORD] status
+        [PIPE] |
+        [WORD] List
+        [WORD] all
+        [WORD] new
+        [WORD] or
+        [WORD] modified
+        [WORD] files
       [PIPE] |
     nl
       [VWS] ␍␊
     tableRow
       [PIPE] |
       line
-        word
-          [WORD] git
-        word
-          [WORD] diff
-        word
-          [PIPE] |
-        word
-          [WORD] Show
-        word
-          [WORD] file
-        word
-          [WORD] differences
-        word
-          [WORD] that
-        word
-          [WORD] haven
-        word
-          [WORD] '
-        word
-          [WORD] t
-        word
-          [WORD] been
-        word
-          [WORD] staged
+        [WORD] git
+        [WORD] diff
+        [PIPE] |
+        [WORD] Show
+        [WORD] file
+        [WORD] differences
+        [WORD] that
+        [WORD] haven
+        [SQUOTE] '
+        [WORD] t
+        [WORD] been
+        [WORD] staged
       [PIPE] |
   lineBlank
     [LINE_BLANK] ␍␊␍␊
@@ -2171,12 +1487,9 @@ page
     tableRow
       [PIPE] |
       line
-        word
-          [WORD] Command
-        word
-          [PIPE] |
-        word
-          [WORD] Description
+        [WORD] Command
+        [PIPE] |
+        [WORD] Description
       [PIPE] |
     nl
       [VWS] ␍␊
@@ -2186,58 +1499,39 @@ page
     tableRow
       [PIPE] |
       line
-        word
-          [SPAN] `git␣status`
-        word
-          [PIPE] |
-        word
-          [WORD] List
-        word
-          [WORD] all
-        word
-          attrLeft
-            [LITALIC] *
-          [WORD] new
-        word
-          [WORD] or
-        word
-          [WORD] modified
-          attrRight
-            [RITALIC] *
-        word
-          [WORD] files
+        [SPAN] `git␣status`
+        [PIPE] |
+        [WORD] List
+        [WORD] all
+        attrLeft
+          [LITALIC] *
+        [WORD] new
+        [WORD] or
+        [WORD] modified
+        attrRight
+          [RITALIC] *
+        [WORD] files
       [PIPE] |
     nl
       [VWS] ␍␊
     tableRow
       [PIPE] |
       line
-        word
-          [SPAN] `git␣diff`
-        word
-          [PIPE] |
-        word
-          [WORD] Show
-        word
-          [WORD] file
-        word
-          [WORD] differences
-        word
-          [WORD] that
-        word
-          attrLeft
-            [LBOLD] **
-          [WORD] haven
-        word
-          [WORD] '
-        word
-          [WORD] t
-        word
-          [WORD] been
-          attrRight
-            [RBOLD] **
-        word
-          [WORD] staged
+        [SPAN] `git␣diff`
+        [PIPE] |
+        [WORD] Show
+        [WORD] file
+        [WORD] differences
+        [WORD] that
+        attrLeft
+          [LBOLD] **
+        [WORD] haven
+        [SQUOTE] '
+        [WORD] t
+        [WORD] been
+        attrRight
+          [RBOLD] **
+        [WORD] staged
       [PIPE] |
   lineBlank
     [LINE_BLANK] ␍␊␍␊
@@ -2245,16 +1539,11 @@ page
     tableRow
       [PIPE] |
       line
-        word
-          [WORD] Left-aligned
-        word
-          [PIPE] |
-        word
-          [WORD] Center-aligned
-        word
-          [PIPE] |
-        word
-          [WORD] Right-aligned
+        [WORD] Left-aligned
+        [PIPE] |
+        [WORD] Center-aligned
+        [PIPE] |
+        [WORD] Right-aligned
       [PIPE] |
     nl
       [VWS] ␍␊
@@ -2264,44 +1553,28 @@ page
     tableRow
       [PIPE] |
       line
-        word
-          [WORD] git
-        word
-          [WORD] status
-        word
-          [PIPE] |
-        word
-          [WORD] git
-        word
-          [WORD] status
-        word
-          [PIPE] |
-        word
-          [WORD] git
-        word
-          [WORD] status
+        [WORD] git
+        [WORD] status
+        [PIPE] |
+        [WORD] git
+        [WORD] status
+        [PIPE] |
+        [WORD] git
+        [WORD] status
       [PIPE] |
     nl
       [VWS] ␍␊
     tableRow
       [PIPE] |
       line
-        word
-          [WORD] git
-        word
-          [WORD] diff
-        word
-          [PIPE] |
-        word
-          [WORD] git
-        word
-          [WORD] diff
-        word
-          [PIPE] |
-        word
-          [WORD] git
-        word
-          [WORD] diff
+        [WORD] git
+        [WORD] diff
+        [PIPE] |
+        [WORD] git
+        [WORD] diff
+        [PIPE] |
+        [WORD] git
+        [WORD] diff
       [PIPE] |
   lineBlank
     [LINE_BLANK] ␍␊␍␊
@@ -2309,12 +1582,9 @@ page
     tableRow
       [PIPE] |
       line
-        word
-          [WORD] Name
-        word
-          [PIPE] |
-        word
-          [WORD] Character
+        [WORD] Name
+        [PIPE] |
+        [WORD] Character
       [PIPE] |
     nl
       [VWS] ␍␊
@@ -2324,24 +1594,18 @@ page
     tableRow
       [PIPE] |
       line
-        word
-          [WORD] Backtick
-        word
-          [PIPE] |
-        word
-          [WORD] `
+        [WORD] Backtick
+        [PIPE] |
+        [WORD] `
       [PIPE] |
     nl
       [VWS] ␍␊
     tableRow
       [PIPE] |
       line
-        word
-          [WORD] Pipe
-        word
-          [PIPE] |
-        word
-          [WORD] \|
+        [WORD] Pipe
+        [PIPE] |
+        [WORD] \|
       [PIPE] |
   lineBlank
     [LINE_BLANK] ␍␊␍␊
@@ -2352,205 +1616,122 @@ page
   header
     [HASHES] #
     line
-      word
-        [WORD] Blockquotes
+      [WORD] Blockquotes
   lineBlank
     [LINE_BLANK] ␍␊␍␊␍␊
   paragraph
     line
-      word
-        [WORD] Blockquotes
-      word
-        [WORD] are
-      word
-        [WORD] very
-      word
-        [WORD] handy
-      word
-        [WORD] in
-      word
-        [WORD] email
-      word
-        [WORD] to
-      word
-        [WORD] emulate
-      word
-        [WORD] reply
-      word
-        [WORD] text.
+      [WORD] Blockquotes
+      [WORD] are
+      [WORD] very
+      [WORD] handy
+      [WORD] in
+      [WORD] email
+      [WORD] to
+      [WORD] emulate
+      [WORD] reply
+      [WORD] text.
     nl
       [VWS] ␍␊
     line
-      word
-        [WORD] This
-      word
-        [WORD] line
-      word
-        [WORD] is
-      word
-        [WORD] part
-      word
-        [WORD] of
-      word
-        [WORD] the
-      word
-        [WORD] same
-      word
-        [WORD] quote.
+      [WORD] This
+      [WORD] line
+      [WORD] is
+      [WORD] part
+      [WORD] of
+      [WORD] the
+      [WORD] same
+      [WORD] quote.
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   paragraph
     line
-      word
-        [WORD] Quote
-      word
-        [WORD] break.
+      [WORD] Quote
+      [WORD] break.
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   paragraph
     line
-      word
-        [WORD] This
-      word
-        [WORD] is
-      word
-        [WORD] a
-      word
-        [WORD] very
-      word
-        [WORD] long
-      word
-        [WORD] line
-      word
-        [WORD] that
-      word
-        [WORD] will
-      word
-        [WORD] still
-      word
-        [WORD] be
-      word
-        [WORD] quoted
-      word
-        [WORD] properly
-      word
-        [WORD] when
-      word
-        [WORD] it
-      word
-        [WORD] wraps.
-      word
-        [WORD] Oh
-      word
-        [WORD] boy
-      word
-        [WORD] let
-      word
-        [WORD] '
-      word
-        [WORD] s
-      word
-        [WORD] keep
-      word
-        [WORD] writing
-      word
-        [WORD] to
-      word
-        [WORD] make
-      word
-        [WORD] sure
-      word
-        [WORD] this
-      word
-        [WORD] is
-      word
-        [WORD] long
-      word
-        [WORD] enough
-      word
-        [WORD] to
-      word
-        [WORD] actually
-      word
-        [WORD] wrap
-      word
-        [WORD] for
-      word
-        [WORD] everyone.
-      word
-        [WORD] Oh,
-      word
-        [WORD] you
-      word
-        [WORD] can
-      word
-        attrLeft
-          [LITALIC] *
-        [WORD] put
-        attrRight
-          [RITALIC] *
-      word
-        attrLeft
-          [LBOLD] **
-        [WORD] Markdown
-        attrRight
-          [RBOLD] **
-      word
-        [WORD] into
-      word
-        [WORD] a
-      word
-        [WORD] blockquote.
+      [WORD] This
+      [WORD] is
+      [WORD] a
+      [WORD] very
+      [WORD] long
+      [WORD] line
+      [WORD] that
+      [WORD] will
+      [WORD] still
+      [WORD] be
+      [WORD] quoted
+      [WORD] properly
+      [WORD] when
+      [WORD] it
+      [WORD] wraps.
+      [WORD] Oh
+      [WORD] boy
+      [WORD] let
+      [SQUOTE] '
+      [WORD] s
+      [WORD] keep
+      [WORD] writing
+      [WORD] to
+      [WORD] make
+      [WORD] sure
+      [WORD] this
+      [WORD] is
+      [WORD] long
+      [WORD] enough
+      [WORD] to
+      [WORD] actually
+      [WORD] wrap
+      [WORD] for
+      [WORD] everyone.
+      [WORD] Oh,
+      [WORD] you
+      [WORD] can
+      attrLeft
+        [LITALIC] *
+      [WORD] put
+      attrRight
+        [RITALIC] *
+      attrLeft
+        [LBOLD] **
+      [WORD] Markdown
+      attrRight
+        [RBOLD] **
+      [WORD] into
+      [WORD] a
+      [WORD] blockquote.
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   paragraph
     line
-      word
-        [WORD] Blockquotes
-      word
-        [WORD] can
-      word
-        [WORD] also
-      word
-        [WORD] be
-      word
-        [WORD] nested...
+      [WORD] Blockquotes
+      [WORD] can
+      [WORD] also
+      [WORD] be
+      [WORD] nested...
     nl
       [VWS] ␍␊
     line
-      word
-        [WORD] ...by
-      word
-        [WORD] using
-      word
-        [WORD] additional
-      word
-        [WORD] greater-than
-      word
-        [WORD] signs
-      word
-        [WORD] right
-      word
-        [WORD] next
-      word
-        [WORD] to
-      word
-        [WORD] each
-      word
-        [WORD] other...
+      [WORD] ...by
+      [WORD] using
+      [WORD] additional
+      [WORD] greater-than
+      [WORD] signs
+      [WORD] right
+      [WORD] next
+      [WORD] to
+      [WORD] each
+      [WORD] other...
     nl
       [VWS] ␍␊
     line
-      word
-        [WORD] ...or
-      word
-        [WORD] with
-      word
-        [WORD] spaces
-      word
-        [WORD] between
-      word
-        [WORD] arrows.
+      [WORD] ...or
+      [WORD] with
+      [WORD] spaces
+      [WORD] between
+      [WORD] arrows.
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   hrule
@@ -2560,10 +1741,8 @@ page
   header
     [HASHES] #
     line
-      word
-        [WORD] Horizontal
-      word
-        [WORD] Rules
+      [WORD] Horizontal
+      [WORD] Rules
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   codeBlock
@@ -2594,12 +1773,9 @@ page
     [LINE_BLANK] ␍␊␍␊
   paragraph
     line
-      word
-        [WORD] Three
-      word
-        [WORD] or
-      word
-        [WORD] more...
+      [WORD] Three
+      [WORD] or
+      [WORD] more...
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   hrule
@@ -2608,8 +1784,7 @@ page
     [LINE_BLANK] ␍␊␍␊
   paragraph
     line
-      word
-        [WORD] Hyphens
+      [WORD] Hyphens
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   hrule
@@ -2618,8 +1793,7 @@ page
     [LINE_BLANK] ␍␊␍␊
   paragraph
     line
-      word
-        [WORD] Asterisks
+      [WORD] Asterisks
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   hrule
@@ -2628,8 +1802,7 @@ page
     [LINE_BLANK] ␍␊␍␊
   paragraph
     line
-      word
-        [WORD] Underscores
+      [WORD] Underscores
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   hrule

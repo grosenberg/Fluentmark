@@ -8,7 +8,8 @@ options {
 @header {
 	package net.certiv.fluent.dt.core.lang.md.gen;
 	import  net.certiv.fluent.dt.core.lang.md.model.StructureBuilder;
-	import  static net.certiv.fluent.dt.core.lang.md.model.SpecializationType.*;
+	import  static net.certiv.fluent.dt.core.lang.md.model.SpecializedType.*;
+	import  static net.certiv.fluent.dt.core.lang.md.model.SpecSubType.*;
 }
 
 structure
@@ -16,13 +17,25 @@ structure
 
 	| header
 	| hrule
-	| paragraph
 	| table
 	| definition
 	| list
-	| word
-	| attrL
-	| attrR
+
+	| paragraph
+	| phrase
+#	| word
+#	| attrL
+#	| attrR
+
+	| link
+	| linkRef
+	| imglink
+	| imglinkRef
+	| fnlink
+	| fnlinkRef
+	
+	| refLinkDef
+	| fnLinkDef
 
 	| comment
 
@@ -59,13 +72,63 @@ paragraph	: //paragraph
 				{ onExit:  endBlock(); }
 			;
 
+phrase		: //phrase		{ doType(Phrase); } ;
+
 list		: //list
 				{ onEntry: doList(); }
 				{ onExit:  endBlock(); }
 			;
 
-listItem	: //listItem	{ doListItem(); } ;
+listItem	: //listItem	
+				{ onEntry: doListItem(); }
+				{ onExit:  endBlock(); } 
+			;
 
-attrL		: //attrLeft	{ doAttrL() ; } ;
-word		: //word		{ doWord()  ; } ;
-attrR		: //attrRight	{ doAttrR() ; } ;
+link		: //link		
+				{ onEntry: doLink(Link, INLINE); } 
+				{ onExit:  endBlock(); }
+			;
+
+linkRef		: //linkRef		
+				{ onEntry: doLink(Link, REF); }
+				{ onExit:  endBlock(); }
+			;
+
+
+imglink		: //imgLink		
+				{ onEntry: doLink(Image, INLINE); }
+				{ onExit:  endBlock(); }
+			;
+
+imglinkRef	: //imgLinkRef	
+				{ onEntry: doLink(Image, REF); }
+				{ onExit:  endBlock(); }
+			;
+
+
+fnlink		: //fnLink		
+				{ onEntry: doLink(Footnote, INLINE); }
+				{ onExit:  endBlock(); }
+			;
+
+fnlinkRef	: //fnLinkRef	
+				{ onEntry: doLink(Footnote, REF); }
+				{ onExit:  endBlock(); }
+			;
+
+
+refLinkDef	: //refLinkDef	
+				{ onEntry: doLink(Link, REF_DEF); }
+				{ onExit:  endBlock(); }
+			;
+
+fnLinkDef	: //fnLinkDef	
+				{ onEntry: doLink(Footnote, REF_DEF); }
+				{ onExit:  endBlock(); }
+			;
+
+
+
+#attrL		: //attrLeft	{ doAttrL() ; } ;
+#word		: //word		{ doWord()  ; } ;
+#attrR		: //attrRight	{ doAttrR() ; } ;

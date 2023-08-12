@@ -17,12 +17,15 @@ tokens {
 	QUOTE_BLANK,
 	QUOTE_DENT,
 
+	ESC_SQUOTE,
+	ESC_DQUOTE,
+
 	LBOLD,
 	LITALIC,
 	LSTRIKE,
 	LDQUOTE,
 	LSQUOTE,
-
+	
 	RBOLD,
 	RITALIC,
 	RSTRIKE,
@@ -92,6 +95,7 @@ LNK_FN	: LBrack Caret ;	// [^...](...)
 LNK_SEP : RBrack LParen ;	// [...](...)
 LNK_REF	: RBrack LBrack ;	// [...][...]
 LNK_DEF	: RBrack Colon  ;	// [...]:...
+
 LBRACK	: LBrack ;
 RBRACK	: RBrack ;
 LPAREN	: LParen ;
@@ -101,8 +105,9 @@ RPAREN	: RParen ;
 BOLD	: Bold   { attr() }? ;
 ITALIC	: Italic { attr() }? ;
 STRIKE	: Strike { attr() }? ;
-DQUOTE	: Quote	 { attr() }? ;
-SQUOTE	: Mark	 { attr() }? ;
+
+DQUOTE	: Quote	 { dquote() }? ;
+SQUOTE	: Mark	 { squote() }? ;
 
 LINE_BLANK : Vws ( Hws* Vws )+ ;
 LINE_BREAK : Sp Sp Vws  ;

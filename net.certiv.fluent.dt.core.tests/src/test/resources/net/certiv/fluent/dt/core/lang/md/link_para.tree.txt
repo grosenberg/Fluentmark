@@ -1,0 +1,66 @@
+---- link_para -------------------------
+---- Tree ----
+page
+  lineBlank
+    [LINE_BLANK] 
+  paragraph
+    line
+      [WORD] Here
+      [SQUOTE] '
+      [WORD] s
+      [WORD] a
+      [WORD] link
+      [WORD] to
+      link
+        [LBRACK] [
+        phrase
+          [WORD] a
+          [WORD] website
+        [LNK_SEP] ](
+        url
+          [URL] http://foo.bar
+        quote
+          [LDQUOTE] "
+          [WORD] Foo
+          [WORD] Site
+          [RDQUOTE] "
+        [RPAREN] )
+      [WORD] ,
+      [WORD] to
+      [WORD] a
+      imgLink
+        [LNK_IMG] ![
+        phrase
+          [WORD] local
+          [WORD] doc
+        [LNK_SEP] ](
+        url
+          [URL] local-doc.html
+        [RPAREN] )
+      [WORD] ,
+      [WORD] and
+      [WORD] to
+      [WORD] a
+      link
+        [LBRACK] [
+        phrase
+          [WORD] section
+          [WORD] heading
+          [WORD] in
+          [WORD] the
+          [WORD] current
+          [WORD] doc
+        [LNK_SEP] ](
+        url
+          [URL] #an-h2-header
+        quote
+          [LDQUOTE] "
+          [WORD] Alt
+          [WORD] text
+          [RDQUOTE] "
+        [RPAREN] )
+      [WORD] .
+  [VWS] ␍␊
+  lineBlank
+    [LINE_BLANK] 
+  [EOF] <EOF>

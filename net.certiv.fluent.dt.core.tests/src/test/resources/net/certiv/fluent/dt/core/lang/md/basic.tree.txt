@@ -6,10 +6,8 @@ page
   header
     [HASHES] ##
     line
-      word
-        [WORD] PlantUML
-      word
-        [WORD] test
+      [WORD] PlantUML
+      [WORD] test
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   umlBlock
@@ -19,56 +17,38 @@ page
   header
     [HASHES] ##
     line
-      word
-        [WORD] LaTeX
-      word
-        [WORD] math
-      word
-        [WORD] test
+      [WORD] LaTeX
+      [WORD] math
+      [WORD] test
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   header
     [HASHES] ###
     line
-      word
-        [WORD] Inline
+      [WORD] Inline
   lineBlank
     [LINE_BLANK] ␍␊␉␉␍␊
   paragraph
     line
-      word
-        [WORD] This
-      word
-        [WORD] is
-      word
-        [WORD] math
-      word
-        [MATHS] $1+2\neq3$
-      word
-        [WORD] !
-      word
-        [WORD] as
-      word
-        [WORD] part
-      word
-        [WORD] of
-      word
-        [WORD] a
-      word
-        [WORD] paragraph.
+      [WORD] This
+      [WORD] is
+      [WORD] math
+      [MATHS] $1+2\neq3$
+      [WORD] !
+      [WORD] as
+      [WORD] part
+      [WORD] of
+      [WORD] a
+      [WORD] paragraph.
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   header
     [HASHES] ###
     line
-      word
-        [WORD] Block
-      word
-        [WORD] LaTeX
-      word
-        [WORD] math
-      word
-        [WORD] test
+      [WORD] Block
+      [WORD] LaTeX
+      [WORD] math
+      [WORD] test
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   mathBlock
@@ -78,10 +58,8 @@ page
   header
     [HASHES] ##
     line
-      word
-        [WORD] Graphviz
-      word
-        [WORD] test
+      [WORD] Graphviz
+      [WORD] test
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   dotBlock
@@ -115,8 +93,7 @@ page
     [LINE_BLANK] ␍␊␍␊
   paragraph
     line
-      word
-        [WORD] More
+      [WORD] More
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   lineBlank

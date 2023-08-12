@@ -6,24 +6,18 @@ page
   header
     [HASHES] ##
     line
-      word
-        [WORD] Table
+      [WORD] Table
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   table
     tableRow
       [PIPE] |
       line
-        word
-          [WORD] A
-        word
-          [PIPE] |
-        word
-          [WORD] B
-        word
-          [PIPE] |
-        word
-          [WORD] C
+        [WORD] A
+        [PIPE] |
+        [WORD] B
+        [PIPE] |
+        [WORD] C
       [PIPE] |
     nl
       [VWS] ␍␊
@@ -33,41 +27,29 @@ page
     tableRow
       [PIPE] |
       line
-        word
-          [WORD] one
-        word
-          [PIPE] |
-        word
-          [WORD] two
-        word
-          [PIPE] |
-        word
-          [WORD] three
+        [WORD] one
+        [PIPE] |
+        [WORD] two
+        [PIPE] |
+        [WORD] three
       [PIPE] |
     nl
       [VWS] ␍␊
     tableRow
       [PIPE] |
       line
-        word
-          [WORD] x
-        word
-          [PIPE] |
-        word
-          [WORD] y
-        word
-          [PIPE] |
-        word
-          [WORD] z
+        [WORD] x
+        [PIPE] |
+        [WORD] y
+        [PIPE] |
+        [WORD] z
       [PIPE] |
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   paragraph
     line
-      word
-        [WORD] More
-      word
-        [WORD] text.
+      [WORD] More
+      [WORD] text.
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   lineBlank

@@ -5,128 +5,87 @@ page
     [LINE_BLANK] 
   paragraph
     line
-      word
-        [WORD] Definition
-      word
-        [WORD] blocks.
+      [WORD] Definition
+      [WORD] blocks.
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   definition
     line
-      word
-        [WORD] Apple
+      [WORD] Apple
     [VWS] ␍␊
-    defineItem
+    definitionItem
       [DEFINE] :
       paragraph
         line
-          word
-            [WORD] Pomaceous
-          word
-            [WORD] fruit
-          word
-            [WORD] of
-          word
-            [WORD] plants
-          word
-            [WORD] of
-          word
-            [WORD] the
-          word
-            [WORD] genus
-          word
-            [WORD] Malus
-          word
-            [WORD] in
+          [WORD] Pomaceous
+          [WORD] fruit
+          [WORD] of
+          [WORD] plants
+          [WORD] of
+          [WORD] the
+          [WORD] genus
+          [WORD] Malus
+          [WORD] in
         nl
           [VWS] ␍␊
         line
-          word
-            [WORD] the
-          word
-            [WORD] family
-          word
-            [WORD] Rosaceae.
+          [WORD] the
+          [WORD] family
+          [WORD] Rosaceae.
     [VWS] ␍␊
-    defineItem
+    definitionItem
       [DEFINE] :
       paragraph
         line
-          word
-            [WORD] An
-          word
-            [WORD] American
-          word
-            [WORD] computer
-          word
-            [WORD] company.
+          [WORD] An
+          [WORD] American
+          [WORD] computer
+          [WORD] company.
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   definition
     line
-      word
-        [WORD] Citrus
-      word
-        [WORD] sinensis
+      [WORD] Citrus
+      [WORD] sinensis
     [VWS] ␍␊
-    defineItem
+    definitionItem
       [DEFINE] :
       paragraph
         line
-          word
-            [WORD] An
-          word
-            [WORD] evergreen
-          word
-            [WORD] tree
-          word
-            [WORD] of
-          word
-            [WORD] the
-          word
-            [WORD] genus
-          word
-            [WORD] Citrus,
-          word
-            [WORD] commonly
+          [WORD] An
+          [WORD] evergreen
+          [WORD] tree
+          [WORD] of
+          [WORD] the
+          [WORD] genus
+          [WORD] Citrus,
+          [WORD] commonly
         nl
           [VWS] ␍␊
         line
-          word
-            [WORD] known
-          word
-            [WORD] for
-          word
-            [WORD] bearing
-          word
-            [WORD] fruit
-          word
-            [WORD] known
-          word
-            [WORD] as
-          word
-            [WORD] Oranges.
+          [WORD] known
+          [WORD] for
+          [WORD] bearing
+          [WORD] fruit
+          [WORD] known
+          [WORD] as
+          [WORD] Oranges.
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   paragraph
     line
-      word
-        [WORD] Mango:
+      [WORD] Mango:
     nl
       [VWS] ␍␊
     line
-      word
-        [WORD] not
-      word
-        [WORD] a
-      word
-        [WORD] definition.
+      [WORD] not
+      [WORD] a
+      [WORD] definition.
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   paragraph
     line
-      word
-        [WORD] Done.
+      [WORD] Done.
   [VWS] ␍␊
   lineBlank
     [LINE_BLANK] 

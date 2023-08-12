@@ -11,11 +11,11 @@ options {
 }
 
 page
-	: ( yamlBlock	| dotBlock  | mathBlock | htmlBlock
-	  | texBlock	| umlBlock	| codeBlock	| comment
-	  | header		| hrule     | table		| definition		
-	  | list		| paragraph	  
-	  | lineBlank	| codeBlank | quoteBlank	
+	: ( yamlBlock	| dotBlock  | mathBlock  | htmlBlock
+	  | texBlock	| umlBlock	| codeBlock	 | comment
+	  | header		| hrule     | table		 | definition		
+	  | list		| paragraph	| refLinkDef | fnLinkDef
+	  | lineBlank	| codeBlank | quoteBlank
 	  | lineBreak	| VWS
 	  )*
 	  EOF
@@ -92,106 +92,138 @@ listItem
 
 definition
 	: line VWS
-	  defineItem
-	  ( VWS defineItem )* 
+	  definitionItem
+	  ( VWS definitionItem )* 
 	;
 
-defineItem
+definitionItem
 	: DEFINE paragraph
 	;
 
 // ==== Links ============
 
 link
-	: LBRACK 
-		( l_word* LNK_DEF nl? url (nl? alt )?		// [def]: url alt
-		| l_line? LNK_SEP url? alt? RPAREN			// [...](url alt)
-		| l_line? LNK_REF l_line? RBRACK			// [...][word]
-		| l_line RBRACK								// [...]
+	: LBRACK txt=phrase? LNK_SEP url? quote? RPAREN style?
+	;
+
+linkRef
+	: LBRACK
+		( txt=phrase? LNK_REF ref=phrase RBRACK		// [...][ref]
+		| ref=phrase LNK_REF RBRACK					// [ref][]
+		| ref=phrase RBRACK							// [ref]
 		)
 		style?
 	;
 
 imgLink
+	: LNK_IMG txt=phrase LNK_SEP url? quote? RPAREN style?
+	;
+
+imgLinkRef
 	: LNK_IMG
-		( l_line LNK_SEP url? alt? RPAREN
-		| l_line LNK_REF l_line* RBRACK
-		| l_line RBRACK   
+		( txt=phrase LNK_REF ref=phrase RBRACK
+		| ref=phrase LNK_REF RBRACK
+		| ref=phrase RBRACK
 		)
 		style?
 	;
 
 fnLink
-	: LNK_FN
-		( l_word LNK_DEF l_line ( nl { twoSpaces() }? l_line )* 
-		| l_line LNK_SEP url? alt? RPAREN 
-		| l_line LNK_REF l_line* RBRACK
-		| l_line RBRACK   
-		)
-		style?
+	: LNK_FN ref=phrase LNK_SEP url? quote? RPAREN style?
 	;
 
-alt
-	: DQUOTE  ( word | SQUOTE )* DQUOTE 
-	| SQUOTE  ( word | DQUOTE )* SQUOTE
-	| LDQUOTE line? RDQUOTE
-	| LSQUOTE line? RSQUOTE
+fnLinkRef
+	: LNK_FN ref=phrase RBRACK style?
 	;
 
-url 
-	: URL 
-	| URLTAG 
+autoLink
+	: URLTAG
+	| LBRACK URL RBRACK
+	| URL
 	;
+
+// ==== Link Definitions =======
+
+refLinkDef
+	: LBRACK ref=phrase? LNK_DEF nl? url (nl? quote )? style?	// [ref]: url alt
+	;
+
+fnLinkDef
+	: LNK_FN ref=phrase LNK_DEF
+	  def+=line ( nl { twoSpaces() }? def+=line )*
+	;
+
 
 // ==== Text ============
 
 // top-level: a line group of multiple lines separated by single new lines
 paragraph
-	: line ( nl line )*
+	: line
+	  (	nl line )*
 	;
 
-// internal: single line
+// single text line
 line
-	: ( link | imgLink | fnLink | word )+
-	;
-
-// internal: general text word including []
-word
-	: attrLeft*
-	  w=( WORD   | ENTITY | UNICODE
-	  	| URL    | URLTAG | HTML 
-	  	| SPAN   | MATHS  | TEX 
-	  	| LPAREN | RPAREN | PIPE
-	  	| LBRACK | RBRACK  
+	: (
+		attrLeft*
+		( quote 
+		| WORD   | PIPE	   | LPAREN  | RPAREN | ENTITY
+		| SQUOTE | DQUOTE  | ESC_SQUOTE | ESC_DQUOTE 
+		| HTML   | SPAN    | MATHS   | TEX    | UNICODE
+		| link   | linkRef | imgLink | imgLinkRef | fnLink | fnLinkRef	| autoLink 
+	  	| LBRACK | RBRACK   
 		)
-	  attrRight*
+		attrRight*
+	  )+
 	;
-
-// link internal: single line excluding non-link []
-l_line
-	: ( link | imgLink | fnLink | l_word )+
-	;
-
-// link internal: word excluding []
-l_word
-	: attrLeft*
-	  w=( WORD   | ENTITY | UNICODE
-	  	| URL    | URLTAG | HTML 
-	  	| SPAN   | MATHS  | TEX 
-	  	| LPAREN | RPAREN | PIPE
+	
+// special line excluding brackets and footnotes
+phrase
+	: ( 
+		attrLeft*
+		( quote 
+		| WORD   | PIPE	   | LPAREN  | RPAREN | ENTITY 
+		| SQUOTE | DQUOTE  | ESC_SQUOTE | ESC_DQUOTE 
+		| HTML   | SPAN    | MATHS   | TEX    | UNICODE
+		| link   | linkRef | imgLink | imgLinkRef | autoLink 
 		)
-	  attrRight*
+		attrRight*
+	  )+
 	;
 
-nl	: LINE_BREAK | VWS ;
+quote
+	: LDQUOTE 
+		( 
+			( attrLeft | LSQUOTE )* 
+			( WORD   | PIPE	   | LPAREN  | RPAREN | ENTITY 
+			| HTML   | SPAN    | MATHS   | TEX    | UNICODE
+			| link   | linkRef | imgLink | imgLinkRef | fnLink | fnLinkRef	| autoLink 
+	  		| LBRACK | RBRACK  | SQUOTE  | ESC_DQUOTE ) 
+			( attrRight | RSQUOTE )* 
+		)* 
+	  RDQUOTE
+	| LSQUOTE 
+		( 
+			( attrLeft | LDQUOTE )* 
+			( WORD   | PIPE	   | LPAREN  | RPAREN | ENTITY 
+			| HTML   | SPAN    | MATHS   | TEX    | UNICODE
+			| link   | linkRef | imgLink | imgLinkRef | fnLink | fnLinkRef	| autoLink 
+	  		| LBRACK | RBRACK  | DQUOTE  | ESC_SQUOTE )
+			( attrRight | RDQUOTE )* 
+		)* 
+	  RSQUOTE
+	;
 
-attrLeft  : LBOLD | LITALIC | LSTRIKE | LDQUOTE | LSQUOTE ;
-attrRight : RBOLD | RITALIC | RSTRIKE | RDQUOTE | RSQUOTE ;
-
-comment : COMMENT ;
+url	: URL ;
 
 lineBlank  : LINE_BLANK ;
 codeBlank  : CODE_BLANK ;
 quoteBlank : QUOTE_BLANK ;
 
-lineBreak : LINE_BREAK ;
+lineBreak  : LINE_BREAK ;
+nl		   : LINE_BREAK | VWS ;
+
+attrLeft  : LBOLD | LITALIC | LSTRIKE ;
+attrRight : RBOLD | RITALIC | RSTRIKE ;
+
+comment : COMMENT ;

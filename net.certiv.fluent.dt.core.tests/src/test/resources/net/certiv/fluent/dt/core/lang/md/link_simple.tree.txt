@@ -5,21 +5,20 @@ page
     [LINE_BLANK] 
   paragraph
     line
-      word
-        [WORD] Simple
+      [WORD] Simple
       link
         [LBRACK] [
-        l_line
-          l_word
-            [WORD] home
-          l_word
-            [WORD] page
+        phrase
+          [WORD] home
+          [WORD] page
         [LNK_SEP] ](
         url
           [URL] https://www.certiv.net
+        quote
+          [LDQUOTE] "
+          [RDQUOTE] "
         [RPAREN] )
-      word
-        [WORD] link.
+      [WORD] link.
   [VWS] ␍␊
   lineBlank
     [LINE_BLANK] 

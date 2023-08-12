@@ -30,7 +30,7 @@ public class FluentOutlinePage extends OutlinePage {
 		private boolean excluded(IStatement child) {
 			if (child.hasData()) {
 				Specialization data = (Specialization) child.getData();
-				switch (data.specializationType) {
+				switch (data.getSpecializedType()) {
 					case Bold:
 					case Italic:
 					case Underline:

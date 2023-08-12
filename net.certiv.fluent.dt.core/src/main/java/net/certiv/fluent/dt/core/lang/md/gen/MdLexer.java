@@ -23,17 +23,18 @@ public class MdLexer extends MdLexerBase {
 		new PredictionContextCache();
 	public static final int
 		WORD=1, CODE_BEG=2, CODE_END=3, CODE_TYPE=4, CODE_LINE=5, CODE_DENT=6, 
-		CODE_BLANK=7, QUOTE_BLANK=8, QUOTE_DENT=9, LBOLD=10, LITALIC=11, LSTRIKE=12, 
-		LDQUOTE=13, LSQUOTE=14, RBOLD=15, RITALIC=16, RSTRIKE=17, RDQUOTE=18, 
-		RSQUOTE=19, COMMENT=20, HTML_BLOCK_BEG=21, HTML_BLOCK_END=22, YAML_BLOCK=23, 
-		DOT_BLOCK=24, MATH_BLOCK=25, TEX_BLOCK=26, UML_BLOCK=27, MATHS=28, SPAN=29, 
-		LSTYLE=30, URL=31, URLTAG=32, HTML=33, TEX=34, UNICODE=35, ENTITY=36, 
-		HASHES=37, SETEXT=38, HRULE=39, DEFINE=40, TABLE_DEF=41, PIPE=42, BULLET_MARK=43, 
-		NUMBER_MARK=44, TASK_MARK=45, LNK_IMG=46, LNK_FN=47, LNK_SEP=48, LNK_REF=49, 
-		LNK_DEF=50, LBRACK=51, RBRACK=52, LPAREN=53, RPAREN=54, BOLD=55, ITALIC=56, 
-		STRIKE=57, DQUOTE=58, SQUOTE=59, LINE_BLANK=60, LINE_BREAK=61, LINE_DENT=62, 
-		VWS=63, HWS=64, CHAR=65, RSTYLE=66, CLASS=67, ID=68, EQ=69, DASH=70, CHAR_s=71, 
-		TYP_c=72, END_cb=73, CHR_cb=74, TYP_d=75, END_db=76, CHR_db=77;
+		CODE_BLANK=7, QUOTE_BLANK=8, QUOTE_DENT=9, ESC_SQUOTE=10, ESC_DQUOTE=11, 
+		LBOLD=12, LITALIC=13, LSTRIKE=14, LDQUOTE=15, LSQUOTE=16, RBOLD=17, RITALIC=18, 
+		RSTRIKE=19, RDQUOTE=20, RSQUOTE=21, COMMENT=22, HTML_BLOCK_BEG=23, HTML_BLOCK_END=24, 
+		YAML_BLOCK=25, DOT_BLOCK=26, MATH_BLOCK=27, TEX_BLOCK=28, UML_BLOCK=29, 
+		MATHS=30, SPAN=31, LSTYLE=32, URL=33, URLTAG=34, HTML=35, TEX=36, UNICODE=37, 
+		ENTITY=38, HASHES=39, SETEXT=40, HRULE=41, DEFINE=42, TABLE_DEF=43, PIPE=44, 
+		BULLET_MARK=45, NUMBER_MARK=46, TASK_MARK=47, LNK_IMG=48, LNK_FN=49, LNK_SEP=50, 
+		LNK_REF=51, LNK_DEF=52, LBRACK=53, RBRACK=54, LPAREN=55, RPAREN=56, BOLD=57, 
+		ITALIC=58, STRIKE=59, DQUOTE=60, SQUOTE=61, LINE_BLANK=62, LINE_BREAK=63, 
+		LINE_DENT=64, VWS=65, HWS=66, CHAR=67, RSTYLE=68, CLASS=69, ID=70, EQ=71, 
+		DASH=72, CHAR_s=73, TYP_c=74, END_cb=75, CHR_cb=76, TYP_d=77, END_db=78, 
+		CHR_db=79;
 	public static final int
 		Style=1, CodeTics=2, TicsBody=3, CodeTildes=4, TildesBody=5;
 	public static String[] channelNames = {
@@ -84,17 +85,17 @@ public class MdLexer extends MdLexerBase {
 	private static String[] makeSymbolicNames() {
 		return new String[] {
 			null, "WORD", "CODE_BEG", "CODE_END", "CODE_TYPE", "CODE_LINE", "CODE_DENT", 
-			"CODE_BLANK", "QUOTE_BLANK", "QUOTE_DENT", "LBOLD", "LITALIC", "LSTRIKE", 
-			"LDQUOTE", "LSQUOTE", "RBOLD", "RITALIC", "RSTRIKE", "RDQUOTE", "RSQUOTE", 
-			"COMMENT", "HTML_BLOCK_BEG", "HTML_BLOCK_END", "YAML_BLOCK", "DOT_BLOCK", 
-			"MATH_BLOCK", "TEX_BLOCK", "UML_BLOCK", "MATHS", "SPAN", "LSTYLE", "URL", 
-			"URLTAG", "HTML", "TEX", "UNICODE", "ENTITY", "HASHES", "SETEXT", "HRULE", 
-			"DEFINE", "TABLE_DEF", "PIPE", "BULLET_MARK", "NUMBER_MARK", "TASK_MARK", 
-			"LNK_IMG", "LNK_FN", "LNK_SEP", "LNK_REF", "LNK_DEF", "LBRACK", "RBRACK", 
-			"LPAREN", "RPAREN", "BOLD", "ITALIC", "STRIKE", "DQUOTE", "SQUOTE", "LINE_BLANK", 
-			"LINE_BREAK", "LINE_DENT", "VWS", "HWS", "CHAR", "RSTYLE", "CLASS", "ID", 
-			"EQ", "DASH", "CHAR_s", "TYP_c", "END_cb", "CHR_cb", "TYP_d", "END_db", 
-			"CHR_db"
+			"CODE_BLANK", "QUOTE_BLANK", "QUOTE_DENT", "ESC_SQUOTE", "ESC_DQUOTE", 
+			"LBOLD", "LITALIC", "LSTRIKE", "LDQUOTE", "LSQUOTE", "RBOLD", "RITALIC", 
+			"RSTRIKE", "RDQUOTE", "RSQUOTE", "COMMENT", "HTML_BLOCK_BEG", "HTML_BLOCK_END", 
+			"YAML_BLOCK", "DOT_BLOCK", "MATH_BLOCK", "TEX_BLOCK", "UML_BLOCK", "MATHS", 
+			"SPAN", "LSTYLE", "URL", "URLTAG", "HTML", "TEX", "UNICODE", "ENTITY", 
+			"HASHES", "SETEXT", "HRULE", "DEFINE", "TABLE_DEF", "PIPE", "BULLET_MARK", 
+			"NUMBER_MARK", "TASK_MARK", "LNK_IMG", "LNK_FN", "LNK_SEP", "LNK_REF", 
+			"LNK_DEF", "LBRACK", "RBRACK", "LPAREN", "RPAREN", "BOLD", "ITALIC", 
+			"STRIKE", "DQUOTE", "SQUOTE", "LINE_BLANK", "LINE_BREAK", "LINE_DENT", 
+			"VWS", "HWS", "CHAR", "RSTYLE", "CLASS", "ID", "EQ", "DASH", "CHAR_s", 
+			"TYP_c", "END_cb", "CHR_cb", "TYP_d", "END_db", "CHR_db"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -443,14 +444,14 @@ public class MdLexer extends MdLexerBase {
 	private boolean DQUOTE_sempred(RuleContext _localctx, int predIndex) {
 		switch (predIndex) {
 		case 20:
-			return  attr() ;
+			return  dquote() ;
 		}
 		return true;
 	}
 	private boolean SQUOTE_sempred(RuleContext _localctx, int predIndex) {
 		switch (predIndex) {
 		case 21:
-			return  attr() ;
+			return  squote() ;
 		}
 		return true;
 	}
@@ -493,7 +494,7 @@ public class MdLexer extends MdLexerBase {
 	}
 
 	public static final String _serializedATN =
-		"\u0004\u0000M\u07ca\u0006\uffff\uffff\u0006\uffff\uffff\u0006\uffff\uffff"+
+		"\u0004\u0000O\u07ca\u0006\uffff\uffff\u0006\uffff\uffff\u0006\uffff\uffff"+
 		"\u0006\uffff\uffff\u0006\uffff\uffff\u0006\uffff\uffff\u0002\u0000\u0007"+
 		"\u0000\u0002\u0001\u0007\u0001\u0002\u0002\u0007\u0002\u0002\u0003\u0007"+
 		"\u0003\u0002\u0004\u0007\u0004\u0002\u0005\u0007\u0005\u0002\u0006\u0007"+
@@ -730,40 +731,40 @@ public class MdLexer extends MdLexerBase {
 		"\u0001\u00b0\u0001\u00b0\u0001\u00b1\u0001\u00b1\u0001\u00b2\u0001\u00b2"+
 		"\u0001\u00b3\u0001\u00b3\u0001\u00b4\u0001\u00b4\u0001\u00b5\u0001\u00b5"+
 		"\u0001\u00b6\u0001\u00b6\r\u01a1\u01ac\u01b7\u02d7\u02e1\u046d\u0491\u04ae"+
-		"\u04de\u04e7\u0681\u069e\u06c0\u0000\u00b7\u0006\u0014\b\u0000\n\u0000"+
-		"\f\u0015\u000e\u0016\u0010\u0017\u0012\u0018\u0014\u0019\u0016\u001a\u0018"+
-		"\u001b\u001a\u001c\u001c\u001d\u001e\u001e \u001f\" $!&\"(#*$,%.&0\'2"+
-		"(4)6*8+:,<->.@/B0D1F2H3J4L5N6P7R8T9V:X;Z<\\=^>`?b@dAfBhCjDlEnFp\u0000"+
-		"r\u0000t\u0000vGx\u0000z\u0000|\u0000~H\u0080I\u0082\u0000\u0084J\u0086"+
-		"\u0000\u0088\u0000\u008a\u0000\u008cK\u008eL\u0090\u0000\u0092M\u0094"+
-		"\u0000\u0096\u0000\u0098\u0000\u009a\u0000\u009c\u0000\u009e\u0000\u00a0"+
-		"\u0000\u00a2\u0000\u00a4\u0000\u00a6\u0000\u00a8\u0000\u00aa\u0000\u00ac"+
-		"\u0000\u00ae\u0000\u00b0\u0000\u00b2\u0000\u00b4\u0000\u00b6\u0000\u00b8"+
-		"\u0000\u00ba\u0000\u00bc\u0000\u00be\u0000\u00c0\u0000\u00c2\u0000\u00c4"+
-		"\u0000\u00c6\u0000\u00c8\u0000\u00ca\u0000\u00cc\u0000\u00ce\u0000\u00d0"+
-		"\u0000\u00d2\u0000\u00d4\u0000\u00d6\u0000\u00d8\u0000\u00da\u0000\u00dc"+
-		"\u0000\u00de\u0000\u00e0\u0000\u00e2\u0000\u00e4\u0000\u00e6\u0000\u00e8"+
-		"\u0000\u00ea\u0000\u00ec\u0000\u00ee\u0000\u00f0\u0000\u00f2\u0000\u00f4"+
-		"\u0000\u00f6\u0000\u00f8\u0000\u00fa\u0000\u00fc\u0000\u00fe\u0000\u0100"+
-		"\u0000\u0102\u0000\u0104\u0000\u0106\u0000\u0108\u0000\u010a\u0000\u010c"+
-		"\u0000\u010e\u0000\u0110\u0000\u0112\u0000\u0114\u0000\u0116\u0000\u0118"+
-		"\u0000\u011a\u0000\u011c\u0000\u011e\u0000\u0120\u0000\u0122\u0000\u0124"+
-		"\u0000\u0126\u0000\u0128\u0000\u012a\u0000\u012c\u0000\u012e\u0000\u0130"+
-		"\u0000\u0132\u0000\u0134\u0000\u0136\u0000\u0138\u0000\u013a\u0000\u013c"+
-		"\u0000\u013e\u0000\u0140\u0000\u0142\u0000\u0144\u0000\u0146\u0000\u0148"+
-		"\u0000\u014a\u0000\u014c\u0000\u014e\u0000\u0150\u0000\u0152\u0000\u0154"+
-		"\u0000\u0156\u0000\u0158\u0000\u015a\u0000\u015c\u0000\u015e\u0000\u0160"+
-		"\u0000\u0162\u0000\u0164\u0000\u0166\u0000\u0168\u0000\u016a\u0000\u016c"+
-		"\u0000\u016e\u0000\u0170\u0000\u0172\u0000\u0006\u0000\u0001\u0002\u0003"+
-		"\u0004\u0005\u001a\u0001\u0000\\\\\u0002\u0000*+--\u0002\u0000  __\u0003"+
-		"\u0000\n\n\f\r\\\\\u0004\u0000\n\n\f\r\\\\``\u0002\u0000++-.\u0004\u0000"+
-		"%%++-.__\u0006\u0000%&++-.;;==__\u0007\u0000\t\n\f\r  //::@@\\\\\u0002"+
-		"\u0000--__\u0002\u0000**__\u0004\u0000\t\n\f\r  \\\\\u0007\u0000##+;="+
-		"=??AZ__az\u0002\u0000\\\\}}\u0004\u0000\n\n\r\r\"\"\\\\\u0004\u0000\""+
-		"\"**_`~~\u0004\u0000!!--//__\u0001\u0000AZ\u0001\u0000az\t\u0000!~\u00a0"+
-		"\u1fff\u200b\u200d\u2010\u2027\u2030\u205e\u2070\u2fff\u3001\u8000\ud7ff"+
-		"\u8000\uf900\u8000\ufdcf\u8000\ufdf0\u8000\ufffd\u0001\u000009\u0003\u0000"+
-		"09AFaf\u0002\u0000XXxx\u0005\u0000\n\n\r\r\\\\{{}}\u0003\u0000\n\n\r\r"+
+		"\u04de\u04e7\u0681\u069e\u06c0\u0000\u00b7\u0006\u0016\b\u0000\n\u0000"+
+		"\f\u0017\u000e\u0018\u0010\u0019\u0012\u001a\u0014\u001b\u0016\u001c\u0018"+
+		"\u001d\u001a\u001e\u001c\u001f\u001e  !\"\"$#&$(%*&,\'.(0)2*4+6,8-:.<"+
+		"/>0@1B2D3F4H5J6L7N8P9R:T;V<X=Z>\\?^@`AbBdCfDhEjFlGnHp\u0000r\u0000t\u0000"+
+		"vIx\u0000z\u0000|\u0000~J\u0080K\u0082\u0000\u0084L\u0086\u0000\u0088"+
+		"\u0000\u008a\u0000\u008cM\u008eN\u0090\u0000\u0092O\u0094\u0000\u0096"+
+		"\u0000\u0098\u0000\u009a\u0000\u009c\u0000\u009e\u0000\u00a0\u0000\u00a2"+
+		"\u0000\u00a4\u0000\u00a6\u0000\u00a8\u0000\u00aa\u0000\u00ac\u0000\u00ae"+
+		"\u0000\u00b0\u0000\u00b2\u0000\u00b4\u0000\u00b6\u0000\u00b8\u0000\u00ba"+
+		"\u0000\u00bc\u0000\u00be\u0000\u00c0\u0000\u00c2\u0000\u00c4\u0000\u00c6"+
+		"\u0000\u00c8\u0000\u00ca\u0000\u00cc\u0000\u00ce\u0000\u00d0\u0000\u00d2"+
+		"\u0000\u00d4\u0000\u00d6\u0000\u00d8\u0000\u00da\u0000\u00dc\u0000\u00de"+
+		"\u0000\u00e0\u0000\u00e2\u0000\u00e4\u0000\u00e6\u0000\u00e8\u0000\u00ea"+
+		"\u0000\u00ec\u0000\u00ee\u0000\u00f0\u0000\u00f2\u0000\u00f4\u0000\u00f6"+
+		"\u0000\u00f8\u0000\u00fa\u0000\u00fc\u0000\u00fe\u0000\u0100\u0000\u0102"+
+		"\u0000\u0104\u0000\u0106\u0000\u0108\u0000\u010a\u0000\u010c\u0000\u010e"+
+		"\u0000\u0110\u0000\u0112\u0000\u0114\u0000\u0116\u0000\u0118\u0000\u011a"+
+		"\u0000\u011c\u0000\u011e\u0000\u0120\u0000\u0122\u0000\u0124\u0000\u0126"+
+		"\u0000\u0128\u0000\u012a\u0000\u012c\u0000\u012e\u0000\u0130\u0000\u0132"+
+		"\u0000\u0134\u0000\u0136\u0000\u0138\u0000\u013a\u0000\u013c\u0000\u013e"+
+		"\u0000\u0140\u0000\u0142\u0000\u0144\u0000\u0146\u0000\u0148\u0000\u014a"+
+		"\u0000\u014c\u0000\u014e\u0000\u0150\u0000\u0152\u0000\u0154\u0000\u0156"+
+		"\u0000\u0158\u0000\u015a\u0000\u015c\u0000\u015e\u0000\u0160\u0000\u0162"+
+		"\u0000\u0164\u0000\u0166\u0000\u0168\u0000\u016a\u0000\u016c\u0000\u016e"+
+		"\u0000\u0170\u0000\u0172\u0000\u0006\u0000\u0001\u0002\u0003\u0004\u0005"+
+		"\u001a\u0001\u0000\\\\\u0002\u0000*+--\u0002\u0000  __\u0003\u0000\n\n"+
+		"\f\r\\\\\u0004\u0000\n\n\f\r\\\\``\u0002\u0000++-.\u0004\u0000%%++-._"+
+		"_\u0006\u0000%&++-.;;==__\u0007\u0000\t\n\f\r  //::@@\\\\\u0002\u0000"+
+		"--__\u0002\u0000**__\u0004\u0000\t\n\f\r  \\\\\u0007\u0000##+;==??AZ_"+
+		"_az\u0002\u0000\\\\}}\u0004\u0000\n\n\r\r\"\"\\\\\u0004\u0000\"\"**_`"+
+		"~~\u0004\u0000!!--//__\u0001\u0000AZ\u0001\u0000az\t\u0000!~\u00a0\u1fff"+
+		"\u200b\u200d\u2010\u2027\u2030\u205e\u2070\u2fff\u3001\u8000\ud7ff\u8000"+
+		"\uf900\u8000\ufdcf\u8000\ufdf0\u8000\ufffd\u0001\u000009\u0003\u00000"+
+		"9AFaf\u0002\u0000XXxx\u0005\u0000\n\n\r\r\\\\{{}}\u0003\u0000\n\n\r\r"+
 		"\\]\b\u0000\"\"\'\'\\\\bbffnnrrtt\u085b\u0000\u0006\u0001\u0000\u0000"+
 		"\u0000\u0000\b\u0001\u0000\u0000\u0000\u0000\n\u0001\u0000\u0000\u0000"+
 		"\u0000\f\u0001\u0000\u0000\u0000\u0000\u000e\u0001\u0000\u0000\u0000\u0000"+
@@ -1797,10 +1798,10 @@ public class MdLexer extends MdLexerBase {
 		"\u06f5\u06f7\u06ff\u0701\u0706\u0708\u0719\u0725\u0729\u072d\u0744\u0746"+
 		"\u0748\u074a\u0752\u075d\u0765\u0767\u076b\u0771\u0773\u077b\u077d\u0787"+
 		"\u0015\u0007\u0002\u0000\u0005\u0002\u0000\u0005\u0004\u0000\u0005\u0001"+
-		"\u0000\u0000\u0001\u0000\u0001/\u0000\u0004\u0000\u0000\u0007:\u0000\u0007"+
-		";\u0000\u0007@\u0000\u00018\u0001\u0007\u001e\u0000\u0007?\u0000\u0005"+
-		"\u0003\u0000\u0001<\u0002\u0001=\u0003\u0001?\u0004\u0005\u0005\u0000"+
-		"\u0001C\u0005\u0001D\u0006\u0001F\u0007";
+		"\u0000\u0000\u0001\u0000\u0001/\u0000\u0004\u0000\u0000\u0007<\u0000\u0007"+
+		"=\u0000\u0007B\u0000\u00018\u0001\u0007 \u0000\u0007A\u0000\u0005\u0003"+
+		"\u0000\u0001<\u0002\u0001=\u0003\u0001?\u0004\u0005\u0005\u0000\u0001"+
+		"C\u0005\u0001D\u0006\u0001F\u0007";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

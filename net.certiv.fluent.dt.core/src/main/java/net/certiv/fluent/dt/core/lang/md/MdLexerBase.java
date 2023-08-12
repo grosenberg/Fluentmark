@@ -2,6 +2,8 @@ package net.certiv.fluent.dt.core.lang.md;
 
 import static net.certiv.fluent.dt.core.lang.md.gen.MdLexer.*;
 
+import java.text.CharacterIterator;
+import java.text.StringCharacterIterator;
 import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -21,6 +23,7 @@ import net.certiv.fluent.dt.core.lang.LexerNlp;
 
 public abstract class MdLexerBase extends LexerNlp {
 
+	private static final String ESC = "\\";
 	private static final String TXT = "\\V*";
 	private static final String SPC = "\\h*";
 
@@ -87,14 +90,6 @@ public abstract class MdLexerBase extends LexerNlp {
 			+ DEF_TERM //
 			+ "(" + DEF_MARK + ".*?)*" //
 			+ DEF_MARK  //
-	);
-
-	private static final Pattern EDGE = Pattern.compile("" //
-			+ "[*_~'\"]*" //
-			+ "(\\s" //
-			+ "|[!#$%&()+,-./:;<=>?@[\\\\]^`{|}]" //
-			+ "|$" //
-			+ ")"//
 	);
 
 	class Span {
@@ -334,6 +329,47 @@ public abstract class MdLexerBase extends LexerNlp {
 		return _input.LA(1) != Chars.TIC;
 	}
 
+	protected boolean squote() {
+		return quote(Chars.MARK, ESC_SQUOTE, LSQUOTE, RSQUOTE, SQUOTE);
+	}
+
+	protected boolean dquote() {
+		return quote(Chars.QUOTE, ESC_DQUOTE, LDQUOTE, RDQUOTE, DQUOTE);
+	}
+
+	private boolean quote(char mark, int esc, int left, int right, int plain) {
+		if (ESC.equals(la(-1))) {
+			setType(esc);
+
+		} else {
+			boolean lead = atLeadEdge(mark);
+			boolean trail = atTrailEdge(mark);
+			if (lead && trail || !lead && !trail) { // alone or mid
+				setType(plain);
+			} else if (lead) {
+				setType(left);
+			} else {
+				setType(right);
+			}
+		}
+		return true;
+	}
+
+	private boolean atLeadEdge(char mark) {
+		String line = linePrefix(_pStartCharIndex);
+		line = StringUtils.reverse(line);
+		boolean edge = scan(line, mark);
+		// detail("Lead", edge);
+		return edge;
+	}
+
+	private boolean atTrailEdge(char mark) {
+		String line = lineSuffix(_pStartCharIndex + 1);
+		boolean edge = scan(line, mark);
+		// detail("Trail", edge);
+		return edge;
+	}
+
 	protected boolean attr() {
 		boolean lft = attrLeftEdge();
 		boolean rgt = attrRightEdge();
@@ -360,36 +396,64 @@ public abstract class MdLexerBase extends LexerNlp {
 				setType(lft ? LSTRIKE : RSTRIKE);
 				return true;
 
-			case "\"":
-				setType(lft ? LDQUOTE : RDQUOTE);
-				return true;
-
-			case "'":
-				setType(lft ? LSQUOTE : RSQUOTE);
-				return true;
-
 			default:
 				return true;
 		}
 	}
 
 	private boolean attrLeftEdge() {
-		String line = linePrefix(_pStartCharIndex + currentMatched().length());
-		boolean lf = EDGE.matcher(StringUtils.reverse(line)).lookingAt();
-		// Log.debug("Left_Edge[%b] %s <%s:%s:%s> %s", //
-		// lf, currentMatched(), _pStartLine, _pStartCharPositionInLine, _pStartCharIndex,
-		// Strings.encode(line));
-		return lf;
+		String line = linePrefix(_pStartCharIndex);
+		line = StringUtils.reverse(line);
+		boolean edge = scan(line);
+		// detail("AttrLeft", edge);
+		return edge;
 	}
 
 	private boolean attrRightEdge() {
-		String line = lineSuffix(_pStartCharIndex);
-		boolean rt = EDGE.matcher(line).lookingAt();
-		// Log.debug("RightEdge[%b] %s <%s:%s:%s> %s", //
-		// rt, currentMatched(), _pStartLine, _pStartCharPositionInLine, _pStartCharIndex,
-		// Strings.encode(line));
-		return rt;
+		String line = lineSuffix(_pStartCharIndex + currentMatched().length());
+		boolean edge = scan(line);
+		// detail("AttrRight", edge);
+		return edge;
 	}
+
+	private boolean scan(String input) {
+		return scan(input, null);
+	}
+
+	private boolean scan(String input, Character exclude) {
+		StringCharacterIterator itr = new StringCharacterIterator(input);
+		for (char c = itr.first(); c != CharacterIterator.DONE; c = itr.next()) {
+			if (c == Chars.ESC) {
+				c = itr.next();
+
+			} else {
+				if (Character.isWhitespace(c)) return true;
+				if (exclude != null && exclude.equals(c)) return false;
+				if (!Chars.isPunctuation(c)) return false;
+			}
+		}
+		return true;
+	}
+
+	// private void detail(String at, boolean edge) {
+	// String matched = currentMatched();
+	// int beg = _pStartCharIndex;
+	// int len = matched.length();
+	// int ln = _pStartLine;
+	// int pos = _pStartCharPositionInLine;
+	//
+	// String line = line(beg);
+	// String prefix = linePrefix(beg);
+	// String suffix = lineSuffix(beg + len);
+	//
+	// MsgBuilder mb = new MsgBuilder();
+	// mb.append("%s[%s] <%s> @%s:%s [%s:%s]", at, edge, matched, ln, pos, beg, len).nl();
+	// mb.indent("Match=%s", Strings.encode(matched)).nl();
+	// mb.indent("Line=%s", Strings.encode(line)).nl();
+	// mb.indent("Pref=%s", Strings.encode(prefix)).nl();
+	// mb.indent("Suff=%s", Strings.encode(suffix));
+	// Log.debug(mb.toString());
+	// }
 
 	protected boolean link() {
 		boolean found = false;

@@ -5,41 +5,26 @@ page
     [LINE_BLANK] 
   paragraph
     line
-      word
-        [WORD] Simple
-      word
-        [WORD] paragraph
-      word
-        [WORD] of
-      word
-        [WORD] text.
-      word
-        [WORD] There
-      word
-        [WORD] are
+      [WORD] Simple
+      [WORD] paragraph
+      [WORD] of
+      [WORD] text.
+      [WORD] There
+      [WORD] are
     nl
       [VWS] ␍␊
     line
-      word
-        [WORD] two
-      word
-        [WORD] consecutive
-      word
-        [WORD] lines
-      word
-        [WORD] of
-      word
-        [WORD] text.
+      [WORD] two
+      [WORD] consecutive
+      [WORD] lines
+      [WORD] of
+      [WORD] text.
   lineBlank
     [LINE_BLANK] ␍␊␍␊
   paragraph
     line
-      word
-        [WORD] Second
-      word
-        [WORD] paragraph
-      word
-        [WORD] of
-      word
-        [WORD] text.
+      [WORD] Second
+      [WORD] paragraph
+      [WORD] of
+      [WORD] text.
   [EOF] <EOF>
