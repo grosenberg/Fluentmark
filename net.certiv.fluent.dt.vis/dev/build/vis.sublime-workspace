@@ -143,6 +143,39 @@
 	},
 	"buffers":
 	[
+		{
+			"file": "/C/Users/gbr/Apps/RDock/Scripts/RDBackup.bat",
+			"settings":
+			{
+				"buffer_size": 1048,
+				"line_ending": "Windows"
+			},
+			"undo_stack":
+			[
+			]
+		},
+		{
+			"file": "run_build.bat",
+			"settings":
+			{
+				"buffer_size": 206,
+				"line_ending": "Windows"
+			},
+			"undo_stack":
+			[
+			]
+		},
+		{
+			"file": "run_zip.bat",
+			"settings":
+			{
+				"buffer_size": 313,
+				"line_ending": "Windows"
+			},
+			"undo_stack":
+			[
+			]
+		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -233,6 +266,7 @@
 	"expanded_folders":
 	[
 		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev",
+		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/build",
 		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/vis"
 	],
 	"file_history":
@@ -569,6 +603,96 @@
 		{
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "/C/Users/gbr/Apps/RDock/Scripts/RDBackup.bat",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1048,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								522,
+								522
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Batch File/Batch File.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 200.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"stack_multiselect": false,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "run_build.bat",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 206,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								138
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Batch File/Batch File.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"stack_multiselect": false,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "run_zip.bat",
+					"selected": true,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 313,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								289,
+								313
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Batch File/Batch File.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"stack_multiselect": false,
+					"type": "text"
+				}
 			]
 		}
 	],
