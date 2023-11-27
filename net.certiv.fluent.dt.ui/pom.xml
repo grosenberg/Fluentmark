@@ -19,7 +19,7 @@
 
 	<properties>
 		<flexmark.version>0.64.0</flexmark.version>
-		<plantuml.version>1.2022.4</plantuml.version>
+		<plantuml.version>1.2023.9</plantuml.version>
 	</properties>
 
 	<dependencies>
