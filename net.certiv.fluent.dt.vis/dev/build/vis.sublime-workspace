@@ -144,37 +144,31 @@
 	"buffers":
 	[
 		{
-			"file": "/C/Users/gbr/Apps/RDock/Scripts/RDBackup.bat",
+			"file": "/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/vis/src/views/Liveview.vue",
 			"settings":
 			{
-				"buffer_size": 1048,
-				"line_ending": "Windows"
+				"buffer_size": 4857,
+				"line_ending": "Unix"
 			},
 			"undo_stack":
 			[
 			]
 		},
 		{
-			"file": "run_build.bat",
+			"file": "/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/vis/src/store/types/WsTypes.ts",
 			"settings":
 			{
-				"buffer_size": 206,
-				"line_ending": "Windows"
-			},
-			"undo_stack":
-			[
-			]
+				"buffer_size": 1276,
+				"line_ending": "Unix"
+			}
 		},
 		{
-			"file": "run_zip.bat",
+			"file": "/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/vis/src/store/types/AppTypes.ts",
 			"settings":
 			{
-				"buffer_size": 313,
-				"line_ending": "Windows"
-			},
-			"undo_stack":
-			[
-			]
+				"buffer_size": 441,
+				"line_ending": "Unix"
+			}
 		}
 	],
 	"build_system": "",
@@ -266,13 +260,21 @@
 	"expanded_folders":
 	[
 		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev",
-		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/build",
-		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/vis"
+		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/vis",
+		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/vis/src",
+		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/vis/src/plugins",
+		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/vis/src/store",
+		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/vis/src/store/types"
 	],
 	"file_history":
 	[
-		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/.gitignore",
+		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/vis/index.html",
+		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/vis/src/main.ts",
+		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/vis/src/App.vue",
+		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/build/run_zip.bat",
 		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/build/run_build.bat",
+		"/C/Users/gbr/Apps/RDock/Scripts/RDBackup.bat",
+		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/.gitignore",
 		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/build/run_dev.bat",
 		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/vis/package.json",
 		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/vis/src/views/Liveview.vue",
@@ -296,14 +298,12 @@
 		"/C/Users/gbr/AppData/Local/Temp/7zO82DAC415/main.js",
 		"/C/Users/gbr/AppData/Local/Temp/7zO82DF8075/App.vue",
 		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/vis/src/store/app.ts",
-		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/build/run_zip.bat",
 		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/vis/dist/assets/Liveview-5c696c1f.css",
 		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/vis/dist/assets/VBtn-00d29584.js",
 		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/vis/src/styles/layout/layout.scss",
 		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/vis/src/styles/markdown-body/index.scss",
 		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev - ver 1/liveview/src/main.js",
 		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/vis/src/styles/settings.scss",
-		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/vis/src/main.ts",
 		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/vis/src/store/socket.ts",
 		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev - ver 1/liveview/src/App.vue",
 		"/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/vis/src/store/types/WsTypes.ts",
@@ -395,10 +395,7 @@
 		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/components/d3/lib/libNetDiagram.js",
 		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/pages/Graphs.vue",
 		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/components/d3/TreeDiagram.vue",
-		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/components/d3/lib/libFlexTreeDiagram.js",
-		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/components/d3/lib/utils.js",
-		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/components/d3/lib/libTreeDiagram.js",
-		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/components/d3/lib/flexTreeDemo.js"
+		"/D/DevFiles/Eclipse/Tools/NFlow/net.certiv.nflow/net.certiv.nflow.ui/src/main/resources/dev/src/components/d3/lib/libFlexTreeDiagram.js"
 	],
 	"find":
 	{
@@ -605,58 +602,29 @@
 			[
 				{
 					"buffer": 0,
-					"file": "/C/Users/gbr/Apps/RDock/Scripts/RDBackup.bat",
+					"file": "/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/vis/src/views/Liveview.vue",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1048,
+						"buffer_size": 4857,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								522,
-								522
+								2894,
+								2946
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Batch File/Batch File.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": false
+							"syntax": "Packages/Vue Syntax Highlight/Vue Component.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 200.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"stack_multiselect": false,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "run_build.bat",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 206,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								138
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Batch File/Batch File.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 1701.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 2,
@@ -664,26 +632,59 @@
 					"type": "text"
 				},
 				{
-					"buffer": 2,
-					"file": "run_zip.bat",
-					"selected": true,
+					"buffer": 1,
+					"file": "/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/vis/src/store/types/WsTypes.ts",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 313,
+						"buffer_size": 1276,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								289,
-								313
+								0,
+								0
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Batch File/Batch File.sublime-syntax"
+							"syntax": "Packages/JavaScript/TypeScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"stack_multiselect": false,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "/D/DevFiles/Eclipse/Tools/Editors/net.certiv.fluent.dt/net.certiv.fluent.dt.vis/dev/vis/src/store/types/AppTypes.ts",
+					"selected": true,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 441,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/TypeScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
