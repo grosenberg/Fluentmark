@@ -155,7 +155,7 @@ public class LiveUtil {
 
 		try {
 			// create "tmp/<ws_context>"
-			File root = FsUtil.createTmpFolder(wctx);
+			File root = FsUtil.createTmpFolder(wctx).getCanonicalFile();
 			FsUtil.deleteTmpFolderOnExit(root);
 
 			// copy "<bundle>/<ws_context>/client.zip" to "tmp/liveview/client.zip"

@@ -141,7 +141,7 @@ public class LiveServer {
 
 			ResourceHandler rhx = new ResourceHandler();
 			rhx.setDirectoriesListed(false);
-			rhx.setBaseResource(new PathResource(respath.toRealPath()));
+			rhx.setBaseResource(new PathResource(respath));
 
 			ContextHandler chx = new ContextHandler(Strings.SLASH);
 			chx.setHandler(rhx);
