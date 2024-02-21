@@ -304,7 +304,7 @@ public class PdfGen {
 
 		int num = Maths.nextRandom(999);
 		File root = FsUtil.createTmpFolder(wctx);
-		FsUtil.deleteTmpFolderOnExit(root);
+		FsUtil.deleteFolderOnExit(root);
 		return FsUtil.createTmpFolder(String.format("%s/pdf-%04d", wctx, num));
 	}
 

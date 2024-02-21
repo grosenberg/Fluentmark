@@ -156,7 +156,7 @@ public class LiveUtil {
 		try {
 			// create "tmp/<ws_context>"
 			File root = FsUtil.createTmpFolder(wctx);
-			FsUtil.deleteTmpFolderOnExit(root);
+			FsUtil.deleteFolderOnExit(root);
 
 			// copy "<bundle>/<ws_context>/client.zip" to "tmp/liveview/client.zip"
 			File zip = Resources.fromBundle(FluentVis.ID, CLIENT_ZIP, root);

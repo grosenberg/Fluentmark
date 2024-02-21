@@ -3,14 +3,15 @@
 // by XVisitor 4.8.0
 //
 package net.certiv.fluent.dt.core.lang.md.gen;
-	import  net.certiv.fluent.dt.core.lang.md.model.StructureBuilder;
-	import  static net.certiv.fluent.dt.core.lang.md.model.SpecializedType.*;
-	import  static net.certiv.fluent.dt.core.lang.md.model.SpecSubType.*;
+	import static net.certiv.fluent.dt.core.lang.md.model.SpecSubType.INLINE;
+import static net.certiv.fluent.dt.core.lang.md.model.SpecSubType.REF;
+import static net.certiv.fluent.dt.core.lang.md.model.SpecSubType.REF_DEF;
+import  static net.certiv.fluent.dt.core.lang.md.model.SpecializedType.*;
 
-import java.util.List;
 import org.antlr.v4.runtime.tree.ParseTree;
-import net.certiv.antlr.runtime.xvisitor.Processor;
+
 import net.certiv.antlr.runtime.xvisitor.xpath.EType;
+import  net.certiv.fluent.dt.core.lang.md.model.StructureBuilder;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class StructureVisitor extends StructureBuilder {

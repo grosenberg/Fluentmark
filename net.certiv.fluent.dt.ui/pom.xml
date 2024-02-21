@@ -9,7 +9,7 @@
 	<parent>
 		<groupId>net.certiv</groupId>
 		<artifactId>net.certiv.fluent.dt</artifactId>
-		<version>1.9.0-SNAPSHOT</version>
+		<version>1.9.2-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>net.certiv.fluent.dt.ui</artifactId>
@@ -17,16 +17,10 @@
 	<name>Fluentmark :: ui</name>
 	<description>Fluentmark UI</description>
 
-	<properties>
-		<flexmark.version>0.64.0</flexmark.version>
-		<plantuml.version>1.2022.4</plantuml.version>
-	</properties>
-
 	<dependencies>
-
 		<dependency>
 			<groupId>net.sourceforge.plantuml</groupId>
-			<artifactId>plantuml</artifactId>
+			<artifactId>plantuml-epl</artifactId>
 			<version>${plantuml.version}</version>
 		</dependency>
 
@@ -262,7 +256,6 @@
 		</dependency>
 	</dependencies>
 
-
 	<build>
 		<plugins>
 
@@ -352,7 +345,8 @@
 								</artifactItem>
 								<artifactItem>
 									<groupId>com.vladsch.flexmark</groupId>
-									<artifactId>flexmark-ext-enumerated-reference</artifactId>
+									<artifactId>
+										flexmark-ext-enumerated-reference</artifactId>
 									<version>${flexmark.version}</version>
 									<type>jar</type>
 									<overWrite>true</overWrite>
@@ -609,7 +603,7 @@
 									<type>jar</type>
 									<overWrite>true</overWrite>
 								</artifactItem>
- 
+
 							</artifactItems>
 
 							<outputDirectory>${project.basedir}/lib</outputDirectory>

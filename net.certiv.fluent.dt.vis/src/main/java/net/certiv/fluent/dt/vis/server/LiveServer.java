@@ -1,5 +1,8 @@
 package net.certiv.fluent.dt.vis.server;
 
+import static org.eclipse.jetty.servlet.ServletContextHandler.NO_SECURITY;
+import static org.eclipse.jetty.servlet.ServletContextHandler.SESSIONS;
+
 import java.io.File;
 import java.nio.file.Path;
 import java.time.Duration;
@@ -17,7 +20,7 @@ import org.eclipse.jetty.server.handler.ContextHandlerCollection;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
-import org.eclipse.jetty.util.resource.PathResource;
+import org.eclipse.jetty.util.resource.Resource;
 import org.eclipse.jetty.websocket.api.RemoteEndpoint;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.server.JettyWebSocketServlet;
@@ -39,12 +42,11 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchPartSite;
 import org.eclipse.ui.texteditor.IDocumentProvider;
 
-import com.google.gson.Gson;
-
 import jakarta.servlet.Servlet;
 import net.certiv.common.log.Level;
 import net.certiv.common.log.Log;
 import net.certiv.common.stores.Holder;
+import net.certiv.common.util.JsonUtil;
 import net.certiv.common.util.Strings;
 import net.certiv.common.util.Time;
 import net.certiv.dsl.core.model.ICodeUnit;
@@ -76,7 +78,6 @@ public class LiveServer {
 	private static final String ErrMsgSend = "WS send message failed: %s";
 
 	private final SessionMap sessions = new SessionMap();
-	private final Gson gson = new Gson();
 	private final Monitor monitor = new Monitor();
 
 	private PrefsManager mgr;
@@ -140,20 +141,18 @@ public class LiveServer {
 			// ---- serve static files from "<tmp>/<ws_context>/app/*" to "/"
 
 			ResourceHandler rhx = new ResourceHandler();
+			rhx.setBaseResource(Resource.newResource(respath));
 			rhx.setDirectoriesListed(false);
-			rhx.setBaseResource(new PathResource(respath));
 
 			ContextHandler chx = new ContextHandler(Strings.SLASH);
 			chx.setHandler(rhx);
-			chx.clearAliasChecks();
 			chx.setAllowNullPathInfo(true);
 
 			handlers.addHandler(chx);
 
 			// ---- serve websocket sessions on "/<ws_context>"
 
-			ServletContextHandler ctx = new ServletContextHandler(
-					ServletContextHandler.SESSIONS | ServletContextHandler.NO_SECURITY);
+			ServletContextHandler ctx = new ServletContextHandler(SESSIONS | NO_SECURITY);
 			ctx.setLogger(new Slf4jBridge(getClass()));
 			ctx.setContextPath(Strings.SLASH);
 
@@ -354,7 +353,7 @@ public class LiveServer {
 			try {
 				Session session = sessions.getActiveSession(envl.target);
 				RemoteEndpoint remote = session.getRemote();
-				remote.sendString(gson.toJson(envl));
+				remote.sendString(JsonUtil.toJson(envl, false, false));
 			} catch (Exception ex) {
 				Log.error(ErrMsgSend, ex.getMessage());
 			}

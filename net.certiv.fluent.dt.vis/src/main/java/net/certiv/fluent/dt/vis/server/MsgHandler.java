@@ -3,11 +3,10 @@ package net.certiv.fluent.dt.vis.server;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.WebSocketAdapter;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
-
+import net.certiv.common.ex.JsonException;
 import net.certiv.common.log.Level;
 import net.certiv.common.log.Log;
+import net.certiv.common.util.JsonUtil;
 import net.certiv.common.util.Strings;
 import net.certiv.fluent.dt.vis.FluentVis;
 
@@ -24,8 +23,6 @@ public class MsgHandler extends WebSocketAdapter {
 	private static final String RefreshRcv = "WS %s: '%s' at %s";
 	private static final String UpdateRcv = "WS %s: '%s' at %s";
 	private static final String HBRcv = "WS heartbeat %s";
-
-	private final Gson gson = new Gson();
 
 	private LiveServer srvr;
 
@@ -72,12 +69,12 @@ public class MsgHandler extends WebSocketAdapter {
 	public void onWebSocketText(String txt) {
 		MsgEnvl envl;
 		try {
-			envl = gson.fromJson(txt, MsgEnvl.class);
+			envl = JsonUtil.fromJson(txt, false, MsgEnvl.class);
 			if (envl == null) {
 				Log.warn(WarnRcv, "envelope is empty.", "null");
 				return;
 			}
-		} catch (JsonSyntaxException e) {
+		} catch (JsonException e) {
 			Log.error(ErrSyntax, e.getMessage());
 			return;
 		}

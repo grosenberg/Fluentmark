@@ -8,7 +8,7 @@
 
 	<groupId>net.certiv</groupId>
 	<artifactId>net.certiv.fluent.dt</artifactId>
-	<version>1.9.0-SNAPSHOT</version>
+	<version>1.9.2-SNAPSHOT</version>
 
 	<name>FluentMark :: parent</name>
 	<description>FluentMark parent</description>
@@ -23,7 +23,7 @@
 		<jdk.version>17</jdk.version>
 		<maven.compiler.source>${jdk.version}</maven.compiler.source>
 		<maven.compiler.target>${jdk.version}</maven.compiler.target>
-		<tycho.version>3.0.4</tycho.version>
+		<tycho.version>4.0.5</tycho.version>
 
 		<eclipse.latest>http://download.eclipse.org/releases/latest</eclipse.latest>
 
@@ -37,13 +37,17 @@
 		<certiv.root>${local.root}/Tools/Certiv</certiv.root>
 		<dsl.root>${local.root}/Tools/Dsl</dsl.root>
 
-		<tools.repo>${certiv.root}/net.certiv.tools.parent/net.certiv.tools.site/target/repository</tools.repo>
-		<dsl.repo>${dsl.root}/net.certiv.dsl/net.certiv.dsl.site/target/repository</dsl.repo>
+		<tools.repo>
+			${certiv.root}/net.certiv.tools.parent/net.certiv.tools.site/target/repository</tools.repo>
+		<dsl.repo>
+			${dsl.root}/net.certiv.dsl/net.certiv.dsl.site/target/repository</dsl.repo>
 		<spell.repo>${dsl.root}/net.certiv.spellchecker/site/target/repository</spell.repo>
-		
+
 		<jetty.version>11.0.15</jetty.version>
 		<log4j.ver>2.20.0</log4j.ver>
-		<plantuml.version>1.2023.7</plantuml.version>
+
+		<flexmark.version>0.64.8</flexmark.version>
+		<plantuml.version>1.2023.13</plantuml.version>
 
 	</properties>
 
@@ -157,7 +161,8 @@
 						<phase>package</phase>
 						<id>package-feature</id>
 						<configuration>
-							<finalName>${project.artifactId}-${unqualifiedVersion}.${buildQualifier}</finalName>
+							<finalName>
+								${project.artifactId}-${unqualifiedVersion}.${buildQualifier}</finalName>
 						</configuration>
 					</execution>
 				</executions>
