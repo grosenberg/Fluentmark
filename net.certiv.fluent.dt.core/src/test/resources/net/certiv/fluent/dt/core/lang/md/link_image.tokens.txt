@@ -1,0 +1,76 @@
+|---- link_image ----------------------------------------------------------------------|
+| Num  | Token          | Type  | Text                       | Line  | Pos  | Channel  |
+|------|----------------|-------|----------------------------|-------|------|----------|
+|    0 | LINE_BLANK     |    62 |                            |     1 |    0 |          |
+|    1 | WORD           |     1 | Local1                     |     2 |    0 |          |
+|    2 | HWS            |    66 | ␣                          |     2 |    6 | HIDDEN   |
+|    3 | LNK_IMG        |    48 | ![                         |     2 |    7 |          |
+|    4 | WORD           |     1 | local                      |     2 |    9 |          |
+|    5 | HWS            |    66 | ␣                          |     2 |   14 | HIDDEN   |
+|    6 | WORD           |     1 | doc                        |     2 |   15 |          |
+|    7 | LNK_SEP        |    50 | ](                         |     2 |   18 |          |
+|    8 | URL            |    33 | local-doc.png              |     2 |   20 |          |
+|    9 | RPAREN         |    56 | )                          |     2 |   33 |          |
+|   10 | HWS            |    66 | ␣                          |     2 |   34 | HIDDEN   |
+|   11 | WORD           |     1 | image.                     |     2 |   35 |          |
+|   12 | VWS            |    65 | ␍␊                         |     3 |   41 |          |
+|   13 | WORD           |     1 | Local2                     |     3 |    0 |          |
+|   14 | HWS            |    66 | ␣                          |     3 |    6 | HIDDEN   |
+|   15 | LNK_IMG        |    48 | ![                         |     3 |    7 |          |
+|   16 | WORD           |     1 | local                      |     3 |    9 |          |
+|   17 | HWS            |    66 | ␣                          |     3 |   14 | HIDDEN   |
+|   18 | WORD           |     1 | doc                        |     3 |   15 |          |
+|   19 | LNK_SEP        |    50 | ](                         |     3 |   18 |          |
+|   20 | WORD           |     1 | docs                       |     3 |   20 |          |
+|   21 | URL            |    33 | /local-doc.png             |     3 |   24 |          |
+|   22 | HWS            |    66 | ␣                          |     3 |   38 | HIDDEN   |
+|   23 | LDQUOTE        |    15 | "                          |     3 |   39 |          |
+|   24 | WORD           |     1 | Screenshot                 |     3 |   40 |          |
+|   25 | HWS            |    66 | ␣                          |     3 |   50 | HIDDEN   |
+|   26 | WORD           |     1 | Title                      |     3 |   51 |          |
+|   27 | RDQUOTE        |    20 | "                          |     3 |   56 |          |
+|   28 | RPAREN         |    56 | )                          |     3 |   57 |          |
+|   29 | HWS            |    66 | ␣                          |     3 |   58 | HIDDEN   |
+|   30 | WORD           |     1 | image.                     |     3 |   59 |          |
+|   31 | VWS            |    65 | ␍␊                         |     4 |   65 |          |
+|   32 | WORD           |     1 | Remote                     |     4 |    0 |          |
+|   33 | HWS            |    66 | ␣                          |     4 |    6 | HIDDEN   |
+|   34 | LNK_IMG        |    48 | ![                         |     4 |    7 |          |
+|   35 | WORD           |     1 | local                      |     4 |    9 |          |
+|   36 | HWS            |    66 | ␣                          |     4 |   14 | HIDDEN   |
+|   37 | WORD           |     1 | doc                        |     4 |   15 |          |
+|   38 | LNK_SEP        |    50 | ](                         |     4 |   18 |          |
+|   39 | WORD           |     1 | https:                     |     4 |   20 |          |
+|   40 | URL            |    33 | //docs/local-doc.png       |     4 |   26 |          |
+|   41 | HWS            |    66 | ␣                          |     4 |   46 | HIDDEN   |
+|   42 | LDQUOTE        |    15 | "                          |     4 |   47 |          |
+|   43 | WORD           |     1 | Screenshot                 |     4 |   48 |          |
+|   44 | HWS            |    66 | ␣                          |     4 |   58 | HIDDEN   |
+|   45 | WORD           |     1 | Title                      |     4 |   59 |          |
+|   46 | RDQUOTE        |    20 | "                          |     4 |   64 |          |
+|   47 | RPAREN         |    56 | )                          |     4 |   65 |          |
+|   48 | HWS            |    66 | ␣                          |     4 |   66 | HIDDEN   |
+|   49 | WORD           |     1 | image.                     |     4 |   67 |          |
+|   50 | VWS            |    65 | ␍␊                         |     5 |   73 |          |
+|   51 | WORD           |     1 | Remote                     |     5 |    0 |          |
+|   52 | HWS            |    66 | ␣                          |     5 |    6 | HIDDEN   |
+|   53 | LNK_IMG        |    48 | ![                         |     5 |    7 |          |
+|   54 | WORD           |     1 | local                      |     5 |    9 |          |
+|   55 | HWS            |    66 | ␣                          |     5 |   14 | HIDDEN   |
+|   56 | WORD           |     1 | doc                        |     5 |   15 |          |
+|   57 | LNK_SEP        |    50 | ](                         |     5 |   18 |          |
+|   58 | URL            |    33 | https://local-doc.png      |     5 |   20 |          |
+|   59 | HWS            |    66 | ␣                          |     5 |   41 | HIDDEN   |
+|   60 | LDQUOTE        |    15 | "                          |     5 |   42 |          |
+|   61 | WORD           |     1 | Screenshot                 |     5 |   43 |          |
+|   62 | HWS            |    66 | ␣                          |     5 |   53 | HIDDEN   |
+|   63 | WORD           |     1 | Title                      |     5 |   54 |          |
+|   64 | RDQUOTE        |    20 | "                          |     5 |   59 |          |
+|   65 | RPAREN         |    56 | )                          |     5 |   60 |          |
+|   66 | HWS            |    66 | ␣                          |     5 |   61 | HIDDEN   |
+|   67 | WORD           |     1 | image.                     |     5 |   62 |          |
+|   68 | VWS            |    65 | ␍␊                         |     6 |   68 |          |
+|   69 | LINE_BLANK     |    62 |                            |     5 |    0 |          |
+|   70 | EOF            |    -1 | <EOF>                      |     6 |    0 |          |
+|------|----------------|-------|----------------------------|-------|------|----------|
+

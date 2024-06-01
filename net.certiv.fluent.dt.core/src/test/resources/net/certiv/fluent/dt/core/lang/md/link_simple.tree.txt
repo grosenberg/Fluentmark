@@ -1,0 +1,25 @@
+---- link_simple -------------------------
+---- Tree ----
+page
+  lineBlank
+    [LINE_BLANK] 
+  paragraph
+    line
+      [WORD] Simple
+      link
+        [LBRACK] [
+        phrase
+          [WORD] home
+          [WORD] page
+        [LNK_SEP] ](
+        url
+          [URL] https://www.certiv.net
+        quote
+          [LDQUOTE] "
+          [RDQUOTE] "
+        [RPAREN] )
+      [WORD] link.
+  [VWS] ␍␊
+  lineBlank
+    [LINE_BLANK] 
+  [EOF] <EOF>

@@ -1,0 +1,30 @@
+---- paragraph -------------------------
+---- Tree ----
+page
+  lineBlank
+    [LINE_BLANK] 
+  paragraph
+    line
+      [WORD] Simple
+      [WORD] paragraph
+      [WORD] of
+      [WORD] text.
+      [WORD] There
+      [WORD] are
+    nl
+      [VWS] ␍␊
+    line
+      [WORD] two
+      [WORD] consecutive
+      [WORD] lines
+      [WORD] of
+      [WORD] text.
+  lineBlank
+    [LINE_BLANK] ␍␊␍␊
+  paragraph
+    line
+      [WORD] Second
+      [WORD] paragraph
+      [WORD] of
+      [WORD] text.
+  [EOF] <EOF>

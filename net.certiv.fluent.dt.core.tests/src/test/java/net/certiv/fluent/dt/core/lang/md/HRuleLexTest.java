@@ -7,8 +7,9 @@ import org.junit.jupiter.api.Test;
 
 import net.certiv.common.diff.Differ;
 import net.certiv.common.util.FsUtil;
+import net.certiv.fluent.dt.core.lang.MdSupport;
 
-class HRuleLexTest extends MdTestBase {
+class HRuleLexTest extends MdSupport {
 
 	static final boolean UPDATE = false;
 
@@ -18,7 +19,7 @@ class HRuleLexTest extends MdTestBase {
 		String src = name + ".md";
 		String tgt = name + ".tokens.txt";
 
-		CommonTokenStream ts = createMdTokenStream(src, true);
+		CommonTokenStream ts = createMdTokenStream(null, src, true);
 		String tokens = render(name, ts);
 		if (required(tgt, UPDATE)) FsUtil.writeResource(getClass(), tgt, tokens);
 

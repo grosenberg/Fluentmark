@@ -1,0 +1,67 @@
+---- list -------------------------
+---- Tree ----
+page
+  lineBlank
+    [LINE_BLANK] 
+  header
+    [HASHES] ##
+    line
+      [WORD] List
+  lineBlank
+    [LINE_BLANK] ␍␊␍␊
+  list
+    listItem
+      [BULLET_MARK] -
+      paragraph
+        line
+          [WORD] basic
+          [WORD] item.
+    nl
+      [VWS] ␍␊
+    listItem
+      [BULLET_MARK] -
+      paragraph
+        line
+          [WORD] second
+          [WORD] line.
+          [WORD] Multiple
+          [WORD] sentences.
+    nl
+      [VWS] ␍␊
+    listItem
+      [BULLET_MARK] -
+      paragraph
+        line
+          [WORD] with
+          [LPAREN] (
+          [WORD] parenthetical
+          [RPAREN] )
+          [WORD] item.
+  lineBlank
+    [LINE_BLANK] ␍␊␍␊
+  paragraph
+    line
+      [WORD] Intro
+      [WORD] text:
+  [VWS] ␍␊
+  list
+    listItem
+      [NUMBER_MARK] 1.
+      [TASK_MARK] [X]
+      paragraph
+        line
+          [WORD] indented
+          [WORD] text
+    nl
+      [VWS] ␍␊
+    listItem
+      [NUMBER_MARK] 1.
+      [TASK_MARK] [␣]
+      paragraph
+        line
+          [WORD] next
+          [WORD] entry
+  [VWS] ␍␊
+  lineBlank
+    [LINE_BLANK] 
+  [EOF] <EOF>

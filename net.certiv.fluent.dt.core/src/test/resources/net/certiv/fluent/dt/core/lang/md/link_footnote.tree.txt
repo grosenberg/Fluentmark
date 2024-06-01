@@ -1,0 +1,81 @@
+---- link_footnote -------------------------
+---- Tree ----
+page
+  lineBlank
+    [LINE_BLANK] 
+  paragraph
+    line
+      [WORD] Here
+      [SQUOTE] '
+      [WORD] s
+      [WORD] a
+      [WORD] footnote
+      fnLinkRef
+        [LNK_FN] [^
+        phrase
+          [WORD] 1
+        [RBRACK] ]
+      [WORD] .
+      [WORD] Long
+      [WORD] footnote
+      fnLinkRef
+        [LNK_FN] [^
+        phrase
+          [WORD] 2
+        [RBRACK] ]
+      [WORD] .
+  lineBlank
+    [LINE_BLANK] ␍␊␍␊
+  fnLinkDef
+    [LNK_FN] [^
+    phrase
+      [WORD] 1
+    [LNK_DEF] ]:
+    line
+      [WORD] Simple
+      [WORD] footnote
+      [WORD] text.
+  lineBlank
+    [LINE_BLANK] ␍␊␍␊
+  fnLinkDef
+    [LNK_FN] [^
+    phrase
+      [WORD] 2
+    [LNK_DEF] ]:
+    line
+      [WORD] Multiple
+      [WORD] lines
+      [WORD] of
+      [WORD] text
+      [WORD] in
+      [WORD] the
+      [WORD] footnote.
+    nl
+      [VWS] ␍␊
+    line
+      [WORD] Each
+      [WORD] line
+      [WORD] is
+      [WORD] joined
+      [WORD] by
+      [WORD] two
+      [WORD] spaces.
+    nl
+      [VWS] ␍␊
+    line
+      [WORD] Third
+      [WORD] line
+      [WORD] in
+      [WORD] the
+      [WORD] note.
+  lineBlank
+    [LINE_BLANK] ␍␊␣␣␍␊
+  paragraph
+    line
+      [WORD] Next
+      [WORD] paragraph.
+  lineBlank
+    [LINE_BLANK] ␍␊␍␊
+  lineBlank
+    [LINE_BLANK] 
+  [EOF] <EOF>

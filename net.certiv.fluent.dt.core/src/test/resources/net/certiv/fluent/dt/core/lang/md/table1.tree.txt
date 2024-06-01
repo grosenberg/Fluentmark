@@ -1,0 +1,92 @@
+---- table1 -------------------------
+---- Tree ----
+page
+  lineBlank
+    [LINE_BLANK] 
+  header
+    [HASHES] ##
+    line
+      [WORD] Table
+      [WORD] 1
+  lineBlank
+    [LINE_BLANK] ␍␊␍␊
+  table
+    tableRow
+      [PIPE] |
+      line
+        [WORD] Method
+        [PIPE] |
+        [WORD] Type
+        [PIPE] |
+        [WORD] Comment
+      [PIPE] |
+    nl
+      [VWS] ␍␊
+    [TABLE_DEF] |:---|:---:|:----|
+    nl
+      [VWS] ␍␊
+    tableRow
+      [PIPE] |
+      line
+        [WORD] destinationAccess
+        [PIPE] |
+        [WORD] Enum
+        [PIPE] |
+        [WORD] Either
+        [SPAN] `Dciq`
+        [WORD] ,
+        [SPAN] `Deot`
+        [WORD] ,
+        [WORD] or
+        [WORD] None.
+      [PIPE] |
+    nl
+      [VWS] ␍␊
+    tableRow
+      [PIPE] |
+      line
+        [WORD] replyToQueue
+        [PIPE] |
+        [WORD] Name
+        [LBRACK] [
+        [RBRACK] ]
+        [PIPE] |
+        [WORD] List
+        [WORD] of
+        [SPAN] `replyToQueue`
+        [LPAREN] (
+        [WORD] =
+        [SPAN] `dcrq`
+        [RPAREN] )
+      [PIPE] |
+    nl
+      [VWS] ␍␊
+    tableRow
+      [PIPE] |
+      line
+        [WORD] validFrom
+        [PIPE] |
+        [WORD] Timestamp
+        [PIPE] |
+        [WORD] Date
+        [WORD] and
+        [WORD] time:
+        [WORD] valid.
+      [PIPE] |
+    nl
+      [VWS] ␍␊
+    tableRow
+      [PIPE] |
+      line
+        [WORD] expiresAt
+        [PIPE] |
+        [WORD] Timestamp
+        [PIPE] |
+        [WORD] Date
+        [WORD] and
+        [WORD] time:
+        [WORD] expires.
+      [PIPE] |
+  lineBlank
+    [LINE_BLANK] 
+  [EOF] <EOF>

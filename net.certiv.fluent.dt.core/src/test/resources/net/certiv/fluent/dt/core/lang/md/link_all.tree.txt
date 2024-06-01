@@ -1,0 +1,270 @@
+---- link_all -------------------------
+---- Tree ----
+page
+  lineBlank
+    [LINE_BLANK] 
+  header
+    [HASHES] #
+    line
+      [WORD] Links
+  lineBlank
+    [LINE_BLANK] ␍␊␍␊
+  paragraph
+    line
+      [WORD] An
+      link
+        [LBRACK] [
+        phrase
+          [WORD] auto-link
+        [LNK_SEP] ](
+        url
+          [URL] #auto
+        [RPAREN] )
+      [WORD] style
+      [WORD] link
+  lineBlank
+    [LINE_BLANK] ␍␊␍␊
+  paragraph
+    line
+      [WORD] The
+      link
+        [LBRACK] [
+        phrase
+          [WORD] AI
+          [WORD] classifier
+        [LNK_SEP] ](
+        url
+          [URL] https://www.certiv.net
+        [RPAREN] )
+      [WORD] function
+      [WORD] compares
+    nl
+      [VWS] ␍␊
+    line
+      [WORD] an
+      [WORD] unknown
+      [WORD] context
+      [WORD] vector
+      [SPAN] `X`
+      [WORD] .
+  lineBlank
+    [LINE_BLANK] ␍␊␍␊
+  paragraph
+    line
+      [WORD] or
+      link
+        [LBRACK] [
+        phrase
+          autoLink
+            [URL] https://www.certiv.net
+        [LNK_SEP] ](
+        url
+          [URL] https://www.certiv.net
+        [RPAREN] )
+  lineBlank
+    [LINE_BLANK] ␍␊␍␊
+  paragraph
+    line
+      link
+        [LBRACK] [
+        phrase
+          [WORD] inline-style
+          [WORD] link
+        [LNK_SEP] ](
+        url
+          [URL] https://www.google.com
+        [RPAREN] )
+  lineBlank
+    [LINE_BLANK] ␍␊␍␊
+  paragraph
+    line
+      [WORD] a
+      link
+        [LBRACK] [
+        phrase
+          [WORD] inline-style
+          [WORD] link
+          [WORD] with
+          [WORD] title
+        [LNK_SEP] ](
+        url
+          [URL] https://www.google.com
+        quote
+          [LDQUOTE] "
+          [WORD] Google
+          [SQUOTE] '
+          [WORD] s
+          [WORD] Homepage
+          [RDQUOTE] "
+        [RPAREN] )
+  lineBlank
+    [LINE_BLANK] ␍␊␍␊
+  paragraph
+    line
+      linkRef
+        [LBRACK] [
+        phrase
+          [WORD] reference-style
+          [WORD] link
+        [LNK_REF] ][
+        phrase
+          [WORD] Arbitrary
+          [WORD] case-insensitive
+          [WORD] reference
+          [WORD] text
+        [RBRACK] ]
+  lineBlank
+    [LINE_BLANK] ␍␊␍␊
+  paragraph
+    line
+      link
+        [LBRACK] [
+        phrase
+          [WORD] relative
+          [WORD] reference
+          [WORD] to
+          [WORD] a
+          [WORD] repository
+          [WORD] file
+        [LNK_SEP] ](
+        url
+          [URL] ../blob/master/LICENSE
+        [RPAREN] )
+  lineBlank
+    [LINE_BLANK] ␍␊␍␊
+  paragraph
+    line
+      linkRef
+        [LBRACK] [
+        phrase
+          [WORD] You
+          [WORD] can
+          [WORD] use
+          [WORD] numbers
+          [WORD] for
+          [WORD] reference-style
+          [WORD] link
+          [WORD] definitions
+        [LNK_REF] ][
+        phrase
+          [WORD] 1
+        [RBRACK] ]
+  lineBlank
+    [LINE_BLANK] ␍␊␍␊
+  paragraph
+    line
+      [WORD] Or
+      [WORD] leave
+      [WORD] it
+      [WORD] empty
+      [WORD] and
+      [WORD] use
+      [WORD] the
+      linkRef
+        [LBRACK] [
+        phrase
+          [WORD] link
+          [WORD] text
+          [WORD] itself
+        [RBRACK] ]
+      [WORD] .
+  lineBlank
+    [LINE_BLANK] ␍␊␍␊
+  fnLinkDef
+    [LNK_FN] [^
+    phrase
+      [WORD] 1
+    [LNK_DEF] ]:
+    line
+      [WORD] Some
+      [WORD] footnote
+      [WORD] text.
+  lineBlank
+    [LINE_BLANK] ␍␊␍␊
+  paragraph
+    line
+      [WORD] URLs
+      [WORD] and
+      [WORD] URLs
+      [WORD] in
+      [WORD] angle
+      [WORD] brackets
+      [WORD] will
+      [WORD] automatically
+      [WORD] get
+      [WORD] turned
+      [WORD] into
+      [WORD] links.
+    nl
+      [VWS] ␍␊
+    line
+      autoLink
+        [URL] http://www.example.com
+      [WORD] or
+      autoLink
+        [URLTAG] <http://www.example.com>
+      [WORD] and
+      [WORD] sometimes
+    nl
+      [VWS] ␍␊
+    line
+      autoLink
+        [URL] example.com
+      [LPAREN] (
+      [WORD] but
+      [WORD] not
+      [WORD] on
+      [WORD] Github,
+      [WORD] for
+      [WORD] example
+      [RPAREN] )
+      [WORD] .
+  lineBlank
+    [LINE_BLANK] ␍␊␍␊
+  paragraph
+    line
+      [WORD] Some
+      [WORD] text
+      [WORD] to
+      [WORD] show
+      [WORD] that
+      [WORD] the
+      [WORD] reference
+      [WORD] links
+      [WORD] can
+      [WORD] follow
+      [WORD] later.
+  lineBlank
+    [LINE_BLANK] ␍␊␍␊
+  refLinkDef
+    [LBRACK] [
+    phrase
+      [WORD] arbitrary
+      [WORD] case-insensitive
+      [WORD] reference
+      [WORD] text
+    [LNK_DEF] ]:
+    url
+      [URL] https://www.mozilla.org
+  [VWS] ␍␊
+  refLinkDef
+    [LBRACK] [
+    phrase
+      [WORD] 1
+    [LNK_DEF] ]:
+    url
+      [URL] http://slashdot.org
+  [VWS] ␍␊
+  refLinkDef
+    [LBRACK] [
+    phrase
+      [WORD] link
+      [WORD] text
+      [WORD] itself
+    [LNK_DEF] ]:
+    url
+      [URL] http://www.reddit.com
+  [VWS] ␍␊
+  lineBlank
+    [LINE_BLANK] 
+  [EOF] <EOF>

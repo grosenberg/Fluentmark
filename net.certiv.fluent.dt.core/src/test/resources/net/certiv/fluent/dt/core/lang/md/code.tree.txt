@@ -1,0 +1,70 @@
+---- code -------------------------
+---- Tree ----
+page
+  lineBlank
+    [LINE_BLANK] 
+  paragraph
+    line
+      [WORD] Code
+      [WORD] blocks.
+  lineBlank
+    [LINE_BLANK] ␍␊␍␊
+  codeBlock
+    [CODE_BEG] ```
+    [CODE_TYPE] java
+    [VWS] ␍␊
+    [CODE_LINE] tight␣code
+    [VWS] ␍␊
+    [CODE_END] ```
+  lineBlank
+    [LINE_BLANK] ␍␊␍␊
+  codeBlock
+    [CODE_BEG] ~~~
+    [CODE_TYPE] java
+    [VWS] ␍␊
+    [CODE_LINE] code
+    [VWS] ␍␊
+    [CODE_END] ~~~
+  lineBlank
+    [LINE_BLANK] ␍␊␍␊
+  codeBlock
+    [CODE_BEG] ~~~
+    style
+      [LSTYLE] {
+      [WORD] language
+      [EQ] =
+      [DQUOTE] "
+      [WORD] java
+      [DQUOTE] "
+      [RSTYLE] }
+    [VWS] ␍␊
+    [VWS] ␍␊
+    [CODE_LINE] something
+    [VWS] ␍␊
+    [VWS] ␍␊
+    [CODE_END] ~~~
+  lineBlank
+    [LINE_BLANK] ␍␊␍␊
+  codeBlock
+    [CODE_BEG] ```
+    style
+      [LSTYLE] {
+      [WORD] language
+      [EQ] =
+      [DQUOTE] "
+      [WORD] java
+      [DQUOTE] "
+      [RSTYLE] }
+    [VWS] ␍␊
+    [CODE_LINE] other
+    [VWS] ␍␊
+    [CODE_END] ```
+  lineBlank
+    [LINE_BLANK] ␍␊␍␊
+  paragraph
+    line
+      [WORD] Done.
+  [VWS] ␍␊
+  lineBlank
+    [LINE_BLANK] 
+  [EOF] <EOF>

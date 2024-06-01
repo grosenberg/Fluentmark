@@ -1,0 +1,102 @@
+---- link_ref -------------------------
+---- Tree ----
+page
+  lineBlank
+    [LINE_BLANK] 
+  paragraph
+    line
+      linkRef
+        [LBRACK] [
+        phrase
+          [WORD] subject
+        [LNK_REF] ][
+        phrase
+          [WORD] reference
+          [WORD] text
+        [RBRACK] ]
+    nl
+      [VWS] ␍␊
+    line
+      [WORD] Number
+      linkRef
+        [LBRACK] [
+        phrase
+          [WORD] subject
+          [WORD] numbers
+        [LNK_REF] ][
+        phrase
+          [WORD] 1
+        [RBRACK] ]
+    nl
+      [VWS] ␍␊
+    line
+      [WORD] Check
+      linkRef
+        [LBRACK] [
+        phrase
+          [WORD] see
+          [WORD] the
+          [WORD] source
+          [WORD] for
+          [WORD] it
+          [WORD] by
+          [WORD] adding
+          quote
+            [LSQUOTE] '
+            [WORD] .text
+            [RSQUOTE] '
+          [WORD] to
+          [WORD] the
+          [WORD] URL
+        [LNK_REF] ][
+        phrase
+          [WORD] src
+        [RBRACK] ]
+      [WORD] .
+    nl
+      [VWS] ␍␊
+    line
+      [WORD] Reference
+      [WORD] links
+      [WORD] follow
+      [WORD] later.
+  lineBlank
+    [LINE_BLANK] ␍␊␍␊
+  refLinkDef
+    [LBRACK] [
+    phrase
+      [WORD] reference
+      [WORD] text
+    [LNK_DEF] ]:
+    url
+      [URL] https://www.mozilla.org
+  [VWS] ␍␊
+  refLinkDef
+    [LBRACK] [
+    phrase
+      [WORD] 1
+    [LNK_DEF] ]:
+    url
+      [URL] http://slashdot.org
+  [VWS] ␍␊
+  refLinkDef
+    [LBRACK] [
+    phrase
+      [WORD] link
+      [WORD] text
+      [WORD] itself
+    [LNK_DEF] ]:
+    url
+      [URL] http://www.reddit.com
+  [VWS] ␍␊
+  refLinkDef
+    [LBRACK] [
+    phrase
+      [WORD] src
+    [LNK_DEF] ]:
+    url
+      [URL] /projects/markdown/syntax.text
+  [VWS] ␍␊
+  lineBlank
+    [LINE_BLANK] 
+  [EOF] <EOF>

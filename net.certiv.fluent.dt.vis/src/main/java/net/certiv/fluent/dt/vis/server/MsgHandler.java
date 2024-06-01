@@ -6,7 +6,6 @@ import org.eclipse.jetty.websocket.api.WebSocketAdapter;
 import net.certiv.common.ex.JsonException;
 import net.certiv.common.log.Level;
 import net.certiv.common.log.Log;
-import net.certiv.common.util.JsonUtil;
 import net.certiv.common.util.Strings;
 import net.certiv.fluent.dt.vis.FluentVis;
 
@@ -69,7 +68,7 @@ public class MsgHandler extends WebSocketAdapter {
 	public void onWebSocketText(String txt) {
 		MsgEnvl envl;
 		try {
-			envl = JsonUtil.fromJson(txt, false, MsgEnvl.class);
+			envl = LiveServer.JSU.fromJson(txt, MsgEnvl.class);
 			if (envl == null) {
 				Log.warn(WarnRcv, "envelope is empty.", "null");
 				return;

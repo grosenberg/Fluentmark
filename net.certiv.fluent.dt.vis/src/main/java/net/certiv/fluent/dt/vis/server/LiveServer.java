@@ -84,6 +84,11 @@ public class LiveServer {
 	private Server server;
 	private File resbase;
 
+	public static final JsonUtil JSU = JsonUtil.mapper() //
+			.includeTypes(false) //
+			.prettify(false) //
+	;
+
 	public LiveServer() {
 		Log.setLevel(Level.DEBUG);
 	}
@@ -353,7 +358,7 @@ public class LiveServer {
 			try {
 				Session session = sessions.getActiveSession(envl.target);
 				RemoteEndpoint remote = session.getRemote();
-				remote.sendString(JsonUtil.toJson(envl, false, false));
+				remote.sendString(JSU.toJson(envl));
 			} catch (Exception ex) {
 				Log.error(ErrMsgSend, ex.getMessage());
 			}

@@ -1,0 +1,22 @@
+---- link_auto -------------------------
+---- Tree ----
+page
+  lineBlank
+    [LINE_BLANK] 
+  paragraph
+    line
+      [WORD] An
+      link
+        [LBRACK] [
+        phrase
+          [WORD] auto-link
+        [LNK_SEP] ](
+        url
+          [URL] #auto
+        [RPAREN] )
+      [WORD] style
+      [WORD] link.
+  [VWS] ␍␊
+  lineBlank
+    [LINE_BLANK] 
+  [EOF] <EOF>

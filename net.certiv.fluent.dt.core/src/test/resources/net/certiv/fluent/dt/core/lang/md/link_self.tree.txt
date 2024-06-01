@@ -1,0 +1,29 @@
+---- link_self -------------------------
+---- Tree ----
+page
+  lineBlank
+    [LINE_BLANK] 
+  paragraph
+    line
+      [WORD] Self
+      linkRef
+        [LBRACK] [
+        phrase
+          autoLink
+            [URL] https://www.certiv.net
+        [RBRACK] ]
+      [WORD] link
+      [WORD] uses
+      [WORD] the
+      linkRef
+        [LBRACK] [
+        phrase
+          [WORD] link
+          [WORD] text
+          [WORD] itself
+        [RBRACK] ]
+      [WORD] .
+  [VWS] ␍␊
+  lineBlank
+    [LINE_BLANK] 
+  [EOF] <EOF>

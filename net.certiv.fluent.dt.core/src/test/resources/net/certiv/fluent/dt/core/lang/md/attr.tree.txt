@@ -1,0 +1,59 @@
+---- attr -------------------------
+---- Tree ----
+page
+  lineBlank
+    [LINE_BLANK] 
+  header
+    [HASHES] #
+    line
+      [WORD] FluentMark
+  lineBlank
+    [LINE_BLANK] ␍␊␍␊
+  paragraph
+    line
+      attrLeft
+        [LBOLD] **
+      [WORD] Here
+      [SQUOTE] '
+      [WORD] s
+      [WORD] bold
+      attrRight
+        [RBOLD] **
+      [WORD] and
+      [WORD] then
+      attrLeft
+        [LITALIC] *
+      [WORD] italic
+      attrRight
+        [RITALIC] *
+      [WORD] .
+  lineBlank
+    [LINE_BLANK] ␍␊␍␊
+  paragraph
+    line
+      [WORD] Every
+      quote
+        [LDQUOTE] "
+        [WORD] good
+        attrLeft
+          [LITALIC] _
+        [WORD] boi
+        attrRight
+          [RITALIC] _
+        [WORD] deserves
+        [WORD] a
+        [LSQUOTE] '
+        [WORD] bone
+        [RSQUOTE] '
+        [RDQUOTE] "
+      [WORD] .
+  lineBlank
+    [LINE_BLANK] ␍␊␍␊
+  paragraph
+    line
+      [WORD] This
+      [WORD] is
+      [SPAN] `inline␣code`
+      [WORD] .
+      [WORD] Done.
+  [EOF] <EOF>

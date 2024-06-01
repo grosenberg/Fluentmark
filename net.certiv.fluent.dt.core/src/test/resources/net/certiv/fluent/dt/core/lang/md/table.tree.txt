@@ -1,0 +1,57 @@
+---- table -------------------------
+---- Tree ----
+page
+  lineBlank
+    [LINE_BLANK] 
+  header
+    [HASHES] ##
+    line
+      [WORD] Table
+  lineBlank
+    [LINE_BLANK] ␍␊␍␊
+  table
+    tableRow
+      [PIPE] |
+      line
+        [WORD] A
+        [PIPE] |
+        [WORD] B
+        [PIPE] |
+        [WORD] C
+      [PIPE] |
+    nl
+      [VWS] ␍␊
+    [TABLE_DEF] |:---|:---:|:----|
+    nl
+      [VWS] ␍␊
+    tableRow
+      [PIPE] |
+      line
+        [WORD] one
+        [PIPE] |
+        [WORD] two
+        [PIPE] |
+        [WORD] three
+      [PIPE] |
+    nl
+      [VWS] ␍␊
+    tableRow
+      [PIPE] |
+      line
+        [WORD] x
+        [PIPE] |
+        [WORD] y
+        [PIPE] |
+        [WORD] z
+      [PIPE] |
+  lineBlank
+    [LINE_BLANK] ␍␊␍␊
+  paragraph
+    line
+      [WORD] More
+      [WORD] text.
+  lineBlank
+    [LINE_BLANK] ␍␊␍␊
+  lineBlank
+    [LINE_BLANK] 
+  [EOF] <EOF>

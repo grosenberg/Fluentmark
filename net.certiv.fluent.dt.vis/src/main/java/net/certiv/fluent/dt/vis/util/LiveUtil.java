@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
@@ -218,9 +219,10 @@ public class LiveUtil {
 
 	public static Exception openBrowser(String url) {
 		try {
-			URL target = new URL(url);
+			URI uri = new URI(url);
+			URL target = uri.toURL();
 			return openBrowser(target);
-		} catch (MalformedURLException e) {
+		} catch (MalformedURLException | URISyntaxException e) {
 			return new BrowserException(String.format("Bad server URL '%'.", url), e);
 		}
 	}
@@ -239,21 +241,24 @@ public class LiveUtil {
 			Runtime runtime = Runtime.getRuntime();
 			if (SystemUtils.IS_OS_WINDOWS) {
 				try {
-					runtime.exec(new String[] { "rundll32", "uri.dll,FileProtocolHandler", url.toString() });
+					String[] cmd = { "rundll32", "uri.dll,FileProtocolHandler", url.toString() };
+					runtime.exec(cmd);
 				} catch (IOException e) {
 					return new BrowserException("Windows browser open failed.", e);
 				}
 
 			} else if (SystemUtils.IS_OS_LINUX || SystemUtils.IS_OS_UNIX) {
 				try {
-					runtime.exec("xdg-open " + url.toString());
+					String[] cmd = { "xdg-open", url.toString() };
+					runtime.exec(cmd);
 				} catch (IOException e) {
 					return new BrowserException("Linux browser open failed.", e);
 				}
 
 			} else if (SystemUtils.IS_OS_MAC) {
 				try {
-					runtime.exec("open " + url.toString());
+					String[] cmd = { "open", url.toString() };
+					runtime.exec(cmd);
 				} catch (IOException e) {
 					return new BrowserException("Mac browser open failed.", e);
 				}

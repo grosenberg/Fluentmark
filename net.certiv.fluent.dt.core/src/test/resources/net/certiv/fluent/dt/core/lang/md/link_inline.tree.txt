@@ -1,0 +1,22 @@
+---- link_inline -------------------------
+---- Tree ----
+page
+  lineBlank
+    [LINE_BLANK] 
+  paragraph
+    line
+      [WORD] Inline
+      [WORD] links:
+      autoLink
+        [URL] http://www.example.com
+      [WORD] and
+      autoLink
+        [URLTAG] <http://www.example.com>
+      [WORD] and
+      autoLink
+        [URL] example.com
+      [WORD] .
+  [VWS] ␍␊
+  lineBlank
+    [LINE_BLANK] 
+  [EOF] <EOF>

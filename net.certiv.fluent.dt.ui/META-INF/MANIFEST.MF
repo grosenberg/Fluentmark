@@ -359,4 +359,3 @@ Export-Package: com.plantuml.api.cheerpj,
  net.sourceforge.plantuml.xmlsc,
  net.sourceforge.plantuml.yaml,
  net.sourceforge.plantuml.zopfli
-Import-Package: org.eclipse.jdt.ui.cleanup

@@ -7,9 +7,10 @@ import org.junit.jupiter.api.Test;
 
 import net.certiv.common.diff.Differ;
 import net.certiv.common.util.FsUtil;
+import net.certiv.fluent.dt.core.lang.MdSupport;
 import net.certiv.fluent.dt.core.lang.md.gen.MdParser.PageContext;
 
-class DefineParseTest extends MdTestBase {
+class DefineParseTest extends MdSupport {
 
 	static final boolean UPDATE = false;
 
@@ -19,7 +20,7 @@ class DefineParseTest extends MdTestBase {
 		String src = name + ".md";
 		String tgt = name + ".tree.txt";
 
-		CommonTokenStream ts = createMdTokenStream(src, false);
+		CommonTokenStream ts = createMdTokenStream(null, src, false);
 		PageContext page = createMdParserTree(ts);
 		String tree = renderTree(name, page);
 		if (required(tgt, UPDATE)) FsUtil.writeResource(getClass(), tgt, tree);

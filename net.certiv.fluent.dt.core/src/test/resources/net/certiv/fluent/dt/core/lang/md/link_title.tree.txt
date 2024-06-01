@@ -1,0 +1,30 @@
+---- link_title -------------------------
+---- Tree ----
+page
+  lineBlank
+    [LINE_BLANK] 
+  paragraph
+    line
+      [WORD] A
+      link
+        [LBRACK] [
+        phrase
+          [WORD] inline-style
+          [WORD] with
+          [WORD] title
+        [LNK_SEP] ](
+        url
+          [URL] https://www.google.com
+        quote
+          [LDQUOTE] "
+          [WORD] Google
+          [SQUOTE] '
+          [WORD] s
+          [WORD] Homepage
+          [RDQUOTE] "
+        [RPAREN] )
+      [WORD] link.
+  [VWS] ␍␊
+  lineBlank
+    [LINE_BLANK] 
+  [EOF] <EOF>
